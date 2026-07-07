@@ -1,0 +1,149 @@
+
+<!-- saved from url=(0066)https://www.algebra.fi/keranen/research/RepetitionFreeStrings.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+</head><body bgcolor="#ffffff" text="#000000">Repetition Free Words
+
+
+<hr>
+<center>
+<h2>Repetition Free Words and Computer Algebra</h2>
+</center>
+<hr>
+<h3>Abstract</h3>
+
+Words or strings belong to the very basic objects in theoretical computer science.
+Thus, the investigation of structures in words constitutes a central 
+research topic in this branch of science.
+The systematic study of word structures (combinatorics on words) 
+was started by a Norwegian mathematician Axel Thue [7] (1863-1922)
+at the beginning of this century. 
+One of the remarkable discoveries made by Thue is that the 
+consecutive repetitions of non-empty subwords (squares) 
+can be avoided in infinite words over a three letter alphabet.<p>
+
+After Thue's time, repetition-free 
+words have been used in various fields of mathematics.
+For example, in group theory, in formal languages, in connection with unending games, 
+and in symbolic dynamics (which constitutes a tool for studying chaos). 
+Very recently repetition-free words have also aroused interest in the field of music, see eg. 
+Laakso [5].</p><p>
+
+Let <i>X</i> be a four letter alphabet {<i>a</i>,<i>b</i>,<i>c</i>,<i>d</i> }.
+In [3] (Keränen 1992) we presented an Abelian square-free endomorphism
+<i>g</i>: <i>X</i>* -&gt; <i>X</i>* which we found by the aid of computers.
+This endomorphism <i>g</i>: <i>X</i>* -&gt; <i>X</i>* is a mapping that 
+preserves the Abelian square-freeness of words. 
+Its size is  |<i>g</i>(<i>abcd</i>)| = 340, and it is defined as follows. 
+The image word of <i>a</i> is
+</p><p>
+</p><center>
+<i>g</i>(<i>a</i>) = 
+<i>abcacdcbcdcadcdbdabacabadbabcbdbcbacbcdcacbabdabacadcbcdcacdbcbacbcdcacdcbdcdadbdcbca</i> 
+</center>
+<p>
+and the image words of letters <i>b</i>, <i>c</i>, <i>d</i>, i.e., the words 
+<i>g</i>(<i>b</i>), 
+<i>g</i>(<i>c</i>), <i>g</i>(<i>d</i>) are obtained by cyclic permutation of letters
+in the preceding words <i>g</i>(<i>x</i>), with <i>x</i>  in <i>X</i>. 
+</p><p>
+
+All currently known methods, see [1] (Carpi 1994), for constructing arbitrarily long
+Abelian square-free words over a four letter alphabet <i>X</i>
+are based on the structure of this endomorphism <i>g</i>. 
+However, it is not known whether there exist Abelian square-free endomorphisms
+over <i>X</i> with size less than the above-mentioned 340. 
+Solving this and other questions concerning algebral structures of words is developing into 
+a challenging area of computer algebra.</p><p>
+
+In 1961 Erdös [2, s. 240]  raised the question whether abelian squares can be 
+avoided in infinitely long words, i.e. whether there exist infinitely many Abelian 
+square-free words over a given alphabet. An Abelian square means a non-empty word 
+<i>uv</i>, 
+where <i>u</i> and <i>v</i> are permutations of each other. For example, 
+<u><i>abc</i></u><u><i>acb</i></u> is an Abelian
+square. A word is called Abelian square-free, if it does not contain any Abelian square as a 
+subword. For example, the word 
+<i>abacaba</i>  is Abelian square-free, while 
+<i>ab<u>cda</u><u>dca</u>da</i> is not (it contains the subword <i>cda dca</i>).</p><p>
+ 
+Later, in 1970, Pleasants [6] showed that there exists an infinite
+Abelian square-free word over five letters. </p><p>
+
+The case of four letters remained open until 1991 when we managed to
+show, see  Keränen [3], that the iteration of the above-mentioned
+endomorphism <i>g</i> produces as a "limit" an infinite Abelian square-free word.
+In the <a href="https://www.algebra.fi/keranen/IMS97/6_85_Polyhedra.jpeg">
+picture</a> (necklace), the beginning of this infinite self-reading word, namely 
+<i>g</i>(<i>abcacd</i> ) = <i>g</i>(<i>a</i>) <i>g</i>(<i>b</i>) <i>g</i>(<i>c</i>) 
+<i>g</i>(<i>a</i>) <i>g</i>(<i>c</i>) <i>g</i>(<i>d</i>), 
+is represented by 6*85 coloured polyhedra in six circles. 
+Circles start from below and each of them represents an image word for a letter read from 
+the beginning of the chain. Thus the first circle is <i>g</i>(<i>a</i>), the second
+is <i>g</i>(<i>b</i>), then come <i>g</i>(<i>c</i>), <i>g</i>(<i>a</i>), 
+<i>g</i>(<i>c</i>) and <i>g</i>(<i>d</i>).</p><p>
+
+It is easily seen that  abelian squares cannot be avoided over a three
+letter alphabet. Indeed, in this alphabet, each word of length 8
+contains an abelian square. Thus a four letter alphabet is
+special in the sense that it is the smallest alphabet over which
+Abelian squares can be avoided in words of unbounded length.
+Could this special state of affairs be in connection with
+the genetic code used by nature? - DNA  is made up of four
+different characters.</p><p>
+
+A part of this abstract has been published in Finnish in [4].</p><p>
+</p><hr>
+
+<h3>References</h3>
+<ol>
+<li>
+A. Carpi. On the number of abelian square-free words on four letters. 
+Technical report, Preprint no. R.I. 110/94/IC, pages 1-15, 
+Istituto di Cibernetica del C.N.R., Arco Felice - Napoli, Italy, 1994.<p>
+</p></li>
+
+<li>
+P. Erdös. Some unsolved problems. <i>Magyar Tud. Acad. Mat. Kutató Int. 
+Közl.</i>, 
+6:221-254, 1961.<p>
+</p></li>
+
+<li>
+V. Keränen. Abelian squares are avoidable on 4 letters. In W. Kuich, editor,
+<i>Proc. ICALP</i> '92, <i>Lecture Notes in Comp. Sci.</i>, volume 623, pages 41-52.
+Springer-Verlag, Berlin, 1992.<p>
+</p></li>
+
+<li>
+V. Keränen. Toistovapaat merkkijonot ja tietokonealgebra.                                           
+In C. Gefwert, P. Orponen, and J. Seppänen, editors,
+<i>Proc. Logic, Mathematics and the Computer</i>, 
+<i>Publications of the Finnish Artificial Intelligence Society</i>, Symposiosarja, volume 
+14, pages 250-257. Hakapaino, Helsinki, 1996.<p>
+</p></li>
+
+<li>
+T. Laakso. Musical redering of an infinite repetition-free string.                                           
+In C. Gefwert, P. Orponen, and J. Seppänen, editors,
+<i>Proc. Logic, Mathematics and the Computer</i>, 
+<i>Publications of the Finnish Artificial Intelligence Society</i>, Symposiosarja, 
+volume 14, 
+pages 292-297. Hakapaino, Helsinki, 1996.<p>
+</p></li>
+
+<li>
+P.A.B. Pleasants. Non-repetitive sequences. <i>Proc. Cambridge Phil. Soc.</i>, 68:267-
+274, 1970.<p> 
+</p></li>
+
+<li>
+A. Thue. Uber unendliche zeichenreihen. <i>Norske Vid. Selsk. Skr. I. Mat. Nat. Kl. 
+Christiania</i>,
+7:1-22, 1906.<p>
+</p></li>
+
+</ol>
+<hr>
+
+
+<div id="extension-pddjl"></div></body></html>

@@ -1,0 +1,561 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="HTMLFiles/pmathml.xsl"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "HTMLFiles/xhtml1-transitional.dtd">
+
+<!-- This HTML document was created by converting a Mathematica notebook using Export. -->
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" class="Notebook">
+
+<head >
+<title>
+  _ac.bd.structures.in.g85.g98.nb
+</title>
+
+<link href="HTMLFiles/Default.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<p class='Section' style='color: #8000FF;'>
+ Structures of pairs {<span style='font-style: italic;color: #FF80FF;'>a</span>,<span style='font-style: italic;color: #FCE903;'>c</span>} and {<span style='font-style: italic;color: #73E600;'>b</span>,<span style='font-style: italic;color: #498FF8;'>d</span>} in abelian square-free words <span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <msup>
+  <mrow>
+   <mo>(</mo>
+   <msub>
+    <mi>g</mi>
+    <mn>85</mn>
+   </msub>
+   <mo>)</mo>
+  </mrow>
+  <mn>2</mn>
+ </msup>
+</math></span>(<span style='font-style: italic;color: #FF80FF;'>a</span>) and <span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <msup>
+  <mrow>
+   <mo>(</mo>
+   <msub>
+    <mi>g</mi>
+    <mn>98</mn>
+   </msub>
+   <mo>)</mo>
+  </mrow>
+  <mn>2</mn>
+ </msup>
+</math></span>(<span style='font-style: italic;color: #FF80FF;'>a</span>)
+</p>
+
+
+
+<p class="Subtitle">
+ &copy; 2005 V. Ker&auml;nen 
+</p>
+
+
+
+<p class='Text' style='font-size: 14px;color: #800080;'>
+ Permission to use, copy, and distribute this material for any non-commercial purpose is<br />hereby granted without a separate permission, provided that the source is mentioned. 
+</p>
+
+
+
+<p class='Text' style='font-size: 14px;'>
+ <br />We apply the endomorphism&nbsp;&nbsp;<span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <msub>
+  <mi>g</mi>
+  <mn>85</mn>
+ </msub>
+</math></span>&nbsp;&nbsp;(resp. <span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <msub>
+  <mi>g</mi>
+  <mn>98</mn>
+ </msub>
+</math></span>)&nbsp;&nbsp;over four letters&nbsp;&nbsp;{ <span style='font-style: italic;'>a</span>,<span style='font-style: italic;'>b</span>,<span style='font-style: italic;'>c</span>,<span style='font-style: italic;'>d</span> }&nbsp;&nbsp;to&nbsp;&nbsp;<span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <msub>
+  <mi>g</mi>
+  <mn>85</mn>
+ </msub>
+</math></span>(<span style='font-style: italic;'>a</span>)&nbsp;&nbsp;(resp. <span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <msub>
+  <mi>g</mi>
+  <mn>98</mn>
+ </msub>
+</math></span>(<span style='font-style: italic;'>a</span>)),&nbsp;&nbsp;where&nbsp;&nbsp;<span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <msub>
+  <mi>g</mi>
+  <mn>85</mn>
+ </msub>
+</math></span>&nbsp;&nbsp;and&nbsp;&nbsp;<span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <msub>
+  <mi>g</mi>
+  <mn>98</mn>
+ </msub>
+</math></span>&nbsp;&nbsp;are defined (in <span style='font-style: italic;'>Mathematica</span>) as follows: 
+</p>
+
+
+
+<p class="CellLabel">
+ In[1]:=
+</p>
+
+
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mrow>
+   <mi>cyclicPermutation</mi>
+   <mo>=</mo>
+   <mrow>
+    <mo>{</mo>
+    <mrow>
+     <mrow>
+      <ms>a</ms>
+      <mo>&#8594;</mo>
+      <ms>b</ms>
+     </mrow>
+     <mo>,</mo>
+     <mrow>
+      <ms>b</ms>
+      <mo>&#8594;</mo>
+      <ms>c</ms>
+     </mrow>
+     <mo>,</mo>
+     <mrow>
+      <ms>c</ms>
+      <mo>&#8594;</mo>
+      <ms>d</ms>
+     </mrow>
+     <mo>,</mo>
+     <mrow>
+      <ms>d</ms>
+      <mo>&#8594;</mo>
+      <ms>a</ms>
+     </mrow>
+    </mrow>
+    <mo>}</mo>
+   </mrow>
+  </mrow>
+  <mo>;</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mrow>
+   <mi>g85a</mi>
+   <mo>=</mo>
+   <ms>abcacdcbcdcadcdbdabacabadbabcbdbcbacbcdcacbabdabacadcbcdcacdbcbacbcdcacdcbdcdadbdcbca</ms>
+  </mrow>
+  <mo>;</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mrow>
+   <mi>g85b</mi>
+   <mo>=</mo>
+   <mrow>
+    <mi>StringReplace</mi>
+    <mo>[</mo>
+    <mrow>
+     <mi>g85a</mi>
+     <mo>,</mo>
+     <mi>cyclicPermutation</mi>
+    </mrow>
+    <mo>]</mo>
+   </mrow>
+  </mrow>
+  <mo>;</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mrow>
+   <mi>g85c</mi>
+   <mo>=</mo>
+   <mrow>
+    <mi>StringReplace</mi>
+    <mo>[</mo>
+    <mrow>
+     <mi>g85b</mi>
+     <mo>,</mo>
+     <mi>cyclicPermutation</mi>
+    </mrow>
+    <mo>]</mo>
+   </mrow>
+  </mrow>
+  <mo>;</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mrow>
+   <mi>g85d</mi>
+   <mo>=</mo>
+   <mrow>
+    <mi>StringReplace</mi>
+    <mo>[</mo>
+    <mrow>
+     <mi>g85c</mi>
+     <mo>,</mo>
+     <mi>cyclicPermutation</mi>
+    </mrow>
+    <mo>]</mo>
+   </mrow>
+  </mrow>
+  <mo>;</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mrow>
+   <mi>ga</mi>
+   <mo>=</mo>
+   <ms>abcacdcbcdcadbdcbdbabcbdcacbabdbabcabdadcdadbdcbdbabdbcbacbcdbabdcdbdcacdbcbacbcdcacdcbdcdadbdcbca</ms>
+  </mrow>
+  <mo>;</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mrow>
+   <mi>gb</mi>
+   <mo>=</mo>
+   <mrow>
+    <mi>StringReplace</mi>
+    <mo>[</mo>
+    <mrow>
+     <mi>ga</mi>
+     <mo>,</mo>
+     <mi>cyclicPermutation</mi>
+    </mrow>
+    <mo>]</mo>
+   </mrow>
+  </mrow>
+  <mo>;</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mrow>
+   <mi>gc</mi>
+   <mo>=</mo>
+   <mrow>
+    <mi>StringReplace</mi>
+    <mo>[</mo>
+    <mrow>
+     <mi>gb</mi>
+     <mo>,</mo>
+     <mi>cyclicPermutation</mi>
+    </mrow>
+    <mo>]</mo>
+   </mrow>
+  </mrow>
+  <mo>;</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mrow>
+   <mi>gd</mi>
+   <mo>=</mo>
+   <mrow>
+    <mi>StringReplace</mi>
+    <mo>[</mo>
+    <mrow>
+     <mi>gc</mi>
+     <mo>,</mo>
+     <mi>cyclicPermutation</mi>
+    </mrow>
+    <mo>]</mo>
+   </mrow>
+  </mrow>
+  <mo>;</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mrow>
+   <mo>{</mo>
+   <mrow>
+    <mrow>
+     <mi>g98a</mi>
+     <mo>=</mo>
+     <mi>ga</mi>
+    </mrow>
+    <mo>,</mo>
+    <mrow>
+     <mi>g98b</mi>
+     <mo>=</mo>
+     <mi>gd</mi>
+    </mrow>
+    <mo>,</mo>
+    <mrow>
+     <mi>g98c</mi>
+     <mo>=</mo>
+     <mi>gc</mi>
+    </mrow>
+    <mo>,</mo>
+    <mrow>
+     <mi>g98d</mi>
+     <mo>=</mo>
+     <mi>gb</mi>
+    </mrow>
+   </mrow>
+   <mo>}</mo>
+  </mrow>
+  <mo>;</mo>
+ </mrow>
+</math>
+</p>
+
+<p class='Text' style='font-size: 14px;'>
+ Below the (abelian square-free) words&nbsp;&nbsp;<span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <mrow>
+  <msub>
+   <mi>g</mi>
+   <mn>85</mn>
+  </msub>
+  <mo>(</mo>
+  <mrow>
+   <msub>
+    <mi>g</mi>
+    <mn>85</mn>
+   </msub>
+   <mo>(</mo>
+   <mi>a</mi>
+   <mo>)</mo>
+  </mrow>
+  <mo>)</mo>
+ </mrow>
+</math></span>&nbsp;&nbsp;and&nbsp;&nbsp;<span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <mrow>
+  <msub>
+   <mi>g</mi>
+   <mn>98</mn>
+  </msub>
+  <mo>(</mo>
+  <mrow>
+   <msub>
+    <mi>g</mi>
+    <mn>98</mn>
+   </msub>
+   <mo>(</mo>
+   <mi>a</mi>
+   <mo>)</mo>
+  </mrow>
+  <mo>)</mo>
+ </mrow>
+</math></span>&nbsp;&nbsp;are represented by&nbsp;&nbsp;85 x 85&nbsp;&nbsp;and&nbsp;&nbsp;98 x 98 matrices.&nbsp;&nbsp;The 85 x 85 matrices are truely symmetric and the 98 x 98 matrices become symmetric, if the letters&nbsp;&nbsp;<span style='font-family: Arial;font-style: italic;font-weight: bold;color: #73E600;'>b</span>&nbsp;&nbsp;and&nbsp;&nbsp;<span style='font-family: Arial;font-style: italic;font-weight: bold;color: #498FF8;'>d</span>&nbsp;&nbsp;are identified.
+</p>
+
+
+
+<p class='Text' style='font-size: 14px;'>
+ Generally speaking, our knowledge of the structures of abelian square-free words has not been developing in phase with many other areas of combinatorics on words. We hope that the visualisations below would help in finding efficient new ideas.
+</p>
+
+
+
+<p class="Section">
+ <span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <msup>
+  <mrow>
+   <mo>(</mo>
+   <msub>
+    <mi>g</mi>
+    <mn>85</mn>
+   </msub>
+   <mo>)</mo>
+  </mrow>
+  <mn>2</mn>
+ </msup>
+</math></span>(<span style='font-style: italic;'>a</span>)&nbsp;&nbsp;&nbsp;with all the four&nbsp;&nbsp;{<span style='font-style: italic;color: #FF80FF;'>a</span>,<span style='font-style: italic;color: #73E600;'>b</span>,<span style='font-style: italic;color: #FCE903;'>c</span>,<span style='font-style: italic;color: #498FF8;'>d</span>}  letters:
+</p>
+
+
+
+<p class="Graphics">
+ <img src="HTMLFiles/_ac.bd.structures.in.g85.g98_1.gif"  border="0"  alt="[Graphics:HTMLFiles/_ac.bd.structures.in.g85.g98_1.gif]"  width="543" height="543"  align="absmiddle"  />
+</p>
+
+<p class="Section">
+ <span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <msup>
+  <mrow>
+   <mo>(</mo>
+   <msub>
+    <mi>g</mi>
+    <mn>85</mn>
+   </msub>
+   <mo>)</mo>
+  </mrow>
+  <mn>2</mn>
+ </msup>
+</math></span>(<span style='font-style: italic;'>a</span>)&nbsp;&nbsp;&nbsp;with only&nbsp;&nbsp;{<span style='font-style: italic;color: #FF80FF;'>a</span>,<span style='font-style: italic;color: #FCE903;'>c</span>}&nbsp;&nbsp;letters:
+</p>
+
+
+
+<p class="Graphics">
+ <img src="HTMLFiles/_ac.bd.structures.in.g85.g98_2.gif"  border="0"  alt="[Graphics:HTMLFiles/_ac.bd.structures.in.g85.g98_2.gif]"  width="541" height="541"  align="absmiddle"  />
+</p>
+
+<p class="Section">
+ <span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <msup>
+  <mrow>
+   <mo>(</mo>
+   <msub>
+    <mi>g</mi>
+    <mn>85</mn>
+   </msub>
+   <mo>)</mo>
+  </mrow>
+  <mn>2</mn>
+ </msup>
+</math></span>(<span style='font-style: italic;'>a</span>)&nbsp;&nbsp;&nbsp;with the complement&nbsp;&nbsp;{<span style='font-style: italic;color: #73E600;'>b</span>,<span style='font-style: italic;color: #498FF8;'>d</span>}&nbsp;&nbsp;letters:
+</p>
+
+
+
+<p class="Graphics">
+ <img src="HTMLFiles/_ac.bd.structures.in.g85.g98_3.gif"  border="0"  alt="[Graphics:HTMLFiles/_ac.bd.structures.in.g85.g98_3.gif]"  width="538" height="538"  align="absmiddle"  />
+</p>
+
+<p class="Section">
+ <span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <msup>
+  <mrow>
+   <mo>(</mo>
+   <msub>
+    <mi>g</mi>
+    <mn>98</mn>
+   </msub>
+   <mo>)</mo>
+  </mrow>
+  <mn>2</mn>
+ </msup>
+</math></span>(<span style='font-style: italic;'>a</span>)&nbsp;&nbsp;&nbsp;with all the four&nbsp;&nbsp;{<span style='font-style: italic;color: #FF80FF;'>a</span>,<span style='font-style: italic;color: #73E600;'>b</span>,<span style='font-style: italic;color: #FCE903;'>c</span>,<span style='font-style: italic;color: #498FF8;'>d</span>}&nbsp;&nbsp;letters:
+</p>
+
+
+
+<p class="Graphics">
+ <img src="HTMLFiles/_ac.bd.structures.in.g85.g98_4.gif"  border="0"  alt="[Graphics:HTMLFiles/_ac.bd.structures.in.g85.g98_4.gif]"  width="594" height="594"  align="absmiddle"  />
+</p>
+
+<p class="Section">
+ <span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <msup>
+  <mrow>
+   <mo>(</mo>
+   <msub>
+    <mi>g</mi>
+    <mn>98</mn>
+   </msub>
+   <mo>)</mo>
+  </mrow>
+  <mn>2</mn>
+ </msup>
+</math></span>(<span style='font-style: italic;'>a</span>)&nbsp;&nbsp;&nbsp;with only&nbsp;&nbsp;{<span style='font-style: italic;color: #FF80FF;'>a</span>,<span style='font-style: italic;color: #FCE903;'>c</span>}&nbsp;&nbsp;letters:
+</p>
+
+
+
+<p class="Graphics">
+ <img src="HTMLFiles/_ac.bd.structures.in.g85.g98_5.gif"  border="0"  alt="[Graphics:HTMLFiles/_ac.bd.structures.in.g85.g98_5.gif]"  width="592" height="592"  align="absmiddle"  />
+</p>
+
+<p class="Section">
+ <span><math xmlns='http://www.w3.org/1998/Math/MathML'
+    mathematica:form='TraditionalForm'
+    xmlns:mathematica='http://www.wolfram.com/XML/'>
+ <msup>
+  <mrow>
+   <mo>(</mo>
+   <msub>
+    <mi>g</mi>
+    <mn>98</mn>
+   </msub>
+   <mo>)</mo>
+  </mrow>
+  <mn>2</mn>
+ </msup>
+</math></span>(<span style='font-style: italic;'>a</span>)&nbsp;&nbsp;&nbsp;with the complement&nbsp;&nbsp;{<span style='font-style: italic;color: #73E600;'>b</span>,<span style='font-style: italic;color: #498FF8;'>d</span>}&nbsp;&nbsp;letters:
+</p>
+
+
+
+<p class="Graphics">
+ <img src="HTMLFiles/_ac.bd.structures.in.g85.g98_6.gif"  border="0"  alt="[Graphics:HTMLFiles/_ac.bd.structures.in.g85.g98_6.gif]"  width="590" height="590"  align="absmiddle"  />
+</p>
+
+
+<hr />
+<p style='font-family: Helvetica; font-size: 8pt'>Created by
+<a href="http://www.wolfram.com"><span style='font-style: italic'>Mathematica</span></a>
+&nbsp;(January 17, 2005) </p>
+
+</body>
+
+</html>

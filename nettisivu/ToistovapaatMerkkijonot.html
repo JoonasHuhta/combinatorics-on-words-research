@@ -1,0 +1,163 @@
+
+<!-- saved from url=(0068)https://www.algebra.fi/keranen/research/ToistovapaatMerkkijonot.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+</head><body bgcolor="#ffffff" text="#000000">Toistovapaat Merkkijonot
+
+
+<hr>
+<center>
+<h2>Toistovapaat merkkijonot ja tietokonealgebra</h2>
+</center>
+<hr>
+<h3>Tiivistelmä</h3>
+
+Sanat eli merkkijonot kuuluvat teoreettisessa tietojenkäsittelyssä
+perusobjekteihin, joten niiden rakenteiden analysointi on yksi tämän
+tieteenalan keskeisistä tutkimuskohteista.<p>
+
+Norjalainen matemaatikko Axel Thue [7] (1863-1922) aloitti sanojen  
+rakenteita koskevan systemaattisen tutkimuksen vuosisatamme alussa. Hänen 
+perustavanlaatuisille tuloksilleen, jotka koskevat annetusta aakkostosta muodostettavissa olevia 
+äärettömiä toistovapaita eli
+säännöllisyyksiä välttäviä
+sanoja, on löydetty useita sovellutuksia matematiikan eri aloilta. Toistovapaat
+sanat ovat äskettäin herättäneet mielenkiintoa myös
+musiikin alalla, ks. Laakso [5].</p><p>
+
+Olkoon <i>X</i> nelikirjaiminen aakkosto {<i>a</i>,<i>b</i>,<i>c</i>,<i>d</i> }.
+Raportissa [3] (Keränen 1992) esitimme tietokoneen avulla löydetyn Abelin
+neliöistä
+vapaan endomorfismin <i>g</i>: <i>X</i>* -&gt; <i>X</i>* (kuvauksen joka 
+säilyttää
+sanojen toistovapauden), jonka koko on  |<i>g</i>(<i>abcd</i>)| = 340. 
+Endomorfismi <i>g</i>
+määritellään seuraavasti. Kirjaimen <i>a</i> kuvasana on
+</p><p>
+</p><center>
+<i>g</i>(<i>a</i>) = <i>abcacdcbcdcadcdbdabacabadbabcbdbcbacbcdcacbabdabacadcbcdcacdbcbacbcdcacdcbdcdadbdcbca</i> 
+</center>
+<p>
+ja muiden kirjainten <i>b</i>, <i>c</i>, <i>d</i> kuvasanat <i>g</i>(<i>b</i>), 
+<i>g</i>(<i>c</i>), <i>g</i>(<i>d</i>) saadaan syklisellä permutaatiolla
+edeltävistä sanoista <i>g</i>(<i>x</i>), missä kirjain <i>x</i>
+kuuluu aakkostoon <i>X</i>. 
+</p><p>
+Kaikki tällä hetkellä tunnetut menetelmät, ks. [1] (Carpi 1994),
+rajoittamattoman pituisten Abelin neliöistä vapaiden sanojen
+konstruoimiseksi aakkostossa <i>X</i> perustuvat tämän endomorfismin
+<i>g</i> rakenteeseen. Kuitenkaan ei tiedetä, onko aakkostossa <i>X</i>
+mahdollista määritellä
+Abelin neliöistä vapaita endomorfismeja, 
+joiden koko olisi pienempi kuin yllämainittu koko 340.
+Tämän kysymyksen ja muiden algebrallisia rakenteita koskevien ongelmien
+ratkaiseminen on kehittymässä uudeksi hyvin haastavaksi ja kiehtovaksi
+tietokonealgebran tutkimusalaksi.</p><p>
+
+Vuonna 1961 Erdös [2, s. 240] esitti kysymyksen, voidaanko Abelin neliöt
+välttää
+äärettömissä sanoissa, ts. onko Abelin neliöistä
+vapaiden sanojen 
+määrä ääretön annetussa aakkostossa. Abelin neliö
+tarkoittaa
+ei-tyhjää äärellistä (mutta muutoin mielivaltaista)
+pituutta olevaa sanaa
+<i>uv</i>, missä <i>u</i> ja <i>v</i> ovat toistensa permutaatioita.
+Esimerkiksi
+<u><i>abc</i></u><u><i>acb</i></u> on Abelin neliö. Sanaa kutsutaan Abelin
+neliöistä
+vapaaksi, jos sen osasanojen joukossa ei ole yhtään Abelin
+neliötä.
+Esimerkiksi sana <i>abacaba</i> on Abelin neliöistä vapaa, kun taas 
+<i>ab<u>cda</u><u>dca</u>da</i> ei ole (se sisältää osasanan 
+<i>cda dca</i>).</p><p>
+
+Vuonna 1970 Pleasants [6] osoitti, että viisikirjaimisessa 
+aakkostossa voidaan määritellä Abelin neliöistä vapaita 
+äärettömiä sanoja.</p><p>
+
+Nelikirjaimisen aakkoston tapaus oli pitkään
+avoin, kunnes vuonna 1991, ks. Keränen [3], onnistuimme todistamaan että
+em. 
+endomorfismin <i>g</i> iterointi tuottaa "raja-arvonaan"
+Abelin neliöistä vapaan äärettömän sanan.
+<a href="https://www.algebra.fi/keranen/IMS97/6_85_Polyhedra.jpeg">
+Kaulakorun kuvassa</a> tämän äärettömän
+(itseänsä lukevan) 
+sanan alku, ts. 
+<i>g</i>(<i>abcacd</i> ) = <i>g</i>(<i>a</i>) <i>g</i>(<i>b</i>) <i>g</i>(<i>c</i>)
+<i>g</i>(<i>a</i>) <i>g</i>(<i>c</i>) <i>g</i>(<i>d</i>),
+on esitetty 6*85 värillisen, kuudella kierroksella olevan, monitahokkaan
+avulla.
+Kierrokset alkavat alhaaltapäin ja jokainen niistä esittää
+ketjun alusta luettujen
+kirjainten kuvasanoja. Siten ensimmäinen kierros on <i>g</i>(<i>a</i>), 
+toinen kierros on <i>g</i>(<i>b</i>), ja niiden jälkeen tulevat
+<i>g</i>(<i>c</i>), <i>g</i>(<i>a</i>),
+<i>g</i>(<i>c</i>) ja <i>g</i>(<i>d</i>).</p><p>
+ 
+Nelikirjaiminen aakkosto on erikoisasemassa siinä että 
+se on pienin aakkosto, jonka äärettömissä sanoissa
+Abelin neliöt voidaan välttää. 
+Todellakin, kolmen kirjaimen tapauksessa
+jokainen pituutta 8 oleva sana sisältää Abelin neliön.
+Voisiko tämä erikoisasema jotenkin liittyä 
+luonnon käyttämään perimän koodiin? - Myös DNA
+rakentuu neljästä eri merkistä.</p><p>
+
+Osa tästä tiivistelmästä on julkaistu artikkelissa [4].
+
+</p><p>
+</p><hr>
+
+<h3>Viitteet</h3>
+<ol>
+<li>
+A. Carpi. On the number of abelian square-free words on four letters. 
+Technical report, Preprint no. R.I. 110/94/IC, pages 1-15, 
+Istituto di Cibernetica del C.N.R., Arco Felice - Napoli, Italy, 1994.<p>
+</p></li>
+
+<li>
+P. Erdös. Some unsolved problems. <i>Magyar Tud. Acad. Mat. Kutató Int.
+Közl.</i>, 
+6:221-254, 1961.<p>
+</p></li>
+
+<li>
+V. Keränen. Abelian squares are avoidable on 4 letters. In W. Kuich, editor,
+<i>Proc. ICALP</i> '92, <i>Lecture Notes in Comp. Sci.</i>, volume 623, pages 41-52.
+Springer-Verlag, Berlin, 1992.<p>
+</p></li>
+
+<li>
+V. Keränen. Toistovapaat merkkijonot ja tietokonealgebra.                                           
+In C. Gefwert, P. Orponen, and J. Seppänen, editors,
+<i>Proc. Logic, Mathematics and the Computer</i>, 
+<i>Publications of the Finnish Artificial Intelligence Society</i>, Symposiosarja, volume 14, 
+pages 250-257. Hakapaino, Helsinki, 1996.<p>
+</p></li>
+
+<li>
+T. Laakso. Musical redering of an infinite repetition-free string.
+In C. Gefwert, P. Orponen, and J. Seppänen, editors,
+<i>Proc. Logic, Mathematics and the Computer</i>,
+<i>Publications of the Finnish Artificial Intelligence Society</i>, Symposiosarja,
+volume 14,
+pages 292-297. Hakapaino, Helsinki, 1996.<p>
+</p></li>
+
+
+<li>
+P.A.B. Pleasants. Non-repetitive sequences. <i>Proc. Cambridge Phil. Soc.</i>, 68:267-274, 1970.<p> 
+</p></li>
+
+<li>
+A. Thue. Über unendliche zeichenreihen. <i>Norske Vid. Selsk. Skr. I. Mat. Nat.
+Kl. Christiania</i>,
+7:1-22, 1906.<p>
+</p></li>
+
+</ol>
+<hr>
+
+<div id="extension-pddjl"></div></body></html>
