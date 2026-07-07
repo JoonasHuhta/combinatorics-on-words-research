@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abelian Squares - Keranen Combinatorics Visualizer</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --text-orange: #d35400; 
+      --border: #cccccc;
+      --letter-a: #e74c3c; 
+      --letter-b: #2980b9; 
+      --letter-c: #f1c40f; 
+      --letter-d: #27ae60; 
+    }
+
+    body { font-family: "Times New Roman", Times, serif; background: var(--bg); color: var(--text); line-height: 1.6; margin: 0; padding: 40px 20px; }
+    .app { max-width: 1100px; margin: 0 auto; }
+    h1, h2, h3 { font-weight: normal; color: var(--text-orange); margin-top: 0; }
+    h1 { font-size: 2.2rem; margin-bottom: 10px; }
+    p { font-size: 1.1rem; margin-bottom: 15px; }
+
+    .intro-text { color: var(--text-orange); margin-bottom: 20px; }
+    .legend { margin-bottom: 30px; font-size: 1.1rem; }
+    .legend span { font-weight: bold; }
+    .legend-a { color: var(--letter-a); }
+    .legend-b { color: var(--letter-b); }
+    .legend-c { color: var(--letter-c); }
+    .legend-d { color: var(--letter-d); }
+
+    /* Mode tabs */
+    .mode-tabs { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+    .mode-tab { padding: 10px 20px; background: #f9f9f9; border: 1px solid var(--border); cursor: pointer; font-family: Arial, sans-serif; font-size: 0.9rem; }
+    .mode-tab:hover { background: #f0f0f0; }
+    .mode-tab.active { background: #e0e0e0; font-weight: bold; border-color: #999; }
+
+    /* Controls */
+    .controls { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; font-family: Arial, sans-serif; flex-wrap: wrap; }
+    .btn { padding: 8px 16px; border: 1px solid #999; background: #fff; cursor: pointer; font-size: 0.9rem; }
+    .btn:hover { background: #eee; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .speed-control { margin-left: auto; font-size: 0.9rem; }
+
+    /* Display Area */
+    .view-panel { margin-bottom: 30px; min-height: 200px; border: 1px solid var(--border); padding: 20px; background: #fafafa; position: relative; }
+    
+    .split-view { display: flex; gap: 20px; }
+    .split-left { flex: 1; border-right: 1px solid var(--border); padding-right: 20px; }
+    .split-right { flex: 1; }
+
+    canvas#treeCanvas { width: 100%; height: 350px; background: #fff; border: 1px solid #eee; }
+    canvas#condensedCanvas { width: 100%; height: 300px; background: #fff; border: 1px solid #ccc; cursor: crosshair; }
+
+    /* Tiles */
+    .word-tiles { display: flex; flex-wrap: wrap; gap: 3px; align-content: flex-start; margin-bottom: 15px; min-height: 40px;}
+    .tile { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+    .tile.a { background-color: var(--letter-a); }
+    .tile.b { background-color: var(--letter-b); }
+    .tile.c { background-color: var(--letter-c); }
+    .tile.d { background-color: var(--letter-d); }
+    
+    .tile.square-half-1 { border: 2px solid black; transform: scale(1.3); }
+    .tile.square-half-2 { border: 2px solid gray; transform: scale(1.3); }
+
+    /* Scanner UI */
+    .scanner-ui { font-family: monospace; font-size: 0.95rem; background: #fff; border: 1px solid #eee; padding: 10px; min-height: 120px;}
+    .parikh-compare { display: flex; gap: 20px; margin-top: 10px; }
+    .parikh-box { flex: 1; padding: 5px; border: 1px dashed #ccc; }
+    .parikh-box.match { background: #ffebee; border-color: red; }
+    
+    .word-empty { color: #666; font-family: Arial, sans-serif; font-style: italic; }
+
+    /* ABC laboratory */
+    .abc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; font-family: Arial, sans-serif; }
+    .abc-card { background: #fff; border: 1px solid var(--border); padding: 14px; }
+    .abc-card h3 { font-family: "Times New Roman", Times, serif; margin-bottom: 8px; }
+    .abc-number { font-size: 2rem; color: var(--text-orange); line-height: 1; }
+    .abc-list { max-height: 220px; overflow-y: auto; border-top: 1px solid #eee; margin-top: 10px; padding-top: 10px; font-family: monospace; font-size: 0.9rem; }
+    .abc-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 3px 0; border-bottom: 1px solid #f4f4f4; }
+    .abc-word { letter-spacing: 2px; white-space: nowrap; }
+    .abc-word button { border: 0; background: transparent; color: #000; cursor: pointer; font: inherit; letter-spacing: inherit; padding: 0; }
+    .abc-word button:hover { text-decoration: underline; }
+    .abc-fail { color: #b00020; }
+    .abc-success { color: #1f7a1f; }
+    .vector-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-family: monospace; font-size: 0.9rem; }
+    .vector-table th, .vector-table td { border: 1px solid #eee; padding: 4px 6px; text-align: left; }
+    .vector-table th { background: #f6f6f6; font-family: Arial, sans-serif; font-weight: normal; }
+
+    /* Audio UI */
+    .audio-ui { display: flex; align-items: center; gap: 15px; font-family: Arial, sans-serif; margin-bottom: 15px;}
+    .audio-note { display: inline-block; width: 20px; height: 20px; border-radius: 50%; }
+
+    /* Stats & Log */
+    .info-panel { display: flex; gap: 40px; font-family: Arial, sans-serif; font-size: 0.9rem; border-top: 1px solid var(--border); padding-top: 20px; flex-wrap: wrap;}
+    .stats { flex: 1; min-width: 250px; }
+    .log-container { flex: 2; height: 150px; overflow-y: auto; border: 1px solid var(--border); padding: 10px; background: #fff; font-family: monospace; min-width: 300px;}
+    .log-entry { margin-bottom: 4px; border-bottom: 1px solid #f0f0f0; }
+    .log-fail { color: red; font-weight: bold; }
+    .log-ok { color: green; }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <h1>Abelian Squares - Combinatorics Visualizer</h1>
+  <p class="intro-text">
+    Visualizing the computational search for abelian square-free words. 
+    With 3 letters {a,b,c}, an infinite word is impossible. Veikko Keranen (1992) found a solution with 4 letters {a,b,c,d}.
+  </p>
+  <p class="legend">
+    Color mapping: 
+    <span class="legend-a">a (C)</span>, <span class="legend-b">b (E)</span>, <span class="legend-c">c (G)</span>, <span class="legend-d">d (A)</span>.
+  </p>
+
+  <div class="mode-tabs">
+    <div class="mode-tab active" data-mode="3letter" id="tab-3">1. 3 Letters (Tree Search)</div>
+    <div class="mode-tab" data-mode="abc-lab" id="tab-abc">2. ABC Laboratory</div>
+    <div class="mode-tab" data-mode="4letter" id="tab-4">3. 4 Letters (Morphism g85)</div>
+    <div class="mode-tab" data-mode="canvas" id="tab-canvas">4. Condensed 2D View</div>
+    <div class="mode-tab" data-mode="audio" id="tab-audio">5. Sonification (Music)</div>
+  </div>
+
+  <div class="controls">
+    <button class="btn" id="btn-start">Start Search</button>
+    <button class="btn" id="btn-pause" disabled>Pause</button>
+    <button class="btn" id="btn-reset">Reset</button>
+    <button class="btn hidden" id="btn-apply-morphism">Apply g85 Iteration</button>
+    <button class="btn hidden" id="btn-play-audio">▶ Play as Music</button>
+    <button class="btn hidden" id="btn-stop-audio" disabled>■ Stop Music</button>
+    <button class="btn hidden" id="btn-draw-canvas">Draw 2D View</button>
+    <button class="btn hidden" id="btn-run-abc">Run ABC Enumeration</button>
+    
+    <div class="speed-control">
+      <label>Speed:</label>
+      <input type="range" id="speed-slider" min="1" max="100" value="70">
+    </div>
+  </div>
+
+  <!-- 3-Letter Split View -->
+  <div class="view-panel" id="view-3letter">
+    <div class="split-view">
+      <div class="split-left">
+        <h3>Search Tree</h3>
+        <p style="font-family: Arial; font-size: 0.8rem; color:#666;">Visualizing combinatorial explosion and backtracking.</p>
+        <canvas id="treeCanvas"></canvas>
+      </div>
+      <div class="split-right">
+        <h3>Current String</h3>
+        <div class="word-tiles" id="tiles-3letter"></div>
+        
+        <h3>Sliding Window Scanner</h3>
+        <p style="font-family: Arial; font-size: 0.8rem; color:#666;">Scanning backwards to compare Parikh vectors.</p>
+        <div class="scanner-ui" id="scanner-ui">
+          <div id="scanner-status">Idle</div>
+          <div class="parikh-compare hidden" id="parikh-compare">
+            <div class="parikh-box" id="pbox-1">Half 1: <br><span id="pval-1"></span></div>
+            <div class="parikh-box" id="pbox-2">Half 2: <br><span id="pval-2"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABC Laboratory -->
+  <div class="view-panel hidden" id="view-abc-lab">
+    <h2>ABC Laboratory</h2>
+    <p style="font-family: Arial; font-size: 0.95rem; color:#555;">
+      Exhaustive finite search over {a,b,c}. The laboratory keeps every prefix that avoids Abelian squares,
+      then shows the exact collision that prevents extension to length 8.
+    </p>
+    <div class="abc-grid">
+      <div class="abc-card">
+        <h3>Valid Prefix Counts</h3>
+        <div id="abc-counts" class="abc-list"></div>
+      </div>
+      <div class="abc-card">
+        <h3>Survivors at Max Length</h3>
+        <div class="abc-number" id="abc-max-count">0</div>
+        <div id="abc-survivors" class="abc-list"></div>
+      </div>
+      <div class="abc-card">
+        <h3>Selected Word</h3>
+        <div class="word-tiles" id="tiles-abc"></div>
+        <div id="abc-selected-text" class="abc-word">-</div>
+        <table class="vector-table" id="abc-vector-table"></table>
+      </div>
+      <div class="abc-card">
+        <h3>Failed Extensions</h3>
+        <div id="abc-failures" class="abc-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4-Letter / Canvas / Audio Views -->
+  <div class="view-panel hidden" id="view-general">
+    <div class="audio-ui hidden" id="audio-ui">
+      <span>Now playing:</span>
+      <div id="audio-current-note" class="audio-note" style="background:#eee;"></div>
+      <span id="audio-current-letter" style="font-family:monospace; font-weight:bold;">-</span>
+    </div>
+    <div class="word-empty hidden" id="word-empty">Press a button to start.</div>
+    <div class="word-tiles hidden" id="tiles-general"></div>
+    <canvas id="condensedCanvas" class="hidden"></canvas>
+  </div>
+
+  <!-- Stats & Logs -->
+  <div class="info-panel">
+    <div class="stats" id="stats-panel">
+      <h3 style="margin-top:0; color:#333;">Statistics</h3>
+      <div>Length: <span id="stat-len">0</span></div>
+      <div>Max Length Reached: <span id="stat-max">0</span></div>
+      <div id="stat-attempts-row"><span id="stat-attempts-label">Nodes Explored</span>: <span id="stat-attempts">0</span></div>
+      <div id="stat-backtracks-row">Backtracks: <span id="stat-backtracks">0</span></div>
+      <div><span id="stat-squares-label">Squares Found</span>: <span id="stat-squares">0</span></div>
+    </div>
+    <div class="log-container" id="log"></div>
+  </div>
+
+</div>
+
+<script>
+// =====================================================
+// KERÄNEN'S G85 MORPHISM & CORE CONSTANTS
+// =====================================================
+const G85_A = 'abcacdcbcdcadcdbdabacabadbabcbdbcbacbcdcacbabdabacadcbcdcacdbcbacbcdcacdcbdcdadbdcbca';
+function cyclicPerm(s) {
+  const map = { a:'b', b:'c', c:'d', d:'a' };
+  return s.split('').map(c => map[c]).join('');
+}
+const G85 = { a: G85_A, b: cyclicPerm(G85_A), c: cyclicPerm(cyclicPerm(G85_A)), d: cyclicPerm(cyclicPerm(cyclicPerm(G85_A))) };
+const COLORS = { a: '#e74c3c', b: '#2980b9', c: '#f1c40f', d: '#27ae60' };
+
+// =====================================================
+// GLOBAL STATE
+// =====================================================
+const $ = id => document.getElementById(id);
+let mode = '3letter';
+let running = false;
+let loopTimer = null;
+let fourLetterWord = ['a']; 
+let fourLetterIteration = 0;
+
+// =====================================================
+// AUDIO CONTEXT
+// =====================================================
+let audioCtx = null; let audioOsc = null; let audioGain = null;
+let audioPlaying = false; let audioIdx = 0;
+const FREQS = { a: 261.63, b: 329.63, c: 392.00, d: 440.00 };
+
+// =====================================================
+// HELPERS
+// =====================================================
+function getParikh(word) {
+  const p = {a:0, b:0, c:0};
+  for (const ch of word) if(p[ch]!==undefined) p[ch]++;
+  return p;
+}
+function parikhEqual(p1, p2) { return p1.a===p2.a && p1.b===p2.b && p1.c===p2.c; }
+function parikhStr(p) { return `(a:${p.a}, b:${p.b}, c:${p.c})`; }
+function setAttemptsLabel(text) { $('stat-attempts-label').textContent = text; }
+function setSquaresLabel(text) { $('stat-squares-label').textContent = text; }
+function updateStats(s) {
+  if (s.len !== undefined) $('stat-len').textContent = s.len;
+  if (s.attempts !== undefined) $('stat-attempts').textContent = s.attempts;
+  if (s.backtracks !== undefined) $('stat-backtracks').textContent = s.backtracks;
+  if (s.squares !== undefined) $('stat-squares').textContent = s.squares;
+  if (s.maxLen !== undefined) $('stat-max').textContent = s.maxLen;
+}
+function addLog(html) {
+  const div = document.createElement('div'); div.className = 'log-entry'; div.innerHTML = html;
+  $('log').appendChild(div); $('log').scrollTop = $('log').scrollHeight;
+  while ($('log').children.length > 200) $('log').removeChild($('log').firstChild);
+}
+function renderTiles(word, containerId, highlights = {}) {
+  const container = $(containerId);
+  container.innerHTML = '';
+  word.forEach((ch, i) => {
+    const tile = document.createElement('div'); tile.className = `tile ${ch}`;
+    if (highlights.sq1Start != null && i >= highlights.sq1Start && i < highlights.sq1Start + highlights.halfLen) tile.classList.add('square-half-1');
+    if (highlights.sq2Start != null && i >= highlights.sq2Start && i < highlights.sq2Start + highlights.halfLen) tile.classList.add('square-half-2');
+    container.appendChild(tile);
+  });
+}
+
+// =====================================================
+// 3-LETTER SEARCH & VISUALIZATION (TREE + SCANNER)
+// =====================================================
+const treeCanvas = $('treeCanvas');
+const treeCtx = treeCanvas.getContext('2d');
+let searchTreeRoot = null;
+let currentSearchNode = null;
+let searchState = 'idle'; // idle, extending, scanning, backtracking, exhausted
+let scanHalfLen = 1;
+let stats3 = { attempts: 0, backtracks: 0, maxLen: 0, squares: 0 };
+
+function init3LetterSearch() {
+  searchTreeRoot = { id: 0, letter: '', children: [], parent: null, status: 'active', depth: 0, nextTry: 0 };
+  currentSearchNode = searchTreeRoot;
+  stats3 = { attempts: 0, backtracks: 0, maxLen: 0, squares: 0 };
+  searchState = 'extending';
+  scanHalfLen = 1;
+  resizeTreeCanvas();
+}
+
+function getWordFromNode(node) {
+  let w = [];
+  let curr = node;
+  while(curr.parent) { w.unshift(curr.letter); curr = curr.parent; }
+  return w;
+}
+
+function getDelay() { return Math.max(10, 600 - parseInt($('speed-slider').value) * 5.5); }
+
+function step3Letter() {
+  if (!running) return;
+
+  if (searchState === 'extending') {
+    if (currentSearchNode.nextTry >= 3) {
+      searchState = 'backtracking';
+    } else {
+      const alphabet = ['a','b','c'];
+      const letter = alphabet[currentSearchNode.nextTry++];
+      const newNode = { id: stats3.attempts++, letter, children: [], parent: currentSearchNode, status: 'active', depth: currentSearchNode.depth + 1, nextTry: 0 };
+      currentSearchNode.children.push(newNode);
+      currentSearchNode = newNode;
+      
+      const word = getWordFromNode(currentSearchNode);
+      if (word.length > stats3.maxLen) stats3.maxLen = word.length;
+      updateStats({ len: word.length, maxLen: stats3.maxLen, attempts: stats3.attempts });
+      renderTiles(word, 'tiles-3letter');
+      addLog(`Appended '${letter}'. Initiating scanner...`);
+      
+      // Start scanning
+      searchState = 'scanning';
+      scanHalfLen = 1;
+    }
+  } 
+  else if (searchState === 'scanning') {
+    const word = getWordFromNode(currentSearchNode);
+    const n = word.length;
+    
+    if (scanHalfLen > Math.floor(n / 2)) {
+      // Scanned all possible halves, no squares!
+      addLog(`Scan complete. No abelian squares found.`);
+      $('scanner-status').textContent = 'Valid word. Expanding further...';
+      $('parikh-compare').classList.add('hidden');
+      searchState = 'extending';
+    } else {
+      // Check current halfLen
+      const start = n - 2 * scanHalfLen;
+      const first = word.slice(start, start + scanHalfLen);
+      const second = word.slice(start + scanHalfLen);
+      
+      renderTiles(word, 'tiles-3letter', { sq1Start: start, sq2Start: start + scanHalfLen, halfLen: scanHalfLen });
+      
+      const p1 = getParikh(first);
+      const p2 = getParikh(second);
+      
+      $('parikh-compare').classList.remove('hidden');
+      $('scanner-status').textContent = `Scanning half-length: ${scanHalfLen}`;
+      $('pval-1').textContent = parikhStr(p1);
+      $('pval-2').textContent = parikhStr(p2);
+      $('pbox-1').className = 'parikh-box'; $('pbox-2').className = 'parikh-box';
+
+      if (parikhEqual(p1, p2)) {
+        $('pbox-1').classList.add('match'); $('pbox-2').classList.add('match');
+        $('scanner-status').innerHTML = `<span class="log-fail">Abelian Square Found! Rejecting branch.</span>`;
+        addLog(`<span class="log-fail">Matched Parikh vectors ${parikhStr(p1)}! Dead end.</span>`);
+        currentSearchNode.status = 'dead';
+        stats3.squares++;
+        updateStats({ squares: stats3.squares });
+        searchState = 'backtracking';
+      } else {
+        scanHalfLen++;
+      }
+    }
+  }
+  else if (searchState === 'backtracking') {
+    if (!currentSearchNode.parent) {
+      searchState = 'exhausted';
+    } else {
+      currentSearchNode = currentSearchNode.parent;
+      stats3.backtracks++;
+      updateStats({ backtracks: stats3.backtracks, len: getWordFromNode(currentSearchNode).length });
+      renderTiles(getWordFromNode(currentSearchNode), 'tiles-3letter');
+      addLog(`Backtracking up the tree...`);
+      $('parikh-compare').classList.add('hidden');
+      $('scanner-status').textContent = 'Backtracking...';
+      searchState = 'extending';
+    }
+  }
+  else if (searchState === 'exhausted') {
+    running = false;
+    $('btn-start').disabled = false; $('btn-pause').disabled = true;
+    addLog(`<span class="log-fail">SEARCH EXHAUSTED. It is impossible to build an infinite abelian square-free word on 3 letters.</span>`);
+    $('scanner-status').innerHTML = `<b>Exhausted all possibilities. Max length: ${stats3.maxLen}.</b>`;
+    return;
+  }
+
+  drawTree();
+  loopTimer = setTimeout(step3Letter, getDelay());
+}
+
+// Tree Drawing
+function resizeTreeCanvas() { treeCanvas.width = treeCanvas.clientWidth; treeCanvas.height = treeCanvas.clientHeight; }
+window.addEventListener('resize', () => { if (mode === '3letter') resizeTreeCanvas(); drawTree(); });
+
+function drawTree() {
+  if (!searchTreeRoot) return;
+  treeCtx.clearRect(0, 0, treeCanvas.width, treeCanvas.height);
+  
+  // Calculate depth
+  let maxDepth = stats3.maxLen + 1;
+  const levelHeight = treeCanvas.height / (maxDepth + 1);
+  
+  // Assign X positions recursively (simple balanced layout)
+  function setX(node, left, right) {
+    node.x = (left + right) / 2;
+    node.y = (node.depth + 1) * levelHeight;
+    const w = (right - left) / Math.max(1, node.children.length);
+    node.children.forEach((c, i) => setX(c, left + i*w, left + (i+1)*w));
+  }
+  setX(searchTreeRoot, 0, treeCanvas.width);
+
+  // Draw lines
+  function drawLines(node) {
+    node.children.forEach(c => {
+      treeCtx.beginPath();
+      treeCtx.moveTo(node.x, node.y);
+      treeCtx.lineTo(c.x, c.y);
+      treeCtx.strokeStyle = c.status === 'dead' ? '#ffcccc' : '#cccccc';
+      if (c === currentSearchNode || isAncestor(c, currentSearchNode)) treeCtx.strokeStyle = '#000000';
+      treeCtx.stroke();
+      drawLines(c);
+    });
+  }
+  
+  function isAncestor(ancestor, node) {
+    let curr = node;
+    while(curr) { if(curr === ancestor) return true; curr = curr.parent; }
+    return false;
+  }
+
+  // Draw nodes
+  function drawNodes(node) {
+    treeCtx.beginPath();
+    treeCtx.arc(node.x, node.y, 4, 0, Math.PI*2);
+    if (node === currentSearchNode) treeCtx.fillStyle = '#f1c40f'; // Active
+    else if (node.status === 'dead') treeCtx.fillStyle = '#e74c3c'; // Dead
+    else treeCtx.fillStyle = '#bdc3c7'; // Visited but backtracking
+    
+    if (node === searchTreeRoot) treeCtx.fillStyle = '#000';
+    treeCtx.fill();
+    node.children.forEach(drawNodes);
+  }
+
+  drawLines(searchTreeRoot);
+  drawNodes(searchTreeRoot);
+}
+
+// =====================================================
+// ABC LABORATORY: FINITE EXHAUSTIVE SEARCH
+// =====================================================
+const ABC_ALPHABET = ['a', 'b', 'c'];
+let abcLevels = [];
+let abcFailures = [];
+
+function findAbelianSquare(word) {
+  for (let start = 0; start < word.length; start++) {
+    const maxHalf = Math.floor((word.length - start) / 2);
+    for (let halfLen = 1; halfLen <= maxHalf; halfLen++) {
+      const first = word.slice(start, start + halfLen);
+      const second = word.slice(start + halfLen, start + halfLen * 2);
+      if (parikhEqual(getParikh(first), getParikh(second))) {
+        return { start, halfLen, first, second, p1: getParikh(first), p2: getParikh(second) };
+      }
+    }
+  }
+  return null;
+}
+
+function findSuffixAbelianSquare(word) {
+  for (let halfLen = 1; halfLen <= Math.floor(word.length / 2); halfLen++) {
+    const start = word.length - halfLen * 2;
+    const first = word.slice(start, start + halfLen);
+    const second = word.slice(start + halfLen);
+    if (parikhEqual(getParikh(first), getParikh(second))) {
+      return { start, halfLen, first, second, p1: getParikh(first), p2: getParikh(second) };
+    }
+  }
+  return null;
+}
+
+function enumerateAbcLab(maxLength = 8) {
+  abcLevels = [['']];
+  abcFailures = [];
+
+  for (let len = 1; len <= maxLength; len++) {
+    const next = [];
+    for (const prefix of abcLevels[len - 1]) {
+      for (const letter of ABC_ALPHABET) {
+        const candidate = prefix + letter;
+        const square = findSuffixAbelianSquare(candidate);
+        if (square) {
+          abcFailures.push({ candidate, from: prefix, letter, square });
+        } else {
+          next.push(candidate);
+        }
+      }
+    }
+    abcLevels[len] = next;
+  }
+}
+
+function renderAbcLab() {
+  enumerateAbcLab();
+  const counts = $('abc-counts');
+  counts.innerHTML = '';
+  abcLevels.forEach((level, len) => {
+    const row = document.createElement('div');
+    row.className = 'abc-row';
+    row.innerHTML = `<span>length ${len}</span><span>${level.length}</span>`;
+    counts.appendChild(row);
+  });
+
+  const maxNonEmptyLen = abcLevels.reduce((best, level, len) => level.length ? len : best, 0);
+  const survivors = abcLevels[maxNonEmptyLen] || [];
+  $('abc-max-count').textContent = survivors.length;
+  $('abc-survivors').innerHTML = '';
+  survivors.forEach(word => {
+    const row = document.createElement('div');
+    row.className = 'abc-row';
+    row.innerHTML = `<span class="abc-word"><button type="button" data-word="${word}">${word}</button></span><span class="abc-success">valid</span>`;
+    $('abc-survivors').appendChild(row);
+  });
+
+  const failedAtEight = abcFailures.filter(item => item.candidate.length === 8);
+  $('abc-failures').innerHTML = '';
+  failedAtEight.slice(0, 80).forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'abc-row';
+    row.innerHTML = `<span class="abc-word"><button type="button" data-word="${item.candidate}">${item.candidate}</button></span><span class="abc-fail">x${item.square.halfLen}</span>`;
+    $('abc-failures').appendChild(row);
+  });
+  if (failedAtEight.length > 80) {
+    const row = document.createElement('div');
+    row.className = 'abc-row';
+    row.textContent = `... ${failedAtEight.length - 80} more rejected extensions`;
+    $('abc-failures').appendChild(row);
+  }
+
+  const firstWord = survivors[0] || (failedAtEight[0] && failedAtEight[0].candidate) || '';
+  selectAbcWord(firstWord);
+  updateStats({ len: maxNonEmptyLen, maxLen: maxNonEmptyLen, attempts: abcFailures.length, backtracks: 0, squares: abcFailures.length });
+  addLog(`<span class="log-ok">ABC enumeration complete. Length 8 has ${abcLevels[8].length} valid words.</span>`);
+}
+
+function selectAbcWord(word) {
+  const chars = word.split('');
+  const square = findAbelianSquare(chars);
+  const highlights = square ? { sq1Start: square.start, sq2Start: square.start + square.halfLen, halfLen: square.halfLen } : {};
+  renderTiles(chars, 'tiles-abc', highlights);
+  $('abc-selected-text').textContent = word || '-';
+
+  const table = $('abc-vector-table');
+  if (!word) {
+    table.innerHTML = '';
+    return;
+  }
+  if (!square) {
+    table.innerHTML = '<tr><th>Status</th><td class="abc-success">No Abelian square found in this finite word.</td></tr>';
+    return;
+  }
+  table.innerHTML = `
+    <tr><th>Half 1</th><td>${square.first.join('')}</td><td>${parikhStr(square.p1)}</td></tr>
+    <tr><th>Half 2</th><td>${square.second.join('')}</td><td>${parikhStr(square.p2)}</td></tr>
+    <tr><th>Position</th><td colspan="2">starts at ${square.start}, half length ${square.halfLen}</td></tr>
+  `;
+}
+
+function handleAbcClick(evt) {
+  const button = evt.target.closest('button[data-word]');
+  if (!button) return;
+  selectAbcWord(button.dataset.word);
+}
+
+// =====================================================
+// 4-LETTER G85 LOGIC & CANVAS VIEW
+// =====================================================
+function applyMorphism() {
+  if (fourLetterWord.length > 200000) { addLog("String too large to iterate in browser."); return; }
+  $('btn-apply-morphism').disabled = true;
+  fourLetterIteration++;
+  const oldLen = fourLetterWord.length;
+  addLog(`Applying g₈₅ (Iteration ${fourLetterIteration})...`);
+
+  const newWord = [];
+  for (const ch of fourLetterWord) { for (const c of G85[ch]) newWord.push(c); }
+  fourLetterWord = newWord;
+  updateStats({ len: newWord.length, maxLen: newWord.length });
+  
+  if (mode === '4letter') {
+    if (newWord.length <= 8000) {
+      $('tiles-general').classList.remove('hidden'); $('word-empty').classList.add('hidden');
+      renderTiles(newWord, 'tiles-general');
+    } else {
+      $('tiles-general').innerHTML = ''; $('word-empty').classList.remove('hidden'); 
+      $('word-empty').textContent = `String is too large (${newWord.length} chars) for DOM. Use Canvas view.`; 
+    }
+  } else if (mode === 'canvas') {
+    drawCanvasCondensed();
+  }
+  
+  addLog(`<span class="log-ok">g₈₅ applied: length grew from ${oldLen} to ${newWord.length}.</span>`);
+  $('btn-apply-morphism').disabled = false;
+}
+
+function drawCanvasCondensed() {
+  if (fourLetterWord.length === 0) return;
+  $('tiles-general').classList.add('hidden'); $('word-empty').classList.add('hidden');
+  const cvs = $('condensedCanvas'); cvs.classList.remove('hidden');
+
+  const width = cvs.clientWidth; cvs.width = width;
+  const ctx = cvs.getContext('2d');
+  
+  const dotSize = 4; const padding = 2;
+  const cols = Math.floor(width / (dotSize + padding));
+  const rows = Math.ceil(fourLetterWord.length / cols);
+  cvs.height = Math.max(300, rows * (dotSize + padding) + 20);
+
+  ctx.clearRect(0, 0, cvs.width, cvs.height);
+  
+  for (let i = 0; i < fourLetterWord.length; i++) {
+    const ch = fourLetterWord[i];
+    const x = (i % cols) * (dotSize + padding) + 5;
+    const baseRowY = Math.floor(i / cols) * (dotSize * 3 + 10) + 10;
+    
+    let yOffset = 0;
+    if (ch === 'a') yOffset = 0; else if (ch === 'b') yOffset = dotSize;
+    else if (ch === 'c') yOffset = dotSize * 2; else if (ch === 'd') yOffset = dotSize * 3;
+
+    ctx.fillStyle = COLORS[ch];
+    ctx.beginPath();
+    ctx.arc(x + dotSize/2, (baseRowY + yOffset) + dotSize/2, dotSize/2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  addLog(`Drew ${fourLetterWord.length} elements to Canvas.`);
+}
+
+// =====================================================
+// WEB AUDIO SONIFICATION
+// =====================================================
+function playAudio() {
+  if (audioPlaying) return;
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  
+  audioPlaying = true;
+  $('btn-play-audio').disabled = true; $('btn-stop-audio').disabled = false;
+  audioIdx = 0;
+  
+  audioOsc = audioCtx.createOscillator(); audioGain = audioCtx.createGain();
+  audioOsc.type = 'sine';
+  audioOsc.connect(audioGain); audioGain.connect(audioCtx.destination);
+  audioOsc.start();
+  
+  addLog(`<span class="log-ok">Audio synthesis started.</span>`);
+  audioLoop();
+}
+
+function stopAudio() {
+  if (!audioPlaying) return;
+  audioPlaying = false;
+  $('btn-play-audio').disabled = false; $('btn-stop-audio').disabled = true;
+  if (audioOsc) { audioOsc.stop(); audioOsc.disconnect(); }
+  if (audioGain) { audioGain.disconnect(); }
+  $('audio-current-letter').textContent = '-'; $('audio-current-note').style.background = '#eee';
+  addLog(`Audio stopped.`);
+}
+
+function audioLoop() {
+  if (!audioPlaying) return;
+  if (audioIdx >= fourLetterWord.length) audioIdx = 0;
+  
+  const ch = fourLetterWord[audioIdx];
+  const delayMs = Math.max(20, 200 - parseInt($('speed-slider').value) * 1.8);
+  
+  audioOsc.frequency.setValueAtTime(FREQS[ch], audioCtx.currentTime);
+  $('audio-current-letter').textContent = ch.toUpperCase();
+  $('audio-current-note').style.background = COLORS[ch];
+  
+  audioGain.gain.setValueAtTime(0, audioCtx.currentTime);
+  audioGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.02);
+  audioGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (delayMs/1000));
+  
+  audioIdx++;
+  setTimeout(audioLoop, delayMs);
+}
+
+// =====================================================
+// UI TABS & INIT
+// =====================================================
+function switchMode(newMode) {
+  mode = newMode;
+  running = false; if (loopTimer) clearTimeout(loopTimer); stopAudio();
+  $('btn-pause').textContent = 'Pause';
+  $('log').innerHTML = '';
+  
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === newMode));
+  ['btn-start','btn-pause','btn-apply-morphism','btn-play-audio','btn-stop-audio','btn-draw-canvas','btn-run-abc'].forEach(id => $(id).classList.add('hidden'));
+  
+  $('view-3letter').classList.add('hidden');
+  $('view-abc-lab').classList.add('hidden');
+  $('view-general').classList.add('hidden');
+  $('condensedCanvas').classList.add('hidden');
+  $('audio-ui').classList.add('hidden');
+  $('word-empty').classList.add('hidden');
+  $('tiles-general').classList.add('hidden');
+
+  if (mode === '3letter') {
+    $('view-3letter').classList.remove('hidden');
+    $('btn-start').classList.remove('hidden'); $('btn-pause').classList.remove('hidden');
+    $('btn-start').disabled = false; $('btn-pause').disabled = true;
+    $('stat-attempts-row').classList.remove('hidden'); $('stat-backtracks-row').classList.remove('hidden');
+    setAttemptsLabel('Nodes Explored');
+    setSquaresLabel('Squares Found');
+    init3LetterSearch();
+  } else if (mode === 'abc-lab') {
+    $('view-abc-lab').classList.remove('hidden');
+    $('btn-run-abc').classList.remove('hidden');
+    $('stat-attempts-row').classList.remove('hidden');
+    $('stat-backtracks-row').classList.add('hidden');
+    setAttemptsLabel('Rejected Extensions');
+    setSquaresLabel('Square Collisions');
+    renderAbcLab();
+  } else {
+    $('view-general').classList.remove('hidden');
+    $('btn-apply-morphism').classList.remove('hidden');
+    $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
+    setSquaresLabel('Squares Found');
+    
+    if (mode === '4letter') {
+      $('tiles-general').classList.remove('hidden');
+      if (fourLetterWord.length <= 8000) {
+        renderTiles(fourLetterWord, 'tiles-general');
+      } else {
+        $('tiles-general').classList.add('hidden');
+        $('word-empty').classList.remove('hidden');
+        $('word-empty').textContent = `String is too large (${fourLetterWord.length} chars) for DOM. Use Canvas view.`;
+      }
+    } else if (mode === 'canvas') {
+      $('btn-draw-canvas').classList.remove('hidden');
+      drawCanvasCondensed();
+    } else if (mode === 'audio') {
+      $('btn-play-audio').classList.remove('hidden'); $('btn-stop-audio').classList.remove('hidden');
+      $('audio-ui').classList.remove('hidden');
+      $('word-empty').classList.remove('hidden'); $('word-empty').textContent = 'Iterate morphism, then press Play as Music.';
+    }
+  }
+}
+
+$('btn-start').addEventListener('click', () => { if (mode === '3letter') { running = true; $('btn-start').disabled=true; $('btn-pause').disabled=false; step3Letter(); }});
+$('btn-pause').addEventListener('click', () => {
+  if (running) { running = false; if (loopTimer) clearTimeout(loopTimer); addLog('Paused.'); $('btn-pause').textContent = 'Resume'; }
+  else { running = true; step3Letter(); addLog('Resuming...'); $('btn-pause').textContent = 'Pause'; }
+});
+$('btn-reset').addEventListener('click', () => { fourLetterWord = ['a']; fourLetterIteration = 0; switchMode(mode); });
+$('btn-apply-morphism').addEventListener('click', applyMorphism);
+$('btn-draw-canvas').addEventListener('click', drawCanvasCondensed);
+$('btn-run-abc').addEventListener('click', renderAbcLab);
+$('btn-play-audio').addEventListener('click', playAudio);
+$('btn-stop-audio').addEventListener('click', stopAudio);
+$('abc-survivors').addEventListener('click', handleAbcClick);
+$('abc-failures').addEventListener('click', handleAbcClick);
+
+document.querySelectorAll('.mode-tab').forEach(tab => tab.addEventListener('click', () => switchMode(tab.dataset.mode)));
+
+// Initialize
+switchMode('3letter');
+</script>
+</body>
+</html>
