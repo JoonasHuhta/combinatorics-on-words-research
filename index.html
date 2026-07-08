@@ -270,7 +270,7 @@
   <div class="mode-tabs">
     <div class="mode-tab active" data-mode="3letter" id="tab-3">1. Tree Search (3 letters)</div>
     <div class="mode-tab" data-mode="abc-lab" id="tab-abc">2. ABC Laboratory</div>
-    <div class="mode-tab" data-mode="4letter" id="tab-4">3. Morphism g&#8085; (4 letters)</div>
+    <div class="mode-tab" data-mode="4letter" id="tab-4">3. Morphism g&#8328;&#8325; (4 letters)</div>
     <div class="mode-tab" data-mode="canvas" id="tab-canvas">4. 2D Walk</div>
     <div class="mode-tab" data-mode="audio" id="tab-audio">5. Sonification</div>
     <div class="mode-tab" data-mode="try-it" id="tab-tryit">6. Try It Yourself</div>
@@ -278,13 +278,15 @@
     <div class="mode-tab" data-mode="unfavorable" id="tab-unf">8. Unfavorable Factors</div>
     <div class="mode-tab" data-mode="microscope" id="tab-microscope">9. Morphism Microscope</div>
     <div class="mode-tab" data-mode="knowledge" id="tab-knowledge">10. Knowledge Graph</div>
+    <div class="mode-tab" data-mode="morph-lab" id="tab-morph-lab">11. Morphism Lab</div>
+    <div class="mode-tab" data-mode="heat-map" id="tab-heat-map">12. Heat Map</div>
   </div>
 
   <div class="controls">
     <button class="btn" id="btn-start">Start Search</button>
     <button class="btn" id="btn-pause" disabled>Pause</button>
     <button class="btn" id="btn-reset">Reset</button>
-    <button class="btn hidden" id="btn-apply-morphism">Apply g&#8085; Iteration</button>
+    <button class="btn hidden" id="btn-apply-morphism">Apply g&#8328;&#8325; Iteration</button>
     <button class="btn hidden" id="btn-draw-canvas">Draw 2D Walk</button>
     <label class="hidden" id="lbl-canvas-anim" style="font-family: Arial; font-size: 0.9rem; gap: 5px; cursor: pointer; margin-left: 10px;">
       <input type="checkbox" id="chk-anim-walk" checked> Animate Walk
@@ -497,17 +499,17 @@
     </p>
     <div style="display:flex; gap:20px; font-family:Arial, sans-serif; margin-top:20px; flex-wrap:wrap;">
       <div style="flex:1; min-width:300px; border:1px solid var(--border); padding:15px; border-radius:5px; background:#fff;">
-        <h3 style="margin-top:0;">Morphism g&#8085; &mdash; Ker&auml;nen 1992</h3>
+        <h3 style="margin-top:0;">Morphism g&#8328;&#8325; &mdash; Ker&auml;nen 1992</h3>
         <p style="font-size:0.9rem; color:#555; margin-bottom:8px;">Published at ICALP 1992. First proof that 4 letters suffice. Length of each image: <strong>85</strong>.</p>
-        <p><strong>Parikh vector of g&#8085;(a):</strong> <span id="mic-g85-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
-        <p style="font-size:0.85rem; color:#666; margin-bottom:4px;">g&#8085;(a) &rarr;</p>
+        <p><strong>Parikh vector of g&#8328;&#8325;(a):</strong> <span id="mic-g85-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
+        <p style="font-size:0.85rem; color:#666; margin-bottom:4px;">g&#8328;&#8325;(a) &rarr;</p>
         <div style="font-family:monospace; word-break:break-all; background:#f9f9f9; padding:10px; border:1px solid #eee; line-height:1.8; font-size:0.95rem;" id="mic-g85-a"></div>
       </div>
       <div style="flex:1; min-width:300px; border:1px solid var(--border); padding:15px; border-radius:5px; background:#fff;">
-        <h3 style="margin-top:0;">Morphism g&#8089;&#8088; &mdash; Ker&auml;nen 2002&ndash;2009</h3>
+        <h3 style="margin-top:0;">Morphism g&#8329;&#8328; &mdash; Ker&auml;nen 2002&ndash;2009</h3>
         <p style="font-size:0.9rem; color:#555; margin-bottom:8px;">Published in Theoretical Computer Science (2009). Described as &ldquo;a powerful abelian square-free substitution.&rdquo; Length of each image: <strong id="mic-g98-len">?</strong>.</p>
-        <p><strong>Parikh vector of g&#8089;&#8088;(a):</strong> <span id="mic-g98-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
-        <p style="font-size:0.85rem; color:#666; margin-bottom:4px;">g&#8089;&#8088;(a) &rarr;</p>
+        <p><strong>Parikh vector of g&#8329;&#8328;(a):</strong> <span id="mic-g98-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
+        <p style="font-size:0.85rem; color:#666; margin-bottom:4px;">g&#8329;&#8328;(a) &rarr;</p>
         <div style="font-family:monospace; word-break:break-all; background:#f9f9f9; padding:10px; border:1px solid #eee; line-height:1.8; font-size:0.95rem;" id="mic-g98-a"></div>
       </div>
     </div>
@@ -534,6 +536,78 @@
         <p id="kg-desc" style="color:#555; line-height:1.5;">Click any node on the graph to see definitions, history, and relevance to the abelian square problem.</p>
       </div>
     </div>
+  </div>
+
+  <!-- ================================================
+       11. MORPHISM LABORATORY
+       ================================================ -->
+  <div class="view-panel hidden" id="view-morph-lab">
+    <h2>Morphism Laboratory</h2>
+    <p style="font-family: Arial; font-size: 0.95rem; color:#555; max-width:800px; line-height:1.5;">
+      Design your own uniform morphism over {a,b,c,d}. The program will evaluate its Parikh vectors, check for cyclic permutations, and iteratively search for Abelian squares.
+    </p>
+    <div style="margin-bottom:15px;">
+      <button class="btn" id="btn-load-g85" style="font-size:0.85rem; padding:4px 8px;">Load g&#8328;&#8325;</button>
+      <button class="btn" id="btn-load-g98" style="font-size:0.85rem; padding:4px 8px;">Load g&#8329;&#8328;</button>
+      <button class="btn" id="btn-load-clear" style="font-size:0.85rem; padding:4px 8px;">Clear</button>
+    </div>
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+      <div style="flex:1; min-width:300px; border:1px solid var(--border); padding:15px; border-radius:5px; background:#fff;">
+        <h3 style="margin-top:0;">Morphism Definition</h3>
+        <div style="display:flex; flex-direction:column; gap:10px; font-family:monospace;">
+          <div><label style="display:inline-block; width:40px; font-weight:bold; color:var(--letter-a);">a &rarr;</label> <input type="text" id="morph-input-a" style="width:calc(100% - 60px); padding:5px; font-family:monospace;" placeholder="e.g. abcd..."></div>
+          <div><label style="display:inline-block; width:40px; font-weight:bold; color:var(--letter-b);">b &rarr;</label> <input type="text" id="morph-input-b" style="width:calc(100% - 60px); padding:5px; font-family:monospace;" placeholder="e.g. dabc..."></div>
+          <div><label style="display:inline-block; width:40px; font-weight:bold; color:var(--letter-c);">c &rarr;</label> <input type="text" id="morph-input-c" style="width:calc(100% - 60px); padding:5px; font-family:monospace;" placeholder="e.g. cdab..."></div>
+          <div><label style="display:inline-block; width:40px; font-weight:bold; color:var(--letter-d);">d &rarr;</label> <input type="text" id="morph-input-d" style="width:calc(100% - 60px); padding:5px; font-family:monospace;" placeholder="e.g. bcda..."></div>
+        </div>
+        <button class="btn" id="btn-eval-morph" style="margin-top:15px; width:100%;">Evaluate Morphism</button>
+      </div>
+      <div style="flex:1; min-width:300px; border:1px solid var(--border); padding:15px; border-radius:5px; background:#fff;">
+        <h3 style="margin-top:0;">Evaluation Results</h3>
+        <div id="morph-eval-results" style="font-family:Arial, sans-serif; font-size:0.95rem; line-height:1.6;">
+          <em>Enter a morphism and click evaluate to see results.</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       12. HEAT MAP
+       ================================================ -->
+  <div class="view-panel hidden" id="view-heat-map">
+    <h2>Abelian Square Heat Map</h2>
+    <p style="font-family: Arial; font-size: 0.95rem; color:#555; max-width:800px; line-height:1.5;">
+      Each cell (x, y) shows whether an Abelian square exists starting at position x with half-length y.
+      <span style="color:#e74c3c; font-weight:bold;">&#9632; Red</span> = Abelian square found,
+      <span style="color:#f1c40f; font-weight:bold;">&#9632; Yellow</span> = near-miss (Parikh diff = 1 per letter),
+      <span style="color:#bdc3c7;">&#9632; Gray</span> = no square.
+      The g&#8328;&#8325; word is Abelian square-free, so the red cells come only from a random word for comparison.
+    </p>
+    <div style="margin-bottom:15px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; font-family:Arial;">
+      <button class="btn" id="btn-heat-g85">g&#8328;&#8325; word (2 iterations, A²-free)</button>
+      <button class="btn" id="btn-heat-rand">Random word (expect many squares)</button>
+      <span id="heat-status" style="font-size:0.85rem; color:#888;"></span>
+    </div>
+    <div style="position:relative; display:inline-block;">
+      <div style="font-family:Arial; font-size:0.75rem; color:#888; margin-bottom:3px; padding-left:50px;">
+        &larr; Position in word (x-axis) &rarr;
+      </div>
+      <div style="display:flex; align-items:flex-start; gap:4px;">
+        <div style="writing-mode:vertical-rl; transform:rotate(180deg); font-family:Arial; font-size:0.75rem; color:#888; text-align:center; width:18px; flex-shrink:0;">
+          Half-length (y-axis) &uarr;
+        </div>
+        <div style="border:1px solid var(--border); background:#fdfdfd; padding:5px; border-radius:5px; position:relative;">
+          <canvas id="heatCanvas" width="800" height="400" style="background:#f9f9f9; border:1px solid #ccc; display:block;"></canvas>
+          <div id="heat-overlay" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:rgba(255,255,255,0.95); padding:12px 24px; border:1px solid #333; font-weight:bold; font-family:Arial; display:none;">Computing&hellip;</div>
+        </div>
+      </div>
+      <div style="font-family:Arial; font-size:0.75rem; color:#888; margin-top:4px; padding-left:50px;">
+        <span style="display:inline-block; width:14px; height:10px; background:#e74c3c; margin-right:4px; vertical-align:middle;"></span>Abelian square
+        <span style="display:inline-block; width:14px; height:10px; background:#f1c40f; margin-left:12px; margin-right:4px; vertical-align:middle;"></span>Near-miss (diff=1)
+        <span style="display:inline-block; width:14px; height:10px; background:#f9f9f9; border:1px solid #ccc; margin-left:12px; margin-right:4px; vertical-align:middle;"></span>No square
+      </div>
+    </div>
+    <div id="heat-tooltip" style="font-family:monospace; font-size:0.85rem; color:#555; margin-top:8px; min-height:1.4em;"></div>
   </div>
 
   <!-- Stats & Logs -->
@@ -924,7 +998,7 @@ function applyMorphism() {
   $('btn-apply-morphism').disabled = true;
   fourLetterIteration++;
   const oldLen = fourLetterWord.length;
-  addLog(`Applying g&#8085; (Iteration ${fourLetterIteration})...`);
+  addLog(`Applying g&#8328;&#8325; (Iteration ${fourLetterIteration})...`);
 
   const newWord = [];
   for (const ch of fourLetterWord) { for (const c of G85[ch]) newWord.push(c); }
@@ -943,7 +1017,7 @@ function applyMorphism() {
     drawCanvas2DWalk();
   }
   
-  addLog(`<span class="log-ok">g&#8085; applied: length grew from ${oldLen} to ${newWord.length}.</span>`);
+  addLog(`<span class="log-ok">g&#8328;&#8325; applied: length grew from ${oldLen} to ${newWord.length}.</span>`);
   $('btn-apply-morphism').disabled = false;
 }
 
@@ -1496,14 +1570,14 @@ function switchMode(newMode) {
   });
   
   // Hide all view panels
-  ['view-3letter','view-abc-lab','view-general','view-audio','view-tryit','view-timeline','view-unfavorable','view-microscope','view-knowledge'].forEach(id => $(id).classList.add('hidden'));
+  ['view-3letter','view-abc-lab','view-general','view-audio','view-tryit','view-timeline','view-unfavorable','view-microscope','view-knowledge','view-morph-lab','view-heat-map'].forEach(id => $(id).classList.add('hidden'));
   $('condensedCanvas').classList.add('hidden');
   $('audio-ui').classList.add('hidden');
   $('word-empty').classList.add('hidden');
   $('tiles-general').classList.add('hidden');
   
   // Hide info panel for some modes, show for others
-  const noInfoModes = ['timeline', 'microscope', 'knowledge'];
+  const noInfoModes = ['timeline', 'microscope', 'knowledge', 'morph-lab', 'heat-map'];
   $('info-panel').style.display = noInfoModes.includes(newMode) ? 'none' : '';
   $('speed-wrap').style.display = ['3letter'].includes(newMode) ? '' : 'none';
 
@@ -1553,6 +1627,14 @@ function switchMode(newMode) {
     $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
     if (!kgInitialized) initKG();
     else { if (!kgAnimationId) kgLoop(); }
+
+  } else if (mode === 'morph-lab') {
+    $('view-morph-lab').classList.remove('hidden');
+    $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
+
+  } else if (mode === 'heat-map') {
+    $('view-heat-map').classList.remove('hidden');
+    $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
 
   } else if (mode === 'audio') {
     $('view-audio').classList.remove('hidden');
@@ -1837,6 +1919,246 @@ function initKG() {
   
   kgLoop();
 }
+
+// =====================================================
+// 11. MORPHISM LABORATORY
+// =====================================================
+$('btn-load-g85').addEventListener('click', () => {
+  $('morph-input-a').value = G85.a;
+  $('morph-input-b').value = G85.b;
+  $('morph-input-c').value = G85.c;
+  $('morph-input-d').value = G85.d;
+});
+$('btn-load-g98').addEventListener('click', () => {
+  $('morph-input-a').value = G98_A;
+  $('morph-input-b').value = cyclicPerm(G98_A);
+  $('morph-input-c').value = cyclicPerm(cyclicPerm(G98_A));
+  $('morph-input-d').value = cyclicPerm(cyclicPerm(cyclicPerm(G98_A)));
+});
+$('btn-load-clear').addEventListener('click', () => {
+  ['a','b','c','d'].forEach(c => $('morph-input-'+c).value = '');
+  $('morph-eval-results').innerHTML = '<em>Enter a morphism and click evaluate to see results.</em>';
+});
+$('btn-eval-morph').addEventListener('click', evaluateMorphism);
+
+function evaluateMorphism() {
+  const m = {
+    a: $('morph-input-a').value.trim(),
+    b: $('morph-input-b').value.trim(),
+    c: $('morph-input-c').value.trim(),
+    d: $('morph-input-d').value.trim()
+  };
+  
+  if (!m.a || !m.b || !m.c || !m.d) {
+    $('morph-eval-results').innerHTML = '<span style="color:red">Error: All 4 images must be provided.</span>';
+    return;
+  }
+  
+  const len = m.a.length;
+  if (len !== m.b.length || len !== m.c.length || len !== m.d.length) {
+    $('morph-eval-results').innerHTML = '<span style="color:red">Error: Morphism must be uniform (all images same length).</span>';
+    return;
+  }
+  
+  const pA = getParikh(m.a);
+  const pB = getParikh(m.b);
+  const pC = getParikh(m.c);
+  const pD = getParikh(m.d);
+  
+  function isParikhCyclic(p1, p2) {
+    return p1.a === p2.b && p1.b === p2.c && p1.c === p2.d && p1.d === p2.a;
+  }
+  
+  const c1 = isParikhCyclic(pA, pB);
+  const c2 = isParikhCyclic(pB, pC);
+  const c3 = isParikhCyclic(pC, pD);
+  const c4 = isParikhCyclic(pD, pA);
+  
+  const isCyclic = c1 && c2 && c3 && c4;
+  
+  let html = `<strong>Uniform Length:</strong> ${len}<br>`;
+  html += `<strong>Parikh Vector of a:</strong> a:${pA.a}, b:${pA.b}, c:${pA.c}, d:${pA.d}<br>`;
+  html += `<strong>Cyclic Permutation Property:</strong> ${isCyclic ? '<span style="color:green">YES</span>' : '<span style="color:red">NO</span>'}<br><br>`;
+  
+  html += `<strong>Evaluating Abelian square-freedom...</strong><br>`;
+  $('morph-eval-results').innerHTML = html;
+  
+  setTimeout(() => {
+    const ALPH = ['a','b','c','d'];
+    let word = [];
+    let currentIdx = 0;
+    let seed = ['a'];
+    
+    let maxLen = 3000;
+    if (len * len > 3000) maxLen = len * len * 2;
+    if (maxLen > 10000) maxLen = 10000;
+    
+    let foundSquareAt = -1;
+    let generating = true;
+    while(generating && word.length < maxLen) {
+      if (currentIdx >= seed.length) {
+         let nextSeed = [];
+         for(let i=0; i<seed.length; i++) {
+           let expanded = m[seed[i]].split('');
+           nextSeed.push(...expanded);
+         }
+         seed = nextSeed;
+         if (currentIdx >= seed.length) break;
+      }
+      
+      let nextChar = seed[currentIdx];
+      word.push(nextChar);
+      currentIdx++;
+      
+      if (findSuffixAbelianSquare(word, ALPH)) {
+        foundSquareAt = word.length;
+        break;
+      }
+    }
+    
+    if (foundSquareAt !== -1) {
+       $('morph-eval-results').innerHTML += `<span style="color:red">Failed! Abelian square found at length ${foundSquareAt}.</span>`;
+    } else {
+       $('morph-eval-results').innerHTML += `<span style="color:green">Success! No Abelian squares found in prefix of length ${word.length}.</span>`;
+    }
+  }, 50);
+}
+
+// =====================================================
+// 12. HEAT MAP
+// =====================================================
+let heatWordArr = [];
+let heatCellW = 0, heatCellH = 0, heatMaxPos = 0, heatMaxHalf = 0;
+let heatPSum = null;
+
+$('btn-heat-g85').addEventListener('click', () => {
+  $('heat-overlay').style.display = 'block';
+  $('heat-status').textContent = 'Generating g\u2088\u2085(a) \u00d72\u2026';
+  setTimeout(() => {
+    let word = ['a'];
+    for(let i=0; i<2; i++) {
+       let next = [];
+       for(let ch of word) { next.push(...G85[ch].split('')); }
+       word = next;
+    }
+    drawHeatMap(word, 'g\u2088\u2085 word (7225 chars, Abelian square-free)');
+    $('heat-overlay').style.display = 'none';
+  }, 60);
+});
+
+$('btn-heat-rand').addEventListener('click', () => {
+  $('heat-overlay').style.display = 'block';
+  $('heat-status').textContent = 'Generating random word\u2026';
+  setTimeout(() => {
+    const ALPH = ['a','b','c','d'];
+    let word = [];
+    for(let i=0; i<7225; i++) { word.push(ALPH[Math.floor(Math.random()*4)]); }
+    drawHeatMap(word, 'Random word (7225 chars) \u2014 expect many red squares');
+    $('heat-overlay').style.display = 'none';
+  }, 60);
+});
+
+function drawHeatMap(wordArr, label) {
+  heatWordArr = wordArr;
+  const canvas = $('heatCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+
+  ctx.clearRect(0,0,W,H);
+
+  heatMaxPos = Math.min(2000, wordArr.length);
+  heatMaxHalf = Math.min(400, Math.floor(wordArr.length / 2));
+
+  heatCellW = W / heatMaxPos;
+  heatCellH = H / heatMaxHalf;
+
+  ctx.fillStyle = '#f4f4f4';
+  ctx.fillRect(0,0,W,H);
+
+  // Prefix sums for O(1) Parikh range queries
+  heatPSum = { a: [0], b: [0], c: [0], d: [0] };
+  for(let i=0; i<wordArr.length; i++) {
+    let ch = wordArr[i];
+    heatPSum.a.push(heatPSum.a[i] + (ch === 'a' ? 1 : 0));
+    heatPSum.b.push(heatPSum.b[i] + (ch === 'b' ? 1 : 0));
+    heatPSum.c.push(heatPSum.c[i] + (ch === 'c' ? 1 : 0));
+    heatPSum.d.push(heatPSum.d[i] + (ch === 'd' ? 1 : 0));
+  }
+
+  let squareCount = 0, nearCount = 0;
+
+  for (let pos = 0; pos < heatMaxPos; pos++) {
+    for (let hLen = 1; hLen <= heatMaxHalf; hLen++) {
+       if (pos + 2*hLen > wordArr.length) continue;
+       const end1 = pos + hLen, end2 = pos + 2*hLen;
+       const p1a = heatPSum.a[end1]-heatPSum.a[pos], p2a = heatPSum.a[end2]-heatPSum.a[end1];
+       const p1b = heatPSum.b[end1]-heatPSum.b[pos], p2b = heatPSum.b[end2]-heatPSum.b[end1];
+       const p1c = heatPSum.c[end1]-heatPSum.c[pos], p2c = heatPSum.c[end2]-heatPSum.c[end1];
+       const p1d = heatPSum.d[end1]-heatPSum.d[pos], p2d = heatPSum.d[end2]-heatPSum.d[end1];
+       const diff = Math.abs(p1a-p2a) + Math.abs(p1b-p2b) + Math.abs(p1c-p2c) + Math.abs(p1d-p2d);
+
+       if (diff === 0) {
+         ctx.fillStyle = 'rgba(231, 76, 60, 0.88)';
+         ctx.fillRect(pos * heatCellW, H - hLen * heatCellH, Math.max(1, heatCellW), Math.max(1, heatCellH));
+         squareCount++;
+       } else if (diff <= 2) {
+         ctx.fillStyle = 'rgba(241, 196, 15, 0.45)';
+         ctx.fillRect(pos * heatCellW, H - hLen * heatCellH, Math.max(1, heatCellW), Math.max(1, heatCellH));
+         nearCount++;
+       }
+    }
+  }
+
+  // Bottom-left annotation
+  ctx.fillStyle = 'rgba(255,255,255,0.8)';
+  ctx.fillRect(4, H - 18, 280, 16);
+  ctx.fillStyle = '#555';
+  ctx.font = '11px Arial';
+  ctx.fillText(`word[0\u2026${heatMaxPos-1}], half-len 1\u2026${heatMaxHalf}`, 6, H - 5);
+
+  const statusEl = $('heat-status');
+  if (statusEl) statusEl.textContent = `${label} | ${squareCount} squares, ${nearCount} near-misses`;
+}
+
+// Hover tooltip on heat map
+$('heatCanvas').addEventListener('mousemove', function(e) {
+  if (!heatWordArr.length || !heatPSum) return;
+  const rect = this.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  const scaleX = this.width / rect.width;
+  const scaleY = this.height / rect.height;
+  const cx = x * scaleX, cy = y * scaleY;
+  const H = this.height;
+  const pos = Math.floor(cx / heatCellW);
+  const hLen = Math.floor((H - cy) / heatCellH) + 1;
+
+  if (pos < 0 || pos >= heatMaxPos || hLen < 1 || hLen > heatMaxHalf) {
+    $('heat-tooltip').textContent = ''; return;
+  }
+  if (pos + 2*hLen > heatWordArr.length) { $('heat-tooltip').textContent = ''; return; }
+
+  const end1 = pos + hLen, end2 = pos + 2*hLen;
+  const p1a = heatPSum.a[end1]-heatPSum.a[pos];
+  const p1b = heatPSum.b[end1]-heatPSum.b[pos];
+  const p1c = heatPSum.c[end1]-heatPSum.c[pos];
+  const p1d = heatPSum.d[end1]-heatPSum.d[pos];
+  const p2a = heatPSum.a[end2]-heatPSum.a[end1];
+  const p2b = heatPSum.b[end2]-heatPSum.b[end1];
+  const p2c = heatPSum.c[end2]-heatPSum.c[end1];
+  const p2d = heatPSum.d[end2]-heatPSum.d[end1];
+  const diff = Math.abs(p1a-p2a)+Math.abs(p1b-p2b)+Math.abs(p1c-p2c)+Math.abs(p1d-p2d);
+
+  const half1 = heatWordArr.slice(pos, end1).join('').substring(0, 18);
+  const half2 = heatWordArr.slice(end1, end2).join('').substring(0, 18);
+  const dots1 = hLen > 18 ? '\u2026' : '';
+  const dots2 = hLen > 18 ? '\u2026' : '';
+  const state = diff === 0 ? '\uD83D\uDD34 ABELIAN SQUARE' : diff <= 2 ? '\uD83D\uDFE1 near-miss' : '\u2705 ok';
+  $('heat-tooltip').textContent =
+    `pos=${pos}, half-len=${hLen} | "${half1}${dots1}" vs "${half2}${dots2}" | P\u2081=(a:${p1a},b:${p1b},c:${p1c},d:${p1d}) P\u2082=(a:${p2a},b:${p2b},c:${p2c},d:${p2d}) | ${state}`;
+});
+$('heatCanvas').addEventListener('mouseleave', () => { $('heat-tooltip').textContent = ''; });
 
 </script>
 </body>
