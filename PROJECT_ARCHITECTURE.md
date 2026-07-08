@@ -42,4 +42,4 @@ Because the application resides in a single file to prevent dependency issues, `
 If continuing development, prioritize adding new tools as standalone `view-` panels in the DOM. 
 The next planned feature (Morphism Microscope) should compare the hardcoded `G85` morphism with the newer `G98` morphism.
 
-See `DEVELOPMENT_ROADMAP.md` and `kehitysideat.md` for prioritized feature ideas.
+See `DEVELOPMENT_ROADMAP.md` for prioritized feature ideas.

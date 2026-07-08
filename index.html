@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Abelian Squares - Combinatorics Visualizer</title>
+  <title>Abelian Squares — Combinatorics Visualizer</title>
   <style>
     :root {
       --bg: #ffffff;
@@ -242,7 +242,7 @@
 <body>
 
 <div class="app">
-  <h1>Abelian Squares &mdash; Keranen Combinatorics Visualizer</h1>
+  <h1>Abelian Squares &mdash; Combinatorics Visualizer</h1>
   <p class="intro-text">
     Visualizing the computational search for abelian square-free words. 
     With 3 letters {a,b,c}, an infinite word is impossible (any word of length ≥ 8 contains an abelian square).
@@ -445,8 +445,6 @@
         <div id="unf-bars" style="margin-bottom:16px;"></div>
         <h3 style="font-size:1rem; margin-bottom:8px;">Extended word</h3>
         <div class="unf-word-display" id="unf-word-display">&mdash;</div>
-      </div>
-    </div>
       </div>
     </div>
   </div>
@@ -1229,14 +1227,11 @@ function unfavorableExtend(seed) {
     let extended = false;
     for (const c of UNF_ALPHA) {
       const candidate = [c, ...leftWord];
-      if (!findAbelianSquare(candidate, UNF_ALPHA) || !findSuffixAbelianSquare(candidate.slice().reverse(), UNF_ALPHA)) {
-        // Check full word
-        if (!findAbelianSquare(candidate, UNF_ALPHA)) {
-          leftWord = candidate;
-          leftAdded++;
-          extended = true;
-          break;
-        }
+      if (!findAbelianSquare(candidate, UNF_ALPHA)) {
+        leftWord = candidate;
+        leftAdded++;
+        extended = true;
+        break;
       }
     }
     if (!extended) { leftDead = UNF_ALPHA.find(c => true); break; }
@@ -1423,7 +1418,7 @@ const unfStyle = document.createElement('style');
 unfStyle.textContent = `
   .unf-word-display .ch-a { color: #e74c3c; }
   .unf-word-display .ch-b { color: #2980b9; }
-  .unf-word-display .ch-c { color: #b8860b; }
+  .unf-word-display .ch-c { color: #f1c40f; }
   .unf-word-display .ch-d { color: #27ae60; }
 `;
 document.head.appendChild(unfStyle);
