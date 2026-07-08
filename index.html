@@ -262,6 +262,8 @@
     <div class="mode-tab" data-mode="try-it" id="tab-tryit">6. Try It Yourself</div>
     <div class="mode-tab" data-mode="timeline" id="tab-timeline">7. Historical Timeline</div>
     <div class="mode-tab" data-mode="unfavorable" id="tab-unf">8. Unfavorable Factors</div>
+    <div class="mode-tab" data-mode="microscope" id="tab-microscope">9. Morphism Microscope</div>
+    <div class="mode-tab" data-mode="knowledge" id="tab-knowledge">10. Knowledge Graph</div>
   </div>
 
   <div class="controls">
@@ -445,6 +447,53 @@
         <div class="unf-word-display" id="unf-word-display">&mdash;</div>
       </div>
     </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       9. MORPHISM MICROSCOPE
+       ================================================ -->
+  <div class="view-panel hidden" id="view-microscope">
+    <h2>Morphism Microscope (g85 vs g98)</h2>
+    <p style="font-family: Arial; font-size: 0.95rem; color:#555; max-width:800px; line-height:1.5;">
+      Compare the properties of the two famous 4-letter morphisms discovered by Veikko Keränen. 
+      While g85 (1992) proved 4 letters are sufficient, g98 (2002) expanded the toolkit. 
+      <em>Note: g98 is currently awaiting its exact 98-character sequence.</em>
+    </p>
+    <div style="display:flex; gap:20px; font-family:Arial, sans-serif; margin-top:20px;">
+      <div style="flex:1; border:1px solid var(--border); padding:15px; border-radius:5px; background:#fff;">
+        <h3 style="margin-top:0;">Morphism g85 (1992)</h3>
+        <p><strong>Length:</strong> 85 letters</p>
+        <p><strong>Parikh Vector:</strong> <span id="mic-g85-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
+        <div style="font-family:monospace; word-break:break-all; background:#f9f9f9; padding:10px; border:1px solid #eee; line-height:1.6;" id="mic-g85-a"></div>
+      </div>
+      <div style="flex:1; border:1px solid var(--border); padding:15px; border-radius:5px; background:#fff;">
+        <h3 style="margin-top:0;">Morphism g98 (2002)</h3>
+        <p><strong>Length:</strong> 98 letters</p>
+        <p><strong>Parikh Vector:</strong> <span id="mic-g98-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
+        <div style="font-family:monospace; word-break:break-all; background:#f9f9f9; padding:10px; border:1px solid #eee; line-height:1.6;" id="mic-g98-a"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       10. KNOWLEDGE GRAPH
+       ================================================ -->
+  <div class="view-panel hidden" id="view-knowledge" style="height:600px;">
+    <h2>Knowledge Graph</h2>
+    <p style="font-family: Arial; font-size: 0.95rem; color:#555; max-width:800px; line-height:1.5;">
+      Interactive concept map. <strong>Drag</strong> nodes to explore relationships. <strong>Click</strong> on a node to read details.
+    </p>
+    <div style="display:flex; height:500px; gap:10px; margin-top:15px;">
+      <div style="flex:2; border:1px solid var(--border); border-radius:5px; position:relative; background:#fefefe; overflow:hidden;">
+        <canvas id="kgCanvas"></canvas>
+      </div>
+      <div style="flex:1; border:1px solid var(--border); border-radius:5px; padding:15px; background:#fff; overflow-y:auto; font-family:Arial,sans-serif;" id="kg-sidebar">
+        <h3 id="kg-title" style="margin-top:0;">Select a node</h3>
+        <p id="kg-desc" style="color:#555; line-height:1.5;">Click any node on the graph to see definitions, history, and relevance to the abelian square problem.</p>
+      </div>
+    </div>
   </div>
 
   <!-- Stats & Logs -->
@@ -472,6 +521,8 @@ function cyclicPerm(s) {
   return s.split('').map(c => map[c]).join('');
 }
 const G85 = { a: G85_A, b: cyclicPerm(G85_A), c: cyclicPerm(cyclicPerm(G85_A)), d: cyclicPerm(cyclicPerm(cyclicPerm(G85_A))) };
+const G98_A = "abcacdcbcdcadbdcbdbabcbdcacbabdbabcabdadcdadbdcbdbabdbcbacbcdbabdcdbdcacdbcbacbcdcacdcbdcdadbdcbca";
+
 const COLORS = { a: '#e74c3c', b: '#2980b9', c: '#f1c40f', d: '#27ae60' };
 
 // =====================================================
@@ -1267,7 +1318,7 @@ function switchMode(newMode) {
   ['btn-start','btn-pause','btn-apply-morphism','btn-play-audio','btn-stop-audio','btn-draw-canvas','btn-run-abc'].forEach(id => $(id).classList.add('hidden'));
   
   // Hide all view panels
-  ['view-3letter','view-abc-lab','view-general','view-tryit','view-timeline','view-unfavorable'].forEach(id => $(id).classList.add('hidden'));
+  ['view-3letter','view-abc-lab','view-general','view-tryit','view-timeline','view-unfavorable','view-microscope','view-knowledge'].forEach(id => $(id).classList.add('hidden'));
   $('condensedCanvas').classList.add('hidden');
   $('audio-ui').classList.add('hidden');
   $('word-empty').classList.add('hidden');
@@ -1311,6 +1362,17 @@ function switchMode(newMode) {
   } else if (mode === 'unfavorable') {
     $('view-unfavorable').classList.remove('hidden');
     $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
+
+  } else if (mode === 'microscope') {
+    $('view-microscope').classList.remove('hidden');
+    $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
+    renderMicroscope();
+
+  } else if (mode === 'knowledge') {
+    $('view-knowledge').classList.remove('hidden');
+    $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
+    if (!kgInitialized) initKG();
+    else { if (!kgAnimationId) kgLoop(); }
 
   } else {
     // 4letter, canvas, audio
@@ -1370,6 +1432,212 @@ document.querySelectorAll('.mode-tab').forEach(tab => tab.addEventListener('clic
 
 // Initialize
 switchMode('3letter');
+
+// =====================================================
+// MICROSCOPE RENDERER
+// =====================================================
+function renderMicroscope() {
+  const ALPHABET = ['a','b','c','d'];
+  $('mic-g85-a').innerHTML = G85_A.split('').map(c => `<span style="color:${COLORS[c]||'#000'}; font-weight:bold;">${c}</span>`).join('');
+  const p85 = getParikh(G85_A.split(''), ALPHABET);
+  $('mic-g85-parikh').textContent = `a:${p85.a}, b:${p85.b}, c:${p85.c}, d:${p85.d}`;
+  
+  if (G98_A.includes("PLACEHOLDER")) {
+     $('mic-g98-a').innerHTML = `<span style="color:#e74c3c; font-weight:bold;">${G98_A}</span>`;
+     $('mic-g98-parikh').textContent = "Unknown (waiting for data)";
+  } else {
+     $('mic-g98-a').innerHTML = G98_A.split('').map(c => `<span style="color:${COLORS[c]||'#000'}; font-weight:bold;">${c}</span>`).join('');
+     const p98 = getParikh(G98_A.split(''), ALPHABET);
+     $('mic-g98-parikh').textContent = `a:${p98.a}, b:${p98.b}, c:${p98.c}, d:${p98.d}`;
+  }
+}
+
+// =====================================================
+// KNOWLEDGE GRAPH
+// =====================================================
+let kgInitialized = false;
+let kgAnimationId = null;
+let kgLoop = null;
+
+function initKG() {
+  kgInitialized = true;
+  const canvas = $('kgCanvas');
+  const ctx = canvas.getContext('2d');
+  
+  function resize() {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  
+  const nodes = [
+    { id: 'alphabet', label: 'Alphabet', cat: 'concept', desc: 'A finite set of letters.' },
+    { id: 'word', label: 'Word (String)', cat: 'concept', desc: 'A sequence of letters from the alphabet.' },
+    { id: 'parikh', label: 'Parikh Vector', cat: 'concept', desc: 'Counts the occurrences of each letter in a word. If two words have the same Parikh vector, they are anagrams.' },
+    { id: 'abelian_eq', label: 'Abelian Equivalence', cat: 'concept', desc: 'Two words are abelian equivalent if they have the same Parikh vector.' },
+    { id: 'abelian_sq', label: 'Abelian Square', cat: 'concept', desc: 'A word of the form UV where U and V are abelian equivalent.' },
+    { id: 'morphism', label: 'Morphism', cat: 'concept', desc: 'A mapping that replaces each letter with a fixed word.' },
+    { id: 'dt0l', label: 'DT0L System', cat: 'concept', desc: 'A system with multiple morphisms that can be applied non-deterministically to generate languages.' },
+    { id: 'keranen', label: 'Veikko Keränen', cat: 'person', desc: 'Proved in 1992 that abelian squares are avoidable on 4 letters.' },
+    { id: 'thue', label: 'Axel Thue', cat: 'person', desc: 'Started combinatorics on words in 1906. Proved ordinary squares are avoidable on 3 letters.' },
+    { id: 'pleasants', label: 'P.A.B. Pleasants', cat: 'person', desc: 'Proved in 1970 that abelian squares are avoidable on 5 letters.' },
+    { id: 'g85', label: 'Morphism g85', cat: 'discovery', desc: 'Keränen\'s 85-letter morphism (1992) that avoids abelian squares on 4 letters.' },
+    { id: 'g98', label: 'Morphism g98', cat: 'discovery', desc: 'Keränen\'s 98-letter morphism (2002). Iterating it gives an infinite abelian square-free word.' },
+    { id: 'unfavorable', label: 'Unfavorable Factor', cat: 'concept', desc: 'A short pattern that cannot be extended into an infinite abelian square-free word.' }
+  ];
+  
+  const edges = [
+    { source: 'alphabet', target: 'word' },
+    { source: 'word', target: 'parikh' },
+    { source: 'parikh', target: 'abelian_eq' },
+    { source: 'abelian_eq', target: 'abelian_sq' },
+    { source: 'morphism', target: 'word' },
+    { source: 'dt0l', target: 'morphism' },
+    { source: 'keranen', target: 'g85' },
+    { source: 'keranen', target: 'g98' },
+    { source: 'keranen', target: 'unfavorable' },
+    { source: 'thue', target: 'word' },
+    { source: 'pleasants', target: 'abelian_sq' },
+    { source: 'g85', target: 'morphism' },
+    { source: 'g98', target: 'morphism' },
+    { source: 'g85', target: 'abelian_sq' },
+    { source: 'g98', target: 'abelian_sq' }
+  ];
+  
+  // map edges to objects
+  edges.forEach(e => {
+    e.source = nodes.find(x => x.id === e.source);
+    e.target = nodes.find(x => x.id === e.target);
+  });
+  
+  // init positions
+  nodes.forEach(n => {
+    n.x = Math.random() * canvas.width;
+    n.y = Math.random() * canvas.height;
+    n.vx = 0; n.vy = 0;
+  });
+  
+  const colors = { 'concept': '#3498db', 'person': '#e67e22', 'discovery': '#9b59b6' };
+  
+  let draggedNode = null;
+  
+  canvas.addEventListener('mousedown', e => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    
+    draggedNode = null;
+    for(let n of nodes) {
+      const dx = mx - n.x; const dy = my - n.y;
+      if (dx*dx + dy*dy < 400) {
+        draggedNode = n;
+        $('kg-title').textContent = n.label;
+        $('kg-desc').textContent = n.desc;
+        break;
+      }
+    }
+  });
+  
+  canvas.addEventListener('mousemove', e => {
+    if (!draggedNode) return;
+    const rect = canvas.getBoundingClientRect();
+    draggedNode.x = e.clientX - rect.left;
+    draggedNode.y = e.clientY - rect.top;
+    draggedNode.vx = 0; draggedNode.vy = 0;
+  });
+  
+  canvas.addEventListener('mouseup', () => { draggedNode = null; });
+  canvas.addEventListener('mouseleave', () => { draggedNode = null; });
+  
+  kgLoop = function() {
+    if (mode !== 'knowledge') {
+      kgAnimationId = null;
+      return;
+    }
+    kgAnimationId = requestAnimationFrame(kgLoop);
+    
+    // Physics step
+    const k = 0.03; // spring constant
+    const rep = 3000; // repulsion
+    const damp = 0.80; // damping
+    
+    nodes.forEach(n => {
+      let fx = 0, fy = 0;
+      
+      // Repulsion
+      nodes.forEach(n2 => {
+        if (n === n2) return;
+        let dx = n.x - n2.x; let dy = n.y - n2.y;
+        let dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist === 0) dist = 0.1;
+        let f = rep / (dist * dist);
+        fx += (dx/dist) * f;
+        fy += (dy/dist) * f;
+      });
+      
+      // Center gravity
+      fx += (canvas.width/2 - n.x) * 0.01;
+      fy += (canvas.height/2 - n.y) * 0.01;
+      
+      n.vx = (n.vx + fx) * damp;
+      n.vy = (n.vy + fy) * damp;
+    });
+    
+    // Springs
+    edges.forEach(e => {
+      let dx = e.target.x - e.source.x; 
+      let dy = e.target.y - e.source.y;
+      let dist = Math.sqrt(dx*dx + dy*dy);
+      if(dist===0) dist=0.1;
+      let f = (dist - 120) * k;
+      let fx = (dx/dist) * f;
+      let fy = (dy/dist) * f;
+      
+      e.source.vx += fx; e.source.vy += fy;
+      e.target.vx -= fx; e.target.vy -= fy;
+    });
+    
+    nodes.forEach(n => {
+      if (n !== draggedNode) {
+        n.x += n.vx;
+        n.y += n.vy;
+      }
+    });
+    
+    // Render
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+    
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = '#ccc';
+    edges.forEach(e => {
+      ctx.beginPath();
+      ctx.moveTo(e.source.x, e.source.y);
+      ctx.lineTo(e.target.x, e.target.y);
+      ctx.stroke();
+    });
+    
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    nodes.forEach(n => {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, 25, 0, Math.PI*2);
+      ctx.fillStyle = colors[n.cat] || '#999';
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = (n === draggedNode) ? '#333' : '#fff';
+      ctx.stroke();
+      
+      ctx.fillStyle = '#000';
+      ctx.fillText(n.label, n.x, n.y + 35);
+    });
+  };
+  
+  kgLoop();
+}
+
 </script>
 </body>
 </html>
