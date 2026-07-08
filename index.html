@@ -275,6 +275,96 @@
     .footnote a { color: #3498db; }
 
     .hidden { display: none !important; }
+
+    /* =====================================================
+       13. ABELIAN SNAKE STYLES
+       ===================================================== */
+    #view-snake { padding: 0; border: none; background: transparent; min-height: 0; }
+    .snake-layout { display: flex; gap: 0; align-items: flex-start; flex-wrap: wrap; }
+    .snake-canvas-wrap { flex: 2; min-width: 320px; position: relative; background: #0d0d14; border: 2px solid #2a2a3a; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    #snakeCanvas { display: block; margin: 0 auto; }
+    .snake-side { flex: 1; min-width: 260px; max-width: 340px; padding: 16px 20px; background: #111827; border: 2px solid #2a2a3a; border-left: none; border-radius: 0 6px 6px 0; color: #e2e8f0; font-family: Arial, sans-serif; font-size: 0.88rem; }
+    .snake-side h3 { color: #f59e0b; margin: 0 0 8px; font-family: 'Times New Roman', serif; font-size: 1.05rem; }
+    .snake-dna {
+      font-family: monospace; font-size: 0.78rem; letter-spacing: 1px; word-break: break-all;
+      line-height: 1.7; max-height: 90px; overflow-y: auto; border: 1px solid #2a2a3a;
+      background: #0d0d14; padding: 6px 8px; border-radius: 3px; color: #94a3b8;
+      margin-bottom: 10px;
+    }
+    .snake-dna .sn-a { color: #ef4444; font-weight: bold; }
+    .snake-dna .sn-b { color: #3b82f6; font-weight: bold; }
+    .snake-dna .sn-c { color: #eab308; font-weight: bold; }
+    .snake-dna .sn-d { color: #22c55e; font-weight: bold; }
+    /* Balance meter */
+    .snake-balance { margin: 8px 0 14px; font-family: monospace; font-size: 0.78rem; }
+    .snake-b-row { display: flex; align-items: center; margin-bottom: 3px; }
+    .snake-b-lbl { width: 14px; color: #94a3b8; font-weight: bold; }
+    .snake-b-bar-wrap { flex: 1; height: 12px; background: #1f2937; margin-right: 8px; border-radius: 2px; overflow: hidden; }
+    .snake-b-bar { height: 100%; transition: width 0.3s; }
+    .snake-b-val { width: 24px; text-align: right; color: #cbd5e1; }
+    .snake-stat-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.83rem; color: #94a3b8; }
+    .snake-stat-row strong { color: #e2e8f0; }
+    .snake-parikh { font-family: monospace; font-size: 0.78rem; border: 1px solid #2a2a3a; background: #0d0d14; border-radius: 3px; padding: 6px 8px; margin-top: 4px; color: #64748b; }
+    .snake-parikh .sp-row { display: flex; justify-content: space-between; align-items: center; padding: 1px 0; border-bottom: 1px solid #1e2330; }
+    .snake-parikh .sp-row:last-child { border-bottom: none; }
+    .snake-parikh .sp-row.sp-danger { background: #3f0000; border-radius: 2px; color: #fca5a5; }
+    .snake-parikh .sp-half { flex: 1; text-align: right; padding-right: 6px; border-right: 1px solid #2a2a3a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .snake-parikh .sp-vs { padding: 0 4px; color: #475569; font-size: 0.72rem; }
+    .snake-legend { display: flex; gap: 10px; flex-wrap: wrap; margin: 8px 0 12px; font-size: 0.78rem; }
+    .snake-legend-item { display: flex; align-items: center; gap: 4px; }
+    .snake-legend-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+    .snake-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .snake-btn { padding: 6px 13px; border: 1px solid #374151; background: #1f2937; color: #e2e8f0; cursor: pointer; border-radius: 4px; font-size: 0.82rem; transition: background 0.15s; }
+    .snake-btn:hover { background: #374151; }
+    .snake-btn.active { background: #374151; border-color: #f59e0b; color: #f59e0b; }
+    .snake-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .snake-mode-badge { display: inline-block; font-size: 0.72rem; padding: 2px 7px; border-radius: 10px; margin-left: 6px; vertical-align: middle; }
+    .snake-mode-badge.easy { background: #14532d; color: #86efac; }
+    .snake-mode-badge.hard { background: #450a0a; color: #fca5a5; }
+    /* Game Over overlay */
+    .snake-gameover-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.82); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; color: #e2e8f0;
+      font-family: Arial, sans-serif; text-align: center; padding: 20px; z-index: 10;
+      backdrop-filter: blur(2px);
+    }
+    .snake-gameover-overlay.hidden { display: none; }
+    .snake-go-title { font-size: 2rem; font-weight: bold; color: #ef4444; margin-bottom: 8px; letter-spacing: 2px; }
+    .snake-go-subtitle { color: #94a3b8; font-size: 0.88rem; margin-bottom: 16px; }
+    .snake-go-square { font-family: monospace; font-size: 0.82rem; background: #1f2937; border: 1px solid #374151; padding: 10px 14px; border-radius: 4px; text-align: left; max-width: 360px; width: 100%; margin-bottom: 16px; line-height: 1.8; }
+    .snake-go-sq-h1 { color: #ef4444; text-decoration: underline; }
+    .snake-go-sq-h2 { color: #f97316; text-decoration: underline; text-decoration-color: #888; }
+    .snake-go-fullword { font-family: monospace; font-size: 0.75rem; background: #0f172a; border: 1px solid #1e293b; padding: 10px; border-radius: 4px; max-width: 400px; width: 100%; max-height: 120px; overflow-y: auto; text-align: left; word-break: break-all; margin-bottom: 16px; color: #94a3b8; line-height: 1.5; }
+    .snake-go-fullword .sn-a { color: #ef4444; } .snake-go-fullword .sn-b { color: #3b82f6; } .snake-go-fullword .sn-c { color: #eab308; } .snake-go-fullword .sn-d { color: #22c55e; }
+    .snake-go-btn { padding: 9px 22px; background: #d35400; border: none; color: #fff; cursor: pointer; border-radius: 4px; font-size: 0.9rem; transition: background 0.2s; }
+    .snake-go-btn:hover { background: #b84900; }
+    .snake-score-hs { color: #f59e0b; font-size: 0.9rem; margin-bottom: 14px; }
+    /* Start screen */
+    .snake-start-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.88); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; color: #e2e8f0;
+      font-family: Arial, sans-serif; text-align: center; padding: 20px; z-index: 10;
+    }
+    .snake-start-overlay.hidden { display: none; }
+    .snake-start-title { font-size: 1.6rem; color: #f59e0b; margin-bottom: 6px; font-family: 'Times New Roman', serif; }
+    .snake-start-sub { color: #94a3b8; font-size: 0.88rem; max-width: 340px; margin-bottom: 18px; line-height: 1.6; }
+    .snake-start-keys { color: #64748b; font-size: 0.78rem; margin-top: 10px; }
+    /* Milestone badges */
+    .snake-milestones { margin-top: 10px; }
+    .snake-milestones h3 { color: #f59e0b; margin: 0 0 6px; font-family: 'Times New Roman', serif; font-size: 1.05rem; }
+    .snake-milestone-list { display: flex; flex-wrap: wrap; gap: 5px; }
+    .snake-m { padding: 3px 9px; border-radius: 12px; font-size: 0.72rem; font-family: monospace; border: 1px solid #374151; color: #4b5563; background: #1f2937; transition: all 0.4s; }
+    .snake-m.reached { border-color: #d97706; color: #fcd34d; background: #451a03; font-weight: bold; }
+    .snake-m.next { border-color: #374151; color: #6b7280; border-style: dashed; }
+    /* Dead-end warning */
+    .snake-deadend-warn { margin-top: 8px; padding: 6px 10px; background: #450a0a; border: 1px solid #7f1d1d; border-radius: 4px; color: #fca5a5; font-family: Arial, sans-serif; font-size: 0.78rem; display: none; }
+    .snake-deadend-warn.active { display: block; }
+    /* Flash overlay on canvas for milestone */
+    .snake-flash { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; z-index: 5; }
+    .snake-flash.visible { opacity: 1; }
+    .snake-flash-inner { background: rgba(251,191,36,0.15); border: 2px solid #f59e0b; border-radius: 8px; padding: 10px 20px; font-family: Arial, sans-serif; color: #fcd34d; font-size: 1rem; font-weight: bold; text-align: center; white-space: nowrap; }
   </style>
 </head>
 <body>
@@ -304,6 +394,7 @@
     <div class="mode-tab" data-mode="knowledge" id="tab-knowledge">10. Knowledge Graph</div>
     <div class="mode-tab" data-mode="morph-lab" id="tab-morph-lab">11. Morphism Lab</div>
     <div class="mode-tab" data-mode="heat-map" id="tab-heat-map">12. Heat Map</div>
+    <div class="mode-tab" data-mode="snake" id="tab-snake">13. Abelian Snake 🐍</div>
   </div>
 
   <div class="controls">
@@ -643,6 +734,74 @@
     </div>
     <div id="heat-tooltip" style="font-family:monospace; font-size:0.85rem; color:#555; margin-top:8px; min-height:1.4em;"></div>
     <div class="def-box" style="max-width:860px;"><strong>Reading the Heat Map:</strong> A cell at column <em>x</em>, row <em>y</em> is <span style="color:#e74c3c; font-weight:bold;">red</span> if the word contains an Abelian square starting at position <em>x</em> with half-length <em>y</em> (i.e. both halves [x, x+y) and [x+y, x+2y) have identical Parikh vectors). <span style="color:#d4ac0d; font-weight:bold;">Yellow</span> cells are &ldquo;near-misses&rdquo; (Parikh vector difference &le;2). The g&#8328;&#8325; word produces <strong>zero red cells</strong> &mdash; it is Abelian square-free by construction. The random word produces many red cells, demonstrating how rare Abelian square-freeness actually is. Hover over any cell to inspect the exact Parikh vectors of both halves.</div>
+  </div>
+
+  <!-- ================================================
+       13. ABELIAN SNAKE
+       ================================================ -->
+  <div class="view-panel hidden" id="view-snake">
+    <div class="snake-layout">
+      <div class="snake-canvas-wrap" id="snake-canvas-wrap">
+        <canvas id="snakeCanvas"></canvas>
+        <!-- Milestone flash -->
+        <div class="snake-flash" id="snake-flash"><div class="snake-flash-inner" id="snake-flash-text"></div></div>
+        <!-- Start Screen -->
+        <div class="snake-start-overlay" id="snake-start-overlay">
+          <div class="snake-start-title">Abelian Snake</div>
+          <div class="snake-start-sub">
+            Your snake's body <em>is</em> a word. Eating a letter appends it to your word.
+            If the suffix forms an <strong>Abelian square</strong>, you die.
+            4 letters guarantee an infinite escape path — can you find it?
+          </div>
+          <button class="snake-go-btn" id="snake-start-btn" style="font-size:1rem; padding:10px 28px;">Start Game</button>
+          <div class="snake-start-keys">Arrow keys or WASD to move</div>
+        </div>
+        <!-- Game Over Screen -->
+        <div class="snake-gameover-overlay hidden" id="snake-gameover-overlay">
+          <div class="snake-go-title">GAME OVER</div>
+          <div class="snake-go-subtitle" id="snake-go-subtitle">You created an Abelian square.</div>
+          <div class="snake-go-square" id="snake-go-square"></div>
+          <div class="snake-go-fullword" id="snake-go-fullword"></div>
+          <div class="snake-score-hs" id="snake-go-hs"></div>
+          <button class="snake-go-btn" id="snake-restart-btn">Play Again</button>
+        </div>
+      </div>
+      <!-- Side panel -->
+      <div class="snake-side">
+        <div class="snake-controls">
+          <button class="snake-btn" id="snake-pause-btn" disabled>Pause</button>
+          <button class="snake-btn active" id="snake-easy-btn">Easy<span class="snake-mode-badge easy">Danger Vision</span></button>
+          <button class="snake-btn" id="snake-hard-btn">Hard<span class="snake-mode-badge hard">Blind</span></button>
+        </div>
+        <div class="snake-legend">
+          <div class="snake-legend-item"><span class="snake-legend-dot" style="background:#22c55e"></span>Safe</div>
+          <div class="snake-legend-item"><span class="snake-legend-dot" style="background:#ef4444"></span>Instant death</div>
+          <div class="snake-legend-item"><span class="snake-legend-dot" style="background:#374151; border: 2px solid #6b7280"></span>Hidden (Hard)</div>
+        </div>
+        <div class="snake-stat-row"><span>Score (word length):</span><strong id="snake-score">1</strong></div>
+        <div class="snake-stat-row"><span>High Score:</span><strong id="snake-hs">—</strong></div>
+        <div class="snake-stat-row"><span>Letters eaten:</span><strong id="snake-eaten">0</strong></div>
+        <div class="snake-stat-row"><span>Speed Level:</span><strong id="snake-speed">1</strong></div>
+        <h3 style="margin-top:12px;">Parikh Balance</h3>
+        <div class="snake-balance" id="snake-balance-panel"></div>
+        <h3 style="margin-top:12px;">Snake's DNA</h3>
+        <div class="snake-dna" id="snake-dna-display"><span style="color:#475569; font-style:italic;">Start the game…</span></div>
+        <h3>Suffix Parikh Splits</h3>
+        <div class="snake-parikh" id="snake-parikh-panel">
+          <span style="color:#475569; font-style:italic; font-size:0.78rem;">Shows suffix splits of the current word. Red = Abelian square!</span>
+        </div>
+        <div class="snake-deadend-warn" id="snake-deadend-warn">
+          ⚠ <strong>Unfavorable position!</strong> All 4 letters are fatal — no safe move exists.
+        </div>
+        <div class="snake-milestones">
+          <h3>Challenge</h3>
+          <div class="snake-milestone-list" id="snake-milestone-list"></div>
+        </div>
+        <div class="hint-box" style="margin-top:12px; font-size:0.82rem;">
+          <strong>Strategy:</strong> Keep all 4 letters roughly balanced. Watch the Parikh splits on the right — if two adjacent halves have the same counts, you die.
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Stats & Logs -->
@@ -1605,14 +1764,15 @@ function switchMode(newMode) {
   });
   
   // Hide all view panels
-  ['view-3letter','view-abc-lab','view-general','view-audio','view-tryit','view-timeline','view-unfavorable','view-microscope','view-knowledge','view-morph-lab','view-heat-map'].forEach(id => $(id).classList.add('hidden'));
+  ['view-3letter','view-abc-lab','view-general','view-audio','view-tryit','view-timeline','view-unfavorable','view-microscope','view-knowledge','view-morph-lab','view-heat-map','view-snake'].forEach(id => $(id).classList.add('hidden'));
+  try { snakePause(); } catch(e) { /* snake vars not yet initialized on first load */ }
   $('condensedCanvas').classList.add('hidden');
   $('audio-ui').classList.add('hidden');
   $('word-empty').classList.add('hidden');
   $('tiles-general').classList.add('hidden');
   
   // Hide info panel for some modes, show for others
-  const noInfoModes = ['timeline', 'microscope', 'knowledge', 'morph-lab', 'heat-map'];
+  const noInfoModes = ['timeline', 'microscope', 'knowledge', 'morph-lab', 'heat-map', 'snake'];
   $('info-panel').style.display = noInfoModes.includes(newMode) ? 'none' : '';
   $('speed-wrap').style.display = ['3letter'].includes(newMode) ? '' : 'none';
 
@@ -1670,6 +1830,11 @@ function switchMode(newMode) {
   } else if (mode === 'heat-map') {
     $('view-heat-map').classList.remove('hidden');
     $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
+
+  } else if (mode === 'snake') {
+    $('view-snake').classList.remove('hidden');
+    $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
+    snakeInit();
 
   } else if (mode === 'audio') {
     $('view-audio').classList.remove('hidden');
@@ -2194,6 +2359,521 @@ $('heatCanvas').addEventListener('mousemove', function(e) {
     `pos=${pos}, half-len=${hLen} | "${half1}${dots1}" vs "${half2}${dots2}" | P\u2081=(a:${p1a},b:${p1b},c:${p1c},d:${p1d}) P\u2082=(a:${p2a},b:${p2b},c:${p2c},d:${p2d}) | ${state}`;
 });
 $('heatCanvas').addEventListener('mouseleave', () => { $('heat-tooltip').textContent = ''; });
+
+// =====================================================
+// 13. ABELIAN SNAKE GAME
+// =====================================================
+const SNAKE_ALPHA = ['a','b','c','d'];
+const SNAKE_GRID = 20;        // grid cells
+const SNAKE_CELL = 26;        // px per cell (will be overridden by canvas size)
+const SNAKE_COLORS = { a: '#ef4444', b: '#3b82f6', c: '#eab308', d: '#22c55e' };
+const SNAKE_MILESTONES = [
+  { n: 85,  label: '85 — g₈₅ length' },
+  { n: 100, label: '100' },
+  { n: 250, label: '250' },
+  { n: 500, label: '500' },
+  { n: 1000,label: '1000' }
+];
+
+let snakeState = null;        // full game state
+let snakeTickTimer = null;
+let snakeDangerVision = true; // Easy mode by default
+let snakeHS = parseInt(localStorage.getItem('abelian_snake_hs') || '1');
+let snakePaused = false;
+let snakeAlive = false;
+let snakeReachedMilestones = new Set();
+let snakeFlashTimer = null;
+
+function snakePause() {
+  if (snakeTickTimer) { clearTimeout(snakeTickTimer); snakeTickTimer = null; }
+  snakePaused = true;
+}
+
+function snakeGetCellSize() {
+  const wrap = $('snake-canvas-wrap');
+  const w = wrap ? Math.min(wrap.clientWidth, 600) : 520;
+  return Math.floor(w / SNAKE_GRID);
+}
+
+function snakeInit() {
+  snakePaused = false;
+  snakeAlive = false;
+  if (snakeTickTimer) clearTimeout(snakeTickTimer);
+
+  const cell = snakeGetCellSize();
+  const cvs = $('snakeCanvas');
+  cvs.width = SNAKE_GRID * cell;
+  cvs.height = SNAKE_GRID * cell;
+
+  $('snake-start-overlay').classList.remove('hidden');
+  $('snake-gameover-overlay').classList.add('hidden');
+  updateSnakeHSDisplay();
+  snakeDraw();
+}
+
+function snakeStart() {
+  snakePaused = false;
+  snakeAlive = true;
+  if (snakeTickTimer) clearTimeout(snakeTickTimer);
+
+  const startX = Math.floor(SNAKE_GRID / 2);
+  const startY = Math.floor(SNAKE_GRID / 2);
+
+  snakeState = {
+    body: [{x: startX, y: startY}],
+    word: ['a'],          // first cell is letter 'a'
+    dir: {x: 1, y: 0},   // moving right
+    nextDir: {x: 1, y: 0},
+    letters: [],          // { x, y, char, fatal } — 4 food items
+    eaten: 0,
+    tickMs: 180
+  };
+  snakeReachedMilestones = new Set();
+  snakeRenderMilestoneBadges();
+
+  $('snake-start-overlay').classList.add('hidden');
+  $('snake-gameover-overlay').classList.add('hidden');
+  $('snake-deadend-warn').classList.remove('active');
+  $('snake-score').textContent = '1';
+  $('snake-eaten').textContent = '0';
+  $('snake-pause-btn').disabled = false;
+
+  snakeSpawnLetters();
+  snakeUpdateUI();
+  snakeTick();
+}
+
+function snakeTick() {
+  if (!snakeAlive || snakePaused) return;
+  snakeStep();
+  if (snakeAlive) {
+    snakeTickTimer = setTimeout(snakeTick, snakeState.tickMs);
+  }
+}
+
+function snakeStep() {
+  const s = snakeState;
+  s.dir = { ...s.nextDir };
+
+  const head = s.body[0];
+  const newHead = {
+    x: (head.x + s.dir.x + SNAKE_GRID) % SNAKE_GRID,
+    y: (head.y + s.dir.y + SNAKE_GRID) % SNAKE_GRID
+  };
+
+  // Self-collision (skip tail because it will move away)
+  for (let i = 0; i < s.body.length - 1; i++) {
+    if (s.body[i].x === newHead.x && s.body[i].y === newHead.y) {
+      snakeGameOver('self'); return;
+    }
+  }
+
+  // Check if we eat a letter
+  const ateIdx = s.letters.findIndex(l => l.x === newHead.x && l.y === newHead.y);
+
+  if (ateIdx !== -1) {
+    const ateChar = s.letters[ateIdx].char;
+    const newWord = [...s.word, ateChar];
+    const sq = findSuffixAbelianSquare(newWord, SNAKE_ALPHA);
+    if (sq) {
+      // Ate a fatal letter — grow the body to show the full snake then die
+      s.body.unshift(newHead);
+      s.word = newWord;
+      snakeDrawFrame();
+      snakeGameOver('square', sq, newWord); return;
+    }
+    // Safe eat
+    s.word = newWord;
+    s.body.unshift(newHead);   // grow
+    s.eaten++;
+    // Slightly speed up every 10 eats (floor at 110ms so it doesn't get ridiculously fast)
+    if (s.eaten % 10 === 0 && s.tickMs > 110) s.tickMs -= 5;
+    snakeSpawnLetters();
+    snakeCheckMilestones();
+  } else {
+    // Normal move — shift body
+    s.body.unshift(newHead);
+    s.body.pop();
+  }
+
+  snakeUpdateUI();
+  snakeDrawFrame();
+}
+
+function snakeSpawnLetters() {
+  const s = snakeState;
+  const occupied = new Set(s.body.map(c => `${c.x},${c.y}`));
+  const allCells = [];
+  for (let x = 0; x < SNAKE_GRID; x++)
+    for (let y = 0; y < SNAKE_GRID; y++)
+      if (!occupied.has(`${x},${y}`)) allCells.push({x, y});
+
+  // Shuffle
+  for (let i = allCells.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [allCells[i], allCells[j]] = [allCells[j], allCells[i]];
+  }
+
+  s.letters = SNAKE_ALPHA.map((ch, i) => {
+    const cell = allCells[i] || { x: 0, y: 0 };
+    // Danger Vision: test if eating this char would be fatal
+    const testWord = [...s.word, ch];
+    const fatal = !!findSuffixAbelianSquare(testWord, SNAKE_ALPHA);
+    return { x: cell.x, y: cell.y, char: ch, fatal };
+  });
+}
+
+function snakeGameOver(reason, sq, word) {
+  snakeAlive = false;
+  snakePaused = false;
+  if (snakeTickTimer) clearTimeout(snakeTickTimer);
+  $('snake-pause-btn').disabled = true;
+
+  const score = snakeState.word.length;
+
+  // Update high score
+  if (score > snakeHS) {
+    snakeHS = score;
+    localStorage.setItem('abelian_snake_hs', snakeHS);
+  }
+  updateSnakeHSDisplay();
+
+  const goOverlay = $('snake-gameover-overlay');
+  const goSquare = $('snake-go-square');
+  const goSub = $('snake-go-subtitle');
+  const goHs = $('snake-go-hs');
+
+  goHs.textContent = `Score: ${score}  |  High Score: ${snakeHS}`;
+
+  if (reason === 'self') {
+    goSub.textContent = 'You bit your own tail!';
+    goSquare.innerHTML = `<span style="color:#f59e0b">No Abelian square — just a self-collision.</span>`;
+    $('snake-go-fullword').innerHTML = word.map(c => `<span class="sn-${c}">${c}</span>`).join('');
+  } else if (sq) {
+    goSub.textContent = `Abelian square detected at length ${score}!`;
+    const half1 = word.slice(sq.start, sq.start + sq.halfLen).join('');
+    const half2 = word.slice(sq.start + sq.halfLen, sq.start + sq.halfLen * 2).join('');
+    const pStr = p => `(a:${p.a||0} b:${p.b||0} c:${p.c||0} d:${p.d||0})`;
+    const pre = word.slice(Math.max(0, sq.start - 4), sq.start).join('');
+    const post = word.slice(sq.start + sq.halfLen * 2, sq.start + sq.halfLen * 2 + 4).join('');
+    goSquare.innerHTML =
+      `<div style="color:#94a3b8; margin-bottom:6px;">Word at death (excerpt):</div>` +
+      `<div style="margin-bottom:8px;">${pre ? '<span style="color:#475569">' + pre + '</span>' : ''}` +
+      `<span class="snake-go-sq-h1">${half1}</span>` +
+      `<span class="snake-go-sq-h2">${half2}</span>` +
+      `${post ? '<span style="color:#475569">' + post + '</span>' : ''}</div>` +
+      `<div style="color:#94a3b8">Half 1: <span style="color:#ef4444">${pStr(sq.p1)}</span></div>` +
+      `<div style="color:#94a3b8">Half 2: <span style="color:#f97316">${pStr(sq.p2)}</span></div>` +
+      `<div style="color:#64748b; margin-top:6px; font-size:0.74rem;">pos=${sq.start}, half-length=${sq.halfLen}</div>`;
+      
+    $('snake-go-fullword').innerHTML = word.map((c, i) => {
+      if (i >= sq.start && i < sq.start + sq.halfLen) return `<span class="snake-go-sq-h1" style="font-weight:bold">${c}</span>`;
+      if (i >= sq.start + sq.halfLen && i < sq.start + sq.halfLen * 2) return `<span class="snake-go-sq-h2" style="font-weight:bold">${c}</span>`;
+      return `<span style="color:#64748b">${c}</span>`;
+    }).join('');
+  }
+
+  goOverlay.classList.remove('hidden');
+  snakeDrawFrame();
+}
+
+function updateSnakeHSDisplay() {
+  $('snake-hs').textContent = snakeHS > 1 ? snakeHS : '—';
+}
+
+function snakeRenderMilestoneBadges() {
+  const list = $('snake-milestone-list');
+  if (!list) return;
+  const len = snakeState ? snakeState.word.length : 0;
+  const nextIdx = SNAKE_MILESTONES.findIndex(m => !snakeReachedMilestones.has(m.n));
+  list.innerHTML = SNAKE_MILESTONES.map((m, i) => {
+    const reached = snakeReachedMilestones.has(m.n);
+    const isNext = (i === nextIdx);
+    const cls = reached ? 'snake-m reached' : (isNext ? 'snake-m next' : 'snake-m');
+    return `<span class="${cls}">${m.label}</span>`;
+  }).join('');
+}
+
+function snakeCheckMilestones() {
+  if (!snakeState) return;
+  const len = snakeState.word.length;
+  SNAKE_MILESTONES.forEach(m => {
+    if (len >= m.n && !snakeReachedMilestones.has(m.n)) {
+      snakeReachedMilestones.add(m.n);
+      snakeRenderMilestoneBadges();
+      snakeShowFlash(`🏆 ${m.label} letters!`);
+    }
+  });
+}
+
+function snakeShowFlash(text) {
+  const flash = $('snake-flash');
+  const inner = $('snake-flash-text');
+  if (!flash || !inner) return;
+  inner.textContent = text;
+  flash.classList.add('visible');
+  if (snakeFlashTimer) clearTimeout(snakeFlashTimer);
+  snakeFlashTimer = setTimeout(() => flash.classList.remove('visible'), 2200);
+}
+
+function snakeUpdateUI() {
+  if (!snakeState) return;
+  const s = snakeState;
+  $('snake-score').textContent = s.word.length;
+  $('snake-eaten').textContent = s.eaten;
+  
+  const speedLevel = Math.floor((180 - s.tickMs) / 5) + 1;
+  const speedEl = $('snake-speed');
+  if (speedEl) speedEl.textContent = speedLevel;
+
+  // Parikh balance panel
+  const pAll = getParikh(s.word);
+  const maxP = Math.max(1, pAll.a||0, pAll.b||0, pAll.c||0, pAll.d||0);
+  const bPanel = $('snake-balance-panel');
+  if (bPanel) {
+    bPanel.innerHTML = SNAKE_ALPHA.map(ch => {
+      const v = pAll[ch] || 0;
+      const pct = (v / maxP) * 100;
+      return `<div class="snake-b-row"><div class="snake-b-lbl">${ch}</div><div class="snake-b-bar-wrap"><div class="snake-b-bar" style="background:${SNAKE_COLORS[ch]}; width:${pct}%"></div></div><div class="snake-b-val">${v}</div></div>`;
+    }).join('');
+  }
+
+  // DNA display (show last 120 chars, colorised)
+  const dnaDiv = $('snake-dna-display');
+  const show = s.word.slice(-120);
+  const prefix = s.word.length > 120 ? '<span style="color:#374151">…</span>' : '';
+  dnaDiv.innerHTML = prefix + show.map(c =>
+    `<span class="sn-${c}">${c}</span>`).join('');
+  dnaDiv.scrollTop = dnaDiv.scrollHeight;
+
+  // Parikh splits panel (show last 8 splits)
+  const panel = $('snake-parikh-panel');
+  const word = s.word;
+  const n = word.length;
+  if (n < 2) {
+    panel.innerHTML = '<span style="color:#475569; font-style:italic;">Length ≥ 2 needed.</span>';
+    return;
+  }
+  // Dead-end warning: are ALL 4 letters fatal?
+  const allFatal = s.letters.length === 4 && s.letters.every(l => l.fatal);
+  const warnEl = $('snake-deadend-warn');
+  if (warnEl) warnEl.classList.toggle('active', allFatal);
+
+  let rows = '';
+  const maxSplits = 8;
+  const startHalf = Math.max(1, Math.floor(n / 2) - maxSplits + 1);
+  for (let halfLen = startHalf; halfLen <= Math.floor(n / 2); halfLen++) {
+    const start = n - halfLen * 2;
+    const first = word.slice(start, start + halfLen);
+    const second = word.slice(start + halfLen);
+    const p1 = getParikh(first); const p2 = getParikh(second);
+    const clash = parikhEqual(p1, p2, SNAKE_ALPHA);
+    const rowCls = clash ? 'sp-row sp-danger' : 'sp-row';
+    const pFmt = p => `a${p.a||0}b${p.b||0}c${p.c||0}d${p.d||0}`;
+    rows += `<div class="${rowCls}">`
+      + `<span class="sp-half" title="${first.join('')}">${pFmt(p1)}</span>`
+      + `<span class="sp-vs">vs</span>`
+      + `<span class="sp-half" title="${second.join('')}">${pFmt(p2)}</span>`
+      + `<span style="color:${clash ? '#ef4444' : '#22c55e'}; padding-left:4px;">${clash ? '✗' : '✓'}</span>`
+      + `</div>`;
+  }
+  panel.innerHTML = rows;
+  snakeRenderMilestoneBadges();
+}
+
+function snakeDraw() {
+  const cvs = $('snakeCanvas');
+  if (!cvs) return;
+  const ctx = cvs.getContext('2d');
+  const cell = cvs.width / SNAKE_GRID;
+
+  // Dark background
+  ctx.fillStyle = '#0d0d14';
+  ctx.fillRect(0, 0, cvs.width, cvs.height);
+
+  // Grid lines
+  ctx.strokeStyle = '#1a1a2a';
+  ctx.lineWidth = 0.5;
+  for (let i = 0; i <= SNAKE_GRID; i++) {
+    ctx.beginPath(); ctx.moveTo(i * cell, 0); ctx.lineTo(i * cell, cvs.height); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, i * cell); ctx.lineTo(cvs.width, i * cell); ctx.stroke();
+  }
+}
+
+function snakeDrawFrame() {
+  const cvs = $('snakeCanvas');
+  if (!cvs) return;
+  const ctx = cvs.getContext('2d');
+  const cell = cvs.width / SNAKE_GRID;
+  const pad = Math.max(1, cell * 0.06);
+
+  snakeDraw(); // clear + grid
+
+  if (!snakeState) return;
+  const s = snakeState;
+
+  // Draw food letters
+  s.letters.forEach(l => {
+    const lx = l.x * cell; const ly = l.y * cell;
+    let baseColor = SNAKE_COLORS[l.char];
+
+    if (snakeDangerVision) {
+      if (l.fatal) {
+        // Death letter — red pulsing halo
+        const grd = ctx.createRadialGradient(lx+cell/2, ly+cell/2, cell*0.1, lx+cell/2, ly+cell/2, cell*0.8);
+        grd.addColorStop(0, 'rgba(239,68,68,0.35)');
+        grd.addColorStop(1, 'rgba(239,68,68,0)');
+        ctx.fillStyle = grd;
+        ctx.fillRect(lx - cell*0.3, ly - cell*0.3, cell*1.6, cell*1.6);
+        baseColor = '#ef4444';
+      } else {
+        // Safe letter — green glow
+        const grd = ctx.createRadialGradient(lx+cell/2, ly+cell/2, cell*0.1, lx+cell/2, ly+cell/2, cell*0.75);
+        grd.addColorStop(0, 'rgba(34,197,94,0.22)');
+        grd.addColorStop(1, 'rgba(34,197,94,0)');
+        ctx.fillStyle = grd;
+        ctx.fillRect(lx - cell*0.3, ly - cell*0.3, cell*1.6, cell*1.6);
+        baseColor = '#22c55e';
+      }
+    }
+
+    // Letter tile
+    const r = cell * 0.38;
+    ctx.beginPath();
+    ctx.roundRect(lx + pad, ly + pad, cell - pad*2, cell - pad*2, r);
+    ctx.fillStyle = snakeDangerVision
+      ? (l.fatal ? 'rgba(127,29,29,0.9)' : 'rgba(20,83,45,0.9)')
+      : '#1f2937';
+    ctx.fill();
+    ctx.strokeStyle = baseColor;
+    ctx.lineWidth = snakeDangerVision ? 2 : 1;
+    ctx.stroke();
+
+    ctx.fillStyle = snakeDangerVision ? (l.fatal ? '#fca5a5' : '#86efac') : SNAKE_COLORS[l.char];
+    ctx.font = `bold ${Math.round(cell * 0.48)}px monospace`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(l.char, lx + cell / 2, ly + cell / 2 + 1);
+  });
+
+  // Draw snake body
+  s.body.forEach((seg, i) => {
+    const sx = seg.x * cell; const sy = seg.y * cell;
+    const ch = s.word[s.word.length - 1 - i] || s.word[0]; // newest char at head
+    const isHead = (i === 0);
+
+    // Body segment
+    const alpha = isHead ? 1 : Math.max(0.3, 1 - i / (s.body.length + 3) * 0.6);
+    ctx.beginPath();
+    ctx.roundRect(sx + pad, sy + pad, cell - pad*2, cell - pad*2,
+      isHead ? cell * 0.35 : cell * 0.2);
+    const col = SNAKE_COLORS[ch] || '#94a3b8';
+    ctx.fillStyle = isHead ? col : col.replace(')', `,${alpha})`);
+    // Approximate alpha on hex: use globalAlpha
+    ctx.globalAlpha = isHead ? 1 : Math.max(0.3, 1 - i / (s.body.length + 5) * 0.65);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+
+    // Letter on body
+    if (cell > 14) {
+      ctx.fillStyle = isHead ? '#ffffff' : `rgba(255,255,255,${Math.max(0.25, 0.8 - i / s.body.length)})`;
+      ctx.font = `bold ${Math.round(cell * (isHead ? 0.44 : 0.38))}px monospace`;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(ch, sx + cell / 2, sy + cell / 2 + 1);
+    }
+
+    // Head eyes
+    if (isHead) {
+      const ex = cell * 0.22; const ey = cell * 0.24;
+      const eyeOffX = s.dir.y !== 0 ? ex : 0;
+      const eyeOffY = s.dir.x !== 0 ? ey : 0;
+      ctx.fillStyle = '#fff';
+      [[-1, -1],[1, -1]].forEach(([dx, dy]) => {
+        ctx.beginPath();
+        ctx.arc(sx + cell/2 + dx * (ex + eyeOffX * s.dir.x),
+                sy + cell/2 + dy * (ey + eyeOffY * s.dir.y),
+                cell * 0.09, 0, Math.PI*2);
+        ctx.fill();
+      });
+    }
+  });
+}
+
+// ---- Input handling ----
+document.addEventListener('keydown', function(e) {
+  if (mode !== 'snake') return;
+
+  if (!snakeAlive && (e.key === 'Enter' || e.key === ' ')) {
+    if (!$('snake-gameover-overlay').classList.contains('hidden') ||
+        !$('snake-start-overlay').classList.contains('hidden')) {
+      snakeStart(); return;
+    }
+  }
+
+  if (e.key === 'p' || e.key === 'P') { snakeTogglePause(); return; }
+
+  if (!snakeAlive || !snakeState) return;
+  const d = snakeState.dir;
+  if ((e.key === 'ArrowLeft'  || e.key === 'a' || e.key === 'A') && d.x !== 1)  { snakeState.nextDir = {x:-1,y:0}; e.preventDefault(); }
+  if ((e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') && d.x !== -1) { snakeState.nextDir = {x:1,y:0};  e.preventDefault(); }
+  if ((e.key === 'ArrowUp'    || e.key === 'w' || e.key === 'W') && d.y !== 1)  { snakeState.nextDir = {x:0,y:-1}; e.preventDefault(); }
+  if ((e.key === 'ArrowDown'  || e.key === 's' || e.key === 'S') && d.y !== -1) { snakeState.nextDir = {x:0,y:1};  e.preventDefault(); }
+});
+
+function snakeTogglePause() {
+  if (!snakeAlive) return;
+  snakePaused = !snakePaused;
+  $('snake-pause-btn').textContent = snakePaused ? 'Resume' : 'Pause';
+  if (!snakePaused) snakeTick();
+}
+
+// ---- Buttons ----
+$('snake-start-btn').addEventListener('click', snakeStart);
+$('snake-restart-btn').addEventListener('click', snakeStart);
+$('snake-pause-btn').addEventListener('click', snakeTogglePause);
+$('snake-easy-btn').addEventListener('click', () => {
+  snakeDangerVision = true;
+  $('snake-easy-btn').classList.add('active');
+  $('snake-hard-btn').classList.remove('active');
+  if (snakeState) snakeDrawFrame();
+});
+$('snake-hard-btn').addEventListener('click', () => {
+  snakeDangerVision = false;
+  $('snake-hard-btn').classList.add('active');
+  $('snake-easy-btn').classList.remove('active');
+  if (snakeState) snakeDrawFrame();
+});
+
+// Touch/swipe support for mobile
+(function() {
+  let tx0 = 0, ty0 = 0;
+  const cvs = $('snakeCanvas');
+  cvs.addEventListener('touchstart', e => { tx0 = e.touches[0].clientX; ty0 = e.touches[0].clientY; }, {passive:true});
+  cvs.addEventListener('touchend', e => {
+    if (!snakeAlive || !snakeState) return;
+    const dx = e.changedTouches[0].clientX - tx0;
+    const dy = e.changedTouches[0].clientY - ty0;
+    const d = snakeState.dir;
+    if (Math.abs(dx) > Math.abs(dy)) {
+      if (dx > 20 && d.x !== -1) snakeState.nextDir = {x:1,y:0};
+      if (dx < -20 && d.x !== 1) snakeState.nextDir = {x:-1,y:0};
+    } else {
+      if (dy > 20 && d.y !== -1) snakeState.nextDir = {x:0,y:1};
+      if (dy < -20 && d.y !== 1) snakeState.nextDir = {x:0,y:-1};
+    }
+  }, {passive:true});
+})();
+
+// Resize canvas if window changes while snake tab is open
+window.addEventListener('resize', () => {
+  if (mode !== 'snake') return;
+  const cell = snakeGetCellSize();
+  const cvs = $('snakeCanvas');
+  cvs.width = SNAKE_GRID * cell;
+  cvs.height = SNAKE_GRID * cell;
+  if (snakeState) snakeDrawFrame(); else snakeDraw();
+});
+
+updateSnakeHSDisplay();
 
 </script>
 </body>
