@@ -1,12 +1,15 @@
 # Development Roadmap
 
+## Completed Improvements
+
+- **[DONE] Morphism Microscope:** Added as Tab 9. Allows inspection of g85 and g98.
+- **[DONE] Near-Miss Explorer:** Added as Tab 12 (Heat Map). Visualizes Abelian squares and near misses.
+- **[DONE] Keranen-Style Walks:** Added as Tab 4 (2D Walk). 
+- **[DONE] Repair text encoding:** Mojibake fixed across tabs.
+
 ## Immediate Improvements
 
-1. Repair text encoding
-
-Some older imported files and labels show mojibake such as `KerÃ¤nen`. The app should use UTF-8 consistently, or use ASCII labels where mathematical notation is not essential.
-
-2. Strengthen ABC Laboratory
+1. Strengthen ABC Laboratory
 
 The new `ABC Laboratory` mode should become the central explanation of the 3-letter impossibility result. Useful additions:
 
@@ -15,7 +18,7 @@ The new `ABC Laboratory` mode should become the central explanation of the 3-let
 - a compact proof panel explaining why length 8 is decisive,
 - export of survivor and failure lists as plain text.
 
-3. Add a Parikh Vector Plot
+2. Add a Parikh Vector Plot
 
 Represent cumulative letter counts as a path:
 
@@ -23,31 +26,11 @@ Represent cumulative letter counts as a path:
 - for `{a,b,c,d}`, use paired projections or a diamond-lattice walk,
 - highlight repeated adjacent frequency patterns.
 
-4. Add Morphism Microscope
-
-The `g85` mode should allow inspection of:
-
-- `g85(a)`, `g85(b)`, `g85(c)`, `g85(d)`,
-- letter counts inside each 85-letter image,
-- cyclic permutation relationship,
-- block boundaries after each iteration.
-
-5. Add Keranen-Style Walks
-
-The saved source material references 2D walks such as:
-
-- `a = left`,
-- `b = right`,
-- `c = down`,
-- `d = up`.
-
-This should become a dedicated canvas mode because it connects the app directly to Keranen's "Structures, Graphics and Music" approach.
-
 ## Research-Focused Extensions
 
-## Near-Miss Explorer
+1. [PLANNED] Gamification: Matopeli (Abelian Snake)
 
-Search for adjacent blocks whose Parikh vectors almost match. This is useful because near misses show where the word nearly fails and may reveal structural pressure inside long valid words.
+Turn the Abelian Square-Free construction into a Snake game. Player steers a snake to eat letters (a, b, c, d) that do NOT form Abelian squares when appended to the body.
 
 Suggested output:
 

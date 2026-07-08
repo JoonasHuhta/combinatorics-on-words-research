@@ -106,8 +106,23 @@ From `AGENT_CONCEPT_BRIEF.md` and `PROJECT_ARCHITECTURE.md`:
 - **Heat Map (Tab 12)**: Rewrote JS — now stores word + prefix sums as module-level state for O(1) hover queries; added live hover tooltip showing exact position, half-length, both Parikh vectors and square status; added status bar text with square/near-miss counts; improved button labels; proper axis labels and legend.
 - **Heat Map near-miss threshold**: Changed from `diff === 2` to `diff <= 2` so single-letter differences per position are also highlighted yellow.
 - **evaluateMorphism()**: Fixed accidentally dropped closing `}` for inner while-loop body.
+- **Informational Additions**: Added CSS for `.info-box`, `.def-box`, and `.hint-box`. Inserted educational and context-providing boxes into 9 of the tabs to explain the math (e.g. why 3 letters fail, what an unfavorable factor is, how to read the heat map).
 
----
+## 7. Next Major Task: Gamification (Matopeli / Abelian Snake)
+
+The user has approved adding a "Snake" game mode (Matopeli) as **Tab 13**.
+
+### Matopeli Design Outline:
+- **Concept:** A 2D grid snake game where the snake's body represents the current word.
+- **Food:** 4 letters (a,b,c,d) spawn simultaneously on the grid.
+- **Objective:** The player must eat a letter that *does not* form an Abelian square when appended to the snake's body.
+- **Game Over:** Hitting walls, self-intersection, or eating a letter that forms an Abelian square.
+- **Integration:** Reuses `findSuffixAbelianSquare(word, ALPH)` on collision to check validity.
+
+**Next steps for the agent:**
+1. Create `view-snake` panel in HTML with a Canvas.
+2. Build the game loop in JS (tick, move, collision, render).
+3. Connect the Parikh checking logic to the food consumption event.
 
 ## 6. Priority Roadmap
 
