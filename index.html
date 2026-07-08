@@ -32,15 +32,16 @@
 
     /* Mode tabs */
     .mode-tabs { display: flex; gap: 8px; margin-bottom: 30px; flex-wrap: wrap; }
-    .mode-tab { padding: 9px 16px; background: #f9f9f9; border: 1px solid var(--border); cursor: pointer; font-family: Arial, sans-serif; font-size: 0.85rem; }
+    .mode-tab { padding: 9px 16px; background: #f9f9f9; border: 1px solid var(--border); cursor: pointer; font-family: Arial, sans-serif; font-size: 0.85rem; transition: background 0.2s; border-radius: 4px; }
     .mode-tab:hover { background: #f0f0f0; }
     .mode-tab.active { background: #e0e0e0; font-weight: bold; border-color: #999; }
 
     /* Controls */
     .controls { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; font-family: Arial, sans-serif; flex-wrap: wrap; }
-    .btn { padding: 8px 16px; border: 1px solid #999; background: #fff; cursor: pointer; font-size: 0.9rem; }
+    .btn { padding: 8px 16px; border: 1px solid #999; background: #fff; cursor: pointer; font-size: 0.9rem; border-radius: 4px; transition: background 0.2s, transform 0.1s; }
     .btn:hover { background: #eee; }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
     .speed-control { margin-left: auto; font-size: 0.9rem; }
 
     /* Display Area */
@@ -51,7 +52,7 @@
     .split-right { flex: 1; }
 
     canvas#treeCanvas { width: 100%; height: 350px; background: #fff; border: 1px solid #eee; }
-    canvas#condensedCanvas { width: 100%; height: 300px; background: #fff; border: 1px solid #ccc; cursor: crosshair; }
+    canvas#condensedCanvas { width: 100%; height: 500px; background: #fff; border: 1px solid #ccc; cursor: crosshair; }
 
     /* Tiles */
     .word-tiles { display: flex; flex-wrap: wrap; gap: 3px; align-content: flex-start; margin-bottom: 15px; min-height: 40px;}
@@ -158,6 +159,16 @@
     .parikh-vec { flex: 1; text-align: right; border-right: 1px solid #eee; padding-right: 6px; }
     .parikh-vs { color: #999; font-size: 0.75rem; padding: 0 4px; }
 
+    /* Audio UI */
+    .audio-ui { display: flex; align-items: center; gap: 15px; font-family: Arial, sans-serif; margin-bottom: 15px;}
+    .audio-note { display: inline-block; width: 20px; height: 20px; border-radius: 50%; }
+    .audio-track-list { max-height: 400px; overflow-y: auto; border: 1px solid #ddd; background: #fff; padding: 10px; margin-top: 15px; }
+    .audio-track { display: flex; align-items: center; gap: 10px; padding: 8px; border-bottom: 1px solid #f4f4f4; }
+    .audio-track:hover { background: #f9f9f9; }
+    .audio-track-title { font-family: Arial, sans-serif; font-size: 0.9rem; font-weight: bold; width: 140px; }
+    .audio-track-vis { flex: 1; display: flex; flex-wrap: nowrap; overflow: hidden; height: 14px; gap: 1px; }
+    .audio-track-vis .tile { width: 10px; height: 14px; border-radius: 0; }
+
     /* =====================================================
        TIMELINE STYLES
        ===================================================== */
@@ -168,22 +179,23 @@
       position: absolute; bottom: 40px; left: 0; right: 0; height: 2px; background: #ccc;
     }
     .tl-event {
-      flex: 1; display: flex; flex-direction: column; align-items: center;
-      cursor: pointer; position: relative; padding: 0 8px;
+      flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+      cursor: pointer; position: relative; padding: 0 8px; padding-bottom: 40px;
     }
     .tl-bar {
       width: 50px; background: #bdc3c7; border: 2px solid #999;
-      transition: background 0.2s; position: relative; bottom: 0;
+      transition: background 0.2s; border-bottom: 0; z-index: 2;
     }
     .tl-event:hover .tl-bar { background: #95a5a6; }
     .tl-event.highlighted .tl-bar { background: var(--text-orange) !important; border-color: var(--text-orange); }
     .tl-dot {
       width: 14px; height: 14px; border-radius: 50%; background: #999; border: 2px solid #666;
-      position: absolute; bottom: 38px; z-index: 1;
+      position: absolute; bottom: 33px; z-index: 3;
     }
     .tl-event.highlighted .tl-dot { background: var(--text-orange); border-color: #8b3a00; }
-    .tl-year { font-family: Arial, sans-serif; font-size: 0.85rem; font-weight: bold; margin-top: 4px; position: absolute; bottom: 14px; }
-    .tl-name { font-family: Arial, sans-serif; font-size: 0.75rem; color: #555; margin-top: 2px; text-align: center; }
+    .tl-labels { position: absolute; bottom: 0; left: 0; right: 0; text-align: center; height: 35px; }
+    .tl-year { font-family: Arial, sans-serif; font-size: 0.85rem; font-weight: bold; line-height: 1.2; }
+    .tl-name { font-family: Arial, sans-serif; font-size: 0.75rem; color: #555; line-height: 1.2; }
     .tl-letters-badge {
       position: absolute; top: -28px;
       font-family: monospace; font-size: 1.1rem; font-weight: bold; color: var(--text-orange);
@@ -257,7 +269,7 @@
     <div class="mode-tab active" data-mode="3letter" id="tab-3">1. 3 Letters (Tree Search)</div>
     <div class="mode-tab" data-mode="abc-lab" id="tab-abc">2. ABC Laboratory</div>
     <div class="mode-tab" data-mode="4letter" id="tab-4">3. 4 Letters (Morphism g85)</div>
-    <div class="mode-tab" data-mode="canvas" id="tab-canvas">4. Condensed 2D View</div>
+    <div class="mode-tab" data-mode="canvas" id="tab-canvas">4. 2D Walk</div>
     <div class="mode-tab" data-mode="audio" id="tab-audio">5. Sonification (Music)</div>
     <div class="mode-tab" data-mode="try-it" id="tab-tryit">6. Try It Yourself</div>
     <div class="mode-tab" data-mode="timeline" id="tab-timeline">7. Historical Timeline</div>
@@ -271,9 +283,10 @@
     <button class="btn" id="btn-pause" disabled>Pause</button>
     <button class="btn" id="btn-reset">Reset</button>
     <button class="btn hidden" id="btn-apply-morphism">Apply g85 Iteration</button>
-    <button class="btn hidden" id="btn-play-audio">&#9654; Play as Music</button>
-    <button class="btn hidden" id="btn-stop-audio" disabled>&#9632; Stop Music</button>
-    <button class="btn hidden" id="btn-draw-canvas">Draw 2D View</button>
+    <button class="btn hidden" id="btn-draw-canvas">Draw 2D Walk</button>
+    <label class="hidden" id="lbl-canvas-anim" style="font-family: Arial; font-size: 0.9rem; gap: 5px; cursor: pointer; margin-left: 10px;">
+      <input type="checkbox" id="chk-anim-walk" checked> Animate Walk
+    </label>
     <button class="btn hidden" id="btn-run-abc">Run ABC Enumeration</button>
     
     <div class="speed-control" id="speed-wrap">
@@ -342,20 +355,41 @@
   </div>
 
   <!-- ================================================
-       3+4+5. 4-Letter / Canvas / Audio Views (shared panel)
+       3+4. 4-Letter / Canvas Views (shared panel)
        ================================================ -->
   <div class="view-panel hidden" id="view-general">
-    <div class="audio-ui hidden" id="audio-ui">
-      <span>Now playing:</span>
-      <div id="audio-current-note" class="audio-note" style="background:#eee;"></div>
-      <span id="audio-current-letter" style="font-family:monospace; font-weight:bold; margin-right: 15px;">-</span>
-      <span style="font-size: 0.9em; color: #666;">
-        Notes (Cmaj6 chord): a=C4 (261Hz), b=E4 (330Hz), c=G4 (392Hz), d=A4 (440Hz)
-      </span>
-    </div>
     <div class="word-empty hidden" id="word-empty">Press a button to start.</div>
     <div class="word-tiles hidden" id="tiles-general"></div>
     <canvas id="condensedCanvas" class="hidden"></canvas>
+  </div>
+
+  <!-- ================================================
+       5. AUDIO / SONIFICATION
+       ================================================ -->
+  <div class="view-panel hidden" id="view-audio">
+    <h2>Sonification (Music)</h2>
+    <p style="font-family: Arial; font-size: 0.95rem; color:#555;">
+      Listen to the structure of the word. Keränen's g85 morphism produces blocks of 85 letters. 
+      By slicing the word into chunks, you can play them separately and hear the cyclic permutation in action.
+    </p>
+    
+    <div style="display:flex; gap:15px; align-items:center; font-family:Arial; font-size:0.9rem; margin-bottom:15px; flex-wrap:wrap;">
+      <label>Chunk size:</label>
+      <input type="number" id="audio-chunk-input" value="85" min="1" max="10000" style="width: 70px; padding: 4px;">
+      <button class="btn" id="btn-audio-generate">Generate Tracks</button>
+      <div class="audio-ui" id="audio-ui" style="margin:0; padding-left:20px; border-left:1px solid #ccc; flex:1;">
+        <span>Now playing:</span>
+        <div id="audio-current-note" class="audio-note" style="background:#eee;"></div>
+        <span id="audio-current-letter" style="font-family:monospace; font-weight:bold; margin-right: 15px;">-</span>
+        <span style="font-size: 0.9em; color: #666;">
+          (Cmaj6): a=C4, b=E4, c=G4, d=A4
+        </span>
+      </div>
+    </div>
+
+    <div class="audio-track-list" id="audio-track-list">
+      <span style="color:#999; font-style:italic;">Generate tracks to begin.</span>
+    </div>
   </div>
 
   <!-- ================================================
@@ -898,79 +932,214 @@ function applyMorphism() {
       $('word-empty').textContent = `String is too large (${newWord.length} chars) for DOM. Use Canvas view.`; 
     }
   } else if (mode === 'canvas') {
-    drawCanvasCondensed();
+    drawCanvas2DWalk();
   }
   
   addLog(`<span class="log-ok">g&#8085; applied: length grew from ${oldLen} to ${newWord.length}.</span>`);
   $('btn-apply-morphism').disabled = false;
 }
 
-function drawCanvasCondensed() {
+let walkAnimId = null;
+
+function drawCanvas2DWalk() {
+  if (walkAnimId) { cancelAnimationFrame(walkAnimId); walkAnimId = null; }
   if (fourLetterWord.length === 0) return;
+  
   $('tiles-general').classList.add('hidden'); $('word-empty').classList.add('hidden');
   const cvs = $('condensedCanvas'); cvs.classList.remove('hidden');
 
-  const width = cvs.clientWidth; cvs.width = width;
+  const width = cvs.clientWidth;
+  const height = 500;
+  cvs.width = width;
+  cvs.height = height;
   const ctx = cvs.getContext('2d');
   
-  const dotSize = 4; const padding = 2;
-  const cols = Math.floor(width / (dotSize + padding));
-  const rows = Math.ceil(fourLetterWord.length / cols);
-  cvs.height = Math.max(300, rows * (dotSize + padding) + 20);
-
-  ctx.clearRect(0, 0, cvs.width, cvs.height);
+  // 1. Calculate bounds
+  let x = 0, y = 0;
+  let minX = 0, maxX = 0, minY = 0, maxY = 0;
   
   for (let i = 0; i < fourLetterWord.length; i++) {
     const ch = fourLetterWord[i];
-    const x = (i % cols) * (dotSize + padding) + 5;
-    const baseRowY = Math.floor(i / cols) * (dotSize * 3 + 10) + 10;
-    
-    let yOffset = 0;
-    if (ch === 'a') yOffset = 0; else if (ch === 'b') yOffset = dotSize;
-    else if (ch === 'c') yOffset = dotSize * 2; else if (ch === 'd') yOffset = dotSize * 3;
-
-    ctx.fillStyle = COLORS[ch];
-    ctx.beginPath();
-    ctx.arc(x + dotSize/2, (baseRowY + yOffset) + dotSize/2, dotSize/2, 0, Math.PI * 2);
-    ctx.fill();
+    if (ch === 'a') x -= 1;
+    else if (ch === 'b') x += 1;
+    else if (ch === 'c') y += 1;
+    else if (ch === 'd') y -= 1;
+    if (x < minX) minX = x;
+    if (x > maxX) maxX = x;
+    if (y < minY) minY = y;
+    if (y > maxY) maxY = y;
   }
-  addLog(`Drew ${fourLetterWord.length} elements to Canvas.`);
+  
+  const rawWidth = (maxX - minX) || 1;
+  const rawHeight = (maxY - minY) || 1;
+  
+  // 2. Scaling & Padding
+  const padding = 30;
+  const scaleX = (width - padding * 2) / rawWidth;
+  const scaleY = (height - padding * 2) / rawHeight;
+  const scale = Math.min(scaleX, scaleY, 15); // max scale 15
+  
+  const startX = padding - minX * scale + (width - padding*2 - rawWidth*scale)/2;
+  const startY = padding - minY * scale + (height - padding*2 - rawHeight*scale)/2;
+  
+  ctx.clearRect(0, 0, width, height);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.lineWidth = Math.max(1, Math.min(3, scale * 0.4));
+  
+  const animate = $('chk-anim-walk').checked;
+  const wordLen = fourLetterWord.length;
+  
+  if (!animate) {
+    let curX = startX, curY = startY;
+    ctx.beginPath();
+    for (let i = 0; i < wordLen; i++) {
+      const ch = fourLetterWord[i];
+      let nextX = curX; let nextY = curY;
+      if (ch === 'a') nextX -= scale;
+      else if (ch === 'b') nextX += scale;
+      else if (ch === 'c') nextY += scale;
+      else if (ch === 'd') nextY -= scale;
+      
+      ctx.strokeStyle = COLORS[ch];
+      ctx.beginPath();
+      ctx.moveTo(curX, curY);
+      ctx.lineTo(nextX, nextY);
+      ctx.stroke();
+      
+      curX = nextX; curY = nextY;
+    }
+    addLog(`Drew 2D Walk with ${wordLen} steps.`);
+  } else {
+    let curX = startX, curY = startY;
+    let i = 0;
+    const stepsPerFrame = Math.max(1, Math.floor(wordLen / 120)); 
+    
+    function drawFrame() {
+      for (let s = 0; s < stepsPerFrame && i < wordLen; s++, i++) {
+        const ch = fourLetterWord[i];
+        let nextX = curX; let nextY = curY;
+        if (ch === 'a') nextX -= scale;
+        else if (ch === 'b') nextX += scale;
+        else if (ch === 'c') nextY += scale;
+        else if (ch === 'd') nextY -= scale;
+        
+        ctx.strokeStyle = COLORS[ch];
+        ctx.beginPath();
+        ctx.moveTo(curX, curY);
+        ctx.lineTo(nextX, nextY);
+        ctx.stroke();
+        
+        curX = nextX; curY = nextY;
+      }
+      if (i < wordLen) {
+        walkAnimId = requestAnimationFrame(drawFrame);
+      } else {
+        addLog(`Finished animating 2D Walk with ${wordLen} steps.`);
+      }
+    }
+    walkAnimId = requestAnimationFrame(drawFrame);
+    addLog(`Animating 2D Walk (${wordLen} steps)...`);
+  }
 }
 
 // =====================================================
 // WEB AUDIO SONIFICATION
 // =====================================================
-function playAudio() {
-  if (audioPlaying) return;
+let audioTracksData = [];
+let audioCurrentTrack = -1;
+let audioEndIdx = 0;
+
+function renderAudioTracks() {
+  const container = $('audio-track-list');
+  if (fourLetterWord.length === 0) {
+    container.innerHTML = '<span style="color:#999; font-style:italic;">Generate a word first in the 4-Letter tab.</span>';
+    return;
+  }
+  
+  const chunkInput = parseInt($('audio-chunk-input').value) || 85;
+  const chunkSize = Math.max(1, chunkInput);
+  
+  audioTracksData = [];
+  let html = '';
+  for (let i = 0; i < fourLetterWord.length; i += chunkSize) {
+    const chunk = fourLetterWord.slice(i, i + chunkSize);
+    const trackId = audioTracksData.length;
+    audioTracksData.push({ start: i, length: chunk.length, active: false });
+    
+    // Build mini vis (cap at 200 items for dom performance)
+    let visHtml = '';
+    const visLimit = Math.min(chunk.length, 200);
+    for(let c=0; c<visLimit; c++) {
+      visHtml += `<div class="tile ${chunk[c]}"></div>`;
+    }
+    if (chunk.length > 200) visHtml += '<div style="font-size:10px; align-self:center;">...</div>';
+    
+    html += `
+      <div class="audio-track" id="track-row-${trackId}">
+        <button class="btn" id="btn-play-track-${trackId}" onclick="playAudioTrack(${trackId})">&#9654; Play</button>
+        <button class="btn hidden" id="btn-stop-track-${trackId}" onclick="stopAudioTrack()">&#9632; Stop</button>
+        <div class="audio-track-title">Track ${trackId + 1} (${chunk.length} ltr)</div>
+        <div class="audio-track-vis">${visHtml}</div>
+      </div>
+    `;
+  }
+  container.innerHTML = html;
+}
+
+$('btn-audio-generate').addEventListener('click', renderAudioTracks);
+
+function stopAudioTrack() {
+  if (!audioPlaying) return;
+  audioPlaying = false;
+  if (audioOsc) { audioOsc.stop(); audioOsc.disconnect(); }
+  if (audioGain) { audioGain.disconnect(); }
+  $('audio-current-letter').textContent = '-'; $('audio-current-note').style.background = '#eee';
+  
+  if (audioCurrentTrack !== -1) {
+    const pBtn = $('btn-play-track-' + audioCurrentTrack);
+    const sBtn = $('btn-stop-track-' + audioCurrentTrack);
+    if(pBtn) pBtn.classList.remove('hidden');
+    if(sBtn) sBtn.classList.add('hidden');
+  }
+  audioCurrentTrack = -1;
+  addLog(`Audio stopped.`);
+}
+
+// Backward compatibility alias for switchMode
+function stopAudio() { stopAudioTrack(); }
+
+function playAudioTrack(trackId) {
+  if (audioPlaying) stopAudioTrack();
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   if (audioCtx.state === 'suspended') audioCtx.resume();
   
+  const track = audioTracksData[trackId];
+  if(!track) return;
+  
   audioPlaying = true;
-  $('btn-play-audio').disabled = true; $('btn-stop-audio').disabled = false;
-  audioIdx = 0;
+  audioCurrentTrack = trackId;
+  audioIdx = track.start;
+  audioEndIdx = track.start + track.length;
+  
+  $('btn-play-track-' + trackId).classList.add('hidden');
+  $('btn-stop-track-' + trackId).classList.remove('hidden');
   
   audioOsc = audioCtx.createOscillator(); audioGain = audioCtx.createGain();
   audioOsc.type = 'sine';
   audioOsc.connect(audioGain); audioGain.connect(audioCtx.destination);
   audioOsc.start();
   
-  addLog(`<span class="log-ok">Audio synthesis started.</span>`);
+  addLog(`<span class="log-ok">Audio synthesis started for Track ${trackId + 1}.</span>`);
   audioLoop();
-}
-
-function stopAudio() {
-  if (!audioPlaying) return;
-  audioPlaying = false;
-  $('btn-play-audio').disabled = false; $('btn-stop-audio').disabled = true;
-  if (audioOsc) { audioOsc.stop(); audioOsc.disconnect(); }
-  if (audioGain) { audioGain.disconnect(); }
-  $('audio-current-letter').textContent = '-'; $('audio-current-note').style.background = '#eee';
-  addLog(`Audio stopped.`);
 }
 
 function audioLoop() {
   if (!audioPlaying) return;
-  if (audioIdx >= fourLetterWord.length) audioIdx = 0;
+  if (audioIdx >= audioEndIdx) {
+    stopAudioTrack();
+    return;
+  }
   
   const ch = fourLetterWord[audioIdx];
   const delayMs = Math.max(20, 200 - parseInt($('speed-slider').value) * 1.8);
@@ -986,6 +1155,7 @@ function audioLoop() {
   audioIdx++;
   setTimeout(audioLoop, delayMs);
 }
+
 
 // =====================================================
 // 6. TRY IT YOURSELF
@@ -1172,11 +1342,13 @@ function buildTimeline() {
     }
 
     col.innerHTML = `
-      ${ev.letters ? `<div class="tl-bar" style="height:${barH}px; background:${ev.color};"></div>` : '<div style="height:0"></div>'}
+      ${ev.letters ? `<div class="tl-bar" style="height:${barH}px; background:${ev.color};"></div>` : ''}
       ${badgeHtml}
       <div class="tl-dot"></div>
-      <div class="tl-year">${ev.year}</div>
-      <div class="tl-name">${ev.name}</div>
+      <div class="tl-labels">
+        <div class="tl-year">${ev.year}</div>
+        <div class="tl-name">${ev.name}</div>
+      </div>
     `;
     col.addEventListener('click', () => selectTimelineEvent(idx));
     track.appendChild(col);
@@ -1310,10 +1482,12 @@ function switchMode(newMode) {
   $('log').innerHTML = '';
   
   document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === newMode));
-  ['btn-start','btn-pause','btn-apply-morphism','btn-play-audio','btn-stop-audio','btn-draw-canvas','btn-run-abc'].forEach(id => $(id).classList.add('hidden'));
+  ['btn-start','btn-pause','btn-apply-morphism','btn-draw-canvas','lbl-canvas-anim','btn-run-abc'].forEach(id => {
+    const el = $(id); if(el) el.classList.add('hidden');
+  });
   
   // Hide all view panels
-  ['view-3letter','view-abc-lab','view-general','view-tryit','view-timeline','view-unfavorable','view-microscope','view-knowledge'].forEach(id => $(id).classList.add('hidden'));
+  ['view-3letter','view-abc-lab','view-general','view-audio','view-tryit','view-timeline','view-unfavorable','view-microscope','view-knowledge'].forEach(id => $(id).classList.add('hidden'));
   $('condensedCanvas').classList.add('hidden');
   $('audio-ui').classList.add('hidden');
   $('word-empty').classList.add('hidden');
@@ -1369,8 +1543,13 @@ function switchMode(newMode) {
     if (!kgInitialized) initKG();
     else { if (!kgAnimationId) kgLoop(); }
 
+  } else if (mode === 'audio') {
+    $('view-audio').classList.remove('hidden');
+    $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
+    setSquaresLabel('Squares Found');
+    renderAudioTracks();
   } else {
-    // 4letter, canvas, audio
+    // 4letter, canvas
     $('view-general').classList.remove('hidden');
     $('btn-apply-morphism').classList.remove('hidden');
     $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
@@ -1387,11 +1566,9 @@ function switchMode(newMode) {
       }
     } else if (mode === 'canvas') {
       $('btn-draw-canvas').classList.remove('hidden');
-      drawCanvasCondensed();
-    } else if (mode === 'audio') {
-      $('btn-play-audio').classList.remove('hidden'); $('btn-stop-audio').classList.remove('hidden');
-      $('audio-ui').classList.remove('hidden');
-      $('word-empty').classList.remove('hidden'); $('word-empty').textContent = 'Iterate morphism, then press Play as Music.';
+      $('lbl-canvas-anim').classList.remove('hidden');
+      $('lbl-canvas-anim').style.display = 'flex';
+      drawCanvas2DWalk();
     }
   }
 }
@@ -1406,10 +1583,8 @@ $('btn-pause').addEventListener('click', () => {
 });
 $('btn-reset').addEventListener('click', () => { fourLetterWord = ['a']; fourLetterIteration = 0; switchMode(mode); });
 $('btn-apply-morphism').addEventListener('click', applyMorphism);
-$('btn-draw-canvas').addEventListener('click', drawCanvasCondensed);
+$('btn-draw-canvas').addEventListener('click', drawCanvas2DWalk);
 $('btn-run-abc').addEventListener('click', renderAbcLab);
-$('btn-play-audio').addEventListener('click', playAudio);
-$('btn-stop-audio').addEventListener('click', stopAudio);
 $('abc-survivors').addEventListener('click', handleAbcClick);
 $('abc-failures').addEventListener('click', handleAbcClick);
 
