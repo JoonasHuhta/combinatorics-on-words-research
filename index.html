@@ -31,8 +31,8 @@
     .legend-d { color: var(--letter-d); }
 
     /* Mode tabs */
-    .mode-tabs { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
-    .mode-tab { padding: 10px 20px; background: #f9f9f9; border: 1px solid var(--border); cursor: pointer; font-family: Arial, sans-serif; font-size: 0.9rem; }
+    .mode-tabs { display: flex; gap: 8px; margin-bottom: 30px; flex-wrap: wrap; }
+    .mode-tab { padding: 9px 16px; background: #f9f9f9; border: 1px solid var(--border); cursor: pointer; font-family: Arial, sans-serif; font-size: 0.85rem; }
     .mode-tab:hover { background: #f0f0f0; }
     .mode-tab.active { background: #e0e0e0; font-weight: bold; border-color: #999; }
 
@@ -100,16 +100,153 @@
     .log-fail { color: red; font-weight: bold; }
     .log-ok { color: green; }
 
+    /* =====================================================
+       TRY-IT WIDGET STYLES
+       ===================================================== */
+    .tryit-layout { display: flex; gap: 24px; flex-wrap: wrap; }
+    .tryit-main { flex: 2; min-width: 300px; }
+    .tryit-sidebar { flex: 1; min-width: 240px; }
+
+    .tryit-word-display {
+      font-family: monospace; font-size: 1.4rem; letter-spacing: 4px;
+      min-height: 48px; padding: 10px 14px; border: 2px solid #ccc;
+      background: #fff; margin-bottom: 14px; word-break: break-all;
+      line-height: 1.8;
+    }
+    .tryit-word-display .ch-a { color: var(--letter-a); font-weight: bold; }
+    .tryit-word-display .ch-b { color: var(--letter-b); font-weight: bold; }
+    .tryit-word-display .ch-c { color: var(--letter-c); font-weight: bold; }
+    .tryit-word-display .ch-d { color: var(--letter-d); font-weight: bold; }
+    .tryit-word-display .sq-half1 { border-bottom: 3px solid #e74c3c; background: #fff5f5; }
+    .tryit-word-display .sq-half2 { border-bottom: 3px solid #999; background: #f5f5f5; }
+
+    .tryit-status {
+      font-family: Arial, sans-serif; font-size: 0.95rem; padding: 8px 12px;
+      margin-bottom: 14px; border-left: 4px solid #ccc; background: #f9f9f9;
+    }
+    .tryit-status.ok { border-color: #27ae60; background: #f0fff4; color: #1a6b33; }
+    .tryit-status.warn { border-color: #f1c40f; background: #fffef0; color: #7a6a00; }
+    .tryit-status.error { border-color: #e74c3c; background: #fff0f0; color: #b00020; }
+
+    .tryit-keys { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .key-btn {
+      width: 52px; height: 52px; font-size: 1.3rem; font-weight: bold; font-family: monospace;
+      border: 2px solid #ccc; background: #fff; cursor: pointer; border-radius: 4px;
+      transition: transform 0.08s, background 0.08s;
+    }
+    .key-btn:hover { transform: translateY(-2px); }
+    .key-btn:active { transform: translateY(0); }
+    .key-btn.ka { border-color: var(--letter-a); color: var(--letter-a); }
+    .key-btn.ka:hover { background: #fff0f0; }
+    .key-btn.kb { border-color: var(--letter-b); color: var(--letter-b); }
+    .key-btn.kb:hover { background: #f0f5ff; }
+    .key-btn.kc { border-color: var(--letter-c); color: var(--letter-c); }
+    .key-btn.kc:hover { background: #fffff0; }
+    .key-btn.kd { border-color: var(--letter-d); color: var(--letter-d); }
+    .key-btn.kd:hover { background: #f0fff4; }
+    .key-btn.kback { font-size: 1rem; color: #666; width: auto; padding: 0 14px; }
+    .key-btn.kclear { font-size: 0.9rem; color: #666; width: auto; padding: 0 14px; }
+
+    .tryit-alpha-toggle { display: flex; gap: 8px; margin-bottom: 14px; font-family: Arial, sans-serif; font-size: 0.9rem; align-items: center; }
+    .tryit-alpha-toggle label { display: flex; align-items: center; gap: 4px; cursor: pointer; }
+
+    .parikh-panel { background: #fff; border: 1px solid #ddd; padding: 12px; }
+    .parikh-panel h4 { font-family: Arial, sans-serif; font-size: 0.85rem; font-weight: bold; margin: 0 0 10px; color: #555; text-transform: uppercase; letter-spacing: 0.5px; }
+    .parikh-split-row { display: flex; align-items: center; gap: 6px; font-family: monospace; font-size: 0.85rem; margin-bottom: 4px; padding: 3px 6px; border-radius: 2px; }
+    .parikh-split-row.clash { background: #ffebee; color: #b00020; font-weight: bold; }
+    .parikh-split-row.ok { background: #f9f9f9; }
+    .parikh-vec { flex: 1; text-align: right; border-right: 1px solid #eee; padding-right: 6px; }
+    .parikh-vs { color: #999; font-size: 0.75rem; padding: 0 4px; }
+
+    /* =====================================================
+       TIMELINE STYLES
+       ===================================================== */
+    .timeline-wrap { padding: 20px 0; }
+    .timeline-track { position: relative; display: flex; align-items: flex-end; gap: 0; height: 280px; padding-bottom: 40px; }
+    .timeline-track::after {
+      content: '';
+      position: absolute; bottom: 40px; left: 0; right: 0; height: 2px; background: #ccc;
+    }
+    .tl-event {
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      cursor: pointer; position: relative; padding: 0 8px;
+    }
+    .tl-bar {
+      width: 50px; background: #bdc3c7; border: 2px solid #999;
+      transition: background 0.2s; position: relative; bottom: 0;
+    }
+    .tl-event:hover .tl-bar { background: #95a5a6; }
+    .tl-event.highlighted .tl-bar { background: var(--text-orange) !important; border-color: var(--text-orange); }
+    .tl-dot {
+      width: 14px; height: 14px; border-radius: 50%; background: #999; border: 2px solid #666;
+      position: absolute; bottom: 38px; z-index: 1;
+    }
+    .tl-event.highlighted .tl-dot { background: var(--text-orange); border-color: #8b3a00; }
+    .tl-year { font-family: Arial, sans-serif; font-size: 0.85rem; font-weight: bold; margin-top: 4px; position: absolute; bottom: 14px; }
+    .tl-name { font-family: Arial, sans-serif; font-size: 0.75rem; color: #555; margin-top: 2px; text-align: center; }
+    .tl-letters-badge {
+      position: absolute; top: -28px;
+      font-family: monospace; font-size: 1.1rem; font-weight: bold; color: var(--text-orange);
+    }
+
+    .tl-detail {
+      margin-top: 24px; padding: 16px; background: #fff; border: 1px solid #ddd;
+      font-family: Arial, sans-serif; font-size: 0.95rem; line-height: 1.7;
+      min-height: 100px;
+    }
+    .tl-detail h3 { font-family: "Times New Roman", serif; margin: 0 0 8px; }
+
+    .tl-gap-label {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-family: Arial, sans-serif; font-size: 0.75rem; color: #999;
+      padding: 0 4px; position: relative; bottom: 40px;
+    }
+    .tl-gap-arrow { font-size: 1.2rem; line-height: 1; }
+    .tl-gap-years { font-size: 0.7rem; }
+
+    /* =====================================================
+       UNFAVORABLE FACTORS STYLES
+       ===================================================== */
+    .unf-layout { display: flex; gap: 20px; flex-wrap: wrap; }
+    .unf-left { flex: 1; min-width: 280px; }
+    .unf-right { flex: 2; min-width: 300px; }
+
+    .unf-input-row { display: flex; gap: 8px; margin-bottom: 14px; align-items: center; font-family: Arial, sans-serif; }
+    .unf-input { font-family: monospace; font-size: 1.1rem; padding: 6px 10px; border: 1px solid #ccc; flex: 1; letter-spacing: 2px; }
+    .unf-examples { margin-bottom: 16px; font-family: Arial, sans-serif; font-size: 0.9rem; }
+    .unf-examples button { background: none; border: 1px solid #ccc; padding: 3px 8px; cursor: pointer; margin: 2px; font-family: monospace; font-size: 0.85rem; }
+    .unf-examples button:hover { background: #f0f0f0; }
+
+    .unf-result-bar {
+      display: flex; align-items: center; gap: 0; margin-bottom: 6px;
+      font-family: Arial, sans-serif; font-size: 0.85rem;
+    }
+    .unf-result-bar .label { width: 80px; color: #555; }
+    .unf-bar-fill { height: 20px; min-width: 4px; display: flex; align-items: center; padding-left: 6px; font-size: 0.8rem; font-weight: bold; color: #fff; transition: width 0.4s; }
+    .unf-bar-fill.left-ext { background: #2980b9; }
+    .unf-bar-fill.right-ext { background: #27ae60; }
+    .unf-bar-fill.dead { background: #e74c3c; }
+
+    .unf-word-display {
+      font-family: monospace; font-size: 1.1rem; letter-spacing: 3px; word-break: break-all;
+      line-height: 2; padding: 8px 10px; border: 1px solid #eee; background: #fff; min-height: 44px;
+    }
+    .unf-added-l { color: #2980b9; text-decoration: underline; }
+    .unf-added-r { color: #27ae60; text-decoration: underline; }
+    .unf-seed { color: #333; }
+    .unf-dead-ext { color: #e74c3c; font-weight: bold; }
+
     .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
 <div class="app">
-  <h1>Abelian Squares - Combinatorics Visualizer</h1>
+  <h1>Abelian Squares &mdash; Keranen Combinatorics Visualizer</h1>
   <p class="intro-text">
     Visualizing the computational search for abelian square-free words. 
-    With 3 letters {a,b,c}, an infinite word is impossible. Veikko Keranen (1992) found a solution with 4 letters {a,b,c,d}.
+    With 3 letters {a,b,c}, an infinite word is impossible (any word of length ≥ 8 contains an abelian square).
+    Veikko Keränen (1992) found a solution with 4 letters {a,b,c,d}.
   </p>
   <p class="legend">
     Color mapping: 
@@ -122,6 +259,9 @@
     <div class="mode-tab" data-mode="4letter" id="tab-4">3. 4 Letters (Morphism g85)</div>
     <div class="mode-tab" data-mode="canvas" id="tab-canvas">4. Condensed 2D View</div>
     <div class="mode-tab" data-mode="audio" id="tab-audio">5. Sonification (Music)</div>
+    <div class="mode-tab" data-mode="try-it" id="tab-tryit">6. Try It Yourself</div>
+    <div class="mode-tab" data-mode="timeline" id="tab-timeline">7. Historical Timeline</div>
+    <div class="mode-tab" data-mode="unfavorable" id="tab-unf">8. Unfavorable Factors</div>
   </div>
 
   <div class="controls">
@@ -129,18 +269,20 @@
     <button class="btn" id="btn-pause" disabled>Pause</button>
     <button class="btn" id="btn-reset">Reset</button>
     <button class="btn hidden" id="btn-apply-morphism">Apply g85 Iteration</button>
-    <button class="btn hidden" id="btn-play-audio">▶ Play as Music</button>
-    <button class="btn hidden" id="btn-stop-audio" disabled>■ Stop Music</button>
+    <button class="btn hidden" id="btn-play-audio">&#9654; Play as Music</button>
+    <button class="btn hidden" id="btn-stop-audio" disabled>&#9632; Stop Music</button>
     <button class="btn hidden" id="btn-draw-canvas">Draw 2D View</button>
     <button class="btn hidden" id="btn-run-abc">Run ABC Enumeration</button>
     
-    <div class="speed-control">
+    <div class="speed-control" id="speed-wrap">
       <label>Speed:</label>
       <input type="range" id="speed-slider" min="1" max="100" value="70">
     </div>
   </div>
 
-  <!-- 3-Letter Split View -->
+  <!-- ================================================
+       1. 3-Letter Split View
+       ================================================ -->
   <div class="view-panel" id="view-3letter">
     <div class="split-view">
       <div class="split-left">
@@ -165,7 +307,9 @@
     </div>
   </div>
 
-  <!-- ABC Laboratory -->
+  <!-- ================================================
+       2. ABC Laboratory
+       ================================================ -->
   <div class="view-panel hidden" id="view-abc-lab">
     <h2>ABC Laboratory</h2>
     <p style="font-family: Arial; font-size: 0.95rem; color:#555;">
@@ -195,7 +339,9 @@
     </div>
   </div>
 
-  <!-- 4-Letter / Canvas / Audio Views -->
+  <!-- ================================================
+       3+4+5. 4-Letter / Canvas / Audio Views (shared panel)
+       ================================================ -->
   <div class="view-panel hidden" id="view-general">
     <div class="audio-ui hidden" id="audio-ui">
       <span>Now playing:</span>
@@ -207,8 +353,99 @@
     <canvas id="condensedCanvas" class="hidden"></canvas>
   </div>
 
+  <!-- ================================================
+       6. TRY IT YOURSELF
+       ================================================ -->
+  <div class="view-panel hidden" id="view-tryit">
+    <h2>Try It Yourself</h2>
+    <p style="font-family: Arial; font-size: 0.95rem; color:#555;">
+      Build a word letter by letter. The app checks for abelian squares in real time.
+      With 3 letters, you will hit a wall by length 8 — try it!
+    </p>
+    <div class="tryit-alpha-toggle">
+      <strong style="font-family:Arial; font-size:0.9rem; margin-right:6px;">Alphabet:</strong>
+      <label><input type="radio" name="tryit-alpha" value="3" checked> {a, b, c} — 3 letters</label>
+      <label style="margin-left:12px;"><input type="radio" name="tryit-alpha" value="4"> {a, b, c, d} — 4 letters</label>
+    </div>
+    <div class="tryit-layout">
+      <div class="tryit-main">
+        <div class="tryit-word-display" id="tryit-display"><span style="color:#aaa; font-style:italic; font-family:Arial; font-size:1rem; letter-spacing:0;">Press a key to start&hellip;</span></div>
+        <div class="tryit-status" id="tryit-status">Waiting for input.</div>
+        <div class="tryit-keys" id="tryit-keys">
+          <button class="key-btn ka" data-letter="a">a</button>
+          <button class="key-btn kb" data-letter="b">b</button>
+          <button class="key-btn kc" data-letter="c">c</button>
+          <button class="key-btn kd hidden" id="tryit-key-d" data-letter="d">d</button>
+          <button class="key-btn kback" id="tryit-back">&larr; Back</button>
+          <button class="key-btn kclear" id="tryit-clear">Clear</button>
+        </div>
+        <div class="word-tiles" id="tryit-tiles" style="margin-top:8px;"></div>
+      </div>
+      <div class="tryit-sidebar">
+        <div class="parikh-panel">
+          <h4>Parikh vectors — all splits</h4>
+          <div id="tryit-parikh-list" style="font-family:monospace; font-size:0.82rem; color:#aaa; font-style:italic;">
+            Type a word to see its Parikh splits.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       7. HISTORICAL TIMELINE
+       ================================================ -->
+  <div class="view-panel hidden" id="view-timeline">
+    <h2>The Road to 4 Letters</h2>
+    <p style="font-family: Arial; font-size: 0.95rem; color:#555;">
+      How many letters does it take to build an infinite abelian square-free word?
+      This question took over three decades to answer — click the events to explore.
+    </p>
+    <div class="timeline-wrap">
+      <div class="timeline-track" id="tl-track"></div>
+    </div>
+    <div class="tl-detail" id="tl-detail">
+      <em style="color:#999; font-family:Arial;">Click an event on the timeline to read details.</em>
+    </div>
+  </div>
+
+  <!-- ================================================
+       8. UNFAVORABLE FACTORS
+       ================================================ -->
+  <div class="view-panel hidden" id="view-unfavorable">
+    <h2>Unfavorable Factors</h2>
+    <p style="font-family: Arial; font-size: 0.95rem; color:#555;">
+      Certain short words ("unfavorable factors") cannot be extended far in either direction
+      without creating an abelian square. Enter a word or pick an example, then see how
+      far left and right the word can grow before it gets stuck.
+      (Concept from Keränen's 2010 <em>Mathematica Journal</em> article.)
+    </p>
+    <div class="unf-layout">
+      <div class="unf-left">
+        <div class="unf-input-row">
+          <input type="text" class="unf-input" id="unf-input" placeholder="enter word (a,b,c,d)" maxlength="50" value="abcbdbcbacbdcdacbdac">
+          <button class="btn" id="unf-run">Extend</button>
+        </div>
+        <div class="unf-examples">
+          <strong style="font-family:Arial; font-size:0.85rem;">Examples:</strong><br>
+          <button data-ex="abcbdbcbacbdcdacbdac">Keränen 2010 example</button>
+          <button data-ex="abcdacbabdabacdacbcdad">Illustration word</button>
+          <button data-ex="abcd">Short start</button>
+          <button data-ex="abca">3-letter unfav.</button>
+        </div>
+        <div id="unf-stats" style="font-family:Arial; font-size:0.9rem; color:#555;"></div>
+      </div>
+      <div class="unf-right">
+        <h3 style="font-size:1rem; margin-bottom:8px;">Extension reach</h3>
+        <div id="unf-bars" style="margin-bottom:16px;"></div>
+        <h3 style="font-size:1rem; margin-bottom:8px;">Extended word</h3>
+        <div class="unf-word-display" id="unf-word-display">&mdash;</div>
+      </div>
+    </div>
+  </div>
+
   <!-- Stats & Logs -->
-  <div class="info-panel">
+  <div class="info-panel" id="info-panel">
     <div class="stats" id="stats-panel">
       <h3 style="margin-top:0; color:#333;">Statistics</h3>
       <div>Length: <span id="stat-len">0</span></div>
@@ -255,12 +492,16 @@ const FREQS = { a: 261.63, b: 329.63, c: 392.00, d: 440.00 };
 // HELPERS
 // =====================================================
 function getParikh(word) {
-  const p = {a:0, b:0, c:0};
+  const p = {a:0, b:0, c:0, d:0};
   for (const ch of word) if(p[ch]!==undefined) p[ch]++;
   return p;
 }
-function parikhEqual(p1, p2) { return p1.a===p2.a && p1.b===p2.b && p1.c===p2.c; }
-function parikhStr(p) { return `(a:${p.a}, b:${p.b}, c:${p.c})`; }
+function parikhEqual(p1, p2, alphabet) {
+  return alphabet.every(k => (p1[k]||0) === (p2[k]||0));
+}
+function parikhStr(p, alphabet) {
+  return '(' + alphabet.map(k => `${k}:${p[k]||0}`).join(', ') + ')';
+}
 function setAttemptsLabel(text) { $('stat-attempts-label').textContent = text; }
 function setSquaresLabel(text) { $('stat-squares-label').textContent = text; }
 function updateStats(s) {
@@ -287,13 +528,42 @@ function renderTiles(word, containerId, highlights = {}) {
 }
 
 // =====================================================
+// ABELIAN SQUARE CHECK (generic alphabet)
+// =====================================================
+function findAbelianSquare(word, alphabet) {
+  for (let start = 0; start < word.length; start++) {
+    const maxHalf = Math.floor((word.length - start) / 2);
+    for (let halfLen = 1; halfLen <= maxHalf; halfLen++) {
+      const first = word.slice(start, start + halfLen);
+      const second = word.slice(start + halfLen, start + halfLen * 2);
+      if (parikhEqual(getParikh(first), getParikh(second), alphabet)) {
+        return { start, halfLen, first, second, p1: getParikh(first), p2: getParikh(second) };
+      }
+    }
+  }
+  return null;
+}
+
+function findSuffixAbelianSquare(word, alphabet) {
+  for (let halfLen = 1; halfLen <= Math.floor(word.length / 2); halfLen++) {
+    const start = word.length - halfLen * 2;
+    const first = word.slice(start, start + halfLen);
+    const second = word.slice(start + halfLen);
+    if (parikhEqual(getParikh(first), getParikh(second), alphabet)) {
+      return { start, halfLen, first, second, p1: getParikh(first), p2: getParikh(second) };
+    }
+  }
+  return null;
+}
+
+// =====================================================
 // 3-LETTER SEARCH & VISUALIZATION (TREE + SCANNER)
 // =====================================================
 const treeCanvas = $('treeCanvas');
 const treeCtx = treeCanvas.getContext('2d');
 let searchTreeRoot = null;
 let currentSearchNode = null;
-let searchState = 'idle'; // idle, extending, scanning, backtracking, exhausted
+let searchState = 'idle';
 let scanHalfLen = 1;
 let stats3 = { attempts: 0, backtracks: 0, maxLen: 0, squares: 0 };
 
@@ -317,13 +587,13 @@ function getDelay() { return Math.max(10, 600 - parseInt($('speed-slider').value
 
 function step3Letter() {
   if (!running) return;
+  const ALPHA3 = ['a','b','c'];
 
   if (searchState === 'extending') {
     if (currentSearchNode.nextTry >= 3) {
       searchState = 'backtracking';
     } else {
-      const alphabet = ['a','b','c'];
-      const letter = alphabet[currentSearchNode.nextTry++];
+      const letter = ALPHA3[currentSearchNode.nextTry++];
       const newNode = { id: stats3.attempts++, letter, children: [], parent: currentSearchNode, status: 'active', depth: currentSearchNode.depth + 1, nextTry: 0 };
       currentSearchNode.children.push(newNode);
       currentSearchNode = newNode;
@@ -334,7 +604,6 @@ function step3Letter() {
       renderTiles(word, 'tiles-3letter');
       addLog(`Appended '${letter}'. Initiating scanner...`);
       
-      // Start scanning
       searchState = 'scanning';
       scanHalfLen = 1;
     }
@@ -344,13 +613,11 @@ function step3Letter() {
     const n = word.length;
     
     if (scanHalfLen > Math.floor(n / 2)) {
-      // Scanned all possible halves, no squares!
       addLog(`Scan complete. No abelian squares found.`);
       $('scanner-status').textContent = 'Valid word. Expanding further...';
       $('parikh-compare').classList.add('hidden');
       searchState = 'extending';
     } else {
-      // Check current halfLen
       const start = n - 2 * scanHalfLen;
       const first = word.slice(start, start + scanHalfLen);
       const second = word.slice(start + scanHalfLen);
@@ -362,14 +629,14 @@ function step3Letter() {
       
       $('parikh-compare').classList.remove('hidden');
       $('scanner-status').textContent = `Scanning half-length: ${scanHalfLen}`;
-      $('pval-1').textContent = parikhStr(p1);
-      $('pval-2').textContent = parikhStr(p2);
+      $('pval-1').textContent = parikhStr(p1, ALPHA3);
+      $('pval-2').textContent = parikhStr(p2, ALPHA3);
       $('pbox-1').className = 'parikh-box'; $('pbox-2').className = 'parikh-box';
 
-      if (parikhEqual(p1, p2)) {
+      if (parikhEqual(p1, p2, ALPHA3)) {
         $('pbox-1').classList.add('match'); $('pbox-2').classList.add('match');
         $('scanner-status').innerHTML = `<span class="log-fail">Abelian Square Found! Rejecting branch.</span>`;
-        addLog(`<span class="log-fail">Matched Parikh vectors ${parikhStr(p1)}! Dead end.</span>`);
+        addLog(`<span class="log-fail">Matched Parikh vectors ${parikhStr(p1, ALPHA3)}! Dead end.</span>`);
         currentSearchNode.status = 'dead';
         stats3.squares++;
         updateStats({ squares: stats3.squares });
@@ -413,11 +680,9 @@ function drawTree() {
   if (!searchTreeRoot) return;
   treeCtx.clearRect(0, 0, treeCanvas.width, treeCanvas.height);
   
-  // Calculate depth
   let maxDepth = stats3.maxLen + 1;
   const levelHeight = treeCanvas.height / (maxDepth + 1);
   
-  // Assign X positions recursively (simple balanced layout)
   function setX(node, left, right) {
     node.x = (left + right) / 2;
     node.y = (node.depth + 1) * levelHeight;
@@ -426,7 +691,6 @@ function drawTree() {
   }
   setX(searchTreeRoot, 0, treeCanvas.width);
 
-  // Draw lines
   function drawLines(node) {
     node.children.forEach(c => {
       treeCtx.beginPath();
@@ -445,14 +709,12 @@ function drawTree() {
     return false;
   }
 
-  // Draw nodes
   function drawNodes(node) {
     treeCtx.beginPath();
     treeCtx.arc(node.x, node.y, 4, 0, Math.PI*2);
-    if (node === currentSearchNode) treeCtx.fillStyle = '#f1c40f'; // Active
-    else if (node.status === 'dead') treeCtx.fillStyle = '#e74c3c'; // Dead
-    else treeCtx.fillStyle = '#bdc3c7'; // Visited but backtracking
-    
+    if (node === currentSearchNode) treeCtx.fillStyle = '#f1c40f';
+    else if (node.status === 'dead') treeCtx.fillStyle = '#e74c3c';
+    else treeCtx.fillStyle = '#bdc3c7';
     if (node === searchTreeRoot) treeCtx.fillStyle = '#000';
     treeCtx.fill();
     node.children.forEach(drawNodes);
@@ -469,34 +731,8 @@ const ABC_ALPHABET = ['a', 'b', 'c'];
 let abcLevels = [];
 let abcFailures = [];
 
-function findAbelianSquare(word) {
-  for (let start = 0; start < word.length; start++) {
-    const maxHalf = Math.floor((word.length - start) / 2);
-    for (let halfLen = 1; halfLen <= maxHalf; halfLen++) {
-      const first = word.slice(start, start + halfLen);
-      const second = word.slice(start + halfLen, start + halfLen * 2);
-      if (parikhEqual(getParikh(first), getParikh(second))) {
-        return { start, halfLen, first, second, p1: getParikh(first), p2: getParikh(second) };
-      }
-    }
-  }
-  return null;
-}
-
-function findSuffixAbelianSquare(word) {
-  for (let halfLen = 1; halfLen <= Math.floor(word.length / 2); halfLen++) {
-    const start = word.length - halfLen * 2;
-    const first = word.slice(start, start + halfLen);
-    const second = word.slice(start + halfLen);
-    if (parikhEqual(getParikh(first), getParikh(second))) {
-      return { start, halfLen, first, second, p1: getParikh(first), p2: getParikh(second) };
-    }
-  }
-  return null;
-}
-
 function enumerateAbcLab(maxLength = 8) {
-  abcLevels = [['']];
+  abcLevels = [['']] ;
   abcFailures = [];
 
   for (let len = 1; len <= maxLength; len++) {
@@ -504,7 +740,8 @@ function enumerateAbcLab(maxLength = 8) {
     for (const prefix of abcLevels[len - 1]) {
       for (const letter of ABC_ALPHABET) {
         const candidate = prefix + letter;
-        const square = findSuffixAbelianSquare(candidate);
+        const arr = candidate.split('');
+        const square = findSuffixAbelianSquare(arr, ABC_ALPHABET);
         if (square) {
           abcFailures.push({ candidate, from: prefix, letter, square });
         } else {
@@ -561,23 +798,20 @@ function renderAbcLab() {
 
 function selectAbcWord(word) {
   const chars = word.split('');
-  const square = findAbelianSquare(chars);
+  const square = findAbelianSquare(chars, ABC_ALPHABET);
   const highlights = square ? { sq1Start: square.start, sq2Start: square.start + square.halfLen, halfLen: square.halfLen } : {};
   renderTiles(chars, 'tiles-abc', highlights);
   $('abc-selected-text').textContent = word || '-';
 
   const table = $('abc-vector-table');
-  if (!word) {
-    table.innerHTML = '';
-    return;
-  }
+  if (!word) { table.innerHTML = ''; return; }
   if (!square) {
     table.innerHTML = '<tr><th>Status</th><td class="abc-success">No Abelian square found in this finite word.</td></tr>';
     return;
   }
   table.innerHTML = `
-    <tr><th>Half 1</th><td>${square.first.join('')}</td><td>${parikhStr(square.p1)}</td></tr>
-    <tr><th>Half 2</th><td>${square.second.join('')}</td><td>${parikhStr(square.p2)}</td></tr>
+    <tr><th>Half 1</th><td>${square.first.join('')}</td><td>${parikhStr(square.p1, ABC_ALPHABET)}</td></tr>
+    <tr><th>Half 2</th><td>${square.second.join('')}</td><td>${parikhStr(square.p2, ABC_ALPHABET)}</td></tr>
     <tr><th>Position</th><td colspan="2">starts at ${square.start}, half length ${square.halfLen}</td></tr>
   `;
 }
@@ -596,7 +830,7 @@ function applyMorphism() {
   $('btn-apply-morphism').disabled = true;
   fourLetterIteration++;
   const oldLen = fourLetterWord.length;
-  addLog(`Applying g₈₅ (Iteration ${fourLetterIteration})...`);
+  addLog(`Applying g&#8085; (Iteration ${fourLetterIteration})...`);
 
   const newWord = [];
   for (const ch of fourLetterWord) { for (const c of G85[ch]) newWord.push(c); }
@@ -615,7 +849,7 @@ function applyMorphism() {
     drawCanvasCondensed();
   }
   
-  addLog(`<span class="log-ok">g₈₅ applied: length grew from ${oldLen} to ${newWord.length}.</span>`);
+  addLog(`<span class="log-ok">g&#8085; applied: length grew from ${oldLen} to ${newWord.length}.</span>`);
   $('btn-apply-morphism').disabled = false;
 }
 
@@ -702,6 +936,322 @@ function audioLoop() {
 }
 
 // =====================================================
+// 6. TRY IT YOURSELF
+// =====================================================
+let tryItWord = [];
+let tryItAlpha = ['a','b','c'];
+
+function tryItGetAlpha() {
+  return document.querySelector('input[name="tryit-alpha"]:checked').value === '4'
+    ? ['a','b','c','d'] : ['a','b','c'];
+}
+
+function tryItUpdate() {
+  tryItAlpha = tryItGetAlpha();
+  const word = tryItWord;
+  const n = word.length;
+
+  // Render colored word
+  const display = $('tryit-display');
+  if (n === 0) {
+    display.innerHTML = '<span style="color:#aaa; font-style:italic; font-family:Arial; font-size:1rem; letter-spacing:0;">Press a key to start&hellip;</span>';
+  } else {
+    const square = findAbelianSquare(word, tryItAlpha);
+    let html = '';
+    word.forEach((ch, i) => {
+      let cls = `ch-${ch}`;
+      if (square) {
+        if (i >= square.start && i < square.start + square.halfLen) cls += ' sq-half1';
+        if (i >= square.start + square.halfLen && i < square.start + square.halfLen * 2) cls += ' sq-half2';
+      }
+      html += `<span class="${cls}">${ch}</span>`;
+    });
+    display.innerHTML = html;
+
+    // Status
+    const status = $('tryit-status');
+    if (square) {
+      const s1 = square.first.join('');
+      const s2 = square.second.join('');
+      status.className = 'tryit-status error';
+      status.innerHTML = `&#10007; Abelian square at position ${square.start}: 
+        <strong>${s1}</strong> | <strong>${s2}</strong> — both have ${parikhStr(square.p1, tryItAlpha)}`;
+    } else if (tryItAlpha.length === 3 && n >= 8) {
+      status.className = 'tryit-status warn';
+      status.innerHTML = `&#9888; Length ${n} — amazingly still no abelian square! This is extremely rare in 3-letter words.`;
+    } else if (tryItAlpha.length === 3 && n === 7) {
+      status.className = 'tryit-status warn';
+      status.innerHTML = `&#9888; Length 7 — no square yet, but length 8 is the wall. Try adding one more letter.`;
+    } else {
+      status.className = 'tryit-status ok';
+      status.innerHTML = `&#10003; Length ${n} — no abelian square found. Keep going!`;
+    }
+  }
+
+  // Render tiles
+  if (n === 0) {
+    $('tryit-tiles').innerHTML = '';
+  } else {
+    const sq = findAbelianSquare(word, tryItAlpha);
+    const hl = sq ? { sq1Start: sq.start, sq2Start: sq.start + sq.halfLen, halfLen: sq.halfLen } : {};
+    renderTiles(word, 'tryit-tiles', hl);
+  }
+
+  // Parikh panel — show all possible splits
+  const parikhList = $('tryit-parikh-list');
+  if (n < 2) {
+    parikhList.innerHTML = '<span style="color:#aaa; font-style:italic;">Type a word to see its Parikh splits.</span>';
+    return;
+  }
+  let rows = '';
+  for (let halfLen = 1; halfLen <= Math.floor(n / 2); halfLen++) {
+    const start = n - 2 * halfLen;
+    const first = word.slice(start, start + halfLen);
+    const second = word.slice(start + halfLen, start + halfLen * 2);
+    const p1 = getParikh(first);
+    const p2 = getParikh(second);
+    const clash = parikhEqual(p1, p2, tryItAlpha);
+    const rowCls = clash ? 'parikh-split-row clash' : 'parikh-split-row ok';
+    rows += `<div class="${rowCls}">
+      <span title="${first.join('')}" style="flex:1.2; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${first.join('')}</span>
+      <span class="parikh-vec">${parikhStr(p1, tryItAlpha)}</span>
+      <span class="parikh-vs">vs</span>
+      <span class="parikh-vec">${parikhStr(p2, tryItAlpha)}</span>
+      <span title="${second.join('')}" style="flex:1.2; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:right;">${second.join('')}</span>
+      ${clash ? '<span style="margin-left:4px;">&#10007;</span>' : ''}
+    </div>`;
+  }
+  parikhList.innerHTML = rows || '<span style="color:#aaa; font-style:italic;">No splits yet.</span>';
+}
+
+function tryItAppend(letter) {
+  tryItWord.push(letter);
+  tryItUpdate();
+}
+function tryItBack() {
+  if (tryItWord.length > 0) { tryItWord.pop(); tryItUpdate(); }
+}
+function tryItClear() {
+  tryItWord = [];
+  tryItUpdate();
+}
+
+// Keyboard support for try-it
+document.addEventListener('keydown', function(e) {
+  if (mode !== 'try-it') return;
+  if (e.key === 'Backspace') { tryItBack(); e.preventDefault(); return; }
+  if (e.key === 'Delete' || e.key === 'Escape') { tryItClear(); return; }
+  const allowed = tryItAlpha.includes(e.key) ? e.key : null;
+  if (allowed) { tryItAppend(allowed); }
+});
+
+document.querySelectorAll('.key-btn[data-letter]').forEach(btn => {
+  btn.addEventListener('click', () => tryItAppend(btn.dataset.letter));
+});
+$('tryit-back').addEventListener('click', tryItBack);
+$('tryit-clear').addEventListener('click', tryItClear);
+
+document.querySelectorAll('input[name="tryit-alpha"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+    const is4 = this.value === '4';
+    $('tryit-key-d').classList.toggle('hidden', !is4);
+    tryItWord = []; // reset on alphabet change
+    tryItUpdate();
+  });
+});
+
+// =====================================================
+// 7. HISTORICAL TIMELINE
+// =====================================================
+const TL_EVENTS = [
+  {
+    year: 1906, name: 'Thue', letters: null, color: '#bdc3c7',
+    title: 'Axel Thue (1906)',
+    text: `Norwegian mathematician Axel Thue proved that an infinite <em>square-free</em> word exists over a 3-letter alphabet {a,b,c}. A square-free word avoids patterns like "ww" (identical repetition). This is the founding result of combinatorics on words — but it concerns <em>ordinary</em> squares, not abelian squares.`
+  },
+  {
+    year: 1961, name: 'Erdős', letters: '?', color: '#e67e22',
+    title: 'Paul Erdős (1961)',
+    text: `Hungarian mathematician Paul Erdős posed the question: can <em>abelian</em> squares be avoided on some finite alphabet? An abelian square "uv" allows u and v to be permutations of each other — a far weaker condition than ordinary squares. This seemingly simple generalization turned out to be extremely hard to resolve.`
+  },
+  {
+    year: 1968, name: 'Evdokimov', letters: '25', color: '#8e44ad',
+    title: 'Evdokimov (1968)',
+    text: `A.A. Evdokimov gave the first positive answer to Erdős's question: an infinite abelian square-free word exists over an alphabet of <strong>25 letters</strong>. This was a major existence proof, but the alphabet was enormous. It left open whether the number could be reduced.`
+  },
+  {
+    year: 1970, name: 'Pleasants', letters: '5', color: '#2980b9',
+    title: 'P.A.B. Pleasants (1970)',
+    text: `Peter Pleasants drastically reduced the alphabet size. He proved that an infinite abelian square-free word exists over just <strong>5 letters</strong>. He also proved the key negative result: with only 3 letters {a,b,c}, it is <em>impossible</em> — every word of length ≥ 8 over 3 letters must contain an abelian square. The gap of 4 vs 5 letters remained open.`
+  },
+  {
+    year: 1992, name: 'Keränen', letters: '4', color: '#d35400',
+    title: 'Veikko Keränen (1992) — The Solution',
+    text: `Finnish mathematician Veikko Keränen resolved the final case: <strong>4 letters suffice</strong> — and 4 is optimal (since 3 do not suffice). His construction uses a uniform morphism g₈₅ where each letter maps to an 85-letter string. The images of b, c, d are cyclic permutations of g₈₅(a). He proved computer-assistedly that g₈₅ preserves abelian square-freedom: if w is abelian square-free, so is g₈₅(w). This solved Erdős's 1961 question after 31 years. Published at ICALP 1992.`
+  }
+];
+
+function buildTimeline() {
+  const track = $('tl-track');
+  track.innerHTML = '';
+
+  const maxLetters = 25;
+
+  TL_EVENTS.forEach((ev, idx) => {
+    // Gap label before event (except first)
+    if (idx > 0) {
+      const prevYear = TL_EVENTS[idx-1].year;
+      const gap = ev.year - prevYear;
+      const gapDiv = document.createElement('div');
+      gapDiv.className = 'tl-gap-label';
+      gapDiv.innerHTML = `<span class="tl-gap-arrow">&#8594;</span><span class="tl-gap-years">${gap}y</span>`;
+      track.appendChild(gapDiv);
+    }
+
+    const col = document.createElement('div');
+    col.className = 'tl-event';
+    col.dataset.idx = idx;
+
+    const barH = ev.letters ? Math.max(20, Math.round((parseInt(ev.letters) / maxLetters) * 180)) : 0;
+    
+    let badgeHtml = '';
+    if (ev.letters) {
+      badgeHtml = `<div class="tl-letters-badge" style="bottom:${barH + 8}px">${ev.letters}</div>`;
+    }
+
+    col.innerHTML = `
+      ${ev.letters ? `<div class="tl-bar" style="height:${barH}px; background:${ev.color};"></div>` : '<div style="height:0"></div>'}
+      ${badgeHtml}
+      <div class="tl-dot"></div>
+      <div class="tl-year">${ev.year}</div>
+      <div class="tl-name">${ev.name}</div>
+    `;
+    col.addEventListener('click', () => selectTimelineEvent(idx));
+    track.appendChild(col);
+  });
+}
+
+function selectTimelineEvent(idx) {
+  document.querySelectorAll('.tl-event').forEach((el, i) => {
+    el.classList.toggle('highlighted', i === idx);
+  });
+  const ev = TL_EVENTS[idx];
+  $('tl-detail').innerHTML = `<h3>${ev.title}</h3><p>${ev.text}</p>`;
+}
+
+// =====================================================
+// 8. UNFAVORABLE FACTORS
+// =====================================================
+const UNF_ALPHA = ['a','b','c','d'];
+const UNF_MAX_STEPS = 200; // max letters to try per direction
+
+function unfavorableExtend(seed) {
+  const seedArr = seed.toLowerCase().split('').filter(c => UNF_ALPHA.includes(c));
+  if (seedArr.length === 0) return null;
+
+  // Extend right
+  let rightWord = [...seedArr];
+  let rightAdded = 0;
+  let rightDead = '';
+  while (rightAdded < UNF_MAX_STEPS) {
+    let extended = false;
+    for (const c of UNF_ALPHA) {
+      const candidate = [...rightWord, c];
+      if (!findSuffixAbelianSquare(candidate, UNF_ALPHA)) {
+        rightWord = candidate;
+        rightAdded++;
+        extended = true;
+        break;
+      }
+    }
+    if (!extended) { rightDead = UNF_ALPHA.find(c => true); break; }
+  }
+
+  // Extend left
+  let leftWord = [...seedArr];
+  let leftAdded = 0;
+  let leftDead = '';
+  while (leftAdded < UNF_MAX_STEPS) {
+    let extended = false;
+    for (const c of UNF_ALPHA) {
+      const candidate = [c, ...leftWord];
+      if (!findAbelianSquare(candidate, UNF_ALPHA) || !findSuffixAbelianSquare(candidate.slice().reverse(), UNF_ALPHA)) {
+        // Check full word
+        if (!findAbelianSquare(candidate, UNF_ALPHA)) {
+          leftWord = candidate;
+          leftAdded++;
+          extended = true;
+          break;
+        }
+      }
+    }
+    if (!extended) { leftDead = UNF_ALPHA.find(c => true); break; }
+  }
+
+  return { seedArr, rightWord, leftWord, rightAdded, leftAdded, hitRight: rightAdded >= UNF_MAX_STEPS, hitLeft: leftAdded >= UNF_MAX_STEPS };
+}
+
+function renderUnfavorable() {
+  const seed = $('unf-input').value.trim();
+  if (!seed) return;
+
+  const result = unfavorableExtend(seed);
+  if (!result) { $('unf-stats').textContent = 'Invalid input.'; return; }
+
+  const { seedArr, rightWord, leftWord, rightAdded, leftAdded, hitRight, hitLeft } = result;
+
+  // Stats
+  $('unf-stats').innerHTML = `
+    <strong>Seed:</strong> <code>${seedArr.join('')}</code> (length ${seedArr.length})<br>
+    <strong>Right extension:</strong> ${rightAdded} letters added ${hitRight ? '(reached limit '+UNF_MAX_STEPS+')' : '— <span style="color:#e74c3c">DEAD END</span>'}<br>
+    <strong>Left extension:</strong> ${leftAdded} letters added ${hitLeft ? '(reached limit '+UNF_MAX_STEPS+')' : '— <span style="color:#e74c3c">DEAD END</span>'}
+  `;
+
+  // Bars
+  const maxBar = UNF_MAX_STEPS;
+  $('unf-bars').innerHTML = `
+    <div class="unf-result-bar">
+      <span class="label">Left ext.</span>
+      <div class="unf-bar-fill left-ext" style="width:${Math.round(leftAdded / maxBar * 300)}px">${leftAdded}</div>
+      ${!hitLeft ? '<div class="unf-bar-fill dead" style="width:24px; margin-left:2px;">✗</div>' : ''}
+    </div>
+    <div class="unf-result-bar">
+      <span class="label">Right ext.</span>
+      <div class="unf-bar-fill right-ext" style="width:${Math.round(rightAdded / maxBar * 300)}px">${rightAdded}</div>
+      ${!hitRight ? '<div class="unf-bar-fill dead" style="width:24px; margin-left:2px;">✗</div>' : ''}
+    </div>
+  `;
+
+  // Word display (show right extension, with seed highlighted in middle)
+  // Show: [left added] [seed] [right added]
+  const leftAddedPart = leftWord.slice(0, leftAdded);
+  const rightAddedPart = rightWord.slice(seedArr.length);
+
+  let displayHtml = '';
+  leftAddedPart.forEach(c => { displayHtml += `<span class="unf-added-l ch-${c}">${c}</span>`; });
+  seedArr.forEach(c => { displayHtml += `<span class="unf-seed ch-${c}">${c}</span>`; });
+  rightAddedPart.forEach(c => { displayHtml += `<span class="unf-added-r ch-${c}">${c}</span>`; });
+
+  // Add colors inline for unf-word-display
+  const wrapDiv = $('unf-word-display');
+  wrapDiv.innerHTML = displayHtml || '&mdash;';
+
+  // add CSS for ch- classes in unf display
+  updateStats({ len: leftAdded + seedArr.length + rightAdded });
+  addLog(`Seed "${seedArr.join('')}": left +${leftAdded}, right +${rightAdded} before dead end.`);
+}
+
+// Unf examples
+document.querySelectorAll('.unf-examples button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    $('unf-input').value = btn.dataset.ex;
+    renderUnfavorable();
+  });
+});
+$('unf-run').addEventListener('click', renderUnfavorable);
+$('unf-input').addEventListener('keydown', e => { if (e.key === 'Enter') renderUnfavorable(); });
+
+// =====================================================
 // UI TABS & INIT
 // =====================================================
 function switchMode(newMode) {
@@ -713,22 +1263,28 @@ function switchMode(newMode) {
   document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === newMode));
   ['btn-start','btn-pause','btn-apply-morphism','btn-play-audio','btn-stop-audio','btn-draw-canvas','btn-run-abc'].forEach(id => $(id).classList.add('hidden'));
   
-  $('view-3letter').classList.add('hidden');
-  $('view-abc-lab').classList.add('hidden');
-  $('view-general').classList.add('hidden');
+  // Hide all view panels
+  ['view-3letter','view-abc-lab','view-general','view-tryit','view-timeline','view-unfavorable'].forEach(id => $(id).classList.add('hidden'));
   $('condensedCanvas').classList.add('hidden');
   $('audio-ui').classList.add('hidden');
   $('word-empty').classList.add('hidden');
   $('tiles-general').classList.add('hidden');
+  
+  // Hide info panel for some modes, show for others
+  const noInfoModes = ['timeline'];
+  $('info-panel').style.display = noInfoModes.includes(newMode) ? 'none' : '';
+  $('speed-wrap').style.display = ['3letter'].includes(newMode) ? '' : 'none';
 
   if (mode === '3letter') {
     $('view-3letter').classList.remove('hidden');
     $('btn-start').classList.remove('hidden'); $('btn-pause').classList.remove('hidden');
     $('btn-start').disabled = false; $('btn-pause').disabled = true;
     $('stat-attempts-row').classList.remove('hidden'); $('stat-backtracks-row').classList.remove('hidden');
+    $('speed-wrap').style.display = '';
     setAttemptsLabel('Nodes Explored');
     setSquaresLabel('Squares Found');
     init3LetterSearch();
+
   } else if (mode === 'abc-lab') {
     $('view-abc-lab').classList.remove('hidden');
     $('btn-run-abc').classList.remove('hidden');
@@ -737,7 +1293,24 @@ function switchMode(newMode) {
     setAttemptsLabel('Rejected Extensions');
     setSquaresLabel('Square Collisions');
     renderAbcLab();
+
+  } else if (mode === 'try-it') {
+    $('view-tryit').classList.remove('hidden');
+    $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
+    setSquaresLabel('Squares Found');
+    tryItWord = [];
+    tryItUpdate();
+
+  } else if (mode === 'timeline') {
+    $('view-timeline').classList.remove('hidden');
+    buildTimeline();
+
+  } else if (mode === 'unfavorable') {
+    $('view-unfavorable').classList.remove('hidden');
+    $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
+
   } else {
+    // 4letter, canvas, audio
     $('view-general').classList.remove('hidden');
     $('btn-apply-morphism').classList.remove('hidden');
     $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
@@ -763,6 +1336,9 @@ function switchMode(newMode) {
   }
 }
 
+// =====================================================
+// EVENT LISTENERS
+// =====================================================
 $('btn-start').addEventListener('click', () => { if (mode === '3letter') { running = true; $('btn-start').disabled=true; $('btn-pause').disabled=false; step3Letter(); }});
 $('btn-pause').addEventListener('click', () => {
   if (running) { running = false; if (loopTimer) clearTimeout(loopTimer); addLog('Paused.'); $('btn-pause').textContent = 'Resume'; }
@@ -776,6 +1352,16 @@ $('btn-play-audio').addEventListener('click', playAudio);
 $('btn-stop-audio').addEventListener('click', stopAudio);
 $('abc-survivors').addEventListener('click', handleAbcClick);
 $('abc-failures').addEventListener('click', handleAbcClick);
+
+// Inline style for ch- colors in unf display (avoid adding <style> tags dynamically)
+const unfStyle = document.createElement('style');
+unfStyle.textContent = `
+  .unf-word-display .ch-a { color: #e74c3c; }
+  .unf-word-display .ch-b { color: #2980b9; }
+  .unf-word-display .ch-c { color: #b8860b; }
+  .unf-word-display .ch-d { color: #27ae60; }
+`;
+document.head.appendChild(unfStyle);
 
 document.querySelectorAll('.mode-tab').forEach(tab => tab.addEventListener('click', () => switchMode(tab.dataset.mode)));
 
