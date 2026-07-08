@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Abelian Squares — Combinatorics Visualizer</title>
+  <title>Abelian Square-Free Structures — Interactive Explorer</title>
   <style>
     :root {
       --bg: #ffffff;
@@ -19,10 +19,11 @@
     body { font-family: "Times New Roman", Times, serif; background: var(--bg); color: var(--text); line-height: 1.6; margin: 0; padding: 40px 20px; }
     .app { max-width: 1100px; margin: 0 auto; }
     h1, h2, h3 { font-weight: normal; color: var(--text-orange); margin-top: 0; }
-    h1 { font-size: 2.2rem; margin-bottom: 10px; }
+    h1 { font-size: 2.2rem; margin-bottom: 6px; }
     p { font-size: 1.1rem; margin-bottom: 15px; }
 
-    .intro-text { color: var(--text-orange); margin-bottom: 20px; }
+    .intro-subtitle { font-family: Arial, sans-serif; font-size: 0.9rem; color: #888; margin-bottom: 18px; letter-spacing: 0.03em; font-weight: normal; }
+    .intro-text { color: #333; font-size: 1.05rem; margin-bottom: 16px; line-height: 1.7; max-width: 860px; }
     .legend { margin-bottom: 30px; font-size: 1.1rem; }
     .legend span { font-weight: bold; }
     .legend-a { color: var(--letter-a); }
@@ -254,23 +255,24 @@
 <body>
 
 <div class="app">
-  <h1>Abelian Squares &mdash; Combinatorics Visualizer</h1>
+  <h1>Abelian Square-Free Structures &mdash; Interactive Explorer</h1>
+  <p class="intro-subtitle">Combinatorics on Words &mdash; Veikko Ker&auml;nen (1992)</p>
   <p class="intro-text">
-    Visualizing the computational search for abelian square-free words. 
-    With 3 letters {a,b,c}, an infinite word is impossible (any word of length ≥ 8 contains an abelian square).
-    Veikko Keränen (1992) found a solution with 4 letters {a,b,c,d}.
+    Visualizing the search for Abelian square-free words. Over a three-letter alphabet {a,&thinsp;b,&thinsp;c},
+    every word of length 8 or greater contains an Abelian square, making an infinite Abelian square-free word impossible.
+    In 1992, Veikko Ker&auml;nen proved that an infinite Abelian square-free word exists over a four-letter alphabet {a,&thinsp;b,&thinsp;c,&thinsp;d}.
   </p>
   <p class="legend">
-    Color mapping: 
-    <span class="legend-a">a</span>, <span class="legend-b">b</span>, <span class="legend-c">c</span>, <span class="legend-d">d</span>.
+    Letter colors:&ensp;
+    <span class="legend-a">a</span>&ensp;<span class="legend-b">b</span>&ensp;<span class="legend-c">c</span>&ensp;<span class="legend-d">d</span>.
   </p>
 
   <div class="mode-tabs">
-    <div class="mode-tab active" data-mode="3letter" id="tab-3">1. 3 Letters (Tree Search)</div>
+    <div class="mode-tab active" data-mode="3letter" id="tab-3">1. Tree Search (3 letters)</div>
     <div class="mode-tab" data-mode="abc-lab" id="tab-abc">2. ABC Laboratory</div>
-    <div class="mode-tab" data-mode="4letter" id="tab-4">3. 4 Letters (Morphism g85)</div>
+    <div class="mode-tab" data-mode="4letter" id="tab-4">3. Morphism g&#8085; (4 letters)</div>
     <div class="mode-tab" data-mode="canvas" id="tab-canvas">4. 2D Walk</div>
-    <div class="mode-tab" data-mode="audio" id="tab-audio">5. Sonification (Music)</div>
+    <div class="mode-tab" data-mode="audio" id="tab-audio">5. Sonification</div>
     <div class="mode-tab" data-mode="try-it" id="tab-tryit">6. Try It Yourself</div>
     <div class="mode-tab" data-mode="timeline" id="tab-timeline">7. Historical Timeline</div>
     <div class="mode-tab" data-mode="unfavorable" id="tab-unf">8. Unfavorable Factors</div>
@@ -282,7 +284,7 @@
     <button class="btn" id="btn-start">Start Search</button>
     <button class="btn" id="btn-pause" disabled>Pause</button>
     <button class="btn" id="btn-reset">Reset</button>
-    <button class="btn hidden" id="btn-apply-morphism">Apply g85 Iteration</button>
+    <button class="btn hidden" id="btn-apply-morphism">Apply g&#8085; Iteration</button>
     <button class="btn hidden" id="btn-draw-canvas">Draw 2D Walk</button>
     <label class="hidden" id="lbl-canvas-anim" style="font-family: Arial; font-size: 0.9rem; gap: 5px; cursor: pointer; margin-left: 10px;">
       <input type="checkbox" id="chk-anim-walk" checked> Animate Walk
@@ -302,15 +304,15 @@
     <div class="split-view">
       <div class="split-left">
         <h3>Search Tree</h3>
-        <p style="font-family: Arial; font-size: 0.8rem; color:#666;">Visualizing combinatorial explosion and backtracking.</p>
+        <p style="font-family: Arial; font-size: 0.8rem; color:#666;">Backtracking over {a,&thinsp;b,&thinsp;c}. Each branch tries one letter; branches marked red contain an Abelian square and are pruned.</p>
         <canvas id="treeCanvas"></canvas>
       </div>
       <div class="split-right">
         <h3>Current String</h3>
         <div class="word-tiles" id="tiles-3letter"></div>
         
-        <h3>Sliding Window Scanner</h3>
-        <p style="font-family: Arial; font-size: 0.8rem; color:#666;">Scanning backwards to compare Parikh vectors.</p>
+        <h3>Suffix Parikh Scanner</h3>
+        <p style="font-family: Arial; font-size: 0.8rem; color:#666;">After each appended letter, all suffix splits are scanned. A match in Parikh vectors means an Abelian square &mdash; branch is pruned.</p>
         <div class="scanner-ui" id="scanner-ui">
           <div id="scanner-status">Idle</div>
           <div class="parikh-compare hidden" id="parikh-compare">
@@ -487,25 +489,31 @@
        9. MORPHISM MICROSCOPE
        ================================================ -->
   <div class="view-panel hidden" id="view-microscope">
-    <h2>Morphism Microscope (g85 vs g98)</h2>
+    <h2>Morphism Microscope</h2>
     <p style="font-family: Arial; font-size: 0.95rem; color:#555; max-width:800px; line-height:1.5;">
-      Compare the properties of the two famous 4-letter morphisms discovered by Veikko Keränen. 
-      While g85 (1992) proved 4 letters are sufficient, g98 (2002) expanded the toolkit. 
-      <em>Note: g98 is currently awaiting its exact 98-character sequence.</em>
+      Two Abelian square-free morphisms by Veikko Ker&auml;nen. Both map each of the four letters to a longer word
+      such that the image of <em>b</em>, <em>c</em>, <em>d</em> are cyclic permutations of the image of <em>a</em>.
+      Iterating either morphism from the seed word &ldquo;a&rdquo; produces an infinite Abelian square-free word.
     </p>
-    <div style="display:flex; gap:20px; font-family:Arial, sans-serif; margin-top:20px;">
-      <div style="flex:1; border:1px solid var(--border); padding:15px; border-radius:5px; background:#fff;">
-        <h3 style="margin-top:0;">Morphism g85 (1992)</h3>
-        <p><strong>Length:</strong> 85 letters</p>
-        <p><strong>Parikh Vector:</strong> <span id="mic-g85-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
-        <div style="font-family:monospace; word-break:break-all; background:#f9f9f9; padding:10px; border:1px solid #eee; line-height:1.6;" id="mic-g85-a"></div>
+    <div style="display:flex; gap:20px; font-family:Arial, sans-serif; margin-top:20px; flex-wrap:wrap;">
+      <div style="flex:1; min-width:300px; border:1px solid var(--border); padding:15px; border-radius:5px; background:#fff;">
+        <h3 style="margin-top:0;">Morphism g&#8085; &mdash; Ker&auml;nen 1992</h3>
+        <p style="font-size:0.9rem; color:#555; margin-bottom:8px;">Published at ICALP 1992. First proof that 4 letters suffice. Length of each image: <strong>85</strong>.</p>
+        <p><strong>Parikh vector of g&#8085;(a):</strong> <span id="mic-g85-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
+        <p style="font-size:0.85rem; color:#666; margin-bottom:4px;">g&#8085;(a) &rarr;</p>
+        <div style="font-family:monospace; word-break:break-all; background:#f9f9f9; padding:10px; border:1px solid #eee; line-height:1.8; font-size:0.95rem;" id="mic-g85-a"></div>
       </div>
-      <div style="flex:1; border:1px solid var(--border); padding:15px; border-radius:5px; background:#fff;">
-        <h3 style="margin-top:0;">Morphism g98 (2002)</h3>
-        <p><strong>Length:</strong> 98 letters</p>
-        <p><strong>Parikh Vector:</strong> <span id="mic-g98-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
-        <div style="font-family:monospace; word-break:break-all; background:#f9f9f9; padding:10px; border:1px solid #eee; line-height:1.6;" id="mic-g98-a"></div>
+      <div style="flex:1; min-width:300px; border:1px solid var(--border); padding:15px; border-radius:5px; background:#fff;">
+        <h3 style="margin-top:0;">Morphism g&#8089;&#8088; &mdash; Ker&auml;nen 2002&ndash;2009</h3>
+        <p style="font-size:0.9rem; color:#555; margin-bottom:8px;">Published in Theoretical Computer Science (2009). Described as &ldquo;a powerful abelian square-free substitution.&rdquo; Length of each image: <strong id="mic-g98-len">?</strong>.</p>
+        <p><strong>Parikh vector of g&#8089;&#8088;(a):</strong> <span id="mic-g98-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
+        <p style="font-size:0.85rem; color:#666; margin-bottom:4px;">g&#8089;&#8088;(a) &rarr;</p>
+        <div style="font-family:monospace; word-break:break-all; background:#f9f9f9; padding:10px; border:1px solid #eee; line-height:1.8; font-size:0.95rem;" id="mic-g98-a"></div>
       </div>
+    </div>
+    <div style="margin-top:16px; padding:12px; background:#fffef0; border:1px solid #e0d080; font-family:Arial; font-size:0.88rem; color:#555; border-radius:4px;">
+      <strong>Cyclic permutation:</strong> g(b) is obtained from g(a) by the letter substitution a&rarr;b&rarr;c&rarr;d&rarr;a;
+      g(c) applies it twice; g(d) three times. This guarantees the Parikh vectors of all four images are equal up to permutation.
     </div>
   </div>
 
@@ -1391,22 +1399,23 @@ function unfavorableExtend(seed) {
     if (!extended) { rightDead = UNF_ALPHA.find(c => true); break; }
   }
 
-  // Extend left
+  // Extend left — reverse the word, use suffix check, reverse back
   let leftWord = [...seedArr];
   let leftAdded = 0;
-  let leftDead = '';
   while (leftAdded < UNF_MAX_STEPS) {
     let extended = false;
     for (const c of UNF_ALPHA) {
       const candidate = [c, ...leftWord];
-      if (!findAbelianSquare(candidate, UNF_ALPHA)) {
+      // Check suffix of reversed candidate (= prefix of candidate reversed)
+      const reversed = [...candidate].reverse();
+      if (!findSuffixAbelianSquare(reversed, UNF_ALPHA)) {
         leftWord = candidate;
         leftAdded++;
         extended = true;
         break;
       }
     }
-    if (!extended) { leftDead = UNF_ALPHA.find(c => true); break; }
+    if (!extended) { break; }
   }
 
   return { seedArr, rightWord, leftWord, rightAdded, leftAdded, hitRight: rightAdded >= UNF_MAX_STEPS, hitLeft: leftAdded >= UNF_MAX_STEPS };
@@ -1494,7 +1503,7 @@ function switchMode(newMode) {
   $('tiles-general').classList.add('hidden');
   
   // Hide info panel for some modes, show for others
-  const noInfoModes = ['timeline'];
+  const noInfoModes = ['timeline', 'microscope', 'knowledge'];
   $('info-panel').style.display = noInfoModes.includes(newMode) ? 'none' : '';
   $('speed-wrap').style.display = ['3letter'].includes(newMode) ? '' : 'none';
 
@@ -1531,6 +1540,8 @@ function switchMode(newMode) {
   } else if (mode === 'unfavorable') {
     $('view-unfavorable').classList.remove('hidden');
     $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
+    // Auto-compute with the default/current input value on tab entry
+    renderUnfavorable();
 
   } else if (mode === 'microscope') {
     $('view-microscope').classList.remove('hidden');
@@ -1608,17 +1619,29 @@ switchMode('3letter');
 // =====================================================
 function renderMicroscope() {
   const ALPHABET = ['a','b','c','d'];
-  $('mic-g85-a').innerHTML = G85_A.split('').map(c => `<span style="color:${COLORS[c]||'#000'}; font-weight:bold;">${c}</span>`).join('');
-  const p85 = getParikh(G85_A.split(''), ALPHABET);
+
+  // --- g85 ---
+  $('mic-g85-a').innerHTML = G85_A.split('').map((c, i) => {
+    // group into blocks of 5 for readability
+    const sep = (i > 0 && i % 5 === 0) ? '<span style="color:#ccc">·</span>' : '';
+    return sep + `<span style="color:${COLORS[c]||'#000'}; font-weight:bold;">${c}</span>`;
+  }).join('');
+  const p85 = getParikh(G85_A, ALPHABET);
   $('mic-g85-parikh').textContent = `a:${p85.a}, b:${p85.b}, c:${p85.c}, d:${p85.d}`;
-  
-  if (G98_A.includes("PLACEHOLDER")) {
-     $('mic-g98-a').innerHTML = `<span style="color:#e74c3c; font-weight:bold;">${G98_A}</span>`;
-     $('mic-g98-parikh').textContent = "Unknown (waiting for data)";
+
+  // --- g98 ---
+  const g98len = G98_A.length;
+  if ($('mic-g98-len')) $('mic-g98-len').textContent = g98len;
+  if (G98_A.includes('PLACEHOLDER') || g98len < 10) {
+    $('mic-g98-a').innerHTML = `<span style="color:#e74c3c;">Sequence not yet loaded.</span>`;
+    $('mic-g98-parikh').textContent = 'n/a';
   } else {
-     $('mic-g98-a').innerHTML = G98_A.split('').map(c => `<span style="color:${COLORS[c]||'#000'}; font-weight:bold;">${c}</span>`).join('');
-     const p98 = getParikh(G98_A.split(''), ALPHABET);
-     $('mic-g98-parikh').textContent = `a:${p98.a}, b:${p98.b}, c:${p98.c}, d:${p98.d}`;
+    $('mic-g98-a').innerHTML = G98_A.split('').map((c, i) => {
+      const sep = (i > 0 && i % 5 === 0) ? '<span style="color:#ccc">·</span>' : '';
+      return sep + `<span style="color:${COLORS[c]||'#000'}; font-weight:bold;">${c}</span>`;
+    }).join('');
+    const p98 = getParikh(G98_A, ALPHABET);
+    $('mic-g98-parikh').textContent = `a:${p98.a}, b:${p98.b}, c:${p98.c}, d:${p98.d}`;
   }
 }
 
@@ -1787,21 +1810,28 @@ function initKG() {
       ctx.stroke();
     });
     
-    ctx.font = '12px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
     nodes.forEach(n => {
+      // Node circle
       ctx.beginPath();
-      ctx.arc(n.x, n.y, 25, 0, Math.PI*2);
+      ctx.arc(n.x, n.y, 28, 0, Math.PI*2);
       ctx.fillStyle = colors[n.cat] || '#999';
       ctx.fill();
       ctx.lineWidth = 2;
-      ctx.strokeStyle = (n === draggedNode) ? '#333' : '#fff';
+      ctx.strokeStyle = (n === draggedNode) ? '#222' : '#fff';
       ctx.stroke();
       
-      ctx.fillStyle = '#000';
-      ctx.fillText(n.label, n.x, n.y + 35);
+      // Label below node with background for legibility
+      const label = n.label;
+      ctx.font = 'bold 11px Arial';
+      const tw = ctx.measureText(label).width;
+      const lx = n.x, ly = n.y + 38;
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.fillRect(lx - tw/2 - 3, ly - 8, tw + 6, 16);
+      ctx.fillStyle = '#111';
+      ctx.fillText(label, lx, ly);
     });
   };
   
