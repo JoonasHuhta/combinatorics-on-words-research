@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>abelian square-Free Structures — Interactive Explorer</title>
+  <title>Abelian Square-Free Structures — Interactive Explorer</title>
   <style>
     :root {
       --bg: #ffffff;
@@ -281,96 +281,96 @@
        ===================================================== */
     #view-snake { padding: 0; border: none; background: transparent; min-height: 0; }
     .snake-layout { display: flex; gap: 0; align-items: flex-start; flex-wrap: wrap; }
-    .snake-canvas-wrap { flex: 2; min-width: 320px; position: relative; background: #0d0d14; border: 2px solid #2a2a3a; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .snake-canvas-wrap { flex: 2; min-width: 320px; position: relative; background: #fff; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     #snakeCanvas { display: block; margin: 0 auto; }
-    .snake-side { flex: 1; min-width: 260px; max-width: 340px; padding: 16px 20px; background: #111827; border: 2px solid #2a2a3a; border-left: none; border-radius: 0 6px 6px 0; color: #e2e8f0; font-family: Arial, sans-serif; font-size: 0.88rem; }
-    .snake-side h3 { color: #f59e0b; margin: 0 0 8px; font-family: 'Times New Roman', serif; font-size: 1.05rem; }
+    .snake-side { flex: 1; min-width: 260px; max-width: 340px; padding: 16px 20px; background: #fafafa; border: 1px solid var(--border); border-left: none; border-radius: 0 6px 6px 0; color: var(--text); font-family: Arial, sans-serif; font-size: 0.88rem; }
+    .snake-side h3 { color: var(--text-orange); margin: 0 0 8px; font-family: 'Times New Roman', serif; font-size: 1.05rem; }
     .snake-dna {
       font-family: monospace; font-size: 0.78rem; letter-spacing: 1px; word-break: break-all;
-      line-height: 1.7; max-height: 90px; overflow-y: auto; border: 1px solid #2a2a3a;
-      background: #0d0d14; padding: 6px 8px; border-radius: 3px; color: #94a3b8;
+      line-height: 1.7; max-height: 90px; overflow-y: auto; border: 1px solid #ccc;
+      background: #fff; padding: 6px 8px; border-radius: 3px; color: #555;
       margin-bottom: 10px;
     }
-    .snake-dna .sn-a { color: #ef4444; font-weight: bold; }
-    .snake-dna .sn-b { color: #3b82f6; font-weight: bold; }
-    .snake-dna .sn-c { color: #eab308; font-weight: bold; }
-    .snake-dna .sn-d { color: #22c55e; font-weight: bold; }
+    .snake-dna .sn-a { color: var(--letter-a); font-weight: bold; }
+    .snake-dna .sn-b { color: var(--letter-b); font-weight: bold; }
+    .snake-dna .sn-c { color: var(--letter-c); font-weight: bold; }
+    .snake-dna .sn-d { color: var(--letter-d); font-weight: bold; }
     /* Balance meter */
     .snake-balance { margin: 8px 0 14px; font-family: monospace; font-size: 0.78rem; }
     .snake-b-row { display: flex; align-items: center; margin-bottom: 3px; }
-    .snake-b-lbl { width: 14px; color: #94a3b8; font-weight: bold; }
-    .snake-b-bar-wrap { flex: 1; height: 12px; background: #1f2937; margin-right: 8px; border-radius: 2px; overflow: hidden; }
+    .snake-b-lbl { width: 14px; color: #555; font-weight: bold; }
+    .snake-b-bar-wrap { flex: 1; height: 12px; background: #eee; margin-right: 8px; border-radius: 2px; overflow: hidden; }
     .snake-b-bar { height: 100%; transition: width 0.3s; }
-    .snake-b-val { width: 24px; text-align: right; color: #cbd5e1; }
-    .snake-stat-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.83rem; color: #94a3b8; }
-    .snake-stat-row strong { color: #e2e8f0; }
-    .snake-parikh { font-family: monospace; font-size: 0.78rem; border: 1px solid #2a2a3a; background: #0d0d14; border-radius: 3px; padding: 6px 8px; margin-top: 4px; color: #64748b; }
-    .snake-parikh .sp-row { display: flex; justify-content: space-between; align-items: center; padding: 1px 0; border-bottom: 1px solid #1e2330; }
+    .snake-b-val { width: 24px; text-align: right; color: #333; }
+    .snake-stat-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.83rem; color: #666; }
+    .snake-stat-row strong { color: #000; }
+    .snake-parikh { font-family: monospace; font-size: 0.78rem; border: 1px solid #ccc; background: #fff; border-radius: 3px; padding: 6px 8px; margin-top: 4px; color: #555; }
+    .snake-parikh .sp-row { display: flex; justify-content: space-between; align-items: center; padding: 1px 0; border-bottom: 1px solid #eee; }
     .snake-parikh .sp-row:last-child { border-bottom: none; }
-    .snake-parikh .sp-row.sp-danger { background: #3f0000; border-radius: 2px; color: #fca5a5; }
-    .snake-parikh .sp-half { flex: 1; text-align: right; padding-right: 6px; border-right: 1px solid #2a2a3a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .snake-parikh .sp-vs { padding: 0 4px; color: #475569; font-size: 0.72rem; }
-    .snake-legend { display: flex; gap: 10px; flex-wrap: wrap; margin: 8px 0 12px; font-size: 0.78rem; }
+    .snake-parikh .sp-row.sp-danger { background: #ffebee; border-radius: 2px; color: #b00020; }
+    .snake-parikh .sp-half { flex: 1; text-align: right; padding-right: 6px; border-right: 1px solid #eee; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .snake-parikh .sp-vs { padding: 0 4px; color: #999; font-size: 0.72rem; }
+    .snake-legend { display: flex; gap: 10px; flex-wrap: wrap; margin: 8px 0 12px; font-size: 0.78rem; color: var(--text); }
     .snake-legend-item { display: flex; align-items: center; gap: 4px; }
     .snake-legend-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
     .snake-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-    .snake-btn { padding: 6px 13px; border: 1px solid #374151; background: #1f2937; color: #e2e8f0; cursor: pointer; border-radius: 4px; font-size: 0.82rem; transition: background 0.15s; }
-    .snake-btn:hover { background: #374151; }
-    .snake-btn.active { background: #374151; border-color: #f59e0b; color: #f59e0b; }
+    .snake-btn { padding: 6px 13px; border: 1px solid #ccc; background: #fff; color: #333; cursor: pointer; border-radius: 4px; font-size: 0.82rem; transition: background 0.15s; }
+    .snake-btn:hover { background: #eee; }
+    .snake-btn.active { background: #e0e0e0; border-color: #999; color: #000; font-weight: bold; }
     .snake-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .snake-mode-badge { display: inline-block; font-size: 0.72rem; padding: 2px 7px; border-radius: 10px; margin-left: 6px; vertical-align: middle; }
-    .snake-mode-badge.easy { background: #14532d; color: #86efac; }
-    .snake-mode-badge.hard { background: #450a0a; color: #fca5a5; }
+    .snake-mode-badge.easy { background: #e6f4ea; color: #1e8e3e; }
+    .snake-mode-badge.hard { background: #fce8e6; color: #d93025; }
     /* Game Over overlay */
     .snake-gameover-overlay {
       position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.82); display: flex; flex-direction: column;
-      align-items: center; justify-content: center; color: #e2e8f0;
+      background: rgba(255,255,255,0.92); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; color: #333;
       font-family: Arial, sans-serif; text-align: center; padding: 20px; z-index: 10;
       backdrop-filter: blur(2px);
     }
     .snake-gameover-overlay.hidden { display: none; }
-    .snake-go-title { font-size: 2rem; font-weight: bold; color: #ef4444; margin-bottom: 8px; letter-spacing: 2px; }
-    .snake-go-subtitle { color: #94a3b8; font-size: 0.88rem; margin-bottom: 16px; }
-    .snake-go-square { font-family: monospace; font-size: 0.82rem; background: #1f2937; border: 1px solid #374151; padding: 10px 14px; border-radius: 4px; text-align: left; max-width: 360px; width: 100%; margin-bottom: 16px; line-height: 1.8; }
-    .snake-go-sq-h1 { color: #ef4444; text-decoration: underline; }
-    .snake-go-sq-h2 { color: #f97316; text-decoration: underline; text-decoration-color: #888; }
-    .snake-go-fullword { font-family: monospace; font-size: 0.75rem; background: #0f172a; border: 1px solid #1e293b; padding: 10px; border-radius: 4px; max-width: 400px; width: 100%; max-height: 120px; overflow-y: auto; text-align: left; word-break: break-all; margin-bottom: 16px; color: #94a3b8; line-height: 1.5; }
-    .snake-go-fullword .sn-a { color: #ef4444; } .snake-go-fullword .sn-b { color: #3b82f6; } .snake-go-fullword .sn-c { color: #eab308; } .snake-go-fullword .sn-d { color: #22c55e; }
-    .snake-go-btn { padding: 9px 22px; background: #d35400; border: none; color: #fff; cursor: pointer; border-radius: 4px; font-size: 0.9rem; transition: background 0.2s; }
+    .snake-go-title { font-size: 2rem; font-weight: bold; color: var(--letter-a); margin-bottom: 8px; letter-spacing: 2px; }
+    .snake-go-subtitle { color: #666; font-size: 0.88rem; margin-bottom: 16px; }
+    .snake-go-square { font-family: monospace; font-size: 0.82rem; background: #f9f9f9; border: 1px solid #ddd; padding: 10px 14px; border-radius: 4px; text-align: left; max-width: 360px; width: 100%; margin-bottom: 16px; line-height: 1.8; }
+    .snake-go-sq-h1 { color: var(--letter-a); text-decoration: underline; }
+    .snake-go-sq-h2 { color: var(--text-orange); text-decoration: underline; text-decoration-color: #888; }
+    .snake-go-fullword { font-family: monospace; font-size: 0.75rem; background: #f4f4f4; border: 1px solid #ddd; padding: 10px; border-radius: 4px; max-width: 400px; width: 100%; max-height: 120px; overflow-y: auto; text-align: left; word-break: break-all; margin-bottom: 16px; color: #555; line-height: 1.5; }
+    .snake-go-fullword .sn-a { color: var(--letter-a); } .snake-go-fullword .sn-b { color: var(--letter-b); } .snake-go-fullword .sn-c { color: var(--letter-c); } .snake-go-fullword .sn-d { color: var(--letter-d); }
+    .snake-go-btn { padding: 9px 22px; background: var(--text-orange); border: none; color: #fff; cursor: pointer; border-radius: 4px; font-size: 0.9rem; transition: background 0.2s; }
     .snake-go-btn:hover { background: #b84900; }
-    .snake-score-hs { color: #f59e0b; font-size: 0.9rem; margin-bottom: 14px; }
+    .snake-score-hs { color: var(--text-orange); font-size: 0.9rem; margin-bottom: 14px; }
     /* Start screen */
     .snake-start-overlay {
       position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.88); display: flex; flex-direction: column;
-      align-items: center; justify-content: center; color: #e2e8f0;
+      background: rgba(255,255,255,0.95); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; color: #333;
       font-family: Arial, sans-serif; text-align: center; padding: 20px; z-index: 10;
     }
     .snake-start-overlay.hidden { display: none; }
-    .snake-start-title { font-size: 1.6rem; color: #f59e0b; margin-bottom: 6px; font-family: 'Times New Roman', serif; }
-    .snake-start-sub { color: #94a3b8; font-size: 0.88rem; max-width: 340px; margin-bottom: 18px; line-height: 1.6; }
-    .snake-start-keys { color: #64748b; font-size: 0.78rem; margin-top: 10px; }
+    .snake-start-title { font-size: 1.6rem; color: var(--text-orange); margin-bottom: 6px; font-family: 'Times New Roman', serif; }
+    .snake-start-sub { color: #555; font-size: 0.88rem; max-width: 340px; margin-bottom: 18px; line-height: 1.6; }
+    .snake-start-keys { color: #777; font-size: 0.78rem; margin-top: 10px; }
     /* Milestone badges */
     .snake-milestones { margin-top: 10px; }
-    .snake-milestones h3 { color: #f59e0b; margin: 0 0 6px; font-family: 'Times New Roman', serif; font-size: 1.05rem; }
+    .snake-milestones h3 { color: var(--text-orange); margin: 0 0 6px; font-family: 'Times New Roman', serif; font-size: 1.05rem; }
     .snake-milestone-list { display: flex; flex-wrap: wrap; gap: 5px; }
-    .snake-m { padding: 3px 9px; border-radius: 12px; font-size: 0.72rem; font-family: monospace; border: 1px solid #374151; color: #4b5563; background: #1f2937; transition: all 0.4s; }
-    .snake-m.reached { border-color: #d97706; color: #fcd34d; background: #451a03; font-weight: bold; }
-    .snake-m.next { border-color: #374151; color: #6b7280; border-style: dashed; }
+    .snake-m { padding: 3px 9px; border-radius: 12px; font-size: 0.72rem; font-family: monospace; border: 1px solid #ccc; color: #777; background: #fff; transition: all 0.4s; }
+    .snake-m.reached { border-color: var(--text-orange); color: #fff; background: var(--text-orange); font-weight: bold; }
+    .snake-m.next { border-color: #ccc; color: #999; border-style: dashed; }
     /* Dead-end warning */
-    .snake-deadend-warn { margin-top: 8px; padding: 6px 10px; background: #450a0a; border: 1px solid #7f1d1d; border-radius: 4px; color: #fca5a5; font-family: Arial, sans-serif; font-size: 0.78rem; display: none; }
+    .snake-deadend-warn { margin-top: 8px; padding: 6px 10px; background: #fff0f0; border: 1px solid var(--letter-a); border-radius: 4px; color: #b00020; font-family: Arial, sans-serif; font-size: 0.78rem; display: none; }
     .snake-deadend-warn.active { display: block; }
     /* Flash overlay on canvas for milestone */
     .snake-flash { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; z-index: 5; }
     .snake-flash.visible { opacity: 1; }
-    .snake-flash-inner { background: rgba(251,191,36,0.15); border: 2px solid #f59e0b; border-radius: 8px; padding: 10px 20px; font-family: Arial, sans-serif; color: #fcd34d; font-size: 1rem; font-weight: bold; text-align: center; white-space: nowrap; }
+    .snake-flash-inner { background: rgba(251,191,36,0.25); border: 2px solid var(--text-orange); border-radius: 8px; padding: 10px 20px; font-family: Arial, sans-serif; color: var(--text-orange); font-size: 1rem; font-weight: bold; text-align: center; white-space: nowrap; }
   </style>
 </head>
 <body>
 
 <div class="app">
-  <h1>abelian square-Free Structures &mdash; Interactive Explorer</h1>
+  <h1>Abelian Square-Free Structures &mdash; Interactive Explorer</h1>
   <p class="intro-text">
     Visualizing the search for abelian square-free words. Over a three-letter alphabet {a,&thinsp;b,&thinsp;c},
     every word of length 8 or greater contains an abelian square, making an infinite abelian square-free word impossible.
@@ -815,22 +815,22 @@
     </div>
     <p>Explore extensions of ternary words in <strong>aa2f</strong> or <strong>aa2fr</strong> mode. aa2f allows abelian squares of period 1 (e.g. <em>aa</em>). aa2fr additionally forbids the factors <em>{baac, caab, abbc, cbba, accb, bcca}</em>.</p>
     
-    <div style="margin-bottom: 16px; background: #0f172a; padding: 16px; border-radius: 6px; border: 1px solid #1e293b;">
-      <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 12px;">
+    <div style="margin-bottom: 16px; background: #f8f9fa; padding: 16px; border-radius: 6px; border: 1px solid #e2e8f0;">
+      <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 12px; color: #333;">
         <label>Mode:</label>
-        <select id="aa2fr-mode" style="background:#1f2937; color:#e2e8f0; border:1px solid #374151; padding:6px; border-radius:4px; font-family:inherit;">
+        <select id="aa2fr-mode" style="background:#fff; color:#333; border:1px solid #ccc; padding:6px; border-radius:4px; font-family:inherit;">
           <option value="aa2f">aa2f (period 1 allowed)</option>
           <option value="aa2fr" selected>aa2fr (aa2f + forbid4)</option>
         </select>
         <label>Direction:</label>
-        <select id="aa2fr-dir" style="background:#1f2937; color:#e2e8f0; border:1px solid #374151; padding:6px; border-radius:4px; font-family:inherit;">
+        <select id="aa2fr-dir" style="background:#fff; color:#333; border:1px solid #ccc; padding:6px; border-radius:4px; font-family:inherit;">
           <option value="right" selected>Extend to Right</option>
           <option value="left">Extend to Left</option>
         </select>
       </div>
-      <div style="margin-bottom: 12px;">
+      <div style="margin-bottom: 12px; color: #333;">
         <label>Base Word (editable):</label><br>
-        <textarea id="aa2fr-base-word" style="width: 100%; height: 80px; background:#111827; color:#94a3b8; border:1px solid #374151; font-family:monospace; padding:8px; margin-top:6px; border-radius:4px;" placeholder="Enter base word (e.g. 40 letters)..."></textarea>
+        <textarea id="aa2fr-base-word" style="width: 100%; height: 80px; background:#fff; color:#333; border:1px solid #ccc; font-family:monospace; padding:8px; margin-top:6px; border-radius:4px;" placeholder="Enter base word (e.g. 40 letters)..."></textarea>
       </div>
       <div>
         <button onclick="aa2frLoadExample(40)" class="control-btn" style="background:#2980b9;">Load 40-letter aa2fr Word</button>
@@ -850,17 +850,17 @@
     </div>
 
     <div style="display:flex; gap:20px; align-items:flex-start;">
-      <div style="flex: 2; background:#0d0d14; border:1px solid #2a2a3a; border-radius:6px; padding:16px; min-height: 250px; font-family:monospace; font-size: 1.15rem; word-break:break-all; position:relative; line-height:1.6;" id="aa2fr-display">
+      <div style="flex: 2; background:#fff; border:1px solid #ccc; box-shadow:inset 0 1px 3px rgba(0,0,0,0.05); border-radius:6px; padding:16px; min-height: 250px; font-family:monospace; font-size: 1.15rem; word-break:break-all; position:relative; line-height:1.6;" id="aa2fr-display">
         <!-- Words rendered here -->
       </div>
-      <div style="flex: 1; background:#111827; border:1px solid #2a2a3a; border-radius:6px; padding:16px;">
-        <h3 style="margin-top:0; color:#f59e0b;">Scanner Status</h3>
-        <div id="aa2fr-status" style="margin-bottom:16px; color:#94a3b8; font-family:monospace;">Idle.</div>
-        <div id="aa2fr-stats" style="font-size: 0.95rem; color:#cbd5e1; line-height: 1.8;">
-          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #1e293b; padding-bottom:4px; margin-bottom:4px;"><span>Current Length:</span><strong id="aa2fr-stat-len" style="color:#2ecc71;">0</strong></div>
-          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #1e293b; padding-bottom:4px; margin-bottom:4px;"><span>Max Length:</span><strong id="aa2fr-stat-max" style="color:#f1c40f;">0</strong></div>
-          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #1e293b; padding-bottom:4px; margin-bottom:4px;"><span>Nodes Explored:</span><strong id="aa2fr-stat-att">0</strong></div>
-          <div style="display:flex; justify-content:space-between;"><span>Backtracks:</span><strong id="aa2fr-stat-bt" style="color:#e74c3c;">0</strong></div>
+      <div style="flex: 1; background:#f9fafb; border:1px solid #ccc; border-radius:6px; padding:16px;">
+        <h3 style="margin-top:0; color:#333;">Scanner Status</h3>
+        <div id="aa2fr-status" style="margin-bottom:16px; color:#555; font-family:monospace;">Idle.</div>
+        <div id="aa2fr-stats" style="font-size: 0.95rem; color:#444; line-height: 1.8;">
+          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding-bottom:4px; margin-bottom:4px;"><span>Current Length:</span><strong id="aa2fr-stat-len" style="color:#27ae60;">0</strong></div>
+          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding-bottom:4px; margin-bottom:4px;"><span>Max Length:</span><strong id="aa2fr-stat-max" style="color:#d35400;">0</strong></div>
+          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding-bottom:4px; margin-bottom:4px;"><span>Nodes Explored:</span><strong id="aa2fr-stat-att">0</strong></div>
+          <div style="display:flex; justify-content:space-between;"><span>Backtracks:</span><strong id="aa2fr-stat-bt" style="color:#c0392b;">0</strong></div>
         </div>
       </div>
     </div>
