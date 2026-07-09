@@ -159,6 +159,23 @@
     .parikh-split-row.ok { background: #f9f9f9; }
     .parikh-vec { flex: 1; text-align: right; border-right: 1px solid #eee; padding-right: 6px; }
     .parikh-vs { color: #999; font-size: 0.75rem; padding: 0 4px; }
+    .parikh-lens {
+      margin-top: 12px; background: #fff; border: 1px solid #ddd; border-left: 4px solid #2980b9;
+      padding: 12px; font-family: Arial, sans-serif; color: #333;
+    }
+    .parikh-lens h4 { margin: 0 0 8px; color: #1f5f8b; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    .parikh-lens-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; font-size: 0.84rem; color: #555; }
+    .parikh-lens-controls input { width: 58px; padding: 3px 5px; border: 1px solid #bbb; border-radius: 3px; }
+    .parikh-lens-word { font-family: monospace; font-size: 0.95rem; letter-spacing: 2px; word-break: break-all; line-height: 1.8; padding: 7px 9px; background: #fafafa; border: 1px solid #eee; margin-bottom: 8px; }
+    .parikh-lens-half1 { background: #fff0f0; border-bottom: 3px solid var(--letter-a); }
+    .parikh-lens-half2 { background: #f4f4f4; border-bottom: 3px solid #777; }
+    .parikh-lens-result { font-size: 0.86rem; line-height: 1.5; color: #555; margin-top: 8px; }
+    .parikh-lens-result.match { color: #b00020; font-weight: bold; }
+    .parikh-lens-result.diff { color: #1f7a1f; }
+    .parikh-lens .ch-a { color: var(--letter-a); font-weight: bold; }
+    .parikh-lens .ch-b { color: var(--letter-b); font-weight: bold; }
+    .parikh-lens .ch-c { color: var(--letter-c); font-weight: bold; }
+    .parikh-lens .ch-d { color: var(--letter-d); font-weight: bold; }
 
     /* Audio UI */
     .audio-ui { display: flex; align-items: center; gap: 15px; font-family: Arial, sans-serif; margin-bottom: 15px;}
@@ -365,6 +382,53 @@
     .snake-flash { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; z-index: 5; }
     .snake-flash.visible { opacity: 1; }
     .snake-flash-inner { background: rgba(251,191,36,0.25); border: 2px solid var(--text-orange); border-radius: 8px; padding: 10px 20px; font-family: Arial, sans-serif; color: var(--text-orange); font-size: 1rem; font-weight: bold; text-align: center; white-space: nowrap; }
+
+    /* =====================================================
+       14. AA2FR PEDAGOGY STYLES
+       ===================================================== */
+    #aa2fr-display .sn-a, #aa2fr-status .sn-a, #aa2fr-explain .sn-a { color: var(--letter-a); font-weight: bold; }
+    #aa2fr-display .sn-b, #aa2fr-status .sn-b, #aa2fr-explain .sn-b { color: var(--letter-b); font-weight: bold; }
+    #aa2fr-display .sn-c, #aa2fr-status .sn-c, #aa2fr-explain .sn-c { color: var(--letter-c); font-weight: bold; }
+    .aa2fr-teach-toggle { font-family: Arial, sans-serif; font-size: 0.86rem; color: #333; display: flex; align-items: center; gap: 6px; }
+    .aa2fr-explain {
+      margin-top: 16px; background: #fff; border: 1px solid #ddd; border-left: 4px solid #e74c3c;
+      border-radius: 6px; padding: 14px 16px; font-family: Arial, sans-serif; color: #333;
+    }
+    .aa2fr-explain h3 { margin: 0 0 8px; color: #b00020; font-size: 1.05rem; }
+    .aa2fr-candidate {
+      font-family: monospace; font-size: 1rem; letter-spacing: 2px; word-break: break-all;
+      line-height: 1.9; background: #fafafa; border: 1px solid #eee; padding: 8px 10px;
+      margin: 10px 0 12px;
+    }
+    .aa2fr-sq1 { background: #fff0f0; border-bottom: 3px solid var(--letter-a); }
+    .aa2fr-sq2 { background: #f4f4f4; border-bottom: 3px solid #777; }
+    .aa2fr-forbid { background: #ffe8e8; outline: 2px solid #e74c3c; }
+    .aa2fr-vector-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-top: 10px; }
+    .aa2fr-vector-card { border: 1px solid #e5e5e5; border-radius: 5px; padding: 10px; background: #fcfcfc; }
+    .aa2fr-vector-card h4 { margin: 0 0 8px; font-size: 0.85rem; color: #555; text-transform: uppercase; letter-spacing: 0.04em; }
+    .aa2fr-bar-row { display: grid; grid-template-columns: 18px 1fr 26px; align-items: center; gap: 7px; margin: 5px 0; font-family: monospace; font-size: 0.85rem; }
+    .aa2fr-bar-track { height: 13px; background: #eee; border-radius: 2px; overflow: hidden; }
+    .aa2fr-bar-fill { height: 100%; min-width: 2px; }
+    .aa2fr-mini-note { font-size: 0.84rem; color: #555; line-height: 1.5; margin-top: 8px; }
+    .aa2fr-challenge {
+      margin-bottom: 16px; border: 1px solid #d8e2ee; border-left: 4px solid #2980b9;
+      background: #f8fbff; border-radius: 6px; padding: 14px 16px; font-family: Arial, sans-serif;
+    }
+    .aa2fr-challenge-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+    .aa2fr-challenge h3 { margin: 0; color: #1f5f8b; font-size: 1.02rem; }
+    .aa2fr-challenge p { margin: 0 0 10px; font-size: 0.9rem; color: #445; line-height: 1.5; }
+    .aa2fr-challenge-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .aa2fr-letter-btn {
+      width: 42px; height: 36px; border: 1px solid #bbb; background: #fff; border-radius: 4px;
+      font-family: monospace; font-size: 1.15rem; font-weight: bold; cursor: pointer;
+    }
+    .aa2fr-letter-btn:hover { background: #eef6ff; }
+    .aa2fr-letter-btn.a { color: var(--letter-a); border-color: var(--letter-a); }
+    .aa2fr-letter-btn.b { color: var(--letter-b); border-color: var(--letter-b); }
+    .aa2fr-letter-btn.c { color: var(--letter-c); border-color: var(--letter-c); }
+    .aa2fr-challenge-feedback { margin-top: 10px; font-family: monospace; font-size: 0.88rem; color: #555; }
+    .aa2fr-challenge-feedback.ok { color: #1f7a1f; }
+    .aa2fr-challenge-feedback.bad { color: #b00020; }
   </style>
 </head>
 <body>
@@ -551,6 +615,16 @@
           <h4>Parikh vectors — all splits</h4>
           <div id="tryit-parikh-list" style="font-family:monospace; font-size:0.82rem; color:#aaa; font-style:italic;">
             Type a word to see its Parikh splits.
+          </div>
+        </div>
+        <div class="parikh-lens">
+          <h4>Parikh Lens</h4>
+          <div class="parikh-lens-controls">
+            <label>Half length <input type="number" id="tryit-lens-half" min="1" value="1"></label>
+            <button class="btn" id="tryit-lens-auto" style="padding:4px 8px; font-size:0.78rem;">Auto</button>
+          </div>
+          <div id="tryit-lens-output">
+            <span style="color:#aaa; font-style:italic;">Type at least two letters to inspect adjacent halves.</span>
           </div>
         </div>
       </div>
@@ -827,6 +901,10 @@
           <option value="right" selected>Extend to Right</option>
           <option value="left">Extend to Left</option>
         </select>
+        <label class="aa2fr-teach-toggle" title="Pause when a tested letter fails, then show the exact obstruction.">
+          <input type="checkbox" id="aa2fr-pause-on-collision" checked>
+          Pause on collision
+        </label>
       </div>
       <div style="margin-bottom: 12px; color: #333;">
         <label>Base Word (editable):</label><br>
@@ -849,6 +927,21 @@
       </div>
     </div>
 
+    <div class="aa2fr-challenge">
+      <div class="aa2fr-challenge-head">
+        <h3>Challenge: find the only legal right extension</h3>
+        <button onclick="aa2frNewChallenge()" class="control-btn" style="background:#2980b9;">New 40-letter Challenge</button>
+      </div>
+      <p>The app loads a valid 40-letter AA2FR word where exactly one of <strong>a</strong>, <strong>b</strong>, or <strong>c</strong> can be appended on the right. Guess the letter; wrong answers open the obstruction panel below.</p>
+      <div class="aa2fr-challenge-actions">
+        <span style="font-size:0.86rem; color:#555;">Try:</span>
+        <button class="aa2fr-letter-btn a" onclick="aa2frGuessChallenge('a')">a</button>
+        <button class="aa2fr-letter-btn b" onclick="aa2frGuessChallenge('b')">b</button>
+        <button class="aa2fr-letter-btn c" onclick="aa2frGuessChallenge('c')">c</button>
+      </div>
+      <div id="aa2fr-challenge-feedback" class="aa2fr-challenge-feedback">Press New 40-letter Challenge to begin.</div>
+    </div>
+
     <div style="display:flex; gap:20px; align-items:flex-start;">
       <div style="flex: 2; background:#fff; border:1px solid #ccc; box-shadow:inset 0 1px 3px rgba(0,0,0,0.05); border-radius:6px; padding:16px; min-height: 250px; font-family:monospace; font-size: 1.15rem; word-break:break-all; position:relative; line-height:1.6;" id="aa2fr-display">
         <!-- Words rendered here -->
@@ -864,6 +957,7 @@
         </div>
       </div>
     </div>
+    <div id="aa2fr-explain" class="aa2fr-explain hidden"></div>
   </div>
 
   <!-- Stats & Logs -->
@@ -925,6 +1019,68 @@ function parikhEqual(p1, p2, alphabet) {
 }
 function parikhStr(p, alphabet) {
   return '(' + alphabet.map(k => `${k}:${p[k]||0}`).join(', ') + ')';
+}
+function parikhDeltaStr(p1, p2, alphabet) {
+  return '(' + alphabet.map(k => {
+    const delta = (p1[k] || 0) - (p2[k] || 0);
+    return `${k}:${delta >= 0 ? '+' : ''}${delta}`;
+  }).join(', ') + ')';
+}
+function renderParikhBars(vec, alphabet, maxVal, classPrefix = 'sn') {
+  return alphabet.map(ch => {
+    const val = vec[ch] || 0;
+    const width = maxVal > 0 ? Math.round((val / maxVal) * 100) : 0;
+    return `
+      <div class="aa2fr-bar-row">
+        <span class="${classPrefix}-${ch}">${ch}</span>
+        <div class="aa2fr-bar-track"><div class="aa2fr-bar-fill" style="width:${width}%; background:${COLORS[ch]};"></div></div>
+        <span>${val}</span>
+      </div>
+    `;
+  }).join('');
+}
+function renderParikhLens(data) {
+  const alphabet = data.alphabet || ['a','b','c'];
+  const first = data.first || [];
+  const second = data.second || [];
+  const p1 = data.p1 || getParikh(first);
+  const p2 = data.p2 || getParikh(second);
+  const match = parikhEqual(p1, p2, alphabet);
+  const maxVal = Math.max(1, ...alphabet.map(ch => p1[ch] || 0), ...alphabet.map(ch => p2[ch] || 0));
+  const word = data.word || first.concat(second);
+  const start = data.start || 0;
+  const halfLen = data.halfLen || first.length;
+  const title = data.title || 'Parikh Lens';
+  const classPrefix = data.classPrefix || 'sn';
+  const charClass = data.charClass || (ch => `${classPrefix}-${ch}`);
+
+  let wordHtml = '';
+  word.forEach((ch, i) => {
+    let cls = charClass(ch);
+    if (i >= start && i < start + halfLen) cls += ' parikh-lens-half1';
+    if (i >= start + halfLen && i < start + 2 * halfLen) cls += ' parikh-lens-half2';
+    wordHtml += `<span class="${cls}">${ch}</span>`;
+  });
+
+  return `
+    <h4>${title}</h4>
+    <div class="parikh-lens-word">${wordHtml}</div>
+    <div class="aa2fr-vector-grid">
+      <div class="aa2fr-vector-card">
+        <h4>First half: ${first.join('')}</h4>
+        ${renderParikhBars(p1, alphabet, maxVal, classPrefix)}
+      </div>
+      <div class="aa2fr-vector-card">
+        <h4>Second half: ${second.join('')}</h4>
+        ${renderParikhBars(p2, alphabet, maxVal, classPrefix)}
+      </div>
+    </div>
+    <div class="parikh-lens-result ${match ? 'match' : 'diff'}">
+      ${match
+        ? `MATCH: both halves have ${parikhStr(p1, alphabet)}. This is an abelian square.`
+        : `DIFFERENCE: ${parikhDeltaStr(p1, p2, alphabet)}. The adjacent halves are not abelian equivalent.`}
+    </div>
+  `;
 }
 function setAttemptsLabel(text) { $('stat-attempts-label').textContent = text; }
 function setSquaresLabel(text) { $('stat-squares-label').textContent = text; }
@@ -1500,6 +1656,7 @@ function audioLoop() {
 // =====================================================
 let tryItWord = [];
 let tryItAlpha = ['a','b','c'];
+let tryItLensHalf = null;
 
 function tryItGetAlpha() {
   return document.querySelector('input[name="tryit-alpha"]:checked').value === '4'
@@ -1559,18 +1716,25 @@ function tryItUpdate() {
 
   // Parikh panel — show all possible splits
   const parikhList = $('tryit-parikh-list');
+  const lensOutput = $('tryit-lens-output');
+  const lensHalfInput = $('tryit-lens-half');
   if (n < 2) {
     parikhList.innerHTML = '<span style="color:#aaa; font-style:italic;">Type a word to see its Parikh splits.</span>';
+    lensOutput.innerHTML = '<span style="color:#aaa; font-style:italic;">Type at least two letters to inspect adjacent halves.</span>';
+    if (lensHalfInput) lensHalfInput.value = 1;
     return;
   }
+  const maxHalfLen = Math.floor(n / 2);
   let rows = '';
-  for (let halfLen = 1; halfLen <= Math.floor(n / 2); halfLen++) {
+  let firstClashHalf = null;
+  for (let halfLen = 1; halfLen <= maxHalfLen; halfLen++) {
     const start = n - 2 * halfLen;
     const first = word.slice(start, start + halfLen);
     const second = word.slice(start + halfLen, start + halfLen * 2);
     const p1 = getParikh(first);
     const p2 = getParikh(second);
     const clash = parikhEqual(p1, p2, tryItAlpha);
+    if (clash && firstClashHalf === null) firstClashHalf = halfLen;
     const rowCls = clash ? 'parikh-split-row clash' : 'parikh-split-row ok';
     rows += `<div class="${rowCls}">
       <span title="${first.join('')}" style="flex:1.2; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${first.join('')}</span>
@@ -1582,6 +1746,26 @@ function tryItUpdate() {
     </div>`;
   }
   parikhList.innerHTML = rows || '<span style="color:#aaa; font-style:italic;">No splits yet.</span>';
+
+  const chosenHalf = Math.max(1, Math.min(maxHalfLen, tryItLensHalf || firstClashHalf || maxHalfLen));
+  if (tryItLensHalf !== null) tryItLensHalf = chosenHalf;
+  if (lensHalfInput) {
+    lensHalfInput.max = maxHalfLen;
+    lensHalfInput.value = chosenHalf;
+  }
+  const lensStart = n - 2 * chosenHalf;
+  const lensFirst = word.slice(lensStart, lensStart + chosenHalf);
+  const lensSecond = word.slice(lensStart + chosenHalf, lensStart + chosenHalf * 2);
+  lensOutput.innerHTML = renderParikhLens({
+    title: `Suffix split, half length ${chosenHalf}`,
+    word,
+    start: lensStart,
+    halfLen: chosenHalf,
+    first: lensFirst,
+    second: lensSecond,
+    alphabet: tryItAlpha,
+    classPrefix: 'ch'
+  });
 }
 
 function tryItAppend(letter) {
@@ -1593,6 +1777,7 @@ function tryItBack() {
 }
 function tryItClear() {
   tryItWord = [];
+  tryItLensHalf = null;
   tryItUpdate();
 }
 
@@ -1610,12 +1795,22 @@ document.querySelectorAll('.key-btn[data-letter]').forEach(btn => {
 });
 $('tryit-back').addEventListener('click', tryItBack);
 $('tryit-clear').addEventListener('click', tryItClear);
+$('tryit-lens-half').addEventListener('input', function() {
+  const value = parseInt(this.value, 10);
+  tryItLensHalf = Number.isFinite(value) ? value : null;
+  tryItUpdate();
+});
+$('tryit-lens-auto').addEventListener('click', function() {
+  tryItLensHalf = null;
+  tryItUpdate();
+});
 
 document.querySelectorAll('input[name="tryit-alpha"]').forEach(radio => {
   radio.addEventListener('change', function() {
     const is4 = this.value === '4';
     $('tryit-key-d').classList.toggle('hidden', !is4);
     tryItWord = []; // reset on alphabet change
+    tryItLensHalf = null;
     tryItUpdate();
   });
 });
@@ -2052,10 +2247,12 @@ function initKG() {
     e.target = nodes.find(x => x.id === e.target);
   });
   
-  // init positions
-  nodes.forEach(n => {
-    n.x = Math.random() * canvas.width;
-    n.y = Math.random() * canvas.height;
+  // init positions on a ring to avoid starting from an unreadable cluster
+  nodes.forEach((n, i) => {
+    const angle = (Math.PI * 2 * i) / nodes.length;
+    const radius = Math.min(canvas.width, canvas.height) * 0.34;
+    n.x = canvas.width / 2 + Math.cos(angle) * radius;
+    n.y = canvas.height / 2 + Math.sin(angle) * radius;
     n.vx = 0; n.vy = 0;
   });
   
@@ -2099,9 +2296,12 @@ function initKG() {
     kgAnimationId = requestAnimationFrame(kgLoop);
     
     // Physics step
-    const k = 0.03; // spring constant
-    const rep = 3000; // repulsion
-    const damp = 0.80; // damping
+    const k = 0.025; // spring constant
+    const rep = 5200; // repulsion
+    const damp = 0.72; // damping
+    const nodeR = 28;
+    const minNodeDist = 88;
+    const margin = 56;
     
     nodes.forEach(n => {
       let fx = 0, fy = 0;
@@ -2118,8 +2318,8 @@ function initKG() {
       });
       
       // Center gravity
-      fx += (canvas.width/2 - n.x) * 0.01;
-      fy += (canvas.height/2 - n.y) * 0.01;
+      fx += (canvas.width/2 - n.x) * 0.006;
+      fy += (canvas.height/2 - n.y) * 0.006;
       
       n.vx = (n.vx + fx) * damp;
       n.vy = (n.vy + fy) * damp;
@@ -2131,7 +2331,7 @@ function initKG() {
       let dy = e.target.y - e.source.y;
       let dist = Math.sqrt(dx*dx + dy*dy);
       if(dist===0) dist=0.1;
-      let f = (dist - 120) * k;
+      let f = (dist - 150) * k;
       let fx = (dx/dist) * f;
       let fy = (dy/dist) * f;
       
@@ -2139,11 +2339,37 @@ function initKG() {
       e.target.vx -= fx; e.target.vy -= fy;
     });
     
+    // Hard collision pass keeps node circles and their labels readable.
+    for (let pass = 0; pass < 2; pass++) {
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const a = nodes[i], b = nodes[j];
+          let dx = b.x - a.x;
+          let dy = b.y - a.y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist === 0) {
+            dx = 1; dy = 0; dist = 1;
+          }
+          if (dist < minNodeDist) {
+            const push = (minNodeDist - dist) / 2;
+            const ux = dx / dist;
+            const uy = dy / dist;
+            if (a !== draggedNode) { a.x -= ux * push; a.y -= uy * push; a.vx *= 0.5; a.vy *= 0.5; }
+            if (b !== draggedNode) { b.x += ux * push; b.y += uy * push; b.vx *= 0.5; b.vy *= 0.5; }
+          }
+        }
+      }
+    }
+
     nodes.forEach(n => {
       if (n !== draggedNode) {
+        n.vx = Math.max(-8, Math.min(8, n.vx));
+        n.vy = Math.max(-8, Math.min(8, n.vy));
         n.x += n.vx;
         n.y += n.vy;
       }
+      n.x = Math.max(margin, Math.min(canvas.width - margin, n.x));
+      n.y = Math.max(margin, Math.min(canvas.height - margin, n.y));
     });
     
     // Render
@@ -2161,10 +2387,38 @@ function initKG() {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
+    function drawNodeLabel(node) {
+      const words = node.label.split(' ');
+      const lines = [];
+      let line = '';
+      words.forEach(word => {
+        const test = line ? `${line} ${word}` : word;
+        if (ctx.measureText(test).width > 92 && line) {
+          lines.push(line);
+          line = word;
+        } else {
+          line = test;
+        }
+      });
+      if (line) lines.push(line);
+
+      const lineHeight = 12;
+      const boxW = Math.max(...lines.map(l => ctx.measureText(l).width)) + 8;
+      const boxH = lines.length * lineHeight + 4;
+      const lx = node.x;
+      const ly = node.y + 38;
+      ctx.fillStyle = 'rgba(255,255,255,0.92)';
+      ctx.fillRect(lx - boxW/2, ly - boxH/2, boxW, boxH);
+      ctx.fillStyle = '#111';
+      lines.forEach((text, i) => {
+        ctx.fillText(text, lx, ly - ((lines.length - 1) * lineHeight) / 2 + i * lineHeight);
+      });
+    }
+
     nodes.forEach(n => {
       // Node circle
       ctx.beginPath();
-      ctx.arc(n.x, n.y, 28, 0, Math.PI*2);
+      ctx.arc(n.x, n.y, nodeR, 0, Math.PI*2);
       ctx.fillStyle = colors[n.cat] || '#999';
       ctx.fill();
       ctx.lineWidth = 2;
@@ -2172,14 +2426,8 @@ function initKG() {
       ctx.stroke();
       
       // Label below node with background for legibility
-      const label = n.label;
       ctx.font = 'bold 11px Arial';
-      const tw = ctx.measureText(label).width;
-      const lx = n.x, ly = n.y + 38;
-      ctx.fillStyle = 'rgba(255,255,255,0.85)';
-      ctx.fillRect(lx - tw/2 - 3, ly - 8, tw + 6, 16);
-      ctx.fillStyle = '#111';
-      ctx.fillText(label, lx, ly);
+      drawNodeLabel(n);
     });
   };
   
@@ -2953,6 +3201,9 @@ let aa2frState = {
   wordArr: [],
   stack: [],
   stats: { len: 0, attempts: 0, backtracks: 0, maxLen: 0 },
+  lastReject: null,
+  challenge: null,
+  challengeCursor: 0,
   running: false,
   timer: null,
   delay: 50
@@ -2971,13 +3222,18 @@ function aa2frSetBase() {
   aa2frState.wordArr = val.split('');
   aa2frState.stack = [];
   aa2frState.stats = { len: aa2frState.wordArr.length, attempts: 0, backtracks: 0, maxLen: aa2frState.wordArr.length };
+  aa2frState.lastReject = null;
+  aa2frState.challenge = null;
   aa2frState.running = false;
   $('aa2fr-status').textContent = 'Base word set. Ready to extend.';
+  $('aa2fr-challenge-feedback').className = 'aa2fr-challenge-feedback';
+  $('aa2fr-challenge-feedback').textContent = 'Base word changed. Press New 40-letter Challenge to load a challenge.';
   aa2frUpdateUI();
 }
 
 function aa2frStart() {
   if (aa2frState.wordArr.length === 0) aa2frSetBase();
+  aa2frState.challenge = null;
   aa2frState.running = true;
   aa2frState.mode = $('aa2fr-mode').value;
   aa2frState.dir = $('aa2fr-dir').value;
@@ -2992,29 +3248,164 @@ function aa2frPause() {
   $('aa2fr-btn-start').classList.remove('hidden');
 }
 
-function checkAA2F(wordArr, isLeft, mode) {
+function validateWordConstraints(wordArr, opts = {}) {
+  const alphabet = opts.alphabet || ['a','b','c'];
+  const minHalfLen = opts.minHalfLen || 1;
+  const forbiddenFactors = opts.forbiddenFactors || [];
+  const scan = opts.scan || 'full';
   const n = wordArr.length;
-  if (mode === 'aa2fr' && n >= 4) {
-    const f4 = isLeft ? wordArr.slice(0, 4).join('') : wordArr.slice(n - 4).join('');
-    if (FORBID4.includes(f4)) return false;
-  }
-  const maxH = Math.floor(n / 2);
-  for (let h = 2; h <= maxH; h++) {
-    if (isLeft) {
-      const p1 = getParikh(wordArr.slice(0, h));
-      const p2 = getParikh(wordArr.slice(h, 2 * h));
-      if (parikhEqual(p1, p2, ['a','b','c'])) return false;
+
+  if (forbiddenFactors.length > 0) {
+    const factorLen = forbiddenFactors[0].length;
+    const starts = [];
+    if (scan === 'prefix') {
+      if (n >= factorLen) starts.push(0);
+    } else if (scan === 'suffix') {
+      if (n >= factorLen) starts.push(n - factorLen);
     } else {
-      const p1 = getParikh(wordArr.slice(n - 2 * h, n - h));
-      const p2 = getParikh(wordArr.slice(n - h, n));
-      if (parikhEqual(p1, p2, ['a','b','c'])) return false;
+      for (let start = 0; start <= n - factorLen; start++) starts.push(start);
+    }
+
+    for (const start of starts) {
+      const factor = wordArr.slice(start, start + factorLen).join('');
+      if (forbiddenFactors.includes(factor)) {
+        return { valid: false, type: 'forbid4', start, length: factorLen, factor };
+      }
     }
   }
-  return true;
+
+  const squareStarts = [];
+  if (scan === 'prefix') {
+    squareStarts.push(0);
+  } else if (scan === 'suffix') {
+    squareStarts.push(null);
+  } else {
+    for (let start = 0; start < n; start++) squareStarts.push(start);
+  }
+
+  for (const startValue of squareStarts) {
+    const maxH = scan === 'suffix'
+      ? Math.floor(n / 2)
+      : Math.floor((n - startValue) / 2);
+    for (let h = minHalfLen; h <= maxH; h++) {
+      const start = scan === 'suffix' ? n - 2 * h : startValue;
+      const first = wordArr.slice(start, start + h);
+      const second = wordArr.slice(start + h, start + 2 * h);
+      const p1 = getParikh(first);
+      const p2 = getParikh(second);
+      if (parikhEqual(p1, p2, alphabet)) {
+        return { valid: false, type: 'square', start, halfLen: h, first, second, p1, p2 };
+      }
+    }
+  }
+
+  return { valid: true };
+}
+
+function checkAA2F(wordArr, isLeft, mode) {
+  return explainAA2FViolation(wordArr, isLeft, mode).valid;
+}
+
+function explainAA2FViolation(wordArr, isLeft, mode) {
+  return validateWordConstraints(wordArr, {
+    alphabet: ['a','b','c'],
+    minHalfLen: 2,
+    forbiddenFactors: mode === 'aa2fr' ? FORBID4 : [],
+    scan: isLeft ? 'prefix' : 'suffix'
+  });
+}
+
+function aa2frFindFullViolation(wordArr, mode) {
+  return validateWordConstraints(wordArr, {
+    alphabet: ['a','b','c'],
+    minHalfLen: 2,
+    forbiddenFactors: mode === 'aa2fr' ? FORBID4 : [],
+    scan: 'full'
+  });
+}
+
+function aa2frRightExtensionOptions(wordArr, mode) {
+  return ['a','b','c'].map(letter => {
+    const candidate = wordArr.concat(letter);
+    const reason = explainAA2FViolation(candidate, false, mode);
+    return { letter, valid: reason.valid, candidate, reason };
+  });
+}
+
+function aa2frNewChallenge() {
+  aa2frPause();
+  const length = 40;
+  const source = AA2F15796.replace(/[^abc]/g, '');
+  const maxStart = Math.max(0, source.length - length);
+  const startCursor = aa2frState.challengeCursor % Math.max(1, maxStart + 1);
+  let found = null;
+
+  for (let offset = 0; offset <= maxStart; offset++) {
+    const start = (startCursor + offset) % (maxStart + 1);
+    const arr = source.slice(start, start + length).split('');
+    if (!aa2frFindFullViolation(arr, 'aa2fr').valid) continue;
+    const options = aa2frRightExtensionOptions(arr, 'aa2fr');
+    const legal = options.filter(o => o.valid);
+    if (legal.length === 1) {
+      found = { wordArr: arr, answer: legal[0].letter, options, start };
+      aa2frState.challengeCursor = start + 1;
+      break;
+    }
+  }
+
+  if (!found) {
+    $('aa2fr-challenge-feedback').className = 'aa2fr-challenge-feedback bad';
+    $('aa2fr-challenge-feedback').textContent = 'No 40-letter single-extension challenge was found in the local source word.';
+    return;
+  }
+
+  aa2frState.mode = 'aa2fr';
+  aa2frState.dir = 'right';
+  aa2frState.wordArr = found.wordArr.slice();
+  aa2frState.stack = [];
+  aa2frState.stats = { len: found.wordArr.length, attempts: 0, backtracks: 0, maxLen: found.wordArr.length };
+  aa2frState.lastReject = null;
+  aa2frState.challenge = found;
+  $('aa2fr-mode').value = 'aa2fr';
+  $('aa2fr-dir').value = 'right';
+  $('aa2fr-base-word').value = found.wordArr.join('');
+  $('aa2fr-status').innerHTML = 'Challenge loaded. Choose the only legal next letter.';
+  $('aa2fr-challenge-feedback').className = 'aa2fr-challenge-feedback';
+  $('aa2fr-challenge-feedback').textContent = `Challenge source window: ${found.start}. Word length: ${found.wordArr.length}.`;
+  aa2frUpdateUI();
+}
+
+function aa2frGuessChallenge(letter) {
+  if (!aa2frState.challenge) aa2frNewChallenge();
+  const challenge = aa2frState.challenge;
+  if (!challenge) return;
+
+  const picked = challenge.options.find(o => o.letter === letter);
+  if (!picked) return;
+
+  if (picked.valid) {
+    aa2frState.lastReject = null;
+    $('aa2fr-status').innerHTML = `Challenge solved: '<span class="sn-${letter}"><b>${letter}</b></span>' is the unique legal right extension.`;
+    $('aa2fr-challenge-feedback').className = 'aa2fr-challenge-feedback ok';
+    $('aa2fr-challenge-feedback').textContent = `Correct. The word can continue as ${challenge.wordArr.join('')}${letter}.`;
+  } else {
+    aa2frState.lastReject = {
+      letter,
+      candidate: picked.candidate,
+      reason: picked.reason,
+      dir: 'right',
+      mode: 'aa2fr'
+    };
+    $('aa2fr-status').innerHTML = `Challenge guess '<span class="sn-${letter}"><b>${letter}</b></span>' fails. See the obstruction below.`;
+    $('aa2fr-challenge-feedback').className = 'aa2fr-challenge-feedback bad';
+    $('aa2fr-challenge-feedback').textContent = `Not ${letter}. The obstruction panel shows why this extension is illegal.`;
+  }
+  aa2frUpdateUI();
 }
 
 function aa2frStep() {
   if (!aa2frState.running) aa2frState.running = true; // allow manual stepping
+  aa2frState.challenge = null;
   const ALPHA = ['a','b','c'];
   if (aa2frState.stack.length === 0) {
     aa2frState.stack.push({ tryIdx: 0 });
@@ -3039,15 +3430,27 @@ function aa2frStep() {
   if (aa2frState.dir === 'right') aa2frState.wordArr.push(letter);
   else aa2frState.wordArr.unshift(letter);
   
-  const valid = checkAA2F(aa2frState.wordArr, aa2frState.dir === 'left', aa2frState.mode);
-  if (valid) {
+  const explanation = explainAA2FViolation(aa2frState.wordArr, aa2frState.dir === 'left', aa2frState.mode);
+  if (explanation.valid) {
+    aa2frState.lastReject = null;
     aa2frState.stack.push({ tryIdx: 0 });
     if (aa2frState.wordArr.length > aa2frState.stats.maxLen) aa2frState.stats.maxLen = aa2frState.wordArr.length;
     $('aa2fr-status').innerHTML = `Appended '<span class="sn-${letter}"><b>${letter}</b></span>'. <span style="color:#2ecc71">Valid!</span> Expanding...`;
   } else {
+    aa2frState.lastReject = {
+      letter,
+      candidate: aa2frState.wordArr.slice(),
+      reason: explanation,
+      dir: aa2frState.dir,
+      mode: aa2frState.mode
+    };
     if (aa2frState.dir === 'right') aa2frState.wordArr.pop();
     else aa2frState.wordArr.shift();
     $('aa2fr-status').innerHTML = `Tried '<span class="sn-${letter}"><b>${letter}</b></span>'. <span style="color:#e74c3c">Collision found.</span>`;
+    if ($('aa2fr-pause-on-collision').checked) {
+      aa2frState.running = false;
+      aa2frPause();
+    }
   }
   aa2frState.stats.len = aa2frState.wordArr.length;
   aa2frUpdateUI();
@@ -3066,6 +3469,88 @@ function aa2frLoop() {
   if (aa2frState.running) {
     aa2frState.timer = setTimeout(aa2frLoop, delay);
   }
+}
+
+function aa2frRenderCandidate(candidate, reason) {
+  const n = candidate.length;
+  let from = 0;
+  let to = n;
+  const limit = 220;
+  if (n > limit) {
+    const center = reason.type === 'square'
+      ? reason.start + reason.halfLen
+      : reason.start + Math.floor(reason.length / 2);
+    from = Math.max(0, center - Math.floor(limit / 2));
+    to = Math.min(n, from + limit);
+    from = Math.max(0, to - limit);
+  }
+
+  let html = '';
+  if (from > 0) html += `<span style="color:#777; letter-spacing:0;">[...${from} omitted...] </span>`;
+  for (let i = from; i < to; i++) {
+    const ch = candidate[i];
+    let cls = `sn-${ch}`;
+    if (reason.type === 'square') {
+      if (i >= reason.start && i < reason.start + reason.halfLen) cls += ' aa2fr-sq1';
+      if (i >= reason.start + reason.halfLen && i < reason.start + 2 * reason.halfLen) cls += ' aa2fr-sq2';
+    } else if (i >= reason.start && i < reason.start + reason.length) {
+      cls += ' aa2fr-forbid';
+    }
+    html += `<span class="${cls}">${ch}</span>`;
+  }
+  if (to < n) html += `<span style="color:#777; letter-spacing:0;"> [...${n - to} omitted]</span>`;
+  return html;
+}
+
+function aa2frRenderExplain() {
+  const panel = $('aa2fr-explain');
+  const reject = aa2frState.lastReject;
+  if (!reject) {
+    panel.classList.add('hidden');
+    panel.innerHTML = '';
+    return;
+  }
+
+  const reason = reject.reason;
+  const dirText = reject.dir === 'left' ? 'left' : 'right';
+  let html = `<h3>Why letter '${reject.letter}' was rejected</h3>`;
+  html += `<div class="aa2fr-mini-note">The search tried to extend the word on the ${dirText}. The candidate below is shown before the algorithm removes the failed letter.</div>`;
+  html += `<div class="aa2fr-candidate">${aa2frRenderCandidate(reject.candidate, reason)}</div>`;
+
+  if (reason.type === 'square') {
+    const alphabet = ['a','b','c'];
+    html += `
+      <div class="aa2fr-mini-note">
+        The highlighted adjacent blocks have the same length (${reason.halfLen}) and the same letter counts.
+        Order does not matter for an abelian square, only the Parikh vectors matter.
+      </div>
+      <div class="parikh-lens">
+        ${renderParikhLens({
+          title: `Rejected square, half length ${reason.halfLen}`,
+          word: reason.first.concat(reason.second),
+          start: 0,
+          halfLen: reason.halfLen,
+          first: reason.first,
+          second: reason.second,
+          p1: reason.p1,
+          p2: reason.p2,
+          alphabet,
+          classPrefix: 'sn'
+        })}
+      </div>
+    `;
+  } else {
+    html += `
+      <div class="aa2fr-mini-note">
+        The highlighted factor <strong>${reason.factor}</strong> is one of the six forbidden AA2FR pure-repetition patterns:
+        ${FORBID4.join(', ')}.
+      </div>
+      <div class="aa2fr-mini-note"><strong>Conclusion:</strong> this extension may still satisfy the relaxed aa2f rule, but it fails the stricter aa2fr rule.</div>
+    `;
+  }
+
+  panel.innerHTML = html;
+  panel.classList.remove('hidden');
 }
 
 function aa2frUpdateUI() {
@@ -3089,6 +3574,7 @@ function aa2frUpdateUI() {
     }
   }
   $('aa2fr-display').innerHTML = displayStr;
+  aa2frRenderExplain();
 }
 
 </script>
