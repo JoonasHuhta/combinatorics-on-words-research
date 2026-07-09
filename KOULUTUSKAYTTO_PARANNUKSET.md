@@ -1,67 +1,106 @@
-# Ehdotuksia ohjelman parantamiseksi koulutuskäyttöön
+# Educational Improvement Notes
 
-Veikko Keräsen kehittämä abeliaanisten neliövapaiden sanojen tutkimussovellus on erittäin tehokas työkalu edistyneeseen matemaattiseen tutkimukseen, erityisesti AA2FR-rajoituksen (välilehti 14) osalta. Koulutuskäytössä (esimerkiksi yliopiston matematiikan tai tietojenkäsittelytieteen kursseilla) sovellusta voitaisiin kuitenkin kehittää pedagogisempaan suuntaan. 
+## Goal
 
-Tässä on koottuna ideoita ja kehitysehdotuksia sovelluksen parantamiseksi opetuskäyttöä varten.
+The application is already useful as a research-oriented visual lab. For teaching, the main challenge is cognitive load: a first-time student sees 14 tabs, several research terms, and multiple related but distinct rule systems.
 
----
+The best educational improvements are the ones that make the calculation visible.
 
-## 1. Välilehti 14 (AA2FR Laboratory) pedagogiset parannukset
+## Improvements Already Implemented
 
-### Visuaalinen ja interaktiivinen askellus (Step-by-step opetustila)
-- **Ongelma:** Nykymuodossaan backtracking-algoritmi (peruuttava haku) etenee joko täydellä nopeudella tai manuaalisilla "Step"-painalluksilla, mutta opiskelijan on vaikea hahmottaa, *miksi* tietty kirjain hylätään.
-- **Parannus:** Kun algoritmi törmää törmäykseen (collision), ohjelma voisi pysähtyä ja korostaa visuaalisesti sen osan sanasta, joka muodosti abeliaanisen neliön (näyttäen molempien puoliskojen Parikh-vektorit) tai forbid4-tekijän (korostaen kielletyn kuvion punaisella). 
+### Parikh Lens
 
-### AA2F vs AA2FR -vertailuikkuna
-- **Ongelma:** Käsitteiden aa2f (sallii jakson 1 neliöt) ja aa2fr (kieltää lisäksi forbid4-tekijät) ero voi olla abstrakti opiskelijalle.
-- **Parannus:** Jaettu ruutu, jossa opiskelija voi generoida sanoja rinnakkain molemmilla säännöillä. Ruutu voisi näyttää visuaalisesti, mihin kohtiin aa2f-sanan generointi olisi jatkunut, mutta missä aa2fr "leikkaa" haaran poikki forbid4-säännön takia.
+The Try It tab now includes a Parikh Lens. It compares two adjacent blocks, shows their letter-count bars, and states whether the blocks form an Abelian square.
 
-### Parikh-vektorin visuaalinen laskin
-- **Ongelma:** Parikh-vektorien laskeminen ja vertailu tapahtuu koodin sisällä pellin alla.
-- **Parannus:** "Suurennuslasi"-työkalu, jolla opiskelija voi maalata sanasta kaksi vierekkäistä osaa, ja ohjelma piirtää reaaliajassa molemmille osille histogrammin (a, b ja c -kirjainten määrät). Jos histogrammit täsmäävät, ruutu muuttuu punaiseksi merkiksi abeliaanisesta neliöstä.
+This is the strongest introductory teaching component because it directly answers: "Why does order not matter?"
 
----
+### AA2FR Obstruction Explanation
 
-## 2. Pelillistäminen ja interaktiivisuus (Gamification)
+The AA2FR Extension Lab now pauses on failed extensions and explains the failure:
 
-### Ongelmanratkaisutehtävät
-- Koulutusversiossa voisi olla "Haasteet"-osio:
-  - *Haaste 1:* Rakenna käsin pisin mahdollinen aa2fr-sana 3 kirjaimella.
-  - *Haaste 2:* Ohjelma antaa 39-kirjaimisen sanan. Tehtävänä on löytää se yksi kirjain, jolla sanaa voi jatkaa rikkomatta aa2fr-sääntöä.
-  - *Haaste 3:* "Etsi virhe" - ohjelma näyttää pitkän sanan, jossa on yksi abeliaaninen neliö. Opiskelijan tulee löytää se.
+- longer Abelian square: shows both halves and their Parikh vectors;
+- forbid4 violation: highlights the forbidden factor.
 
-### Välilehden 13 (Abelian Snake) hyödyntäminen opetuksessa
-- Nykyinen Snake-peli on jo loistava pelillinen elementti. Sitä voisi laajentaa "Opetusohjelma"-moodilla (Tutorial mode), joka pysäyttää pelin juuri ennen kuolemaa ja kysyy opiskelijalta: *"Miksi seuraava siirto ylöspäin (kirjain b) on laiton?"*. Opiskelijan täytyy vastata tunnistamalla syntyvä abeliaaninen neliö.
+### AA2FR Challenge Mode
 
----
+The 40-letter Challenge mode asks the learner to find the only legal right extension. Wrong answers become teachable moments because the same obstruction panel explains the failure.
 
-## 3. Konseptien visualisointi ja selkeyttäminen
+### Abelian Snake
 
-### Terminologian "Tooltip"-sanakirja
-- Tutkimustermistö (Parikh-vektori, morfologia, endomorfismi, g85, forbid4, aa2fr) on aloittelijalle raskas.
-- **Parannus:** Kaikki keskeiset termit ohjelman käyttöliittymässä tulisi alleviivata katkoviivalla. Kun hiiren vie termin päälle, aukeaa pieni infolaatikko (tooltip), joka selittää käsitteen selkokielellä ja antaa yksinkertaisen esimerkin (esim. *"Parikh-vektori laskee kirjainten määrät. Esim sanassa 'aabac' vektori on a:3, b:1, c:1"*).
+The Snake game turns word construction into an interactive survival problem. It is useful for engagement, but it should remain mathematically grounded through the suffix split and Parikh balance panels.
 
-### Hakuavaruuden (Search Tree) 3D/2D visualisointi
-- Opiskelijoiden on usein vaikea käsittää eksponentiaalista kasvua ja hakupuun karsimista (pruning).
-- Välilehti 14 kerää jo tietoa kokeilluista solmuista (Nodes Explored) ja peruutuksista (Backtracks). Tämä data voitaisiin piirtää dynaamiseksi puurakenteeksi, joka kasvaa ja karsiutuu reaaliajassa, havainnollistaen kuinka forbid4-rajoitus pienentää hakuavaruutta dramaattisesti verrattuna pelkkään aa2f-sääntöön.
+## Recommended Next Educational Feature
 
----
+### Student Mode
 
-## 4. Tekninen ja käyttöliittymällinen saavutettavuus
+Add a Student Mode toggle that filters the interface into a guided sequence:
 
-### Modulaarinen käyttöliittymä opiskelijoille
-- Koko 14 välilehden ohjelma voi olla ylivoimainen ensikertalaiselle.
-- **Parannus:** "Opiskelija-tila" (Student Mode), joka piilottaa monimutkaisimmat välilehdet ja avaa niitä sitä mukaa, kun opiskelija suorittaa perushaasteita. Ensin opitaan Parikh-vektorit (välilehti 6), sitten 4 kirjaimen ratkaisu g85 (välilehti 3 ja 9), ja vasta lopuksi edistynyt 3 kirjaimen aa2fr-tutkimus (välilehti 14).
+1. Try It: Parikh Lens
+2. ABC Impossibility Lab
+3. Keranen g85 Morphism
+4. Morphism Microscope
+5. Square Heat Map
+6. AA2FR Extension Lab
 
-### Koodin kommentointi ja avoimuus
-- Tietojenkäsittelytieteen opiskelijoille algoritmien toteutus on yhtä tärkeää kuin tulokset.
-- `index.html`:n sisällä oleva koodi on erittäin pitkä (~3100 riviä). Opetuskäyttöä varten koodi tulisi modulaarisoida omiin `.js` -tiedostoihinsa (esim. `parikh.js`, `aa2fr_solver.js`), ja ydinalgoritmit tulisi kommentoida pedagogisesti auki. Ohjelmaan voisi lisätä "Näytä koodi" -painikkeen, joka näyttää, miten kyseinen toiminto (esim. `checkAA2F()`) on ohjelmoitu.
+Advanced tabs such as Morphism Design Lab, Unfavorable Factor Explorer, and full AA2FR search controls can remain available behind an "Advanced" toggle.
 
----
+## Step-by-Step Collision Anatomy
 
-## Yhteenveto
+The existing obstruction panel should become a staged explanation:
 
-Ohjelma on sisällöllisesti ja laskennallisesti jo huippuluokkaa. Koulutuskäytössä suurin lisäarvo syntyy **abstraktien asioiden tekemisestä näkyväksi**:
-1. Abeliaanisten neliöiden tunnistamisen visualisointi reaaliajassa.
-2. Backtracking-algoritmin askeleiden avaaminen.
-3. Termistön avaaminen ja pelillisten haasteiden tuominen puhtaan tutkimustyökalun rinnalle.
+1. "The algorithm tried to append `x`."
+2. "It checked this suffix/prefix."
+3. "It split the factor into two halves."
+4. "It computed both Parikh vectors."
+5. "The vectors match, so this is an Abelian square."
+6. "The branch is rejected."
+
+This would make backtracking understandable without requiring the learner to read the code.
+
+## Terminology Tooltips
+
+Terms that should have short tooltip definitions:
+
+- Parikh vector
+- Abelian square
+- Abelian equivalence
+- morphism
+- uniform morphism
+- cyclic permutation
+- `g85`
+- AA2F
+- AA2FR
+- forbid4
+- unfavorable factor
+
+Tooltips should use examples, not only formal definitions.
+
+## Puzzle Ideas
+
+### Find the Error
+
+Show a word with one Abelian square and ask the student to identify the two adjacent halves.
+
+### Fill the Blanks
+
+Give a partial word with blanks and ask the student to complete it without creating an Abelian square.
+
+### One Legal Extension
+
+Generalize the current AA2FR Challenge mode to shorter beginner examples before the 40-letter challenge.
+
+## What Not to Prioritize Yet
+
+- Neural-network suggestions: useful only after collecting structured search data.
+- Leaderboards: require backend validation.
+- 3D visualizations: likely to be decorative unless tied to a clear mathematical coordinate system.
+- Large modular code split: useful eventually, but the current project intentionally avoids dependencies and multi-file drift.
+
+## Teaching Message
+
+The strongest story is:
+
+1. Abelian squares are about matching letter counts, not exact order.
+2. Three letters fail very quickly under the full rule.
+3. Four letters work because Keranen found a highly structured morphism.
+4. Relaxed ternary settings such as AA2F/AA2FR are experimental search spaces, not the same theorem.

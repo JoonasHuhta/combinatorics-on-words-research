@@ -429,6 +429,40 @@
     .aa2fr-challenge-feedback { margin-top: 10px; font-family: monospace; font-size: 0.88rem; color: #555; }
     .aa2fr-challenge-feedback.ok { color: #1f7a1f; }
     .aa2fr-challenge-feedback.bad { color: #b00020; }
+
+    /* =====================================================
+       15. APPLICATIONS & IMPACT STYLES
+       ===================================================== */
+    #view-impact { font-family: Arial, sans-serif; }
+    #view-impact h2 { margin-bottom: 8px; }
+    #view-impact p.impact-lead { color: #555; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; max-width: 820px; }
+    .impact-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 14px; margin-bottom: 24px; }
+    .impact-card {
+      background: #fff; border: 1px solid var(--border); border-radius: 6px;
+      padding: 16px 14px; cursor: pointer; transition: border-color 0.18s, box-shadow 0.18s;
+      text-align: center;
+    }
+    .impact-card:hover { border-color: #999; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .impact-card.active { border-color: var(--text-orange); box-shadow: 0 0 0 2px rgba(205,103,30,0.18); background: #fff8f3; }
+    .impact-card-icon { font-size: 2rem; margin-bottom: 8px; }
+    .impact-card-title { font-size: 0.88rem; font-weight: bold; color: #333; line-height: 1.3; }
+    .impact-detail {
+      background: #fff; border: 1px solid var(--border); border-radius: 6px;
+      padding: 20px 22px; font-size: 0.93rem; line-height: 1.7; color: #333;
+      min-height: 160px;
+    }
+    .impact-detail h3 { font-family: 'Times New Roman', Times, serif; font-size: 1.15rem; margin: 0 0 10px; color: #222; }
+    .impact-detail p { margin: 0 0 12px; }
+    .impact-detail p:last-child { margin-bottom: 0; }
+    .impact-demo {
+      background: #f9f9f9; border: 1px solid #eee; border-radius: 4px;
+      padding: 10px 14px; margin: 10px 0; font-family: monospace; font-size: 0.9rem;
+      letter-spacing: 1px; color: #333;
+    }
+    .impact-half-a { background: #fff0f0; border-bottom: 3px solid var(--letter-a); padding: 0 1px; }
+    .impact-half-b { background: #f0f0ff; border-bottom: 3px solid var(--letter-b); padding: 0 1px; }
+    .impact-note { margin-top: 14px; padding: 10px 14px; border-radius: 4px; font-size: 0.85rem; line-height: 1.5; }
+    .impact-caution { background: #fef9e7; border-left: 4px solid #f39c12; color: #6d4c00; }
   </style>
 </head>
 <body>
@@ -460,6 +494,7 @@
     <div class="mode-tab" data-mode="heat-map" id="tab-heat-map">12. Heat Map</div>
     <div class="mode-tab" data-mode="snake" id="tab-snake">13. Abelian Snake 🐍</div>
     <div class="mode-tab" data-mode="aa2fr" id="tab-aa2fr">14. AA2FR Laboratory 🧪</div>
+    <div class="mode-tab" data-mode="impact" id="tab-impact">15. Applications & Impact</div>
   </div>
 
   <div class="controls">
@@ -958,6 +993,42 @@
       </div>
     </div>
     <div id="aa2fr-explain" class="aa2fr-explain hidden"></div>
+  </div>
+
+  <!-- ================================================
+       15. APPLICATIONS & IMPACT
+       ================================================ -->
+  <div class="view-panel hidden" id="view-impact">
+    <h2>Applications &amp; Impact</h2>
+    <p class="impact-lead">
+      The mathematics of abelian square-free words touches many areas of computer science and beyond.
+      Click a card to explore how combinatorics on words connects to real-world problems.
+    </p>
+    <div class="impact-card-grid" id="impact-card-grid">
+      <div class="impact-card" data-impact="bio">
+        <div class="impact-card-icon">🧬</div>
+        <div class="impact-card-title">Bioinformatics &amp; Genetics</div>
+      </div>
+      <div class="impact-card" data-impact="compression">
+        <div class="impact-card-icon">🗜️</div>
+        <div class="impact-card-title">Compression &amp; Entropy</div>
+      </div>
+      <div class="impact-card" data-impact="security">
+        <div class="impact-card-icon">🔐</div>
+        <div class="impact-card-title">Security &amp; Randomness</div>
+      </div>
+      <div class="impact-card" data-impact="search">
+        <div class="impact-card-icon">🔍</div>
+        <div class="impact-card-title">Search Algorithms</div>
+      </div>
+      <div class="impact-card" data-impact="coding">
+        <div class="impact-card-icon">📡</div>
+        <div class="impact-card-title">Codes &amp; Communication</div>
+      </div>
+    </div>
+    <div class="impact-detail" id="impact-detail">
+      <em style="color:#999;">Select a topic above to read details.</em>
+    </div>
   </div>
 
   <!-- Stats & Logs -->
@@ -2021,7 +2092,7 @@ function switchMode(newMode) {
   });
   
   // Hide all view panels
-  ['view-3letter','view-abc-lab','view-general','view-audio','view-tryit','view-timeline','view-unfavorable','view-microscope','view-knowledge','view-morph-lab','view-heat-map','view-snake','view-aa2fr'].forEach(id => $(id).classList.add('hidden'));
+  ['view-3letter','view-abc-lab','view-general','view-audio','view-tryit','view-timeline','view-unfavorable','view-microscope','view-knowledge','view-morph-lab','view-heat-map','view-snake','view-aa2fr','view-impact'].forEach(id => $(id).classList.add('hidden'));
   try { snakePause(); } catch(e) { /* snake vars not yet initialized on first load */ }
   $('condensedCanvas').classList.add('hidden');
   $('audio-ui').classList.add('hidden');
@@ -2029,7 +2100,7 @@ function switchMode(newMode) {
   $('tiles-general').classList.add('hidden');
   
   // Hide info panel for some modes, show for others
-  const noInfoModes = ['timeline', 'microscope', 'knowledge', 'morph-lab', 'heat-map', 'snake', 'aa2fr'];
+  const noInfoModes = ['timeline', 'microscope', 'knowledge', 'morph-lab', 'heat-map', 'snake', 'aa2fr', 'impact'];
   $('info-panel').style.display = noInfoModes.includes(newMode) ? 'none' : '';
   $('speed-wrap').style.display = ['3letter'].includes(newMode) ? '' : 'none';
 
@@ -2096,6 +2167,10 @@ function switchMode(newMode) {
   } else if (mode === 'aa2fr') {
     $('view-aa2fr').classList.remove('hidden');
     aa2frUpdateUI();
+
+  } else if (mode === 'impact') {
+    $('view-impact').classList.remove('hidden');
+    renderImpact('bio');
 
   } else if (mode === 'audio') {
     $('view-audio').classList.remove('hidden');
@@ -3576,6 +3651,69 @@ function aa2frUpdateUI() {
   $('aa2fr-display').innerHTML = displayStr;
   aa2frRenderExplain();
 }
+
+// =====================================================
+// 15. APPLICATIONS & IMPACT
+// =====================================================
+const impactData = {
+  bio: {
+    title: "Bioinformatics and Genetics",
+    content: `<p>DNA is written in a four-letter alphabet {A, C, G, T}. Identifying repeated patterns, such as tandem repeats (e.g., ATCGATCG), is a fundamental task in genomics because they often play roles in evolution or are linked to genetic disorders.</p>
+      <div class="impact-demo">
+        <div>GAT<span class="impact-half-a">AGCT</span><span class="impact-half-b">TCGA</span>TCA</div>
+      </div>
+      <p>An <strong>abelian square</strong> in DNA would mean a sequence followed by a permutation of itself. Understanding sequence avoidance helps design algorithms (like Burrows-Wheeler) to index genomes more efficiently.</p>`,
+    caution: "Genomic repeats are typically exact tandem repeats or approximate repeats, rather than purely abelian ones. The connection here is structural and algorithmic."
+  },
+  compression: {
+    title: "Compression and Entropy",
+    content: `<p>Data compression algorithms (like LZ77/LZ78 used in ZIP) look for repeated factors to compress them. If a string avoids repetitions (like a square-free word), it represents high entropy — it cannot be compressed further.</p>
+      <div class="impact-demo">
+        "ababab" compresses well (repetitive).<br>
+        "abcacbabcbac" resists compression (high entropy).
+      </div>
+      <p>By studying how long strings can avoid repetitions, we understand the mathematical limits of string complexity and compressibility — foundational questions in information theory.</p>`,
+    caution: "Compression uses dictionaries of exact substrings, while abelian squares involve permutations. The link is theoretical: understanding structural complexity."
+  },
+  security: {
+    title: "Security and Randomness",
+    content: `<p>Cryptography requires pseudorandom numbers that lack predictable structure. If a sequence generator frequently produces structured patterns, it might be vulnerable to pattern-based attacks.</p>
+      <p>The mathematics of combinatorics on words provides strict theoretical bounds on how "random-like" a deterministic sequence can be. Morphic sequences like the Keränen word show that structure and near-randomness can coexist.</p>`,
+    caution: "Abelian square-free words are NOT suitable as cryptographic keys. They are highly structured in their avoidance — predictable if the generating morphism is known."
+  },
+  search: {
+    title: "Search Algorithms",
+    content: `<p>How does a database find a word in milliseconds? Algorithms like Knuth-Morris-Pratt use the internal periodic structure of strings to skip unnecessary comparisons.</p>
+      <p>Knowing "unfavorable factors" and the longest possible repetitions in a given alphabet allows engineers to optimize suffix arrays and suffix trees for worst-case scenarios — especially important in DNA databases and large text corpora.</p>`,
+    caution: "The specific ternary abelian square search is an extreme edge case, acting as a stress-test for theories rather than a daily-use algorithm in production systems."
+  },
+  coding: {
+    title: "Codes and Communication",
+    content: `<p>In digital communication, we design "constrained codes" that avoid certain substrings (e.g., avoiding long runs of zeros for synchronization in data transmission).</p>
+      <p>The mathematical techniques used to prove the existence of abelian square-free words — morphisms, backtracking, Parikh vectors — are the same foundational tools used to design and analyze error-correcting codes and channel codes.</p>`,
+    caution: "Real-world line coding (like 8b/10b) focuses on DC balance and transition density, not abelian square avoidance. The connection is at the level of proof techniques."
+  }
+};
+
+function renderImpact(id) {
+  const d = impactData[id];
+  if (!d) return;
+  document.querySelectorAll('#impact-card-grid .impact-card').forEach(c => c.classList.toggle('active', c.dataset.impact === id));
+  const detail = document.getElementById('impact-detail');
+  if (detail) {
+    detail.innerHTML = `
+      <h3>${d.title}</h3>
+      ${d.content}
+      <div class="impact-note impact-caution">
+        <strong>Caution:</strong> ${d.caution}
+      </div>
+    `;
+  }
+}
+
+document.querySelectorAll('#impact-card-grid .impact-card').forEach(card => {
+  card.addEventListener('click', () => renderImpact(card.dataset.impact));
+});
 
 </script>
 </body>

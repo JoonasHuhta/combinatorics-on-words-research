@@ -1,55 +1,90 @@
-# Search for Abelian Square-Free Words — Project Architecture
+# Project Architecture
 
-## 1. Overview
-This project visualizes the research of Finnish mathematician Veikko Keränen on abelian square-free words. In 1992, Keränen proved that an alphabet of 4 letters is sufficient to construct an infinite word without any abelian squares, solving an open problem posed by Paul Erdős in 1961.
+## Overview
 
-This directory (`C:\abc`) contains an interactive single-page HTML/JS application built with an academic, clean aesthetic. The application is completely dependency-free (no external libraries like React, D3, or Tailwind). It models the mathematical rules (Parikh vectors, Abelian squares) and provides exploratory modes to interact with them.
+This project is a dependency-free interactive browser laboratory for Abelian square-free words and related constructions from Veikko Keranen's work. The application lives in a single file, `index.html`, and uses only browser-native APIs: DOM, Canvas, and Web Audio.
 
-## 2. Core Mathematical Concepts
-- **Abelian Square:** A word `uv` where both halves contain the exact same quantity of each letter (e.g., "abba" -> 2xb, 2xa).
-- **Parikh Vector:** An ordered list of letter frequencies, e.g., `(a,b,c)` -> `(1,2,0)`. If two adjacent substrings have equal Parikh vectors, they form an abelian square.
-- **Unfavorable Factors (Left/Right Limits):** Concepts from Keränen's 2010 paper. Shows how far a finite seed word can be extended to the left or right before an abelian square is inevitably forced.
+The app has two roles:
 
-## 3. Application Architecture (`index.html`)
-The application is a single monolithic HTML file. It uses native DOM APIs, Canvas for rendering graphs, and Web Audio API for sonification. 
+- teach the core ideas: Parikh vectors, Abelian equivalence, Abelian squares, and why three letters fail;
+- support exploratory research workflows: morphism inspection, heat maps, unfavorable factors, AA2F/AA2FR extension experiments, and challenge-style obstruction analysis.
 
-### Global State & Core Logic
-- `fourLetterWord`: The primary string sequence currently being analyzed.
-- `mode`: The active tab (determines which UI panels are visible).
-- `getParikh(word, alphabet)`: Generates a Parikh vector object dynamically (supports 3-letter or 4-letter alphabets).
-- `parikhEqual(p1, p2)`: Checks equality between vectors.
-- `findAbelianSquare(word, alphabet)` and `findSuffixAbelianSquare(word, alphabet)`: The core checking engines.
+## Mathematical Boundaries
 
-### UI State Management (The `switchMode` Registry)
-Navigation between tabs is handled by the `switchMode(newMode)` function. 
-Because the application resides in a single file to prevent dependency issues, `switchMode` acts as the router:
-1. It pauses active processes (like audio or tree searches).
-2. It hides all primary view panels (`view-*`).
-3. It selectively unhides the panels and buttons specific to `newMode`.
-*Note for Developers:* When adding a new tab, add a `view-newmode` panel in HTML and handle it in `switchMode`. DO NOT split `index.html` into separate files unless the size becomes unmanageable, to prevent context switching bugs.
+- A word contains an **Abelian square** if it has an adjacent factor `uv` where `|u| = |v|` and `u` and `v` have the same Parikh vector.
+- Over `{a,b,c}`, fully Abelian square-free words are finite only; every word of length 8 contains an Abelian square.
+- Keranen's 1992 `g85` morphism proves that an infinite Abelian square-free word exists over `{a,b,c,d}`.
+- The AA2F/AA2FR ternary tools are experimental relaxed-rule tools. They must not be described as solving the fully Abelian square-free ternary problem.
 
-## 4. The Tabs (12 Modes + 1 planned)
-1. **3 Letters (Tree Search):** Backtracking search proving no 3-letter word avoids abelian squares past length 7.
-2. **ABC Laboratory:** Enumerates all finite 3-letter words, showing survivors and failed extensions.
-3. **4 Letters (Morphism g85):** Applies Keränen's $g_{85}$ substitution recursively.
-4. **Condensed 2D View (Turtle Walk):** Canvas renderer for displaying strings as wrapped colored dots (directions: a=R, b=U, c=L, d=D).
-5. **Sonification:** Web Audio API translation of the string (Cmaj6 chord).
-6. **Try It Yourself:** Interactive typing with real-time Parikh split checks.
-7. **Historical Timeline:** Visual bar chart of the alphabet size reduction over time.
-8. **Unfavorable Factors:** Interactive tool that extends a given seed word left and right until an abelian square forces a dead end.
-9. **Morphism Microscope:** Detailed look at the structures of g85 (1992) and g98 (2009) morphisms.
-10. **Knowledge Graph:** Interactive concept map of related combinatorics terms.
-11. **Morphism Lab:** Allows users to define their own custom 4-letter morphisms and evaluate them for Abelian square-free properties.
-12. **Heat Map:** Visualizes the density of Abelian squares and "near-misses" across a word.
-13. **[PLANNED] Matopeli (Abelian Snake):** A gamified survival mode where the player builds the word letter-by-letter as a snake, avoiding letters that create Abelian squares.
+## Single-File Architecture
 
-## 5. Future Development / Scale
-If continuing development, prioritize adding new tools as standalone `view-` panels in the DOM. 
-See `DEVELOPMENT_ROADMAP.md` for prioritized feature ideas, and `NEXT_AGENT.md` for recent session handoffs.
+`index.html` contains:
 
-## 6. Documentation Files Overview
-- `PROJECT_ARCHITECTURE.md`: This file. High-level technical overview of the app, its state, and its UI structure.
-- `AGENT_CONCEPT_BRIEF.md`: The original vision and context for the project. Explains *why* the visual laboratory is being built.
-- `DEVELOPMENT_ROADMAP.md`: A prioritized list of features to implement, ranging from UI fixes to complex mathematical tools.
-- `NEXT_AGENT.md`: A chronological log of development sessions. Used to hand off state, context, and immediate next steps to the next AI agent or developer picking up the project.
-- `implementation_plan.md` (in `.gemini` brain folder): Temporary, detailed plans for specific large features (like the Snake game) before they are implemented.
+- all HTML panels and tab controls;
+- all CSS;
+- core Parikh and Abelian-square utilities;
+- the tab router, `switchMode(newMode)`;
+- Canvas tools for tree search, walks, heat maps, the concept graph, and Snake;
+- the Web Audio sonification tool.
+
+This structure is intentional. Do not split the app into separate JS/CSS files unless the user explicitly approves it. Small internal refactors inside `index.html` are preferred.
+
+## Core Utilities
+
+- `getParikh(word)`: counts letters in a string or array.
+- `parikhEqual(p1, p2, alphabet)`: compares Parikh vectors over an alphabet.
+- `findAbelianSquare(word, alphabet)`: full scan for an Abelian square.
+- `findSuffixAbelianSquare(word, alphabet)`: suffix-only scan for incremental appends.
+- `validateWordConstraints(wordArr, opts)`: shared validation layer for full, prefix, and suffix checks, including AA2FR forbidden factors.
+- `renderParikhLens(data)`: shared pedagogical renderer for comparing two adjacent blocks.
+
+## Current Tabs
+
+| # | Visible tab name | Mode ID | Purpose |
+|---|---|---|---|
+| 1 | Three-Letter Search | `3letter` | Animated backtracking search over `{a,b,c}`. |
+| 2 | ABC Impossibility Lab | `abc-lab` | Exhaustive finite enumeration showing why length 8 fails. |
+| 3 | Keranen g85 Morphism | `4letter` | Iterates Keranen's 85-uniform four-letter morphism. |
+| 4 | Word Walk | `canvas` | Draws a long word as a compact directional 2D walk. |
+| 5 | Word Sonification | `audio` | Maps letters and morphism blocks to sound. |
+| 6 | Try It: Parikh Lens | `try-it` | Manual word construction with live square checks and Parikh Lens. |
+| 7 | History Timeline | `timeline` | Historical route from Erdos's question to Keranen's result. |
+| 8 | Unfavorable Factor Explorer | `unfavorable` | Tests how far a seed can extend before hitting forced squares. |
+| 9 | Morphism Microscope | `microscope` | Inspects `g85` and `g98` images, lengths, and Parikh vectors. |
+| 10 | Concept Graph | `knowledge` | Interactive graph of concepts and relationships. |
+| 11 | Morphism Design Lab | `morph-lab` | User-defined experimental morphism evaluator. |
+| 12 | Square Heat Map | `heat-map` | Visualizes Abelian squares and near misses by position and half-length. |
+| 13 | Abelian Snake | `snake` | Game mode where each eaten letter appends to the word. |
+| 14 | AA2FR Extension Lab | `aa2fr` | Ternary AA2F/AA2FR extension, challenge, and obstruction lab. |
+
+## Router Checklist for New Tabs
+
+When adding a tab:
+
+1. Add a `.mode-tab` entry with a stable `data-mode`.
+2. Add a `view-<mode>` panel.
+3. Add the view ID to the hide list in `switchMode`.
+4. Add a `switchMode` branch to show the view and configure controls.
+5. Ensure long-running loops are paused when leaving the tab.
+6. Run `node --check` on the extracted script section.
+
+## Verification Checklist
+
+Before committing UI or logic changes:
+
+- `node --check` on the extracted script from `index.html`.
+- `git diff --check`.
+- Verify all 14 tabs can be reached without JavaScript errors.
+- Verify `g85(a)` remains length 85.
+- Verify the ABC lab still reports no valid extension to length 8.
+- Verify AA2FR Challenge can find a 40-letter challenge.
+- Verify the Concept Graph labels remain readable after layout changes.
+
+## Documentation Map
+
+- `PROJECT_ARCHITECTURE.md`: technical overview and tab inventory.
+- `AGENT_CONCEPT_BRIEF.md`: project goals and mathematical guardrails.
+- `DEVELOPMENT_ROADMAP.md`: prioritized future work.
+- `NEXT_AGENT.md`: latest handoff and implementation notes.
+- `AA2FR_OHJELMAN_IDEA.md`: AA2F/AA2FR lab design and mathematical context.
+- `KOULUTUSKAYTTO_PARANNUKSET.md`: education-focused improvement ideas.
