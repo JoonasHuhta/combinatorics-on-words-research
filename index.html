@@ -230,11 +230,11 @@
     .unf-examples button { background: none; border: 1px solid #ccc; padding: 3px 8px; cursor: pointer; margin: 2px; font-family: monospace; font-size: 0.85rem; }
     .unf-examples button:hover { background: #f0f0f0; }
 
-    .unf-result-bar {
+    .unf-resusn-bar {
       display: flex; align-items: center; gap: 0; margin-bottom: 6px;
       font-family: Arial, sans-serif; font-size: 0.85rem;
     }
-    .unf-result-bar .label { width: 80px; color: #555; }
+    .unf-resusn-bar .label { width: 80px; color: #555; }
     .unf-bar-fill { height: 20px; min-width: 4px; display: flex; align-items: center; padding-left: 6px; font-size: 0.8rem; font-weight: bold; color: #fff; transition: width 0.4s; }
     .unf-bar-fill.left-ext { background: #2980b9; }
     .unf-bar-fill.right-ext { background: #27ae60; }
@@ -1770,12 +1770,12 @@ function renderUnfavorable() {
   // Bars
   const maxBar = UNF_MAX_STEPS;
   $('unf-bars').innerHTML = `
-    <div class="unf-result-bar">
+    <div class="unf-resusn-bar">
       <span class="label">Left ext.</span>
       <div class="unf-bar-fill left-ext" style="width:${Math.round(leftAdded / maxBar * 300)}px">${leftAdded}</div>
       ${!hitLeft ? '<div class="unf-bar-fill dead" style="width:24px; margin-left:2px;">✗</div>' : ''}
     </div>
-    <div class="unf-result-bar">
+    <div class="unf-resusn-bar">
       <span class="label">Right ext.</span>
       <div class="unf-bar-fill right-ext" style="width:${Math.round(rightAdded / maxBar * 300)}px">${rightAdded}</div>
       ${!hitRight ? '<div class="unf-bar-fill dead" style="width:24px; margin-left:2px;">✗</div>' : ''}
@@ -2940,6 +2940,156 @@ window.addEventListener('resize', () => {
 });
 
 updateSnakeHSDisplay();
+
+// =====================================================
+// 14. AA2FR LABORATORY
+// =====================================================
+const FORBID4 = ['baac', 'caab', 'abbc', 'cbba', 'accb', 'bcca'];
+const AA2F15796 = "abaccbbbcccbaacccaaaccbbaaabbbcbbabbcccacbcccaaaccbbbacccbbaaacaaabaaaccbbabbbcbbaaccbcaaabbcccbbbccabbcccacccbcaaabaacccbbbaacbaaabbcbbbaaccbcccaccbbaaabbbcbbbabbbccaaabbbaaacaaabaaacccbcaabaaacaabcbbabbcccaaacbaacccbcccacccbbbacccaabbcabbbaaacabcacccbbaaabccaaacccabccaaabaaacaaabbbaaacccbaaabbbaaccbbbcccabccaabaaacaabbbaacccaaabbcaabbbcbbabbcccbbbccaaabbbaacaabaaaccbabbcccbaacccaaabaaacaaabbbaacccbaaabbbaccbbbcccbaccbbbaacaabaaacccbccabbcccacccbcccaaacbbbabbcccbbbccaabcbbbaaabbcccabccaaacccabbcccbbbacaabaaccbbbaacbbaaabbbcbbbabbbccacbabbbcbbbaaacaabbccaaacccaabaaacaabbccaaabbbaccbcccaabccaaabaacbbabbbcccbbaaabcacccbcccaabbbcccbbbabbbcbacaabbbcccaaacbbaaabbbaccbbbcccabccaaabaacbbbcacbcccaaaccbbacbcccacccbbaccbbbcccaaabacbabbbcccbaaabbbcbbbabbbccabbcccbbbaacbcccacbbbcccbbaaacaaabaaacccbbbabbbcbbbaaabbcaabbbcbbbabbbcccbacccaabbbcbbbabbbccaaacbbaaabbbaacbbaaacaaabacccaaabbccacccbbabbcbaacaaabaacccbbaaabbbcbbbabbbccabbcccacbcccaaaccbabbbcccbbbaaabbbcbbbabbbccabbcbbbaaacccaaabaaacaaabbbcabbcccaaaccbcccaabbbaaacccaaabaaacaaabbbacbbaaacaaabaaacccbccaaabbbcccbbabbcbbbaaacabacccbbbaaacaaabaaacccabcccbbaacbacccaaacbbaaabbbaaccbbabcccbaacccabcccbbbabbbcbbbaaacabacccbbabcbbaaacaaabacccabbcccbacaaabbbcbaacccabbcccbbbccabbcccacccbcccaaacccbbbccacccbccaaabaaacaaabbcbaacccbabbcbbaacaaabbbcccaaacccbcacccbbbcccaabbbaaabcbbbabbbccaaabbbaaacaabaacccabbbcbbaaacaabaacccaabbbcccbabbbcbaaacbccabbcccacccbcccaaabaaacabbbaaacccaaabaaacaaabbcaabbbcaccbaacaaabaacbbabbbcbbaacabbcccbacccaaabaaacaaabbcaabbbaaabbcccaaabaccbbaaabbbcbbbabbbcccbbaaccbcaaaccbbaaabbbacbbaaacaaabaaacccbbaccbbbcccacccbcccaaabbccacccbabbbcbacaaabbbacbbbccaaacccabbcccbbbccaaabbbcccbabbbcbbbaaabbbcccbbaaabbbaacaabaaaccbacccbbbacaabbbcbbbabbbccacbbbaaacaabbccacccbbbaaacccaaabaaacaaabbcaabbbcccaaabaaacaaabbbcbbbabbbcccacccbcccaabaccbbbcccbbabbbcaaaccbbbabbbcbbbaacaaabaacccaaaccbbbaaacaabcccaccbbabbcbaacccaaabbcaabbbaaacaaabaaaccbaacccaaaccbaaabbcaaacccbaccbbabbcbaaaccbccacccbbbcccaaacccbcccacccbbaccbbbcccbbacccaabbbcccbbbabbbcbbbaaacabccaaabaaacaaabbbaacccaaaccbaacccbbbccabbbaacccaaaccbaacccbcccacccbbbccaaacccbcccacbbbcccbbaacccaabaacaaabbcccaabbbcbbbabcccbbaacccaaaccbccacccbbbccabbbaacabbcccbbbabbbcbbbaaabbcaabbbccaabcaaacccbbbccaaabbbaacbbaaacaaabaaacccbcccacccbbabbcbacaaabbcaabbbcbabbbcccbbaaacccbccabbcccacccbcccaaabaaacabbbaccbcccaccbbaacbabbbcbacbcccaabbbaaacaabbcbbbaaacaaabaaaccbaacccbcabaaacaaabbbacbbaacccbbbccacccbccaaacccbbaaabbbcbbbabbbccaaabbcaabbbaaacaaabacccabbbaaacabcbbbaaabbbcccbbaccbbbabbbcbbbaaabbbcccbbaaabbbacbbbcccabaacccaabbbcccbbacaaabbbcbbaaacaaabaaacccabbcbbbaaacaabbbcccaaaccbcccaccbbbcccaaaccbbabbcbbbaacccaaabaaacaaabbbcbbaacccbaaabbbcbbbabbbcccbbbaaacccbcccacbbabbbcccbbaaabbbcbbbabbbccacccbbbabbbcbbbaaabbbcccbbaaacaaabaccbbbcccbbaaacccbcccacccbbabbcbbbaaabcccaccbabbccaccbcccaabaaacbbbccaaacbaaabbbaacbbbcacbcaaacccabcccbbbcabbbaaabbcccbaccbbbabbbcbbbaaabcaaaccbbbaacbbabbbcccbacccaaabbcbbbaaabbcccaaabaaacaaabbcbbabbbcccaaabbbaacaaabbcccaaaccbaacccbcccacbbbaaacabaaaccbacaabbbcbabbbcccabbbaaaccbacccaabbbcccbbbabbbcbbbaaabbcaabbbccaaabaaacabbbcccaaacbbaaabbbaacbccaaabbbaaacaaabaaaccbaacccaaabaaacaaabbbcccacccbcccaabbbaaabcccaaabaaacaaabbbaaacccbbbaacbbaaabbbcbbbabbbccabbcccbbbaacccbaaabbbacbbbccabbcccacccbcccaaabaaacaaabbbaacbbaaacccabcccbbbabbbcbbbaaabcccabbcbbbabbccabcccbbbabccaaacccbcccacccbbacbcccaaaccbaaabbbaaccbcccabbcbbbabbcacccbcccaaacbbbcacbcccaaabaaacaaabbbaaacccabbbcbbacccaaaccbbbabbbcbbbaaabbcaabbbcbbbabbbcccbbbaaabbbcbabbbcccbaaacbbbcccabcbbbabbbcccaaacbbbacaaabacccbabbbcbbbaaacbcccacccbbbcccaaabbbcccbbbabbbcbaaaccbcccaccbbbcccaaacccbcccacccbbaccbbbcccacccbcccaaabaaacaaabbcaabbbaaabbcaaaccbbbabbbcbaaabbcccaaaccbaaabbbcbbabbccacccbbbabbbcbbbaacccaaabbbaacccbcccacccbbbabbcaaaccbacbbbaacaaabaacbcccaaacbabbcacccbbbabbbcbbbaacbbaaacaabaacccaaabbbaacbbbcccbbaacccaaabaacbbaaacaaabaaacccaabcccbbaacccaaabacbabbbccaccbcabaaacaaabbbaacbbbccaaabbbaaccbcccaabbbaccbbbcccbbaacccbccaaacccbbabcbbaaacccaaabacbbaaacaaabaaacccaabcccbabcbaacaaabaacccbcacccbbbcccaabbbaccbbbcccacccbcccaabcacccbbbaacccaaabaaacaaabbcccaaacccbccaabbcccbbbcabbbaaabbcccabbbccaaacccbcccacccbbacbbbcccbbacccaaaccbbbabbcccbbbccaabbbcbbaaacabaaacccabcccbbbaaccbbabbbcccbaaacccbbbccaccbcccaaabaaacaaabbcbbbaacaaabbcccaaabaaacabbbcbbacaabbcccbaccbbbabcbbbaaabbccaaabcbabccaaacccabbcccbbbccabbbaaacccabccaabbbcbbbabbbccaaabbcccbbbcacccbcccaabbcccbbbccabbbaaacabacccbbbabccaaacccbcccacccbbbcabbcccacccbcccaaabaaacabcbbaaabbcccaaabbbaaccbbbcccbacccaabbcccbbbabbbcbbbaacccbbaaabbbcbbaaacaabaacccabbcccbbbacaaabbbacbbbccabbcccacbcccaaabaaccbccacbbbcaabbbaaacaaabaaaccbaacaaabbbaaccbbbcaabbbaaabbcaabbbcbbbabbbcccbbaacbaaabbbcbbacaaabaaaccbcabbbaacbcacccbbbabbbcbaaacaabbbcbbbabbbcccbbbaaacbbbcccbbaacccaaaccbbbabbbcbbbaacccbccaaabaaacaaabbbacbbaaccbbabbbcbbacccbccaaabbbcaccbaacccbcacccbbbcccaaabbbaccbbbcccbacccaaabaaacaaabbbaaccbbbcccbabbbcbbbaacaaabaacccaaabbbaaacaaabaaaccbaacccaaabaaacaaabbbcacccbcccaaacccbbabccaabbbaaacbacccbbaaacccaaabaaacaaabbcabaacccbbacaaabbbaacbbbcccbbacccbaacaaabaacccbbbcccacccbcccaaacccbbbabbcaabbbcbbbabbbcccabbbaaacaabbccaaabbbcabbcccbacaaabaaacccbccaccbbabbbcccbaccbbaaacccbcccacccbbbccabbcccaabbbcbbacccbccaaabaacaabbbacbbbccabbbaaacccabcccbbabccacccbccaabaaacaabccacccbbaaabbbacaaabaaaccbbabbbcbbaaaccbaacaaabbbaccbcccaaabbcbaaccbbbcccbbabbbcbbaacbaaabbbcbaaccbbacbbbcccacccbcccaaabbcccaccbbabbbcaaabaaccbbbabbbcbbbaacccbccaaabbbaaacaabaaccbabbbcbaacccbcccacbbbcaaaccbaacccbcccacccbbbcccaaabbcccbbbabbbcbbbaacccbbbcccacccbcccaaabaaccbbaaabcaaaccbaacccbcccacccbbbcccaaacbcccacccbbbabbbcbacaabaacccaaabbcccaccbbbccaaabaacccabccaaabaaacaaabbbaaccbabbcaaabaacccbcacbbaaabcccabbcbbbabbcaabaaacaabcbbaaabbcccaaacccbcacccbbaccbbbabcabaaacabccaabbbcaccbaacccbcccacccbbbccabbcccaabbbcbbacccaaabaccbbbcccbbaaabbbcbbabbcccbbbccaaabaaacabbbaaabbccaabaaacccabbbcccaccbbaaacbaccbbaaabbbcbbaaccbacccaabbbcbabbbcccacccbcccaabcabbcccbacccaaabaaacabbbaaabbccaabacccabbcccbbbccabbbacaabccaaabbbaaacaaabaaacccaaabbccacccbbbaaacaaabaaacccaabccaaabbcccacccbcccaabbccabaaacccaaabbbcccbbaaacccaabaacaaabbcabbbaaaccbcaabbbccabbcccacbcccaaaccbaaabbcaaaccbcccaabbbcccbbbabbbcbacaaabbbcbbaacccbccaaabbbacaaabaaacccbcccacbbbcccaaacccbcccacccbbaccbbbaacabbccacccbccaaacbaaabbcaabbbcccaccbbaaabbcbbbabbccabcccbbbccaaacbaaabbbacabaccbbbcccbbabbbcbbaaabbbaacccbbaaabbbcbbaaacaaabaaaccbcaaabbbccabcccbbabbbcbbaacbaccbbbcccbacccaaabcaccbbaacbabbbcbaaccbbaaabcccaaabaaacaaabbbaaacccaabbbaaabbcbbabbbcccbbaaacbaacccaaacbaaabbbaacbbbcccaaabbbcbabbbcccbaccbbaacbccaaabacabbbaccbbbcccacbcccaaabbbcccaccbaacaaabaacbccaabbbaaabbcaaacccbbbcccacbbabbbcbbaacabbcbaacccaaabaaacabbbaaabbccabcbbaaacccaabccaaabaaacaaabbbaacccaaacbbaaabbbacbbbccabaaacccaabbcabbbaaacaaabacccaaabbcccacccbcaaacccaabbbaaacaaabaaaccbaacccaaabbbcaaacccbbabbbcaabaaacccaaabbcaabbbaaacaaabaaaccbaacccaaabbcabaaacaaabbcabbbaaabbcccbabbbcbbbaacbbaaabcaaacccbabbbcccbaaacccaabbcabaaacaaabbcaabbbaaabbcaccbaaabbbcbbaacccbccaaacbaacccbccaccbbbcabbccaaacbbaaabbbaaccbbacbbbcccacbbbaaacccaaabaaacaaabbcaabbbcbbacaabbcccaabcaaabbbaaccbbbcaabbbaaabbcaabbbcbbbabbbcccaabbbaaabbcbbbaacccabaaccbbbcccbbaaccbacccaaabaaacabcbbaaabbcccaaabaacaabbbcbbbabbbccacbaaabbcacccbbbabbcccacccbcccaaaccbaacccbbaaabbbaacaabaaaccbbaaabbbaacbbbccabaacbbbcccbacccaabaacaaabbcabaaacccbbbaaabbbcbbbabbbccabbcccacccbcccaaabbbccacbbbabbccaaabbbacccaabccaaabaaacabcccbbaaabccaaacccbccaccbbbcccbbaaabccaaacccaabccaaabaaacaaabbbaaacccaaabacaaabbbccacbbaacccaaaccbccacccbbaaccbabbcbbaaabbbaaccbabbbcccbbaacbaaaccbcabaaacaaabbbaaaccbaacccbbbaaabbcaabbbcbbbabbbcccbbbaaabbbcbaaccbcaccbbbcaabaaacaabcbbaacccbcccacccbbaaacaaabaaaccbbabcacccbcabaaccbbbaaabbcaabbbcbbbabcccbaaaccbccacccbbbcccaaabaaacabbbaaabbcccaccbbbcccaaacccbcccacccbbbcabbbaaacccbcccacccbbbccaabbcbbbabbcccbbbccaaacccaabbbcbbaaabbbaacbcacccbbbaaabbbcbbbabbbccabcccbbbabbbcbbbaacaaabccacccbbbccaabcbabbbcccbbbaacccbcccacbaaccbbaaacbacccbbbacbbaaabcaaaccbaaabcbbbabbbcccbbbaaabbbcbaaacaabbbcccacccbcaaacccaabbbcbbaacaaabaacbbbabbccaaabbbacccbaacccaaacbbbaaacaaabaaacccaaabbbaaacabbbcbbaaacaaabacccaabbcccaccbbbacaabbcccaaacbcccacccbbacbbbcccbbacccaaacbbbacaaabacbccaaabbbcbbabbcccbbbccaaaccbccacccbbabcbbaaacaaabaaacccaaabbcaabbbaccbbbcaabbbaaabcaaaccbcccaabbcccbabbbcbbbaaabbcccaabbbcccbbbabbbcbbbaacbbabbbcccaabbbaaabcaaacccbbaaabbbaaccbbbcccbbaacccaaacbaacccbbaaabbbacaaabaaaccbbbabbbcbbbaaaccbacccbbbabbbcbbbaaabbccaaacbbaaabbbaacbbaaacaaabaaacccaaabbbaaacabaaacccabbbcacccbcaabaaacccbbbaaabbbcbabbbccabaaacccaabbcacccbbbcabbccacccbccaaacccbbaaacaaabaaacccaabbbcbabccaaacccaabcbabcccbbbcaabbbaaabbccabaaacaaabbcccbbbaaacaabccaaabaaacaaabbbaaacccaabbbaaabbcaabbbcbbbabbbcccacbbaaabbbaaccbacccaabbbaaacaaabaaaccbaacccbabbbcccbaacccaaabacaaabbbaaaccbbbabbbcbaccbbbaaacabcccbbaccbbbabbbcbbbaaabbbcccaaabbbaacbbaaacaaabacccabbcbacaaabbbcbabbbcccacbabbcbbaaabccaaacccbcccacccbbbaaacccbabcbbbaacbccaaacbaaabbcaaaccbaacccbcccacccbbbcccaaaccbccacccbbbabbbcbbbaaaccbaacaaabbbaccbbbcccaccbbaaccbacccaaabaaacaaabbbacccbbbccaabbbaaabbcccaaabbbaaacaaabaaacccaaabbbaacccaaaccbcccabbbaacccbbbcccacccbcccaaaccbaacccbbacbaacccaaacbaaabbbcaabacccbbbccabbbaaacabbbcccacccbcccaabccaaacccbcccacccbbabcacccbcccaaabaacbbbaccbbbcccbaccbbbaaabbcaccbbbabbcbbaaacabaaacccaabbbaaacabbcccbbbabbcccaaabaccbbbcccaccbbaacccaaabaaacaaabbbaacbccaaabaacbbabbbcccaaabbcbbabbbccabbcccbacccaaabaacaabbbaaabbccabcccbbaaabbbcbbbabccacccbbbccaaabbcccbbabccacccbccaaaccbbacbaaaccbbabbbcbbaaabbcccacbcccaaabaaacabbbaaabbccaaacccbbbcccacccbcccaaabaacccbcccacccbbbcaabbbaccbbbcccacbcccaaabaccbbbabbcbbaaabcaaacccbcaaabbbcccacccbcabbbcccbacaabbbcbbbabbbcccbbbaaabbbcbaaacaabbcabaaacccaabcccbbaaabbbcbabbbccabbcccabcaaabbbcbaacccbcccacccbbbcccaabbbcbbabbcccbbbccaabcaaaccbbabbbcccbbbaaabbbcbbbabbbccabcccbbbabbbcbbbaaaccbaacccbccaccbbbaacbcccaaabaaacabcbbbabbbcccabbbaaabbcaaacccbbaacaaabbcbbbaaacaaabacbbbcccaabaaacaabcccaccbbacbccaaabbbcaccbaacaaabbbaacbbbccaabcabbbcccbbacccaaabbbcaaacccbcccacccbbaccbbbaaabbccaccbcccaaabaaacabcbbaaacaaabaaacccaabccaaabaaacaaabbbcccacccbcabbbaaabcaaaccbbacaaabbbcbbabbccaccbcccaaabaaacaaabbbaacbccaaacbbaaabbbaccbbbcccacbbabbbcbbaaacccbbbcaabbbaaacaaabaaacccbcccacbabbbcccacccbcccaabccaaacccbcccacccbbbcccaabcbbaaabbcccacccbcccaabaaacccbccaabbbaaabcacccbbaaabbbcbbbabbbccabcccbbabbbccaabcacccbcccaabbbcccbbbabcbbbaacabaacccbbbccabaaacccbcccacccbbaccbbbcccbbacccaabbcbbbabbcccbbaaacccaabcbbaaacaaabaaaccbccacccbbbcccaabccaaabbcbaccbbabbcbbbaaacaaabaaacccbbbaaacabcccbbabbbcbbacaaabbbcbbbabbbccacccbbbccaaacccbccaaabaaccbcaabbbaaabbcbbbabbcccbbbccaabcbbbaaabbccacccbbbcabbcccacccbcccaaacccbbbacccaaabbcbbbacaaabacccaaabbccacccbbbcaaabbcccbbbabbbcbbbaaabbcaabbbcccbbbabcccaabbbaaacabccaaabaaacaaabbbcbaacccaaaccbcccabbcbbbacaaabaaacccbbbaaabbcaabbbcccaccbaaabbbcbbaacccbbbcccacccbcaaacccbbacaaabacccaabbbcccbacaabaaccbbbabbcaaabaacccbbbacaaabaaaccbaacccaaabbcccacccbcaaacccaabbbaccbbbcccacccbcccaabccaaacccaabcccbbacccaaacbaaabbcbbbabbcccbbbaacccabbcccbbbccabbcccacccbcccaaacccbbabcbbaacccaaaccbaacccbcccacccbbbacaabbbcbacbcccaabaaaccbbbcabbbaaacaaabaaaccbcaccbbbaaacaabbcccaaacccbcccacccbbacbbbccaaacbcccacccbbaaacaabbcbbbaacccabcccbbbabbbcbbbaaabcccbbbabbcaaabaaccbbaaacccbbacbbbcccbbacccaaaccbaaabbbcccaaabbbacaaabaaaccbaacabbbcccbaacccaaacbaacccbcccacccbbbcccaaabbbcccbaacccaaabaaacaaabbbcbaacaaabbbcccabcaaacccabcccbbaccbbbabbbcbaaacaabcccbbabccaaabbbaaacaaabaaacccabccaaabaaacaaabbbcccbbbabccacccbccaabaaaccbcaabbbaaacaaabaaaccbaacccaaaccbaaabbccaaacccbcccacccbbacbcccaaabbbcccbbabbcbacaaabaccbcccaccbaacaaabaacbccaccbbabccaaabcaabbbcbbbabbbcccbacccaabbcccaccbbbcccbbacaaabaaacccaabcccbbabccaaacccbcccacccbbaccbbbcccbbacccaabcccbbbcabaaacccbbaacaaabaacccaaaccbabbcaabaaacccbcccacccbbbccabbcccacccbcccaaacccbbbcccaccbccaaabaaccbcaccbbaaabbbcbaacccabbcccbbbccabbcccacccbcccaaacccbbbcccaccbccaaabbbaaccbbbcccacccbcccaabbbcbbbabbbcccbbaacccabcccbbbccaabaaacccbbbcaabbbacbbbcccbbaaacabaaacccaabcccbbbabbccaabbbcccacccbcccaabccaaacbbbccaccbcccaaabaaacaaabbcccbbbccaabbbaacabccaabaacaaabbbcbbbabbbcccbbbaaccbcccaccbbbccaabcbbbaaacccabccaabaaacbccaaabbbacbbaaacaaabaaacccbccaaabaacaabbbccacccbccabbbaacbbaaacabaccbbbabcbbbaaabbbcccabbbaaacaaabaaacccaaabbcccabaacaabbbaaabbcccbbbabbbcbbbaacbabbbcccacccbcccaaacccbbacaabbbcccbbbabcbbbaaacbbbcccaaabaaacaaabbbcbbbabbbccabbcbbbaaaccbcabbcccacccbcccaaacccbbaaabbbacbbbcccaccbccaabcbbbaaaccbacaaabaaaccbacccaabbcccaccbbbcccbbaaacccaabccaaabbcbbabbbcccbbbaacbbaaabcccaaabaacbbaaacaaabaaacccaaabbcccacccbcccaaaccbbacabaaacccaaabbcccbbbccaabbbaaacccbcccacccbbbccabbcccacccbcccaaacccbbbcccacbbaaabccaaacccbcaabbcccaaabaaacaaabbcaabbbaaabbcaaacccbbbcaaabcbbbabbbcccbaccbbaacccabbcccbbbcabbcccacccbcccaaacccbbbcccacbbaaabbbaaccbcabaaacaaabbbcbbbabbbcccabaacaabbbaacccabbcccbbbabbbcbbbaacbbabbbcccbbbaaabcccabaaacaaabbcbabbcccbbaacccbccaaacccbbbabccaaabaaacaaabbbaaacccbbbccabaaacccbbbaaabbbcbbabbcccbbbaacccabcccbbbabbccaabaaacccbccaaabaaacabccaabbbacbbbcccbacbbbaacccaaacbaacccbcccacccbbbacccabacabbbacccbbbccabbbaaacbbabcccbbaacccaaabacabbcccacbcccaaacbbbacaaabaaaccbaacccaaaccbabbbcbbbaaacaaabaaacccbbaacaaabaacbbabbbcbbacaaabbbcacccbcabbbaaacaabaacccaaabbccacccbccabbbcbbaacabbcccacbacaaabbbcbbbabbbccabbcccacccbcccaaabaaccbbbcccbabbbcbaaabbcccaccbbaaabbcbaacccaaabaaacabcbbaaabbcccaabbbaacabcbbbabbbcccbbbaacccbaaabbcbbbaaccbcaabaaaccbcccaccbbacbbbcccaccbbaaabbbcbbaacaaabbbcbbbabbbcccbbbaacabbcccbbbccabbcccacccbcabbbaaacabcccbbaccbbbabcbbbaaabbbcccbaacaaabbccabcaaacccabcccbbbccaabcbbbabbbccaaacccbbbccaabaaaccbcccaccbbbcccaaacccbcccacccbbaccbbbcccacccbcccaaabbbcbabbbcccbbbaacccbccabaacaabbcccbbbabcbaacaaabaacccabbbcacccbcccaaacccbbaaacaaabacccaaaccbbacbbbaacbbaaacccabcccbbbabcccaaabbbcbbbabbbccabcccbbbaaacbbbcccacccbcccaabccaaacccbbbcccacbabbbcccbbbaaaccbaacaaabbbaaacccbbbabbcaabbbcbbbabcccbbbccaaacbbaaabbbccabaacccbcccacccbbbabbbcbbbaaacabcccbbbaaaccbbaacaaabbbaaaccbbbcabaaaccbcccaccbaaacaabbbccaaabaacaabbbaaabbcccbacaaabbbcbbabbcccbaacccaaabcbbbaaabcaaaccbaacccbcccacbaaccbbbcaaabbbcbbbabbbcccbaacccabcbbaaabcaaaccbaacccbcccacccbbbabccacccbccabaacaabbbccaaabbbaaacaaabaaaccbcccaccbabbcccacccbcccaaabaaccbcccaaaccbbbacbaaabbbaccbbbcccbbacccaaaccbbbaaabbcccaaacccbcccacccbbacbbbcccacccbcccaaacccbbbccaaacccabbcccbbbabbbcbbbaacbbabbbcccbbbaacaabacccbccaabaacaaabbcccbabbcaaabbbacbbbccabbcccacbcccaaabcccbbbaccbcaaabbccaaacccbcccacccbbaaacccaaabacabbcccaaacbcccacbbbcaabbbaaacbbbcaccbbaaacccaaabaacaabbcbabbcccaaabbbaaacabbcbbbabbcccbbbccaabcacccbcccaabccaaacbabbbcccbaccbbaaacccaaabacaaabbcaabbbcbabbbcccacbbaaabbbcbbbabbbcccbbbaacccbcccacbaaabbcccbaccbbbabbcaabaaacccbacbbbaacccbbbcccacccbcccaabccacccbbbacccaaabacaaabbcbbbacccbccaabcaaabbccabcbbbabbbccabbcccbbbccaaacccbcccacccbbaccbbbcccbbaaacaabaacccbbbcccacccbcccaabccaaacccbcccacccbbaaabbbacaaabacbcccacccbbabbbccaabacccbbbabcbaacaaabcccaabbbaaabbcbbbaaccbbbabbcccbbbccaabbbaacabbcccacbcaaabaacbcccacccbbbacccabaaccbbabbbcbbaacccbbaccbbbcccacccbcccaabccacccbbbaaacccabbcccbbbcaabaaacaabccacccbccaabaccbbbcccacccbcccaabccaaacccbbaacaaabaacccaaaccbbabcacccbcccaaaccbbbaaabbcaabbbcccaaacccbcccacccbbabbcbbbaaacccbcccacccbbbaaacaaabaaacccaabbbcccbbbabcbbbaacccaaabbbcbbbabccaaabbbaaacaaabaaacccbcccacccbbbaacccaaaccbaaabbbacccaaabbbaaacaaabaaacccaaabbbaccbcccaccbaaacaabbccaaabbbcbbbabccaaabbbaacaabaaacccbcccacccbbbcccaaabcccbbbaacbbaaacaaabaaacccaabbbcccaaacccbcccacccbbbcccaaaccbbbaaabcacccbcccaabccaaabaacaabbbcbbaacccbccabbcbbbabbccaabcaaaccbcccaccbbacbbbccaabbbaccbbbcccbaccbbbabbbcbbbaaacaabcbbbaaabbbcccaccbbaacccaaabacaaabbcccaabbbcccbbbabbcbbaaccbcccaaabaacccbcccacccbbbcccaabcbbbaaaccbbbccacccbccaaabaaacaaabbbcbbbabcccabbbaaacccaaabaaacaaabbcbbabcccabaaacccabccaabbcbbbaccbcccaccbbaaccbacccaaabaacaabbbaaabbcccbbbabbbcbbbaaabbcaabbbcccbbaaaccbcccaabbcbbbaacaaabaacccaabbbaaacaaabaaaccbaacccaaaccbbabcccbbaacaaabbcccbbabbbccaaabaaacaaabbbcccbacaaabaaacccbcccacccbbacbcccaaabcbbabbccaaabbcaabbbcbbbabcccbbbaacccbccaaacccbbbabbccaabbbaaacaabaacccaaaccbbaaacbbbccacccbccaaacccbbbccaabbbaaacabccaabbbacbbbccabcccb";
+
+let aa2frState = {
+  mode: 'aa2fr',
+  dir: 'right',
+  wordArr: [],
+  stack: [],
+  stats: { len: 0, attempts: 0, backtracks: 0, maxLen: 0 },
+  running: false,
+  timer: null,
+  delay: 50
+};
+
+function aa2frLoadExample(val) {
+  if (val === 40) {
+    $('aa2fr-base-word').value = "abaacbbabbbcccbaaabcacccbcccaabbbcccbbba";
+  } else if (val === '15796') {
+    $('aa2fr-base-word').value = AA2F15796;
+  }
+}
+
+function aa2frSetBase() {
+  const val = $('aa2fr-base-word').value.trim().toLowerCase().replace(/[^abc]/g, '');
+  aa2frState.wordArr = val.split('');
+  aa2frState.stack = [];
+  aa2frState.stats = { len: aa2frState.wordArr.length, attempts: 0, backtracks: 0, maxLen: aa2frState.wordArr.length };
+  aa2frState.running = false;
+  $('aa2fr-status').textContent = 'Base word set. Ready to extend.';
+  aa2frUpdateUI();
+}
+
+function aa2frStart() {
+  if (aa2frState.wordArr.length === 0) aa2frSetBase();
+  aa2frState.running = true;
+  aa2frState.mode = $('aa2fr-mode').value;
+  aa2frState.dir = $('aa2fr-dir').value;
+  $('aa2fr-btn-start').classList.add('hidden');
+  $('aa2fr-btn-pause').classList.remove('hidden');
+  aa2frLoop();
+}
+
+function aa2frPause() {
+  aa2frState.running = false;
+  $('aa2fr-btn-pause').classList.add('hidden');
+  $('aa2fr-btn-start').classList.remove('hidden');
+}
+
+function checkAA2F(wordArr, isLeft, mode) {
+  const n = wordArr.length;
+  if (mode === 'aa2fr' && n >= 4) {
+    const f4 = isLeft ? wordArr.slice(0, 4).join('') : wordArr.slice(n - 4).join('');
+    if (FORBID4.includes(f4)) return false;
+  }
+  const maxH = Math.floor(n / 2);
+  for (let h = 2; h <= maxH; h++) {
+    if (isLeft) {
+      const p1 = getParikh(wordArr.slice(0, h));
+      const p2 = getParikh(wordArr.slice(h, 2 * h));
+      if (parikhEqual(p1, p2, ['a','b','c'])) return false;
+    } else {
+      const p1 = getParikh(wordArr.slice(n - 2 * h, n - h));
+      const p2 = getParikh(wordArr.slice(n - h, n));
+      if (parikhEqual(p1, p2, ['a','b','c'])) return false;
+    }
+  }
+  return true;
+}
+
+function aa2frStep() {
+  if (!aa2frState.running) aa2frState.running = true; // allow manual stepping
+  const ALPHA = ['a','b','c'];
+  if (aa2frState.stack.length === 0) {
+    aa2frState.stack.push({ tryIdx: 0 });
+    if (aa2frState.wordArr.length > aa2frState.stats.maxLen) aa2frState.stats.maxLen = aa2frState.wordArr.length;
+  }
+  const top = aa2frState.stack[aa2frState.stack.length - 1];
+  if (top.tryIdx >= 3) {
+    aa2frState.stack.pop();
+    if (aa2frState.dir === 'right') aa2frState.wordArr.pop();
+    else aa2frState.wordArr.shift();
+    aa2frState.stats.backtracks++;
+    if (aa2frState.stack.length === 0) {
+      aa2frState.running = false;
+      $('aa2fr-status').innerHTML = '<span style="color:#e74c3c">Search exhausted/failed. No more extensions possible.</span>';
+      aa2frPause();
+      aa2frUpdateUI();
+    }
+    return;
+  }
+  const letter = ALPHA[top.tryIdx++];
+  aa2frState.stats.attempts++;
+  if (aa2frState.dir === 'right') aa2frState.wordArr.push(letter);
+  else aa2frState.wordArr.unshift(letter);
+  
+  const valid = checkAA2F(aa2frState.wordArr, aa2frState.dir === 'left', aa2frState.mode);
+  if (valid) {
+    aa2frState.stack.push({ tryIdx: 0 });
+    if (aa2frState.wordArr.length > aa2frState.stats.maxLen) aa2frState.stats.maxLen = aa2frState.wordArr.length;
+    $('aa2fr-status').innerHTML = `Appended '<span class="sn-${letter}"><b>${letter}</b></span>'. <span style="color:#2ecc71">Valid!</span> Expanding...`;
+  } else {
+    if (aa2frState.dir === 'right') aa2frState.wordArr.pop();
+    else aa2frState.wordArr.shift();
+    $('aa2fr-status').innerHTML = `Tried '<span class="sn-${letter}"><b>${letter}</b></span>'. <span style="color:#e74c3c">Collision found.</span>`;
+  }
+  aa2frState.stats.len = aa2frState.wordArr.length;
+  aa2frUpdateUI();
+}
+
+function aa2frLoop() {
+  if (!aa2frState.running) return;
+  const speed = parseInt($('aa2fr-speed').value);
+  const iters = speed > 80 ? 50 : speed > 50 ? 10 : 1;
+  const delay = Math.max(1, 100 - speed);
+  for (let i = 0; i < iters && aa2frState.running; i++) {
+    const wasRunning = aa2frState.running;
+    aa2frStep();
+    if (wasRunning && !aa2frState.running) break;
+  }
+  if (aa2frState.running) {
+    aa2frState.timer = setTimeout(aa2frLoop, delay);
+  }
+}
+
+function aa2frUpdateUI() {
+  $('aa2fr-stat-len').textContent = aa2frState.stats.len;
+  $('aa2fr-stat-att').textContent = aa2frState.stats.attempts;
+  $('aa2fr-stat-bt').textContent = aa2frState.stats.backtracks;
+  $('aa2fr-stat-max').textContent = aa2frState.stats.maxLen;
+  
+  const arr = aa2frState.wordArr;
+  let displayStr = '';
+  const MAX_DISP = 300;
+  if (arr.length <= MAX_DISP) {
+    displayStr = arr.map(c => `<span class="sn-${c}">${c}</span>`).join('');
+  } else {
+    if (aa2frState.dir === 'right') {
+      displayStr = `<span style="color:#64748b">[...${arr.length - MAX_DISP} omitted...]</span> <br>` + 
+        arr.slice(arr.length - MAX_DISP).map(c => `<span class="sn-${c}">${c}</span>`).join('');
+    } else {
+      displayStr = arr.slice(0, MAX_DISP).map(c => `<span class="sn-${c}">${c}</span>`).join('') +
+        `<br> <span style="color:#64748b">[...${arr.length - MAX_DISP} omitted...]</span>`;
+    }
+  }
+  $('aa2fr-display').innerHTML = displayStr;
+}
 
 </script>
 </body>
