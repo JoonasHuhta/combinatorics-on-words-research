@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Abelian Square-Free Structures — Interactive Explorer</title>
+  <title>abelian square-Free Structures — Interactive Explorer</title>
   <style>
     :root {
       --bg: #ffffff;
@@ -370,11 +370,11 @@
 <body>
 
 <div class="app">
-  <h1>Abelian Square-Free Structures &mdash; Interactive Explorer</h1>
+  <h1>abelian square-Free Structures &mdash; Interactive Explorer</h1>
   <p class="intro-text">
-    Visualizing the search for Abelian square-free words. Over a three-letter alphabet {a,&thinsp;b,&thinsp;c},
-    every word of length 8 or greater contains an Abelian square, making an infinite Abelian square-free word impossible.
-    In 1992, Veikko Ker&auml;nen proved that an infinite Abelian square-free word exists over a four-letter alphabet {a,&thinsp;b,&thinsp;c,&thinsp;d}.
+    Visualizing the search for abelian square-free words. Over a three-letter alphabet {a,&thinsp;b,&thinsp;c},
+    every word of length 8 or greater contains an abelian square, making an infinite abelian square-free word impossible.
+    In 1992, Veikko Ker&auml;nen proved that an infinite abelian square-free word exists over a four-letter alphabet {a,&thinsp;b,&thinsp;c,&thinsp;d}.
   </p>
   <p class="legend">
     Letter colors:&ensp;
@@ -421,8 +421,8 @@
     <div class="split-view">
       <div class="split-left">
         <h3>Search Tree</h3>
-        <p style="font-family: Arial; font-size: 0.8rem; color:#666;">Backtracking over {a,&thinsp;b,&thinsp;c}. Each branch tries one letter; branches marked red contain an Abelian square and are pruned.</p>
-        <div class="info-box"><strong>Why does 3 letters fail?</strong> Over a 3-letter alphabet, every word of length &ge;8 contains an Abelian square. The longest Abelian square-free words over {a,b,c} have exactly length 7 (e.g. <code>abcbacb</code>). This was proved by Dekking (1979) and independently by Ker&auml;nen. The tree search below hits a dead end every time it reaches depth 7.</div>
+        <p style="font-family: Arial; font-size: 0.8rem; color:#666;">Backtracking over {a,&thinsp;b,&thinsp;c}. Each branch tries one letter; branches marked red contain an abelian square and are pruned.</p>
+        <div class="info-box"><strong>Why does 3 letters fail?</strong> Over a 3-letter alphabet, every word of length &ge;8 contains an abelian square. The longest abelian square-free words over {a,b,c} have exactly length 7 (e.g. <code>abcbacb</code>). This was proved by Dekking (1979) and independently by Ker&auml;nen. The tree search below hits a dead end every time it reaches depth 7.</div>
         <canvas id="treeCanvas"></canvas>
       </div>
       <div class="split-right">
@@ -430,7 +430,7 @@
         <div class="word-tiles" id="tiles-3letter"></div>
         
         <h3>Suffix Parikh Scanner</h3>
-        <p style="font-family: Arial; font-size: 0.8rem; color:#666;">After each appended letter, all suffix splits are scanned. A match in Parikh vectors means an Abelian square &mdash; branch is pruned.</p>
+        <p style="font-family: Arial; font-size: 0.8rem; color:#666;">After each appended letter, all suffix splits are scanned. A match in Parikh vectors means an abelian square &mdash; branch is pruned.</p>
         <div class="scanner-ui" id="scanner-ui">
           <div id="scanner-status">Idle</div>
           <div class="parikh-compare hidden" id="parikh-compare">
@@ -448,10 +448,10 @@
   <div class="view-panel hidden" id="view-abc-lab">
     <h2>ABC Laboratory</h2>
     <p style="font-family: Arial; font-size: 0.95rem; color:#555;">
-      Exhaustive finite search over {a,b,c}. The laboratory keeps every prefix that avoids Abelian squares,
+      Exhaustive finite search over {a,b,c}. The laboratory keeps every prefix that avoids abelian squares,
       then shows the exact collision that prevents extension to length 8.
     </p>
-    <div class="def-box"><strong>Result:</strong> Over {a,b,c} there are exactly <strong>30</strong> Abelian square-free words of length 7 (up to trivial permutations of the alphabet). Every one of them fails to extend to length 8 &mdash; try clicking a survivor to see which letter causes the collision. See also <a href="https://oeis.org/A261352" target="_blank" style="color:#d68910;">OEIS A261352</a>.</div>
+    <div class="def-box"><strong>Result:</strong> Over {a,b,c} there are exactly <strong>30</strong> abelian square-free words of length 7 (up to trivial permutations of the alphabet). Every one of them fails to extend to length 8 &mdash; try clicking a survivor to see which letter causes the collision. See also <a href="https://oeis.org/A261352" target="_blank" style="color:#d68910;">OEIS A261352</a>.</div>
     <div class="abc-grid">
       <div class="abc-card">
         <h3>Valid Prefix Counts</h3>
@@ -482,8 +482,8 @@
     <div class="word-empty hidden" id="word-empty">Press a button to start.</div>
     <div class="word-tiles hidden" id="tiles-general"></div>
     <canvas id="condensedCanvas" class="hidden"></canvas>
-    <div class="info-box hidden" id="info-4letter"><strong>Keränen&rsquo;s g&#8328;&#8325; morphism (1992):</strong> The first known Abelian square-free endomorphism over 4 letters. Each of the four letters maps to a word of length <strong>85</strong>. Applying the morphism iteratively starting from &ldquo;a&rdquo; produces an infinite Abelian square-free word. The key property is that g(b), g(c), and g(d) are cyclic permutations of g(a) &mdash; this guarantees their Parikh vectors are equal, preventing abelian squares across block boundaries.</div>
-    <div class="info-box hidden" id="info-canvas"><strong>Turtle Walk:</strong> Each letter maps to a direction &mdash; a&rarr;Right, b&rarr;Up, c&rarr;Left, d&rarr;Down. Abelian square-free words have a characteristic non-repeating drift pattern in this walk. Notice the walk never returns to the same region in the same way: that visual non-repetition mirrors the algebraic non-repetition in the sequence.</div>
+    <div class="info-box hidden" id="info-4letter"><strong>Keränen&rsquo;s g&#8328;&#8325; morphism (1992):</strong> The first known abelian square-free endomorphism over 4 letters. Each of the four letters maps to a word of length <strong>85</strong>. Applying the morphism iteratively starting from &ldquo;a&rdquo; produces an infinite abelian square-free word. The key property is that g(b), g(c), and g(d) are cyclic permutations of g(a) &mdash; this guarantees their Parikh vectors are equal, preventing abelian squares across block boundaries.</div>
+    <div class="info-box hidden" id="info-canvas"><strong>Turtle Walk:</strong> Each letter maps to a direction &mdash; a&rarr;Right, b&rarr;Up, c&rarr;Left, d&rarr;Down. abelian square-free words have a characteristic non-repeating drift pattern in this walk. Notice the walk never returns to the same region in the same way: that visual non-repetition mirrors the algebraic non-repetition in the sequence.</div>
   </div>
 
   <!-- ================================================
@@ -495,7 +495,7 @@
       Listen to the structure of the g&#8328;&#8325; word. Slicing into chunks of 85 corresponds to exactly one morphism image per track.
       Because g(b), g(c), g(d) are cyclic permutations of g(a), each track shares the same set of pitches &mdash; only their order changes.
     </p>
-    <div class="hint-box"><strong>What to listen for:</strong> Each chunk of 85 letters is one &ldquo;block&rdquo; of the morphism. Because the images of a, b, c, d are cyclic permutations of each other, all chunks contain exactly the same pitch classes (C, E, G, A &mdash; a C major 6th chord). The <em>rhythm</em> shifts block by block, but no rhythmic pattern ever repeats in the same way &mdash; that is the sonic signature of Abelian square-freeness. Try chunk sizes of 1, 85, or 170 for different effects.</div>
+    <div class="hint-box"><strong>What to listen for:</strong> Each chunk of 85 letters is one &ldquo;block&rdquo; of the morphism. Because the images of a, b, c, d are cyclic permutations of each other, all chunks contain exactly the same pitch classes (C, E, G, A &mdash; a C major 6th chord). The <em>rhythm</em> shifts block by block, but no rhythmic pattern ever repeats in the same way &mdash; that is the sonic signature of abelian square-freeness. Try chunk sizes of 1, 85, or 170 for different effects.</div>
     
     <div style="display:flex; gap:15px; align-items:center; font-family:Arial; font-size:0.9rem; margin-bottom:15px; flex-wrap:wrap;">
       <label>Chunk size:</label>
@@ -585,7 +585,7 @@
       far left and right the word can grow before it gets stuck.
       (Concept from Ker&auml;nen&rsquo;s 2010 <em>Mathematica Journal</em> article.)
     </p>
-    <div class="def-box"><strong>Definition &mdash; Unfavorable Factor:</strong> An Abelian square-free word <em>w</em> is an <em>unfavorable factor</em> if there exists a finite bound <em>N</em> such that every Abelian square-free word containing <em>w</em> as a subword has length at most <em>N</em>. Such words act as &ldquo;dead ends&rdquo; in the search tree: no matter how you try to grow them, you will always encounter an Abelian square within a bounded number of steps. Ker&auml;nen used this concept in his 2010 paper to analyze the structure of the infinite g&#8328;&#8325; word and show which local patterns are unavoidable.</div>
+    <div class="def-box"><strong>Definition &mdash; Unfavorable Factor:</strong> An abelian square-free word <em>w</em> is an <em>unfavorable factor</em> if there exists a finite bound <em>N</em> such that every abelian square-free word containing <em>w</em> as a subword has length at most <em>N</em>. Such words act as &ldquo;dead ends&rdquo; in the search tree: no matter how you try to grow them, you will always encounter an abelian square within a bounded number of steps. Ker&auml;nen used this concept in his 2010 paper to analyze the structure of the infinite g&#8328;&#8325; word and show which local patterns are unavoidable.</div>
     <div class="unf-layout">
       <div class="unf-left">
         <div class="unf-input-row">
@@ -616,11 +616,11 @@
   <div class="view-panel hidden" id="view-microscope">
     <h2>Morphism Microscope</h2>
     <p style="font-family: Arial; font-size: 0.95rem; color:#555; max-width:800px; line-height:1.5;">
-      Two Abelian square-free morphisms by Veikko Ker&auml;nen. Both map each of the four letters to a longer word
+      Two abelian square-free morphisms by Veikko Ker&auml;nen. Both map each of the four letters to a longer word
       such that the image of <em>b</em>, <em>c</em>, <em>d</em> are cyclic permutations of the image of <em>a</em>.
-      Iterating either morphism from the seed word &ldquo;a&rdquo; produces an infinite Abelian square-free word.
+      Iterating either morphism from the seed word &ldquo;a&rdquo; produces an infinite abelian square-free word.
     </p>
-    <div class="info-box"><strong>Why are there multiple morphisms?</strong> Ker&auml;nen&rsquo;s g&#8328;&#8325; (1992) was the first construction and remains the canonical one &mdash; length 85 per image is surprisingly long. Later work (g&#8329;&#8328;, 2009) produced morphisms with different image lengths and combinatorial properties, demonstrating that the language of Abelian square-free words over 4 letters is rich enough to support multiple distinct morphic structures. The existence of many such morphisms is itself an open research area: how many fundamentally different Abelian square-free morphisms are there?</div>
+    <div class="info-box"><strong>Why are there multiple morphisms?</strong> Ker&auml;nen&rsquo;s g&#8328;&#8325; (1992) was the first construction and remains the canonical one &mdash; length 85 per image is surprisingly long. Later work (g&#8329;&#8328;, 2009) produced morphisms with different image lengths and combinatorial properties, demonstrating that the language of abelian square-free words over 4 letters is rich enough to support multiple distinct morphic structures. The existence of many such morphisms is itself an open research area: how many fundamentally different abelian square-free morphisms are there?</div>
     <div style="display:flex; gap:20px; font-family:Arial, sans-serif; margin-top:20px; flex-wrap:wrap;">
       <div style="flex:1; min-width:300px; border:1px solid var(--border); padding:15px; border-radius:5px; background:#fff;">
         <h3 style="margin-top:0;">Morphism g&#8328;&#8325; &mdash; Ker&auml;nen 1992</h3>
@@ -668,9 +668,9 @@
   <div class="view-panel hidden" id="view-morph-lab">
     <h2>Morphism Laboratory</h2>
     <p style="font-family: Arial; font-size: 0.95rem; color:#555; max-width:800px; line-height:1.5;">
-      Design your own uniform morphism over {a,b,c,d}. The program will evaluate its Parikh vectors, check for cyclic permutations, and iteratively search for Abelian squares.
+      Design your own uniform morphism over {a,b,c,d}. The program will evaluate its Parikh vectors, check for cyclic permutations, and iteratively search for abelian squares.
     </p>
-    <div class="def-box"><strong>What makes a morphism Abelian square-free?</strong> Three necessary (but not sufficient) conditions: <strong>(1) Uniform</strong> &mdash; all four images must have the same length. <strong>(2) Cyclic Parikh</strong> &mdash; the Parikh vectors of g(a), g(b), g(c), g(d) must be cyclic permutations of one another (same letter counts, different order). <strong>(3) Non-trivial images</strong> &mdash; each image must itself be Abelian square-free. Even satisfying all three, finding a morphism whose infinite iteration is Abelian square-free requires additional structural constraints &mdash; Ker&auml;nen&rsquo;s achievement was to find one that works.</div>
+    <div class="def-box"><strong>What makes a morphism abelian square-free?</strong> Three necessary (but not sufficient) conditions: <strong>(1) Uniform</strong> &mdash; all four images must have the same length. <strong>(2) Cyclic Parikh</strong> &mdash; the Parikh vectors of g(a), g(b), g(c), g(d) must be cyclic permutations of one another (same letter counts, different order). <strong>(3) Non-trivial images</strong> &mdash; each image must itself be abelian square-free. Even satisfying all three, finding a morphism whose infinite iteration is abelian square-free requires additional structural constraints &mdash; Ker&auml;nen&rsquo;s achievement was to find one that works.</div>
     <div style="margin-bottom:15px;">
       <button class="btn" id="btn-load-g85" style="font-size:0.85rem; padding:4px 8px;">Load g&#8328;&#8325;</button>
       <button class="btn" id="btn-load-g98" style="font-size:0.85rem; padding:4px 8px;">Load g&#8329;&#8328;</button>
@@ -700,13 +700,13 @@
        12. HEAT MAP
        ================================================ -->
   <div class="view-panel hidden" id="view-heat-map">
-    <h2>Abelian Square Heat Map</h2>
+    <h2>abelian square Heat Map</h2>
     <p style="font-family: Arial; font-size: 0.95rem; color:#555; max-width:800px; line-height:1.5;">
-      Each cell (x, y) shows whether an Abelian square exists starting at position x with half-length y.
-      <span style="color:#e74c3c; font-weight:bold;">&#9632; Red</span> = Abelian square found,
+      Each cell (x, y) shows whether an abelian square exists starting at position x with half-length y.
+      <span style="color:#e74c3c; font-weight:bold;">&#9632; Red</span> = abelian square found,
       <span style="color:#f1c40f; font-weight:bold;">&#9632; Yellow</span> = near-miss (Parikh diff = 1 per letter),
       <span style="color:#bdc3c7;">&#9632; Gray</span> = no square.
-      The g&#8328;&#8325; word is Abelian square-free, so the red cells come only from a random word for comparison.
+      The g&#8328;&#8325; word is abelian square-free, so the red cells come only from a random word for comparison.
     </p>
     <div style="margin-bottom:15px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; font-family:Arial;">
       <button class="btn" id="btn-heat-g85">g&#8328;&#8325; word (2 iterations, A²-free)</button>
@@ -727,13 +727,13 @@
         </div>
       </div>
       <div style="font-family:Arial; font-size:0.75rem; color:#888; margin-top:4px; padding-left:50px;">
-        <span style="display:inline-block; width:14px; height:10px; background:#e74c3c; margin-right:4px; vertical-align:middle;"></span>Abelian square
+        <span style="display:inline-block; width:14px; height:10px; background:#e74c3c; margin-right:4px; vertical-align:middle;"></span>abelian square
         <span style="display:inline-block; width:14px; height:10px; background:#f1c40f; margin-left:12px; margin-right:4px; vertical-align:middle;"></span>Near-miss (diff=1)
         <span style="display:inline-block; width:14px; height:10px; background:#f9f9f9; border:1px solid #ccc; margin-left:12px; margin-right:4px; vertical-align:middle;"></span>No square
       </div>
     </div>
     <div id="heat-tooltip" style="font-family:monospace; font-size:0.85rem; color:#555; margin-top:8px; min-height:1.4em;"></div>
-    <div class="def-box" style="max-width:860px;"><strong>Reading the Heat Map:</strong> A cell at column <em>x</em>, row <em>y</em> is <span style="color:#e74c3c; font-weight:bold;">red</span> if the word contains an Abelian square starting at position <em>x</em> with half-length <em>y</em> (i.e. both halves [x, x+y) and [x+y, x+2y) have identical Parikh vectors). <span style="color:#d4ac0d; font-weight:bold;">Yellow</span> cells are &ldquo;near-misses&rdquo; (Parikh vector difference &le;2). The g&#8328;&#8325; word produces <strong>zero red cells</strong> &mdash; it is Abelian square-free by construction. The random word produces many red cells, demonstrating how rare Abelian square-freeness actually is. Hover over any cell to inspect the exact Parikh vectors of both halves.</div>
+    <div class="def-box" style="max-width:860px;"><strong>Reading the Heat Map:</strong> A cell at column <em>x</em>, row <em>y</em> is <span style="color:#e74c3c; font-weight:bold;">red</span> if the word contains an abelian square starting at position <em>x</em> with half-length <em>y</em> (i.e. both halves [x, x+y) and [x+y, x+2y) have identical Parikh vectors). <span style="color:#d4ac0d; font-weight:bold;">Yellow</span> cells are &ldquo;near-misses&rdquo; (Parikh vector difference &le;2). The g&#8328;&#8325; word produces <strong>zero red cells</strong> &mdash; it is abelian square-free by construction. The random word produces many red cells, demonstrating how rare abelian square-freeness actually is. Hover over any cell to inspect the exact Parikh vectors of both halves.</div>
   </div>
 
   <!-- ================================================
@@ -750,7 +750,7 @@
           <div class="snake-start-title">Abelian Snake</div>
           <div class="snake-start-sub">
             Your snake's body <em>is</em> a word. Eating a letter appends it to your word.
-            If the suffix forms an <strong>Abelian square</strong>, you die.
+            If the suffix forms an <strong>abelian square</strong>, you die.
             4 letters guarantee an infinite escape path — can you find it?
           </div>
           <button class="snake-go-btn" id="snake-start-btn" style="font-size:1rem; padding:10px 28px;">Start Game</button>
@@ -759,7 +759,7 @@
         <!-- Game Over Screen -->
         <div class="snake-gameover-overlay hidden" id="snake-gameover-overlay">
           <div class="snake-go-title">GAME OVER</div>
-          <div class="snake-go-subtitle" id="snake-go-subtitle">You created an Abelian square.</div>
+          <div class="snake-go-subtitle" id="snake-go-subtitle">You created an abelian square.</div>
           <div class="snake-go-square" id="snake-go-square"></div>
           <div class="snake-go-fullword" id="snake-go-fullword"></div>
           <div class="snake-score-hs" id="snake-go-hs"></div>
@@ -788,7 +788,7 @@
         <div class="snake-dna" id="snake-dna-display"><span style="color:#475569; font-style:italic;">Start the game…</span></div>
         <h3>Suffix Parikh Splits</h3>
         <div class="snake-parikh" id="snake-parikh-panel">
-          <span style="color:#475569; font-style:italic; font-size:0.78rem;">Shows suffix splits of the current word. Red = Abelian square!</span>
+          <span style="color:#475569; font-style:italic; font-size:0.78rem;">Shows suffix splits of the current word. Red = abelian square!</span>
         </div>
         <div class="snake-deadend-warn" id="snake-deadend-warn">
           ⚠ <strong>Unfavorable position!</strong> All 4 letters are fatal — no safe move exists.
@@ -799,6 +799,67 @@
         </div>
         <div class="hint-box" style="margin-top:12px; font-size:0.82rem;">
           <strong>Strategy:</strong> Keep all 4 letters roughly balanced. Watch the Parikh splits on the right — if two adjacent halves have the same counts, you die.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       14. AA2FR LABORATORY
+       ================================================ -->
+  <div class="view-panel hidden" id="view-aa2fr">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2>AA2FR Extensions Laboratory (Ternary)</h2>
+      <button onclick="aa2frLoadExample('15796')" class="control-btn" style="background:#8e44ad; padding:6px 12px; font-size:0.9rem;">Load 15796-letter aa2f Word</button>
+    </div>
+    <p>Explore extensions of ternary words in <strong>aa2f</strong> or <strong>aa2fr</strong> mode. aa2f allows abelian squares of period 1 (e.g. <em>aa</em>). aa2fr additionally forbids the factors <em>{baac, caab, abbc, cbba, accb, bcca}</em>.</p>
+    
+    <div style="margin-bottom: 16px; background: #0f172a; padding: 16px; border-radius: 6px; border: 1px solid #1e293b;">
+      <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 12px;">
+        <label>Mode:</label>
+        <select id="aa2fr-mode" style="background:#1f2937; color:#e2e8f0; border:1px solid #374151; padding:6px; border-radius:4px; font-family:inherit;">
+          <option value="aa2f">aa2f (period 1 allowed)</option>
+          <option value="aa2fr" selected>aa2fr (aa2f + forbid4)</option>
+        </select>
+        <label>Direction:</label>
+        <select id="aa2fr-dir" style="background:#1f2937; color:#e2e8f0; border:1px solid #374151; padding:6px; border-radius:4px; font-family:inherit;">
+          <option value="right" selected>Extend to Right</option>
+          <option value="left">Extend to Left</option>
+        </select>
+      </div>
+      <div style="margin-bottom: 12px;">
+        <label>Base Word (editable):</label><br>
+        <textarea id="aa2fr-base-word" style="width: 100%; height: 80px; background:#111827; color:#94a3b8; border:1px solid #374151; font-family:monospace; padding:8px; margin-top:6px; border-radius:4px;" placeholder="Enter base word (e.g. 40 letters)..."></textarea>
+      </div>
+      <div>
+        <button onclick="aa2frLoadExample(40)" class="control-btn" style="background:#2980b9;">Load 40-letter aa2fr Word</button>
+        <button onclick="aa2frSetBase()" class="control-btn" style="background:#f39c12; margin-left:8px;">Set as Base Word</button>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;">
+      <div style="display:flex; gap:8px;">
+        <button id="aa2fr-btn-start" onclick="aa2frStart()" class="control-btn" style="background:#27ae60;">Start Extension</button>
+        <button id="aa2fr-btn-pause" onclick="aa2frPause()" class="control-btn hidden" style="background:#e74c3c;">Pause</button>
+        <button id="aa2fr-btn-step" onclick="aa2frStep()" class="control-btn" style="background:#34495e;">Step</button>
+      </div>
+      <div>
+        Speed: <input type="range" id="aa2fr-speed" min="1" max="100" value="50">
+      </div>
+    </div>
+
+    <div style="display:flex; gap:20px; align-items:flex-start;">
+      <div style="flex: 2; background:#0d0d14; border:1px solid #2a2a3a; border-radius:6px; padding:16px; min-height: 250px; font-family:monospace; font-size: 1.15rem; word-break:break-all; position:relative; line-height:1.6;" id="aa2fr-display">
+        <!-- Words rendered here -->
+      </div>
+      <div style="flex: 1; background:#111827; border:1px solid #2a2a3a; border-radius:6px; padding:16px;">
+        <h3 style="margin-top:0; color:#f59e0b;">Scanner Status</h3>
+        <div id="aa2fr-status" style="margin-bottom:16px; color:#94a3b8; font-family:monospace;">Idle.</div>
+        <div id="aa2fr-stats" style="font-size: 0.95rem; color:#cbd5e1; line-height: 1.8;">
+          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #1e293b; padding-bottom:4px; margin-bottom:4px;"><span>Current Length:</span><strong id="aa2fr-stat-len" style="color:#2ecc71;">0</strong></div>
+          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #1e293b; padding-bottom:4px; margin-bottom:4px;"><span>Max Length:</span><strong id="aa2fr-stat-max" style="color:#f1c40f;">0</strong></div>
+          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #1e293b; padding-bottom:4px; margin-bottom:4px;"><span>Nodes Explored:</span><strong id="aa2fr-stat-att">0</strong></div>
+          <div style="display:flex; justify-content:space-between;"><span>Backtracks:</span><strong id="aa2fr-stat-bt" style="color:#e74c3c;">0</strong></div>
         </div>
       </div>
     </div>
@@ -890,7 +951,7 @@ function renderTiles(word, containerId, highlights = {}) {
 }
 
 // =====================================================
-// ABELIAN SQUARE CHECK (generic alphabet)
+// abelian square CHECK (generic alphabet)
 // =====================================================
 function findAbelianSquare(word, alphabet) {
   for (let start = 0; start < word.length; start++) {
@@ -997,7 +1058,7 @@ function step3Letter() {
 
       if (parikhEqual(p1, p2, ALPHA3)) {
         $('pbox-1').classList.add('match'); $('pbox-2').classList.add('match');
-        $('scanner-status').innerHTML = `<span class="log-fail">Abelian Square Found! Rejecting branch.</span>`;
+        $('scanner-status').innerHTML = `<span class="log-fail">abelian square Found! Rejecting branch.</span>`;
         addLog(`<span class="log-fail">Matched Parikh vectors ${parikhStr(p1, ALPHA3)}! Dead end.</span>`);
         currentSearchNode.status = 'dead';
         stats3.squares++;
@@ -1168,7 +1229,7 @@ function selectAbcWord(word) {
   const table = $('abc-vector-table');
   if (!word) { table.innerHTML = ''; return; }
   if (!square) {
-    table.innerHTML = '<tr><th>Status</th><td class="abc-success">No Abelian square found in this finite word.</td></tr>';
+    table.innerHTML = '<tr><th>Status</th><td class="abc-success">No abelian square found in this finite word.</td></tr>';
     return;
   }
   table.innerHTML = `
@@ -1472,7 +1533,7 @@ function tryItUpdate() {
       const s1 = square.first.join('');
       const s2 = square.second.join('');
       status.className = 'tryit-status error';
-      status.innerHTML = `&#10007; Abelian square at position ${square.start}: 
+      status.innerHTML = `&#10007; abelian square at position ${square.start}: 
         <strong>${s1}</strong> | <strong>${s2}</strong> — both have ${parikhStr(square.p1, tryItAlpha)}`;
     } else if (tryItAlpha.length === 3 && n >= 8) {
       status.className = 'tryit-status warn';
@@ -1764,7 +1825,7 @@ function switchMode(newMode) {
   });
   
   // Hide all view panels
-  ['view-3letter','view-abc-lab','view-general','view-audio','view-tryit','view-timeline','view-unfavorable','view-microscope','view-knowledge','view-morph-lab','view-heat-map','view-snake'].forEach(id => $(id).classList.add('hidden'));
+  ['view-3letter','view-abc-lab','view-general','view-audio','view-tryit','view-timeline','view-unfavorable','view-microscope','view-knowledge','view-morph-lab','view-heat-map','view-snake','view-aa2fr'].forEach(id => $(id).classList.add('hidden'));
   try { snakePause(); } catch(e) { /* snake vars not yet initialized on first load */ }
   $('condensedCanvas').classList.add('hidden');
   $('audio-ui').classList.add('hidden');
@@ -1772,7 +1833,7 @@ function switchMode(newMode) {
   $('tiles-general').classList.add('hidden');
   
   // Hide info panel for some modes, show for others
-  const noInfoModes = ['timeline', 'microscope', 'knowledge', 'morph-lab', 'heat-map', 'snake'];
+  const noInfoModes = ['timeline', 'microscope', 'knowledge', 'morph-lab', 'heat-map', 'snake', 'aa2fr'];
   $('info-panel').style.display = noInfoModes.includes(newMode) ? 'none' : '';
   $('speed-wrap').style.display = ['3letter'].includes(newMode) ? '' : 'none';
 
@@ -1835,6 +1896,10 @@ function switchMode(newMode) {
     $('view-snake').classList.remove('hidden');
     $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
     snakeInit();
+
+  } else if (mode === 'aa2fr') {
+    $('view-aa2fr').classList.remove('hidden');
+    aa2frUpdateUI();
 
   } else if (mode === 'audio') {
     $('view-audio').classList.remove('hidden');
@@ -1950,8 +2015,8 @@ function initKG() {
     { id: 'alphabet', label: 'Alphabet', cat: 'concept', desc: 'A finite set of letters.' },
     { id: 'word', label: 'Word (String)', cat: 'concept', desc: 'A sequence of letters from the alphabet.' },
     { id: 'parikh', label: 'Parikh Vector', cat: 'concept', desc: 'Counts the occurrences of each letter in a word. If two words have the same Parikh vector, they are anagrams.' },
-    { id: 'abelian_eq', label: 'Abelian Equivalence', cat: 'concept', desc: 'Two words are abelian equivalent if they have the same Parikh vector.' },
-    { id: 'abelian_sq', label: 'Abelian Square', cat: 'concept', desc: 'A word of the form UV where U and V are abelian equivalent.' },
+    { id: 'abelian_eq', label: 'abelian equivalence', cat: 'concept', desc: 'Two words are abelian equivalent if they have the same Parikh vector.' },
+    { id: 'abelian_sq', label: 'abelian square', cat: 'concept', desc: 'A word of the form UV where U and V are abelian equivalent.' },
     { id: 'morphism', label: 'Morphism', cat: 'concept', desc: 'A mapping that replaces each letter with a fixed word.' },
     { id: 'dt0l', label: 'DT0L System', cat: 'concept', desc: 'A system with multiple morphisms that can be applied non-deterministically to generate languages.' },
     { id: 'keranen', label: 'Veikko Keränen', cat: 'person', desc: 'Proved in 1992 that abelian squares are avoidable on 4 letters.' },
@@ -2180,7 +2245,7 @@ function evaluateMorphism() {
   html += `<strong>Parikh Vector of a:</strong> a:${pA.a}, b:${pA.b}, c:${pA.c}, d:${pA.d}<br>`;
   html += `<strong>Cyclic Permutation Property:</strong> ${isCyclic ? '<span style="color:green">YES</span>' : '<span style="color:red">NO</span>'}<br><br>`;
   
-  html += `<strong>Evaluating Abelian square-freedom...</strong><br>`;
+  html += `<strong>Evaluating abelian square-freedom...</strong><br>`;
   $('morph-eval-results').innerHTML = html;
   
   setTimeout(() => {
@@ -2217,9 +2282,9 @@ function evaluateMorphism() {
     }
     
     if (foundSquareAt !== -1) {
-       $('morph-eval-results').innerHTML += `<span style="color:red">Failed! Abelian square found at length ${foundSquareAt}.</span>`;
+       $('morph-eval-results').innerHTML += `<span style="color:red">Failed! abelian square found at length ${foundSquareAt}.</span>`;
     } else {
-       $('morph-eval-results').innerHTML += `<span style="color:green">Success! No Abelian squares found in prefix of length ${word.length}.</span>`;
+       $('morph-eval-results').innerHTML += `<span style="color:green">Success! No abelian squares found in prefix of length ${word.length}.</span>`;
     }
   }, 50);
 }
@@ -2241,7 +2306,7 @@ $('btn-heat-g85').addEventListener('click', () => {
        for(let ch of word) { next.push(...G85[ch].split('')); }
        word = next;
     }
-    drawHeatMap(word, 'g\u2088\u2085 word (7225 chars, Abelian square-free)');
+    drawHeatMap(word, 'g\u2088\u2085 word (7225 chars, abelian square-free)');
     $('heat-overlay').style.display = 'none';
   }, 60);
 });
@@ -2354,7 +2419,7 @@ $('heatCanvas').addEventListener('mousemove', function(e) {
   const half2 = heatWordArr.slice(end1, end2).join('').substring(0, 18);
   const dots1 = hLen > 18 ? '\u2026' : '';
   const dots2 = hLen > 18 ? '\u2026' : '';
-  const state = diff === 0 ? '\uD83D\uDD34 ABELIAN SQUARE' : diff <= 2 ? '\uD83D\uDFE1 near-miss' : '\u2705 ok';
+  const state = diff === 0 ? '\uD83D\uDD34 abelian square' : diff <= 2 ? '\uD83D\uDFE1 near-miss' : '\u2705 ok';
   $('heat-tooltip').textContent =
     `pos=${pos}, half-len=${hLen} | "${half1}${dots1}" vs "${half2}${dots2}" | P\u2081=(a:${p1a},b:${p1b},c:${p1c},d:${p1d}) P\u2082=(a:${p2a},b:${p2b},c:${p2c},d:${p2d}) | ${state}`;
 });
@@ -2547,10 +2612,10 @@ function snakeGameOver(reason, sq, word) {
 
   if (reason === 'self') {
     goSub.textContent = 'You bit your own tail!';
-    goSquare.innerHTML = `<span style="color:#f59e0b">No Abelian square — just a self-collision.</span>`;
+    goSquare.innerHTML = `<span style="color:#f59e0b">No abelian square — just a self-collision.</span>`;
     $('snake-go-fullword').innerHTML = word.map(c => `<span class="sn-${c}">${c}</span>`).join('');
   } else if (sq) {
-    goSub.textContent = `Abelian square detected at length ${score}!`;
+    goSub.textContent = `abelian square detected at length ${score}!`;
     const half1 = word.slice(sq.start, sq.start + sq.halfLen).join('');
     const half2 = word.slice(sq.start + sq.halfLen, sq.start + sq.halfLen * 2).join('');
     const pStr = p => `(a:${p.a||0} b:${p.b||0} c:${p.c||0} d:${p.d||0})`;
