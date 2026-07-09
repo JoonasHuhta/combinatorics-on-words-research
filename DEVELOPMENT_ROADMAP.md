@@ -1,74 +1,106 @@
 # Development Roadmap
 
-## Completed Improvements
+## Recently Completed
 
-- **[DONE] Morphism Microscope:** Added as Tab 9. Allows inspection of g85 and g98.
-- **[DONE] Near-Miss Explorer:** Added as Tab 12 (Heat Map). Visualizes Abelian squares and near misses.
-- **[DONE] Keranen-Style Walks:** Added as Tab 4 (2D Walk). 
-- **[DONE] Repair text encoding:** Mojibake fixed across tabs.
+- Renamed the visible tabs so they better match the actual workflows.
+- Added Parikh Lens to Try It mode.
+- Reused Parikh Lens inside the AA2FR obstruction explanation panel.
+- Added AA2FR "pause on collision" explanations.
+- Added 40-letter AA2FR Challenge mode with single legal right-extension puzzles.
+- Added a shared AA2F/AA2FR validation layer for full, prefix, and suffix scans.
+- Improved Concept Graph layout with ring initialization, collision separation, margins, and wrapped labels.
+- Added Abelian Snake as a playable tab.
+- Completed Square Heat Map with hover inspection.
+- Added Morphism Design Lab for experimental four-letter morphisms.
 
-## Immediate Improvements
+## Highest-Value Next Improvements
 
-1. Strengthen ABC Laboratory
+### 1. Student Mode
 
-The new `ABC Laboratory` mode should become the central explanation of the 3-letter impossibility result. Useful additions:
+Create a learning path that reduces the 14-tab interface for first-time users.
 
-- a heatmap of rejected extensions by word length,
-- a toggle between "all squares" and "only suffix checked after append",
-- a compact proof panel explaining why length 8 is decisive,
-- export of survivor and failure lists as plain text.
+Suggested stages:
 
-2. Add a Parikh Vector Plot
+1. Parikh vectors and adjacent block comparison.
+2. Abelian squares and the length-8 wall over `{a,b,c}`.
+3. Keranen's four-letter `g85` construction.
+4. Heat maps and near misses.
+5. AA2F/AA2FR relaxed ternary experiments.
 
-Represent cumulative letter counts as a path:
+This should be implemented as a UI filter, not as separate pages.
 
-- for `{a,b,c}`, use a triangular or 3D simplex projection,
-- for `{a,b,c,d}`, use paired projections or a diamond-lattice walk,
-- highlight repeated adjacent frequency patterns.
+### 2. Step-by-Step Collision Anatomy
 
-## Research-Focused Extensions
+Extend the existing AA2FR obstruction panel into a staged explanation:
 
-1. [PLANNED] Gamification: Matopeli (Abelian Snake)
+1. The algorithm appends a letter.
+2. It selects candidate adjacent halves.
+3. It computes both Parikh vectors.
+4. It detects equality or a forbidden factor.
+5. It rejects the extension and backtracks.
 
-Turn the Abelian Square-Free construction into a Snake game. Player steers a snake to eat letters (a, b, c, d) that do NOT form Abelian squares when appended to the body.
+The same staged component could later be used in Try It and Abelian Snake.
 
-Suggested output:
+### 3. Research Notebook
 
-- position,
-- half length,
-- vector difference,
-- highlighted word segment,
-- local visual zoom.
+Add localStorage-based persistence for experiments:
 
-## Forbidden or Unfavourable Factors
+- saved words,
+- saved morphism definitions,
+- AA2FR challenge attempts,
+- best Snake words,
+- heat-map snapshots or parameters.
 
-Keranen's later material studies factors that make extension difficult. Add a mode where a user can paste a word and ask:
+Keep it local and dependency-free.
 
-- can it be extended left?
-- can it be extended right?
-- which letters fail and why?
-- what is the shortest forced Abelian square?
+### 4. Constraint-Filling Mode
 
-## Ternary Relaxed Case
+Add a puzzle/research mode where users fill blanks in a word pattern:
 
-Some Keranen material studies ternary words where period-1 Abelian squares may be allowed while longer Abelian squares are avoided. This is not the same as the 1992 four-letter theorem. Keep this distinction explicit in the UI.
+```text
+a b _ c _ _ a ...
+```
 
-## Agent Rules
+The app should validate partial assignments and explain which blank choices cause an Abelian square or AA2FR forbidden factor.
 
-Future agents should preserve these boundaries:
+## Research-Oriented Extensions
 
-- Do not imply that 3 letters can produce an infinite fully Abelian square-free word.
-- Do not replace Keranen's `g85` word unless citing and documenting a different morphism.
-- Do not mix ordinary square-free words with Abelian square-free words without explaining the difference.
-- Keep experimental generated examples separate from proven constructions.
-- Prefer small, inspectable algorithms over opaque visual effects.
+### Evolution Lab
+
+Implement a Web Worker based search for long AA2F/AA2FR words or candidate morphisms. The worker should report:
+
+- generation/iteration,
+- best word or morphism,
+- longest valid prefix,
+- failure reason,
+- common fatal factors.
+
+This should be presented as a search algorithm, not as a black-box "AI" result.
+
+### Factor Statistics
+
+For AA2F/AA2FR searches, record which short factors commonly lead to dead ends. This would support both the educational Challenge mode and real research exploration.
+
+### Heat Map Improvements
+
+- Add a side-by-side view comparing `g85`, a random word, and a user word.
+- Add filtering by half-length ranges.
+- Add export of red/yellow cell coordinates.
+
+## Lower Priority / Caution
+
+- 3D word-space visualizations may be attractive, but they risk becoming decorative unless backed by meaningful coordinates.
+- TensorFlow.js or neural-network suggestions should wait until the app has collected enough structured search data.
+- Leaderboards require backend validation and should not be added to the current static app without a separate design.
 
 ## Verification Ideas
 
 Before accepting future changes:
 
-- Confirm that `ABC Laboratory` reports zero valid length-8 words.
-- Confirm that appending a letter only needs suffix checking during incremental construction.
-- Confirm that full selected-word inspection scans all factors, not only suffixes.
+- Confirm that ABC Impossibility Lab has zero valid length-8 extensions.
+- Confirm that incremental appends use suffix checks, while full-word inspection scans all factors.
 - Confirm that `g85(a)` has length 85.
-- Confirm that `g85(b)`, `g85(c)`, and `g85(d)` are cyclic permutations.
+- Confirm that AA2FR Challenge can find a 40-letter challenge.
+- Confirm that all tab buttons still open the intended view.
+- Run `node --check` on the extracted script section.
+- Run `git diff --check`.
