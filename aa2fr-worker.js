@@ -56,7 +56,11 @@ let branchingHistory = [];
 let backtrackHistory = [];
 let letterCounts = { a: 0, b: 0, c: 0 };
 let obstructionCounts = {};
-let suffixDeadEndCounts = new Map();
+let engineConfig = {};
+
+// Motif Tracking (Evidence-Based Discovery Engine)
+let motifStats = new Map(); // key -> { occ:0, dead:0, surv:0, branchSum:0, depthSum:0, maxLen:0, parikhU:0 }
+let parikhTrajectory = [];
 
 // Strategies state
 const PERMUTATIONS = [
@@ -232,13 +236,25 @@ class SearchStrategy {
   applyAISupport(order, engine) {
     if (!this.config.aiSupport || this.config.aiSupport === 'observe') return order;
     
-    // Evaluate danger of each letter
+    // Evaluate danger of each letter based on motif stats
     let scoredLetters = order.map(l => {
       engine.pushLetter(l);
-      let s8 = engine.getSuffix(8);
-      let ds = s8.length >= 4 ? (engine.suffixDeadEndCounts.get(s8) || 0) : 0;
+      let dangerScore = 0;
+      let minM = engineConfig.motifRange ? engineConfig.motifRange[0] : 4;
+      let maxM = engineConfig.motifRange ? engineConfig.motifRange[1] : 8;
+      
+      for (let len = minM; len <= maxM; len++) {
+        let suf = engine.getSuffix(len);
+        if (suf.length === len) {
+          let stat = motifStats.get(suf);
+          if (stat) {
+            let probDead = stat.dead / stat.occ;
+            dangerScore += probDead * (len / 4); // weight longer motifs more
+          }
+        }
+      }
       engine.popLetter();
-      return { l, ds };
+      return { l, ds: dangerScore };
     });
     
     if (this.config.aiSupport === 'avoid') {
@@ -254,6 +270,38 @@ class SearchStrategy {
     return order;
   }
 
+  updateMotifStats(engine, result, branching, subtreeDepth, maxContinuation) {
+    let minM = engineConfig.motifRange ? engineConfig.motifRange[0] : 4;
+    let maxM = engineConfig.motifRange ? engineConfig.motifRange[1] : 8;
+    
+    for (let len = minM; len <= maxM; len++) {
+      let suf = engine.getSuffix(len);
+      if (suf.length === len) {
+        if (!motifStats.has(suf)) {
+          motifStats.set(suf, { occ: 0, dead: 0, surv: 0, branchSum: 0, depthSum: 0, maxLen: 0, parikhU: 0 });
+        }
+        let stat = motifStats.get(suf);
+        stat.occ++;
+        stat.branchSum += branching;
+        stat.depthSum += subtreeDepth;
+        if (maxContinuation > stat.maxLen) stat.maxLen = maxContinuation;
+        
+        if (result === 'dead_end') stat.dead++;
+        else if (result === 'survived') stat.surv++; // Only count actual deep survival, not immediate backtrack
+        
+        // Calculate U
+        let u = 0;
+        let counts = {a:0, b:0, c:0};
+        for (let i = 0; i < suf.length; i++) counts[suf[i]]++;
+        for (let key of ['a','b','c']) {
+          let diff = (counts[key] / suf.length) - (1/3);
+          u += diff * diff;
+        }
+        stat.parikhU = Math.sqrt(u);
+      }
+    }
+  }
+
   step(engine) {
     this.stats.steps++;
     
@@ -261,14 +309,21 @@ class SearchStrategy {
       this.stack.push({
         tryIdx: 0,
         validBranches: 0,
-        order: this.getOrder(engine)
+        order: this.getOrder(engine),
+        maxDepthReached: this.currentDepth
       });
     }
     
     let frame = this.stack[this.currentDepth];
     
     if (frame.tryIdx >= frame.order.length) {
-      // Exhausted this node
+      // Backtrack
+      let subtreeDepth = frame.maxDepthReached - this.currentDepth;
+      
+      // We know this node resulted in a backtrack eventually. 
+      // If validBranches == 0, it was an immediate dead end for all children.
+      this.updateMotifStats(engine, frame.validBranches === 0 ? 'dead_end' : 'survived', frame.validBranches, subtreeDepth, frame.maxDepthReached);
+      
       this.stats.backtracks++;
       this.stats.stepsSinceNewRecord++;
       this.onBacktrack(this.currentDepth);
@@ -280,6 +335,9 @@ class SearchStrategy {
       
       engine.popLetter();
       this.stack.pop();
+      if (this.currentDepth > 0) {
+        this.stack[this.currentDepth - 1].maxDepthReached = Math.max(this.stack[this.currentDepth - 1].maxDepthReached, frame.maxDepthReached);
+      }
       this.currentDepth--;
       return true; // continue
     }
@@ -291,13 +349,12 @@ class SearchStrategy {
     let obs = engine.validateWordConstraints(false);
     
     let resultStr = 'valid';
-    let s8 = engine.getSuffix(8);
-    let dangerScore = s8.length >= 4 ? (engine.suffixDeadEndCounts.get(s8) || 0) : 0;
+    let ds = 0; 
     
     if (obs) {
       resultStr = 'dead_end';
       engine.recordObstruction(obs);
-      if (s8.length >= 4) engine.suffixDeadEndCounts.set(s8, dangerScore + 1);
+      this.updateMotifStats(engine, 'dead_end', 0, 0, this.currentDepth + 1);
       
       this.onDeadEnd(letter, obs);
       engine.emitEvent('node', { 
@@ -305,29 +362,34 @@ class SearchStrategy {
         letter, 
         result: resultStr,
         branching: frame.validBranches,
-        danger_score: dangerScore + 1,
+        danger_score: ds,
         obstruction: obs 
       });
       engine.popLetter();
-    } else {
-      frame.validBranches++;
-      this.currentDepth++;
-      if (engine.wordLen > engine.maxLen) {
-        engine.maxLen = engine.wordLen;
-        this.stats.stepsSinceNewRecord = 0;
+      return true; // continue
+    }
+    
+    frame.validBranches++;
+    this.currentDepth++;
+    
+    if (this.currentDepth > this.maxDepthReached) {
+      this.maxDepthReached = this.currentDepth;
+      frame.maxDepthReached = Math.max(frame.maxDepthReached || 0, this.currentDepth);
+      if (this.currentDepth > 100) { this.stats.stepsSinceNewRecord = 0;
         this.onRecord(engine.maxLen);
         self.postMessage({ type: 'milestone', length: engine.maxLen, word: engine.getSuffix(50) });
         engine.emitEvent('milestone', { depth: this.currentDepth, max_length: engine.maxLen });
       }
-      engine.emitEvent('node', { 
-        depth: this.currentDepth, 
-        letter, 
-        result: resultStr,
-        branching: frame.validBranches,
-        danger_score: dangerScore,
-        obstruction: null
-      });
     }
+    
+    engine.emitEvent('node', { 
+      depth: this.currentDepth, 
+      letter, 
+      result: resultStr,
+      branching: frame.validBranches,
+      danger_score: ds,
+      obstruction: null
+    });
     return true;
   }
   
@@ -410,9 +472,9 @@ function searchLoop() {
       word: wordArr.slice(0, wordLen),
       length: wordLen,
       stats: { steps: stats.steps, backtracks: stats.backtracks, deadEnds: 0, startTime: Engine.startTime, stepsSinceNewRecord: stats.stepsSinceNewRecord },
-      parikh: { ...letterCounts },
-      strategy: config.strategy,
-      decision: activeStrategy.explainDecision()
+      motifStats: Array.from(motifStats.entries()).map(x => ({ motif: x[0], stats: x[1] })),
+      parikhTrajectory: parikhTrajectory,
+      strategy: activeStrategy.explainDecision()
     });
     lastStateSendTime = now;
   }
@@ -438,13 +500,15 @@ self.onmessage = function(e) {
   switch (msg.cmd) {
     case 'start':
       config = { ...config, ...msg.config };
+      engineConfig = msg.config;
       if (config.mode) config.mode = config.mode.toLowerCase();
       wordArr = [];
       wordLen = 0;
       Engine.maxLen = 0;
       letterCounts = { a: 0, b: 0, c: 0 };
       obstructionCounts = {};
-      Engine.suffixDeadEndCounts = new Map();
+      motifStats.clear();
+      parikhTrajectory = [];
       analyticsBuffer = [];
       evolutionBuffer = [];
       branchingHistory = [];
@@ -464,7 +528,7 @@ self.onmessage = function(e) {
         for (let char of config.seed) {
           Engine.pushLetter(char);
           activeStrategy.currentDepth++;
-          activeStrategy.stack.push({ tryIdx: 0, validBranches: 1, order: activeStrategy.getOrder(letterCounts, wordLen) });
+          activeStrategy.stack.push({ tryIdx: 0, validBranches: 1, order: activeStrategy.getOrder(letterCounts, wordLen), maxDepthReached: activeStrategy.currentDepth });
         }
       }
       
