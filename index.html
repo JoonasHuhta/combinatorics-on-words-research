@@ -988,6 +988,19 @@
           <option value="gavrilenko">Gavrilenko (Parikh Balance)</option>
           <option value="rotation">6-Phase Rotation</option>
         </select>
+        <label>Mode:</label>
+        <select id="aa2fr-research-mode" style="background:#fff; color:#333; border:1px solid #ccc; padding:6px; border-radius:4px; font-family:inherit;">
+          <option value="explorer" selected>Explorer (Single Worker DFS)</option>
+          <option value="experiment">Experiment (Automated Runs)</option>
+          <option value="discovery">Discovery (Parallel WorkerPool)</option>
+        </select>
+        <label>Workers:</label>
+        <select id="aa2fr-worker-count" style="background:#fff; color:#333; border:1px solid #ccc; padding:6px; border-radius:4px; font-family:inherit;">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="4">4</option>
+          <option value="8">8</option>
+        </select>
       </div>
       <div style="margin-bottom: 12px; color: #333;">
         <label>Base Word (editable):</label><br>
@@ -3494,7 +3507,10 @@ let aa2frState = {
   timer: null,
   delay: 50,
   // Web Worker integration
-  worker: null,
+  workerPool: [],
+  jobQueue: [],
+  activeJobs: 0,
+  maxWorkers: navigator.hardwareConcurrency || 4,
   useWorker: false,
   // Analytics data
   analytics: {
@@ -3541,9 +3557,8 @@ function aa2frAnalyzeLookahead(wordArr, options, callback) {
   });
 }
 
-// Initialize Web Worker
+// Initialize Web Worker Pool
 try {
-  aa2frState.worker = new Worker('aa2fr-worker.js');
   aa2frState.analyzerWorker = new Worker('aa2fr-worker.js');
   
   aa2frState.analyzerWorker.onmessage = function(e) {
@@ -3556,10 +3571,16 @@ try {
   aa2frState.analyzerCallbacks = {};
   
   aa2frState.useWorker = true;
-  aa2frState.worker.onmessage = function(e) {
-    const msg = e.data;
-    switch (msg.type) {
-      case 'state_update': {
+  
+  function createWorker(workerId) {
+    let worker = new Worker('aa2fr-worker.js');
+    worker.workerId = workerId;
+    worker.isIdle = true;
+    
+    worker.onmessage = function(e) {
+      const msg = e.data;
+      switch (msg.type) {
+        case 'state_update': {
         var nowTs = Date.now();
         aa2frState.wordArr = msg.word;
         aa2frState.stats.len = msg.length;
@@ -3576,15 +3597,22 @@ try {
         if (msg.decision) {
           aa2frState.analytics.lastDecision = msg.decision;
         }
-        aa2frWorkerDisplayUpdate(msg.word, msg.length);
+        // Only Worker 0 updates the visual word display to avoid flickering
+        if (worker.workerId === 0 || aa2frState.workerPool.length === 1) {
+          aa2frWorkerDisplayUpdate(msg.word, msg.length);
+        }
         aa2frUpdateStats();
         aa2frUpdateAnalyticsPanel();
         
         // Experiment Manager limit check
         if (aa2frState.experiment.active && aa2frState.experiment.maxSteps > 0 && msg.stats.steps >= aa2frState.experiment.maxSteps) {
-          aa2frState.worker.postMessage({ cmd: 'pause' });
-          aa2frState.running = false;
-          aa2frNextExperiment();
+          worker.postMessage({ cmd: 'pause' });
+          worker.isIdle = true;
+          aa2frState.activeJobs--;
+          if (aa2frState.activeJobs <= 0) {
+            aa2frState.running = false;
+            aa2frNextExperiment();
+          }
         }
         break;
       }
@@ -3598,14 +3626,20 @@ try {
         $('aa2fr-status').innerHTML = '<span style="color:#27ae60">&#127942; New record: ' + msg.length + ' letters!</span>';
         break;
       case 'exhausted':
-        aa2frState.running = false;
-        $('aa2fr-btn-pause').classList.add('hidden');
-        $('aa2fr-btn-start').classList.remove('hidden');
-        $('aa2fr-status').innerHTML = '<span style="color:#e74c3c">Search exhausted. No more extensions possible.</span>';
-        if ($('aa2fr-analytics-status')) $('aa2fr-analytics-status').textContent = 'Search complete. ' + aa2frState.stats.attempts.toLocaleString() + ' steps explored.';
+        worker.isIdle = true;
+        aa2frState.activeJobs--;
+        aa2frAssignNextJob(worker);
         
-        if (aa2frState.experiment.active) {
-          aa2frNextExperiment();
+        if (aa2frState.activeJobs === 0 && aa2frState.jobQueue.length === 0) {
+          aa2frState.running = false;
+          $('aa2fr-btn-pause').classList.add('hidden');
+          $('aa2fr-btn-start').classList.remove('hidden');
+          $('aa2fr-status').innerHTML = '<span style="color:#e74c3c">Search exhausted across all workers.</span>';
+          if ($('aa2fr-analytics-status')) $('aa2fr-analytics-status').textContent = 'Search complete. ' + aa2frState.stats.attempts.toLocaleString() + ' steps explored.';
+          
+          if (aa2frState.experiment.active) {
+            aa2frNextExperiment();
+          }
         }
         break;
       case 'rq0_results': {
@@ -3617,13 +3651,24 @@ try {
       case 'export_data':
         aa2frDownloadJSON(msg.data);
         break;
-    }
-  };
-  aa2frState.worker.onerror = function(err) {
-    console.error('AA2FR Worker error:', err);
-    aa2frState.useWorker = false;
-    if ($('aa2fr-analytics-status')) $('aa2fr-analytics-status').textContent = 'Worker failed. Using main thread.';
-  };
+      }
+    };
+    worker.onerror = function(err) {
+      console.error('AA2FR Worker error:', err);
+      worker.isIdle = true;
+      aa2frState.activeJobs--;
+      if (aa2frState.activeJobs <= 0 && aa2frState.jobQueue.length === 0) {
+        aa2frState.useWorker = false;
+        if ($('aa2fr-analytics-status')) $('aa2fr-analytics-status').textContent = 'Worker failed. Using main thread.';
+      }
+    };
+    return worker;
+  }
+  
+  // Create initial pool
+  for (let i = 0; i < aa2frState.maxWorkers; i++) {
+    aa2frState.workerPool.push(createWorker(i));
+  }
 } catch (err) {
   console.warn('Web Worker not available:', err);
   aa2frState.useWorker = false;
@@ -3900,8 +3945,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const sel = document.getElementById('aa2fr-strategy');
   if (sel) {
     sel.addEventListener('change', function() {
-      if (aa2frState.useWorker && aa2frState.worker && aa2frState.running) {
-        aa2frState.worker.postMessage({ cmd: 'set_strategy', strategy: sel.value });
+      if (aa2frState.useWorker && aa2frState.running) {
+        for (let w of aa2frState.workerPool) {
+          if (!w.isIdle) w.postMessage({ cmd: 'set_strategy', strategy: sel.value });
+        }
         $('aa2fr-status').innerHTML = 'Strategy changed to <b>' + sel.value + '</b>.';
       }
     });
@@ -3930,16 +3977,34 @@ function aa2frSetBase() {
   aa2frUpdateUI();
 }
 
+function aa2frAssignNextJob(worker) {
+  if (aa2frState.jobQueue.length > 0) {
+    let job = aa2frState.jobQueue.shift();
+    worker.isIdle = false;
+    aa2frState.activeJobs++;
+    worker.postMessage({
+      cmd: 'start',
+      config: {
+        seed: job.seed,
+        mode: aa2frState.mode,
+        direction: aa2frState.dir,
+        strategy: job.strategy,
+        analyticsEnabled: true
+      }
+    });
+  }
+}
+
 function aa2frStart() {
   if (aa2frState.wordArr.length === 0) aa2frSetBase();
   aa2frState.challenge = null;
   aa2frState.running = true;
-  aa2frState.mode = $('aa2fr-mode').value;
+  aa2frState.mode = $('aa2fr-research-mode') ? $('aa2fr-research-mode').value : 'explorer';
   aa2frState.dir = $('aa2fr-dir').value;
   $('aa2fr-btn-start').classList.add('hidden');
   $('aa2fr-btn-pause').classList.remove('hidden');
 
-  if (aa2frState.useWorker && aa2frState.worker) {
+  if (aa2frState.useWorker && aa2frState.workerPool.length > 0) {
     // Reset analytics
     aa2frState.analytics.branchingHistory = [];
     aa2frState.analytics.obstructionCounts = {};
@@ -3952,19 +4017,37 @@ function aa2frStart() {
     aa2frState.analytics.treeNodes = { '0': { id: '0', parent: null, depth: 0, letter: 'root', result: 'valid', children: [] } };
     aa2frState.analytics.activeNodeId = '0';
     aa2frState.analytics.treeStats = { nodeCount: 1, maxDepth: 0 };
-    // Send start command to Worker
+    
     const strategy = $('aa2fr-strategy') ? $('aa2fr-strategy').value : 'fixed';
-    aa2frState.worker.postMessage({
-      cmd: 'start',
-      config: {
-        seed: aa2frState.wordArr.join(''),
-        mode: aa2frState.mode,
-        direction: aa2frState.dir,
-        strategy: strategy,
-        analyticsEnabled: true
+    
+    // Determine worker count
+    let reqWorkers = $('aa2fr-worker-count') ? parseInt($('aa2fr-worker-count').value) : 1;
+    if (isNaN(reqWorkers) || aa2frState.mode !== 'discovery') {
+      reqWorkers = 1; // Explorer and Experiment run single-threaded (or managed externally)
+    }
+    
+    aa2frState.jobQueue = [];
+    aa2frState.activeJobs = 0;
+    
+    if (reqWorkers > 1) {
+      // Split into 3 branches at depth 1
+      let base = aa2frState.wordArr.join('');
+      aa2frState.jobQueue.push({ seed: base + 'a', strategy });
+      aa2frState.jobQueue.push({ seed: base + 'b', strategy });
+      aa2frState.jobQueue.push({ seed: base + 'c', strategy });
+    } else {
+      aa2frState.jobQueue.push({ seed: aa2frState.wordArr.join(''), strategy });
+    }
+    
+    // Dispatch jobs to idle workers
+    for (let i = 0; i < Math.min(reqWorkers, aa2frState.workerPool.length); i++) {
+      let w = aa2frState.workerPool[i];
+      if (w.isIdle) {
+        aa2frAssignNextJob(w);
       }
-    });
-    if ($('aa2fr-analytics-status')) $('aa2fr-analytics-status').textContent = 'Worker started. Collecting data...';
+    }
+    
+    if ($('aa2fr-analytics-status')) $('aa2fr-analytics-status').textContent = `WorkerPool started (${reqWorkers} active). Collecting data...`;
     $('aa2fr-status').innerHTML = 'Worker search running (' + strategy + ' strategy)...';
   } else {
     aa2frLoop();
@@ -3973,8 +4056,10 @@ function aa2frStart() {
 
 function aa2frPause() {
   aa2frState.running = false;
-  if (aa2frState.useWorker && aa2frState.worker) {
-    aa2frState.worker.postMessage({ cmd: 'pause' });
+  if (aa2frState.useWorker) {
+    for (let w of aa2frState.workerPool) {
+      if (!w.isIdle) w.postMessage({ cmd: 'pause' });
+    }
   }
   $('aa2fr-btn-pause').classList.add('hidden');
   $('aa2fr-btn-start').classList.remove('hidden');
