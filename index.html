@@ -1011,6 +1011,14 @@
           <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding-bottom:4px; margin-bottom:4px;"><span>Nodes Explored:</span><strong id="aa2fr-stat-att">0</strong></div>
           <div style="display:flex; justify-content:space-between;"><span>Backtracks:</span><strong id="aa2fr-stat-bt" style="color:#c0392b;">0</strong></div>
         </div>
+
+        <div id="aa2fr-lookahead-panel" style="margin-top:16px; background:#e8f4f8; border:1px solid #bce0ed; border-radius:6px; padding:12px; font-size:0.85rem; color:#333;">
+          <h4 style="margin:0 0 8px 0; color:#0e5a77;">🔍 Predictive Lookahead</h4>
+          <div style="font-size:0.75rem; color:#555; margin-bottom:8px; font-style:italic;">Click any letter in the sequence to preview its future viability up to 10 steps ahead.</div>
+          <div id="aa2fr-lookahead-results">
+            <div style="color:#7f8c8d;">Waiting for selection...</div>
+          </div>
+        </div>
       </div>
     </div>
     <div id="aa2fr-explain" class="aa2fr-explain hidden"></div>
@@ -3510,6 +3518,7 @@ try {
     switch (msg.type) {
       case 'state_update': {
         var nowTs = Date.now();
+        aa2frState.wordArr = msg.word;
         aa2frState.stats.len = msg.length;
         aa2frState.stats.maxLen = Math.max(aa2frState.stats.maxLen, msg.length);
         aa2frState.stats.attempts = msg.stats.steps;
@@ -3619,16 +3628,57 @@ function aa2frProcessAnalyticsBatch(msg) {
   aa2frState.analytics.collisionDensity = data.length > 0 ? totalCollisions / data.length : 0;
 }
 
-function aa2frWorkerDisplayUpdate(wordSuffix, length) {
+function aa2frWorkerDisplayUpdate(wordArr, length) {
   const MAX_DISP = 300;
   let html = '';
-  if (length <= MAX_DISP) {
-    for (let i = 0; i < wordSuffix.length; i++) html += '<span class="sn-' + wordSuffix[i] + '">' + wordSuffix[i] + '</span>';
-  } else {
-    html = '<span style="color:#64748b">[...' + (length - wordSuffix.length) + ' omitted...]</span> <br>';
-    for (let i = 0; i < wordSuffix.length; i++) html += '<span class="sn-' + wordSuffix[i] + '">' + wordSuffix[i] + '</span>';
+  let startIdx = 0;
+  let displayArr = wordArr;
+  
+  if (length > MAX_DISP) {
+    html = '<span style="color:#64748b">[...' + (length - MAX_DISP) + ' omitted...]</span> <br>';
+    startIdx = length - MAX_DISP;
+    displayArr = wordArr.slice(startIdx);
+  }
+  
+  for (let i = 0; i < displayArr.length; i++) {
+    html += '<span class="sn-' + displayArr[i] + ' aa2fr-letter-span" onclick="aa2frTriggerLookahead(' + (startIdx + i) + ')" style="cursor:pointer; display:inline-block; border-bottom:2px solid transparent;" onmouseover="this.style.borderBottomColor=\'#333\'" onmouseout="this.style.borderBottomColor=\'transparent\'" title="Click to analyze predictive lookahead from this position">' + displayArr[i] + '</span>';
   }
   $('aa2fr-display').innerHTML = html;
+}
+
+function aa2frTriggerLookahead(index) {
+  if (!aa2frState.wordArr || aa2frState.wordArr.length <= index) return;
+  
+  const prefix = aa2frState.wordArr.slice(0, index + 1);
+  const lookaheadResults = $('aa2fr-lookahead-results');
+  lookaheadResults.innerHTML = '<div style="color:#2980b9;">Analyzing position ' + (index + 1) + '...</div>';
+  
+  // Highlight selected letter
+  const spans = document.querySelectorAll('.aa2fr-letter-span');
+  spans.forEach((span, i) => {
+    span.style.backgroundColor = (i === index || (spans.length < aa2frState.wordArr.length && i === index - (aa2frState.wordArr.length - spans.length))) ? '#f39c12' : 'transparent';
+    span.style.color = (i === index || (spans.length < aa2frState.wordArr.length && i === index - (aa2frState.wordArr.length - spans.length))) ? '#fff' : '';
+  });
+  
+  aa2frAnalyzeLookahead(prefix, { depth: 10, maxNodes: 15000 }, function(res) {
+    let html = '<div style="margin-bottom:6px;"><strong>Prefix Length:</strong> ' + (index + 1) + '</div>';
+    
+    if (res.deadEndProbability === 1) {
+      html += '<div style="color:#e74c3c; font-weight:bold;">❌ Guaranteed Dead End (Depth ' + res.averageSubtreeDepth.toFixed(1) + ')</div>';
+    } else if (res.deadEndProbability > 0.8) {
+      html += '<div style="color:#d35400; font-weight:bold;">⚠️ High Risk (' + (res.deadEndProbability*100).toFixed(0) + '% Dead End)</div>';
+    } else {
+      html += '<div style="color:#27ae60; font-weight:bold;">✅ Viable Path</div>';
+    }
+    
+    html += '<ul style="margin:4px 0 0 20px; padding:0;">';
+    html += '<li><strong>Nodes Explored:</strong> ' + res.nodesExplored.toLocaleString() + '</li>';
+    html += '<li><strong>Dead Ends Found:</strong> ' + res.deadEnds.toLocaleString() + '</li>';
+    html += '<li><strong>Avg Survival Depth:</strong> ' + res.averageSubtreeDepth.toFixed(2) + ' steps</li>';
+    html += '</ul>';
+    
+    lookaheadResults.innerHTML = html;
+  });
 }
 
 function aa2frUpdateStats() {

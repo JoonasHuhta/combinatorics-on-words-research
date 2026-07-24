@@ -387,7 +387,7 @@ function searchLoop() {
   if (now - lastStateSendTime > 100) {
     self.postMessage({
       type: 'state_update',
-      word: getSuffix(300),
+      word: wordArr.slice(0, wordLen), // SEND FULL ARRAY
       length: wordLen,
       stats: { ...stats },
       parikh: { ...letterCounts },
