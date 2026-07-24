@@ -4410,6 +4410,7 @@ function aa2frGuessChallenge(letter) {
     $('aa2fr-status').innerHTML = `Challenge guess '<span class="sn-${letter}"><b>${letter}</b></span>' fails. See the obstruction below.`;
     $('aa2fr-challenge-feedback').className = 'aa2fr-challenge-feedback bad';
     $('aa2fr-challenge-feedback').textContent = `Not ${letter}. The obstruction panel shows why this extension is illegal.`;
+  }
   aa2frUpdateUI();
 }
 
