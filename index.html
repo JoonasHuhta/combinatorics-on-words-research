@@ -1068,6 +1068,17 @@
             <div style="color:#7f8c8d;">Waiting for selection...</div>
           </div>
         </div>
+
+        <div style="margin-top:16px; background:#fffef0; border:1px solid #e0d080; border-radius:6px; padding:12px; font-size:0.85rem;">
+          <h4 style="margin:0 0 8px 0; color:#555;">✍️ Manual Construction</h4>
+          <p style="margin:0 0 8px 0; color:#666;">Choose the next letter to extend the sequence on the right:</p>
+          <div style="display:flex; gap:8px;">
+            <button class="aa2fr-letter-btn a" onclick="aa2frManualAppend('a')">a</button>
+            <button class="aa2fr-letter-btn b" onclick="aa2frManualAppend('b')">b</button>
+            <button class="aa2fr-letter-btn c" onclick="aa2frManualAppend('c')">c</button>
+            <button class="control-btn" onclick="aa2frManualUndo()" style="background:#7f8c8d; color:#fff; border:none; border-radius:4px; padding:4px 12px; cursor:pointer; margin-left:8px;">Undo</button>
+          </div>
+        </div>
       </div>
     </div>
     <div id="aa2fr-explain" class="aa2fr-explain hidden"></div>
@@ -4396,8 +4407,45 @@ function aa2frGuessChallenge(letter) {
     $('aa2fr-status').innerHTML = `Challenge guess '<span class="sn-${letter}"><b>${letter}</b></span>' fails. See the obstruction below.`;
     $('aa2fr-challenge-feedback').className = 'aa2fr-challenge-feedback bad';
     $('aa2fr-challenge-feedback').textContent = `Not ${letter}. The obstruction panel shows why this extension is illegal.`;
+  aa2frUpdateUI();
+}
+
+function aa2frManualAppend(letter) {
+  aa2frState.challenge = null;
+  aa2frState.running = false;
+  
+  const candidate = aa2frState.wordArr.concat(letter);
+  const reason = explainAA2FViolation(candidate, false, aa2frState.mode);
+  
+  if (!reason.valid) {
+    aa2frState.lastReject = {
+      letter: letter,
+      candidate: candidate,
+      reason: reason,
+      dir: 'right',
+      mode: aa2frState.mode
+    };
+    $('aa2fr-status').innerHTML = `<span style="color:#e74c3c">Invalid extension! Cannot append '${letter}'. See obstruction below.</span>`;
+  } else {
+    aa2frState.wordArr.push(letter);
+    aa2frState.lastReject = null;
+    aa2frState.stats.len = aa2frState.wordArr.length;
+    if (aa2frState.stats.len > aa2frState.stats.maxLen) {
+      aa2frState.stats.maxLen = aa2frState.stats.len;
+    }
+    $('aa2fr-status').innerHTML = `Manually appended '<span class="sn-${letter}"><b>${letter}</b></span>'. Sequence valid.`;
   }
   aa2frUpdateUI();
+}
+
+function aa2frManualUndo() {
+  if (aa2frState.wordArr.length > 0) {
+    aa2frState.wordArr.pop();
+    aa2frState.stats.len = aa2frState.wordArr.length;
+    aa2frState.lastReject = null;
+    $('aa2fr-status').innerHTML = `Undid last letter.`;
+    aa2frUpdateUI();
+  }
 }
 
 function aa2frStep() {
