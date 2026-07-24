@@ -967,7 +967,7 @@
       <strong>Long-term scientific goal:</strong> The objective of this platform is not merely to construct long AA2FR words, but to identify structural invariants, recurring motifs, and experimentally supported conjectures that may contribute to a future mathematical characterization of relaxed Abelian square avoidance over ternary alphabets.
     </div>
     <div style="margin-bottom: 16px; background: #f8f9fa; padding: 16px; border-radius: 6px; border: 1px solid #e2e8f0;">
-      <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 12px; color: #333;">
+      <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-bottom: 12px; color: #333;">
         <label>Mode:</label>
         <select id="aa2fr-mode" style="background:#fff; color:#333; border:1px solid #ccc; padding:6px; border-radius:4px; font-family:inherit;">
           <option value="aa2f">aa2f (period 1 allowed)</option>
@@ -1018,8 +1018,8 @@
       </div>
     </div>
 
-    <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;">
-      <div style="display:flex; gap:8px;">
+    <div style="display:flex; flex-wrap: wrap; justify-content:space-between; margin-bottom:12px; align-items:center; gap:8px;">
+      <div style="display:flex; flex-wrap: wrap; gap:8px;">
         <button id="aa2fr-btn-start" onclick="aa2frStart()" class="control-btn" style="background:#27ae60;">Start Extension</button>
         <button id="aa2fr-btn-pause" onclick="aa2frPause()" class="control-btn hidden" style="background:#e74c3c;">Pause</button>
         <button id="aa2fr-btn-step" onclick="aa2frStep()" class="control-btn" style="background:#34495e;">Step</button>
@@ -4522,13 +4522,14 @@ function aa2frUpdateUI() {
   let displayStr = '';
   const MAX_DISP = 300;
   if (arr.length <= MAX_DISP) {
-    displayStr = arr.map(c => `<span class="sn-${c}">${c}</span>`).join('');
+    displayStr = arr.map((c, i) => `<span class="sn-${c} aa2fr-letter-span" onclick="aa2frTriggerLookahead(${i})" style="cursor:pointer; display:inline-block; border-bottom:2px solid transparent;" onmouseover="this.style.borderBottomColor='#333'" onmouseout="this.style.borderBottomColor='transparent'" title="Click to analyze predictive lookahead from this position">${c}</span>`).join('');
   } else {
     if (aa2frState.dir === 'right') {
+      const startIdx = arr.length - MAX_DISP;
       displayStr = `<span style="color:#64748b">[...${arr.length - MAX_DISP} omitted...]</span> <br>` + 
-        arr.slice(arr.length - MAX_DISP).map(c => `<span class="sn-${c}">${c}</span>`).join('');
+        arr.slice(startIdx).map((c, i) => `<span class="sn-${c} aa2fr-letter-span" onclick="aa2frTriggerLookahead(${startIdx + i})" style="cursor:pointer; display:inline-block; border-bottom:2px solid transparent;" onmouseover="this.style.borderBottomColor='#333'" onmouseout="this.style.borderBottomColor='transparent'" title="Click to analyze predictive lookahead from this position">${c}</span>`).join('');
     } else {
-      displayStr = arr.slice(0, MAX_DISP).map(c => `<span class="sn-${c}">${c}</span>`).join('') +
+      displayStr = arr.slice(0, MAX_DISP).map((c, i) => `<span class="sn-${c} aa2fr-letter-span" onclick="aa2frTriggerLookahead(${i})" style="cursor:pointer; display:inline-block; border-bottom:2px solid transparent;" onmouseover="this.style.borderBottomColor='#333'" onmouseout="this.style.borderBottomColor='transparent'" title="Click to analyze predictive lookahead from this position">${c}</span>`).join('') +
         `<br> <span style="color:#64748b">[...${arr.length - MAX_DISP} omitted...]</span>`;
     }
   }
