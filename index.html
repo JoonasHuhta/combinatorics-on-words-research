@@ -940,20 +940,20 @@
           <button onclick="document.getElementById('aa2fr-guide-modal').style.display='none'" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#7f8c8d;">&times;</button>
         </div>
         <div style="padding:20px; overflow-y:auto; line-height:1.6; font-size:0.95rem; color:#333;">
-          <h4 style="color:#2980b9; margin-top:0;">1. Search Engine (Perushaku)</h4>
-          <p>Käytä <strong>Start Extension</strong> -nappia käynnistääksesi haun taustalla. Algoritmi lisää kirjaimia ja peruuttaa (backtrack) umpikujissa automaattisesti. Kokeile ladata 40 kirjaimen siemen ja laita haku päälle!</p>
+          <h4 style="color:#2980b9; margin-top:0;">1. Search Engine</h4>
+          <p>Use the <strong>Start Extension</strong> button to start the background search. The algorithm automatically appends letters and backtracks when hitting dead ends. Try loading a 40-letter seed and run the search!</p>
           
-          <h4 style="color:#2980b9;">2. Predictive Lookahead (Tulevaisuuden näkeminen)</h4>
-          <p>Tämä on ohjelman tehokkain "Röntgenkatse". Laita haku tauolle (<strong>Pause</strong>). Näet sanan kirjaimet isolla näytöllä. <strong>Klikkaa mitä tahansa kirjainta</strong> sanassa! Ohjelma katkaisee sanan siihen asti, lähettää sen taustamoottorille, joka katsoo 10 askelta tulevaisuuteen ja kertoo oikean reunan <strong>Predictive Lookahead</strong> -paneelissa, onko polku elinkelpoinen (Viable) vai varma umpikuja (Guaranteed Dead End).</p>
+          <h4 style="color:#2980b9;">2. Predictive Lookahead</h4>
+          <p>This is the program's most powerful "X-Ray Vision". First, <strong>Pause</strong> the search. You will see the letters displayed in the main view. <strong>Click any letter</strong> in the word! The program truncates the word up to that point and sends it to the background engine, which looks 10 steps ahead. It will then tell you in the <strong>Predictive Lookahead</strong> panel on the right whether the path is viable (Viable) or a guaranteed dead end (Guaranteed Dead End).</p>
 
-          <h4 style="color:#2980b9;">3. Hypothesis Engine (Automaattiset löydökset)</h4>
-          <p>Kun haku pyörii ja osuu umpikujiin, Hypothesis Engine oikeassa reunassa seuraa niitä. Jos se huomaa, että jokin tietty loppuliite (esim. <code>bcca</code>) aiheuttaa epänormaalin paljon umpikujia, se ehdottaa sitä automaattisesti <strong>rakenteelliseksi ansaksi (Structural Trap)</strong> ja antaa sille tilastollisen luottamusvälin.</p>
+          <h4 style="color:#2980b9;">3. Hypothesis Engine</h4>
+          <p>While the search runs and encounters dead ends, the Hypothesis Engine on the right side tracks them. If it notices that a specific suffix (e.g., <code>bcca</code>) causes an abnormally high number of dead ends, it automatically suggests it as a <strong>Structural Trap</strong> and provides a statistical confidence interval.</p>
 
-          <h4 style="color:#2980b9;">4. Research Notebook (Tutkimuspäiväkirja)</h4>
-          <p>Älä hukkaa löydöksiäsi! Jos Hypothesis Engine löytää ansan, paina <strong>Save to Notebook</strong>. Jos taas itse huomaat jumiutuneen sanapolun Predictive Lookaheadin avulla, paina yläpalkin <strong>📓 Save Path</strong> -nappia. Nämä tallentuvat oikeaan alakulmaan selaimesi muistiin pysyvästi.</p>
+          <h4 style="color:#2980b9;">4. Research Notebook</h4>
+          <p>Don't lose your findings! If the Hypothesis Engine finds a trap, click <strong>Save to Notebook</strong>. If you manually discover a stuck path using Predictive Lookahead, click the <strong>📓 Save Path</strong> button in the top bar. These will be permanently saved to your browser's memory in the bottom right corner.</p>
         </div>
         <div style="padding:16px 20px; border-top:1px solid #eee; background:#f9f9f9; text-align:right; border-radius:0 0 8px 8px;">
-          <button onclick="document.getElementById('aa2fr-guide-modal').style.display='none'" class="control-btn" style="background:#34495e; padding:8px 16px;">Got it! Sulje ohje.</button>
+          <button onclick="document.getElementById('aa2fr-guide-modal').style.display='none'" class="control-btn" style="background:#3498db; color:#fff; border:none; border-radius:4px; padding:8px 16px; cursor:pointer; font-weight:bold;">Got it! Close guide.</button>
         </div>
       </div>
     </div>
@@ -1175,9 +1175,9 @@
               <option value="current">Current Word</option>
             </select>
           </div>
-          <button onclick="aa2frStartExperiment()" class="control-btn" style="background:#2c3e50; padding:4px 12px; font-size:0.8rem;">Run Batch</button>
-          <button onclick="aa2frStopExperiment()" class="control-btn" style="background:#e74c3c; padding:4px 12px; font-size:0.8rem;">Stop</button>
-          <button onclick="aa2frExportBatchCSV()" class="control-btn" style="background:#27ae60; padding:4px 12px; font-size:0.8rem;">Export Batch CSV</button>
+          <button onclick="aa2frStartExperiment()" class="control-btn" style="background:#2c3e50; color:#fff; border:none; border-radius:4px; padding:6px 12px; font-size:0.8rem; cursor:pointer;">Run Batch</button>
+          <button onclick="aa2frStopExperiment()" class="control-btn" style="background:#e74c3c; color:#fff; border:none; border-radius:4px; padding:6px 12px; font-size:0.8rem; cursor:pointer;">Stop</button>
+          <button onclick="aa2frExportBatchCSV()" class="control-btn" style="background:#27ae60; color:#fff; border:none; border-radius:4px; padding:6px 12px; font-size:0.8rem; cursor:pointer;">Export Batch CSV</button>
         </div>
         
         <div style="font-size:0.75rem; color:#7f8c8d; margin-bottom:4px;">
