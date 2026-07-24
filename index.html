@@ -1208,14 +1208,17 @@
         </div>
       </div>
       
-      <!-- Phase 6 Research Notebook -->
+      <!-- Phase 6/7 Research Database -->
       <div style="margin-top:16px; background:#fdfbf7; border:1px solid #e2d9c3; border-radius:6px; padding:12px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="margin:0; font-size:0.85rem; color:#8a6d3b;">📓 Research Notebook</h4>
-          <button onclick="aa2frClearNotebook()" style="font-size:0.7rem; background:#fff; border:1px solid #ccc; padding:2px 6px; border-radius:4px; cursor:pointer;">Clear</button>
+          <h4 style="margin:0; font-size:0.85rem; color:#8a6d3b;">📓 Research Database</h4>
+          <div>
+            <button onclick="aa2frExportDatabase()" style="font-size:0.7rem; background:#27ae60; color:#fff; border:none; padding:3px 8px; border-radius:4px; cursor:pointer; margin-right:4px;">Export JSON</button>
+            <button onclick="aa2frClearNotebook()" style="font-size:0.7rem; background:#fff; border:1px solid #ccc; padding:2px 6px; border-radius:4px; cursor:pointer;">Clear</button>
+          </div>
         </div>
         <div id="aa2fr-notebook-entries" style="display:flex; flex-direction:column; gap:8px; max-height:300px; overflow-y:auto;">
-          <div style="font-size:0.8rem; color:#555; font-style:italic;">Notebook is empty. Save hypotheses or interesting paths here.</div>
+          <div style="font-size:0.8rem; color:#555; font-style:italic;">Database is empty. Runs will be recorded here automatically.</div>
         </div>
       </div>
     </div>
@@ -3538,6 +3541,10 @@ let aa2frState = {
     seedType: 'random',
     strategy: 'fixed',
     results: []
+  },
+  // Research Database
+  researchDB: {
+    runs: []
   }
 };
 
@@ -3636,6 +3643,8 @@ try {
           $('aa2fr-btn-start').classList.remove('hidden');
           $('aa2fr-status').innerHTML = '<span style="color:#e74c3c">Search exhausted across all workers.</span>';
           if ($('aa2fr-analytics-status')) $('aa2fr-analytics-status').textContent = 'Search complete. ' + aa2frState.stats.attempts.toLocaleString() + ' steps explored.';
+          
+          aa2frRecordRunToDatabase("Exhausted");
           
           if (aa2frState.experiment.active) {
             aa2frNextExperiment();
@@ -4063,6 +4072,57 @@ function aa2frPause() {
   }
   $('aa2fr-btn-pause').classList.add('hidden');
   $('aa2fr-btn-start').classList.remove('hidden');
+  
+  // Record run in database
+  aa2frRecordRunToDatabase("Paused");
+}
+
+function aa2frRecordRunToDatabase(status) {
+  const runData = {
+    timestamp: new Date().toISOString(),
+    status: status,
+    config: {
+      seed: aa2frState.wordArr.join(''),
+      mode: aa2frState.mode,
+      strategy: $('aa2fr-strategy') ? $('aa2fr-strategy').value : 'fixed',
+      workers: aa2frState.maxWorkers
+    },
+    results: {
+      maxLength: aa2frState.stats.maxLen,
+      steps: aa2frState.stats.attempts,
+      backtracks: aa2frState.stats.backtracks,
+      parikhBalance: aa2frState.analytics.parikhBalance
+    }
+  };
+  
+  aa2frState.researchDB.runs.push(runData);
+  
+  // Render in UI
+  const entries = $('aa2fr-notebook-entries');
+  if (entries.innerHTML.includes('Database is empty')) entries.innerHTML = '';
+  
+  const div = document.createElement('div');
+  div.style.background = '#fff';
+  div.style.border = '1px solid #ccc';
+  div.style.padding = '8px';
+  div.style.borderRadius = '4px';
+  div.style.fontSize = '0.8rem';
+  div.innerHTML = `
+    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+      <strong>Run: ${runData.config.strategy} (${runData.status})</strong>
+      <span style="color:#777; font-size:0.7rem;">${new Date(runData.timestamp).toLocaleTimeString()}</span>
+    </div>
+    <div style="color:#555;">Max Len: ${runData.results.maxLength} | Steps: ${runData.results.steps.toLocaleString()}</div>
+  `;
+  entries.insertBefore(div, entries.firstChild);
+}
+
+function aa2frExportDatabase() {
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(aa2frState.researchDB, null, 2));
+  const dlAnchorElem = document.createElement('a');
+  dlAnchorElem.setAttribute("href", dataStr);
+  dlAnchorElem.setAttribute("download", "aa2fr_research_database_" + Date.now() + ".json");
+  dlAnchorElem.click();
 }
 
 function validateWordConstraints(wordArr, opts = {}) {
