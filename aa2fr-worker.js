@@ -206,210 +206,191 @@ function validateWordConstraints(checkFull = false) {
 }
 
 // -------------------------------------------------------------------------
-// SEARCH STRATEGIES
+// SEARCH STRATEGIES (PLUGIN SYSTEM)
 // -------------------------------------------------------------------------
 
-function getUValue(counts, total) {
-  if (total === 0) return 0;
-  let sum = 0;
-  for (let c of Object.values(counts)) {
-    let diff = (c / total) - (1/3);
-    sum += diff * diff;
+class SearchStrategy {
+  constructor(config) {
+    this.config = config;
+    this.letters = ['a', 'b', 'c'];
+    this.stats = { steps: 0, backtracks: 0, stepsSinceNewRecord: 0 };
+    this.lastDecision = "Initialized";
   }
-  return Math.sqrt(sum);
+  
+  initialize(wordArr) {
+    this.stack = [];
+    this.currentDepth = wordArr.length;
+    if (this.currentDepth === 0) {
+      this.stack.push({ tryIdx: 0, validBranches: 0, order: this.getOrder(null) });
+    }
+  }
+
+  getOrder(counts, len) {
+    return this.letters;
+  }
+
+  step(engine) {
+    this.stats.steps++;
+    
+    if (this.currentDepth >= this.stack.length) {
+      this.stack.push({
+        tryIdx: 0,
+        validBranches: 0,
+        order: this.getOrder(engine.letterCounts, engine.wordLen)
+      });
+    }
+    
+    let frame = this.stack[this.currentDepth];
+    
+    if (frame.tryIdx >= frame.order.length) {
+      // Exhausted this node
+      this.stats.backtracks++;
+      this.stats.stepsSinceNewRecord++;
+      this.onBacktrack(this.currentDepth);
+      engine.emitEvent('backtrack', { from_depth: this.currentDepth });
+      
+      if (this.currentDepth === 0) {
+        return false; // Search complete
+      }
+      
+      engine.popLetter();
+      this.stack.pop();
+      this.currentDepth--;
+      return true; // continue
+    }
+    
+    let letter = frame.order[frame.tryIdx++];
+    this.lastDecision = `Selected '${letter}'`;
+    
+    engine.pushLetter(letter);
+    let obs = engine.validateWordConstraints(false);
+    
+    let resultStr = 'valid';
+    let s8 = engine.getSuffix(8);
+    let dangerScore = s8.length >= 4 ? (engine.suffixDeadEndCounts.get(s8) || 0) : 0;
+    
+    if (obs) {
+      resultStr = 'dead_end';
+      engine.recordObstruction(obs);
+      if (s8.length >= 4) engine.suffixDeadEndCounts.set(s8, dangerScore + 1);
+      
+      this.onDeadEnd(letter, obs);
+      engine.emitEvent('node', { 
+        depth: this.currentDepth + 1, 
+        letter, 
+        result: resultStr,
+        branching: frame.validBranches,
+        danger_score: dangerScore + 1,
+        obstruction: obs 
+      });
+      engine.popLetter();
+    } else {
+      frame.validBranches++;
+      this.currentDepth++;
+      if (engine.wordLen > engine.maxLen) {
+        engine.maxLen = engine.wordLen;
+        this.stats.stepsSinceNewRecord = 0;
+        this.onRecord(engine.maxLen);
+        self.postMessage({ type: 'milestone', length: engine.maxLen, word: engine.getSuffix(50) });
+        engine.emitEvent('milestone', { depth: this.currentDepth, max_length: engine.maxLen });
+      }
+      engine.emitEvent('node', { 
+        depth: this.currentDepth, 
+        letter, 
+        result: resultStr,
+        branching: frame.validBranches,
+        danger_score: dangerScore,
+        obstruction: null
+      });
+    }
+    return true;
+  }
+  
+  onDeadEnd(letter, obs) {}
+  onBacktrack(depth) {}
+  onRecord(len) {}
+  
+  statistics() { return this.stats; }
+  explainDecision() { return this.lastDecision; }
 }
 
-function getLetterOrder() {
-  if (config.strategy === 'fixed') {
-    return letters;
-  } else if (config.strategy === 'rotation') {
-    return PERMUTATIONS[currentPermutationIdx];
-  } else if (config.strategy === 'gavrilenko') {
-    let order = [...letters];
+class DFSStrategy extends SearchStrategy {
+  getOrder(counts, len) {
+    this.lastDecision = `DFS default order`;
+    return this.letters;
+  }
+}
+
+class PriorityParikhStrategy extends SearchStrategy {
+  getOrder(counts, len) {
+    let order = [...this.letters];
     let scores = {};
     for (let l of order) {
-      let counts = { ...letterCounts };
-      counts[l]++;
-      let wLen = wordLen + 1;
-      let u = getUValue(counts, wLen);
-      // Score(w + x) = |w|² - (U(w+x)³ * 27) / (8 * |w|)
-      scores[l] = (wordLen * wordLen) - ((Math.pow(u, 3) * 27) / (8 * (wordLen || 1)));
+      let c = { ...counts };
+      c[l]++;
+      let wLen = len + 1;
+      let u = 0;
+      for (let key of ['a','b','c']) {
+        let diff = (c[key] / wLen) - (1/3);
+        u += diff * diff;
+      }
+      u = Math.sqrt(u);
+      scores[l] = (len * len) - ((Math.pow(u, 3) * 27) / (8 * (len || 1)));
     }
-    order.sort((a, b) => scores[b] - scores[a]); // descending
+    order.sort((a, b) => scores[b] - scores[a]);
+    this.lastDecision = `Parikh balance priority (Best: ${order[0]})`;
     return order;
   }
-  return letters;
 }
 
 // -------------------------------------------------------------------------
-// DFS SEARCH ENGINE
+// SEARCH ENGINE (STATE MANAGER)
 // -------------------------------------------------------------------------
 
-function recordObstruction(obs) {
-  if (!obs) return;
-  let key = obs.half_length;
-  obstructionCounts[key] = (obstructionCounts[key] || 0) + 1;
-}
+const Engine = {
+  letterCounts: { a:0, b:0, c:0 },
+  wordLen: 0,
+  maxLen: 0,
+  suffixDeadEndCounts: new Map(),
+  
+  pushLetter: function(l) { pushLetter(l); },
+  popLetter: function() { popLetter(); },
+  validateWordConstraints: function(isFull) { return validateWordConstraints(isFull); },
+  getSuffix: function(len) { return getSuffix(len); },
+  recordObstruction: function(obs) { recordObstruction(obs); },
+  emitEvent: function(type, data) { emitEvent(type, data); }
+};
 
-function emitEvent(type, data) {
-  if (type === 'node' && currentDepth > 200) return;
-  if (type === 'backtrack' && currentDepth > 1000) return;
-  
-  evolutionBuffer.push({ type, ...data });
-}
-
-function getSuffix(len) {
-  if (wordLen === 0) return '';
-  let start = Math.max(0, wordLen - len);
-  return wordArr.slice(start, wordLen).join('');
-}
-
-function searchStep() {
-  stats.steps++;
-  
-  if (currentDepth >= stack.length) {
-    stack.push({
-      order: getLetterOrder(),
-      tryIdx: 0,
-      validBranches: 0
-    });
-  }
-  
-  let frame = stack[currentDepth];
-  
-  if (frame.tryIdx >= frame.order.length) {
-    // Backtrack
-    stats.backtracks++;
-    stats.stepsSinceNewRecord++;
-    
-    // Rotation strategy check
-    if (config.strategy === 'rotation' && stats.stepsSinceNewRecord > 50000) {
-      currentPermutationIdx = (currentPermutationIdx + 1) % PERMUTATIONS.length;
-      stats.stepsSinceNewRecord = 0;
-    }
-    
-    emitEvent('backtrack', { from_depth: currentDepth });
-    
-    if (currentDepth === 0) {
-      // Exhausted
-      isRunning = false;
-      self.postMessage({ type: 'exhausted' });
-      return false;
-    }
-    
-    popLetter();
-    stack.pop();
-    currentDepth--;
-    return true; // continue
-  }
-  
-  let letter = frame.order[frame.tryIdx];
-  frame.tryIdx++;
-  
-  pushLetter(letter);
-  let obs = validateWordConstraints(false);
-  
-  let resultStr = 'valid';
-  let dangerScore = 0;
-  let s8 = getSuffix(8);
-  if (s8.length >= 4) {
-    dangerScore = suffixDeadEndCounts.get(s8) || 0;
-  }
-  
-  if (obs) {
-    resultStr = 'dead_end';
-    recordObstruction(obs);
-    if (s8.length >= 4) {
-      suffixDeadEndCounts.set(s8, dangerScore + 1);
-    }
-    emitEvent('node', { 
-      depth: currentDepth + 1, 
-      letter, 
-      result: resultStr,
-      branching: frame.validBranches,
-      parikh_balance: getUValue(letterCounts, wordLen),
-      danger_score: dangerScore + 1,
-      obstruction: obs 
-    });
-    popLetter();
-  } else {
-    frame.validBranches++;
-    currentDepth++;
-    if (wordLen > maxLen) {
-      maxLen = wordLen;
-      stats.stepsSinceNewRecord = 0;
-      self.postMessage({ type: 'milestone', length: maxLen, word: getSuffix(50) });
-      emitEvent('milestone', { depth: currentDepth, max_length: maxLen });
-    }
-    emitEvent('node', { 
-      depth: currentDepth, 
-      letter, 
-      result: resultStr,
-      branching: frame.validBranches,
-      parikh_balance: getUValue(letterCounts, wordLen),
-      danger_score: dangerScore,
-      obstruction: null
-    });
-  }
-  
-  if (config.analyticsEnabled) {
-    analyticsBuffer.push({
-      step: stats.steps,
-      depth: currentDepth,
-      letter: letter,
-      result: resultStr,
-      branching: frame.validBranches,
-      parikh_balance: getUValue(letterCounts, wordLen),
-      parikh_a: letterCounts.a,
-      parikh_b: letterCounts.b,
-      parikh_c: letterCounts.c,
-      suffix_8: getSuffix(8),
-      suffix_15: getSuffix(15),
-      obstruction: obs
-    });
-  }
-  
-  return true;
-}
+let activeStrategy = null;
 
 function searchLoop() {
   if (!isRunning || isPaused) return;
   
-  let now = Date.now();
   let maxSteps = 10000;
-  
   for (let i = 0; i < maxSteps; i++) {
-    if (!searchStep()) return;
+    if (!activeStrategy.step(Engine)) {
+      isRunning = false;
+      self.postMessage({ type: 'exhausted' });
+      return;
+    }
   }
   
-  now = Date.now();
-  
+  let now = Date.now();
   if (now - lastStateSendTime > 100) {
+    let stats = activeStrategy.statistics();
     self.postMessage({
       type: 'state_update',
-      word: wordArr.slice(0, wordLen), // SEND FULL ARRAY
+      word: wordArr.slice(0, wordLen),
       length: wordLen,
-      stats: { ...stats },
+      stats: { steps: stats.steps, backtracks: stats.backtracks, deadEnds: 0, startTime: Engine.startTime, stepsSinceNewRecord: stats.stepsSinceNewRecord },
       parikh: { ...letterCounts },
-      strategy: config.strategy
+      strategy: config.strategy,
+      decision: activeStrategy.explainDecision()
     });
     lastStateSendTime = now;
   }
   
   if (now - lastAnalyticsSendTime > 500) {
-    if (analyticsBuffer.length > 0 || evolutionBuffer.length > 0) {
-      let topSuffixes = [...suffixDeadEndCounts.entries()]
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 20);
-      
-      self.postMessage({ 
-        type: 'analytics_batch', 
-        data: analyticsBuffer,
-        obstructions: { ...obstructionCounts },
-        topSuffixes: topSuffixes
-      });
-      analyticsBuffer = [];
-    }
     if (evolutionBuffer.length > 0) {
       self.postMessage({ type: 'evolution_batch', events: evolutionBuffer });
       evolutionBuffer = [];
@@ -430,32 +411,34 @@ self.onmessage = function(e) {
   switch (msg.cmd) {
     case 'start':
       config = { ...config, ...msg.config };
-      // Normalize mode to lowercase for consistent comparison
       if (config.mode) config.mode = config.mode.toLowerCase();
       wordArr = [];
       wordLen = 0;
-      maxLen = 0;
-      stack = [];
-      currentDepth = 0;
-      currentPermutationIdx = 0;
+      Engine.maxLen = 0;
       letterCounts = { a: 0, b: 0, c: 0 };
       obstructionCounts = {};
-      suffixDeadEndCounts = new Map();
+      Engine.suffixDeadEndCounts = new Map();
       analyticsBuffer = [];
       evolutionBuffer = [];
       branchingHistory = [];
       backtrackHistory = [];
       lastAnalyticsSendTime = Date.now();
       lastStateSendTime = Date.now();
-      stats = { steps: 0, backtracks: 0, deadEnds: 0, startTime: Date.now(), lastYieldTime: Date.now(), stepsSinceNewRecord: 0 };
+      Engine.startTime = Date.now();
+      
+      if (config.strategy === 'gavrilenko' || config.strategy === 'parikh_balance') {
+        activeStrategy = new PriorityParikhStrategy(config);
+      } else {
+        activeStrategy = new DFSStrategy(config);
+      }
+      activeStrategy.initialize(wordArr);
       
       if (config.seed) {
-        let seedChars = typeof config.seed === 'string' ? config.seed.split('') : config.seed;
-        for (let char of seedChars) {
-          pushLetter(char);
+        for (let char of config.seed) {
+          Engine.pushLetter(char);
+          activeStrategy.currentDepth++;
+          activeStrategy.stack.push({ tryIdx: 0, validBranches: 1, order: activeStrategy.getOrder(letterCounts, wordLen) });
         }
-        currentDepth = wordLen;
-        maxLen = wordLen;
       }
       
       isRunning = true;
@@ -476,14 +459,16 @@ self.onmessage = function(e) {
       
     case 'step':
       if (isRunning) {
-        searchStep();
+        activeStrategy.step(Engine);
+        let stats = activeStrategy.statistics();
         self.postMessage({
           type: 'state_update',
-          word: getSuffix(300),
-          length: wordLen,
-          stats: { ...stats },
+          word: Engine.getSuffix(300),
+          length: Engine.wordLen,
+          stats: { steps: stats.steps, backtracks: stats.backtracks, deadEnds: 0, startTime: Engine.startTime, stepsSinceNewRecord: stats.stepsSinceNewRecord },
           parikh: { ...letterCounts },
-          strategy: config.strategy
+          strategy: config.strategy,
+          decision: activeStrategy.explainDecision()
         });
       }
       break;

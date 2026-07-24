@@ -1088,6 +1088,10 @@
           <div id="aa2fr-metric-speed" style="font-size:1.3rem; font-weight:700; color:#8e44ad;">—</div>
         </div>
       </div>
+      <div style="margin-top:12px; background:#fff; border:1px solid #eee; border-radius:6px; padding:10px;">
+        <div style="color:#7f8c8d; font-size:0.75rem;">Active Strategy Decision</div>
+        <div id="aa2fr-metric-decision" style="font-size:0.9rem; font-family:monospace; color:#333; margin-top:4px;">—</div>
+      </div>
       <div style="margin-top:12px; display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
         <div>
           <div style="font-size:0.78rem; color:#7f8c8d; margin-bottom:4px;">Letter Distribution</div>
@@ -3569,6 +3573,9 @@ try {
         }
         aa2frState.analytics.lastSteps = msg.stats.steps;
         aa2frState.analytics.lastStepsTime = nowTs;
+        if (msg.decision) {
+          aa2frState.analytics.lastDecision = msg.decision;
+        }
         aa2frWorkerDisplayUpdate(msg.word, msg.length);
         aa2frUpdateStats();
         aa2frUpdateAnalyticsPanel();
@@ -3741,12 +3748,22 @@ function aa2frUpdateAnalyticsPanel() {
     el('aa2fr-metric-parikh').style.color = a.parikhBalance > 0.05 ? '#e74c3c' : '#2980b9';
   }
   if (el('aa2fr-metric-collision')) el('aa2fr-metric-collision').textContent = a.collisionDensity > 0 ? (a.collisionDensity * 100).toFixed(1) + '%' : '\u2014';
-  if (el('aa2fr-metric-speed')) el('aa2fr-metric-speed').textContent = a.stepsPerSec > 0 ? a.stepsPerSec.toLocaleString() : '\u2014';
-  const lc = a.letterCounts, total = lc.a + lc.b + lc.c;
-  if (total > 0 && el('aa2fr-metric-letters')) {
-    el('aa2fr-metric-letters').innerHTML = '<span class="sn-a">a</span>:' + lc.a + ' (' + (lc.a/total*100).toFixed(1) + '%) ' +
-      '<span class="sn-b">b</span>:' + lc.b + ' (' + (lc.b/total*100).toFixed(1) + '%) ' +
-      '<span class="sn-c">c</span>:' + lc.c + ' (' + (lc.c/total*100).toFixed(1) + '%)';
+  if (el('aa2fr-metric-speed')) {
+    el('aa2fr-metric-speed').textContent = a.stepsPerSec > 0 ? (a.stepsPerSec > 1000 ? (a.stepsPerSec/1000).toFixed(1)+'k' : a.stepsPerSec) : '\u2014';
+  }
+  if (el('aa2fr-metric-letters')) {
+    let tot = a.letterCounts.a + a.letterCounts.b + a.letterCounts.c;
+    if (tot > 0) {
+      el('aa2fr-metric-letters').innerHTML = 
+        '<span style="color:#3498db">a:</span> ' + a.letterCounts.a + ' (' + (a.letterCounts.a/tot*100).toFixed(1) + '%)<br>' +
+        '<span style="color:#e74c3c">b:</span> ' + a.letterCounts.b + ' (' + (a.letterCounts.b/tot*100).toFixed(1) + '%)<br>' +
+        '<span style="color:#2ecc71">c:</span> ' + a.letterCounts.c + ' (' + (a.letterCounts.c/tot*100).toFixed(1) + '%)';
+    } else {
+      el('aa2fr-metric-letters').textContent = '\u2014';
+    }
+  }
+  if (el('aa2fr-metric-decision')) {
+    el('aa2fr-metric-decision').textContent = a.lastDecision || '\u2014';
   }
   const obs = a.obstructionCounts;
   const sorted = Object.entries(obs).sort(function(a,b){return b[1]-a[1];}).slice(0, 5);
