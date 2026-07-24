@@ -4524,10 +4524,10 @@ function aa2frRenderExplain() {
 }
 
 function aa2frUpdateUI() {
-  $('aa2fr-stat-len').textContent = aa2frState.stats.len;
-  $('aa2fr-stat-att').textContent = aa2frState.stats.attempts;
-  $('aa2fr-stat-bt').textContent = aa2frState.stats.backtracks;
-  $('aa2fr-stat-max').textContent = aa2frState.stats.maxLen;
+  $('aa2fr-stat-len').textContent = aa2frState.stats.len.toLocaleString();
+  $('aa2fr-stat-att').textContent = aa2frState.stats.attempts.toLocaleString();
+  $('aa2fr-stat-bt').textContent = aa2frState.stats.backtracks.toLocaleString();
+  $('aa2fr-stat-max').textContent = aa2frState.stats.maxLen.toLocaleString();
   
   const arr = Array.isArray(aa2frState.wordArr) ? aa2frState.wordArr : Array.from(aa2frState.wordArr || []);
   let displayStr = '';

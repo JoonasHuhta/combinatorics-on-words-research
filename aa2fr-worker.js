@@ -765,47 +765,111 @@ function runRQ0Tests() {
   let oldLen = wordLen;
   let oldConfig = { ...config };
   let oldCounts = { ...letterCounts };
+  let oldMaxLen = Engine.maxLen;
 
   wordArr = [];
   wordLen = 0;
   letterCounts = {a:0, b:0, c:0};
   
-  // Test 1: Forbid4 check
   config.mode = 'AA2FR';
-  let testWordsForbid = [
-    { w: ['b','a','a','c'], expect: true },
-    { w: ['a','b','b','c'], expect: true },
-    { w: ['a','b','a','c'], expect: false }
-  ];
-  
-  for (let t of testWordsForbid) {
-    wordLen = 0;
-    letterCounts = { a: 0, b: 0, c: 0 };
-    for (let c of t.w) pushLetter(c);
-    let v = validateWordConstraints(true);
-    assert((v !== null) === t.expect, `Forbid4 check for ${t.w.join('')}`);
+  config.direction = 'right';
+
+  // Helper for tests
+  function runTest(tests, name) {
+    for (let t of tests) {
+      wordLen = 0;
+      letterCounts = { a: 0, b: 0, c: 0 };
+      for (let c of t.w) pushLetter(c);
+      let v = validateWordConstraints(true);
+      assert((v !== null) === t.expect, `${name} for ${t.w.join('')}`);
+    }
   }
-  
-  // Test 2: Abelian square check
-  let testWordsAbelian = [
+
+  // 1. Forbid4 check (exact matches)
+  runTest([
+    { w: ['b','a','a','c'], expect: true },
+    { w: ['c','a','a','b'], expect: true },
+    { w: ['a','b','b','c'], expect: true },
+    { w: ['c','b','b','a'], expect: true },
+    { w: ['a','c','c','b'], expect: true },
+    { w: ['b','c','c','a'], expect: true },
+    { w: ['a','b','a','c'], expect: false }
+  ], 'Forbid4');
+
+  // 2. Abelian square check
+  runTest([
     { w: ['a','b','a','b'], expect: true }, // len 4, half 2 (ab ab)
     { w: ['a','b','c','b','a','c'], expect: true }, // (abc bac)
     { w: ['a','b','c','a'], expect: false }
-  ];
+  ], 'Abelian square');
+
+  // 3. Period-1 squares (should pass)
+  runTest([
+    { w: ['a','a'], expect: false },
+    { w: ['b','b'], expect: false },
+    { w: ['c','c'], expect: false }
+  ], 'Period-1 squares allowed');
+
+  // 4. Boundary cases
+  runTest([
+    { w: [], expect: false }, // empty
+    { w: ['a'], expect: false }, // single
+    { w: ['b'], expect: false },
+    { w: ['c'], expect: false }
+  ], 'Boundary cases');
+
+  // 5. Embedded violations
+  runTest([
+    { w: ['a','b','c','b','a','a','c','a','b','c'], expect: true }, // baac embedded
+    { w: ['a','c','b','a','b','a','b','c','a'], expect: true }, // abab embedded
+    { w: ['a','b','c','a','b','a'], expect: false } // clean
+  ], 'Embedded violations');
+
+  // 6. Left extension test
+  config.direction = 'left';
+  runTest([
+    { w: ['b','a','a','c'], expect: true },
+    { w: ['c','a','a','b'], expect: true },
+    { w: ['a','b','a','b'], expect: true },
+    { w: ['a','b','c','b','a','c'], expect: true },
+    { w: ['a','b','c','a'], expect: false }
+  ], 'Left-extension');
+  config.direction = 'right';
+
+  // 7. Deterministic state test (Mini-DFS)
+  wordArr = [];
+  wordLen = 0;
+  letterCounts = { a: 0, b: 0, c: 0 };
+  Engine.maxLen = 0;
   
-  for (let t of testWordsAbelian) {
-    wordLen = 0;
-    letterCounts = { a: 0, b: 0, c: 0 };
-    for (let c of t.w) pushLetter(c);
-    let v = validateWordConstraints(true);
-    assert((v !== null) === t.expect, `Abelian square check for ${t.w.join('')}`);
-  }
+  let dfsSteps = 0;
+  let dfsBacktracks = 0;
+  pushLetter('a'); dfsSteps++;
+  pushLetter('b'); dfsSteps++;
+  pushLetter('c'); dfsSteps++;
+  Engine.maxLen = Math.max(Engine.maxLen, wordLen);
+  assert(Engine.wordLen === 3 && Engine.maxLen === 3 && Engine.letterCounts.a === 1 && Engine.letterCounts.b === 1 && Engine.letterCounts.c === 1, 'DFS step 1: abc state valid');
+  
+  pushLetter('b'); dfsSteps++;
+  Engine.maxLen = Math.max(Engine.maxLen, wordLen);
+  
+  pushLetter('a'); dfsSteps++;
+  Engine.maxLen = Math.max(Engine.maxLen, wordLen);
+  
+  pushLetter('c'); dfsSteps++;
+  let obs = validateWordConstraints(false);
+  assert(obs !== null && obs.type === 'abelian_square' && obs.half_length === 3, 'DFS step 6: abcbac abelian square detected');
+  dfsBacktracks++;
+  popLetter();
+  
+  assert(Engine.wordLen === 5 && Engine.maxLen === 5 && Engine.letterCounts.c === 1 && letterCounts.c === 1 && wordLen === 5, 'DFS step 7: state restored exactly after pop');
   
   // Restore state
   wordArr = oldArr;
   wordLen = oldLen;
   config = oldConfig;
   letterCounts = oldCounts;
+  Engine.maxLen = oldMaxLen;
   for (let i = 0; i < wordLen; i++) {
     let char = wordArr[i];
     let valA = (char === 'a') ? 1 : 0;
