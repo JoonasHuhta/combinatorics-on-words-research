@@ -584,18 +584,15 @@ function runPredictiveAnalysis(baseWordArr, options) {
   let localStack = [];
   let depth = 0;
   
+  let outcomes = 0;
+  
   // Start search
   localStack.push({ order: ['a','b','c'], tryIdx: 0, validBranches: 0 });
   
   while (depth >= 0 && nodesExplored < maxNodes) {
-    nodesExplored++;
-    
     let frame = localStack[depth];
     if (frame.tryIdx >= frame.order.length) {
       // Backtrack
-      if (frame.validBranches === 0 && depth > 0) deadEnds++;
-      totalValidDepths += depth;
-      
       localStack.pop();
       depth--;
       if (depth >= 0) popLetter();
@@ -605,12 +602,15 @@ function runPredictiveAnalysis(baseWordArr, options) {
     let letter = frame.order[frame.tryIdx];
     frame.tryIdx++;
     
+    nodesExplored++;
     pushLetter(letter);
     let obs = validateWordConstraints(false);
     
     if (obs || depth >= maxDepth - 1) {
+      outcomes++;
       if (obs) {
         deadEnds++;
+        totalValidDepths += depth; // depth represents the length of the valid prefix added
       } else {
         totalValidDepths += (depth + 1);
         frame.validBranches++;
@@ -626,8 +626,8 @@ function runPredictiveAnalysis(baseWordArr, options) {
   return {
     nodesExplored,
     deadEnds,
-    deadEndProbability: nodesExplored > 0 ? (deadEnds / nodesExplored) : 0,
-    averageSubtreeDepth: nodesExplored > 0 ? (totalValidDepths / nodesExplored) : 0
+    deadEndProbability: outcomes > 0 ? (deadEnds / outcomes) : 0,
+    averageSubtreeDepth: outcomes > 0 ? (totalValidDepths / outcomes) : 0
   };
 }
 
