@@ -24,48 +24,55 @@
 
 Transform the application from an interactive visualizer into a reliable, layered scientific instrument.
 
-**1. Layered Architecture & Research Modes**
-Decouple Search Engine from Research Decisions:
-`Experiment Manager -> Strategy Engine -> Search Engine -> Validation Engine -> Analytics Engine -> Research Notebook`
+**1. Strict Layered Architecture**
+Search Engine must never make research decisions. Raw data is sacred.
+`Experiment Manager -> Strategy Engine -> Search Engine -> Raw Events -> Analytics -> Research Database -> Hypothesis Engine -> Strategy Advisor`
 
-Introduce Application-level **Research Modes**:
+**2. Five Research Modes**
 - **Explorer**: Fast interactive exploration and visualization.
 - **Experiment**: Repeatable experiments and strategy comparisons.
-- **Discovery**: Long-running background data mining and hypothesis generation.
+- **Validation**: Strict reproduction of published results with exact seeds and settings.
+- **Discovery**: Long-running background data mining and neutral hypothesis generation.
 - **Benchmark**: Automated algorithmic performance comparisons.
 
-**2. Distributed Worker Pool & Job Scheduler**
-- Replace static workers with a dynamic `WorkerPool` using `navigator.hardwareConcurrency`.
-- Implement a **Job Scheduler** and **Job Queue** to keep all CPU cores at 100% utilization during experiments (e.g., distributing random seeds across workers).
+**3. Dynamic WorkerPool & Hierarchical Job Scheduler**
+- User-selectable worker count (Auto, 2, 4, 6, 8, 12). Auto = `min(navigator.hardwareConcurrency - 1, 8)`.
+- Hierarchical Job Queue: `Experiment -> Run -> Job -> Task` (e.g. AA2FR Benchmark -> Run 15 -> Seed abc -> Task DFS).
 
-**3. Strategy Engine Plugin System**
-- Extract search logic into a modular `SearchStrategy` interface (`initialize`, `selectLetter`, `onDeadEnd`, `onBacktrack`, `statistics`).
-- Implement strategies: **DFS**, **Priority Queue**, **Beam Search**, **Adaptive**, **Monte Carlo**, **Hybrid**.
+**4. Strategy Plugin System**
+- Extract search logic into a modular `SearchStrategy` interface (`initialize`, `selectLetter`, `onDeadEnd`, `onBacktrack`, `onRecord`, `statistics`, **`explainDecision`**).
+- `explainDecision` is crucial for explainability (e.g., "Selected 'b' | Reason: Lowest Parikh imbalance | Score: 0.031").
 
-**4. Experiment Scheduler & Strategy Benchmark**
-- UI to define large-scale experiments (e.g., 500 runs, compare DFS vs Priority Queue, random seeds).
-- Automatically generate comparative **Strategy Benchmark** reports (Average Length, Max Length, Dead Ends, Runtime).
-
-**5. Advanced Research Notebook & Database**
-- Upgrade Notebook to a persistent experiment database.
-- Store detailed experiment metadata, allow JSON/CSV export, and enable cross-experiment comparisons.
+**5. Research Database & Advanced Benchmarks**
+- Upgrade Notebook to a persistent relational-style **Research Database** (Experiments, Runs, Jobs, Observations, Trap motifs, Hypotheses).
+- Version-controlled notebook entries (Status: Candidate, Confirmed, Rejected).
+- Deep Benchmark Metrics: Average length, Median length, Max, Min, Std dev, Nodes/sec, Trap frequency, Peak memory, CPU time.
 
 **6. Three-Tier AI Avoidance**
-- When structural traps are detected, allow the researcher to select how the engine reacts:
+- When structural traps are detected, allow the researcher to select how the engine reacts without corrupting raw data:
   - **Observe**: Just log the trap (no effect on search).
   - **Assist**: Deprioritize the trap branch (test last).
   - **Avoid**: Prune the branch completely.
 
+**7. Total Determinism**
+- Store exact configurations for every run: Experiment ID, Random seed, Strategy version, Software version, Worker count, Browser, Timestamp.
+
 ### Phase 8: Mathematical Discovery Engine
 
-The ultimate goal of the platform: transition from *finding long words* to *discovering new mathematical phenomena*.
+The platform will transition to an automated mathematical assistant, utilizing careful scientific terminology.
 
-**Automated Hypothesis Generation:**
-- "Suffix `abcbca` appeared 271 times. Dead-end probability 98%. Hypothesis: Structural attractor. Confidence: 0.97."
-- "Parikh imbalance 0.083 always preceded long successful branches. Confidence: 0.92."
-- "New structural family discovered: `abcaacbc...` (Occurrences: 143, Max length: 611). Suggested classification: Candidate structural motif."
+**Neutral Automated Hypothesis Generation:**
+- "Observed correlation: Suffix `abcbca` appeared 271 times. Dead-end probability 98%. Confidence: 0.97. Requires independent validation."
+- "Candidate structural motif discovered: `abcaacbc...` (Occurrences: 143, Max length: 611)."
 
-The engine will act as a mathematical research assistant, finding statistical correlations between Parikh imbalances, structural traps, and branch viability.
+The engine will find statistical correlations between Parikh imbalances, structural traps, and branch viability, proposing candidates for the researcher.
+
+### Phase 9: Morphism Discovery Lab
+
+Move beyond searching the space of words to searching the space of **rules**.
+- **Pipeline:** `Candidate Morphism Generator -> Test -> Analyze -> Rank -> Store`
+- Automatically generate and test new n-uniform morphisms over ternary/quaternary alphabets to see if they avoid specific families of Abelian squares.
+- Focus on extending Veikko Keränen's traditions of finding infinite words through morphism construction.
 
 ## Lower Priority / Caution
 - 3D word-space visualizations may be attractive, but they risk becoming decorative unless backed by meaningful coordinates.
