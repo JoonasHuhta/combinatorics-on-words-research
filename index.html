@@ -5152,6 +5152,23 @@ function aa2frSaveNotebook(notebook) {
   aa2frRenderNotebook();
 }
 
+function aa2frSaveToNotebook(type, motif, confidence) {
+  aa2frSaveToEvidenceDatabase({
+    type: type,
+    motif: motif,
+    status: 'Manual Save',
+    evidenceScore: confidence || 1.0,
+    occurrences: 1,
+    deadEnds: 0,
+    wilsonCI: 'N/A',
+    replicationRuns: 0,
+    confirmed: 0,
+    rejected: 0,
+    strategies: 'Manual',
+    lengthAtSave: aa2frState.stats ? aa2frState.stats.len : 0
+  });
+}
+
 function aa2frSaveToEvidenceDatabase(data) {
   const notebook = aa2frLoadNotebook();
   const entry = {
@@ -5183,9 +5200,24 @@ function aa2frRenderNotebook() {
   
   let html = '';
   notebook.forEach(entry => {
+    // Backward compatibility for old entries
+    if (!entry.status) {
+      entry.status = entry.type === 'path' ? 'Manual Save' : 'Unknown';
+      entry.evidenceScore = entry.confidence || 0;
+      entry.occurrences = entry.occurrences || 1;
+      entry.deadEnds = entry.deadEnds || 0;
+      entry.wilsonCI = entry.wilsonCI || 'N/A';
+      entry.replicationRuns = entry.replicationRuns || 0;
+      entry.confirmed = entry.confirmed || 0;
+      entry.rejected = entry.rejected || 0;
+      entry.strategies = entry.strategies || entry.strategy || 'unknown';
+      entry.softwareVersion = entry.softwareVersion || 'v1.0.1';
+    }
+
     const isSupported = entry.status === 'Supported';
-    const borderColor = isSupported ? '#27ae60' : '#c0392b';
-    const bgColor = isSupported ? '#f9fdfa' : '#fdf9f9';
+    const isManual = entry.status === 'Manual Save';
+    const borderColor = isSupported ? '#27ae60' : (isManual ? '#8e44ad' : '#c0392b');
+    const bgColor = isSupported ? '#f9fdfa' : (isManual ? '#fdf9fe' : '#fdf9f9');
     
     // Generate Stars for Evidence Score
     let stars = '';
@@ -5199,7 +5231,7 @@ function aa2frRenderNotebook() {
       </div>
       
       <div style="margin-bottom:6px;">
-        <strong>Hypothesis:</strong> Motif <code style="background:#fff; border:1px solid #ccc; padding:1px 4px; border-radius:3px; font-size:0.8rem;">${entry.motif}</code> acts as a ${entry.type}.
+        <strong>${entry.type === 'path' ? 'Saved Path' : 'Hypothesis'}:</strong> ${entry.type === 'path' ? 'Word' : 'Motif'} <code style="background:#fff; border:1px solid #ccc; padding:1px 4px; border-radius:3px; font-size:0.8rem; word-break:break-all;">${entry.motif}</code> ${entry.type === 'path' ? '' : 'acts as a ' + entry.type + '.'}
       </div>
       
       <div style="display:flex; gap:10px; margin-bottom:6px;">
