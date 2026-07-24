@@ -553,8 +553,83 @@ self.onmessage = function(e) {
     case 'run_rq0_tests':
       self.postMessage({ type: 'rq0_results', results: runRQ0Tests() });
       break;
+
+    case 'predictive_analyze':
+      let result = runPredictiveAnalysis(msg.wordArr, msg.options);
+      self.postMessage({ type: 'predictive_result', id: msg.id, result: result });
+      break;
   }
 };
+
+// -------------------------------------------------------------------------
+// PREDICTIVE SEARCH ANALYZER (PHASE 6)
+// -------------------------------------------------------------------------
+function runPredictiveAnalysis(baseWordArr, options) {
+  let maxDepth = options.depth || 5;
+  let maxNodes = options.maxNodes || 5000;
+  
+  // Set up isolated state
+  wordArr = [];
+  wordLen = 0;
+  letterCounts = { a: 0, b: 0, c: 0 };
+  
+  // Initialize with base word
+  for (let c of baseWordArr) {
+    pushLetter(c);
+  }
+  
+  let nodesExplored = 0;
+  let deadEnds = 0;
+  let totalValidDepths = 0;
+  let localStack = [];
+  let depth = 0;
+  
+  // Start search
+  localStack.push({ order: ['a','b','c'], tryIdx: 0, validBranches: 0 });
+  
+  while (depth >= 0 && nodesExplored < maxNodes) {
+    nodesExplored++;
+    
+    let frame = localStack[depth];
+    if (frame.tryIdx >= frame.order.length) {
+      // Backtrack
+      if (frame.validBranches === 0 && depth > 0) deadEnds++;
+      totalValidDepths += depth;
+      
+      localStack.pop();
+      depth--;
+      if (depth >= 0) popLetter();
+      continue;
+    }
+    
+    let letter = frame.order[frame.tryIdx];
+    frame.tryIdx++;
+    
+    pushLetter(letter);
+    let obs = validateWordConstraints(false);
+    
+    if (obs || depth >= maxDepth - 1) {
+      if (obs) {
+        deadEnds++;
+      } else {
+        totalValidDepths += (depth + 1);
+        frame.validBranches++;
+      }
+      popLetter();
+    } else {
+      frame.validBranches++;
+      depth++;
+      localStack.push({ order: ['a','b','c'], tryIdx: 0, validBranches: 0 });
+    }
+  }
+  
+  return {
+    nodesExplored,
+    deadEnds,
+    deadEndProbability: nodesExplored > 0 ? (deadEnds / nodesExplored) : 0,
+    averageSubtreeDepth: nodesExplored > 0 ? (totalValidDepths / nodesExplored) : 0
+  };
+}
 
 // -------------------------------------------------------------------------
 // RQ0 VALIDATION SUITE

@@ -3474,9 +3474,36 @@ let aa2frState = {
   }
 };
 
+// -------------------------------------------------------------------------
+// PREDICTIVE SEARCH ANALYZER (PHASE 6)
+// -------------------------------------------------------------------------
+function aa2frAnalyzeLookahead(wordArr, options, callback) {
+  if (!aa2frState.analyzerWorker) return;
+  const id = Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  if (!aa2frState.analyzerCallbacks) aa2frState.analyzerCallbacks = {};
+  aa2frState.analyzerCallbacks[id] = callback;
+  aa2frState.analyzerWorker.postMessage({
+    cmd: 'predictive_analyze',
+    id: id,
+    wordArr: wordArr,
+    options: options || { depth: 5, maxNodes: 5000 }
+  });
+}
+
 // Initialize Web Worker
 try {
   aa2frState.worker = new Worker('aa2fr-worker.js');
+  aa2frState.analyzerWorker = new Worker('aa2fr-worker.js');
+  
+  aa2frState.analyzerWorker.onmessage = function(e) {
+    const msg = e.data;
+    if (msg.type === 'predictive_result' && aa2frState.analyzerCallbacks[msg.id]) {
+      aa2frState.analyzerCallbacks[msg.id](msg.result);
+      delete aa2frState.analyzerCallbacks[msg.id];
+    }
+  };
+  aa2frState.analyzerCallbacks = {};
+  
   aa2frState.useWorker = true;
   aa2frState.worker.onmessage = function(e) {
     const msg = e.data;
