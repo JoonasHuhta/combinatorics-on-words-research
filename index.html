@@ -15,6 +15,8 @@
       --letter-c: #f1c40f; 
       --letter-d: #27ae60; 
     }
+    
+    * { box-sizing: border-box; max-width: 100%; }
 
     body { font-family: "Times New Roman", Times, serif; background: var(--bg); color: var(--text); line-height: 1.6; margin: 0; padding: 40px 20px; }
     .app { max-width: 1100px; margin: 0 auto; }
@@ -4518,7 +4520,7 @@ function aa2frUpdateUI() {
   $('aa2fr-stat-bt').textContent = aa2frState.stats.backtracks;
   $('aa2fr-stat-max').textContent = aa2frState.stats.maxLen;
   
-  const arr = aa2frState.wordArr;
+  const arr = Array.isArray(aa2frState.wordArr) ? aa2frState.wordArr : Array.from(aa2frState.wordArr || []);
   let displayStr = '';
   const MAX_DISP = 300;
   if (arr.length <= MAX_DISP) {
