@@ -977,6 +977,7 @@
         <button id="aa2fr-btn-start" onclick="aa2frStart()" class="control-btn" style="background:#27ae60;">Start Extension</button>
         <button id="aa2fr-btn-pause" onclick="aa2frPause()" class="control-btn hidden" style="background:#e74c3c;">Pause</button>
         <button id="aa2fr-btn-step" onclick="aa2frStep()" class="control-btn" style="background:#34495e;">Step</button>
+        <button onclick="aa2frSaveToNotebook('path', aa2frState.wordArr.join(''), 1.0)" class="control-btn" style="background:#8a6d3b; margin-left:16px;">📓 Save Path</button>
       </div>
       <div>
         Speed: <input type="range" id="aa2fr-speed" min="1" max="100" value="50">
@@ -1160,6 +1161,17 @@
         </div>
         <div id="aa2fr-discovery-alerts" style="display:flex; flex-direction:column; gap:8px;">
           <div style="font-size:0.8rem; color:#555; font-style:italic;">Run a batch experiment or search to generate insights.</div>
+        </div>
+      </div>
+      
+      <!-- Phase 6 Research Notebook -->
+      <div style="margin-top:16px; background:#fdfbf7; border:1px solid #e2d9c3; border-radius:6px; padding:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="margin:0; font-size:0.85rem; color:#8a6d3b;">📓 Research Notebook</h4>
+          <button onclick="aa2frClearNotebook()" style="font-size:0.7rem; background:#fff; border:1px solid #ccc; padding:2px 6px; border-radius:4px; cursor:pointer;">Clear</button>
+        </div>
+        <div id="aa2fr-notebook-entries" style="display:flex; flex-direction:column; gap:8px; max-height:300px; overflow-y:auto;">
+          <div style="font-size:0.8rem; color:#555; font-style:italic;">Notebook is empty. Save hypotheses or interesting paths here.</div>
         </div>
       </div>
     </div>
@@ -4688,8 +4700,11 @@ function aa2frAnalyzeDiscoveries() {
       html += '<div style="color:#d35400; font-weight:bold; margin-bottom:4px;">Observation</div>';
       html += '<div style="margin-bottom:8px;">Suffix <code style="background:#f1f5f9; padding:2px 4px; border-radius:3px;">' + topSuffix + '</code> appeared <strong>' + topCount + '</strong> times as a dead end. Expected occurrences in random sequence: ~' + expected + '.</div>';
       html += '<div style="color:#2980b9; font-weight:bold; margin-bottom:4px;">Hypothesis</div>';
-      html += '<div>This suffix represents a highly attractive <strong>Structural Trap</strong>. It may have high branching factor initially, drawing the DFS in, but converges to inevitable Abelian collisions.</div>';
-      html += '<div style="margin-top:6px; font-size:0.75rem; color:#7f8c8d; border-top:1px dashed #ccc; padding-top:4px;">Confidence: ' + confidence.toFixed(2) + '</div>';
+      html += '<div style="margin-bottom:8px;">This suffix represents a highly attractive <strong>Structural Trap</strong>. It may have high branching factor initially, drawing the DFS in, but converges to inevitable Abelian collisions.</div>';
+      html += '<div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px; font-size:0.75rem; color:#7f8c8d; border-top:1px dashed #ccc; padding-top:6px;">';
+      html += '<span>Confidence: ' + confidence.toFixed(2) + '</span>';
+      html += '<button onclick="aa2frSaveToNotebook(\'trap\', \'' + topSuffix + '\', ' + confidence.toFixed(2) + ')" style="background:#8a6d3b; color:#fff; border:none; padding:3px 8px; border-radius:4px; cursor:pointer;">Save to Notebook</button>';
+      html += '</div>';
       html += '</div>';
       alertsContainer.innerHTML = html;
     }
@@ -4697,6 +4712,82 @@ function aa2frAnalyzeDiscoveries() {
     alertsContainer.innerHTML = '<div style="font-size:0.8rem; color:#555; font-style:italic;">No statistically significant trap motifs detected yet.</div>';
   }
 }
+
+// -------------------------------------------------------------------------
+// PHASE 6: RESEARCH NOTEBOOK
+// -------------------------------------------------------------------------
+function aa2frLoadNotebook() {
+  try {
+    const data = localStorage.getItem('aa2frNotebook');
+    if (data) return JSON.parse(data);
+  } catch (e) {}
+  return [];
+}
+
+function aa2frSaveNotebook(notebook) {
+  try {
+    localStorage.setItem('aa2frNotebook', JSON.stringify(notebook));
+  } catch (e) {}
+  aa2frRenderNotebook();
+}
+
+function aa2frSaveToNotebook(type, motif, confidence) {
+  const notebook = aa2frLoadNotebook();
+  const entry = {
+    id: Date.now(),
+    date: new Date().toLocaleString(),
+    type: type,
+    motif: motif,
+    confidence: confidence,
+    lengthAtSave: aa2frState.stats ? aa2frState.stats.len : 0,
+    strategy: aa2frState.config ? aa2frState.config.strategy : 'unknown'
+  };
+  notebook.unshift(entry);
+  aa2frSaveNotebook(notebook);
+}
+
+function aa2frClearNotebook() {
+  if (confirm('Are you sure you want to clear the research notebook?')) {
+    localStorage.removeItem('aa2frNotebook');
+    aa2frRenderNotebook();
+  }
+}
+
+function aa2frRenderNotebook() {
+  const container = document.getElementById('aa2fr-notebook-entries');
+  if (!container) return;
+  const notebook = aa2frLoadNotebook();
+  
+  if (notebook.length === 0) {
+    container.innerHTML = '<div style="font-size:0.8rem; color:#555; font-style:italic;">Notebook is empty. Save hypotheses or interesting paths here.</div>';
+    return;
+  }
+  
+  let html = '';
+  notebook.forEach(entry => {
+    html += '<div style="background:#fff; border:1px solid #eee; border-radius:4px; padding:8px; font-size:0.8rem; box-shadow:0 1px 2px rgba(0,0,0,0.02);">';
+    html += '<div style="display:flex; justify-content:space-between; margin-bottom:4px; color:#7f8c8d; font-size:0.7rem;">';
+    html += '<span>' + entry.date + '</span>';
+    html += '<span>Strategy: ' + entry.strategy + '</span>';
+    html += '</div>';
+    
+    if (entry.type === 'trap') {
+      html += '<div><strong>Structural Trap:</strong> <code style="background:#f1f5f9; padding:2px 4px; border-radius:3px;">' + entry.motif + '</code></div>';
+      html += '<div style="color:#d35400; font-size:0.75rem; margin-top:4px;">Confidence: ' + entry.confidence + ' (Length at save: ' + entry.lengthAtSave + ')</div>';
+    } else if (entry.type === 'path') {
+      html += '<div><strong>Saved Path</strong></div>';
+      html += '<div style="word-break:break-all; font-family:monospace; margin-top:4px; background:#f9fafb; padding:4px; border:1px solid #eee;">' + entry.motif + '</div>';
+      html += '<div style="color:#27ae60; font-size:0.75rem; margin-top:4px;">Length: ' + entry.lengthAtSave + '</div>';
+    }
+    
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+
+// Ensure notebook is rendered on load
+setTimeout(aa2frRenderNotebook, 500);
+
 
 // Hook discovery engine into the analytics update cycle
 const originalUpdateAnalytics = aa2frUpdateAnalyticsPanel;
