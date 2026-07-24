@@ -1203,10 +1203,10 @@
         </div>
       </div>
 
-      <!-- Phase 5/6 Hypothesis Engine -->
+      <!-- Phase 5/6/8 Evidence-Based Discovery Engine -->
       <div style="margin-top:16px; background:#e8f4f8; border:1px solid #bce0ed; border-radius:6px; padding:12px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="margin:0; font-size:0.85rem; color:#0e5a77;">💡 Hypothesis Engine (Automated Insights)</h4>
+          <h4 style="margin:0; font-size:0.85rem; color:#0e5a77;">💡 Evidence-Based Discovery Engine</h4>
           <span style="font-size:0.7rem; background:#fff; padding:2px 6px; border-radius:10px; color:#555;">Analyzing trap motifs...</span>
         </div>
         <div id="aa2fr-discovery-alerts" style="display:flex; flex-direction:column; gap:8px;">
@@ -3533,6 +3533,7 @@ let aa2frState = {
     lastStepsTime: 0,
     analyticsBatches: [],
     topSuffixes: [],
+    motifs: new Map(), // key -> aggregated motif profile
     timelineData: [],
     treeNodes: { '0': { id: '0', parent: null, depth: 0, letter: 'root', result: 'valid', children: [] } },
     activeNodeId: '0',
@@ -3610,6 +3611,33 @@ try {
         if (msg.decision) {
           aa2frState.analytics.lastDecision = msg.decision;
         }
+        
+        // Aggregate Motif Stats from Worker
+        if (msg.motifStats) {
+          for (let ms of msg.motifStats) {
+            if (!aa2frState.analytics.motifs.has(ms.motif)) {
+              aa2frState.analytics.motifs.set(ms.motif, { occ:0, dead:0, surv:0, branchSum:0, depthSum:0, maxLen:0, parikhU: ms.stats.parikhU });
+            }
+            let ag = aa2frState.analytics.motifs.get(ms.motif);
+            ag.occ += ms.stats.occ;
+            ag.dead += ms.stats.dead;
+            ag.surv += ms.stats.surv;
+            ag.branchSum += ms.stats.branchSum;
+            ag.depthSum += ms.stats.depthSum;
+            if (ms.stats.maxLen > ag.maxLen) ag.maxLen = ms.stats.maxLen;
+            ag.parikhU = ms.stats.parikhU; // just take the latest, it's static for a string
+          }
+        }
+        
+        if (msg.parikhTrajectory && msg.parikhTrajectory.length > 0) {
+           // We could merge trajectories here, for now just replace if single worker, or append if needed.
+           // Since trajectories can get large, we just keep the last 500 across all workers.
+           aa2frState.analytics.timelineData.push(...msg.parikhTrajectory);
+           if (aa2frState.analytics.timelineData.length > 500) {
+             aa2frState.analytics.timelineData = aa2frState.analytics.timelineData.slice(-500);
+           }
+        }
+        
         // Only Worker 0 updates the visual word display to avoid flickering
         if (worker.workerId === 0 || aa2frState.workerPool.length === 1) {
           aa2frWorkerDisplayUpdate(msg.word, msg.length);
@@ -4005,6 +4033,7 @@ function aa2frAssignNextJob(worker) {
         direction: aa2frState.dir,
         strategy: job.strategy,
         aiSupport: job.aiSupport,
+        motifRange: job.motifRange,
         analyticsEnabled: true
       }
     });
@@ -4029,6 +4058,7 @@ function aa2frStart() {
     aa2frState.analytics.lastStepsTime = 0;
     aa2frState.analytics.stepsPerSec = 0;
     aa2frState.analytics.topSuffixes = [];
+    aa2frState.analytics.motifs.clear();
     aa2frState.analytics.timelineData = [];
     aa2frState.analytics.treeNodes = { '0': { id: '0', parent: null, depth: 0, letter: 'root', result: 'valid', children: [] } };
     aa2frState.analytics.activeNodeId = '0';
@@ -4036,14 +4066,14 @@ function aa2frStart() {
     
     const strategy = $('aa2fr-strategy') ? $('aa2fr-strategy').value : 'fixed';
     
-    // Determine worker count
     let reqWorkers = $('aa2fr-worker-count') ? parseInt($('aa2fr-worker-count').value) : 1;
     if (isNaN(reqWorkers) || aa2frState.mode !== 'discovery') {
       reqWorkers = 1; // Explorer and Experiment run single-threaded (or managed externally)
     }
     
-    // AI Support Level
     const aiSupport = $('aa2fr-ai-level') ? $('aa2fr-ai-level').value : 'observe';
+    // Provide motif tracking range config
+    const motifRange = [4, 8]; // Can be made dynamic via UI later
     
     aa2frState.jobQueue = [];
     aa2frState.activeJobs = 0;
@@ -4051,11 +4081,11 @@ function aa2frStart() {
     if (reqWorkers > 1) {
       // Split into 3 branches at depth 1
       let base = aa2frState.wordArr.join('');
-      aa2frState.jobQueue.push({ seed: base + 'a', strategy, aiSupport });
-      aa2frState.jobQueue.push({ seed: base + 'b', strategy, aiSupport });
-      aa2frState.jobQueue.push({ seed: base + 'c', strategy, aiSupport });
+      aa2frState.jobQueue.push({ seed: base + 'a', strategy, aiSupport, motifRange });
+      aa2frState.jobQueue.push({ seed: base + 'b', strategy, aiSupport, motifRange });
+      aa2frState.jobQueue.push({ seed: base + 'c', strategy, aiSupport, motifRange });
     } else {
-      aa2frState.jobQueue.push({ seed: aa2frState.wordArr.join(''), strategy, aiSupport });
+      aa2frState.jobQueue.push({ seed: aa2frState.wordArr.join(''), strategy, aiSupport, motifRange });
     }
     
     // Dispatch jobs to idle workers
@@ -4856,59 +4886,83 @@ if (aa2frTreeCanvas) {
   });
 }
 
-// Phase 5/6: Hypothesis Engine
+// Phase 8: Evidence-Based Discovery Engine
 function aa2frAnalyzeDiscoveries() {
   const alertsContainer = document.getElementById('aa2fr-discovery-alerts');
-  if (!alertsContainer || !aa2frState.analytics.topSuffixes || aa2frState.analytics.topSuffixes.length === 0) return;
+  if (!alertsContainer || aa2frState.analytics.motifs.size === 0) return;
   
-  const totalDeadEnds = Object.values(aa2frState.analytics.obstructionCounts).reduce(function(a,b){return a+b}, 0);
-  if (totalDeadEnds < 100) {
-    alertsContainer.innerHTML = '<div style="font-size:0.8rem; color:#555; font-style:italic;">Need more data... collecting.</div>';
-    return;
-  }
+  let candidates = [];
   
-  // Find the top suffix >= 4 letters
-  let topSuffix = null;
-  let topCount = 0;
-  for (let i = 0; i < aa2frState.analytics.topSuffixes.length; i++) {
-    const item = aa2frState.analytics.topSuffixes[i];
-    if (item[0].length >= 4) {
-      topSuffix = item[0];
-      topCount = item[1];
-      break;
+  aa2frState.analytics.motifs.forEach((stat, motif) => {
+    if (stat.occ < 10) return; // need minimum sample size
+    
+    // Baseline prob for a specific motif of length L is approx (1/3)^L in a random string
+    const baselineProb = Math.pow(1/3, motif.length);
+    const expected = Math.max(1, aa2frState.stats.attempts * baselineProb);
+    const rarity = Math.min(10, stat.occ / expected); 
+    
+    const pDead = stat.dead / stat.occ;
+    const pSurv = stat.surv / stat.occ;
+    const avgDepth = stat.depthSum / stat.occ;
+    const avgBranching = stat.branchSum / stat.occ;
+    
+    // Wilson score interval approximation for lower bound of confidence (95%)
+    const z = 1.96;
+    const n = stat.occ;
+    const p = pDead;
+    const confLower = (p + z*z/(2*n) - z * Math.sqrt((p*(1-p) + z*z/(4*n))/n)) / (1 + z*z/n);
+    
+    let type = null;
+    let score = 0;
+    
+    if (pDead > 0.90 && stat.occ > 20) {
+      type = 'trap';
+      // Rarity * Confidence * Impact
+      score = rarity * confLower * (avgBranching > 1 ? avgBranching : 1);
+    } else if (pSurv > 0.10 && avgDepth > 20 && stat.occ > 20) {
+      type = 'attractor';
+      score = rarity * (stat.surv / stat.occ) * (avgDepth / 10);
     }
-  }
-  
-  if (!topSuffix) return;
-  
-  const baselineProb = 1 / 81; 
-  const expected = Math.max(1, Math.round(totalDeadEnds * baselineProb));
-  const ratio = topCount / expected;
-  
-  if (ratio > 5 && topCount > 5) {
-    // If we haven't analyzed this specific suffix yet, trigger an analysis
-    if (aa2frState.currentHypothesisSuffix !== topSuffix && aa2frState.wordArr && aa2frState.wordArr.length > topSuffix.length) {
-      aa2frState.currentHypothesisSuffix = topSuffix;
-      
-      // Try to find an occurrence of this suffix in the current word to analyze its viability contextually
-      // Or simply append it to a safe prefix. For simplicity, we just analyze the current word context
-      // where this suffix occurs (if it does).
-      
-      const confidence = Math.min(0.99, 1.0 - (1.0 / ratio));
-      let html = '<div style="background:#fff; border-left:3px solid #d35400; padding:8px 12px; font-size:0.8rem; box-shadow:0 1px 2px rgba(0,0,0,0.05);">';
-      html += '<div style="color:#d35400; font-weight:bold; margin-bottom:4px;">Observation</div>';
-      html += '<div style="margin-bottom:8px;">Suffix <code style="background:#f1f5f9; padding:2px 4px; border-radius:3px;">' + topSuffix + '</code> appeared <strong>' + topCount + '</strong> times as a dead end. Expected occurrences in random sequence: ~' + expected + '.</div>';
-      html += '<div style="color:#2980b9; font-weight:bold; margin-bottom:4px;">Hypothesis</div>';
-      html += '<div style="margin-bottom:8px;">This suffix represents a highly attractive <strong>Structural Trap</strong>. It may have high branching factor initially, drawing the DFS in, but converges to inevitable Abelian collisions.</div>';
-      html += '<div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px; font-size:0.75rem; color:#7f8c8d; border-top:1px dashed #ccc; padding-top:6px;">';
-      html += '<span>Confidence: ' + confidence.toFixed(2) + '</span>';
-      html += '<button onclick="aa2frSaveToNotebook(\'trap\', \'' + topSuffix + '\', ' + confidence.toFixed(2) + ')" style="background:#8a6d3b; color:#fff; border:none; padding:3px 8px; border-radius:4px; cursor:pointer;">Save to Notebook</button>';
-      html += '</div>';
-      html += '</div>';
-      alertsContainer.innerHTML = html;
+    
+    if (type) {
+      candidates.push({ motif, stat, type, score, confLower, pDead, pSurv, avgDepth, avgBranching });
     }
+  });
+  
+  candidates.sort((a, b) => b.score - a.score);
+  
+  if (candidates.length > 0) {
+    let top = candidates[0];
+    aa2frState.currentHypothesisSuffix = top.motif;
+    
+    let html = '<div style="background:#fff; border-left:3px solid ' + (top.type==='trap' ? '#d35400' : '#27ae60') + '; padding:8px 12px; font-size:0.8rem; box-shadow:0 1px 2px rgba(0,0,0,0.05);">';
+    html += '<div style="color:' + (top.type==='trap' ? '#d35400' : '#27ae60') + '; font-weight:bold; margin-bottom:4px;">Observed Correlation</div>';
+    html += '<div style="margin-bottom:8px;">Motif <code style="background:#f1f5f9; padding:2px 4px; border-radius:3px;">' + top.motif + '</code> appeared <strong>' + top.stat.occ + '</strong> times. ';
+    
+    if (top.type === 'trap') {
+      html += 'Dead-end probability: <strong>' + (top.pDead*100).toFixed(1) + '%</strong>.</div>';
+    } else {
+      html += 'Average subtree depth: <strong>' + top.avgDepth.toFixed(1) + '</strong>.</div>';
+    }
+    
+    html += '<div style="background:#f9f9f9; padding:6px; border-radius:4px; margin-bottom:8px; font-family:monospace; font-size:0.7rem; color:#555;">';
+    html += `Occurrences: ${top.stat.occ}<br>`;
+    html += `Dead ends: ${top.stat.dead} | Survivals: ${top.stat.surv}<br>`;
+    html += `Avg Branching: ${top.avgBranching.toFixed(2)}<br>`;
+    html += `Max Continuation: ${top.stat.maxLen} letters<br>`;
+    html += `Parikh U: ${top.stat.parikhU.toFixed(3)}`;
+    html += '</div>';
+    
+    html += '<div style="color:#2980b9; font-weight:bold; margin-bottom:4px;">Candidate Hypothesis</div>';
+    html += '<div style="margin-bottom:8px;">This motif is a candidate <strong>' + (top.type==='trap' ? 'Structural Trap' : 'Structural Attractor') + '</strong>. Requires independent validation.</div>';
+    html += '<div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px; font-size:0.75rem; color:#7f8c8d; border-top:1px dashed #ccc; padding-top:6px;">';
+    html += '<span>Confidence (95% CI): ' + (top.confLower*100).toFixed(1) + '%</span>';
+    html += '<button onclick="aa2frSaveToNotebook(\'' + top.type + '\', \'' + top.motif + '\', ' + top.confLower.toFixed(2) + ')" style="background:#8a6d3b; color:#fff; border:none; padding:3px 8px; border-radius:4px; cursor:pointer;">Promote to Database</button>';
+    html += '</div>';
+    html += '</div>';
+    alertsContainer.innerHTML = html;
   } else {
-    alertsContainer.innerHTML = '<div style="font-size:0.8rem; color:#555; font-style:italic;">No statistically significant trap motifs detected yet.</div>';
+    alertsContainer.innerHTML = '<div style="font-size:0.8rem; color:#555; font-style:italic;">No statistically significant correlations detected yet. Collecting evidence...</div>';
   }
 }
 
