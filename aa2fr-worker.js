@@ -105,6 +105,30 @@ function popLetter() {
   else if (char === 'c') letterCounts.c--;
 }
 
+// Get the last `len` characters of the current word as a string
+function getSuffix(len) {
+  let start = Math.max(0, wordLen - len);
+  let result = '';
+  for (let i = start; i < wordLen; i++) result += wordArr[i];
+  return result;
+}
+
+// Record an obstruction for analytics
+function recordObstruction(obs) {
+  let key = obs.type + ':' + (obs.half_length || 0);
+  obstructionCounts[key] = (obstructionCounts[key] || 0) + 1;
+}
+
+// Emit an evolution event for the analytics pipeline
+function emitEvent(type, data) {
+  if (!config.analyticsEnabled) return;
+  evolutionBuffer.push({ type, ...data, step: stats.steps, wordLen });
+  if (evolutionBuffer.length > 200) {
+    self.postMessage({ type: 'evolution_batch', events: evolutionBuffer });
+    evolutionBuffer = [];
+  }
+}
+
 function getParikh(l, r) {
   if (l === 0) {
     return [prefixA[r - 1], prefixB[r - 1], prefixC[r - 1]];
@@ -375,6 +399,7 @@ class SearchStrategy {
     if (this.currentDepth > this.maxDepthReached) {
       this.maxDepthReached = this.currentDepth;
       frame.maxDepthReached = Math.max(frame.maxDepthReached || 0, this.currentDepth);
+      engine.maxLen = Math.max(engine.maxLen, engine.wordLen);
       if (this.currentDepth > 100) { this.stats.stepsSinceNewRecord = 0;
         this.onRecord(engine.maxLen);
         self.postMessage({ type: 'milestone', length: engine.maxLen, word: engine.getSuffix(50) });
@@ -437,10 +462,14 @@ class PriorityParikhStrategy extends SearchStrategy {
 // -------------------------------------------------------------------------
 
 const Engine = {
-  letterCounts: { a:0, b:0, c:0 },
-  wordLen: 0,
-  maxLen: 0,
   suffixDeadEndCounts: new Map(),
+  startTime: 0,
+  
+  // Use getters so strategies always see live global state
+  get letterCounts() { return letterCounts; },
+  get wordLen() { return wordLen; },
+  get maxLen() { return maxLen; },
+  set maxLen(v) { maxLen = v; },
   
   pushLetter: function(l) { pushLetter(l); },
   popLetter: function() { popLetter(); },
@@ -644,6 +673,11 @@ function runPredictiveAnalysis(baseWordArr, options) {
   let maxDepth = options.depth || 5;
   let maxNodes = options.maxNodes || 5000;
   
+  // Save current state
+  let savedWordArr = wordArr.slice(0, wordLen);
+  let savedWordLen = wordLen;
+  let savedLetterCounts = { ...letterCounts };
+  
   // Set up isolated state
   wordArr = [];
   wordLen = 0;
@@ -699,6 +733,14 @@ function runPredictiveAnalysis(baseWordArr, options) {
     }
   }
   
+  // Restore original state
+  wordArr = [];
+  wordLen = 0;
+  letterCounts = { a: 0, b: 0, c: 0 };
+  for (let c of savedWordArr) {
+    pushLetter(c);
+  }
+  
   return {
     nodesExplored,
     deadEnds,
@@ -738,6 +780,7 @@ function runRQ0Tests() {
   
   for (let t of testWordsForbid) {
     wordLen = 0;
+    letterCounts = { a: 0, b: 0, c: 0 };
     for (let c of t.w) pushLetter(c);
     let v = validateWordConstraints(true);
     assert((v !== null) === t.expect, `Forbid4 check for ${t.w.join('')}`);
@@ -752,6 +795,7 @@ function runRQ0Tests() {
   
   for (let t of testWordsAbelian) {
     wordLen = 0;
+    letterCounts = { a: 0, b: 0, c: 0 };
     for (let c of t.w) pushLetter(c);
     let v = validateWordConstraints(true);
     assert((v !== null) === t.expect, `Abelian square check for ${t.w.join('')}`);

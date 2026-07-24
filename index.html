@@ -926,9 +926,9 @@
         <div style="font-size:0.8rem; color:#7f8c8d; margin-top:-8px; margin-bottom:8px;">Experimental Research Platform · Phase 1</div>
       </div>
       <div style="display:flex; gap:8px;">
-        <button onclick="document.getElementById('aa2fr-guide-modal').style.display='flex'" class="control-btn" style="background:#f39c12; padding:6px 12px; font-size:0.9rem;">📖 Quick Start Guide</button>
-        <button onclick="aa2frLoadExample('15796')" class="control-btn" style="background:#8e44ad; padding:6px 12px; font-size:0.9rem;">Load 15796-letter aa2f Word</button>
-        <button onclick="aa2frExportData('json')" class="control-btn" style="background:#2c3e50; padding:6px 12px; font-size:0.9rem;" title="Export search data as JSON for analysis in Python/Mathematica">📤 Export JSON</button>
+        <button onclick="document.getElementById('aa2fr-guide-modal').style.display='flex'" class="control-btn" style="background:#f39c12; color:#fff; border:none; border-radius:4px; padding:6px 12px; font-size:0.9rem; cursor:pointer;">📖 Quick Start Guide</button>
+        <button onclick="aa2frLoadExample('15796')" class="control-btn" style="background:#8e44ad; color:#fff; border:none; border-radius:4px; padding:6px 12px; font-size:0.9rem; cursor:pointer;">Load 15796-letter aa2f Word</button>
+        <button onclick="aa2frExportData('json')" class="control-btn" style="background:#2c3e50; color:#fff; border:none; border-radius:4px; padding:6px 12px; font-size:0.9rem; cursor:pointer;" title="Export search data as JSON for analysis in Python/Mathematica">📤 Export JSON</button>
       </div>
     </div>
     
@@ -1015,17 +1015,17 @@
         <textarea id="aa2fr-base-word" style="width: 100%; height: 80px; background:#fff; color:#333; border:1px solid #ccc; font-family:monospace; padding:8px; margin-top:6px; border-radius:4px;" placeholder="Enter base word (e.g. 40 letters)..."></textarea>
       </div>
       <div>
-        <button onclick="aa2frLoadExample(40)" class="control-btn" style="background:#2980b9;">Load 40-letter aa2fr Word</button>
-        <button onclick="aa2frSetBase()" class="control-btn" style="background:#f39c12; margin-left:8px;">Set as Base Word</button>
+        <button onclick="aa2frLoadExample(40)" class="control-btn" style="background:#2980b9; color:#fff; border:none; border-radius:4px; padding:8px 16px; cursor:pointer;">Load 40-letter aa2fr Word</button>
+        <button onclick="aa2frSetBase()" class="control-btn" style="background:#f39c12; color:#fff; border:none; border-radius:4px; padding:8px 16px; cursor:pointer; margin-left:8px;">Set as Base Word</button>
       </div>
     </div>
 
     <div style="display:flex; flex-wrap: wrap; justify-content:space-between; margin-bottom:12px; align-items:center; gap:8px;">
       <div style="display:flex; flex-wrap: wrap; gap:8px;">
-        <button id="aa2fr-btn-start" onclick="aa2frStart()" class="control-btn" style="background:#27ae60;">Start Extension</button>
-        <button id="aa2fr-btn-pause" onclick="aa2frPause()" class="control-btn hidden" style="background:#e74c3c;">Pause</button>
-        <button id="aa2fr-btn-step" onclick="aa2frStep()" class="control-btn" style="background:#34495e;">Step</button>
-        <button onclick="aa2frSaveToNotebook('path', aa2frState.wordArr.join(''), 1.0)" class="control-btn" style="background:#8a6d3b; margin-left:16px;">📓 Save Path</button>
+        <button id="aa2fr-btn-start" onclick="aa2frStart()" class="control-btn" style="background:#27ae60; color:#fff; border:none; border-radius:4px; padding:8px 16px; cursor:pointer;">Start Extension</button>
+        <button id="aa2fr-btn-pause" onclick="aa2frPause()" class="control-btn hidden" style="background:#e74c3c; color:#fff; border:none; border-radius:4px; padding:8px 16px; cursor:pointer;">Pause</button>
+        <button id="aa2fr-btn-step" onclick="aa2frStep()" class="control-btn" style="background:#34495e; color:#fff; border:none; border-radius:4px; padding:8px 16px; cursor:pointer;">Step</button>
+        <button onclick="aa2frSaveToNotebook('path', aa2frState.wordArr.join(''), 1.0)" class="control-btn" style="background:#8a6d3b; color:#fff; border:none; border-radius:4px; padding:8px 16px; cursor:pointer; margin-left:16px;">📓 Save Path</button>
       </div>
       <div>
         Speed: <input type="range" id="aa2fr-speed" min="1" max="100" value="50">
@@ -1035,7 +1035,7 @@
     <div class="aa2fr-challenge">
       <div class="aa2fr-challenge-head">
         <h3>Challenge: find the only legal right extension</h3>
-        <button onclick="aa2frNewChallenge()" class="control-btn" style="background:#2980b9;">New 40-letter Challenge</button>
+        <button onclick="aa2frNewChallenge()" class="control-btn" style="background:#2980b9; color:#fff; border:none; border-radius:4px; padding:8px 16px; cursor:pointer;">New 40-letter Challenge</button>
       </div>
       <p>The app loads a valid 40-letter AA2FR word where exactly one of <strong>a</strong>, <strong>b</strong>, or <strong>c</strong> can be appended on the right. Guess the letter; wrong answers open the obstruction panel below.</p>
       <div class="aa2fr-challenge-actions">
@@ -1047,7 +1047,7 @@
       <div id="aa2fr-challenge-feedback" class="aa2fr-challenge-feedback">Press New 40-letter Challenge to begin.</div>
     </div>
 
-    <div style="display:flex; gap:20px; align-items:flex-start;">
+    <div style="display:flex; flex-wrap:wrap; gap:20px; align-items:flex-start;">
       <div style="flex: 2; background:#fff; border:1px solid #ccc; box-shadow:inset 0 1px 3px rgba(0,0,0,0.05); border-radius:6px; padding:16px; min-height: 250px; font-family:monospace; font-size: 1.15rem; word-break:break-all; position:relative; line-height:1.6;" id="aa2fr-display">
         <!-- Words rendered here -->
       </div>
@@ -1149,7 +1149,7 @@
           Nodes: <span id="aa2fr-tree-nodes">0</span> | Max Depth Shown: 200
         </div>
         <div style="overflow-x:auto; overflow-y:auto; border:1px solid #f1f5f9; background:#fafafa; border-radius:4px; max-height: 400px; position:relative;">
-          <canvas id="aa2fr-canvas-tree" width="1200" height="400" style="display:block; cursor:crosshair;"></canvas>
+          <canvas id="aa2fr-canvas-tree" width="1200" height="400" style="display:block; cursor:crosshair; max-width:none;"></canvas>
           <div id="aa2fr-tree-tooltip" style="position:absolute; display:none; background:rgba(0,0,0,0.85); color:#fff; padding:8px 12px; border-radius:4px; font-size:0.75rem; pointer-events:none; z-index:10; white-space:nowrap; box-shadow:0 2px 6px rgba(0,0,0,0.2);"></div>
         </div>
       </div>
@@ -1158,7 +1158,7 @@
       <div style="margin-top:16px; background:#fff; border:1px solid #eee; border-radius:6px; padding:12px;">
         <h4 style="margin:0 0 8px 0; font-size:0.85rem; color:#2c3e50;">Experiment Manager (Batch Runs)</h4>
         
-        <div style="display:flex; gap:16px; align-items:center; margin-bottom:12px; font-size:0.75rem;">
+        <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:center; margin-bottom:12px; font-size:0.75rem;">
           <div>
             <label style="color:#7f8c8d; margin-right:4px;">Runs:</label>
             <input type="number" id="aa2fr-exp-runs" value="10" min="1" max="1000" style="width:60px; padding:4px; border:1px solid #ddd; border-radius:4px;">
@@ -1211,7 +1211,7 @@
           <h4 style="margin:0; font-size:0.85rem; color:#0e5a77;">💡 Evidence-Based Discovery Engine</h4>
           <span style="font-size:0.7rem; background:#fff; padding:2px 6px; border-radius:10px; color:#555;">Analyzing trap motifs...</span>
         </div>
-        <div style="display:flex; gap:12px;">
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
           <div style="flex:1;">
             <h4 style="margin:0; font-size:0.8rem; color:#555;">Parikh Imbalance (U) & Trajectory</h4>
             <canvas id="aa2fr-metric-parikh-canvas" width="300" height="150" style="width:100%; height:150px; background:#fff; border:1px solid #ccc; border-radius:4px; margin-top:4px;"></canvas>
@@ -3713,6 +3713,15 @@ try {
       }
       case 'export_data':
         aa2frDownloadJSON(msg.data);
+        break;
+      case 'validation_result':
+        // Display validation error if it occurs during manual step
+        if (!msg.isValid) {
+          aa2frState.running = false;
+          $('aa2fr-btn-pause').classList.add('hidden');
+          $('aa2fr-btn-start').classList.remove('hidden');
+          $('aa2fr-status').innerHTML = '<span style="color:#e74c3c">Obstruction: ' + msg.reason + ' at ' + msg.position + '</span>';
+        }
         break;
       }
     };
