@@ -225,8 +225,33 @@ class SearchStrategy {
     }
   }
 
-  getOrder(counts, len) {
-    return this.letters;
+  getOrder(engine) {
+    return this.applyAISupport(this.letters, engine);
+  }
+
+  applyAISupport(order, engine) {
+    if (!this.config.aiSupport || this.config.aiSupport === 'observe') return order;
+    
+    // Evaluate danger of each letter
+    let scoredLetters = order.map(l => {
+      engine.pushLetter(l);
+      let s8 = engine.getSuffix(8);
+      let ds = s8.length >= 4 ? (engine.suffixDeadEndCounts.get(s8) || 0) : 0;
+      engine.popLetter();
+      return { l, ds };
+    });
+    
+    if (this.config.aiSupport === 'avoid') {
+      // Prune known dead ends
+      let safe = scoredLetters.filter(x => x.ds === 0).map(x => x.l);
+      return safe.length > 0 ? safe : [];
+    } else if (this.config.aiSupport === 'assist') {
+      // Deprioritize dangerous moves
+      scoredLetters.sort((a, b) => a.ds - b.ds);
+      return scoredLetters.map(x => x.l);
+    }
+    
+    return order;
   }
 
   step(engine) {
@@ -236,7 +261,7 @@ class SearchStrategy {
       this.stack.push({
         tryIdx: 0,
         validBranches: 0,
-        order: this.getOrder(engine.letterCounts, engine.wordLen)
+        order: this.getOrder(engine)
       });
     }
     
@@ -315,16 +340,18 @@ class SearchStrategy {
 }
 
 class DFSStrategy extends SearchStrategy {
-  getOrder(counts, len) {
+  getOrder(engine) {
     this.lastDecision = `DFS default order`;
-    return this.letters;
+    return this.applyAISupport([...this.letters], engine);
   }
 }
 
 class PriorityParikhStrategy extends SearchStrategy {
-  getOrder(counts, len) {
+  getOrder(engine) {
     let order = [...this.letters];
     let scores = {};
+    let counts = engine.letterCounts;
+    let len = engine.wordLen;
     for (let l of order) {
       let c = { ...counts };
       c[l]++;
@@ -339,7 +366,7 @@ class PriorityParikhStrategy extends SearchStrategy {
     }
     order.sort((a, b) => scores[b] - scores[a]);
     this.lastDecision = `Parikh balance priority (Best: ${order[0]})`;
-    return order;
+    return this.applyAISupport(order, engine);
   }
 }
 

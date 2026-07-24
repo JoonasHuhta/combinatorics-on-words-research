@@ -1001,6 +1001,12 @@
           <option value="4">4</option>
           <option value="8">8</option>
         </select>
+        <label>AI Support:</label>
+        <select id="aa2fr-ai-level" style="background:#fff; color:#333; border:1px solid #ccc; padding:6px; border-radius:4px; font-family:inherit;">
+          <option value="observe" selected>Observe (Log Only)</option>
+          <option value="assist">Assist (Deprioritize Traps)</option>
+          <option value="avoid">Avoid (Prune Traps)</option>
+        </select>
       </div>
       <div style="margin-bottom: 12px; color: #333;">
         <label>Base Word (editable):</label><br>
@@ -3998,6 +4004,7 @@ function aa2frAssignNextJob(worker) {
         mode: aa2frState.mode,
         direction: aa2frState.dir,
         strategy: job.strategy,
+        aiSupport: job.aiSupport,
         analyticsEnabled: true
       }
     });
@@ -4035,17 +4042,20 @@ function aa2frStart() {
       reqWorkers = 1; // Explorer and Experiment run single-threaded (or managed externally)
     }
     
+    // AI Support Level
+    const aiSupport = $('aa2fr-ai-level') ? $('aa2fr-ai-level').value : 'observe';
+    
     aa2frState.jobQueue = [];
     aa2frState.activeJobs = 0;
     
     if (reqWorkers > 1) {
       // Split into 3 branches at depth 1
       let base = aa2frState.wordArr.join('');
-      aa2frState.jobQueue.push({ seed: base + 'a', strategy });
-      aa2frState.jobQueue.push({ seed: base + 'b', strategy });
-      aa2frState.jobQueue.push({ seed: base + 'c', strategy });
+      aa2frState.jobQueue.push({ seed: base + 'a', strategy, aiSupport });
+      aa2frState.jobQueue.push({ seed: base + 'b', strategy, aiSupport });
+      aa2frState.jobQueue.push({ seed: base + 'c', strategy, aiSupport });
     } else {
-      aa2frState.jobQueue.push({ seed: aa2frState.wordArr.join(''), strategy });
+      aa2frState.jobQueue.push({ seed: aa2frState.wordArr.join(''), strategy, aiSupport });
     }
     
     // Dispatch jobs to idle workers
