@@ -20,49 +20,52 @@
 
 ## Highest-Value Next Improvements
 
-### 1. Strategy Comparison Matrix (Phase 7)
+### Phase 7: Scientific Research Architecture
 
-Now that the Research Notebook and Worker Engine are active, we should implement alternative search algorithms and compare them side-by-side:
-- **Depth First Search (DFS)** (Current)
-- **Best First Search (Priority Queue)**
-- **Beam Search**
-- **Gavrilenko Parikh Balance Heuristic**
+Transform the application from an interactive visualizer into a reliable, layered scientific instrument.
 
-The Research Notebook should be able to graph the performance (Max Length vs Time) of these different strategies for a given seed word.
+**1. Layered Architecture & Research Modes**
+Decouple Search Engine from Research Decisions:
+`Experiment Manager -> Strategy Engine -> Search Engine -> Validation Engine -> Analytics Engine -> Research Notebook`
 
-### 2. Distributed Web Worker Search
+Introduce Application-level **Research Modes**:
+- **Explorer**: Fast interactive exploration and visualization.
+- **Experiment**: Repeatable experiments and strategy comparisons.
+- **Discovery**: Long-running background data mining and hypothesis generation.
+- **Benchmark**: Automated algorithmic performance comparisons.
 
-We can spawn multiple `aa2fr-worker.js` instances, assign them different branches (e.g., `a...`, `b...`, `c...`), and have them report back to the main thread simultaneously. This will drastically speed up exploration and allow for deeper Hypothesis generation.
+**2. Distributed Worker Pool & Job Scheduler**
+- Replace static workers with a dynamic `WorkerPool` using `navigator.hardwareConcurrency`.
+- Implement a **Job Scheduler** and **Job Queue** to keep all CPU cores at 100% utilization during experiments (e.g., distributing random seeds across workers).
 
-### 3. Student Mode
+**3. Strategy Engine Plugin System**
+- Extract search logic into a modular `SearchStrategy` interface (`initialize`, `selectLetter`, `onDeadEnd`, `onBacktrack`, `statistics`).
+- Implement strategies: **DFS**, **Priority Queue**, **Beam Search**, **Adaptive**, **Monte Carlo**, **Hybrid**.
 
-Create a learning path that reduces the 14-tab interface for first-time users.
-Suggested stages:
-1. Parikh vectors and adjacent block comparison.
-2. Abelian squares and the length-8 wall over `{a,b,c}`.
-3. Keranen's four-letter `g85` construction.
-4. Heat maps and near misses.
-5. AA2F/AA2FR relaxed ternary experiments.
+**4. Experiment Scheduler & Strategy Benchmark**
+- UI to define large-scale experiments (e.g., 500 runs, compare DFS vs Priority Queue, random seeds).
+- Automatically generate comparative **Strategy Benchmark** reports (Average Length, Max Length, Dead Ends, Runtime).
 
-This should be implemented as a UI filter, not as separate pages.
+**5. Advanced Research Notebook & Database**
+- Upgrade Notebook to a persistent experiment database.
+- Store detailed experiment metadata, allow JSON/CSV export, and enable cross-experiment comparisons.
 
-### 4. Constraint-Filling Mode
+**6. Three-Tier AI Avoidance**
+- When structural traps are detected, allow the researcher to select how the engine reacts:
+  - **Observe**: Just log the trap (no effect on search).
+  - **Assist**: Deprioritize the trap branch (test last).
+  - **Avoid**: Prune the branch completely.
 
-Add a puzzle/research mode where users fill blanks in a word pattern:
-```text
-a b _ c _ _ a ...
-```
-The app should validate partial assignments and explain which blank choices cause an Abelian square or AA2FR forbidden factor.
+### Phase 8: Mathematical Discovery Engine
 
-## Research-Oriented Extensions
+The ultimate goal of the platform: transition from *finding long words* to *discovering new mathematical phenomena*.
 
-### Machine Learning / Motif Extrapolation
-Now that the Hypothesis Engine catches structural traps (e.g., `bcca` causes 50x expected dead ends), we can implement a simple Markov Chain or Neural Network inside TensorFlow.js that predicts the "Trap Probability" of a sequence before the DFS even explores it.
+**Automated Hypothesis Generation:**
+- "Suffix `abcbca` appeared 271 times. Dead-end probability 98%. Hypothesis: Structural attractor. Confidence: 0.97."
+- "Parikh imbalance 0.083 always preceded long successful branches. Confidence: 0.92."
+- "New structural family discovered: `abcaacbc...` (Occurrences: 143, Max length: 611). Suggested classification: Candidate structural motif."
 
-### Heat Map Improvements
-- Add a side-by-side view comparing `g85`, a random word, and a user word.
-- Add filtering by half-length ranges.
-- Add export of red/yellow cell coordinates.
+The engine will act as a mathematical research assistant, finding statistical correlations between Parikh imbalances, structural traps, and branch viability.
 
 ## Lower Priority / Caution
 - 3D word-space visualizations may be attractive, but they risk becoming decorative unless backed by meaningful coordinates.
