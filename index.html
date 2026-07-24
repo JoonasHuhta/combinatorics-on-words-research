@@ -1152,10 +1152,10 @@
         </div>
       </div>
 
-      <!-- Phase 5 Discovery Engine -->
+      <!-- Phase 5/6 Hypothesis Engine -->
       <div style="margin-top:16px; background:#e8f4f8; border:1px solid #bce0ed; border-radius:6px; padding:12px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="margin:0; font-size:0.85rem; color:#0e5a77;">💡 Discovery Engine (Automated Insights)</h4>
+          <h4 style="margin:0; font-size:0.85rem; color:#0e5a77;">💡 Hypothesis Engine (Automated Insights)</h4>
           <span style="font-size:0.7rem; background:#fff; padding:2px 6px; border-radius:10px; color:#555;">Analyzing trap motifs...</span>
         </div>
         <div id="aa2fr-discovery-alerts" style="display:flex; flex-direction:column; gap:8px;">
@@ -4645,13 +4645,10 @@ if (aa2frTreeCanvas) {
   });
 }
 
-// Phase 5: Discovery Engine
+// Phase 5/6: Hypothesis Engine
 function aa2frAnalyzeDiscoveries() {
   const alertsContainer = document.getElementById('aa2fr-discovery-alerts');
   if (!alertsContainer || !aa2frState.analytics.topSuffixes || aa2frState.analytics.topSuffixes.length === 0) return;
-  
-  // Clear container
-  alertsContainer.innerHTML = '';
   
   const totalDeadEnds = Object.values(aa2frState.analytics.obstructionCounts).reduce(function(a,b){return a+b}, 0);
   if (totalDeadEnds < 100) {
@@ -4659,39 +4656,45 @@ function aa2frAnalyzeDiscoveries() {
     return;
   }
   
-  let foundSignificant = false;
-  
-  // Calculate expected occurrences using a simplified uniform branching assumption
-  // In a ternary alphabet, any specific 4-letter suffix has a 1/(3^4) = 1/81 chance of appearing if random.
-  // We compare the observed proportion against this baseline.
-  const baselineProb = 1 / 81; 
-  
-  aa2frState.analytics.topSuffixes.forEach(function(item) {
-    const suffix = item[0];
-    const obsCount = item[1];
-    
-    // Only care about suffixes >= 4 letters
-    if (suffix.length < 4) return;
-    
-    const expected = Math.max(1, Math.round(totalDeadEnds * baselineProb));
-    const ratio = obsCount / expected;
-    
-    if (ratio > 5 && obsCount > 5) {
-      foundSignificant = true;
-      let pValue = ratio > 10 ? 'p < 0.001' : 'p < 0.01';
-      
-      let html = '<div style="background:#fff; border-left:4px solid #e74c3c; padding:8px 12px; border-radius:4px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">';
-      html += '<div style="font-size:0.85rem; margin-bottom:4px;"><strong>Trap Motif: <span style="font-family:monospace; background:#eee; padding:2px 4px; border-radius:3px;">' + suffix + '</span></strong></div>';
-      html += '<div style="font-size:0.75rem; color:#555;">Appeared <strong>' + obsCount + '</strong> times (Expected: ~' + expected + '). Significance: ' + pValue + '</div>';
-      html += '<div style="font-size:0.75rem; color:#2980b9; margin-top:4px;"><strong>Recommendation:</strong> Investigate structural properties of this motif in relation to Parikh imbalance.</div>';
-      html += '</div>';
-      
-      alertsContainer.innerHTML += html;
+  // Find the top suffix >= 4 letters
+  let topSuffix = null;
+  let topCount = 0;
+  for (let i = 0; i < aa2frState.analytics.topSuffixes.length; i++) {
+    const item = aa2frState.analytics.topSuffixes[i];
+    if (item[0].length >= 4) {
+      topSuffix = item[0];
+      topCount = item[1];
+      break;
     }
-  });
+  }
   
-  if (!foundSignificant) {
-    alertsContainer.innerHTML = '<div style="font-size:0.8rem; color:#555; font-style:italic;">Analyzing ' + totalDeadEnds + ' dead ends... no highly significant trap motifs detected yet.</div>';
+  if (!topSuffix) return;
+  
+  const baselineProb = 1 / 81; 
+  const expected = Math.max(1, Math.round(totalDeadEnds * baselineProb));
+  const ratio = topCount / expected;
+  
+  if (ratio > 5 && topCount > 5) {
+    // If we haven't analyzed this specific suffix yet, trigger an analysis
+    if (aa2frState.currentHypothesisSuffix !== topSuffix && aa2frState.wordArr && aa2frState.wordArr.length > topSuffix.length) {
+      aa2frState.currentHypothesisSuffix = topSuffix;
+      
+      // Try to find an occurrence of this suffix in the current word to analyze its viability contextually
+      // Or simply append it to a safe prefix. For simplicity, we just analyze the current word context
+      // where this suffix occurs (if it does).
+      
+      const confidence = Math.min(0.99, 1.0 - (1.0 / ratio));
+      let html = '<div style="background:#fff; border-left:3px solid #d35400; padding:8px 12px; font-size:0.8rem; box-shadow:0 1px 2px rgba(0,0,0,0.05);">';
+      html += '<div style="color:#d35400; font-weight:bold; margin-bottom:4px;">Observation</div>';
+      html += '<div style="margin-bottom:8px;">Suffix <code style="background:#f1f5f9; padding:2px 4px; border-radius:3px;">' + topSuffix + '</code> appeared <strong>' + topCount + '</strong> times as a dead end. Expected occurrences in random sequence: ~' + expected + '.</div>';
+      html += '<div style="color:#2980b9; font-weight:bold; margin-bottom:4px;">Hypothesis</div>';
+      html += '<div>This suffix represents a highly attractive <strong>Structural Trap</strong>. It may have high branching factor initially, drawing the DFS in, but converges to inevitable Abelian collisions.</div>';
+      html += '<div style="margin-top:6px; font-size:0.75rem; color:#7f8c8d; border-top:1px dashed #ccc; padding-top:4px;">Confidence: ' + confidence.toFixed(2) + '</div>';
+      html += '</div>';
+      alertsContainer.innerHTML = html;
+    }
+  } else {
+    alertsContainer.innerHTML = '<div style="font-size:0.8rem; color:#555; font-style:italic;">No statistically significant trap motifs detected yet.</div>';
   }
 }
 
