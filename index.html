@@ -925,11 +925,20 @@
       </div>
       <div style="display:flex; gap:8px;">
         <button onclick="aa2frLoadExample('15796')" class="control-btn" style="background:#8e44ad; padding:6px 12px; font-size:0.9rem;">Load 15796-letter aa2f Word</button>
-        <button onclick="aa2frExportData()" class="control-btn" style="background:#2c3e50; padding:6px 12px; font-size:0.9rem;" title="Export search data as JSON for analysis in Python/Mathematica">📤 Export JSON</button>
+        <button onclick="aa2frExportData('json')" class="control-btn" style="background:#2c3e50; padding:6px 12px; font-size:0.9rem;" title="Export search data as JSON for analysis in Python/Mathematica">📤 Export JSON</button>
       </div>
     </div>
-    <p>Explore extensions of ternary words in <strong>aa2f</strong> or <strong>aa2fr</strong> mode. aa2f allows abelian squares of period 1 (e.g. <em>aa</em>). aa2fr additionally forbids the factors <em>{baac, caab, abbc, cbba, accb, bcca}</em>.</p>
     
+    <div style="background:#fff3cd; color:#856404; padding:12px; border-radius:6px; border:1px solid #ffeeba; margin-bottom:16px; font-size:0.85rem; line-height:1.5;">
+      <strong>Mathematical Context:</strong> Veikko Keränen proved in 1992 that an infinite fully Abelian square-free word exists over a <strong>4-letter</strong> alphabet using an 85-uniform morphism. 
+      This AA2FR laboratory investigates an <em>experimental research problem</em> over a <strong>3-letter</strong> (ternary) alphabet. Since 3 letters are mathematically insufficient to avoid all Abelian squares, we explore relaxed constraints:
+      <ul style="margin-top:6px; margin-bottom:6px;">
+        <li><strong>Almost (A):</strong> We allow period-1 Abelian squares (<code>aa</code>, <code>bb</code>, <code>cc</code>), but <strong>strictly prohibit all other Abelian squares</strong> of half-length $\ge 2$.</li>
+        <li><strong>Restrictions (R):</strong> We strictly prohibit 6 specific 4-letter factors: <code>baac, caab, abbc, cbba, accb, bcca</code>.</li>
+        <li><strong>Validation Optimizations:</strong> We use <em>Prefix Sum arrays</em> to calculate Parikh vectors in $\mathcal{O}(1)$ time, and <em>Integer Packing</em> to compare them in $\mathcal{O}(1)$ time.</li>
+      </ul>
+      <strong>Long-term scientific goal:</strong> The objective of this platform is not merely to construct long AA2FR words, but to identify structural invariants, recurring motifs, and experimentally supported conjectures that may contribute to a future mathematical characterization of relaxed Abelian square avoidance over ternary alphabets.
+    </div>
     <div style="margin-bottom: 16px; background: #f8f9fa; padding: 16px; border-radius: 6px; border: 1px solid #e2e8f0;">
       <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 12px; color: #333;">
         <label>Mode:</label>
@@ -1009,6 +1018,22 @@
     <!-- Search Analytics Panel (Phase 1) -->
     <div id="aa2fr-analytics" style="margin-top:16px; background:#f9fafb; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
       <h3 style="margin-top:0; color:#2c3e50; font-size:1rem;">🔬 Search Analytics</h3>
+      
+      <div style="background:#fff; border:1px solid #eee; border-radius:6px; padding:12px; margin-bottom:12px; font-size:0.8rem; color:#555;">
+        <div style="margin-bottom:8px;"><strong>Mathematical Definitions:</strong></div>
+        <div style="display:flex; gap:16px; flex-wrap:wrap;">
+          <div style="flex:1; min-width:250px;">
+            <strong>Branching Factor $B(n)$:</strong><br>
+            $B(n) = \text{number of valid letters at word length } n$.<br>
+            Avg $B(n)$ near 1.0 means forced moves; $>1.5$ means high freedom.
+          </div>
+          <div style="flex:1; min-width:250px;">
+            <strong>Parikh Balance $U(w)$:</strong><br>
+            $U(w) = \sum_{x \in \{a,b,c\}} \left( \frac{|w|_x}{|w|} - \frac{1}{3} \right)^2$<br>
+            Lower is better (letters are equally distributed).
+          </div>
+        </div>
+      </div>
       <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; font-size:0.85rem;">
         <div style="background:#fff; border:1px solid #eee; border-radius:6px; padding:10px; text-align:center;">
           <div style="color:#7f8c8d; font-size:0.75rem;">Branching Factor</div>
@@ -1037,7 +1062,86 @@
           <div id="aa2fr-metric-obstruction" style="font-family:monospace; font-size:0.85rem; color:#333;">—</div>
         </div>
       </div>
-      <div style="margin-top:8px; font-size:0.72rem; color:#95a5a6;" id="aa2fr-analytics-status">Worker idle. Start a search to collect analytics data.</div>
+      
+      <!-- Phase 2 Charts and Leaderboard -->
+      <div style="margin-top:16px; display:grid; grid-template-columns: 2fr 1fr; gap:16px;">
+        <div style="background:#fff; border:1px solid #eee; border-radius:6px; padding:12px;">
+          <h4 style="margin:0 0 8px 0; font-size:0.85rem; color:#2c3e50;">Branching & Parikh U Timeline</h4>
+          <canvas id="aa2fr-canvas-timeline" width="400" height="150" style="width:100%; height:150px; border-bottom:1px solid #f1f5f9;"></canvas>
+          
+          <h4 style="margin:16px 0 8px 0; font-size:0.85rem; color:#2c3e50;">Obstruction Histogram (Half-length)</h4>
+          <canvas id="aa2fr-canvas-obstructions" width="400" height="100" style="width:100%; height:100px;"></canvas>
+        </div>
+        
+        <div style="background:#fff; border:1px solid #eee; border-radius:6px; padding:12px; display:flex; flex-direction:column;">
+          <h4 style="margin:0 0 8px 0; font-size:0.85rem; color:#2c3e50;">Danger Suffixes (Top 20)</h4>
+          <div id="aa2fr-leaderboard" style="flex:1; overflow-y:auto; font-family:monospace; font-size:0.75rem; color:#444;">
+            <em>Waiting for data...</em>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Phase 3 Evolution Replay -->
+      <div style="margin-top:16px; background:#fff; border:1px solid #eee; border-radius:6px; padding:12px; position:relative;">
+        <h4 style="margin:0 0 8px 0; font-size:0.85rem; color:#2c3e50;">Evolution Replay (Search Tree)</h4>
+        <div style="font-size:0.75rem; color:#7f8c8d; margin-bottom:8px;">
+          Nodes: <span id="aa2fr-tree-nodes">0</span> | Max Depth Shown: 200
+        </div>
+        <div style="overflow-x:auto; overflow-y:auto; border:1px solid #f1f5f9; background:#fafafa; border-radius:4px; max-height: 400px; position:relative;">
+          <canvas id="aa2fr-canvas-tree" width="1200" height="400" style="display:block; cursor:crosshair;"></canvas>
+          <div id="aa2fr-tree-tooltip" style="position:absolute; display:none; background:rgba(0,0,0,0.85); color:#fff; padding:8px 12px; border-radius:4px; font-size:0.75rem; pointer-events:none; z-index:10; white-space:nowrap; box-shadow:0 2px 6px rgba(0,0,0,0.2);"></div>
+        </div>
+      </div>
+      
+      <!-- Phase 4 Experiment Manager -->
+      <div style="margin-top:16px; background:#fff; border:1px solid #eee; border-radius:6px; padding:12px;">
+        <h4 style="margin:0 0 8px 0; font-size:0.85rem; color:#2c3e50;">Experiment Manager (Batch Runs)</h4>
+        
+        <div style="display:flex; gap:16px; align-items:center; margin-bottom:12px; font-size:0.75rem;">
+          <div>
+            <label style="color:#7f8c8d; margin-right:4px;">Runs:</label>
+            <input type="number" id="aa2fr-exp-runs" value="10" min="1" max="1000" style="width:60px; padding:4px; border:1px solid #ddd; border-radius:4px;">
+          </div>
+          <div>
+            <label style="color:#7f8c8d; margin-right:4px;">Max Steps (Timeout):</label>
+            <input type="number" id="aa2fr-exp-steps" value="50000" min="100" style="width:80px; padding:4px; border:1px solid #ddd; border-radius:4px;">
+          </div>
+          <div>
+            <label style="color:#7f8c8d; margin-right:4px;">Seed:</label>
+            <select id="aa2fr-exp-seed" style="padding:4px; border:1px solid #ddd; border-radius:4px;">
+              <option value="random">Random (Length 5)</option>
+              <option value="empty">Empty</option>
+              <option value="current">Current Word</option>
+            </select>
+          </div>
+          <button onclick="aa2frStartExperiment()" class="control-btn" style="background:#2c3e50; padding:4px 12px; font-size:0.8rem;">Run Batch</button>
+          <button onclick="aa2frStopExperiment()" class="control-btn" style="background:#e74c3c; padding:4px 12px; font-size:0.8rem;">Stop</button>
+          <button onclick="aa2frExportBatchCSV()" class="control-btn" style="background:#27ae60; padding:4px 12px; font-size:0.8rem;">Export Batch CSV</button>
+        </div>
+        
+        <div style="font-size:0.75rem; color:#7f8c8d; margin-bottom:4px;">
+          <strong>Batch Progress:</strong> <span id="aa2fr-exp-status">Not started</span>
+        </div>
+        <div style="height:6px; background:#eee; border-radius:3px; overflow:hidden; margin-bottom:12px;">
+          <div id="aa2fr-exp-progress" style="height:100%; width:0%; background:#2980b9; transition:width 0.2s;"></div>
+        </div>
+        
+        <div style="max-height:200px; overflow-y:auto; border:1px solid #eee; border-radius:4px;">
+          <table style="width:100%; border-collapse:collapse; font-size:0.75rem; text-align:left;">
+            <thead style="background:#f8f9fa; position:sticky; top:0;">
+              <tr>
+                <th style="padding:6px; border-bottom:1px solid #ddd;">Run</th>
+                <th style="padding:6px; border-bottom:1px solid #ddd;">Seed</th>
+                <th style="padding:6px; border-bottom:1px solid #ddd;">Max Length</th>
+                <th style="padding:6px; border-bottom:1px solid #ddd;">Steps</th>
+                <th style="padding:6px; border-bottom:1px solid #ddd;">Time (ms)</th>
+              </tr>
+            </thead>
+            <tbody id="aa2fr-exp-table-body">
+              <!-- Rows added here -->
+            </tbody>
+          </table>
+        </div>
     </div>
   </div>
 
@@ -3339,7 +3443,22 @@ let aa2frState = {
     stepsPerSec: 0,
     lastSteps: 0,
     lastStepsTime: 0,
-    analyticsBatches: []
+    analyticsBatches: [],
+    topSuffixes: [],
+    timelineData: [],
+    treeNodes: { '0': { id: '0', parent: null, depth: 0, letter: 'root', result: 'valid', children: [] } },
+    activeNodeId: '0',
+    treeStats: { nodeCount: 1, maxDepth: 0 }
+  },
+  // Experiment Manager data
+  experiment: {
+    active: false,
+    runs: 0,
+    currentRun: 0,
+    maxSteps: 0,
+    seedType: 'random',
+    strategy: 'fixed',
+    results: []
   }
 };
 
@@ -3366,10 +3485,20 @@ try {
         aa2frWorkerDisplayUpdate(msg.word, msg.length);
         aa2frUpdateStats();
         aa2frUpdateAnalyticsPanel();
+        
+        // Experiment Manager limit check
+        if (aa2frState.experiment.active && aa2frState.experiment.maxSteps > 0 && msg.stats.steps >= aa2frState.experiment.maxSteps) {
+          aa2frState.worker.postMessage({ cmd: 'pause' });
+          aa2frState.running = false;
+          aa2frNextExperiment();
+        }
         break;
       }
       case 'analytics_batch':
-        aa2frProcessAnalyticsBatch(msg.data);
+        aa2frProcessAnalyticsBatch(msg);
+        break;
+      case 'evolution_batch':
+        aa2frProcessEvolutionBatch(msg.events);
         break;
       case 'milestone':
         $('aa2fr-status').innerHTML = '<span style="color:#27ae60">&#127942; New record: ' + msg.length + ' letters!</span>';
@@ -3380,6 +3509,10 @@ try {
         $('aa2fr-btn-start').classList.remove('hidden');
         $('aa2fr-status').innerHTML = '<span style="color:#e74c3c">Search exhausted. No more extensions possible.</span>';
         if ($('aa2fr-analytics-status')) $('aa2fr-analytics-status').textContent = 'Search complete. ' + aa2frState.stats.attempts.toLocaleString() + ' steps explored.';
+        
+        if (aa2frState.experiment.active) {
+          aa2frNextExperiment();
+        }
         break;
       case 'rq0_results': {
         console.log('RQ0 Test Suite:', msg.results);
@@ -3402,7 +3535,8 @@ try {
   aa2frState.useWorker = false;
 }
 
-function aa2frProcessAnalyticsBatch(data) {
+function aa2frProcessAnalyticsBatch(msg) {
+  const data = msg.data;
   if (!data || data.length === 0) return;
   aa2frState.analytics.analyticsBatches.push.apply(aa2frState.analytics.analyticsBatches, data);
   if (aa2frState.analytics.analyticsBatches.length > 50000) {
@@ -3413,12 +3547,32 @@ function aa2frProcessAnalyticsBatch(data) {
     const rec = data[i];
     if (rec.result === 'valid') { totalBranching += rec.branching; branchCount++; }
     if (rec.result === 'dead_end') totalCollisions++;
-    if (rec.obstruction) {
-      const h = rec.obstruction.half_length || 'f4';
-      aa2frState.analytics.obstructionCounts[h] = (aa2frState.analytics.obstructionCounts[h] || 0) + 1;
-    }
     aa2frState.analytics.parikhBalance = rec.parikh_balance;
+    
+    // Periodically store timeline data for plotting
+    if (aa2frState.analytics.timelineData.length === 0 || 
+        rec.step - aa2frState.analytics.timelineData[aa2frState.analytics.timelineData.length-1].step > 100) {
+      aa2frState.analytics.timelineData.push({
+        step: rec.step,
+        len: rec.depth,
+        u: rec.parikh_balance,
+        branching: rec.branching
+      });
+      if (aa2frState.analytics.timelineData.length > 200) {
+        aa2frState.analytics.timelineData = aa2frState.analytics.timelineData.slice(-200);
+      }
+    }
   }
+  
+  if (msg.obstructions) {
+    for (let k in msg.obstructions) {
+      aa2frState.analytics.obstructionCounts[k] = msg.obstructions[k];
+    }
+  }
+  if (msg.topSuffixes) {
+    aa2frState.analytics.topSuffixes = msg.topSuffixes;
+  }
+  
   if (branchCount > 0) {
     aa2frState.analytics.branchingHistory.push(totalBranching / branchCount);
     if (aa2frState.analytics.branchingHistory.length > 200) aa2frState.analytics.branchingHistory = aa2frState.analytics.branchingHistory.slice(-200);
@@ -3474,32 +3628,121 @@ function aa2frUpdateAnalyticsPanel() {
   if (aa2frState.running && el('aa2fr-analytics-status')) {
     el('aa2fr-analytics-status').textContent = 'Worker running. ' + aa2frState.stats.attempts.toLocaleString() + ' steps | ' + a.stepsPerSec.toLocaleString() + ' steps/sec | ' + a.analyticsBatches.length.toLocaleString() + ' records.';
   }
+  
+  aa2frRenderCharts();
 }
 
-function aa2frExportData() {
-  const data = {
-    timestamp: new Date().toISOString(),
-    config: { mode: aa2frState.mode, direction: aa2frState.dir, strategy: $('aa2fr-strategy') ? $('aa2fr-strategy').value : 'fixed' },
-    stats: { len: aa2frState.stats.len, attempts: aa2frState.stats.attempts, backtracks: aa2frState.stats.backtracks, maxLen: aa2frState.stats.maxLen },
-    analytics: {
-      branchingHistory: aa2frState.analytics.branchingHistory,
-      obstructionCounts: aa2frState.analytics.obstructionCounts,
-      letterCounts: aa2frState.analytics.letterCounts,
-      collisionDensity: aa2frState.analytics.collisionDensity,
-      parikhBalance: aa2frState.analytics.parikhBalance
-    },
-    analyticsBatches: aa2frState.analytics.analyticsBatches,
-    word: aa2frState.wordArr.join('')
-  };
-  aa2frDownloadJSON(data);
+function aa2frRenderCharts() {
+  const el = function(id) { return document.getElementById(id); };
+  
+  // 1. Leaderboard
+  const lb = el('aa2fr-leaderboard');
+  if (lb && aa2frState.analytics.topSuffixes) {
+    if (aa2frState.analytics.topSuffixes.length === 0) {
+      lb.innerHTML = '<em>No dead-end data yet...</em>';
+    } else {
+      let html = '<table style="width:100%; border-collapse:collapse;">';
+      html += '<tr style="border-bottom:1px solid #eee; text-align:left;"><th>Suffix</th><th>Hits</th></tr>';
+      aa2frState.analytics.topSuffixes.forEach(function(item) {
+        html += '<tr><td>' + item[0] + '</td><td>' + item[1] + '</td></tr>';
+      });
+      html += '</table>';
+      lb.innerHTML = html;
+    }
+  }
+  
+  // 2. Timeline Chart (Canvas)
+  const ctxT = el('aa2fr-canvas-timeline') ? el('aa2fr-canvas-timeline').getContext('2d') : null;
+  if (ctxT && aa2frState.analytics.timelineData && aa2frState.analytics.timelineData.length > 0) {
+    const cw = el('aa2fr-canvas-timeline').width;
+    const ch = el('aa2fr-canvas-timeline').height;
+    ctxT.clearRect(0, 0, cw, ch);
+    const data = aa2frState.analytics.timelineData;
+    
+    ctxT.beginPath();
+    ctxT.strokeStyle = '#2980b9';
+    ctxT.lineWidth = 2;
+    for(let i=0; i<data.length; i++) {
+      let x = cw * (i / Math.max(1, data.length - 1));
+      let y = ch - (Math.min(0.2, data[i].u) / 0.2 * ch); // Scale U up to 0.2 max
+      if (i===0) ctxT.moveTo(x, y); else ctxT.lineTo(x, y);
+    }
+    ctxT.stroke();
+  }
+  
+  // 3. Obstruction Histogram (Canvas)
+  const ctxO = el('aa2fr-canvas-obstructions') ? el('aa2fr-canvas-obstructions').getContext('2d') : null;
+  if (ctxO && aa2frState.analytics.obstructionCounts) {
+    const cw = el('aa2fr-canvas-obstructions').width;
+    const ch = el('aa2fr-canvas-obstructions').height;
+    ctxO.clearRect(0, 0, cw, ch);
+    const obs = Object.entries(aa2frState.analytics.obstructionCounts);
+    if (obs.length > 0) {
+      obs.sort(function(a,b) { return parseInt(a[0]) - parseInt(b[0]); });
+      const maxCount = Math.max.apply(null, obs.map(function(o){return o[1];}));
+      const barWidth = cw / Math.max(10, obs.length);
+      
+      for(let i=0; i<obs.length; i++) {
+        let x = i * barWidth;
+        let h = (obs[i][1] / maxCount) * (ch - 15);
+        ctxO.fillStyle = '#e74c3c';
+        ctxO.fillRect(x + 2, ch - h - 15, barWidth - 4, h);
+        ctxO.fillStyle = '#7f8c8d';
+        ctxO.font = '10px sans-serif';
+        ctxO.textAlign = 'center';
+        ctxO.fillText(obs[i][0], x + barWidth/2, ch - 2);
+      }
+    }
+  }
+}
+
+function aa2frExportData(format) {
+  if (aa2frState.useWorker && aa2frState.worker) {
+    aa2frState._exportFormat = format;
+    aa2frState.worker.postMessage({ cmd: 'export' });
+  } else {
+    // Non-worker export not fully supported for all stats, but we can dump what we have
+    const data = {
+      timestamp: new Date().toISOString(),
+      config: { mode: aa2frState.mode, direction: aa2frState.dir, strategy: $('aa2fr-strategy') ? $('aa2fr-strategy').value : 'fixed' },
+      stats: { len: aa2frState.stats.len, attempts: aa2frState.stats.attempts, backtracks: aa2frState.stats.backtracks, maxLen: aa2frState.stats.maxLen },
+      analytics: {
+        branchingHistory: aa2frState.analytics.branchingHistory,
+        obstructionCounts: aa2frState.analytics.obstructionCounts,
+        letterCounts: aa2frState.analytics.letterCounts,
+        collisionDensity: aa2frState.analytics.collisionDensity,
+        parikhBalance: aa2frState.analytics.parikhBalance
+      },
+      analyticsBatches: aa2frState.analytics.analyticsBatches,
+      word: aa2frState.wordArr.join('')
+    };
+    aa2frState._exportFormat = format;
+    aa2frDownloadJSON(data);
+  }
 }
 
 function aa2frDownloadJSON(data) {
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const format = aa2frState._exportFormat || 'json';
+  let blob, filename;
+  
+  if (format === 'json') {
+    blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    filename = 'aa2fr_data_' + new Date().toISOString().replace(/[:.]/g, '-') + '.json';
+  } else {
+    let csvStr = 'Half-length,Hits\n';
+    if (data.obstructions) {
+      for (let k in data.obstructions) {
+        csvStr += k + ',' + data.obstructions[k] + '\n';
+      }
+    }
+    blob = new Blob([csvStr], { type: 'text/csv' });
+    filename = 'aa2fr_data_' + new Date().toISOString().replace(/[:.]/g, '-') + '.csv';
+  }
+  
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'aa2fr_data_' + new Date().toISOString().replace(/[:.]/g, '-') + '.json';
+  a.download = filename;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -3559,6 +3802,11 @@ function aa2frStart() {
     aa2frState.analytics.lastSteps = 0;
     aa2frState.analytics.lastStepsTime = 0;
     aa2frState.analytics.stepsPerSec = 0;
+    aa2frState.analytics.topSuffixes = [];
+    aa2frState.analytics.timelineData = [];
+    aa2frState.analytics.treeNodes = { '0': { id: '0', parent: null, depth: 0, letter: 'root', result: 'valid', children: [] } };
+    aa2frState.analytics.activeNodeId = '0';
+    aa2frState.analytics.treeStats = { nodeCount: 1, maxDepth: 0 };
     // Send start command to Worker
     const strategy = $('aa2fr-strategy') ? $('aa2fr-strategy').value : 'fixed';
     aa2frState.worker.postMessage({
@@ -3978,6 +4226,392 @@ function renderImpact(id) {
 document.querySelectorAll('#impact-card-grid .impact-card').forEach(card => {
   card.addEventListener('click', () => renderImpact(card.dataset.impact));
 });
+
+// -------------------------------------------------------------------------
+// EXPERIMENT MANAGER (PHASE 4)
+// -------------------------------------------------------------------------
+function aa2frStartExperiment() {
+  if (aa2frState.running) aa2frPause();
+  
+  const runs = parseInt(document.getElementById('aa2fr-exp-runs').value, 10);
+  const maxSteps = parseInt(document.getElementById('aa2fr-exp-steps').value, 10);
+  const seedType = document.getElementById('aa2fr-exp-seed').value;
+  const strategy = document.getElementById('aa2fr-strategy') ? document.getElementById('aa2fr-strategy').value : 'fixed';
+  
+  aa2frState.experiment.active = true;
+  aa2frState.experiment.runs = runs;
+  aa2frState.experiment.currentRun = 0;
+  aa2frState.experiment.maxSteps = maxSteps;
+  aa2frState.experiment.seedType = seedType;
+  aa2frState.experiment.strategy = strategy;
+  aa2frState.experiment.results = [];
+  
+  document.getElementById('aa2fr-exp-table-body').innerHTML = '';
+  document.getElementById('aa2fr-exp-status').textContent = 'Starting...';
+  document.getElementById('aa2fr-exp-progress').style.width = '0%';
+  
+  aa2frNextExperiment();
+}
+
+function aa2frNextExperiment() {
+  if (!aa2frState.experiment.active) return;
+  
+  // Save previous run result if any
+  if (aa2frState.experiment.currentRun > 0) {
+    const res = {
+      run: aa2frState.experiment.currentRun,
+      seed: aa2frState.wordArr.join(''),
+      maxLength: aa2frState.stats.maxLen,
+      steps: aa2frState.stats.attempts,
+      timeMs: Date.now() - aa2frState.experiment.startTime
+    };
+    aa2frState.experiment.results.push(res);
+    
+    // Add row to table
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="padding:6px; border-bottom:1px solid #eee;">${res.run}</td>
+      <td style="padding:6px; border-bottom:1px solid #eee;">${res.seed || '(empty)'}</td>
+      <td style="padding:6px; border-bottom:1px solid #eee;">${res.maxLength}</td>
+      <td style="padding:6px; border-bottom:1px solid #eee;">${res.steps}</td>
+      <td style="padding:6px; border-bottom:1px solid #eee;">${res.timeMs}</td>
+    `;
+    document.getElementById('aa2fr-exp-table-body').appendChild(tr);
+  }
+  
+  // Check if finished
+  if (aa2frState.experiment.currentRun >= aa2frState.experiment.runs) {
+    aa2frStopExperiment(true);
+    return;
+  }
+  
+  // Start next run
+  aa2frState.experiment.currentRun++;
+  const progPct = Math.floor((aa2frState.experiment.currentRun - 1) / aa2frState.experiment.runs * 100);
+  const statusEl = document.getElementById('aa2fr-exp-status');
+  if (statusEl) statusEl.textContent = `Progress: ${aa2frState.experiment.currentRun - 1} / ${aa2frState.experiment.runs} runs completed`;
+  const progEl = document.getElementById('aa2fr-exp-progress');
+  if (progEl) progEl.style.width = progPct + '%';
+  
+  // Set seed
+  let newSeed = '';
+  if (aa2frState.experiment.seedType === 'random') {
+    const letters = ['a','b','c'];
+    newSeed = '';
+    for(let i=0; i<5; i++) {
+      newSeed += letters[Math.floor(Math.random()*3)];
+    }
+  } else if (aa2frState.experiment.seedType === 'empty') {
+    newSeed = '';
+  } else {
+    newSeed = aa2frState.wordArr.join('');
+  }
+  
+  document.getElementById('aa2fr-base-word').value = newSeed;
+  aa2frSetBase(); // Resets stats
+  
+  aa2frState.experiment.startTime = Date.now();
+  
+  // We will piggyback on aa2frStart
+  aa2frStart();
+}
+
+function aa2frStopExperiment(finished = false) {
+  aa2frState.experiment.active = false;
+  if (aa2frState.running) aa2frPause();
+  
+  const statusEl = document.getElementById('aa2fr-exp-status');
+  const progEl = document.getElementById('aa2fr-exp-progress');
+  
+  if (finished) {
+    if (statusEl) statusEl.textContent = `Finished: ${aa2frState.experiment.runs} runs completed`;
+    if (progEl) progEl.style.width = '100%';
+  } else {
+    if (statusEl) statusEl.textContent = `Aborted at run ${aa2frState.experiment.currentRun}`;
+  }
+}
+
+function aa2frExportExperimentCSV() {
+  const res = aa2frState.experiment.results;
+  if (res.length === 0) {
+    alert("No experiment results to export.");
+    return;
+  }
+  let csvStr = 'Run,Seed,Max_Length,Steps,Time_ms\n';
+  for(let i=0; i<res.length; i++) {
+    csvStr += `${res[i].run},${res[i].seed},${res[i].maxLength},${res[i].steps},${res[i].timeMs}\n`;
+  }
+  const blob = new Blob([csvStr], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'aa2fr_experiment_' + new Date().toISOString().replace(/[:.]/g, '-') + '.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// -------------------------------------------------------------------------
+// EVOLUTION REPLAY (PHASE 3)
+// -------------------------------------------------------------------------
+
+function aa2frProcessEvolutionBatch(events) {
+  if (!events || events.length === 0) return;
+  const tState = aa2frState.analytics;
+  
+  for (let i = 0; i < events.length; i++) {
+    const ev = events[i];
+    
+    if (ev.type === 'node') {
+      const parentId = tState.activeNodeId;
+      const parentNode = tState.treeNodes[parentId];
+      
+      const newId = parentId + '-' + tState.treeStats.nodeCount;
+      tState.treeStats.nodeCount++;
+      
+      const newNode = {
+        id: newId,
+        parent: parentId,
+        depth: ev.depth,
+        letter: ev.letter,
+        result: ev.result,
+        branching: ev.branching || 0,
+        parikh_balance: ev.parikh_balance || 0,
+        danger_score: ev.danger_score || 0,
+        obstruction: ev.obstruction || null,
+        children: []
+      };
+      
+      tState.treeNodes[newId] = newNode;
+      if (parentNode) {
+        parentNode.children.push(newId);
+      }
+      
+      if (ev.result === 'valid') {
+        tState.activeNodeId = newId;
+        tState.treeStats.maxDepth = Math.max(tState.treeStats.maxDepth, ev.depth);
+      }
+    } else if (ev.type === 'backtrack') {
+      const curr = tState.treeNodes[tState.activeNodeId];
+      if (curr && curr.parent) {
+        tState.activeNodeId = curr.parent;
+      }
+    }
+  }
+  
+  if (document.getElementById('aa2fr-tree-nodes')) {
+    document.getElementById('aa2fr-tree-nodes').textContent = tState.treeStats.nodeCount;
+  }
+  
+  aa2frRenderTree();
+}
+
+function aa2frRenderTree() {
+  const canvas = document.getElementById('aa2fr-canvas-tree');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const cw = canvas.width;
+  const ch = canvas.height;
+  
+  ctx.clearRect(0, 0, cw, ch);
+  
+  const tState = aa2frState.analytics;
+  const root = tState.treeNodes['0'];
+  if (!root) return;
+  
+  const NODE_RADIUS = 3;
+  const LEVEL_HEIGHT = 15;
+  
+  const activePath = new Set();
+  let currId = tState.activeNodeId;
+  while (currId) {
+    activePath.add(currId);
+    const n = tState.treeNodes[currId];
+    currId = n ? n.parent : null;
+  }
+  
+  function isActivePathNode(id) {
+    return activePath.has(id);
+  }
+  
+  function drawNode(nodeId, x, y, widthAllowed) {
+    const node = tState.treeNodes[nodeId];
+    if (!node || node.depth > 200) return;
+    
+    const childrenCount = node.children.length;
+    let childX = x - widthAllowed / 2;
+    const childWidth = childrenCount > 0 ? widthAllowed / childrenCount : widthAllowed;
+    
+    for (let i = 0; i < childrenCount; i++) {
+      const childId = node.children[i];
+      const cx = childX + childWidth / 2;
+      const cy = y + LEVEL_HEIGHT;
+      
+      const isActive = activePath.has(childId);
+      
+      ctx.beginPath();
+      ctx.strokeStyle = isActive ? '#2980b9' : '#bdc3c7';
+      ctx.lineWidth = isActive ? 2 : 1;
+      ctx.moveTo(x, y);
+      ctx.lineTo(cx, cy);
+      ctx.stroke();
+      
+      drawNode(childId, cx, cy, childWidth);
+      
+      childX += childWidth;
+    }
+    
+    ctx.beginPath();
+    ctx.arc(x, y, NODE_RADIUS, 0, Math.PI * 2);
+    if (nodeId === tState.activeNodeId) {
+      ctx.fillStyle = '#f39c12';
+    } else if (node.result === 'dead_end') {
+      ctx.fillStyle = '#e74c3c';
+    } else {
+      ctx.fillStyle = '#27ae60';
+    }
+    ctx.fill();
+    if (isActivePathNode(nodeId)) {
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+  }
+  
+  drawNode('0', cw / 2, 20, cw * 0.9);
+}
+
+// Phase 5: Tree Tooltip Logic
+const aa2frTreeCanvas = document.getElementById('aa2fr-canvas-tree');
+if (aa2frTreeCanvas) {
+  aa2frTreeCanvas.addEventListener('mousemove', function(e) {
+    const rect = aa2frTreeCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const tState = aa2frState.analytics;
+    const tooltip = document.getElementById('aa2fr-tree-tooltip');
+    if (!tState || !tState.treeNodes || !tooltip) return;
+    
+    // Simple hit test (O(N) is fine for <= 200 depth)
+    let hoveredNode = null;
+    let minDist = 10;
+    
+    // Reconstruct positions based on tree logic
+    function testNode(nodeId, nx, ny, widthAllowed) {
+      const node = tState.treeNodes[nodeId];
+      if (!node || node.depth > 200) return;
+      
+      const dist = Math.hypot(x - nx, y - ny);
+      if (dist < minDist) {
+        minDist = dist;
+        hoveredNode = node;
+      }
+      
+      const childrenCount = node.children.length;
+      let childX = nx - widthAllowed / 2;
+      const childWidth = childrenCount > 0 ? widthAllowed / childrenCount : widthAllowed;
+      
+      for (let i = 0; i < childrenCount; i++) {
+        const childId = node.children[i];
+        const cx = childX + childWidth / 2;
+        const cy = ny + 15;
+        testNode(childId, cx, cy, childWidth);
+        childX += childWidth;
+      }
+    }
+    
+    testNode('0', aa2frTreeCanvas.width / 2, 20, aa2frTreeCanvas.width * 0.9);
+    
+    if (hoveredNode) {
+      let html = '<strong>Depth:</strong> ' + hoveredNode.depth + '<br>';
+      html += '<strong>Letter:</strong> ' + hoveredNode.letter + '<br>';
+      html += '<strong>Result:</strong> ' + (hoveredNode.result === 'valid' ? '<span style="color:#2ecc71">Valid</span>' : '<span style="color:#e74c3c">Dead End</span>') + '<br>';
+      html += '<strong>Branching B(n):</strong> ' + hoveredNode.branching + '<br>';
+      html += '<strong>Parikh U(w):</strong> ' + (hoveredNode.parikh_balance || 0).toFixed(4) + '<br>';
+      html += '<strong>Danger Score:</strong> ' + (hoveredNode.danger_score || 0) + '<br>';
+      if (hoveredNode.obstruction) {
+        html += '<strong>Obstruction:</strong> h=' + hoveredNode.obstruction.half_length + '<br>';
+      }
+      
+      tooltip.innerHTML = html;
+      tooltip.style.display = 'block';
+      
+      // Calculate position
+      let left = x + 15;
+      let top = y + 15;
+      
+      // Keep within bounds
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = top + 'px';
+    } else {
+      tooltip.style.display = 'none';
+    }
+  });
+  
+  aa2frTreeCanvas.addEventListener('mouseleave', function() {
+    const tooltip = document.getElementById('aa2fr-tree-tooltip');
+    if (tooltip) tooltip.style.display = 'none';
+  });
+}
+
+// Phase 5: Discovery Engine
+function aa2frAnalyzeDiscoveries() {
+  const alertsContainer = document.getElementById('aa2fr-discovery-alerts');
+  if (!alertsContainer || !aa2frState.analytics.topSuffixes || aa2frState.analytics.topSuffixes.length === 0) return;
+  
+  // Clear container
+  alertsContainer.innerHTML = '';
+  
+  const totalDeadEnds = Object.values(aa2frState.analytics.obstructionCounts).reduce(function(a,b){return a+b}, 0);
+  if (totalDeadEnds < 100) {
+    alertsContainer.innerHTML = '<div style="font-size:0.8rem; color:#555; font-style:italic;">Need more data... collecting.</div>';
+    return;
+  }
+  
+  let foundSignificant = false;
+  
+  // Calculate expected occurrences using a simplified uniform branching assumption
+  // In a ternary alphabet, any specific 4-letter suffix has a 1/(3^4) = 1/81 chance of appearing if random.
+  // We compare the observed proportion against this baseline.
+  const baselineProb = 1 / 81; 
+  
+  aa2frState.analytics.topSuffixes.forEach(function(item) {
+    const suffix = item[0];
+    const obsCount = item[1];
+    
+    // Only care about suffixes >= 4 letters
+    if (suffix.length < 4) return;
+    
+    const expected = Math.max(1, Math.round(totalDeadEnds * baselineProb));
+    const ratio = obsCount / expected;
+    
+    if (ratio > 5 && obsCount > 5) {
+      foundSignificant = true;
+      let pValue = ratio > 10 ? 'p < 0.001' : 'p < 0.01';
+      
+      let html = '<div style="background:#fff; border-left:4px solid #e74c3c; padding:8px 12px; border-radius:4px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">';
+      html += '<div style="font-size:0.85rem; margin-bottom:4px;"><strong>Trap Motif: <span style="font-family:monospace; background:#eee; padding:2px 4px; border-radius:3px;">' + suffix + '</span></strong></div>';
+      html += '<div style="font-size:0.75rem; color:#555;">Appeared <strong>' + obsCount + '</strong> times (Expected: ~' + expected + '). Significance: ' + pValue + '</div>';
+      html += '<div style="font-size:0.75rem; color:#2980b9; margin-top:4px;"><strong>Recommendation:</strong> Investigate structural properties of this motif in relation to Parikh imbalance.</div>';
+      html += '</div>';
+      
+      alertsContainer.innerHTML += html;
+    }
+  });
+  
+  if (!foundSignificant) {
+    alertsContainer.innerHTML = '<div style="font-size:0.8rem; color:#555; font-style:italic;">Analyzing ' + totalDeadEnds + ' dead ends... no highly significant trap motifs detected yet.</div>';
+  }
+}
+
+// Hook discovery engine into the analytics update cycle
+const originalUpdateAnalytics = aa2frUpdateAnalyticsPanel;
+aa2frUpdateAnalyticsPanel = function() {
+  originalUpdateAnalytics();
+  aa2frAnalyzeDiscoveries();
+};
 
 </script>
 </body>

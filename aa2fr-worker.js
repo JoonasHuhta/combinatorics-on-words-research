@@ -310,9 +310,27 @@ function searchStep() {
   let obs = validateWordConstraints(false);
   
   let resultStr = 'valid';
+  let dangerScore = 0;
+  let s8 = getSuffix(8);
+  if (s8.length >= 4) {
+    dangerScore = suffixDeadEndCounts.get(s8) || 0;
+  }
+  
   if (obs) {
     resultStr = 'dead_end';
     recordObstruction(obs);
+    if (s8.length >= 4) {
+      suffixDeadEndCounts.set(s8, dangerScore + 1);
+    }
+    emitEvent('node', { 
+      depth: currentDepth + 1, 
+      letter, 
+      result: resultStr,
+      branching: frame.validBranches,
+      parikh_balance: getUValue(letterCounts, wordLen),
+      danger_score: dangerScore + 1,
+      obstruction: obs 
+    });
     popLetter();
   } else {
     frame.validBranches++;
@@ -323,7 +341,15 @@ function searchStep() {
       self.postMessage({ type: 'milestone', length: maxLen, word: getSuffix(50) });
       emitEvent('milestone', { depth: currentDepth, max_length: maxLen });
     }
-    emitEvent('node', { depth: currentDepth, letter, result: resultStr });
+    emitEvent('node', { 
+      depth: currentDepth, 
+      letter, 
+      result: resultStr,
+      branching: frame.validBranches,
+      parikh_balance: getUValue(letterCounts, wordLen),
+      danger_score: dangerScore,
+      obstruction: null
+    });
   }
   
   if (config.analyticsEnabled) {
@@ -371,8 +397,17 @@ function searchLoop() {
   }
   
   if (now - lastAnalyticsSendTime > 500) {
-    if (analyticsBuffer.length > 0) {
-      self.postMessage({ type: 'analytics_batch', data: analyticsBuffer });
+    if (analyticsBuffer.length > 0 || evolutionBuffer.length > 0) {
+      let topSuffixes = [...suffixDeadEndCounts.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 20);
+      
+      self.postMessage({ 
+        type: 'analytics_batch', 
+        data: analyticsBuffer,
+        obstructions: { ...obstructionCounts },
+        topSuffixes: topSuffixes
+      });
       analyticsBuffer = [];
     }
     if (evolutionBuffer.length > 0) {
