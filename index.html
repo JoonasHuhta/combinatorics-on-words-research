@@ -11,9 +11,9 @@
       --text-orange: #d35400; 
       --border: #cccccc;
       --letter-a: #e74c3c; 
-      --letter-b: #2980b9; 
+      --letter-b: #27ae60; 
       --letter-c: #f1c40f; 
-      --letter-d: #27ae60; 
+      --letter-d: #2980b9; 
     }
     
     * { box-sizing: border-box; max-width: 100%; }
@@ -742,11 +742,11 @@
         <div style="font-family:monospace; word-break:break-all; background:#f9f9f9; padding:10px; border:1px solid #eee; line-height:1.8; font-size:0.95rem;" id="mic-g85-a"></div>
       </div>
       <div style="flex:1; min-width:300px; border:1px solid var(--border); padding:15px; border-radius:5px; background:#fff;">
-        <h3 style="margin-top:0;">Morphism g&#8329;&#8328; &mdash; Ker&auml;nen 2002&ndash;2009</h3>
-        <p style="font-size:0.9rem; color:#555; margin-bottom:8px;">Published in Theoretical Computer Science (2009). Described as &ldquo;a powerful abelian square-free substitution.&rdquo; Length of each image: <strong id="mic-g98-len">?</strong>.</p>
-        <p><strong>Parikh vector of g&#8329;&#8328;(a):</strong> <span id="mic-g98-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
-        <p style="font-size:0.85rem; color:#666; margin-bottom:4px;">g&#8329;&#8328;(a) &rarr;</p>
-        <div style="font-family:monospace; word-break:break-all; background:#f9f9f9; padding:10px; border:1px solid #eee; line-height:1.8; font-size:0.95rem;" id="mic-g98-a"></div>
+        <h3 style="margin-top:0;">Morphism g&#8321;&#8320;&#8335; &mdash; Ker&auml;nen 2002&ndash;2009</h3>
+        <p style="font-size:0.9rem; color:#555; margin-bottom:8px;">Published in Theoretical Computer Science (2009). Described as &ldquo;a powerful abelian square-free substitution.&rdquo; Length of each image: <strong id="mic-g109-len">?</strong>.</p>
+        <p><strong>Parikh vector of g&#8321;&#8320;&#8335;(a):</strong> <span id="mic-g109-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
+        <p style="font-size:0.85rem; color:#666; margin-bottom:4px;">g&#8321;&#8320;&#8335;(a) &rarr;</p>
+        <div style="font-family:monospace; word-break:break-all; background:#f9f9f9; padding:10px; border:1px solid #eee; line-height:1.8; font-size:0.95rem;" id="mic-g109-a"></div>
       </div>
     </div>
     <div style="margin-top:16px; padding:12px; background:#fffef0; border:1px solid #e0d080; font-family:Arial; font-size:0.88rem; color:#555; border-radius:4px;">
@@ -782,10 +782,10 @@
     <p style="font-family: Arial; font-size: 0.95rem; color:#555; max-width:800px; line-height:1.5;">
       Design your own uniform morphism over {a,b,c,d}. The program will evaluate its Parikh vectors, check for cyclic permutations, and iteratively search for abelian squares.
     </p>
-    <div class="def-box"><strong>What makes a morphism abelian square-free?</strong> Three necessary (but not sufficient) conditions: <strong>(1) Uniform</strong> &mdash; all four images must have the same length. <strong>(2) Cyclic Parikh</strong> &mdash; the Parikh vectors of g(a), g(b), g(c), g(d) must be cyclic permutations of one another (same letter counts, different order). <strong>(3) Non-trivial images</strong> &mdash; each image must itself be abelian square-free. Even satisfying all three, finding a morphism whose infinite iteration is abelian square-free requires additional structural constraints &mdash; Ker&auml;nen&rsquo;s achievement was to find one that works.</div>
+    <div class="def-box"><strong>What makes a morphism abelian square-free?</strong> A trivial necessary condition is that <strong>each image must itself be abelian square-free</strong>. While many constructed morphisms use uniform lengths and cyclic Parikh vectors to restrict the search space, these are <strong>not</strong> mathematically necessary conditions. Finding a morphism whose infinite iteration avoids all abelian squares requires immense structural constraints &mdash; Ker&auml;nen&rsquo;s achievement was to discover these deep symmetries.</div>
     <div style="margin-bottom:15px;">
       <button class="btn" id="btn-load-g85" style="font-size:0.85rem; padding:4px 8px;">Load g&#8328;&#8325;</button>
-      <button class="btn" id="btn-load-g98" style="font-size:0.85rem; padding:4px 8px;">Load g&#8329;&#8328;</button>
+      <button class="btn" id="btn-load-g109" style="font-size:0.85rem; padding:4px 8px;">Load g&#8321;&#8320;&#8335;</button>
       <button class="btn" id="btn-load-clear" style="font-size:0.85rem; padding:4px 8px;">Clear</button>
     </div>
     <div style="display:flex; gap:20px; flex-wrap:wrap;">
@@ -2529,19 +2529,19 @@ function renderMicroscope() {
   const p85 = getParikh(G85_A, ALPHABET);
   $('mic-g85-parikh').textContent = `a:${p85.a}, b:${p85.b}, c:${p85.c}, d:${p85.d}`;
 
-  // --- g98 ---
-  const g98len = G98_A.length;
-  if ($('mic-g98-len')) $('mic-g98-len').textContent = g98len;
-  if (G98_A.includes('PLACEHOLDER') || g98len < 10) {
-    $('mic-g98-a').innerHTML = `<span style="color:#e74c3c;">Sequence not yet loaded.</span>`;
-    $('mic-g98-parikh').textContent = 'n/a';
+  // --- g109 ---
+  const g109len = G109_A.length;
+  if ($('mic-g109-len')) $('mic-g109-len').textContent = g109len;
+  if (G109_A.includes('PLACEHOLDER') || g109len < 10) {
+    $('mic-g109-a').innerHTML = `<span style="color:#e74c3c;">Sequence not yet loaded.</span>`;
+    $('mic-g109-parikh').textContent = 'n/a';
   } else {
-    $('mic-g98-a').innerHTML = G98_A.split('').map((c, i) => {
+    $('mic-g109-a').innerHTML = G109_A.split('').map((c, i) => {
       const sep = (i > 0 && i % 5 === 0) ? '<span style="color:#ccc">·</span>' : '';
       return sep + `<span style="color:${COLORS[c]||'#000'}; font-weight:bold;">${c}</span>`;
     }).join('');
-    const p98 = getParikh(G98_A, ALPHABET);
-    $('mic-g98-parikh').textContent = `a:${p98.a}, b:${p98.b}, c:${p98.c}, d:${p98.d}`;
+    const p109 = getParikh(G109_A, ALPHABET);
+    $('mic-g109-parikh').textContent = `a:${p109.a}, b:${p109.b}, c:${p109.c}, d:${p109.d}`;
   }
 }
 
@@ -2576,7 +2576,7 @@ function initKG() {
     { id: 'thue', label: 'Axel Thue', cat: 'person', desc: 'Started combinatorics on words in 1906. Proved ordinary squares are avoidable on 3 letters.' },
     { id: 'pleasants', label: 'P.A.B. Pleasants', cat: 'person', desc: 'Proved in 1970 that abelian squares are avoidable on 5 letters.' },
     { id: 'g85', label: 'Morphism g85', cat: 'discovery', desc: 'Keränen\'s 85-letter morphism (1992) that avoids abelian squares on 4 letters.' },
-    { id: 'g98', label: 'Morphism g98', cat: 'discovery', desc: 'Keränen\'s 98-letter morphism (2002). Iterating it gives an infinite abelian square-free word.' },
+    { id: 'g109', label: 'Morphism g109', cat: 'discovery', desc: 'Keränen\'s 109-letter morphism (2009). Iterating it gives an infinite abelian square-free word.' },
     { id: 'unfavorable', label: 'Unfavorable Factor', cat: 'concept', desc: 'A short pattern that cannot be extended into an infinite abelian square-free word.' }
   ];
   
@@ -2800,11 +2800,11 @@ $('btn-load-g85').addEventListener('click', () => {
   $('morph-input-c').value = G85.c;
   $('morph-input-d').value = G85.d;
 });
-$('btn-load-g98').addEventListener('click', () => {
-  $('morph-input-a').value = G98_A;
-  $('morph-input-b').value = cyclicPerm(G98_A);
-  $('morph-input-c').value = cyclicPerm(cyclicPerm(G98_A));
-  $('morph-input-d').value = cyclicPerm(cyclicPerm(cyclicPerm(G98_A)));
+$('btn-load-g109').addEventListener('click', () => {
+  $('morph-input-a').value = G109_A;
+  $('morph-input-b').value = cyclicPerm(G109_A);
+  $('morph-input-c').value = cyclicPerm(cyclicPerm(G109_A));
+  $('morph-input-d').value = cyclicPerm(cyclicPerm(cyclicPerm(G109_A)));
 });
 $('btn-load-clear').addEventListener('click', () => {
   ['a','b','c','d'].forEach(c => $('morph-input-'+c).value = '');
