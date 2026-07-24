@@ -944,12 +944,15 @@
           <p>Use the <strong>Start Extension</strong> button to start the background search. The algorithm automatically appends letters and backtracks when hitting dead ends. Try loading a 40-letter seed and run the search!</p>
           
           <h4 style="color:#2980b9;">2. Predictive Lookahead</h4>
-          <p>This is the program's most powerful "X-Ray Vision". First, <strong>Pause</strong> the search. You will see the letters displayed in the main view. <strong>Click any letter</strong> in the word! The program truncates the word up to that point and sends it to the background engine, which looks 10 steps ahead. It will then tell you in the <strong>Predictive Lookahead</strong> panel on the right whether the path is viable (Viable) or a guaranteed dead end (Guaranteed Dead End).</p>
+          <p>This is the program's most powerful "X-Ray Vision". First, <strong>Pause</strong> the search. You will see the letters displayed in the main view. <strong>Click any letter</strong> in the word! The program sends the sequence up to that point to the background engine, which looks 10 steps ahead. It will then tell you in the <strong>Predictive Lookahead</strong> panel whether the path is viable or a guaranteed dead end.</p>
 
-          <h4 style="color:#2980b9;">3. Hypothesis Engine</h4>
+          <h4 style="color:#2980b9;">3. Manual Construction (New!)</h4>
+          <p>You can now manually build the sequence based on the Predictive Lookahead results! Use the <strong>✍️ Manual Construction</strong> buttons (<code>a</code>, <code>b</code>, <code>c</code>) under the lookahead panel to append letters. If a letter leads to an immediate abelian square or forbidden factor, it is instantly rejected and the reason is explained.</p>
+
+          <h4 style="color:#2980b9;">4. Hypothesis Engine</h4>
           <p>While the search runs and encounters dead ends, the Hypothesis Engine on the right side tracks them. If it notices that a specific suffix (e.g., <code>bcca</code>) causes an abnormally high number of dead ends, it automatically suggests it as a <strong>Structural Trap</strong> and provides a statistical confidence interval.</p>
 
-          <h4 style="color:#2980b9;">4. Research Notebook</h4>
+          <h4 style="color:#2980b9;">5. Research Notebook</h4>
           <p>Don't lose your findings! If the Hypothesis Engine finds a trap, click <strong>Save to Notebook</strong>. If you manually discover a stuck path using Predictive Lookahead, click the <strong>📓 Save Path</strong> button in the top bar. These will be permanently saved to your browser's memory in the bottom right corner.</p>
         </div>
         <div style="padding:16px 20px; border-top:1px solid #eee; background:#f9f9f9; text-align:right; border-radius:0 0 8px 8px;">
