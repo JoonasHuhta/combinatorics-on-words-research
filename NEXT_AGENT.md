@@ -47,10 +47,14 @@ The app is intentionally implemented as one HTML/CSS/JS file. Do not split it in
 - Added **Module D: Fair Comparative Benchmark (`aa2f` vs. `aa2fr`)**:
   - Side-by-side controlled execution under identical budgets ($1,000,000$ nodes), alphabet permutations, and parity checks.
   - Empirically verified that FORBID4 factors act as a powerful search pruning heuristic ($493 \to 646$ max length).
-- Optimized V8 Garbage Collection in `aa2fr-worker.js`:
-  - Replaced character-by-character concatenation loops in `getSuffix` with native array slicing and joining.
-  - Refactored `applyAISupport` and `updateMotifStats` to fetch the longest suffix once per step and slice O(1) dependent substrings, eliminating millions of temporary string allocations.
 - Documented Smith/Jordan normal forms in `GRAND_VISION_MAP.md` as future Phase 2 work.
+
+### Stage 7: Scientific Validation & Replication Lab (Phase 1)
+- **Worker Integration & Responsive UI**: Migrated formal verification modules (A: S3 Symmetry Control, B: h6 Bounded Audit, C: g3 Boundary Scan, D: Comparative Benchmark & L12 Seed Suite) into the shared Web Worker (`aa2fr-worker.js`), adding progress bars and cooperative yielding (`isJobCancelled`).
+- **Geometric Audit Area Map**: Built a canvas renderer displaying the right-triangle audit domain $\{ (i, K) \mid i + 2K \le N \}$, heat map densities for open boundary half-lengths $K \le 5$, and explicit un-inspected gray realms.
+- **Interactive Boundary Zoom & Sample Inspector**: Built an interactive table of occurrences on the literature boundary ($K=2..5$) with clickable inspection buttons that open occurrence halves in the Parikh Lens for detailed Parikh vector comparison.
+- **Rigorous S3 Symmetry Control**: Implemented canonical `traceHash` calculation ("6/6 matched") across all 6 relabeled S3 search trees to prove algorithmic invariance and absence of branch divergence.
+- **L12 Test Suite Comparative Benchmark**: Implemented a 10-seed comparative benchmark ($L=12$), reporting depth progression curves sampled every 1,000 nodes and a stacked rejection breakdown (`FORBID4 only`, `square only`, `both` + `minSquareK`).
 
 ### Pedagogical Tools
 

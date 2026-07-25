@@ -523,6 +523,8 @@ function searchLoop() {
 // POSTMESSAGE API
 // -------------------------------------------------------------------------
 
+let isJobCancelled = false;
+
 self.onmessage = function(e) {
   const msg = e.data;
   
@@ -662,6 +664,27 @@ self.onmessage = function(e) {
     case 'predictive_analyze':
       let result = runPredictiveAnalysis(msg.wordArr, msg.options);
       self.postMessage({ type: 'predictive_result', id: msg.id, result: result });
+      break;
+
+    case 'cancel_job':
+      isJobCancelled = true;
+      self.postMessage({ type: 'job_cancelled' });
+      break;
+
+    case 'val_audit_h6':
+      startAuditH6(msg.limitK || 400);
+      break;
+
+    case 'val_audit_g3':
+      startAuditG3(msg.limitK || 500);
+      break;
+
+    case 'val_bench_symmetry':
+      runSymmetryCheck(msg.limitNodes || 20000);
+      break;
+
+    case 'val_bench_seeds':
+      runSeedSuiteBenchmark(msg.limitNodes || 25000);
       break;
 
     case 'val_benchmark':
@@ -891,19 +914,275 @@ function runRQ0Tests() {
 }
 
 // -------------------------------------------------------------------------
-// VALIDATION LAB BATCH BENCHMARK (PHASE 6)
+// STAGE 7: SCIENTIFIC VALIDATION LAB & EMPIRICAL BENCHMARK SUITE
 // -------------------------------------------------------------------------
-function runValidationBenchmark(limit) {
-  // Save global worker state
-  let savedWordArr = wordArr.slice(0, wordLen);
-  let savedWordLen = wordLen;
-  let savedConfig = { ...config };
-  let savedLetterCounts = { ...letterCounts };
-  let savedMaxLen = Engine.maxLen;
-  let savedPrefixA = prefixA.slice(0, wordLen + 1);
-  let savedPrefixB = prefixB.slice(0, wordLen + 1);
-  let savedPrefixC = prefixC.slice(0, wordLen + 1);
-  let savedPrefixPacked = prefixPacked.slice(0, wordLen + 1);
+
+const SEED_SUITE_L12 = [
+  { id: "seed_1", word: "aaabaaacaaab", prng_seed: 0, method: "PRNG-uniform-strided-DFS", canonical_orbit: "aaabaaacaaab" },
+  { id: "seed_2", word: "aaabcaaabbba", prng_seed: 96, method: "PRNG-uniform-strided-DFS", canonical_orbit: "aaabcaaabbba" },
+  { id: "seed_3", word: "aaabcccabbbc", prng_seed: 192, method: "PRNG-uniform-strided-DFS", canonical_orbit: "aaabcccabbbc" },
+  { id: "seed_4", word: "aabaaacccbac", prng_seed: 288, method: "PRNG-uniform-strided-DFS", canonical_orbit: "aabaaacccbac" },
+  { id: "seed_5", word: "aabbbcbacaaa", prng_seed: 384, method: "PRNG-uniform-strided-DFS", canonical_orbit: "aabbbcbacaaa" },
+  { id: "seed_6", word: "aabcccbbbabc", prng_seed: 480, method: "PRNG-uniform-strided-DFS", canonical_orbit: "aabcccbbbabc" },
+  { id: "seed_7", word: "aabcccaaabcc", prng_seed: 576, method: "PRNG-uniform-strided-DFS", canonical_orbit: "aabcccaaabcc" },
+  { id: "seed_8", word: "aabbbcacccbb", prng_seed: 672, method: "PRNG-uniform-strided-DFS", canonical_orbit: "aabbbcacccbb" },
+  { id: "seed_9", word: "abacabbbccca", prng_seed: 768, method: "PRNG-uniform-strided-DFS", canonical_orbit: "abacabbbccca" },
+  { id: "seed_10", word: "abbbacbaaacc", prng_seed: 864, method: "PRNG-uniform-strided-DFS", canonical_orbit: "abbbacbaaacc" }
+];
+
+function verifyForbid4Symmetry() {
+  const revSet = FORBID4.map(s => s.split('').reverse().join('')).sort().join(',');
+  const origSet = [...FORBID4].sort().join(',');
+  return {
+    isSymmetric: revSet === origSet,
+    origSet,
+    revSet,
+    verified: "reverse(FORBID4) == FORBID4"
+  };
+}
+
+function canonicalizeWord(w) {
+  let map = {}, nextCode = 97, res = '';
+  for (let c of w) {
+    if (!map[c]) map[c] = String.fromCharCode(nextCode++);
+    res += map[c];
+  }
+  return res;
+}
+
+// Module B: h6 Bounded Prefix Audit (Worker Chunked)
+function startAuditH6(maxK = 400) {
+  isJobCancelled = false;
+  self.postMessage({ type: 'val_progress', module: 'B', phase: 'generation', progress: 0, status: 'Generating h6 prefix (N=59,049)...' });
+
+  const H6_MAP = { a: 'ace', b: 'adf', c: 'bdf', d: 'bdc', e: 'afe', f: 'bce' };
+  let w = "a";
+  for (let iter = 0; iter < 10; iter++) {
+    let next = "";
+    for (let i = 0; i < w.length; i++) next += H6_MAP[w[i]];
+    w = next;
+  }
+  const wordArrLocal = w.split('');
+  const N = wordArrLocal.length;
+
+  self.postMessage({ type: 'val_progress', module: 'B', phase: 'prefix_sums', progress: 5, status: 'Building O(1) Parikh prefix sums...' });
+
+  const pA = new Int32Array(N + 1);
+  const pB = new Int32Array(N + 1);
+  const pC = new Int32Array(N + 1);
+  const pP = new Int32Array(N + 1);
+  for (let i = 0; i < N; i++) {
+    let ch = wordArrLocal[i];
+    let vA = (ch === 'a') ? 1 : 0;
+    let vB = (ch === 'b') ? 1 : 0;
+    let vC = (ch === 'c') ? 1 : 0;
+    pA[i+1] = pA[i] + vA;
+    pB[i+1] = pB[i] + vB;
+    pC[i+1] = pC[i] + vC;
+    pP[i+1] = pP[i] + vA * 0 + vB * 1 + vC * 65536;
+  }
+
+  let totalPairs = 0;
+  for (let k = 1; k <= maxK; k++) {
+    if (N >= 2 * k) totalPairs += (N - 2 * k + 1);
+  }
+
+  let currentK = 1;
+  let checkedPairs = 0;
+  let foundSquares = [];
+  const t0 = performance.now();
+
+  function scanChunk() {
+    if (isJobCancelled) return;
+    const chunkEndTime = performance.now() + 15;
+
+    while (currentK <= maxK && performance.now() < chunkEndTime) {
+      const k = currentK;
+      const maxI = N - 2 * k;
+      for (let i = 0; i <= maxI; i++) {
+        if (isJobCancelled) return;
+        let p1 = pP[i+k] - pP[i];
+        let p2 = pP[i+2*k] - pP[i+k];
+        if (p1 === p2) {
+          let a1 = pA[i+k] - pA[i], a2 = pA[i+2*k] - pA[i+k];
+          if (a1 === a2) {
+            let b1 = pB[i+k] - pB[i], b2 = pB[i+2*k] - pB[i+k];
+            if (b1 === b2) {
+              let c1 = pC[i+k] - pC[i], c2 = pC[i+2*k] - pC[i+k];
+              if (c1 === c2) {
+                foundSquares.push({ halfLen: k, start: i, str: wordArrLocal.slice(i, i + 2*k).join('') });
+              }
+            }
+          }
+        }
+      }
+      checkedPairs += (maxI >= 0 ? maxI + 1 : 0);
+      currentK++;
+    }
+
+    const pct = parseFloat(((checkedPairs / totalPairs) * 100).toFixed(1));
+    self.postMessage({ type: 'val_progress', module: 'B', phase: 'scanning', progress: pct, checkedPairs, totalPairs, currentK: Math.min(currentK, maxK) });
+
+    if (currentK <= maxK) {
+      setTimeout(scanChunk, 0);
+    } else {
+      const timeMs = parseFloat((performance.now() - t0).toFixed(1));
+      self.postMessage({
+        type: 'val_h6_results',
+        results: {
+          N,
+          maxK,
+          checkedPairs,
+          totalPairs,
+          squares: foundSquares,
+          timeMs,
+          forbid4Symmetry: verifyForbid4Symmetry(),
+          status: foundSquares.length === 0 ? 'PASS' : 'FAIL',
+          message: foundSquares.length === 0 ? `Bounded audit completed: no discrepancy observed within scope (N=${N.toLocaleString()}, K <= ${maxK}).` : `Found ${foundSquares.length} unexpected abelian squares!`
+        }
+      });
+    }
+  }
+
+  setTimeout(scanChunk, 0);
+}
+
+// Module C: g3(h6^ω(a)) Bounded Prefix Audit & Density Grid
+function startAuditG3(maxK = 500) {
+  isJobCancelled = false;
+  self.postMessage({ type: 'val_progress', module: 'C', phase: 'generation', progress: 0, status: 'Generating g3(h6) prefix (N=590,490)...' });
+
+  const H6_MAP = { a: 'ace', b: 'adf', c: 'bdf', d: 'bdc', e: 'afe', f: 'bce' };
+  const G3_MAP = { a: 'bbbaabaaac', b: 'bccacccbcc', c: 'ccccbbbcbc', d: 'ccccccccaa', e: 'bbbbbcabaa', f: 'aaaaaaabaa' };
+
+  let w = "a";
+  for (let iter = 0; iter < 10; iter++) {
+    let next = "";
+    for (let i = 0; i < w.length; i++) next += H6_MAP[w[i]];
+    w = next;
+  }
+  let tern = "";
+  for (let i = 0; i < w.length; i++) tern += G3_MAP[w[i]];
+  const N_total = tern.length;
+  const N_audit = 50000;
+  const wordArrLocal = tern.slice(0, N_audit).split('');
+
+  self.postMessage({ type: 'val_progress', module: 'C', phase: 'prefix_sums', progress: 5, status: 'Building O(1) Parikh prefix sums for N=50,000...' });
+
+  const pA = new Int32Array(N_audit + 1);
+  const pB = new Int32Array(N_audit + 1);
+  const pC = new Int32Array(N_audit + 1);
+  const pP = new Int32Array(N_audit + 1);
+  for (let i = 0; i < N_audit; i++) {
+    let ch = wordArrLocal[i];
+    let vA = (ch === 'a') ? 1 : 0;
+    let vB = (ch === 'b') ? 1 : 0;
+    let vC = (ch === 'c') ? 1 : 0;
+    pA[i+1] = pA[i] + vA;
+    pB[i+1] = pB[i] + vB;
+    pC[i+1] = pC[i] + vC;
+    pP[i+1] = pP[i] + vA * 0 + vB * 1 + vC * 65536;
+  }
+
+  let totalPairs = 0;
+  for (let k = 1; k <= maxK; k++) {
+    if (N_audit >= 2 * k) totalPairs += (N_audit - 2 * k + 1);
+  }
+
+  let currentK = 1;
+  let checkedPairs = 0;
+  let period1Count = 0;
+  let boundarySquares = { 2: [], 3: [], 4: [], 5: [] };
+  let countGt5 = 0;
+
+  // 50x50 density grid for UI rendering (binX: position 0..49999 in 1000s, binY: K 1..500 in 10s)
+  const densityGrid = [];
+  for (let bx = 0; bx < 50; bx++) {
+    densityGrid[bx] = [];
+    for (let by = 0; by < 50; by++) {
+      densityGrid[bx][by] = { count: 0, samples: [] };
+    }
+  }
+
+  const t0 = performance.now();
+
+  function scanChunkG3() {
+    if (isJobCancelled) return;
+    const chunkEndTime = performance.now() + 15;
+
+    while (currentK <= maxK && performance.now() < chunkEndTime) {
+      const k = currentK;
+      const maxI = N_audit - 2 * k;
+      for (let i = 0; i <= maxI; i++) {
+        if (isJobCancelled) return;
+        let p1 = pP[i+k] - pP[i];
+        let p2 = pP[i+2*k] - pP[i+k];
+        if (p1 === p2) {
+          let a1 = pA[i+k] - pA[i], a2 = pA[i+2*k] - pA[i+k];
+          if (a1 === a2) {
+            let b1 = pB[i+k] - pB[i], b2 = pB[i+2*k] - pB[i+k];
+            if (b1 === b2) {
+              let c1 = pC[i+k] - pC[i], c2 = pC[i+2*k] - pC[i+k];
+              if (c1 === c2) {
+                if (k === 1) {
+                  period1Count++;
+                } else {
+                  if (k >= 2 && k <= 5) {
+                    boundarySquares[k].push({ i, k, u: wordArrLocal.slice(i, i+k).join(''), v: wordArrLocal.slice(i+k, i+2*k).join('') });
+                  } else if (k > 5) {
+                    countGt5++;
+                  }
+                  let bx = Math.min(49, Math.floor((i / N_audit) * 50));
+                  let by = Math.min(49, Math.floor(((k - 1) / maxK) * 50));
+                  densityGrid[bx][by].count++;
+                  if (densityGrid[bx][by].samples.length < 3) {
+                    densityGrid[bx][by].samples.push({ i, k, u: wordArrLocal.slice(i, i+k).join(''), v: wordArrLocal.slice(i+k, i+2*k).join('') });
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      checkedPairs += (maxI >= 0 ? maxI + 1 : 0);
+      currentK++;
+    }
+
+    const pct = parseFloat(((checkedPairs / totalPairs) * 100).toFixed(1));
+    self.postMessage({ type: 'val_progress', module: 'C', phase: 'scanning', progress: pct, checkedPairs, totalPairs, currentK: Math.min(currentK, maxK) });
+
+    if (currentK <= maxK) {
+      setTimeout(scanChunkG3, 0);
+    } else {
+      const timeMs = parseFloat((performance.now() - t0).toFixed(1));
+      self.postMessage({
+        type: 'val_g3_results',
+        results: {
+          N_total,
+          N_audit,
+          maxK,
+          checkedPairs,
+          totalPairs,
+          period1Count,
+          boundarySquares,
+          densityGrid,
+          countGt5,
+          timeMs,
+          forbid4Symmetry: verifyForbid4Symmetry(),
+          status: countGt5 === 0 ? 'PASS' : 'FAIL',
+          message: countGt5 === 0 ? `No squares observed in range K > 5, within the audited prefix (N=${N_audit.toLocaleString()}) and window (K <= ${maxK}).` : `Found ${countGt5} unexpected squares with K > 5!`
+        }
+      });
+    }
+  }
+
+  setTimeout(scanChunkG3, 0);
+}
+
+// Module D: S3 Symmetry Control
+function runSymmetryCheck(maxNodes = 20000) {
+  isJobCancelled = false;
+  self.postMessage({ type: 'val_progress', module: 'D_sym', progress: 0, status: 'Running S3 Symmetry Control across 6 permutations...' });
 
   const perms = [
     { name: '(a,b,c)', order: ['a','b','c'] },
@@ -914,58 +1193,131 @@ function runValidationBenchmark(limit) {
     { name: '(c,b,a)', order: ['c','b','a'] }
   ];
 
-  const results = [];
+  const runs = [];
+  const traceHashes = [];
 
-  for (const p of perms) {
-    for (const mode of ['aa2f', 'aa2fr']) {
-      let res = runSingleBench(mode, limit, p.order, p.name);
-      results.push(res);
+  for (let idx = 0; idx < perms.length; idx++) {
+    if (isJobCancelled) return;
+    const p = perms[idx];
+    self.postMessage({ type: 'val_progress', module: 'D_sym', progress: Math.floor(((idx + 1) / 6) * 100), status: `Evaluating S3 orbit: ${p.name}...` });
+
+    let res = runSingleScientificBench('aa2fr', maxNodes, p.order, '');
+    let canonBest = canonicalizeWord(res.bestWord);
+    let traceHash = `${canonBest}|depth:${res.maxDepth}|nodes:${res.candidateNodes}|valid:${res.validExtensions}|back:${res.actualBacktracks}|rej:${res.rejections.total}`;
+    traceHashes.push(traceHash);
+    runs.push({
+      permName: p.name,
+      order: p.order,
+      canonicalWord: canonBest,
+      rawWord: res.bestWord.slice(0, 40) + (res.bestWord.length > 40 ? '...' : ''),
+      maxDepth: res.maxDepth,
+      candidateNodes: res.candidateNodes,
+      validExtensions: res.validExtensions,
+      actualBacktracks: res.actualBacktracks,
+      traceHash: traceHash
+    });
+  }
+
+  const allMatched = new Set(traceHashes).size === 1;
+  self.postMessage({
+    type: 'val_bench_symmetry_results',
+    results: {
+      matched: allMatched,
+      traceHash: traceHashes[0],
+      canonicalWord: runs[0].canonicalWord,
+      runs,
+      forbid4Symmetry: verifyForbid4Symmetry(),
+      status: allMatched ? 'PASS' : 'FAIL',
+      summary: allMatched ? "6/6 isomorphic traces matched. S3 symmetry and determinism verified." : "❌ SYMMETRY VIOLATION DETECTED: traces diverged across S3 permutations!"
     }
-  }
-
-  // Restore global worker state
-  wordArr = savedWordArr;
-  wordLen = savedWordLen;
-  config = savedConfig;
-  letterCounts = savedLetterCounts;
-  Engine.maxLen = savedMaxLen;
-  for (let i = 0; i <= wordLen; i++) {
-    prefixA[i] = savedPrefixA[i];
-    prefixB[i] = savedPrefixB[i];
-    prefixC[i] = savedPrefixC[i];
-    prefixPacked[i] = savedPrefixPacked[i];
-  }
-
-  return results;
+  });
 }
 
-function runSingleBench(mode, maxNodes, alphabetPerm, permName) {
+// Module D: Shared Seed Suite Benchmark (L=12)
+function runSeedSuiteBenchmark(maxNodes = 25000) {
+  isJobCancelled = false;
+  self.postMessage({ type: 'val_progress', module: 'D_seeds', progress: 0, status: 'Executing warmup run...' });
+
+  // Warmup
+  runSingleScientificBench('aa2f', 500, ['a','b','c'], SEED_SUITE_L12[0].word);
+  runSingleScientificBench('aa2fr', 500, ['a','b','c'], SEED_SUITE_L12[0].word);
+
+  const suiteResults = [];
+  let totalRealizedNodes = 0;
+
+  for (let idx = 0; idx < SEED_SUITE_L12.length; idx++) {
+    if (isJobCancelled) return;
+    const seedObj = SEED_SUITE_L12[idx];
+    const pct = Math.floor(((idx + 1) / SEED_SUITE_L12.length) * 100);
+    self.postMessage({ type: 'val_progress', module: 'D_seeds', progress: pct, status: `Evaluating seed ${idx + 1}/10: "${seedObj.word}"...` });
+
+    let resAA2F = runSingleScientificBench('aa2f', maxNodes, ['a','b','c'], seedObj.word);
+    if (isJobCancelled) return;
+    let resAA2FR = runSingleScientificBench('aa2fr', maxNodes, ['a','b','c'], seedObj.word);
+
+    totalRealizedNodes += (resAA2F.candidateNodes + resAA2FR.candidateNodes);
+    suiteResults.push({
+      seed: seedObj,
+      aa2f: resAA2F,
+      aa2fr: resAA2FR
+    });
+  }
+
+  self.postMessage({
+    type: 'val_bench_seeds_results',
+    results: {
+      seedSuiteVersion: "1.0-L12-frozen",
+      nodeBudgetPerSeed: maxNodes,
+      totalRealizedNodes,
+      forbid4Symmetry: verifyForbid4Symmetry(),
+      runs: suiteResults,
+      timestamp: new Date().toISOString(),
+      runId: 'bench_' + Date.now().toString(36),
+      summary: "Comparison illustrates search behavior within the shared state space permitted by AA2FR."
+    }
+  });
+}
+
+function runSingleScientificBench(mode, maxNodes, alphabetPerm, seedStr) {
   config.mode = mode;
   config.direction = 'right';
-  wordArr = [];
-  wordLen = 0;
-  prefixA[0] = 0;
-  prefixB[0] = 0;
-  prefixC[0] = 0;
-  prefixPacked[0] = 0;
-  letterCounts = { a: 0, b: 0, c: 0 };
+  wordArr = seedStr.split('');
+  wordLen = seedStr.length;
+  const seedLen = seedStr.length;
+
+  prefixA[0] = 0; prefixB[0] = 0; prefixC[0] = 0; prefixPacked[0] = 0;
+  for (let i = 0; i < seedLen; i++) {
+    let char = wordArr[i];
+    let valA = (char === 'a') ? 1 : 0;
+    let valB = (char === 'b') ? 1 : 0;
+    let valC = (char === 'c') ? 1 : 0;
+    let valPacked = valA * 0 + valB * 1 + valC * 65536;
+    prefixA[i+1] = prefixA[i] + valA;
+    prefixB[i+1] = prefixB[i] + valB;
+    prefixC[i+1] = prefixC[i] + valC;
+    prefixPacked[i+1] = prefixPacked[i] + valPacked;
+  }
 
   let candidateNodes = 0;
   let validExtensions = 0;
   let actualBacktracks = 0;
-  let maxLen = 0;
-  let bestWord = '';
+  let maxLen = seedLen;
+  let bestWord = seedStr;
 
-  let rejForbid4 = 0;
-  let rejSq2 = 0;
-  let rejSq3 = 0;
-  let rejSq4 = 0;
-  let rejSq5Plus = 0;
+  let rejForbid4Only = 0;
+  let rejSquareOnly = 0;
+  let rejBoth = 0;
+  let minSquareK = null;
+  let triggeredKSet = new Set();
 
-  let letterIdx = [0];
+  let depthCurve = [{ nodes: 0, depth: 0 }];
+  let letterIdx = new Int32Array(MAX_DEPTH);
+  letterIdx[seedLen] = 0;
+
   const t0 = performance.now();
 
-  while (candidateNodes < maxNodes && wordLen >= 0) {
+  while (candidateNodes < maxNodes && wordLen >= seedLen) {
+    if (isJobCancelled) break;
     if (wordLen > maxLen) {
       maxLen = wordLen;
       bestWord = wordArr.slice(0, wordLen).join('');
@@ -986,45 +1338,81 @@ function runSingleBench(mode, maxNodes, alphabetPerm, permName) {
       prefixC[wordLen] = prefixC[wordLen - 1] + valC;
       prefixPacked[wordLen] = prefixPacked[wordLen - 1] + valPacked;
 
-      let valRes = validateWordConstraints(false);
-      if (valRes === null) {
+      // Scientific constraint check (exact overlap classification)
+      let n = wordLen;
+      let hasForbid4 = false;
+      if (mode === 'aa2fr' && n >= 4) {
+        let sub = wordArr[n-4] + wordArr[n-3] + wordArr[n-2] + wordArr[n-1];
+        if (FORBID4.includes(sub)) hasForbid4 = true;
+      }
+
+      let sqList = [];
+      const minHalfLen = 2;
+      let maxH = Math.floor(n / 2);
+      for (let h = minHalfLen; h <= maxH; h++) {
+        let start = n - 2 * h;
+        if (start < 0) continue;
+        if (checkAbelian(start, start + h, start + h, start + 2 * h)) {
+          sqList.push(h);
+        }
+      }
+
+      let isValid = (!hasForbid4 && sqList.length === 0);
+      if (isValid) {
         validExtensions++;
         letterIdx[wordLen] = 0;
       } else {
         wordLen--;
-        if (valRes.type === 'forbid4') {
-          rejForbid4++;
-        } else if (valRes.type === 'abelian_square') {
-          const k = valRes.half_length || 2;
-          if (k === 2) rejSq2++;
-          else if (k === 3) rejSq3++;
-          else if (k === 4) rejSq4++;
-          else rejSq5Plus++;
+        if (hasForbid4 && sqList.length === 0) rejForbid4Only++;
+        else if (!hasForbid4 && sqList.length > 0) rejSquareOnly++;
+        else if (hasForbid4 && sqList.length > 0) rejBoth++;
+
+        for (let k of sqList) {
+          triggeredKSet.add(k);
+          if (minSquareK === null || k < minSquareK) minSquareK = k;
         }
       }
+
+      if (candidateNodes % 1000 === 0) {
+        depthCurve.push({ nodes: candidateNodes, depth: maxLen - seedLen });
+      }
     } else {
-      if (wordLen === 0) break;
+      if (wordLen === seedLen) break;
       wordLen--;
       actualBacktracks++;
     }
   }
-  const timeMs = performance.now() - t0;
+
+  if (depthCurve[depthCurve.length - 1].nodes !== candidateNodes) {
+    depthCurve.push({ nodes: candidateNodes, depth: maxLen - seedLen });
+  }
+
+  const timeMs = parseFloat((performance.now() - t0).toFixed(2));
   return {
     mode: mode.toUpperCase(),
-    permName,
+    permName: '(' + alphabetPerm.join(',') + ')',
     candidateNodes,
     validExtensions,
     actualBacktracks,
-    maxLen,
-    bestWord: bestWord.slice(0, 40) + (bestWord.length > 40 ? '...' : ''),
-    timeMs: parseFloat(timeMs.toFixed(2)),
+    maxDepth: maxLen - seedLen,
+    bestWord: bestWord,
+    timeMs,
     rejections: {
-      forbid4: rejForbid4,
-      sq2: rejSq2,
-      sq3: rejSq3,
-      sq4: rejSq4,
-      sq5Plus: rejSq5Plus,
-      total: rejForbid4 + rejSq2 + rejSq3 + rejSq4 + rejSq5Plus
-    }
+      forbid4_only: rejForbid4Only,
+      square_only: rejSquareOnly,
+      both: rejBoth,
+      total: rejForbid4Only + rejSquareOnly + rejBoth,
+      minSquareK: minSquareK,
+      triggeredKSet: Array.from(triggeredKSet).sort((a, b) => a - b)
+    },
+    depthCurve
   };
+}
+
+// Legacy wrappers for backwards compatibility
+function runValidationBenchmark(limit) {
+  return runSeedSuiteBenchmark(limit);
+}
+function runSingleBench(mode, maxNodes, alphabetPerm, permName) {
+  return runSingleScientificBench(mode, maxNodes, alphabetPerm, '');
 }

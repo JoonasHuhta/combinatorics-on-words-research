@@ -76,7 +76,7 @@ Before committing UI or logic changes:
 
 - `node --check` on the extracted script from `index.html`.
 - `git diff --check`.
-- Verify all 14 tabs can be reached without JavaScript errors.
+- Verify all 16 tabs can be reached without JavaScript errors.
 - Verify `g85(a)` remains length 85.
 - Verify the ABC lab still reports no valid extension to length 8.
 - Verify AA2FR Challenge can find a 40-letter challenge.
