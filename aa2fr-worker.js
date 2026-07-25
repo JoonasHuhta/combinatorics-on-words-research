@@ -663,6 +663,11 @@ self.onmessage = function(e) {
       let result = runPredictiveAnalysis(msg.wordArr, msg.options);
       self.postMessage({ type: 'predictive_result', id: msg.id, result: result });
       break;
+
+    case 'val_benchmark':
+      let benchResults = runValidationBenchmark(msg.limit || 100000);
+      self.postMessage({ type: 'val_benchmark_results', results: benchResults });
+      break;
   }
 };
 
@@ -883,4 +888,143 @@ function runRQ0Tests() {
   }
 
   return results;
+}
+
+// -------------------------------------------------------------------------
+// VALIDATION LAB BATCH BENCHMARK (PHASE 6)
+// -------------------------------------------------------------------------
+function runValidationBenchmark(limit) {
+  // Save global worker state
+  let savedWordArr = wordArr.slice(0, wordLen);
+  let savedWordLen = wordLen;
+  let savedConfig = { ...config };
+  let savedLetterCounts = { ...letterCounts };
+  let savedMaxLen = Engine.maxLen;
+  let savedPrefixA = prefixA.slice(0, wordLen + 1);
+  let savedPrefixB = prefixB.slice(0, wordLen + 1);
+  let savedPrefixC = prefixC.slice(0, wordLen + 1);
+  let savedPrefixPacked = prefixPacked.slice(0, wordLen + 1);
+
+  const perms = [
+    { name: '(a,b,c)', order: ['a','b','c'] },
+    { name: '(a,c,b)', order: ['a','c','b'] },
+    { name: '(b,a,c)', order: ['b','a','c'] },
+    { name: '(b,c,a)', order: ['b','c','a'] },
+    { name: '(c,a,b)', order: ['c','a','b'] },
+    { name: '(c,b,a)', order: ['c','b','a'] }
+  ];
+
+  const results = [];
+
+  for (const p of perms) {
+    for (const mode of ['aa2f', 'aa2fr']) {
+      let res = runSingleBench(mode, limit, p.order, p.name);
+      results.push(res);
+    }
+  }
+
+  // Restore global worker state
+  wordArr = savedWordArr;
+  wordLen = savedWordLen;
+  config = savedConfig;
+  letterCounts = savedLetterCounts;
+  Engine.maxLen = savedMaxLen;
+  for (let i = 0; i <= wordLen; i++) {
+    prefixA[i] = savedPrefixA[i];
+    prefixB[i] = savedPrefixB[i];
+    prefixC[i] = savedPrefixC[i];
+    prefixPacked[i] = savedPrefixPacked[i];
+  }
+
+  return results;
+}
+
+function runSingleBench(mode, maxNodes, alphabetPerm, permName) {
+  config.mode = mode;
+  config.direction = 'right';
+  wordArr = [];
+  wordLen = 0;
+  prefixA[0] = 0;
+  prefixB[0] = 0;
+  prefixC[0] = 0;
+  prefixPacked[0] = 0;
+  letterCounts = { a: 0, b: 0, c: 0 };
+
+  let candidateNodes = 0;
+  let validExtensions = 0;
+  let actualBacktracks = 0;
+  let maxLen = 0;
+  let bestWord = '';
+
+  let rejForbid4 = 0;
+  let rejSq2 = 0;
+  let rejSq3 = 0;
+  let rejSq4 = 0;
+  let rejSq5Plus = 0;
+
+  let letterIdx = [0];
+  const t0 = performance.now();
+
+  while (candidateNodes < maxNodes && wordLen >= 0) {
+    if (wordLen > maxLen) {
+      maxLen = wordLen;
+      bestWord = wordArr.slice(0, wordLen).join('');
+    }
+    if (letterIdx[wordLen] < 3) {
+      const char = alphabetPerm[letterIdx[wordLen]];
+      candidateNodes++;
+      letterIdx[wordLen]++;
+
+      wordArr[wordLen] = char;
+      wordLen++;
+      let valA = (char === 'a') ? 1 : 0;
+      let valB = (char === 'b') ? 1 : 0;
+      let valC = (char === 'c') ? 1 : 0;
+      let valPacked = valA * 0 + valB * 1 + valC * 65536;
+      prefixA[wordLen] = prefixA[wordLen - 1] + valA;
+      prefixB[wordLen] = prefixB[wordLen - 1] + valB;
+      prefixC[wordLen] = prefixC[wordLen - 1] + valC;
+      prefixPacked[wordLen] = prefixPacked[wordLen - 1] + valPacked;
+
+      let valRes = validateWordConstraints(false);
+      if (valRes === null) {
+        validExtensions++;
+        letterIdx[wordLen] = 0;
+      } else {
+        wordLen--;
+        if (valRes.type === 'forbid4') {
+          rejForbid4++;
+        } else if (valRes.type === 'abelian_square') {
+          const k = valRes.half_length || 2;
+          if (k === 2) rejSq2++;
+          else if (k === 3) rejSq3++;
+          else if (k === 4) rejSq4++;
+          else rejSq5Plus++;
+        }
+      }
+    } else {
+      if (wordLen === 0) break;
+      wordLen--;
+      actualBacktracks++;
+    }
+  }
+  const timeMs = performance.now() - t0;
+  return {
+    mode: mode.toUpperCase(),
+    permName,
+    candidateNodes,
+    validExtensions,
+    actualBacktracks,
+    maxLen,
+    bestWord: bestWord.slice(0, 40) + (bestWord.length > 40 ? '...' : ''),
+    timeMs: parseFloat(timeMs.toFixed(2)),
+    rejections: {
+      forbid4: rejForbid4,
+      sq2: rejSq2,
+      sq3: rejSq3,
+      sq4: rejSq4,
+      sq5Plus: rejSq5Plus,
+      total: rejForbid4 + rejSq2 + rejSq3 + rejSq4 + rejSq5Plus
+    }
+  };
 }

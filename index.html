@@ -1341,55 +1341,58 @@
     <p style="color:#555; font-size:0.95rem; line-height:1.6; max-width:850px; margin-bottom:20px;">
       This dedicated laboratory isolates formal mathematical verification from exploratory heuristics. 
       Here we execute exact reproduction tests for published literature on Mäkelä's Conjecture and Rao–Rosenfeld morphisms, 
-      while verifying core mathematical invariants like group symmetries.
+      while verifying core mathematical invariants like group symmetries. <br><br>
+      <strong style="color:#c0392b;">Epistemological Note:</strong> Bounded computational auditing does <em>not</em> replace formal infinite proofs or verify theorems for all $N$; it confirms published results and heuristic behavior strictly within specified finite prefix lengths ($N$) and half-length inspection windows ($K$).
     </p>
 
     <!-- Module A -->
     <div class="val-card">
-      <h3>Module A: FORBID4 S&sub3;-Symmetry Invariant Check</h3>
+      <h3>Module A: FORBID4 S&sub3; Symmetric Group Orbit &amp; Invariant Check</h3>
       <p>
-        Verifies that our 6 forbidden factors (<code>baac, caab, abbc, cbba, accb, bcca</code>) form exactly one complete orbit under the symmetric group S&sub3; (all 6 letter permutations of {a,&thinsp;b,&thinsp;c}). This proves the constraint set is mathematically symmetric and unbiased.
+        Verifies that our 6 forbidden factors (<code>baac, caab, abbc, cbba, accb, bcca</code>) form exactly one closed transitive orbit under the symmetric group S&sub3; (all 6 letter permutations of {a,&thinsp;b,&thinsp;c}). By generating the orbit from a single factor and removing duplicates, we prove the constraint set is mathematically symmetric and unbiased.
       </p>
-      <button class="val-btn" onclick="valRunS3Check()">Run S&sub3; Symmetry Check</button>
+      <button class="val-btn" onclick="valRunS3Check()">Run S&sub3; Symmetric Group Check</button>
       <div id="val-s3-output" class="val-output hidden"></div>
     </div>
 
     <!-- Module B -->
     <div class="val-card">
-      <h3>Module B: h&sub6; Fixed Point Generation &amp; Abelian Square Scan (Theorem 4)</h3>
+      <h3>Module B: h&sub6; Bounded Prefix Audit (Rao &amp; Rosenfeld Theorem 4)</h3>
       <p>
-        Generates the 59,049-letter prefix of the uniform morphism h&sub6; fixed point (10 iterations from 'a') and executes an exhaustive O(N) prefix-sum scan for abelian squares across all half-lengths k = 1 to 400. 
-        <strong>Expected: Zero abelian squares found.</strong>
+        Generates the 59,049-letter prefix ($N$) of the uniform morphism h&sub6; fixed point (10 iterations from 'a') and executes an O(N&times;K) prefix-sum audit for abelian squares across half-lengths K = 1 to 400. 
+        <strong>Expected: Zero abelian squares observed in this prefix ($N=59,049$) and window ($K \le 400$). Note: This bounded check supports the literature without claiming unconditional formal proof.</strong>
       </p>
-      <button class="val-btn" onclick="valRunH6Check()">Generate h&sub6; Word &amp; Scan Squares</button>
+      <button class="val-btn" onclick="valRunH6Check()">Run Bounded Prefix Audit ($N=59,049, K \le 400$)</button>
       <div id="val-h6-output" class="val-output hidden"></div>
     </div>
 
     <!-- Module C -->
     <div class="val-card">
-      <h3>Module C: g&sub3;(h&sub6;&circ;&omega;(a)) Sanity Check &amp; Half-Length 2&ndash;5 Density Scan</h3>
+      <h3>Module C: g&sub3;(h&sub6;&circ;&omega;(a)) Bounded Prefix Audit &amp; Boundary Scan ($K=2..500$)</h3>
       <p>
-        Applies the corrected g&sub3; morphism (where <code>d &rarr; ccccccccaa</code> has exact length 10) to the 59,049-character h&sub6; word, producing a 590,490-character ternary word over {a,&thinsp;b,&thinsp;c}. 
-        We then scan specifically for half-lengths k = 2, 3, 4, 5 (the open boundary of Mäkelä's Conjecture) and check if any triggered squares match our FORBID4 factors.
+        Applies the corrected g&sub3; morphism to the h&sub6; word, producing a 590,490-character ternary prefix ($N$). 
+        We audit the first 50,000 characters across half-length window K = 1..500, checking specifically whether any triggered squares match our FORBID4 factors. <br>
+        <strong>Conclusion is strictly bounded: no abelian squares observed in this audited prefix and window.</strong>
       </p>
-      <button class="val-btn" onclick="valRunG3Check()">Run g&sub3; Sanity Check &amp; Scan Boundary (k=2..5)</button>
+      <button class="val-btn" onclick="valRunG3Check()">Run g&sub3; Bounded Audit ($N=50,000, K=1..500$)</button>
       <div id="val-g3-output" class="val-output hidden"></div>
     </div>
 
     <!-- Module D -->
     <div class="val-card">
-      <h3>Module D: Fair Comparative Benchmark (AA2F vs. AA2FR)</h3>
+      <h3>Module D: Fair Comparative Benchmark &amp; Rejection Breakdown (AA2F vs. AA2FR)</h3>
       <p>
-        Executes a strictly controlled, side-by-side empirical benchmark of <strong>AA2F</strong> (Mäkelä 2002, avoid k &ge; 2) versus <strong>AA2FR</strong> (our Extension Lab, avoid k &ge; 2 plus FORBID4). 
-        Both models receive identical alphabetical search order (<code>a &rarr; b &rarr; c</code>), identical starting conditions, and an exact step limit.
+        Executes a strictly controlled, side-by-side empirical benchmark of <strong>AA2F</strong> (Mäkelä 2002, avoid K &ge; 2) versus <strong>AA2FR</strong> (our Extension Lab, avoid K &ge; 2 plus FORBID4). 
+        Both models receive identical starting conditions, identical search rules, and an exact node budget. Reports neutral metrics including candidate nodes, valid extensions, actual DFS backtracks, and rejection causes.
       </p>
       <div style="margin-bottom: 12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-        <label style="font-size:0.9rem; font-weight:bold; color:#444;">Step Limit:</label>
+        <label style="font-size:0.9rem; font-weight:bold; color:#444;">Node Budget:</label>
         <select id="val-bench-steps" style="padding:6px 10px; border-radius:4px; border:1px solid #ccc; font-size:0.9rem;">
-          <option value="50000">50,000 steps (Fast ~1s)</option>
-          <option value="100000" selected>100,000 steps (Standard ~2s)</option>
-          <option value="250000">250,000 steps (Deep ~6s)</option>
-          <option value="500000">500,000 steps (Intense ~12s)</option>
+          <option value="50000">50,000 nodes (Fast ~1s)</option>
+          <option value="100000" selected>100,000 nodes (Standard ~2s)</option>
+          <option value="250000">250,000 nodes (Deep ~6s)</option>
+          <option value="500000">500,000 nodes (Intense ~12s)</option>
+          <option value="1000000">1,000,000 nodes (Max Budget ~24s)</option>
         </select>
         <button class="val-btn" onclick="valRunBenchmark()">▶ Run Fair Benchmark</button>
       </div>
@@ -5424,6 +5427,8 @@ function valLog(elId, msg, type='info') {
 // Module A: FORBID4 S3-Symmetry Invariant Check
 function valRunS3Check() {
   const forbid = ['baac', 'caab', 'abbc', 'cbba', 'accb', 'bcca'];
+  const origSorted = forbid.slice().sort().join(', ');
+
   const perms = [
     { name: '(a,b,c)', map: {a:'a', b:'b', c:'c'} },
     { name: '(a,c,b)', map: {a:'a', b:'c', c:'b'} },
@@ -5433,27 +5438,42 @@ function valRunS3Check() {
     { name: '(c,b,a)', map: {a:'c', b:'b', c:'a'} }
   ];
 
-  let log = "--- S₃ SYMMETRY INVARIANT VERIFICATION ---\n";
-  log += `Original FORBID4 set: [ ${forbid.join(', ')} ]\n\n`;
+  let log = "--- S₃ SYMMETRIC GROUP ORBIT & INVARIANT VERIFICATION ---\n";
+  log += `Target FORBID4 set: [ ${origSorted} ]\n\n`;
 
-  const origSorted = forbid.slice().sort().join(', ');
+  // 1. Generate orbit from a single seed factor ('baac')
+  const seed = 'baac';
+  log += `Step 1: Generating orbit of seed factor "${seed}" under all 6 permutations of symmetric group S₃...\n`;
+  const orbitSet = new Set();
+  perms.forEach(p => {
+    const mappedWord = seed.split('').map(c => p.map[c]).join('');
+    orbitSet.add(mappedWord);
+    log += `  Permutation ${p.name.padEnd(7)} -> "${mappedWord}"\n`;
+  });
+
+  const orbitSorted = Array.from(orbitSet).sort().join(', ');
+  log += `\nGenerated Orbit (unique elements): [ ${orbitSorted} ]\n`;
+  const isCompleteOrbit = (orbitSorted === origSorted);
+  log += `Orbit matches FORBID4 exactly: ${isCompleteOrbit ? '✅ YES' : '❌ NO'}\n\n`;
+
+  // 2. Verify global set invariance under each permutation
+  log += `Step 2: Verifying full set invariance under each permutation of S₃...\n`;
   let allMatched = true;
-
   perms.forEach(p => {
     const mapped = forbid.map(w => w.split('').map(c => p.map[c]).join(''));
     const mappedSorted = mapped.slice().sort().join(', ');
     const match = (mappedSorted === origSorted);
     if (!match) allMatched = false;
-    log += `Permutation ${p.name.padEnd(7)} -> [ ${mapped.join(', ')} ] -> ${match ? '✅ MATCH' : '❌ MISMATCH'}\n`;
+    log += `  Permutation ${p.name.padEnd(7)} -> [ ${mapped.join(', ')} ] -> ${match ? '✅ INVARIANT' : '❌ ASYMMETRY'}\n`;
   });
 
   log += "\n----------------------------------------\n";
-  if (allMatched) {
-    log += "✅ RESULT: PASS! The FORBID4 set forms exactly one complete orbit under the symmetric group S₃.\n";
-    log += "This mathematical invariant confirms that our 6 forbidden factors are unbiased and symmetric across all letters.";
+  if (isCompleteOrbit && allMatched) {
+    log += "✅ RESULT: PASS! The FORBID4 set is exactly the closed transitive orbit of a single factor under the symmetric group S₃.\n";
+    log += "This mathematical invariant proves that our 6 forbidden factors are unbiased, complete, and symmetric across all letters in {a, b, c}.";
     valLog('val-s3-output', log, 'success');
   } else {
-    log += "❌ RESULT: FAIL! Asymmetry detected in FORBID4 set.";
+    log += "❌ RESULT: FAIL! Asymmetry or incomplete orbit detected in FORBID4 set.";
     valLog('val-s3-output', log, 'error');
   }
 }
@@ -5651,12 +5671,12 @@ function valRunG3Check() {
 
     log += "\n----------------------------------------\n";
     if (forbiddenRealmCount === 0) {
-      log += `✅ CONCLUSION: Theorem 10 is 100% reproduced! There are NO abelian squares of half-length > 5.\n`;
-      log += `On the open boundary (k=2..5), exactly ${totalBoundary} squares occur in this 50,000-letter prefix.\n`;
-      log += `This confirms that g₃(h₆^ω(a)) solves the >5 avoidance, while leaving k=2..5 open for our AA2FR constraints!`;
+      log += `✅ CONCLUSION: Bounded audit complete! There are NO abelian squares of half-length > 5 observed in this 50,000-letter prefix ($N$) across half-lengths K = 1..500.\n`;
+      log += `On the open boundary (K=2..5), exactly ${totalBoundary} squares occur in this audited prefix.\n`;
+      log += `Note: This bounded result supports literature theorem claims without asserting unconditional infinite proof.`;
       valLog('val-g3-output', log, 'success');
     } else {
-      log += `❌ CONCLUSION: Unexpected squares found in k > 5 realm!`;
+      log += `❌ CONCLUSION: Unexpected squares observed in K > 5 realm within this prefix!`;
       valLog('val-g3-output', log, 'error');
     }
   }, 20);
@@ -5667,114 +5687,108 @@ function valRunBenchmark() {
   const stepSelect = document.getElementById('val-bench-steps');
   const maxSteps = stepSelect ? parseInt(stepSelect.value, 10) : 100000;
 
-  valLog('val-bench-output', `Running controlled benchmark (Step limit: ${maxSteps.toLocaleString()}). Please wait...`, 'info');
+  valLog('val-bench-output', `Running controlled multi-run statistical benchmark across all 6 permutations of S₃ in Worker (Node limit: ${maxSteps.toLocaleString()} per run). Please wait...`, 'info');
 
-  setTimeout(() => {
-    function runSim(mode, limit) {
-      const forbid = ['baac', 'caab', 'abbc', 'cbba', 'accb', 'bcca'];
-      let word = [];
-      const alphabet = ['a', 'b', 'c'];
-      let steps = 0;
-      let backtracks = 0;
-      let maxLen = 0;
-      let bestWord = '';
-      let letterIdx = [0];
+  try {
+    const worker = new Worker('aa2fr-worker.js');
+    worker.postMessage({ cmd: 'val_benchmark', limit: maxSteps });
 
-      const t0 = performance.now();
-
-      while (steps < limit && word.length >= 0) {
-        if (word.length > maxLen) {
-          maxLen = word.length;
-          bestWord = word.join('');
-        }
-        if (letterIdx[word.length] < 3) {
-          const c = alphabet[letterIdx[word.length]];
-          word.push(c);
-          steps++;
-          letterIdx[word.length] = 0;
-
-          let valid = true;
-          const N = word.length;
-
-          // AA2FR constraint check: forbid4 on suffix
-          if (mode === 'AA2FR' && N >= 4) {
-            const suff = word.slice(N - 4).join('');
-            if (forbid.includes(suff)) valid = false;
-          }
-
-          // Shared Parikh check: avoid abelian squares of half-len k >= 2
-          if (valid && N >= 4) {
-            const maxK = Math.floor(N / 2);
-            for (let k = 2; k <= maxK; k++) {
-              let cA1=0, cB1=0, cC1=0, cA2=0, cB2=0, cC2=0;
-              for (let i = N - 2*k; i < N - k; i++) {
-                const ch = word[i];
-                if (ch === 'a') cA1++;
-                else if (ch === 'b') cB1++;
-                else cC1++;
-              }
-              for (let i = N - k; i < N; i++) {
-                const ch = word[i];
-                if (ch === 'a') cA2++;
-                else if (ch === 'b') cB2++;
-                else cC2++;
-              }
-              if (cA1 === cA2 && cB1 === cB2 && cC1 === cC2) {
-                valid = false;
-                break;
-              }
-            }
-          }
-
-          if (!valid) {
-            word.pop();
-            letterIdx[word.length]++;
-            backtracks++;
-          } else {
-            letterIdx.push(0);
-          }
-        } else {
-          if (word.length === 0) break;
-          word.pop();
-          letterIdx[word.length]++;
-          backtracks++;
-        }
+    worker.onmessage = function(e) {
+      const msg = e.data;
+      if (msg.type === 'val_benchmark_results') {
+        renderBenchmarkResults(msg.results, maxSteps);
+        worker.terminate();
       }
-      const timeMs = (performance.now() - t0).toFixed(1);
-      return { maxLen, backtracks, steps, bestWord, timeMs };
-    }
+    };
 
-    const resF = runSim('AA2F', maxSteps);
-    const resFR = runSim('AA2FR', maxSteps);
+    worker.onerror = function(err) {
+      valLog('val-bench-output', `❌ Worker error during benchmark: ${err.message}`, 'error');
+      worker.terminate();
+    };
+  } catch (err) {
+    valLog('val-bench-output', `❌ Failed to launch benchmark worker: ${err.message}`, 'error');
+  }
+}
 
-    const ratioF = (resF.backtracks / (resF.maxLen || 1)).toFixed(1);
-    const ratioFR = (resFR.backtracks / (resFR.maxLen || 1)).toFixed(1);
+function renderBenchmarkResults(results, maxSteps) {
+  const aa2f = results.filter(r => r.mode === 'AA2F');
+  const aa2fr = results.filter(r => r.mode === 'AA2FR');
 
-    let log = "--- EMPIRICAL COMPARATIVE BENCHMARK: AA2F vs. AA2FR ---\n";
-    log += `Control Parameters: Identical Alphabetical Search Order (a->b->c), Parity k >= 2, Step Limit: ${maxSteps.toLocaleString()}\n\n`;
-    log += `+-------------------------+-------------------------+-------------------------+\n`;
-    log += `| Metric                  | AA2F (Mäkelä 2002)      | AA2FR (Extension Lab)   |\n`;
-    log += `+-------------------------+-------------------------+-------------------------+\n`;
-    log += `| Max Word Length (L_max) | ${resF.maxLen.toString().padEnd(23)} | ${resFR.maxLen.toString().padEnd(23)} |\n`;
-    log += `| Backtrack Count         | ${resF.backtracks.toLocaleString().padEnd(23)} | ${resFR.backtracks.toLocaleString().padEnd(23)} |\n`;
-    log += `| Backtracks per Length   | ${ratioF.padEnd(23)} | ${ratioFR.padEnd(23)} |\n`;
-    log += `| Execution Time (ms)     | ${resF.timeMs.padEnd(23)} | ${resFR.timeMs.padEnd(23)} |\n`;
-    log += `+-------------------------+-------------------------+-------------------------+\n\n`;
+  const getStats = (arr, key) => {
+    const vals = arr.map(x => x[key]).sort((a, b) => a - b);
+    const min = vals[0];
+    const max = vals[vals.length - 1];
+    const sum = vals.reduce((a, b) => a + b, 0);
+    const mean = (sum / vals.length).toFixed(1);
+    const mid = Math.floor(vals.length / 2);
+    const median = vals.length % 2 !== 0 ? vals[mid] : ((vals[mid - 1] + vals[mid]) / 2).toFixed(1);
+    return { min, max, mean, median, sum };
+  };
 
-    log += `AA2F Best Word Prefix  (${resF.maxLen} chars):  "${resF.bestWord.slice(0, 45)}..."\n`;
-    log += `AA2FR Best Word Prefix (${resFR.maxLen} chars): "${resFR.bestWord.slice(0, 45)}..."\n\n`;
+  const lenF = getStats(aa2f, 'maxLen');
+  const lenFR = getStats(aa2fr, 'maxLen');
+  const btF = getStats(aa2f, 'actualBacktracks');
+  const btFR = getStats(aa2fr, 'actualBacktracks');
+  const extF = getStats(aa2f, 'validExtensions');
+  const extFR = getStats(aa2fr, 'validExtensions');
+  const timeF = getStats(aa2f, 'timeMs');
+  const timeFR = getStats(aa2fr, 'timeMs');
 
-    log += "--- SCIENTIFIC ANALYSIS ---\n";
-    if (resFR.maxLen > resF.maxLen) {
-      log += `✅ EMPIRICAL DISCOVERY: AA2FR achieved a significantly LONGER word (${resFR.maxLen} vs ${resF.maxLen}) within the same step budget!\n`;
-      log += `Why? In unconstrained AA2F, DFS gets trapped in deep, repetitive combinatorial dead-ends around length ~${resF.maxLen}.\n`;
-      log += `By explicitly forbidding our 6 FORBID4 factors early (at length 4), AA2FR prunes those unviable branches before entering them, acting as a powerful search heuristic that guides the tree toward deeper solutions!`;
-      valLog('val-bench-output', log, 'success');
-    } else {
-      log += `📊 BENCHMARK COMPLETE: Both models evaluated under identical conditions.`;
-      valLog('val-bench-output', log, 'success');
-    }
-  }, 20);
+  const sumRej = (arr, key) => arr.reduce((acc, r) => acc + r.rejections[key], 0);
+
+  let log = "=== BATCH EXPERIMENT RESULTS (6 ALPHABETICAL PERMUTATIONS OF S₃) ===\n";
+  log += `Shared Web Worker Engine: O(1) Integer Parikh Packing | Node Budget: ${maxSteps.toLocaleString()} per run (Total: ${(maxSteps * 12).toLocaleString()} nodes evaluated)\n\n`;
+
+  log += "1. MAXIMUM SYMBOLIC DEPTH (WORD LENGTH REACHED)\n";
+  log += "-------------------------------------------------------------------------\n";
+  log += "Model    | Min Depth | Max Depth | Median Depth | Mean Depth | Delta (Median)\n";
+  log += "-------------------------------------------------------------------------\n";
+  const deltaMed = (parseFloat(lenFR.median) - parseFloat(lenF.median)).toFixed(1);
+  log += `AA2F     | ${lenF.min.toString().padEnd(9)} | ${lenF.max.toString().padEnd(9)} | ${lenF.median.toString().padEnd(12)} | ${lenF.mean.toString().padEnd(10)} | reference\n`;
+  log += `AA2FR    | ${lenFR.min.toString().padEnd(9)} | ${lenFR.max.toString().padEnd(9)} | ${lenFR.median.toString().padEnd(12)} | ${lenFR.mean.toString().padEnd(10)} | ${deltaMed >= 0 ? '+' + deltaMed : deltaMed}\n`;
+  log += "-------------------------------------------------------------------------\n\n";
+
+  log += "2. SEARCH DYNAMICS & REJECTION ANALYSIS (TOTALS ACROSS ALL 6 RUNS)\n";
+  log += "-------------------------------------------------------------------------\n";
+  log += "Metric                        | AA2F (Unconstrained) | AA2FR (FORBID4 Constrained)\n";
+  log += "-------------------------------------------------------------------------\n";
+  log += `Candidate Nodes Evaluated     | ${(maxSteps * 6).toLocaleString().padEnd(20)} | ${(maxSteps * 6).toLocaleString()}\n`;
+  log += `Valid Extensions Pushed       | ${extF.sum.toLocaleString().padEnd(20)} | ${extFR.sum.toLocaleString()}\n`;
+  log += `Actual DFS Backtracks (Pop)   | ${btF.sum.toLocaleString().padEnd(20)} | ${btFR.sum.toLocaleString()}\n`;
+  log += `Rejections: FORBID4 Factor    | ${'0 (N/A)'.padEnd(20)} | ${sumRej(aa2fr, 'forbid4').toLocaleString()}\n`;
+  log += `Rejections: Abelian Sq (k=2)  | ${sumRej(aa2f, 'sq2').toLocaleString().padEnd(20)} | ${sumRej(aa2fr, 'sq2').toLocaleString()}\n`;
+  log += `Rejections: Abelian Sq (k=3)  | ${sumRej(aa2f, 'sq3').toLocaleString().padEnd(20)} | ${sumRej(aa2fr, 'sq3').toLocaleString()}\n`;
+  log += `Rejections: Abelian Sq (k=4)  | ${sumRej(aa2f, 'sq4').toLocaleString().padEnd(20)} | ${sumRej(aa2fr, 'sq4').toLocaleString()}\n`;
+  log += `Rejections: Abelian Sq (k≥5)  | ${sumRej(aa2f, 'sq5Plus').toLocaleString().padEnd(20)} | ${sumRej(aa2fr, 'sq5Plus').toLocaleString()}\n`;
+  const tpsF = Math.round((maxSteps * 6) / Math.max(0.001, timeF.sum / 1000));
+  const tpsFR = Math.round((maxSteps * 6) / Math.max(0.001, timeFR.sum / 1000));
+  log += `Throughput (Nodes / sec)      | ${tpsF.toLocaleString().padEnd(20)} | ${tpsFR.toLocaleString()}\n`;
+  log += "-------------------------------------------------------------------------\n\n";
+
+  log += "3. PERMUTATION PAIRWISE BREAKDOWN (AA2F vs. AA2FR MAX LENGTH)\n";
+  log += "-------------------------------------------------------------------------\n";
+  log += "Permutation | AA2F Depth | AA2FR Depth | Delta  | AA2FR Best Word Snippet\n";
+  log += "-------------------------------------------------------------------------\n";
+  for (let i = 0; i < 6; i++) {
+    const rf = aa2f[i];
+    const rfr = aa2fr[i];
+    const d = rfr.maxLen - rf.maxLen;
+    const dStr = d >= 0 ? `+${d}` : `${d}`;
+    log += `${rf.permName.padEnd(11)} | ${rf.maxLen.toString().padEnd(10)} | ${rfr.maxLen.toString().padEnd(11)} | ${dStr.padEnd(6)} | "${rfr.bestWord}"\n`;
+  }
+  log += "-------------------------------------------------------------------------\n\n";
+
+  log += "✅ EMPIRICAL CONCLUSION:\n";
+  if (parseFloat(lenFR.median) > parseFloat(lenF.median)) {
+    log += `In this controlled setup across all alphabetical permutations of S₃, AA2FR achieved a greater median symbolic depth (${lenFR.median} vs ${lenF.median}).\n`;
+  } else if (parseFloat(lenFR.median) === parseFloat(lenF.median)) {
+    log += `In this controlled setup, both models achieved identical median symbolic depth (${lenFR.median}).\n`;
+  } else {
+    log += `In this controlled setup, AA2F achieved a greater median symbolic depth (${lenF.median} vs ${lenFR.median}).\n`;
+  }
+  log += "Note: These results represent empirical search dynamics under bounded node budgets without making unverified causal claims.";
+
+  valLog('val-bench-output', log, 'success');
 }
 
 </script>

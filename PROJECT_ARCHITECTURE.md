@@ -56,6 +56,8 @@ This structure is intentional. Do not split the app into separate JS/CSS files u
 | 12 | Square Heat Map | `heat-map` | Visualizes Abelian squares and near misses by position and half-length. |
 | 13 | Abelian Snake | `snake` | Game mode where each eaten letter appends to the word. |
 | 14 | AA2FR Extension Lab | `aa2fr` | Ternary AA2F/AA2FR extension, challenge, and obstruction lab. |
+| 15 | Applications & Impact | `impact` | Explores practical applications in cryptography, DNA sequencing, and scheduling. |
+| 16 | Validation Lab 🔬 | `validation` | Formal mathematical verification, literature replication, and controlled comparative benchmarks. |
 
 ## Router Checklist for New Tabs
 

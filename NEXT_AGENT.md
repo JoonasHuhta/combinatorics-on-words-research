@@ -34,6 +34,8 @@ The app is intentionally implemented as one HTML/CSS/JS file. Do not split it in
 | 12 | Square Heat Map | `heat-map` | Working |
 | 13 | Abelian Snake | `snake` | Working |
 | 14 | AA2FR Extension Lab | `aa2fr` | Working |
+| 15 | Applications & Impact | `impact` | Working |
+| 16 | Validation Lab 🔬 | `validation` | Working |
 
 ### Phase 6: AA2FR Research Platform & Scientific Rigor
 
