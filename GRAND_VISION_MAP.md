@@ -1,62 +1,83 @@
-# Grand Vision Map: Experimental Combinatorics Laboratory
+# Grand Vision & Scientific Roadmap: The Experimental Combinatorics Laboratory
 
-*This document captures the ambitious, long-term architectural visions for transforming this project from an "AA2FR Abelian Square Visualizer" into a generalized, world-class research platform for Combinatorics on Words.*
-
----
-
-## The Paradigm Shift
-The core realization is that the project has reached the limits of its utility as a single-problem visualizer. To generate new mathematics, the platform must evolve into an **Experimental Combinatorics Laboratory**—a "Research OS" that helps humans and algorithms co-discover structural patterns, formulate hypotheses, and stress-test them through massive parallel search.
+*This document captures the architectural visions, methodological principles, and exact scientific execution roadmap for transforming this project from an interactive visualizer into a world-class research platform for Combinatorics on Words.*
 
 ---
 
-## 1. Universal Constraint Engine (The Core Generalization)
-Currently, the search engine is hardcoded to solve the AA2FR problem (aa2f + 6 forbidden factors). 
-**Vision:** Rewrite the Web Worker so the DFS algorithm is entirely ignorant of the mathematics. It simply asks a `ConstraintEngine` if a sequence is valid.
-*   **Constraints as Modules:** `AbelianSquareConstraint(minHalfLen=2)`, `ForbiddenFactorConstraint(['baac', ...])`, `MaximumRunConstraint(2)`.
-*   **Impact:** The same DFS engine can suddenly be used to explore fractional powers, De Bruijn sequences, and any other pattern avoidance problem.
+## 1. Historical & Mathematical Coordinates: Mäkelä's Conjecture (2002)
 
-## 2. Mission Control & Research Dashboard
-A new landing page (Tab 1) that acts as the command center for the project.
-*   **Active Mission:** The current research question (e.g., "Does Parikh balance predict survival?").
-*   **Global Statistics:** Number of experiments run, longest words found, active hypotheses.
-*   **Research Roadmap:** A living document of what the platform is currently investigating.
-
-## 3. Search Observatory (The Physics of Search)
-Stop visualizing just the "longest word" and start visualizing the **Search Space Geometry**.
-*   **Metrics:** Branching factor, tree width, average subtree depth, entropy, dead-end density.
-*   **Search "Genomes":** Record the behavior of a search over time (e.g., branching factor at depth X). This allows clustering searches into "Species" (e.g., "Deep Tunnelers", "Early Collapsers").
-*   **Phase Transitions:** Treat search like a physical system. Is there a critical "temperature" (Parikh imbalance) where the search tree collapses?
-
-## 4. Discovery Engine & Hypothesis Generation
-The program transitions from observing data to suggesting research questions.
-*   **Statistical Mining:** "Suffix `abcbca` strongly correlates with a branching factor < 1.1."
-*   **Automatic Conjecture Generator:** The system mines millions of observations and proposes hypotheses. It does not claim "proof", but rather flags "statistically significant correlations requiring human review."
-
-## 5. Constraint Analysis Engine (The "Why" Debugger)
-Instead of just saying a letter is illegal, build an **Explanation Tree**.
-*   `c -> allowed by forbid4 -> creates h=6 abelian square -> caused by equality of Parikh vectors [2,3,1] -> rejected.`
-*   This acts as a mathematical debugger for researchers trying to understand the exact mechanics of an obstruction.
-
-## 6. Strategy Laboratory & Evolution
-Move beyond standard DFS. 
-*   **Benchmarking:** Compare Priority DFS, Beam Search, Monte Carlo, and Adaptive heuristics.
-*   **Evolution Simulator:** Let the program mutate and breed heuristics using a genetic algorithm. The fitness function rewards deep searches and low dead-end frequencies.
-*   **Automatic Strategy Designer:** "IF branching < 2 AND Parikh imbalance > 0.08 THEN prefer 'c'".
-
-## 7. Morphism Laboratory
-A dedicated environment for designing and analyzing morphisms.
-*   Input a substitution rule (`a -> ab, b -> ba`).
-*   The lab automatically calculates incidence matrices, eigenvalues, growth rates, square-freeness, and Parikh balance.
-*   **Morphism Evolution:** Use genetic algorithms to breed new almost-square-free morphisms instead of relying on manually constructed ones (like Keränen's g109).
-
-## 8. Theorem Stress Test
-A sandbox for trying to break hypotheses.
-*   Input: "Every suffix `abcbca` dies within 25 steps."
-*   The engine spins up millions of branches specifically trying to escape the trap.
-*   Output: Either a definitive counterexample (with exact seed and depth) or a statistical confidence report.
+A critical milestone in the evolution of this platform is anchoring our computational experiments to published mathematical literature:
+* **The Core Problem (`aa2f`):** Asking whether there exists an infinite ternary word over $\{a,b,c\}$ avoiding abelian squares of half-length $k \ge 2$ (while permitting period-1 squares like $00, 11, 22$) is literally **Mäkelä's Conjecture**, formulated by Sami Mäkelä in 2002.
+* **Current State of Literature:** Rao & Rosenfeld (CNRS / ENS Lyon, 2015–2018) proved partial results: abelian squares with period $>5$ are avoidable on a ternary alphabet. However, simultaneously avoiding periods $2, 3, 4, 5$ forever remains an **open problem**.
+* **The `aa2fr` Restricted Variant:** Our extended condition `aa2fr` enforces 6 additional forbidden factors (`baac`, `caab`, `abbc`, `cbba`, `accb`, `bcca`). While such restrictions appear in Veikko Keränen's 4-letter morphisms ($g_{85}$ and $g_{109}$), their impact on the ternary Mäkelä conjecture must be empirically evaluated rather than assumed.
 
 ---
 
-## Long-Term Goal
-To create a web-based infrastructure so robust that researchers can state in published papers: 
-> *"All experiments were performed using the Experimental Combinatorics Laboratory. The platform provided deterministic search, distributed verification, motif statistics, automated replication, and hypothesis management."*
+## 2. Methodological Rigor & Epistemology
+
+In Combinatorics on Words, mathematical truth is established through **exhaustive finite verification**, not probabilistic sampling. To maintain absolute scientific integrity, our platform adheres to strict epistemological rules:
+
+1. **Search Pruning Heuristics vs. Hypotheses:** 
+   Statistical survival rates (e.g., Wilson-score mortality intervals) derived from finite DFS runs do **not** constitute scientific hypotheses or candidate proofs. They are categorized strictly as **Search Pruning Heuristics** designed to guide branch priority in depth-first search.
+2. **The Verification Pipeline:**
+   ```
+   Raw Search Events (DFS / Backtracking)
+           ↓
+   Search Pruning Heuristics (Branch priority & dead-end density scoring)
+           ↓
+   Candidate Morphism Mining (Extracting recurrent self-similar substitutions)
+           ↓
+   Exhaustive Finite Verification (Rao & Rosenfeld bounded incidence checking)
+           ↓
+   Certified Mathematical Theorem (100% unconditional avoidability proof)
+           ↓
+   Independent Peer Replication (SAT / CaDiCaL UNSAT certification)
+   ```
+
+---
+
+## 3. The 5-Point Scientific Execution Roadmap
+
+Our immediate development architecture is governed by five prioritized pillars designed to produce publishable mathematical insights:
+
+### Pillar 1: Reframing Statistical Engines ("Search Pruning Heuristics")
+* **Objective:** Cleanse all UI, code, and reporting documentation of terms like "hypothesis", "falsified", or "candidate proof" when referring to statistical sampling.
+* **Implementation:** Rename the existing statistical tracking modules to `SearchPruningHeuristics`. Explicitly label confidence intervals as priority scoring metrics that guide computational resources without claiming formal proof.
+
+### Pillar 2: Fair Comparative Benchmark (`aa2f` vs. `aa2fr`)
+* **Objective:** Conduct a scientifically rigorous comparison between pure Mäkelä's Conjecture (`aa2f`) and the restricted variant (`aa2fr`) using our Parikh-balanced Web Worker engine.
+* **Architecture (`ComparativeBenchmarkEngine`):**
+  * **Deterministic Budgeting:** Execute runs under a strict node budget (e.g., $1,000,000$ DFS nodes per run) to ensure 100% hardware-independent reproducibility.
+  * **Independent Trials:** Execute $\ge 10$ independent runs per condition by systematically varying the initial letter preference permutations (6 permutations of $\{a,b,c\}$) and stochastic Parikh tie-breaking seeds.
+  * **Metrics Matrix:** Collect maximum achieved length, total nodes explored, dead-end density (`nodes / maxLen`), and asymptotic growth curves to determine whether `aa2fr` hits a hard combinatorial "wall."
+
+### Pillar 3: Periodicity & Self-Similarity Mining (`MorphismMiner`)
+* **Objective:** Transition from searching string space to searching rule space by mining deep DFS words (length $\ge 2000$) for substitution morphisms.
+* **Architecture:**
+  * **Transient Bypassing:** Scan words from offset $t \in [0, 100]$ to bypass initial non-recurrent DFS noise.
+  * **Uniform Substitution Matching:** Test candidate block lengths $k \in [2, 20]$. Extract mappings $x \to W_x$ and verify if a consistent substitution ruleset explains extensive contiguous stretches of the generated word.
+  * **Seamless Pipeline:** Output discovered candidate morphisms directly into the verification engine.
+
+### Pillar 4: Exhaustive Finite Verification Engine (`MorphismVerificationEngine`)
+* **Objective:** Implement the exact algorithm of Rao & Rosenfeld (*arXiv:1507.02581* / *On Mäkelä's Conjectures*) to decide unconditionally whether a candidate morphism's fixed point avoids abelian powers.
+* **Architecture:**
+  * **Incidence Matrix Analysis:** Calculate the Parikh transition matrix $M_h$ and evaluate growth properties.
+  * **Critical Verification Horizon ($L_{\max}$):** Algorithmically compute the bounded check horizon $L_{\max}$ required to cover all possible boundary alignments across morphism images.
+  * **Exhaustive Boundary Scanner:** Generate morphism iterations up to $L_{\max}$. If no abelian square of half-length $\ge 2$ occurs across any boundary, output a **Certified Mathematical Proof** of infinite avoidability.
+
+### Pillar 5: SAT Encoding & CaDiCaL Certification (`AbelianSATEncoder`)
+* **Objective:** Translate the bounded ternary abelian square avoidance problem of length $N$ into Boolean Satisfiability (DIMACS CNF format) for independent solver verification.
+* **Architecture:**
+  * **Variable Mapping:** $3N$ Boolean variables representing letter assignments at each position.
+  * **Cardinality Constraints:** Encode Parikh vector equality prohibitions ($\Psi(U) \ne \Psi(V)$ for all half-lengths $m \ge 2$) using sorting networks or adder circuits.
+  * **CLI & Web Exporter:** Provide an automated `.cnf` generator allowing researchers to run parallel hardware verification via solvers like CaDiCaL (`cadical makele_N.cnf`).
+
+---
+
+## 4. Long-Term Architectural Pillars
+
+Beyond the immediate 5-point execution roadmap, the platform maintains four long-term exploratory modules:
+1. **Search Observatory:** Real-time visual heatmaps and topological mapping of search space branching factors and entropy collapse.
+2. **Constraint Analysis Engine:** Interactive explanation trees detailing exact mathematical contradiction chains for manual word construction.
+3. **Morphism Design Laboratory:** Interactive sandbox for experimenting with 4-letter Keränen morphisms ($g_{85}, g_{109}$) and visual 2D/3D random walks.
+4. **Community Research Nexus:** One-click exporting of structural anomalies, candidate morphisms, and benchmark configurations to GitHub Discussions for global peer collaboration.

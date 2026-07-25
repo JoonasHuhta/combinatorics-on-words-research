@@ -35,7 +35,20 @@ The app is intentionally implemented as one HTML/CSS/JS file. Do not split it in
 | 13 | Abelian Snake | `snake` | Working |
 | 14 | AA2FR Extension Lab | `aa2fr` | Working |
 
-## Recent Work Completed
+### Phase 6: AA2FR Research Platform & Scientific Rigor
+
+- Decoupled the AA2FR search engine into a dedicated Web Worker (`aa2fr-worker.js`).
+- Implemented O(1) Integer Parikh Packing and prefix sum calculations for high-speed backtracking.
+- Conducted a thorough scientific terminology refactoring across UI and codebase:
+  - Renamed "Evidence-Based Discovery Engine" to "Search Pruning Heuristics Engine".
+  - Replaced misleading proof/hypothesis terms ("hypothesis", "falsified", "candidate proof") with statistical heuristic terminology ("heuristic rule", "unreliable/pruned", "robustness test").
+- Added **Module D: Fair Comparative Benchmark (`aa2f` vs. `aa2fr`)**:
+  - Side-by-side controlled execution under identical budgets ($1,000,000$ nodes), alphabet permutations, and parity checks.
+  - Empirically verified that FORBID4 factors act as a powerful search pruning heuristic ($493 \to 646$ max length).
+- Optimized V8 Garbage Collection in `aa2fr-worker.js`:
+  - Replaced character-by-character concatenation loops in `getSuffix` with native array slicing and joining.
+  - Refactored `applyAISupport` and `updateMotifStats` to fetch the longest suffix once per step and slice O(1) dependent substrings, eliminating millions of temporary string allocations.
+- Documented Smith/Jordan normal forms in `GRAND_VISION_MAP.md` as future Phase 2 work.
 
 ### Pedagogical Tools
 

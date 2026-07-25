@@ -107,10 +107,8 @@ function popLetter() {
 
 // Get the last `len` characters of the current word as a string
 function getSuffix(len) {
-  let start = Math.max(0, wordLen - len);
-  let result = '';
-  for (let i = start; i < wordLen; i++) result += wordArr[i];
-  return result;
+  if (wordLen === 0 || len <= 0) return '';
+  return wordArr.slice(Math.max(0, wordLen - len), wordLen).join('');
 }
 
 // Record an obstruction for analytics
@@ -266,9 +264,10 @@ class SearchStrategy {
       let dangerScore = 0;
       let minM = engineConfig.motifRange ? engineConfig.motifRange[0] : 4;
       let maxM = engineConfig.motifRange ? engineConfig.motifRange[1] : 8;
+      let baseSuf = engine.getSuffix(maxM);
       
       for (let len = minM; len <= maxM; len++) {
-        let suf = engine.getSuffix(len);
+        let suf = baseSuf.length >= len ? baseSuf.slice(-len) : '';
         if (suf.length === len) {
           let stat = motifStats.get(suf);
           if (stat) {
@@ -297,9 +296,10 @@ class SearchStrategy {
   updateMotifStats(engine, result, branching, subtreeDepth, maxContinuation) {
     let minM = engineConfig.motifRange ? engineConfig.motifRange[0] : 4;
     let maxM = engineConfig.motifRange ? engineConfig.motifRange[1] : 8;
+    let baseSuf = engine.getSuffix(maxM);
     
     for (let len = minM; len <= maxM; len++) {
-      let suf = engine.getSuffix(len);
+      let suf = baseSuf.length >= len ? baseSuf.slice(-len) : '';
       if (suf.length === len) {
         if (!motifStats.has(suf)) {
           motifStats.set(suf, { occ: 0, dead: 0, surv: 0, branchSum: 0, depthSum: 0, maxLen: 0, parikhU: 0 });

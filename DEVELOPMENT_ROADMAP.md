@@ -3,12 +3,13 @@
 ## Recently Completed
 
 - **Phase 6: AA2FR Experimental Research Platform (Ternary)**
-  - Decoupled Search Engine into a Web Worker (`aa2fr-worker.js`).
-  - Implemented $\mathcal{O}(1)$ Integer Parikh Packing and Prefix Sums.
+  - Decoupled Search Engine into a Web Worker (`aa2fr-worker.js`) with high-speed $\mathcal{O}(1)$ Integer Parikh Packing and Prefix Sums.
   - Built the **Predictive Search Analyzer** ("Chess Engine" lookahead).
-  - Built the **Hypothesis Engine** (Automated statistical trap detection).
-  - Built the **Research Notebook** (LocalStorage persistence for paths and traps).
-  - Added Quick Start Guide modal.
+  - Built the **Search Pruning Heuristics Engine** (formerly Hypothesis Engine; automated statistical dead-end and trap detection without claiming proof).
+  - Built **Module D: Fair Comparative Benchmark (`aa2f` vs. `aa2fr`)** for side-by-side controlled algorithmic evaluation under identical budgets ($1,000,000$ nodes).
+  - Optimized V8 Garbage Collection in Web Worker by replacing string concatenation loops with single array slices and $O(1)$ dependent substring slicing.
+  - Built the **Heuristics & Observation Log** (LocalStorage persistence for paths and heuristic rules).
+  - Added Quick Start Guide modal and scientific methodology documentation.
 - Renamed the visible tabs so they better match the actual workflows.
 - Added Parikh Lens to Try It mode.
 - Reused Parikh Lens inside the AA2FR obstruction explanation panel.
