@@ -1540,8 +1540,10 @@
           <option value="3d">2.5D Isometric Spiral (with Z-axis growth)</option>
         </select>
         <button class="val-btn" onclick="valRunRauzy()">▶ Generate Rauzy Fractal</button>
+        <button class="val-btn" style="background:#e67e22;" onclick="valAnimateRauzy()">🎬 Animate Trajectory Growth</button>
       </div>
-      <canvas id="val-rauzy-canvas" width="600" height="400" class="hidden" style="width:100%; max-width:600px; border:1px solid #ccc; margin-top:14px; background:#1e222a; border-radius:4px;"></canvas>
+      <div id="val-rauzy-anim-status" style="margin-top:8px; font-weight:bold; color:#00cec9; font-size:0.95rem;"></div>
+      <canvas id="val-rauzy-canvas" width="600" height="400" class="hidden" style="width:100%; max-width:600px; border:1px solid #ccc; margin-top:10px; background:#1e222a; border-radius:4px;"></canvas>
       <div id="val-rauzy-output" class="val-output hidden"></div>
     </div>
 
@@ -1602,10 +1604,13 @@
         When Keränen's 6-letter uniform morphism $h_6$ is iterated infinite times, its cumulative Parikh vector grows linearly along the dominant eigenvalue ($3$). By projecting the vector trajectory onto the 2D subspace spanned by the secondary eigenvalues ($+\sqrt{3}$ and $-\sqrt{3}$), linear drift is cancelled out, folding the trajectory into a bounded, self-similar <strong>Rauzy Fractal</strong>.
       </p>
       <div style="text-align:center; margin:15px 0;">
+        <div id="gallery-rauzy-anim-status" style="margin-bottom:8px; font-weight:bold; color:#00cec9; font-size:0.95rem; text-align:center;"></div>
         <canvas id="gallery-rauzy-canvas" width="650" height="350" style="width:100%; max-width:650px; background:#161920; border-radius:6px; border:1px solid #333; box-shadow:0 4px 12px rgba(0,0,0,0.2);"></canvas>
-        <div style="margin-top:10px;">
+        <div style="margin-top:10px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
           <button class="val-btn" style="background:#008080;" onclick="galRenderRauzy('2d')">🎨 Render 2D Rauzy Projection (&plusmn;&radic;3)</button>
-          <button class="val-btn" style="background:#0984e3;" onclick="galRenderRauzy('3d')">🌀 Render 2.5D Isometric Spiral (with Z-axis Growth)</button>
+          <button class="val-btn" style="background:#0984e3;" onclick="galRenderRauzy('3d')">🌀 Render 2.5D Isometric Spiral (Z-axis Growth)</button>
+          <button class="val-btn" style="background:#e67e22;" onclick="galAnimateRauzy('2d')">🎬 Animate 2D Trajectory Growth</button>
+          <button class="val-btn" style="background:#d35400;" onclick="galAnimateRauzy('3d')">🎬 Animate 2.5D Isometric Spiral</button>
         </div>
       </div>
       <div style="background:#f1f2f6; padding:10px 14px; border-radius:4px; font-size:0.85rem; color:#444; border:1px solid #dcdde1; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
@@ -6332,14 +6337,36 @@ function valRunRauzy() {
   if (activeValWorker) activeValWorker.postMessage({ cmd: 'val_rauzy_fractal', iterations: iters });
 }
 
+let activeRauzyAnimId = null;
+
 function valRedrawRauzy() {
   if (!latestRauzyData) return;
   const modeEl = document.getElementById('val-rauzy-mode');
   const mode = modeEl ? modeEl.value : '2d';
-  renderRauzyCanvas('val-rauzy-canvas', latestRauzyData, mode);
+  renderRauzyCanvas('val-rauzy-canvas', latestRauzyData, mode, false, 'val-rauzy-anim-status');
 }
 
-function renderRauzyCanvas(canvasId, data, mode) {
+function valAnimateRauzy() {
+  if (!latestRauzyData) {
+    valRunRauzy();
+    setTimeout(() => valAnimateRauzy(), 250);
+    return;
+  }
+  const modeEl = document.getElementById('val-rauzy-mode');
+  const mode = modeEl ? modeEl.value : '2d';
+  renderRauzyCanvas('val-rauzy-canvas', latestRauzyData, mode, true, 'val-rauzy-anim-status');
+}
+
+function renderRauzyCanvas(canvasId, data, mode, animate = false, statusId = null) {
+  if (activeRauzyAnimId) {
+    cancelAnimationFrame(activeRauzyAnimId);
+    activeRauzyAnimId = null;
+  }
+  const statusEl = statusId ? document.getElementById(statusId) : null;
+  if (statusEl && !animate) {
+    statusEl.innerHTML = `✅ <b>Static Render:</b> ${data.totalPoints.toLocaleString()} letters (3<sup>${data.iterations}</sup>) | Bounded Rauzy Fractal`;
+  }
+
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
   canvas.classList.remove('hidden');
@@ -6355,47 +6382,19 @@ function renderRauzyCanvas(canvasId, data, mode) {
   // 6 distinct colors for letters a..f
   const COLORS_6 = ['#ff5252', '#ffb142', '#2ed573', '#1e90ff', '#a55eea', '#ff6b81'];
 
-  ctx.save();
+  // Draw axes if 2d
   if (mode === '2d') {
-    // 2D Projection onto ±√3 plane
-    const scale = Math.min(w, h) / 380; // maps ±170 to fill canvas
     const cx = w / 2, cy = h / 2;
-
-    // Draw axes
+    ctx.save();
     ctx.strokeStyle = 'rgba(255,255,255,0.15)';
     ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, h); ctx.stroke();
-
-    for (let i = 0; i < N; i++) {
-      let idx = i * 4;
-      let x = cx + points[idx] * scale;
-      let y = cy - points[idx + 1] * scale;
-      let ch = points[idx + 3];
-      ctx.fillStyle = COLORS_6[ch] || '#fff';
-      ctx.fillRect(x, y, 1.5, 1.5);
-    }
-  } else {
-    // 2.5D Isometric Spiral Mode
-    const scale = Math.min(w, h) / 450;
-    const cx = w / 2, cy = h / 2;
-
-    for (let i = 0; i < N; i++) {
-      let idx = i * 4;
-      let X = points[idx], Y = points[idx + 1], Z = points[idx + 2];
-      let ch = points[idx + 3];
-
-      // Isometric projection
-      let screenX = cx + (X - Y) * 0.866 * scale;
-      let screenY = cy - Z * scale * 0.8 + (X + Y) * 0.5 * scale * 0.4;
-
-      ctx.fillStyle = COLORS_6[ch] || '#fff';
-      ctx.fillRect(screenX, screenY, 1.5, 1.5);
-    }
+    ctx.restore();
   }
-  ctx.restore();
 
-  // Draw legend
+  // Draw legend immediately
+  ctx.save();
   ctx.fillStyle = 'rgba(0,0,0,0.7)';
   ctx.fillRect(10, h - 35, w - 20, 25);
   ctx.font = '11px Arial, sans-serif';
@@ -6408,6 +6407,72 @@ function renderRauzyCanvas(canvasId, data, mode) {
     ctx.fillText(`Letter '${letters[j]}'`, lx + 14, h - 18);
     lx += 75;
   }
+  ctx.restore();
+
+  const scale = mode === '2d' ? Math.min(w, h) / 380 : Math.min(w, h) / 450;
+  const cx = w / 2, cy = h / 2;
+
+  if (!animate) {
+    ctx.save();
+    for (let i = 0; i < N; i++) {
+      let idx = i * 4;
+      let ch = points[idx + 3];
+      ctx.fillStyle = COLORS_6[ch] || '#fff';
+      if (mode === '2d') {
+        let x = cx + points[idx] * scale;
+        let y = cy - points[idx + 1] * scale;
+        ctx.fillRect(x, y, 1.5, 1.5);
+      } else {
+        let X = points[idx], Y = points[idx + 1], Z = points[idx + 2];
+        let screenX = cx + (X - Y) * 0.866 * scale;
+        let screenY = cy - Z * scale * 0.8 + (X + Y) * 0.5 * scale * 0.4;
+        ctx.fillRect(screenX, screenY, 1.5, 1.5);
+      }
+    }
+    ctx.restore();
+    return;
+  }
+
+  let currentIdx = 0;
+  const chunkSize = Math.max(100, Math.floor(N / 250));
+
+  function drawChunk() {
+    ctx.save();
+    const endIdx = Math.min(N, currentIdx + chunkSize);
+    for (let i = currentIdx; i < endIdx; i++) {
+      let idx = i * 4;
+      let ch = points[idx + 3];
+      ctx.fillStyle = COLORS_6[ch] || '#fff';
+      if (mode === '2d') {
+        let x = cx + points[idx] * scale;
+        let y = cy - points[idx + 1] * scale;
+        ctx.fillRect(x, y, 1.5, 1.5);
+      } else {
+        let X = points[idx], Y = points[idx + 1], Z = points[idx + 2];
+        let screenX = cx + (X - Y) * 0.866 * scale;
+        let screenY = cy - Z * scale * 0.8 + (X + Y) * 0.5 * scale * 0.4;
+        ctx.fillRect(screenX, screenY, 1.5, 1.5);
+      }
+    }
+    ctx.restore();
+    currentIdx = endIdx;
+
+    if (statusEl) {
+      let morphDepth = (Math.log(currentIdx) / Math.log(3)).toFixed(2);
+      statusEl.innerHTML = `⚡ <b>Animating Trajectory Growth:</b> ${currentIdx.toLocaleString()} / ${N.toLocaleString()} letters | Morphic Iteration Depth: <b>3<sup>${morphDepth}</sup></b>`;
+    }
+
+    if (currentIdx < N) {
+      activeRauzyAnimId = requestAnimationFrame(drawChunk);
+    } else {
+      activeRauzyAnimId = null;
+      if (statusEl) {
+        statusEl.innerHTML = `✅ <b>Trajectory Animation Complete:</b> ${N.toLocaleString()} letters (Morphic Depth: 3<sup>${data.iterations}</sup>) | Bounded Rauzy Fractal`;
+      }
+    }
+  }
+
+  drawChunk();
 }
 
 // --- MODULE F: RADIAL SUNBURST SEARCH TREE & PRUNING ANATOMY ---
@@ -6557,8 +6622,17 @@ function galInit() {
 
 function galRenderRauzy(mode) {
   if (latestRauzyData) {
-    renderRauzyCanvas('gallery-rauzy-canvas', latestRauzyData, mode);
+    renderRauzyCanvas('gallery-rauzy-canvas', latestRauzyData, mode, false, 'gallery-rauzy-anim-status');
   }
+}
+
+function galAnimateRauzy(mode) {
+  if (!latestRauzyData) {
+    valRunRauzy();
+    setTimeout(() => galAnimateRauzy(mode), 250);
+    return;
+  }
+  renderRauzyCanvas('gallery-rauzy-canvas', latestRauzyData, mode, true, 'gallery-rauzy-anim-status');
 }
 
 function galRenderSunburst() {
