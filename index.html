@@ -481,6 +481,16 @@
     .val-output.success { border-left-color: #2ecc71; }
     .val-output.warn { border-left-color: #e67e22; }
     .val-output.error { border-left-color: #e74c3c; }
+    .val-ledger-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 0.88rem; }
+    .val-ledger-table th, .val-ledger-table td { border: 1px solid #e1e8ed; padding: 10px 12px; text-align: left; vertical-align: top; }
+    .val-ledger-table th { background: #f8f9fa; color: #2c3e50; font-weight: bold; }
+    .val-ledger-table tr:nth-child(even) { background: #fafbfc; }
+    .val-badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+    .val-badge.computed { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .val-badge.indirect { background: #cce5ff; color: #004085; border: 1px solid #b8daff; }
+    .val-badge.rejected { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    .val-badge.primary { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+    .val-badge.open { background: #e2e3e5; color: #383d41; border: 1px solid #d6d8db; }
   </style>
 </head>
 <body>
@@ -1351,6 +1361,99 @@
         <strong>⏳ Worker Progress:</strong> <span id="val-progress-text" style="font-family:monospace; font-weight:bold;">0%</span>
       </div>
       <button class="val-btn" style="margin:0; background:#c0392b; padding:6px 14px;" onclick="valCancelJob()">⏹ Cancel Worker Job</button>
+    </div>
+
+    <!-- Module 0: Mathematical Claims Ledger -->
+    <div class="val-card">
+      <h3>Module 0: Mathematical Claims Ledger (Väiteloki)</h3>
+      <p>
+        Every external mathematical claim and internal empirical invariant relied upon by this project is cataloged below with its precise citation, verification status, and scope. This ledger serves as the single source of truth for all tools in this laboratory.
+      </p>
+      <div style="overflow-x:auto;">
+        <table class="val-ledger-table">
+          <thead>
+            <tr>
+              <th style="width:35px;">#</th>
+              <th style="width:28%;">Claim</th>
+              <th style="width:25%;">Source / Citation</th>
+              <th style="width:12%;">Status</th>
+              <th>Notes / Verification Scope</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Over a ternary ({a,b,c}) alphabet, abelian squares cannot be avoided indefinitely (full version, all half-lengths).</td>
+              <td>Folklore / Fici &amp; Puzynina (2022), <em>Abelian Combinatorics on Words</em>, Prop. 17</td>
+              <td><span class="val-badge computed">Computed</span></td>
+              <td>Exhaustive search: longest ternary abelian square-free word has length 7 (e.g., <code>cbcacbc</code>). All length-8 words contain an abelian square.</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Pleasants (1970) proved the existence of an infinite abelian square-free word over a <strong>5-letter</strong> alphabet.</td>
+              <td>P.A.B. Pleasants, <em>Non-repetitive sequences</em>, Proc. Cambridge Phil. Soc. 68 (1970)</td>
+              <td><span class="val-badge indirect">Indirect</span></td>
+              <td>Distinct from Claim 1; not the source for the 3-letter length &ge; 8 impossibility theorem.</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Keränen (1992) proved the existence of an infinite abelian square-free word over a <strong>4-letter</strong> alphabet via morphism g&sub8;&sub5;.</td>
+              <td>V. Keränen, ICALP 1992, LNCS 623</td>
+              <td><span class="val-badge indirect">Indirect</span></td>
+              <td>Original proof verified in literature; implemented in Tab 3 of this laboratory.</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Mäkelä's Question 2 (2002): Can a ternary word avoid abelian squares of half-length $K \ge 2$ (AA2F)?</td>
+              <td>S. Mäkelä, 2002 (via Rao &amp; Rosenfeld)</td>
+              <td><span class="val-badge open">Open</span></td>
+              <td>Open problem for half-lengths $2 \le K \le 5$. Investigated in this lab via extension search and uniform morphisms.</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>h&sub6; uniform morphism (6 letters a&ndash;f): the fixed point h&sub6;&circ;&omega;(a) is entirely abelian square-free.</td>
+              <td>Rao &amp; Rosenfeld, SIAM J. Discrete Math 32(4), 2018, Theorem 4</td>
+              <td><span class="val-badge computed">Computed</span></td>
+              <td>Verified computationally in this lab up to $K=400, N=59,049$ (Module B) and $K=150, N=590,490$ (CLI regression test).</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>g&sub3;(h&sub6;&circ;&omega;(a)) (3 letters) contains zero abelian squares of half-length $K > 5$.</td>
+              <td>Rao &amp; Rosenfeld, Theorem 9/10</td>
+              <td><span class="val-badge computed">Computed</span></td>
+              <td>Verified via zero occurrences for $K=6..150$. Note: For $K=2..5$, squares <em>do</em> occur (e.g., 119,016 occurrences at $K=1, N=196,830$), which is an empirical observation of the boundary scanner, not a violation of Theorem 10.</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>Original title of Rao &amp; Rosenfeld (2015) was "On Mäkelä's Conjectures..."; renamed in 2016 to "Avoiding Two Consecutive Blocks of Same Size and Same Sum over Z&sup2;".</td>
+              <td>arXiv:1511.05875 version history</td>
+              <td><span class="val-badge indirect">Indirect</span></td>
+              <td>Section numbering and focus shifted across arXiv versions; citations must note specific version.</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>h&sub6; morphism is derived from the Hall–Janko group.</td>
+              <td>&mdash;</td>
+              <td><span class="val-badge rejected">Rejected</span></td>
+              <td>No literature support found. Removed from code and UI. Do not re-add without precise page citation.</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>FORBID4 set <code>{baac, caab, abbc, cbba, accb, bcca}</code> is closed under S&sub3; letter permutations and word reversal.</td>
+              <td>Project Empirical Finding</td>
+              <td><span class="val-badge computed">Computed</span></td>
+              <td>S&sub3; orbit verified by Module A; reversal symmetry verified in Worker. Zero intersection with $K=2$ abelian squares.</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>Exact strings for h&sub6; and g&sub3; match the canonical LaTeX source line-by-line.</td>
+              <td>arxiv.org/src/1511.05875</td>
+              <td><span class="val-badge open">Open</span></td>
+              <td>Current definitions verified via internal consistency (Claim 6) and protected by djb2 checksums (`morphisms.js`).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- Module A -->
