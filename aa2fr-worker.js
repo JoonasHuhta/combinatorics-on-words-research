@@ -701,6 +701,10 @@ self.onmessage = function(e) {
     case 'val_sunburst_tree':
       startSunburstTree(msg.depth || 10);
       break;
+
+    case 'val_observatory_data':
+      startObservatoryAnalysis(msg.options || {});
+      break;
   }
 };
 
@@ -1637,6 +1641,119 @@ function startSunburstTree(maxDepth = 10) {
       aa2fr: treeAA2FR,
       timestamp: new Date().toISOString(),
       disclaimer: "Optical Density Notice: In radial charts, sector width is normalized by node budget (360° / N). AA2FR appears wider/calmer because it has fewer nodes (4,498 vs 11,950), an optical consequence of normalization rather than structural calmness."
+    }
+  });
+}
+
+// -------------------------------------------------------------------------
+// GALLERY RESEARCH OBSERVATORY ENGINE (PHASE 7)
+// -------------------------------------------------------------------------
+function startObservatoryAnalysis(options = {}) {
+  isJobCancelled = false;
+  const H6_MAP = { a: 'ace', b: 'adf', c: 'bdf', d: 'bdc', e: 'afe', f: 'bce' };
+  const G3_MAP = options.customG3Map || { a: 'bbbaabaaac', b: 'bccacccbcc', c: 'ccccbbbcbc', d: 'ccccccccaa', e: 'bbbbbcabaa', f: 'aaaaaaabaa' };
+
+  // Generate w = h6^6(a) (729 letters), then g = g3(w) (7,290 letters)
+  let w = "a";
+  for (let iter = 0; iter < 6; iter++) {
+    let next = "";
+    for (let i = 0; i < w.length; i++) next += H6_MAP[w[i]];
+    w = next;
+  }
+  let w5 = "a";
+  for (let iter = 0; iter < 5; iter++) {
+    let next = "";
+    for (let i = 0; i < w5.length; i++) next += H6_MAP[w5[i]];
+    w5 = next;
+  }
+
+  let g = "";
+  for (let i = 0; i < w.length; i++) {
+    const img = G3_MAP[w[i]] || G3_MAP['a'];
+    g += img;
+  }
+
+  const n = g.length;
+  const prefA = new Int32Array(n + 1);
+  const prefB = new Int32Array(n + 1);
+  const prefC = new Int32Array(n + 1);
+  for (let i = 0; i < n; i++) {
+    prefA[i + 1] = prefA[i] + (g[i] === 'a' ? 1 : 0);
+    prefB[i + 1] = prefB[i] + (g[i] === 'b' ? 1 : 0);
+    prefC[i + 1] = prefC[i] + (g[i] === 'c' ? 1 : 0);
+  }
+
+  const maxScanPos = Math.min(n, options.maxPos || 2500);
+  const maxK = options.maxK || 35;
+  const gridNorms = new Uint8Array(maxScanPos * maxK);
+  const nearMisses = [];
+  const seamCollisions = [];
+
+  for (let i = 0; i < maxScanPos; i++) {
+    if (isJobCancelled) return;
+    for (let K = 1; K <= maxK; K++) {
+      if (i + 2 * K > n) continue;
+      const da = (prefA[i + K] - prefA[i]) - (prefA[i + 2 * K] - prefA[i + K]);
+      const db = (prefB[i + K] - prefB[i]) - (prefB[i + 2 * K] - prefB[i + K]);
+      const dc = (prefC[i + K] - prefC[i]) - (prefC[i + 2 * K] - prefC[i + K]);
+      const norm = Math.abs(da) + Math.abs(db) + Math.abs(dc);
+      gridNorms[i * maxK + (K - 1)] = Math.min(255, norm);
+
+      const isBoundary = (i % 10 !== 0) || ((i + K) % 10 !== 0) || ((i + 2 * K) % 10 !== 0);
+      const g3Idx = Math.floor(i / 10);
+      const h6Parent = w[g3Idx] || '?';
+      const h6ParentIdx = Math.floor(i / 30);
+      const h6Grandparent = w5[h6ParentIdx] || '?';
+
+      if (norm === 0) {
+        seamCollisions.push({
+          id: `sq_${i}_${K}`,
+          i: i,
+          K: K,
+          norm: 0,
+          delta: [da, db, dc],
+          leftStr: g.substring(i, i + Math.min(K, 15)) + (K > 15 ? '...' : ''),
+          rightStr: g.substring(i + K, i + Math.min(2 * K, i + K + 15)) + (K > 15 ? '...' : ''),
+          isBoundary: isBoundary,
+          g3BlockIdx: g3Idx,
+          h6ParentLetter: h6Parent,
+          h6ParentBlockIdx: h6ParentIdx,
+          h6GrandparentLetter: h6Grandparent
+        });
+      } else if (norm <= 4) {
+        nearMisses.push({
+          id: `nm_${i}_${K}`,
+          i: i,
+          K: K,
+          norm: norm,
+          delta: [da, db, dc],
+          leftStr: g.substring(i, i + Math.min(K, 15)) + (K > 15 ? '...' : ''),
+          rightStr: g.substring(i + K, i + Math.min(2 * K, i + K + 15)) + (K > 15 ? '...' : ''),
+          isBoundary: isBoundary,
+          g3BlockIdx: g3Idx,
+          h6ParentLetter: h6Parent,
+          h6ParentBlockIdx: h6ParentIdx,
+          h6GrandparentLetter: h6Grandparent
+        });
+      }
+    }
+  }
+
+  nearMisses.sort((a, b) => a.norm - b.norm || b.K - a.K);
+  const topNearMisses = nearMisses.slice(0, 20);
+  const topCollisions = seamCollisions.slice(0, 20);
+
+  self.postMessage({
+    type: 'val_observatory_results',
+    results: {
+      maxScanPos: maxScanPos,
+      maxK: maxK,
+      gridNorms: Array.from(gridNorms),
+      nearMisses: topNearMisses,
+      seamCollisions: topCollisions,
+      totalNearMisses: nearMisses.length,
+      totalCollisions: seamCollisions.length,
+      timestamp: new Date().toISOString()
     }
   });
 }
