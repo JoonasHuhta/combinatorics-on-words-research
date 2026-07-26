@@ -30,7 +30,7 @@ const MAX_DEPTH = 50000;
 let prefixA = new Int32Array(MAX_DEPTH);
 let prefixB = new Int32Array(MAX_DEPTH);
 let prefixC = new Int32Array(MAX_DEPTH);
-let prefixPacked = new Int32Array(MAX_DEPTH); // a=0, b=1, c=65536 (2^16)
+let prefixPacked = new Float64Array(MAX_DEPTH); // a=0, b=1, c=65536 (2^16), Float64 avoids 32-bit overflow up to 2^53
 
 let letters = ['a', 'b', 'c'];
 const FORBID4 = ['baac', 'caab', 'abbc', 'cbba', 'accb', 'bcca'];
@@ -1087,7 +1087,7 @@ function startAuditG3(maxK = 500) {
   const pA = new Int32Array(N_audit + 1);
   const pB = new Int32Array(N_audit + 1);
   const pC = new Int32Array(N_audit + 1);
-  const pP = new Int32Array(N_audit + 1);
+  const pP = new Float64Array(N_audit + 1);
   for (let i = 0; i < N_audit; i++) {
     let ch = wordArrLocal[i];
     let vA = (ch === 'a') ? 1 : 0;
