@@ -78,7 +78,7 @@ let currentPermutationIdx = 0;
 // Helper to push a letter and update prefix sums
 function pushLetter(char) {
   wordArr[wordLen] = char;
-  
+
   let valA = 0, valB = 0, valC = 0, valPacked = 0;
   if (char === 'a') { valA = 1; valPacked = 0; letterCounts.a++; }
   else if (char === 'b') { valB = 1; valPacked = 1; letterCounts.b++; }
@@ -93,7 +93,7 @@ function pushLetter(char) {
   prefixB[wordLen] = pB + valB;
   prefixC[wordLen] = pC + valC;
   prefixPacked[wordLen] = pPacked + valPacked;
-  
+
   wordLen++;
 }
 
@@ -149,7 +149,7 @@ function checkAbelian(l1, r1, l2, r2) {
   let p1 = getPacked(l1, r1);
   let p2 = getPacked(l2, r2);
   if (p1 !== p2) return false;
-  
+
   // Verify with full Parikh
   let v1 = getParikh(l1, r1);
   let v2 = getParikh(l2, r2);
@@ -159,10 +159,10 @@ function checkAbelian(l1, r1, l2, r2) {
 function validateWordConstraints(checkFull = false) {
   let n = wordLen;
   if (n === 0) return null;
-  
+
   // Normalize mode comparison to lowercase
   let mode = config.mode.toLowerCase();
-  
+
   // 1. Forbidden factor check (aa2fr only)
   if (mode === 'aa2fr' && n >= 4) {
     if (checkFull) {
@@ -187,12 +187,12 @@ function validateWordConstraints(checkFull = false) {
       }
     }
   }
-  
+
   // 2. Abelian Square Detection
   // minHalfLen = 2 because period-1 abelian squares (e.g., 'aa') are allowed in AA2F/AA2FR
   const minHalfLen = 2;
   let maxH = Math.floor(n / 2);
-  
+
   if (checkFull) {
     for (let h = minHalfLen; h <= maxH; h++) {
       for (let i = 0; i <= n - 2*h; i++) {
@@ -229,7 +229,7 @@ function validateWordConstraints(checkFull = false) {
       }
     }
   }
-  
+
   return null;
 }
 
@@ -244,7 +244,7 @@ class SearchStrategy {
     this.stats = { steps: 0, backtracks: 0, stepsSinceNewRecord: 0 };
     this.lastDecision = "Initialized";
   }
-  
+
   initialize(wordArr) {
     this.stack = [];
     this.currentDepth = wordArr.length;
@@ -259,7 +259,7 @@ class SearchStrategy {
 
   applyAISupport(order, engine) {
     if (!this.config.aiSupport || this.config.aiSupport === 'observe') return order;
-    
+
     // Evaluate danger of each letter based on motif stats
     let scoredLetters = order.map(l => {
       engine.pushLetter(l);
@@ -267,7 +267,7 @@ class SearchStrategy {
       let minM = engineConfig.motifRange ? engineConfig.motifRange[0] : 4;
       let maxM = engineConfig.motifRange ? engineConfig.motifRange[1] : 8;
       let baseSuf = engine.getSuffix(maxM);
-      
+
       for (let len = minM; len <= maxM; len++) {
         let suf = baseSuf.length >= len ? baseSuf.slice(-len) : '';
         if (suf.length === len) {
@@ -281,7 +281,7 @@ class SearchStrategy {
       engine.popLetter();
       return { l, ds: dangerScore };
     });
-    
+
     if (this.config.aiSupport === 'avoid') {
       // Prune known dead ends
       let safe = scoredLetters.filter(x => x.ds === 0).map(x => x.l);
@@ -291,7 +291,7 @@ class SearchStrategy {
       scoredLetters.sort((a, b) => a.ds - b.ds);
       return scoredLetters.map(x => x.l);
     }
-    
+
     return order;
   }
 
@@ -299,7 +299,7 @@ class SearchStrategy {
     let minM = engineConfig.motifRange ? engineConfig.motifRange[0] : 4;
     let maxM = engineConfig.motifRange ? engineConfig.motifRange[1] : 8;
     let baseSuf = engine.getSuffix(maxM);
-    
+
     for (let len = minM; len <= maxM; len++) {
       let suf = baseSuf.length >= len ? baseSuf.slice(-len) : '';
       if (suf.length === len) {
@@ -311,10 +311,10 @@ class SearchStrategy {
         stat.branchSum += branching;
         stat.depthSum += subtreeDepth;
         if (maxContinuation > stat.maxLen) stat.maxLen = maxContinuation;
-        
+
         if (result === 'dead_end') stat.dead++;
         else if (result === 'survived') stat.surv++; // Only count actual deep survival, not immediate backtrack
-        
+
         // Calculate U
         let u = 0;
         let counts = {a:0, b:0, c:0};
@@ -330,7 +330,7 @@ class SearchStrategy {
 
   step(engine) {
     this.stats.steps++;
-    
+
     if (this.currentDepth >= this.stack.length) {
       this.stack.push({
         tryIdx: 0,
@@ -339,26 +339,26 @@ class SearchStrategy {
         maxDepthReached: this.currentDepth
       });
     }
-    
+
     let frame = this.stack[this.currentDepth];
-    
+
     if (frame.tryIdx >= frame.order.length) {
       // Backtrack
       let subtreeDepth = frame.maxDepthReached - this.currentDepth;
-      
-      // We know this node resulted in a backtrack eventually. 
+
+      // We know this node resulted in a backtrack eventually.
       // If validBranches == 0, it was an immediate dead end for all children.
       this.updateMotifStats(engine, frame.validBranches === 0 ? 'dead_end' : 'survived', frame.validBranches, subtreeDepth, frame.maxDepthReached);
-      
+
       this.stats.backtracks++;
       this.stats.stepsSinceNewRecord++;
       this.onBacktrack(this.currentDepth);
       engine.emitEvent('backtrack', { from_depth: this.currentDepth });
-      
+
       if (this.currentDepth === 0) {
         return false; // Search complete
       }
-      
+
       engine.popLetter();
       this.stack.pop();
       if (this.currentDepth > 0) {
@@ -367,37 +367,37 @@ class SearchStrategy {
       this.currentDepth--;
       return true; // continue
     }
-    
+
     let letter = frame.order[frame.tryIdx++];
     this.lastDecision = `Selected '${letter}'`;
-    
+
     engine.pushLetter(letter);
     let obs = engine.validateWordConstraints(false);
-    
+
     let resultStr = 'valid';
-    let ds = 0; 
-    
+    let ds = 0;
+
     if (obs) {
       resultStr = 'dead_end';
       engine.recordObstruction(obs);
       this.updateMotifStats(engine, 'dead_end', 0, 0, this.currentDepth + 1);
-      
+
       this.onDeadEnd(letter, obs);
-      engine.emitEvent('node', { 
-        depth: this.currentDepth + 1, 
-        letter, 
+      engine.emitEvent('node', {
+        depth: this.currentDepth + 1,
+        letter,
         result: resultStr,
         branching: frame.validBranches,
         danger_score: ds,
-        obstruction: obs 
+        obstruction: obs
       });
       engine.popLetter();
       return true; // continue
     }
-    
+
     frame.validBranches++;
     this.currentDepth++;
-    
+
     if (this.currentDepth > this.maxDepthReached) {
       this.maxDepthReached = this.currentDepth;
       frame.maxDepthReached = Math.max(frame.maxDepthReached || 0, this.currentDepth);
@@ -408,10 +408,10 @@ class SearchStrategy {
         engine.emitEvent('milestone', { depth: this.currentDepth, max_length: engine.maxLen });
       }
     }
-    
-    engine.emitEvent('node', { 
-      depth: this.currentDepth, 
-      letter, 
+
+    engine.emitEvent('node', {
+      depth: this.currentDepth,
+      letter,
       result: resultStr,
       branching: frame.validBranches,
       danger_score: ds,
@@ -419,11 +419,11 @@ class SearchStrategy {
     });
     return true;
   }
-  
+
   onDeadEnd(letter, obs) {}
   onBacktrack(depth) {}
   onRecord(len) {}
-  
+
   statistics() { return this.stats; }
   explainDecision() { return this.lastDecision; }
 }
@@ -466,13 +466,13 @@ class PriorityParikhStrategy extends SearchStrategy {
 const Engine = {
   suffixDeadEndCounts: new Map(),
   startTime: 0,
-  
+
   // Use getters so strategies always see live global state
   get letterCounts() { return letterCounts; },
   get wordLen() { return wordLen; },
   get maxLen() { return maxLen; },
   set maxLen(v) { maxLen = v; },
-  
+
   pushLetter: function(l) { pushLetter(l); },
   popLetter: function() { popLetter(); },
   validateWordConstraints: function(isFull) { return validateWordConstraints(isFull); },
@@ -485,7 +485,7 @@ let activeStrategy = null;
 
 function searchLoop() {
   if (!isRunning || isPaused) return;
-  
+
   let maxSteps = 10000;
   for (let i = 0; i < maxSteps; i++) {
     if (!activeStrategy.step(Engine)) {
@@ -494,7 +494,7 @@ function searchLoop() {
       return;
     }
   }
-  
+
   let now = Date.now();
   if (now - lastStateSendTime > 100) {
     let stats = activeStrategy.statistics();
@@ -509,7 +509,7 @@ function searchLoop() {
     });
     lastStateSendTime = now;
   }
-  
+
   if (now - lastAnalyticsSendTime > 500) {
     if (evolutionBuffer.length > 0) {
       self.postMessage({ type: 'evolution_batch', events: evolutionBuffer });
@@ -517,7 +517,7 @@ function searchLoop() {
     }
     lastAnalyticsSendTime = now;
   }
-  
+
   setTimeout(searchLoop, 0);
 }
 
@@ -529,7 +529,7 @@ let isJobCancelled = false;
 
 self.onmessage = function(e) {
   const msg = e.data;
-  
+
   switch (msg.cmd) {
     case 'start':
       config = { ...config, ...msg.config };
@@ -549,14 +549,14 @@ self.onmessage = function(e) {
       lastAnalyticsSendTime = Date.now();
       lastStateSendTime = Date.now();
       Engine.startTime = Date.now();
-      
+
       if (config.strategy === 'gavrilenko' || config.strategy === 'parikh_balance') {
         activeStrategy = new PriorityParikhStrategy(config);
       } else {
         activeStrategy = new DFSStrategy(config);
       }
       activeStrategy.initialize(wordArr);
-      
+
       if (config.seed) {
         for (let char of config.seed) {
           Engine.pushLetter(char);
@@ -564,23 +564,23 @@ self.onmessage = function(e) {
           activeStrategy.stack.push({ tryIdx: 0, validBranches: 1, order: activeStrategy.getOrder(letterCounts, wordLen), maxDepthReached: activeStrategy.currentDepth });
         }
       }
-      
+
       isRunning = true;
       isPaused = false;
       searchLoop();
       break;
-      
+
     case 'pause':
       isPaused = true;
       break;
-      
+
     case 'resume':
       if (isRunning && isPaused) {
         isPaused = false;
         searchLoop();
       }
       break;
-      
+
     case 'step':
       if (isRunning) {
         activeStrategy.step(Engine);
@@ -596,41 +596,41 @@ self.onmessage = function(e) {
         });
       }
       break;
-      
+
     case 'stop':
       isRunning = false;
       break;
-      
+
     case 'set_strategy':
       config.strategy = msg.strategy;
       strategyParams = msg.params || {};
       break;
-      
+
     case 'validate':
       // RQ0 Validation
       let oldWordArr = wordArr.slice();
       let oldWordLen = wordLen;
-      
+
       wordArr = msg.wordArr || [];
       wordLen = 0;
       let tempCounts = { a:0, b:0, c:0 };
       let oldCounts = { ...letterCounts };
       letterCounts = tempCounts;
-      
+
       for (let i = 0; i < wordArr.length; i++) {
         pushLetter(wordArr[i]);
       }
       let oldConfig = { ...config };
       config.mode = msg.mode || 'AA2FR';
-      
+
       let res = validateWordConstraints(true);
-      
+
       // Restore
       wordArr = oldWordArr;
       wordLen = oldWordLen;
       config = oldConfig;
       letterCounts = oldCounts;
-      
+
       for (let i = 0; i < wordLen; i++) {
         let char = wordArr[i];
         let valA = (char === 'a') ? 1 : 0;
@@ -642,10 +642,10 @@ self.onmessage = function(e) {
         prefixC[i] = (i === 0 ? 0 : prefixC[i-1]) + valC;
         prefixPacked[i] = (i === 0 ? 0 : prefixPacked[i-1]) + valPacked;
       }
-      
+
       self.postMessage({ type: 'validation_result', valid: res === null, violations: res });
       break;
-      
+
     case 'export':
       self.postMessage({
         type: 'export_data',
@@ -658,7 +658,7 @@ self.onmessage = function(e) {
         }
       });
       break;
-      
+
     case 'run_rq0_tests':
       self.postMessage({ type: 'rq0_results', results: runRQ0Tests() });
       break;
@@ -693,6 +693,14 @@ self.onmessage = function(e) {
       let benchResults = runValidationBenchmark(msg.limit || 100000);
       self.postMessage({ type: 'val_benchmark_results', results: benchResults });
       break;
+
+    case 'val_rauzy_fractal':
+      startRauzyFractal(msg.iterations || 10);
+      break;
+
+    case 'val_sunburst_tree':
+      startSunburstTree(msg.depth || 10);
+      break;
   }
 };
 
@@ -702,33 +710,33 @@ self.onmessage = function(e) {
 function runPredictiveAnalysis(baseWordArr, options) {
   let maxDepth = options.depth || 5;
   let maxNodes = options.maxNodes || 5000;
-  
+
   // Save current state
   let savedWordArr = wordArr.slice(0, wordLen);
   let savedWordLen = wordLen;
   let savedLetterCounts = { ...letterCounts };
-  
+
   // Set up isolated state
   wordArr = [];
   wordLen = 0;
   letterCounts = { a: 0, b: 0, c: 0 };
-  
+
   // Initialize with base word
   for (let c of baseWordArr) {
     pushLetter(c);
   }
-  
+
   let nodesExplored = 0;
   let deadEnds = 0;
   let totalValidDepths = 0;
   let localStack = [];
   let depth = 0;
-  
+
   let outcomes = 0;
-  
+
   // Start search
   localStack.push({ order: ['a','b','c'], tryIdx: 0, validBranches: 0 });
-  
+
   while (depth >= 0 && nodesExplored < maxNodes) {
     let frame = localStack[depth];
     if (frame.tryIdx >= frame.order.length) {
@@ -738,14 +746,14 @@ function runPredictiveAnalysis(baseWordArr, options) {
       if (depth >= 0) popLetter();
       continue;
     }
-    
+
     let letter = frame.order[frame.tryIdx];
     frame.tryIdx++;
-    
+
     nodesExplored++;
     pushLetter(letter);
     let obs = validateWordConstraints(false);
-    
+
     if (obs || depth >= maxDepth - 1) {
       outcomes++;
       if (obs) {
@@ -762,7 +770,7 @@ function runPredictiveAnalysis(baseWordArr, options) {
       localStack.push({ order: ['a','b','c'], tryIdx: 0, validBranches: 0 });
     }
   }
-  
+
   // Restore original state
   wordArr = [];
   wordLen = 0;
@@ -770,7 +778,7 @@ function runPredictiveAnalysis(baseWordArr, options) {
   for (let c of savedWordArr) {
     pushLetter(c);
   }
-  
+
   return {
     nodesExplored,
     deadEnds,
@@ -785,7 +793,7 @@ function runPredictiveAnalysis(baseWordArr, options) {
 
 function runRQ0Tests() {
   let results = [];
-  
+
   function assert(condition, testName) {
     results.push({ test: testName, passed: !!condition });
   }
@@ -800,7 +808,7 @@ function runRQ0Tests() {
   wordArr = [];
   wordLen = 0;
   letterCounts = {a:0, b:0, c:0};
-  
+
   config.mode = 'AA2FR';
   config.direction = 'right';
 
@@ -871,7 +879,7 @@ function runRQ0Tests() {
   wordLen = 0;
   letterCounts = { a: 0, b: 0, c: 0 };
   Engine.maxLen = 0;
-  
+
   let dfsSteps = 0;
   let dfsBacktracks = 0;
   pushLetter('a'); dfsSteps++;
@@ -879,21 +887,21 @@ function runRQ0Tests() {
   pushLetter('c'); dfsSteps++;
   Engine.maxLen = Math.max(Engine.maxLen, wordLen);
   assert(Engine.wordLen === 3 && Engine.maxLen === 3 && Engine.letterCounts.a === 1 && Engine.letterCounts.b === 1 && Engine.letterCounts.c === 1, 'DFS step 1: abc state valid');
-  
+
   pushLetter('b'); dfsSteps++;
   Engine.maxLen = Math.max(Engine.maxLen, wordLen);
-  
+
   pushLetter('a'); dfsSteps++;
   Engine.maxLen = Math.max(Engine.maxLen, wordLen);
-  
+
   pushLetter('c'); dfsSteps++;
   let obs = validateWordConstraints(false);
   assert(obs !== null && obs.type === 'abelian_square' && obs.half_length === 3, 'DFS step 6: abcbac abelian square detected');
   dfsBacktracks++;
   popLetter();
-  
+
   assert(Engine.wordLen === 5 && Engine.maxLen === 5 && Engine.letterCounts.c === 1 && letterCounts.c === 1 && wordLen === 5, 'DFS step 7: state restored exactly after pop');
-  
+
   // Restore state
   wordArr = oldArr;
   wordLen = oldLen;
@@ -1485,6 +1493,152 @@ function runSingleScientificBench(mode, maxNodes, alphabetPerm, seedStr) {
     depthCurve,
     progression: depthCurve
   };
+}
+
+// -------------------------------------------------------------------------
+// STAGE 9: RAUZY FRACTAL EIGENSPACE PROJECTION (MODULE E)
+// -------------------------------------------------------------------------
+function startRauzyFractal(iterations = 10) {
+  self.postMessage({ type: 'val_progress', module: 'E', progress: 5, status: `Generating h6 fixed point (iterations=${iterations})...` });
+
+  const H6_MAP = { a: 'ace', b: 'adf', c: 'bdf', d: 'bdc', e: 'afe', f: 'bce' };
+  let word = 'a';
+  for (let i = 0; i < iterations; i++) {
+    let next = '';
+    for (let j = 0; j < word.length; j++) next += H6_MAP[word[j]];
+    word = next;
+  }
+
+  const N = word.length;
+  self.postMessage({ type: 'val_progress', module: 'E', progress: 30, status: `Projecting ${N.toLocaleString()} Parikh vectors onto secondary eigenspaces ±√3...` });
+
+  // Exact left eigenvectors of h6 incidence matrix for eigenvalues +√3 and -√3
+  const w_pos = [0.35042, -0.09390, -0.35042, -0.60695, 0.60695, 0.09390];
+  const w_neg = [0.16700, -0.62325, -0.16700, 0.28925, -0.28925, 0.62325];
+
+  const points = new Float32Array(N * 4); // [X, Y, Z, charIdx]
+  const counts = [0, 0, 0, 0, 0, 0];
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+
+  for (let t = 0; t < N; t++) {
+    let ch = word.charCodeAt(t) - 97; // a=0..f=5
+    counts[ch]++;
+
+    let x = 0, y = 0;
+    for (let j = 0; j < 6; j++) {
+      x += counts[j] * w_pos[j];
+      y += counts[j] * w_neg[j];
+    }
+    let z = (t / N) * 300 - 150; // dominant eigenvalue 3 growth axis (-150 to +150)
+
+    if (x < minX) minX = x;
+    if (x > maxX) maxX = x;
+    if (y < minY) minY = y;
+    if (y > maxY) maxY = y;
+
+    let idx = t * 4;
+    points[idx] = x;
+    points[idx + 1] = y;
+    points[idx + 2] = z;
+    points[idx + 3] = ch;
+  }
+
+  self.postMessage({
+    type: 'val_rauzy_results',
+    results: {
+      iterations,
+      totalPoints: N,
+      minX: minX.toFixed(2),
+      maxX: maxX.toFixed(2),
+      minY: minY.toFixed(2),
+      maxY: maxY.toFixed(2),
+      eigenvalues: ['3 (dominant linear growth)', '+√3 (secondary contracting)', '-√3 (secondary contracting)'],
+      points: points.buffer
+    }
+  }, [points.buffer]);
+}
+
+// -------------------------------------------------------------------------
+// STAGE 9: RADIAL SUNBURST SEARCH TREE & PRUNING ANATOMY (MODULE F)
+// -------------------------------------------------------------------------
+function startSunburstTree(maxDepth = 10) {
+  self.postMessage({ type: 'val_progress', module: 'F', progress: 10, status: `Executing exhaustive DFS tree traversal to depth ${maxDepth}...` });
+
+  const forbid4 = ['baac', 'caab', 'abbc', 'cbba', 'accb', 'bcca'];
+  function f4(w) {
+    for (let i = 0; i < forbid4.length; i++) if (w.endsWith(forbid4[i])) return true;
+    return false;
+  }
+  function sq(w) {
+    let len = w.length;
+    for (let k = 2; k <= Math.floor(len / 2); k++) {
+      let c1 = [0, 0, 0], c2 = [0, 0, 0];
+      for (let i = 0; i < k; i++) {
+        c1[w.charCodeAt(len - 2 * k + i) - 97]++;
+        c2[w.charCodeAt(len - k + i) - 97]++;
+      }
+      if (c1[0] === c2[0] && c1[1] === c2[1] && c1[2] === c2[2]) return true;
+    }
+    return false;
+  }
+
+  function buildDFSTree(useForbid4) {
+    let validNodes = 0, terminalDeadEnds = 0;
+    let reasons = { forbid4: 0, square: 0, both: 0, valid: 0 };
+
+    function dfs(w, d) {
+      validNodes++;
+      reasons.valid++;
+      let node = { w, d, reason: 'valid', children: [] };
+      if (d === maxDepth) return node;
+
+      let validChildrenCount = 0;
+      for (let ch of ['a', 'b', 'c']) {
+        let nw = w + ch;
+        let isF4 = useForbid4 ? f4(nw) : false;
+        let isSq = sq(nw);
+
+        if (!isF4 && !isSq) {
+          validChildrenCount++;
+          node.children.push(dfs(nw, d + 1));
+        } else {
+          let r = 'square';
+          if (isF4 && isSq) { r = 'both'; reasons.both++; }
+          else if (isF4) { r = 'forbid4'; reasons.forbid4++; }
+          else { r = 'square'; reasons.square++; }
+          node.children.push({ w: nw, d: d + 1, reason: r, children: [] });
+        }
+      }
+      if (validChildrenCount === 0) terminalDeadEnds++;
+      return node;
+    }
+
+    let root = dfs('', 0);
+    return {
+      root,
+      validNodes,
+      terminalDeadEnds,
+      deadEndPercentage: ((terminalDeadEnds / validNodes) * 100).toFixed(3) + '%',
+      reasons
+    };
+  }
+
+  self.postMessage({ type: 'val_progress', module: 'F', progress: 50, status: 'Computing AA2F reference tree (depth 10)...' });
+  const treeAA2F = buildDFSTree(false);
+
+  self.postMessage({ type: 'val_progress', module: 'F', progress: 80, status: 'Computing AA2FR extension tree (depth 10)...' });
+  const treeAA2FR = buildDFSTree(true);
+
+  self.postMessage({
+    type: 'val_sunburst_results',
+    results: {
+      depth: maxDepth,
+      aa2f: treeAA2F,
+      aa2fr: treeAA2FR,
+      timestamp: new Date().toISOString(),
+      disclaimer: "Optical Density Notice: In radial charts, sector width is normalized by node budget (360° / N). AA2FR appears wider/calmer because it has fewer nodes (4,498 vs 11,950), an optical consequence of normalization rather than structural calmness."
+    }
+  });
 }
 
 // Legacy wrappers for backwards compatibility

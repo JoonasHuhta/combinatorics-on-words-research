@@ -58,6 +58,7 @@ This structure is intentional. Do not split the app into separate JS/CSS files u
 | 14 | AA2FR Extension Lab | `aa2fr` | Ternary AA2F/AA2FR extension, challenge, and obstruction lab. |
 | 15 | Applications & Impact | `impact` | Explores practical applications in cryptography, DNA sequencing, and scheduling. |
 | 16 | Validation Lab 🔬 | `validation` | Formal mathematical verification, literature replication, and controlled comparative benchmarks. |
+| 17 | Art & Math Gallery 🎨 | `gallery` | Curated visual epistemology exhibits (Rauzy fractal, pruning sunburst, modular seams). |
 
 ## Router Checklist for New Tabs
 

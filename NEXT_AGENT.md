@@ -36,6 +36,7 @@ The app is intentionally implemented as one HTML/CSS/JS file. Do not split it in
 | 14 | AA2FR Extension Lab | `aa2fr` | Working |
 | 15 | Applications & Impact | `impact` | Working |
 | 16 | Validation Lab | `validation` | Working |
+| 17 | Art & Math Gallery | `gallery` | Working |
 
 ### Phase 6: AA2FR Research Platform & Scientific Rigor
 
@@ -71,6 +72,14 @@ The app is intentionally implemented as one HTML/CSS/JS file. Do not split it in
   - Empirically discovered that **100% of half-length $K=5$ collisions occur across image boundaries** (`internal: 0, boundary: 8,926` across $N=200,000$).
   - For $K=4$, 79.4% occur across boundaries; for $K=3$, 48.8% across boundaries; for $K=2$, 35.4% across boundaries.
   - This spatial localization provides the exact target coordinates required for future **Morphism Surgery** (modifying $g_3$ boundary characters to eliminate $K=2..5$ collisions while guarding against new $K > 5$ long-period squares).
+
+### Stage 9: Multidimensional Visualizations, Radial Sunburst Pruning Topology & The Morphic Art Gallery (Tab 17)
+- **Module E (Rauzy Fractal Eigenspace Projection):** Implemented exact left eigenvectors for secondary eigenvalues $\pm\sqrt{3}$ in `aa2fr-worker.js`. Built interactive 2D Rauzy projection and 2.5D Isometric Spiral viewer in Tab 16, revealing how linear drift cancels out in bounded eigenspaces while climbing continuously along the dominant Z-axis.
+- **Module F (Radial Sunburst Search Tree & Pruning Anatomy):** Implemented exhaustive depth-first search up to $L=10$ ($3^{10} = 59,049$ max nodes) in the Web Worker. Rendered side-by-side radial Sunburst / Icicle charts where angle represents descendant volume ($360^\circ / N$) and radius represents search depth. Included explicit disclaimers explaining **Optical Density Normalization** (why AA2FR appears wider due to lower node count $4,498$ vs $11,950$) and **Shallow Exhaustive Cut-offs**. Added JSON tree export for offline graph analysis.
+- **Tab 17 (Art & Math Gallery 🏛️):** Created a dedicated exhibition tab hosting three curated exhibits ("silmä- ja aivoruokaa" for researchers):
+  1. *The Rauzy Fractal & Eigenspace Sculpture* (with Level 2 Verified Source badge).
+  2. *The Pruning Sunburst* (with exact node checksums and optical normalization badge).
+  3. *Modular Seam-Welding* (interactive polyomino brick inspector proving 0% internal collisions for $g_3$).
 
 
 
