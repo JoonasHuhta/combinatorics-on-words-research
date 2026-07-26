@@ -6332,6 +6332,16 @@ function valRunRauzy() {
       log += "Notice: Because |±√3| < 3, projection onto the secondary eigenspace contracts linear growth into a bounded, self-similar fractal geometry (~±170 range).\n";
       log += "✅ PROJECTION COMPLETED. Provenance verified (Level 2 Source Algebra: SIAM 2018 / arXiv:1511.05875).";
       valLog('val-rauzy-output', log, 'success');
+      const galView = document.getElementById('view-gallery');
+      if (galView && !galView.classList.contains('hidden')) {
+        if (!latestSunburstData) {
+          valRunSunburst();
+        } else {
+          renderSunburstTree('gallery-sunburst-aa2f', latestSunburstData.aa2f.root, latestSunburstData.depth);
+          renderSunburstTree('gallery-sunburst-aa2fr', latestSunburstData.aa2fr.root, latestSunburstData.depth);
+          galRenderSeams();
+        }
+      }
     }
   });
   if (activeValWorker) activeValWorker.postMessage({ cmd: 'val_rauzy_fractal', iterations: iters });
@@ -6512,6 +6522,10 @@ function valRunSunburst() {
       log += `Notice: ${msg.results.disclaimer}\n`;
       log += "✅ EXHAUSTIVE TREE GENERATION COMPLETED. Checksum OK.";
       valLog('val-sunburst-output', log, 'success');
+      const galView = document.getElementById('view-gallery');
+      if (galView && !galView.classList.contains('hidden')) {
+        galRenderSeams();
+      }
     }
   });
   if (activeValWorker) activeValWorker.postMessage({ cmd: 'val_sunburst_tree', depth: depth });
@@ -6608,14 +6622,18 @@ function valExportSunburstJSON() {
 
 // --- TAB 17: ART & MATH GALLERY ---
 function galInit() {
-  if (!latestRauzyData) valRunRauzy();
-  else galRenderRauzy('2d');
-
-  if (!latestSunburstData) valRunSunburst();
-  else {
-    renderSunburstTree('gallery-sunburst-aa2f', latestSunburstData.aa2f.root, latestSunburstData.depth);
-    renderSunburstTree('gallery-sunburst-aa2fr', latestSunburstData.aa2fr.root, latestSunburstData.depth);
+  if (!latestRauzyData) {
+    valRunRauzy();
+    return;
   }
+  galRenderRauzy('2d');
+
+  if (!latestSunburstData) {
+    valRunSunburst();
+    return;
+  }
+  renderSunburstTree('gallery-sunburst-aa2f', latestSunburstData.aa2f.root, latestSunburstData.depth);
+  renderSunburstTree('gallery-sunburst-aa2fr', latestSunburstData.aa2fr.root, latestSunburstData.depth);
 
   galRenderSeams();
 }
