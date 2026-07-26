@@ -2,13 +2,16 @@
 
 ## Recently Completed
 
-- **Stage 7: Scientific Validation & Replication Lab (Phase 1)**
+- **Stage 7: Scientific Validation & Replication Lab (Phase 1 & Rigorous Repairs)**
   - Migrated all formal verification modules (Module A: S3 Symmetry Control, Module B: h6 Bounded Audit, Module C: g3 Boundary Scan, Module D: Comparative Benchmark & L12 Seed Suite) into the high-speed Web Worker (`aa2fr-worker.js`).
+  - **P0 6-Coordinate Parikh Repair & API Sync**: Upgraded Module B ($h_6$ bounded audit) to check all 6 coordinates ($a$–$f$), preventing false positive Abelian square detections. Fully synchronized Worker–UI payloads (`timeGenMs`, `timeScanMs`, `runs`, property naming conventions).
   - Implemented responsive cancellation controls with real-time worker progress bars and cooperative yielding (`isJobCancelled` checks).
   - Built the **Geometric Audit Area Map** visualization (canvas rendering the exact inspected right-triangle domain $\{ (i, K) \mid i + 2K \le N \}$, heat map densities for $K \le 5$, and explicit un-audited gray realms).
   - Built the **Interactive Boundary Zoom ($K=2..5$)** and **Sample Inspector Box** with clickable inspection buttons that open occurrence Parikh vectors in the Parikh Lens.
-  - Upgraded S3 Symmetry Control with canonical `traceHash` calculation ("6/6 matched") and algebraic set invariance verification.
-  - Implemented the comparative **L12 Test Suite** across 10 frozen initial seeds, reporting depth progression curves sampled every 1,000 nodes and a stacked rejection breakdown (`FORBID4 only`, `square only`, `both` + `minSquareK`).
+  - Upgraded S3 Symmetry Control with canonical `summarySignature` calculation ("6/6 matched") across search trees and algebraic set invariance verification.
+  - Implemented the comparative **L12 Test Suite** across 10 frozen initial seeds, reporting total realized nodes across seeds, depth progression curves sampled every 1,000 nodes, and a stacked rejection breakdown (`FORBID4 only`, `square only`, `both` + `minSquareK`).
+  - **Mathematical Rigor & Wording Precision**: Corrected description of "30 abelian square-free words of length 7" (30 distinct words in total across all 6 S3 alphabet permutations, corresponding to 5 canonical symmetry orbits), defined missing `G109_A` / `G109` constants in UI, and updated descriptions of `g85` and `g109` to accurately describe their role as uniform endomorphisms preserving abelian square-freedom over 4 letters.
+
 - **Phase 6: AA2FR Experimental Research Platform (Ternary)**
   - Decoupled Search Engine into a Web Worker (`aa2fr-worker.js`) with high-speed $\mathcal{O}(1)$ Integer Parikh Packing and Prefix Sums.
   - Built the **Predictive Search Analyzer** ("Chess Engine" lookahead).

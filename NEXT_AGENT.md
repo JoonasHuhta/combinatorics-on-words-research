@@ -49,12 +49,15 @@ The app is intentionally implemented as one HTML/CSS/JS file. Do not split it in
   - Empirically verified that FORBID4 factors act as a powerful search pruning heuristic ($493 \to 646$ max length).
 - Documented Smith/Jordan normal forms in `GRAND_VISION_MAP.md` as future Phase 2 work.
 
-### Stage 7: Scientific Validation & Replication Lab (Phase 1)
-- **Worker Integration & Responsive UI**: Migrated formal verification modules (A: S3 Symmetry Control, B: h6 Bounded Audit, C: g3 Boundary Scan, D: Comparative Benchmark & L12 Seed Suite) into the shared Web Worker (`aa2fr-worker.js`), adding progress bars and cooperative yielding (`isJobCancelled`).
+### Stage 7: Scientific Validation & Replication Lab (Phase 1 & Rigorous Repairs)
+- **Worker Integration & O(1) API Sync**: Migrated formal verification modules (A: S3 Symmetry Control, B: h6 Bounded Audit, C: g3 Boundary Scan, D: Comparative Benchmark & L12 Seed Suite) into the shared Web Worker (`aa2fr-worker.js`). Fully synchronized Worker–UI payloads (`timeGenMs`, `timeScanMs`, `runs`, property naming conventions) to eliminate UI undefined errors.
+- **P0 6-Coordinate Parikh Repair**: Upgraded Module B ($h_6$ bounded audit) to check all 6 coordinates ($a$–$f$), preventing false positive Abelian square detections (e.g., classifying `df` as a square due to zero $a,b,c$ counts).
 - **Geometric Audit Area Map**: Built a canvas renderer displaying the right-triangle audit domain $\{ (i, K) \mid i + 2K \le N \}$, heat map densities for open boundary half-lengths $K \le 5$, and explicit un-inspected gray realms.
 - **Interactive Boundary Zoom & Sample Inspector**: Built an interactive table of occurrences on the literature boundary ($K=2..5$) with clickable inspection buttons that open occurrence halves in the Parikh Lens for detailed Parikh vector comparison.
-- **Rigorous S3 Symmetry Control**: Implemented canonical `traceHash` calculation ("6/6 matched") across all 6 relabeled S3 search trees to prove algorithmic invariance and absence of branch divergence.
-- **L12 Test Suite Comparative Benchmark**: Implemented a 10-seed comparative benchmark ($L=12$), reporting depth progression curves sampled every 1,000 nodes and a stacked rejection breakdown (`FORBID4 only`, `square only`, `both` + `minSquareK`).
+- **Rigorous S3 Symmetry Control**: Implemented canonical `summarySignature` calculation (depth, nodes, backtracks, best word) across all 6 relabeled S3 search trees to prove algorithmic invariance ("6/6 matched") and absence of branch divergence.
+- **L12 Test Suite Comparative Benchmark**: Implemented a 10-seed comparative test suite ($L=12$), reporting total realized nodes across seeds, clear differentiation between total length and extension depth, depth progression curves sampled every 1,000 nodes, and a stacked rejection breakdown (`FORBID4 only`, `square only`, `both` + `minSquareK`).
+- **Mathematical Rigor & Wording Precision**: Corrected description of "30 abelian square-free words of length 7" (30 distinct words in total across all 6 S3 alphabet permutations, corresponding to 5 canonical symmetry orbits), defined missing `G109_A` / `G109` constants in UI, and updated descriptions of `g85` and `g109` to accurately describe their role as uniform endomorphisms preserving abelian square-freedom over 4 letters.
+
 
 ### Pedagogical Tools
 

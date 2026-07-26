@@ -953,6 +953,7 @@ function canonicalizeWord(w) {
 // Module B: h6 Bounded Prefix Audit (Worker Chunked)
 function startAuditH6(maxK = 400) {
   isJobCancelled = false;
+  const tGenStart = performance.now();
   self.postMessage({ type: 'val_progress', module: 'B', phase: 'generation', progress: 0, status: 'Generating h6 prefix (N=59,049)...' });
 
   const H6_MAP = { a: 'ace', b: 'adf', c: 'bdf', d: 'bdc', e: 'afe', f: 'bce' };
@@ -964,22 +965,25 @@ function startAuditH6(maxK = 400) {
   }
   const wordArrLocal = w.split('');
   const N = wordArrLocal.length;
+  const timeGenMs = performance.now() - tGenStart;
 
-  self.postMessage({ type: 'val_progress', module: 'B', phase: 'prefix_sums', progress: 5, status: 'Building O(1) Parikh prefix sums...' });
+  self.postMessage({ type: 'val_progress', module: 'B', phase: 'prefix_sums', progress: 5, status: 'Building O(1) Parikh prefix sums for 6 alphabet letters {a..f}...' });
 
   const pA = new Int32Array(N + 1);
   const pB = new Int32Array(N + 1);
   const pC = new Int32Array(N + 1);
-  const pP = new Int32Array(N + 1);
+  const pD = new Int32Array(N + 1);
+  const pE = new Int32Array(N + 1);
+  const pF = new Int32Array(N + 1);
+
   for (let i = 0; i < N; i++) {
     let ch = wordArrLocal[i];
-    let vA = (ch === 'a') ? 1 : 0;
-    let vB = (ch === 'b') ? 1 : 0;
-    let vC = (ch === 'c') ? 1 : 0;
-    pA[i+1] = pA[i] + vA;
-    pB[i+1] = pB[i] + vB;
-    pC[i+1] = pC[i] + vC;
-    pP[i+1] = pP[i] + vA * 0 + vB * 1 + vC * 65536;
+    pA[i+1] = pA[i] + (ch === 'a' ? 1 : 0);
+    pB[i+1] = pB[i] + (ch === 'b' ? 1 : 0);
+    pC[i+1] = pC[i] + (ch === 'c' ? 1 : 0);
+    pD[i+1] = pD[i] + (ch === 'd' ? 1 : 0);
+    pE[i+1] = pE[i] + (ch === 'e' ? 1 : 0);
+    pF[i+1] = pF[i] + (ch === 'f' ? 1 : 0);
   }
 
   let totalPairs = 0;
@@ -990,7 +994,7 @@ function startAuditH6(maxK = 400) {
   let currentK = 1;
   let checkedPairs = 0;
   let foundSquares = [];
-  const t0 = performance.now();
+  const tScanStart = performance.now();
 
   function scanChunk() {
     if (isJobCancelled) return;
@@ -1001,19 +1005,13 @@ function startAuditH6(maxK = 400) {
       const maxI = N - 2 * k;
       for (let i = 0; i <= maxI; i++) {
         if (isJobCancelled) return;
-        let p1 = pP[i+k] - pP[i];
-        let p2 = pP[i+2*k] - pP[i+k];
-        if (p1 === p2) {
-          let a1 = pA[i+k] - pA[i], a2 = pA[i+2*k] - pA[i+k];
-          if (a1 === a2) {
-            let b1 = pB[i+k] - pB[i], b2 = pB[i+2*k] - pB[i+k];
-            if (b1 === b2) {
-              let c1 = pC[i+k] - pC[i], c2 = pC[i+2*k] - pC[i+k];
-              if (c1 === c2) {
-                foundSquares.push({ halfLen: k, start: i, str: wordArrLocal.slice(i, i + 2*k).join('') });
-              }
-            }
-          }
+        if (pA[i+k] - pA[i] === pA[i+2*k] - pA[i+k] &&
+            pB[i+k] - pB[i] === pB[i+2*k] - pB[i+k] &&
+            pC[i+k] - pC[i] === pC[i+2*k] - pC[i+k] &&
+            pD[i+k] - pD[i] === pD[i+2*k] - pD[i+k] &&
+            pE[i+k] - pE[i] === pE[i+2*k] - pE[i+k] &&
+            pF[i+k] - pF[i] === pF[i+2*k] - pF[i+k]) {
+          foundSquares.push({ halfLen: k, start: i, str: wordArrLocal.slice(i, i + 2*k).join('') });
         }
       }
       checkedPairs += (maxI >= 0 ? maxI + 1 : 0);
@@ -1026,16 +1024,20 @@ function startAuditH6(maxK = 400) {
     if (currentK <= maxK) {
       setTimeout(scanChunk, 0);
     } else {
-      const timeMs = parseFloat((performance.now() - t0).toFixed(1));
+      const timeScanMs = performance.now() - tScanStart;
       self.postMessage({
         type: 'val_h6_results',
         results: {
-          N,
+          prefixLen: N,
+          auditedLen: N,
           maxK,
           checkedPairs,
           totalPairs,
+          squaresFound: foundSquares,
           squares: foundSquares,
-          timeMs,
+          timeGenMs: parseFloat(timeGenMs.toFixed(1)),
+          timeScanMs: parseFloat(timeScanMs.toFixed(1)),
+          timeMs: parseFloat((timeGenMs + timeScanMs).toFixed(1)),
           forbid4Symmetry: verifyForbid4Symmetry(),
           status: foundSquares.length === 0 ? 'PASS' : 'FAIL',
           message: foundSquares.length === 0 ? `Bounded audit completed: no discrepancy observed within scope (N=${N.toLocaleString()}, K <= ${maxK}).` : `Found ${foundSquares.length} unexpected abelian squares!`
@@ -1050,6 +1052,7 @@ function startAuditH6(maxK = 400) {
 // Module C: g3(h6^ω(a)) Bounded Prefix Audit & Density Grid
 function startAuditG3(maxK = 500) {
   isJobCancelled = false;
+  const tGenStart = performance.now();
   self.postMessage({ type: 'val_progress', module: 'C', phase: 'generation', progress: 0, status: 'Generating g3(h6) prefix (N=590,490)...' });
 
   const H6_MAP = { a: 'ace', b: 'adf', c: 'bdf', d: 'bdc', e: 'afe', f: 'bce' };
@@ -1066,6 +1069,7 @@ function startAuditG3(maxK = 500) {
   const N_total = tern.length;
   const N_audit = 50000;
   const wordArrLocal = tern.slice(0, N_audit).split('');
+  const timeGenMs = performance.now() - tGenStart;
 
   self.postMessage({ type: 'val_progress', module: 'C', phase: 'prefix_sums', progress: 5, status: 'Building O(1) Parikh prefix sums for N=50,000...' });
 
@@ -1094,6 +1098,7 @@ function startAuditG3(maxK = 500) {
   let period1Count = 0;
   let boundarySquares = { 2: [], 3: [], 4: [], 5: [] };
   let countGt5 = 0;
+  let allSquares = [];
 
   // 50x50 density grid for UI rendering (binX: position 0..49999 in 1000s, binY: K 1..500 in 10s)
   const densityGrid = [];
@@ -1104,7 +1109,7 @@ function startAuditG3(maxK = 500) {
     }
   }
 
-  const t0 = performance.now();
+  const tScanStart = performance.now();
 
   function scanChunkG3() {
     if (isJobCancelled) return;
@@ -1127,8 +1132,13 @@ function startAuditG3(maxK = 500) {
                 if (k === 1) {
                   period1Count++;
                 } else {
+                  const u = wordArrLocal.slice(i, i+k).join('');
+                  const v = wordArrLocal.slice(i+k, i+2*k).join('');
+                  const sqObj = { i, k, start: i, halfLen: k, str: u + v, u, v };
+                  allSquares.push(sqObj);
+
                   if (k >= 2 && k <= 5) {
-                    boundarySquares[k].push({ i, k, u: wordArrLocal.slice(i, i+k).join(''), v: wordArrLocal.slice(i+k, i+2*k).join('') });
+                    boundarySquares[k].push(sqObj);
                   } else if (k > 5) {
                     countGt5++;
                   }
@@ -1136,7 +1146,7 @@ function startAuditG3(maxK = 500) {
                   let by = Math.min(49, Math.floor(((k - 1) / maxK) * 50));
                   densityGrid[bx][by].count++;
                   if (densityGrid[bx][by].samples.length < 3) {
-                    densityGrid[bx][by].samples.push({ i, k, u: wordArrLocal.slice(i, i+k).join(''), v: wordArrLocal.slice(i+k, i+2*k).join('') });
+                    densityGrid[bx][by].samples.push(sqObj);
                   }
                 }
               }
@@ -1154,10 +1164,12 @@ function startAuditG3(maxK = 500) {
     if (currentK <= maxK) {
       setTimeout(scanChunkG3, 0);
     } else {
-      const timeMs = parseFloat((performance.now() - t0).toFixed(1));
+      const timeScanMs = performance.now() - tScanStart;
       self.postMessage({
         type: 'val_g3_results',
         results: {
+          prefixLen: N_total,
+          auditedLen: N_audit,
           N_total,
           N_audit,
           maxK,
@@ -1166,8 +1178,13 @@ function startAuditG3(maxK = 500) {
           period1Count,
           boundarySquares,
           densityGrid,
+          forbiddenRealmCount: countGt5,
           countGt5,
-          timeMs,
+          squaresFound: allSquares,
+          squares: allSquares,
+          timeGenMs: parseFloat(timeGenMs.toFixed(1)),
+          timeScanMs: parseFloat(timeScanMs.toFixed(1)),
+          timeMs: parseFloat((timeGenMs + timeScanMs).toFixed(1)),
           forbid4Symmetry: verifyForbid4Symmetry(),
           status: countGt5 === 0 ? 'PASS' : 'FAIL',
           message: countGt5 === 0 ? `No squares observed in range K > 5, within the audited prefix (N=${N_audit.toLocaleString()}) and window (K <= ${maxK}).` : `Found ${countGt5} unexpected squares with K > 5!`
@@ -1203,18 +1220,23 @@ function runSymmetryCheck(maxNodes = 20000) {
 
     let res = runSingleScientificBench('aa2fr', maxNodes, p.order, '');
     let canonBest = canonicalizeWord(res.bestWord);
-    let traceHash = `${canonBest}|depth:${res.maxDepth}|nodes:${res.candidateNodes}|valid:${res.validExtensions}|back:${res.actualBacktracks}|rej:${res.rejections.total}`;
-    traceHashes.push(traceHash);
+    let summarySig = `${canonBest}|depth:${res.maxDepth}|nodes:${res.candidateNodes}|valid:${res.validExtensions}|back:${res.actualBacktracks}|rej:${res.rejections.total}`;
+    traceHashes.push(summarySig);
     runs.push({
       permName: p.name,
       order: p.order,
       canonicalWord: canonBest,
+      canonicalBestWord: canonBest,
       rawWord: res.bestWord.slice(0, 40) + (res.bestWord.length > 40 ? '...' : ''),
       maxDepth: res.maxDepth,
       candidateNodes: res.candidateNodes,
+      nodes: res.candidateNodes,
       validExtensions: res.validExtensions,
       actualBacktracks: res.actualBacktracks,
-      traceHash: traceHash
+      backtracks: res.actualBacktracks,
+      traceHash: summarySig,
+      summarySignature: summarySig,
+      minSquareK: 'N/A'
     });
   }
 
@@ -1224,11 +1246,13 @@ function runSymmetryCheck(maxNodes = 20000) {
     results: {
       matched: allMatched,
       traceHash: traceHashes[0],
+      summarySignature: traceHashes[0],
       canonicalWord: runs[0].canonicalWord,
+      limitNodes: maxNodes,
       runs,
       forbid4Symmetry: verifyForbid4Symmetry(),
       status: allMatched ? 'PASS' : 'FAIL',
-      summary: allMatched ? "6/6 isomorphic traces matched. S3 symmetry and determinism verified." : "❌ SYMMETRY VIOLATION DETECTED: traces diverged across S3 permutations!"
+      summary: allMatched ? "6/6 invariant summary signatures matched. S3 symmetry and determinism verified." : "❌ SYMMETRY VIOLATION DETECTED: summary signatures diverged across S3 permutations!"
     }
   });
 }
@@ -1257,6 +1281,8 @@ function runSeedSuiteBenchmark(maxNodes = 25000) {
 
     totalRealizedNodes += (resAA2F.candidateNodes + resAA2FR.candidateNodes);
     suiteResults.push({
+      seedId: seedObj.id,
+      seedWord: seedObj.word,
       seed: seedObj,
       aa2f: resAA2F,
       aa2fr: resAA2FR
@@ -1298,40 +1324,41 @@ function runSingleScientificBench(mode, maxNodes, alphabetPerm, seedStr) {
     prefixPacked[i+1] = prefixPacked[i] + valPacked;
   }
 
+  let bestWord = seedStr;
+  let maxLen = seedLen;
   let candidateNodes = 0;
   let validExtensions = 0;
   let actualBacktracks = 0;
-  let maxLen = seedLen;
-  let bestWord = seedStr;
-
-  let rejForbid4Only = 0;
-  let rejSquareOnly = 0;
-  let rejBoth = 0;
+  let rejForbid4Only = 0, rejSquareOnly = 0, rejBoth = 0;
   let minSquareK = null;
   let triggeredKSet = new Set();
-
-  let depthCurve = [{ nodes: 0, depth: 0 }];
-  let letterIdx = new Int32Array(MAX_DEPTH);
-  letterIdx[seedLen] = 0;
+  const depthCurve = [{ nodes: 0, depth: 0 }];
 
   const t0 = performance.now();
+  const chunkEndTime = performance.now() + 10000; // run synchronously for single bench run
 
-  while (candidateNodes < maxNodes && wordLen >= seedLen) {
+  // We use standard backtracking DFS
+  const alphabet = alphabetPerm;
+  const letterIdx = new Int32Array(maxNodes + 100);
+  letterIdx[seedLen] = 0;
+
+  while (candidateNodes < maxNodes) {
     if (isJobCancelled) break;
     if (wordLen > maxLen) {
       maxLen = wordLen;
       bestWord = wordArr.slice(0, wordLen).join('');
     }
-    if (letterIdx[wordLen] < 3) {
-      const char = alphabetPerm[letterIdx[wordLen]];
-      candidateNodes++;
-      letterIdx[wordLen]++;
 
-      wordArr[wordLen] = char;
+    if (letterIdx[wordLen] < 3) {
+      let ch = alphabet[letterIdx[wordLen]];
+      letterIdx[wordLen]++;
+      wordArr[wordLen] = ch;
       wordLen++;
-      let valA = (char === 'a') ? 1 : 0;
-      let valB = (char === 'b') ? 1 : 0;
-      let valC = (char === 'c') ? 1 : 0;
+      candidateNodes++;
+
+      let valA = (ch === 'a') ? 1 : 0;
+      let valB = (ch === 'b') ? 1 : 0;
+      let valC = (ch === 'c') ? 1 : 0;
       let valPacked = valA * 0 + valB * 1 + valC * 65536;
       prefixA[wordLen] = prefixA[wordLen - 1] + valA;
       prefixB[wordLen] = prefixB[wordLen - 1] + valB;
@@ -1392,20 +1419,26 @@ function runSingleScientificBench(mode, maxNodes, alphabetPerm, seedStr) {
     mode: mode.toUpperCase(),
     permName: '(' + alphabetPerm.join(',') + ')',
     candidateNodes,
+    nodes: candidateNodes,
     validExtensions,
     actualBacktracks,
+    backtracks: actualBacktracks,
     maxDepth: maxLen - seedLen,
+    maxLen: maxLen,
     bestWord: bestWord,
     timeMs,
     rejections: {
+      forbid4Only: rejForbid4Only,
+      squareOnly: rejSquareOnly,
+      both: rejBoth,
       forbid4_only: rejForbid4Only,
       square_only: rejSquareOnly,
-      both: rejBoth,
       total: rejForbid4Only + rejSquareOnly + rejBoth,
       minSquareK: minSquareK,
       triggeredKSet: Array.from(triggeredKSet).sort((a, b) => a - b)
     },
-    depthCurve
+    depthCurve,
+    progression: depthCurve
   };
 }
 
