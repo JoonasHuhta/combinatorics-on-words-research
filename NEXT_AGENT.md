@@ -35,7 +35,7 @@ The app is intentionally implemented as one HTML/CSS/JS file. Do not split it in
 | 13 | Abelian Snake | `snake` | Working |
 | 14 | AA2FR Extension Lab | `aa2fr` | Working |
 | 15 | Applications & Impact | `impact` | Working |
-| 16 | Validation Lab 🔬 | `validation` | Working |
+| 16 | Validation Lab | `validation` | Working |
 
 ### Phase 6: AA2FR Research Platform & Scientific Rigor
 
@@ -57,6 +57,12 @@ The app is intentionally implemented as one HTML/CSS/JS file. Do not split it in
 - **Rigorous S3 Symmetry Control**: Implemented canonical `summarySignature` calculation (depth, nodes, backtracks, best word) across all 6 relabeled S3 search trees to prove algorithmic invariance ("6/6 matched") and absence of branch divergence.
 - **L12 Test Suite Comparative Benchmark**: Implemented a 10-seed comparative test suite ($L=12$), reporting total realized nodes across seeds, clear differentiation between total length and extension depth, depth progression curves sampled every 1,000 nodes, and a stacked rejection breakdown (`FORBID4 only`, `square only`, `both` + `minSquareK`).
 - **Mathematical Rigor & Wording Precision**: Corrected description of "30 abelian square-free words of length 7" (30 distinct words in total across all 6 S3 alphabet permutations, corresponding to 5 canonical symmetry orbits), defined missing `G109_A` / `G109` constants in UI, and updated descriptions of `g85` and `g109` to accurately describe their role as uniform endomorphisms preserving abelian square-freedom over 4 letters.
+
+### Stage 8: Forensic Source Verification & Mathematical Claims Protocol
+- **Forensic Primary Source Discovery (Level 2 Source Verified)**: Extracted and examined the C++ verification source code attached to Theorem 6 in Rao & Rosenfeld (2015, `arXiv:1511.05875`). Confirmed that both `h6` (`firstmorphism`: `a:ace, b:adf, c:bdf, d:bdc, e:afe, f:bce`) and `g3` (`vector<string> h`: `h[0]=bbbaabaaac, h[3]=ccccccccaa...`) appear verbatim in the original 2015 arXiv C++ verification package!
+- **Resolved Title/Citation Confusion**: Documented in `MATH_CLAIMS.md`, `morphisms.js`, and Tab 16 UI that previous citations to SIAM J. Discrete Math 2018 were a title misattribution; the correct primary source for these exact ternary/hex morphisms is arXiv:1511.05875 Theorem 6 and its C++ code. Elevated `h6` and `g3` verification status from Level 1 Empirical to **`LEVEL_2_VERIFIED_SOURCE`** across the entire repository.
+- **Mandatory Claims Protocol (`AGENTS.md` & `CLAUDE.md`)**: Created permanent root-level instructions enforcing: (1) mandatory DOI/arXiv primary source citation before coding, (2) strict binary status separation (`LEVEL_1_INTERNAL_CHECKSUM` vs `LEVEL_2_VERIFIED_SOURCE`), (3) linguistic calibration for finite window checks (e.g., "no violations found in K=1..400 across N-letter prefix" instead of "confirmed/proven"), and (4) immediate provenance logging in commit messages.
+- **Strict English UI Enforcement**: Removed all leftover Finnish vocabulary (e.g., `Väiteloki`, `rikkomuksia`, `etuliite`) from `index.html` to guarantee a 100% English user interface for all global users while keeping Finnish discussions in PR/commit documentation.
 
 
 ### Pedagogical Tools

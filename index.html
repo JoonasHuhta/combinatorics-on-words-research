@@ -518,13 +518,13 @@
     <div class="mode-tab" data-mode="timeline" id="tab-timeline">7. Historical Timeline</div>
     <div class="mode-tab" data-mode="unfavorable" id="tab-unf">8. Unfavorable Factors</div>
     <div class="mode-tab" data-mode="microscope" id="tab-microscope">9. Morphism Microscope</div>
-    <div class="mode-tab" data-mode="knowledge" id="tab-knowledge">10. Knowledge Graph</div>
+    <div class="mode-tab" data-mode="knowledge" id="tab-knowledge">10. Concept Graph</div>
     <div class="mode-tab" data-mode="morph-lab" id="tab-morph-lab">11. Morphism Lab</div>
     <div class="mode-tab" data-mode="heat-map" id="tab-heat-map">12. Heat Map</div>
-    <div class="mode-tab" data-mode="snake" id="tab-snake">13. Abelian Snake 🐍</div>
-    <div class="mode-tab" data-mode="aa2fr" id="tab-aa2fr">14. AA2FR Laboratory 🧪</div>
+    <div class="mode-tab" data-mode="snake" id="tab-snake">13. Abelian Snake</div>
+    <div class="mode-tab" data-mode="aa2fr" id="tab-aa2fr">14. AA2FR Extension Lab</div>
     <div class="mode-tab" data-mode="impact" id="tab-impact">15. Applications & Impact</div>
-    <div class="mode-tab" data-mode="validation" id="tab-validation">16. Validation Lab 🔬</div>
+    <div class="mode-tab" data-mode="validation" id="tab-validation">16. Validation Lab</div>
   </div>
 
   <div class="controls">
@@ -1348,7 +1348,7 @@
        16. VALIDATION & REPLICATION LAB PANEL
        ===================================================== -->
   <div class="view-panel hidden" id="view-validation">
-    <h2>Validation &amp; Replication Lab 🔬 (Phase 1)</h2>
+    <h2>Validation &amp; Replication Lab (Phase 1)</h2>
     <p style="color:#555; font-size:0.95rem; line-height:1.6; max-width:850px; margin-bottom:20px;">
       This dedicated laboratory isolates formal mathematical verification from exploratory heuristics. 
       Here we execute exact reproduction tests for published literature on Mäkelä's Conjecture and bounded audits of empirical morphisms, 
@@ -1366,7 +1366,7 @@
 
     <!-- Module 0: Mathematical Claims Ledger -->
     <div class="val-card">
-      <h3>Module 0: Mathematical Claims Ledger (Väiteloki)</h3>
+      <h3>Module 0: Mathematical Claims Ledger</h3>
       <p>
         Every external mathematical claim and internal empirical invariant relied upon by this project is cataloged below with its precise citation, verification status, and scope. This ledger serves as the single source of truth for all tools in this laboratory.
       </p>
@@ -5691,7 +5691,7 @@ function valRunH6Check() {
 
       if (res.squaresFound.length === 0) {
         log += "\n✅ RESULT: PASS! Exactly 0 abelian squares found across all inspected half-lengths K = 1..400.\n";
-        log += `Ei rikkomuksia löydetty (K=1..400, ${res.prefixLen.toLocaleString()} merkin etuliite) — empiirinen havainto, ei todistus äärettömästä ominaisuudesta. Level 2 lähdeverifioitu (arXiv:1511.05875).`;
+        log += `No violations found (K=1..400, ${res.prefixLen.toLocaleString()}-letter prefix) — empirical observation, not an unconditional infinite theorem proof. Level 2 Source Verified (arXiv:1511.05875).`;
         valLog('val-h6-output', log, 'success');
       } else {
         log += `\n❌ RESULT: UNEXPECTED SQUARES DETECTED:\n`;
@@ -5728,7 +5728,7 @@ function valRunG3Check() {
 
       log += "--- ANALYSIS OF THE BOUNDARY (Half-Lengths K = 2, 3, 4, 5) ---\n";
       log += "Empirical observation: this word avoids all abelian squares with K > 5 in this finite audit.\n";
-      log += `Result for K > 5: ${res.forbiddenRealmCount === 0 ? '✅ 0 FOUND (Ei rikkomuksia löydetty K=6..' + res.maxK + ', ' + res.auditedLen.toLocaleString() + ' merkin etuliitteessä — empiirinen havainto, ei todistus äärettömästä ominaisuudesta)' : '❌ ' + res.forbiddenRealmCount + ' FOUND'}\n`;
+      log += `Result for K > 5: ${res.forbiddenRealmCount === 0 ? '✅ 0 FOUND (No violations found in K=6..' + res.maxK + ' across ' + res.auditedLen.toLocaleString() + '-letter prefix — empirical observation, not an unconditional infinite theorem proof)' : '❌ ' + res.forbiddenRealmCount + ' FOUND'}\n`;
       log += `Result for K = 1 (trivial period-1 like 'aa', allowed in AA2F): ${res.period1Count} occurrences.\n\n`;
 
       let prevC = res.period1Count || 0;
