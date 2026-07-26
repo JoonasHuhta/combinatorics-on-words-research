@@ -1058,6 +1058,17 @@ function startAuditG3(maxK = 500) {
   const H6_MAP = { a: 'ace', b: 'adf', c: 'bdf', d: 'bdc', e: 'afe', f: 'bce' };
   const G3_MAP = { a: 'bbbaabaaac', b: 'bccacccbcc', c: 'ccccbbbcbc', d: 'ccccccccaa', e: 'bbbbbcabaa', f: 'aaaaaaabaa' };
 
+  // Hard blocking guard condition: verify all 6 g3 images are exactly 10 characters long
+  for (const k in G3_MAP) {
+    if (G3_MAP[k].length !== 10) {
+      self.postMessage({
+        type: 'val_g3_results',
+        error: `CRITICAL GUARD FAILURE: g3(${k}) image length is ${G3_MAP[k].length} (expected exactly 10). Morphism integrity verification failed.`
+      });
+      return;
+    }
+  }
+
   let w = "a";
   for (let iter = 0; iter < 10; iter++) {
     let next = "";
