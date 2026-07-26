@@ -35,19 +35,19 @@ const G3 = {
 const MORPHISM_METADATA = {
   h6: {
     name: 'h6 (6-letter ternary extension seed)',
-    verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
-    badgeText: '🟢 Level 2: Verified Source (arXiv:1511.05875 / SIAM 2018 Thm 5)',
-    status: 'PRIMARY — Verified against arXiv:1511.05875 / SIAM 2018 Theorem 5 (`\\label{abelianthe}`, C++ `firstmorphism`)',
-    sourceNote: 'Independently human-verified 2026-07-26 from source archive (Theorem 5 / `\\label{abelianthe}` & firstmorphism code). Confirmed SIAM 2018 is identical published journal article.',
-    doi: 'arXiv:1511.05875 / SIAM J. Discrete Math 2018'
+    verificationLevel: 'LEVEL_1_INTERNAL_CHECKSUM',
+    badgeText: '⚙️ Level 1: Computed Checksum (arXiv:1507.02581)',
+    status: 'COMPUTED — Empirical Checksum against arXiv:1507.02581 (*On Mäkelä\'s Conjectures*) Theorem 5 (`\\label{abelianthe}`)',
+    sourceNote: 'Citation corrected 2026-07-26 to arXiv:1507.02581. Reset to Level 1 until primary text and C++ source are audited character-by-character from the correct repository.',
+    doi: 'arXiv:1507.02581'
   },
   g3: {
     name: 'g3 (10-length ternary morphism)',
-    verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
-    badgeText: '🟢 Level 2: Verified Source (arXiv:1511.05875 / SIAM 2018 Thm 11)',
-    status: 'PRIMARY — Verified against arXiv:1511.05875 / SIAM 2018 Theorem 11 (`\\label{makanswerr}`, C++ `vector<string> h`)',
-    sourceNote: 'Independently human-verified 2026-07-26 from source archive (Theorem 11 / `\\label{makanswerr}` & vector<string> h). Confirmed SIAM 2018 is identical published journal article.',
-    doi: 'arXiv:1511.05875 / SIAM J. Discrete Math 2018'
+    verificationLevel: 'LEVEL_1_INTERNAL_CHECKSUM',
+    badgeText: '⚙️ Level 1: Computed Checksum (arXiv:1507.02581)',
+    status: 'COMPUTED — Empirical Checksum against arXiv:1507.02581 (*On Mäkelä\'s Conjectures*) Theorem 11 (`\\label{makanswerr}`)',
+    sourceNote: 'Citation corrected 2026-07-26 to arXiv:1507.02581. Reset to Level 1 until primary text and C++ source are audited character-by-character from the correct repository.',
+    doi: 'arXiv:1507.02581'
   }
 };
 

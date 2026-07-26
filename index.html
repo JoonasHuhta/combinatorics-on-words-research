@@ -1414,23 +1414,23 @@
             <tr>
               <td>5</td>
               <td>h&sub6; uniform morphism (6 letters a&ndash;f): the fixed point h&sub6;&circ;&omega;(a) is entirely abelian square-free.</td>
-              <td>M. Rao &amp; M. Rosenfeld, arXiv:1511.05875 (2015), <code>\label{abelianthe}</code> (C++ archive <code>firstmorphism</code>)</td>
-              <td><span class="val-badge lvl2-doi">🟢 Level 2: Verified Source</span></td>
-              <td><strong>Independent human verification (2026-07-26):</strong> Physically audited C++ archive and .tex source. Verified <code>firstmorphism</code>: a:&quot;ace&quot;, b:&quot;adf&quot;, c:&quot;bdf&quot;, d:&quot;bdc&quot;, e:&quot;afe&quot;, f:&quot;bce&quot;. Exact .tex statement: <code>\label{abelianthe}</code>: <em>&quot;h_6^\omega(a) is abelian-square-free.&quot;</em></td>
+              <td>M. Rao &amp; M. Rosenfeld, arXiv:1507.02581 (2015) / <em>On Mäkelä's Conjectures</em>, <code>\label{abelianthe}</code></td>
+              <td><span class="val-badge lvl1-checksum">⚙️ Level 1: Computed Checksum</span></td>
+              <td><strong>Citation Correction (2026-07-26):</strong> Corrected arXiv ID from 1511.05875 to arXiv:1507.02581 (<em>"On Mäkelä's Conjectures"</em>). Reset to Level 1 until primary text and C++ verification source are audited character-by-character from the correct repository.</td>
             </tr>
             <tr>
               <td>6</td>
               <td>g&sub3;(h&sub6;&circ;&omega;(a)) (3 letters) contains zero abelian squares of half-length $K > 5$.</td>
-              <td>M. Rao &amp; M. Rosenfeld, arXiv:1511.05875 (2015), <code>\label{makanswerr}</code> (C++ archive <code>h</code>)</td>
-              <td><span class="val-badge lvl2-doi">🟢 Level 2: Verified Source</span></td>
-              <td><strong>Independent human verification (2026-07-26):</strong> Physically verified C++ archive <code>vector&lt;string&gt; h</code>: h[0]=&quot;bbbaabaaac&quot; ... h[5]=&quot;aaaaaaabaa&quot;. Exact .tex statement: <code>\label{makanswerr}</code>: <em>&quot;The word obtained by applying g_3 to the fixed point of h_6... does not contain any square of period more than 5.&quot;</em></td>
+              <td>M. Rao &amp; M. Rosenfeld, arXiv:1507.02581 (2015) / <em>On Mäkelä's Conjectures</em>, <code>\label{makanswerr}</code></td>
+              <td><span class="val-badge lvl1-checksum">⚙️ Level 1: Computed Checksum</span></td>
+              <td><strong>Citation Correction (2026-07-26):</strong> Corrected arXiv ID from 1511.05875 to arXiv:1507.02581 (<em>"On Mäkelä's Conjectures"</em>). Reset to Level 1 until primary text and C++ verification source are audited character-by-character from the correct repository.</td>
             </tr>
             <tr>
               <td>7</td>
-              <td>Rao &amp; Rosenfeld (2015/2018): ternary period $>5$ abelian square avoidability over ternary alphabet.</td>
-              <td>arXiv:1511.05875 / SIAM J. Discrete Math 32(4), 2381–2397 (2018), <code>\label{makcorr}</code></td>
-              <td><span class="val-badge lvl2-doi">🟢 Level 2: Verified Source</span></td>
-              <td><strong>Source-verified as identical publication:</strong> Verified from .tex title/content that SIAM 2018 is the final journal publication of this work (combining Z&sup2; blocks and ternary Mäkelä result under one decision algorithm). Pure corollary <code>\label{makcorr}</code>: <em>&quot;There is an infinite word over 3 letters avoiding abelian squares of period more than 5.&quot;</em></td>
+              <td>Rao &amp; Rosenfeld (2015): ternary period $>5$ abelian square avoidability over ternary alphabet.</td>
+              <td>M. Rao &amp; M. Rosenfeld, arXiv:1507.02581 (2015) / <em>On Mäkelä's Conjectures</em>, <code>\label{makcorr}</code></td>
+              <td><span class="val-badge lvl1-checksum">⚙️ Level 1: Computed Checksum</span></td>
+              <td><strong>Citation Correction (2026-07-26):</strong> Corrected arXiv ID from 1511.05875 to arXiv:1507.02581 (<em>"On Mäkelä's Conjectures"</em>). Reset to Level 1 until primary text and C++ verification source are audited character-by-character from the correct repository.</td>
             </tr>
             <tr>
               <td>8</td>
@@ -5919,7 +5919,7 @@ function valRunH6Check() {
 
       if (res.squaresFound.length === 0) {
         log += "\n✅ RESULT: PASS! Exactly 0 abelian squares found across all inspected half-lengths K = 1..400.\n";
-        log += `No violations found (K=1..400, ${res.prefixLen.toLocaleString()}-letter prefix) — empirical observation, not an unconditional infinite theorem proof. Level 2 Source Verified (arXiv:1511.05875).`;
+        log += `No violations found (K=1..400, ${res.prefixLen.toLocaleString()}-letter prefix) — empirical observation, not an unconditional infinite theorem proof. Level 1 Computed Checksum (arXiv:1507.02581).`;
         valLog('val-h6-output', log, 'success');
       } else {
         log += `\n❌ RESULT: UNEXPECTED SQUARES DETECTED:\n`;
@@ -6510,7 +6510,7 @@ function valRunRauzy() {
       log += `Eigenvalues inspected: ${msg.results.eigenvalues.join(', ')}\n`;
       log += `2D Secondary Eigenspace Bounding Box: X ∈ [${msg.results.minX}, ${msg.results.maxX}], Y ∈ [${msg.results.minY}, ${msg.results.maxY}]\n\n`;
       log += "Notice: Because |±√3| < 3, projection onto the secondary eigenspace contracts linear growth into a bounded, self-similar fractal geometry (~±170 range).\n";
-      log += "✅ PROJECTION COMPLETED. Provenance verified (Level 2 Source Algebra: SIAM 2018 / arXiv:1511.05875).";
+      log += "✅ PROJECTION COMPLETED. Provenance verified (Level 1 Computed Checksum: arXiv:1507.02581 / On Mäkelä's Conjectures).";
       valLog('val-rauzy-output', log, 'success');
       const galView = document.getElementById('view-gallery');
       if (galView && !galView.classList.contains('hidden')) {
