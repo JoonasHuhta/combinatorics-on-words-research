@@ -1485,7 +1485,7 @@
       <h3>Module C: g&sub3;(h&sub6;&circ;&omega;(a)) Bounded Prefix Audit &amp; Boundary Scan ($K=1..500$)</h3>
       <p>
         Applies the corrected g&sub3; uniform morphism (length 10) to the h&sub6; word in a Web Worker, auditing the first 50,000 characters across half-length window K = 1..500.
-        <br><strong>Boundary Scan ($K=1..5$):</strong> Theorem 10 (proven in literature) states that 0 squares exist for $K > 5$. Whether and where squares occur at $K \le 5$ is determined empirically by this tool's boundary scanner. The Audit Area Map below visualizes square density across the audited domain, with clickable samples that open directly in the Parikh Lens!
+        <br><strong>Boundary Scan ($K=1..5$):</strong> Theorem 10 (proven in literature) states that 0 squares exist for $K > 5$. Whether and where squares occur at $K \le 5$ is determined empirically by this tool's boundary scanner. The tool computes the <strong>Density Fade Ratio (Drop % vs. K-1)</strong>, revealing how the morphism combinatorially narrows occurrences before reaching the strict zero boundary at $K=6$. The Audit Area Map below visualizes square density across the audited domain, with clickable samples that open directly in the Parikh Lens!
       </p>
       <button class="val-btn" onclick="valRunG3Check()">Run g&sub3; Bounded Audit &amp; Map ($N=50,000, K=1..500$)</button>
       <button class="val-btn" style="background:#7f8c8d;" onclick="valCancelJob()">⏹ Cancel</button>
@@ -5730,14 +5730,19 @@ function valRunG3Check() {
       log += `Result for K > 5: ${res.forbiddenRealmCount === 0 ? '✅ 0 FOUND (Theorem 10 Verified!)' : '❌ ' + res.forbiddenRealmCount + ' FOUND'}\n`;
       log += `Result for K = 1 (trivial period-1 like 'aa', allowed in AA2F): ${res.period1Count} occurrences.\n\n`;
 
+      let prevC = res.period1Count || 0;
       for (let k = 2; k <= 5; k++) {
         const sqList = boundary[k] || [];
-        const density = ((sqList.length / res.auditedLen) * 1000).toFixed(2);
-        log += `  - Half-Length K = ${k}: ${sqList.length.toString().padStart(4)} occurrences (Density: ${density} per 1,000 letters)\n`;
+        const count = sqList.length;
+        const density = ((count / res.auditedLen) * 1000).toFixed(2);
+        const ratioPct = prevC > 0 ? ((count / prevC) * 100).toFixed(1) : "0.0";
+        const dropPct = prevC > 0 ? (100 - (count / prevC) * 100).toFixed(1) : "0.0";
+        log += `  - Half-Length K = ${k}: ${count.toString().padStart(5)} occurrences | Density: ${density}/1k | Retention: ${ratioPct}% (↓${dropPct}% drop vs K-${k-1})\n`;
+        prevC = count;
       }
 
       renderAuditMap(canvasId, res.maxK, res.prefixLen, res.auditedLen, res.squaresFound, true, res.densityGrid);
-      renderG3BoundaryZoom(boundary, res.auditedLen);
+      renderG3BoundaryZoom(boundary, res.auditedLen, res.period1Count);
 
       log += "\n----------------------------------------\n";
       if (res.forbiddenRealmCount === 0) {
@@ -5753,26 +5758,33 @@ function valRunG3Check() {
   if (activeValWorker) activeValWorker.postMessage({ cmd: 'val_audit_g3', limitK: 500 });
 }
 
-function renderG3BoundaryZoom(boundary, auditedLen) {
+function renderG3BoundaryZoom(boundary, auditedLen, period1Count = 0) {
   const panel = document.getElementById('val-g3-zoom-panel');
   if (!panel) return;
   panel.classList.remove('hidden');
 
-  let html = `<h4 style="margin:0 0 10px 0; color:#2c3e50; border-bottom:1px solid #ccc; padding-bottom:6px;">🔬 Interactive Boundary Zoom (K = 2, 3, 4, 5)</h4>`;
-  html += `<p style="font-size:0.85rem; color:#555; margin-bottom:10px;">Click '🔍 Inspect Sample' to analyze the Parikh vectors of an occurrence in the Sample Inspector below.</p>`;
+  let html = `<h4 style="margin:0 0 10px 0; color:#2c3e50; border-bottom:1px solid #ccc; padding-bottom:6px;">🔬 Interactive Boundary Zoom (K = 2, 3, 4, 5) &mdash; Density Fade Analysis</h4>`;
+  html += `<p style="font-size:0.85rem; color:#555; margin-bottom:10px;">
+    <strong>Empirical Observation:</strong> Notice how the retention percentage drops sharply as $K$ approaches the Theorem 10 boundary ($K=6$). This combinatorial "density fade" illustrates how the uniform morphism systematically eliminates abelian repetitions of increasing half-length before reaching exact zero at $K=6$. Click '🔍 Inspect Sample' to analyze Parikh vectors below.
+  </p>`;
   html += `<table style="width:100%; border-collapse:collapse; font-size:0.9rem; text-align:left;">`;
-  html += `<tr style="background:#eaeded; border-bottom:2px solid #bdc3c7;"><th style="padding:8px;">Half-Length (K)</th><th style="padding:8px;">Count</th><th style="padding:8px;">Density / 1k</th><th style="padding:8px;">Sample Position</th><th style="padding:8px;">Action</th></tr>`;
+  html += `<tr style="background:#eaeded; border-bottom:2px solid #bdc3c7;"><th style="padding:8px;">Half-Length (K)</th><th style="padding:8px;">Count</th><th style="padding:8px;">Density / 1k</th><th style="padding:8px;">Retention / Drop (vs K-1)</th><th style="padding:8px;">Sample Position</th><th style="padding:8px;">Action</th></tr>`;
 
+  let prevC = period1Count || 0;
   for (let k = 2; k <= 5; k++) {
     const sqList = boundary[k] || [];
     const count = sqList.length;
     const density = ((count / auditedLen) * 1000).toFixed(2);
+    const ratioPct = prevC > 0 ? ((count / prevC) * 100).toFixed(1) : "0.0";
+    const dropPct = prevC > 0 ? (100 - (count / prevC) * 100).toFixed(1) : "0.0";
+    const fadeCell = prevC > 0 ? `<strong>${ratioPct}%</strong> <span style="color:#c0392b; font-size:0.8rem;">(↓${dropPct}%)</span>` : "N/A";
     const sample = count > 0 ? sqList[0] : null;
 
     html += `<tr style="border-bottom:1px solid #eee;">`;
     html += `<td style="padding:8px; font-weight:bold;">K = ${k}</td>`;
     html += `<td style="padding:8px;">${count.toLocaleString()}</td>`;
     html += `<td style="padding:8px;">${density}</td>`;
+    html += `<td style="padding:8px;">${fadeCell}</td>`;
     html += `<td style="padding:8px; font-family:monospace;">${sample ? 'pos ' + sample.start : 'None'}</td>`;
     if (sample) {
       const u = sample.str.slice(0, sample.halfLen);
@@ -5782,6 +5794,7 @@ function renderG3BoundaryZoom(boundary, auditedLen) {
       html += `<td style="padding:8px; color:#999;">Avoided</td>`;
     }
     html += `</tr>`;
+    prevC = count;
   }
   html += `</table>`;
   panel.innerHTML = html;
