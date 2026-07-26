@@ -1,6 +1,8 @@
 // c:\\abc\\aa2fr-worker.js
 // AA2FR Experimental Mathematics Laboratory - Search Engine Worker
 
+function aa2frWorkerMain() {
+if (typeof self === 'undefined') { var self = typeof globalThis !== 'undefined' ? globalThis : (typeof window !== 'undefined' ? window : this); }
 // -------------------------------------------------------------------------
 // STATE & CONFIGURATION
 // -------------------------------------------------------------------------
@@ -1459,4 +1461,12 @@ function runValidationBenchmark(limit) {
 }
 function runSingleBench(mode, maxNodes, alphabetPerm, permName) {
   return runSingleScientificBench(mode, maxNodes, alphabetPerm, '');
+}
+
+} // end aa2frWorkerMain
+
+if (typeof window !== 'undefined') {
+  window.aa2frWorkerMain = aa2frWorkerMain;
+} else {
+  aa2frWorkerMain();
 }

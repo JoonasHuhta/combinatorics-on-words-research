@@ -1535,7 +1535,21 @@
 
 </div>
 
+<script src="aa2fr-worker.js"></script>
 <script>
+function createUniversalWorker(url) {
+  try {
+    return new Worker(url);
+  } catch (err) {
+    if (typeof window !== 'undefined' && window.aa2frWorkerMain) {
+      const src = '(' + window.aa2frWorkerMain.toString() + ')();';
+      const blob = new Blob([src], { type: 'application/javascript' });
+      return new Worker(URL.createObjectURL(blob));
+    }
+    throw err;
+  }
+}
+
 function aa2frRunReproducibilityTest() {
   const base = $('aa2fr-base-word').value.trim();
   if (!base) { alert('Base word required.'); return; }
@@ -3843,7 +3857,7 @@ function aa2frAnalyzeLookahead(wordArr, options, callback) {
 
 // Initialize Web Worker Pool
 try {
-  aa2frState.analyzerWorker = new Worker('aa2fr-worker.js');
+  aa2frState.analyzerWorker = createUniversalWorker('aa2fr-worker.js');
   
   aa2frState.analyzerWorker.onmessage = function(e) {
     const msg = e.data;
@@ -3857,7 +3871,7 @@ try {
   aa2frState.useWorker = true;
   
   function createWorker(workerId) {
-    let worker = new Worker('aa2fr-worker.js');
+    let worker = createUniversalWorker('aa2fr-worker.js');
     worker.workerId = workerId;
     worker.isIdle = true;
     
@@ -5571,7 +5585,7 @@ function valInitWorker(outputId, onMsgHandler) {
   if (progText) progText.textContent = "0% (Starting Worker...)";
 
   try {
-    activeValWorker = new Worker('aa2fr-worker.js');
+    activeValWorker = createUniversalWorker('aa2fr-worker.js');
     activeValWorker.onmessage = function(e) {
       const msg = e.data;
       if (msg.type === 'val_progress') {
