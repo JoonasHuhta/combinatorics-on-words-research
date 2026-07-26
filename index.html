@@ -1593,21 +1593,21 @@
   <div class="view-panel hidden" id="view-gallery">
     <h2>Art &amp; Math Gallery 🏛️ (Morphic Art &amp; Visual Epistemology)</h2>
     <p style="color:#555; line-height:1.6; max-width:900px;">
-      Welcome to the <strong>Morphic Art Gallery</strong>—a curated exhibition space designed to provide intuitive visual and intellectual nourishment ("silmä- ja aivoruokaa") for researchers and mathematicians.
+      Welcome to the <strong>Morphic Art Gallery</strong>—a curated exhibition space designed to provide intuitive visual and intellectual nourishment for researchers and mathematicians.
       In accordance with our strict <strong>Mathematical Claims Protocol</strong>, every visual artwork displayed here is anchored by an immutable provenance badge detailing its exact computational derivation, algorithmic parameters, and epistemological status.
     </p>
 
     <!-- Exhibit 1 -->
     <div class="val-card" style="border-left:5px solid #00cec9;">
-      <h3 style="color:#008080;">Exhibit 1: The Rauzy Fractal &amp; Eigenspace Sculpture</h3>
+      <h3 style="color:#008080;">Exhibit 1: Substitution Trajectory in Eigenspace (Rao–Rosenfeld Construction)</h3>
       <p>
-        When Keränen's 6-letter uniform morphism $h_6$ is iterated infinite times, its cumulative Parikh vector grows linearly along the dominant eigenvalue ($3$). By projecting the vector trajectory onto the 2D subspace spanned by the secondary eigenvalues ($+\sqrt{3}$ and $-\sqrt{3}$), linear drift is cancelled out, folding the trajectory into a bounded, self-similar <strong>Rauzy Fractal</strong>.
+        When the 6-letter uniform morphism $h_6$ from the Rao–Rosenfeld construction (Theorem 5, <em>SIAM J. Discrete Math.</em> 2018) is iterated infinite times, its cumulative Parikh vector grows linearly along the dominant eigenvalue ($3$). By projecting the vector trajectory onto the 2D subspace spanned by the secondary eigenvalues ($+\sqrt{3}$ and $-\sqrt{3}$), linear drift is cancelled out, folding the trajectory into a bounded, self-similar geometric domain.
       </p>
       <div style="text-align:center; margin:15px 0;">
         <div id="gallery-rauzy-anim-status" style="margin-bottom:8px; font-weight:bold; color:#00cec9; font-size:0.95rem; text-align:center;"></div>
         <canvas id="gallery-rauzy-canvas" width="650" height="350" style="width:100%; max-width:650px; background:#161920; border-radius:6px; border:1px solid #333; box-shadow:0 4px 12px rgba(0,0,0,0.2);"></canvas>
         <div style="margin-top:10px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-          <button class="val-btn" style="background:#008080;" onclick="galRenderRauzy('2d')">🎨 Render 2D Rauzy Projection (&plusmn;&radic;3)</button>
+          <button class="val-btn" style="background:#008080;" onclick="galRenderRauzy('2d')">🎨 Render 2D Eigenspace Projection (&plusmn;&radic;3)</button>
           <button class="val-btn" style="background:#0984e3;" onclick="galRenderRauzy('3d')">🌀 Render 2.5D Isometric Spiral (Z-axis Growth)</button>
           <button class="val-btn" style="background:#e67e22;" onclick="galAnimateRauzy('2d')">🎬 Animate 2D Trajectory Growth</button>
           <button class="val-btn" style="background:#d35400;" onclick="galAnimateRauzy('3d')">🎬 Animate 2.5D Isometric Spiral</button>
@@ -1615,7 +1615,7 @@
       </div>
       <div style="background:#f1f2f6; padding:10px 14px; border-radius:4px; font-size:0.85rem; color:#444; border:1px solid #dcdde1; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
         <div><strong>Provenance Badge:</strong> <code>[Eigenspace Projection | N = 177,147 letters (3&circ;11) | Secondary Eigenvalues &plusmn;&radic;3 | Bounded Area &plusmn;170]</code></div>
-        <span class="val-badge lvl2-doi">🟢 Level 2: Verified Source Algebra</span>
+        <span class="val-badge lvl2-doi">🟢 Level 2: Verified Source Algebra (Rao &amp; Rosenfeld 2018, Thm 5)</span>
       </div>
     </div>
 
@@ -1650,9 +1650,9 @@
 
     <!-- Exhibit 3 -->
     <div class="val-card" style="border-left:5px solid #8e44ad;">
-      <h3 style="color:#8e44ad;">Exhibit 3: Modular Seam-Welding (The K=5 100% Boundary Law)</h3>
+      <h3 style="color:#8e44ad;">Exhibit 3: Modular Seam-Welding in Rao–Rosenfeld Construction (Theorem 11)</h3>
       <p>
-        Why does $g_3(h_6^\omega(a))$ completely avoid abelian squares of half-length $K &gt; 5$? Our empirical instrumentation proves that exactly <strong>100% of half-length 5 abelian square collisions occur across block image boundaries</strong> ($i \not\equiv 0 \pmod{10}$). Because primitive morphic words exhibit uniform recurrence, short squares stabilize at positive stationary densities ($\rho_5 \approx 4.3\%$), serving as a permanent combinatorial safety belt that blocks $K &gt; 5$ squares without asymptotically vanishing on the boundary.
+        In the Rao–Rosenfeld construction, the long abelian square avoidance of $g_3(h_6^\omega(a))$ is formally established by Theorem 11 (<em>SIAM J. Discrete Math.</em> 2018). Our empirical boundary scanner reveals a striking regularity in the finite prefix $N=200,000$: exactly <strong>100% of half-length 5 abelian square collisions occur across block image boundaries</strong> ($i \not\equiv 0 \pmod{10}$). Because primitive morphic words exhibit uniform recurrence, short squares stabilize at positive stationary densities ($\rho_5 \approx 4.3\%$), serving as a permanent combinatorial safety belt that blocks $K &gt; 5$ squares.
       </p>
       <div style="text-align:center; margin:15px 0;">
         <canvas id="gallery-seam-canvas" width="650" height="200" style="width:100%; max-width:650px; background:#f8f9fa; border-radius:6px; border:1px solid #ddd;"></canvas>
@@ -1661,8 +1661,8 @@
         </div>
       </div>
       <div style="background:#f1f2f6; padding:10px 14px; border-radius:4px; font-size:0.85rem; color:#444; border:1px solid #dcdde1; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-        <div><strong>Provenance Badge:</strong> <code>[Empirical Boundary Scanner | N = 200,000 | K=5 Collisions: 100% Boundary-Spanning (0% Internal)]</code></div>
-        <span class="val-badge lvl1-chk">⚙️ Checksum Verified (0/2889 Internal)</span>
+        <div><strong>Provenance Badge:</strong> <code>[Empirical Boundary Scanner | Observed in N=200,000 prefix at half-length K=5 | 100% Boundary-Spanning (0% Internal)]</code></div>
+        <span class="val-badge lvl1-chk">⚙️ Checksum Verified (Level 1 Prefix Observation | Asymptotic proof: Thm 11)</span>
       </div>
     </div>
   </div>
