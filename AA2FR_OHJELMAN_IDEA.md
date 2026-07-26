@@ -20,7 +20,7 @@ The lab is meant to make the search process inspectable: when an extension fails
 | Abelian square | Adjacent equal-length blocks `u v` with the same Parikh vector. |
 | AA2F | Ternary relaxed setting where period-1 Abelian squares are allowed, but longer Abelian squares are forbidden. |
 | AA2FR | AA2F plus the six forbidden length-4 factors. |
-| forbid4 | `{baac, caab, abbc, cbba, accb, bcca}`. |
+| forbid4 | `{baac, caab, abbc, cbba, accb, bcca}`. Note: These 6 forbidden factors have zero intersection with K=2 abelian squares (`{aaaa, baab, bbbb, bcbc, caac, cbcb, cccc}`). They are completely orthogonal pruning rules. |
 
 ## Current UI
 
