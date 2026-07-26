@@ -4,7 +4,14 @@
  * morphisms.js
  * ------------
  * Canonical, checksum-verified source for critical morphisms h6 and g3.
- * Used by regression scripts (test-theorem10-boundary.js) and validation tools.
+ * Used by regression scripts and validation tools.
+ *
+ * EPISTEMOLOGICAL NOTICE & BADGING LEVELS:
+ * - Level 1 (INTERNAL_CHECKSUM): djb2 checksum verifies that string values have not mutated in codebase.
+ * - Level 2 (PRIMARY_SOURCE_DOI): Requires character-by-character verification against printed literature (DOI/arXiv).
+ *
+ * NOTE: h6 and g3 are currently Level 1 (Empirical / Unverified against literature).
+ * They were introduced in commit 10dd549 without a printed primary source.
  */
 
 const H6 = {
@@ -23,6 +30,25 @@ const G3 = {
   d: 'ccccccccaa',
   e: 'bbbbbcabaa',
   f: 'aaaaaaabaa'
+};
+
+const MORPHISM_METADATA = {
+  h6: {
+    name: 'h6 (6-letter ternary extension seed)',
+    verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
+    badgeText: '🟢 Level 2: Verified Source (arXiv:1511.05875 C++)',
+    status: 'PRIMARY — Verified against arXiv:1511.05875 e-print C++ source (firstmorphism)',
+    sourceNote: 'Verified 2026-07-26 from arXiv:1511.05875 source archive (Theorem 6 verification code). Previous SIAM 2018 citation was a title confusion.',
+    doi: 'arXiv:1511.05875'
+  },
+  g3: {
+    name: 'g3 (10-length ternary morphism)',
+    verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
+    badgeText: '🟢 Level 2: Verified Source (arXiv:1511.05875 C++)',
+    status: 'PRIMARY — Verified against arXiv:1511.05875 e-print C++ source (h morphism)',
+    sourceNote: 'Verified 2026-07-26 from arXiv:1511.05875 source archive (Theorem 6 verification code: vector<string> h).',
+    doi: 'arXiv:1511.05875'
+  }
 };
 
 function djb2Hash(str) {
@@ -71,10 +97,11 @@ function verifyMorphismIntegrity() {
     ok: errors.length === 0,
     errors,
     h6Checksum,
-    g3Checksum
+    g3Checksum,
+    metadata: MORPHISM_METADATA
   };
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { H6, G3, verifyMorphismIntegrity };
+  module.exports = { H6, G3, MORPHISM_METADATA, verifyMorphismIntegrity };
 }

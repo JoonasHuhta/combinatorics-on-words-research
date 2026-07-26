@@ -1,16 +1,16 @@
 'use strict';
 
 /**
- * test-theorem10-boundary.js
- * ---------------------------
+ * test-theorem10-boundary.js (Bounded Empirical Audit)
+ * ----------------------------------------------------
  * Regressiotesti: varmistaa, ettei g3(h6^n(a)):n prefiksissä esiinny
- * abelin neliöitä puolipituudella K > 5 (Rao & Rosenfeld, Theorem 9/10 —
- * ks. morphisms.js:n kommentit tarkasta lähteestä ja sen tilasta).
+ * abelin neliöitä puolipituudella K > 5 (Empiirinen huomio: koodiin lisätyt
+ * h6 ja g3 merkkijonot ovat Level 1 -tason empiirisitä havaintoja, joille ei ole
+ * painettua kirjallisuuslähdettä projektissa).
  *
  * Tämä EI todista mitään äärettömästä sanasta — se on äärellinen
  * sanity-check joka kaatuu äänekkäästi jos morfismi tai skannauslogiikka
- * rikkoutuu. Yhdenmukaisuus tunnetun teoreeman kanssa antaa kohtuullisen
- * luottamuksen, ei matemaattista varmuutta.
+ * rikkoutuu. Checksum takaa vain koodikannan sisäisen eheyden (Level 1).
  *
  * Käyttö:
  *   node test-theorem10-boundary.js [iteraatioita] [maxK]
@@ -110,7 +110,7 @@ function main() {
     const { hits, firstExample } = results[half];
     const isViolation = half > 5 && hits > 0;
     if (isViolation) anyFailure = true;
-    const flag = isViolation ? '  <-- FAIL: Theorem 9/10 rikkoutui!' : '';
+    const flag = isViolation ? '  <-- FAIL: K>5 neliöttömyys rikkoutui!' : '';
     console.log(
       `${half}\t${hits}\t${firstExample ? firstExample.window.slice(0, 16) + '...' : '-'}${flag}`
     );
@@ -127,11 +127,11 @@ function main() {
 
   console.log(
     `PASS: 0 abelin neliötä välillä K=6..${maxK} (${word.length} merkin prefiksissä). ` +
-      'Yhdenmukainen Theorem 9/10:n kanssa.'
+      'Empiirinen auditoinnin tulos (Level 1 Checksum OK).'
   );
   console.log(
-    'HUOM: K=1..5 -osumat eivät ole "virhe" — teoreema ei väitä niistä mitään. ' +
-      'Ne ovat kiinnostavaa empiiristä dataa Moduuli C:tä varten, ei testin läpäisyehto.'
+    'HUOM: K=1..5 -osumat eivät ole "virhe" — ne ovat kiinnostavaa ' +
+      'empiiristä dataa Moduuli C:tä varten, ei testin läpäisyehto.'
   );
   process.exit(0);
 }
