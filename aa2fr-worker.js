@@ -1080,16 +1080,15 @@ function startAuditG3(maxK = 500) {
   let tern = "";
   for (let i = 0; i < w.length; i++) tern += G3_MAP[w[i]];
   const N_total = tern.length;
-  const N_audit = 50000;
+  const N_audit = Math.min(N_total, 200000); // 200,000 letter audit for deep stationary convergence profile
   const wordArrLocal = tern.slice(0, N_audit).split('');
   const timeGenMs = performance.now() - tGenStart;
 
-  self.postMessage({ type: 'val_progress', module: 'C', phase: 'prefix_sums', progress: 5, status: 'Building O(1) Parikh prefix sums for N=50,000...' });
+  self.postMessage({ type: 'val_progress', module: 'C', phase: 'prefix_sums', progress: 5, status: `Building O(1) Uint32Array Parikh prefix sums for N=${N_audit.toLocaleString()}...` });
 
-  const pA = new Int32Array(N_audit + 1);
-  const pB = new Int32Array(N_audit + 1);
-  const pC = new Int32Array(N_audit + 1);
-  const pP = new Float64Array(N_audit + 1);
+  const pA = new Uint32Array(N_audit + 1);
+  const pB = new Uint32Array(N_audit + 1);
+  const pC = new Uint32Array(N_audit + 1);
   for (let i = 0; i < N_audit; i++) {
     let ch = wordArrLocal[i];
     let vA = (ch === 'a') ? 1 : 0;
@@ -1098,7 +1097,6 @@ function startAuditG3(maxK = 500) {
     pA[i+1] = pA[i] + vA;
     pB[i+1] = pB[i] + vB;
     pC[i+1] = pC[i] + vC;
-    pP[i+1] = pP[i] + vA * 0 + vB * 1 + vC * 65536;
   }
 
   let totalPairs = 0;
@@ -1133,34 +1131,32 @@ function startAuditG3(maxK = 500) {
       const maxI = N_audit - 2 * k;
       for (let i = 0; i <= maxI; i++) {
         if (isJobCancelled) return;
-        let p1 = pP[i+k] - pP[i];
-        let p2 = pP[i+2*k] - pP[i+k];
-        if (p1 === p2) {
-          let a1 = pA[i+k] - pA[i], a2 = pA[i+2*k] - pA[i+k];
-          if (a1 === a2) {
-            let b1 = pB[i+k] - pB[i], b2 = pB[i+2*k] - pB[i+k];
-            if (b1 === b2) {
-              let c1 = pC[i+k] - pC[i], c2 = pC[i+2*k] - pC[i+k];
-              if (c1 === c2) {
-                if (k === 1) {
-                  period1Count++;
-                } else {
-                  const u = wordArrLocal.slice(i, i+k).join('');
-                  const v = wordArrLocal.slice(i+k, i+2*k).join('');
-                  const sqObj = { i, k, start: i, halfLen: k, str: u + v, u, v };
-                  allSquares.push(sqObj);
+        let a1 = pA[i+k] - pA[i], a2 = pA[i+2*k] - pA[i+k];
+        if (a1 === a2) {
+          let b1 = pB[i+k] - pB[i], b2 = pB[i+2*k] - pB[i+k];
+          if (b1 === b2) {
+            let c1 = pC[i+k] - pC[i], c2 = pC[i+2*k] - pC[i+k];
+            if (c1 === c2) {
+              if (k === 1) {
+                period1Count++;
+              } else {
+                const u = wordArrLocal.slice(i, i+k).join('');
+                const v = wordArrLocal.slice(i+k, i+2*k).join('');
+                // Check if occurrence is strictly internal to a single 10-char g3 image block
+                const isInternal = (Math.floor(i / 10) === Math.floor((i + 2*k - 1) / 10));
+                const sqObj = { i, k, start: i, halfLen: k, str: u + v, u, v, isInternal };
+                allSquares.push(sqObj);
 
-                  if (k >= 2 && k <= 5) {
-                    boundarySquares[k].push(sqObj);
-                  } else if (k > 5) {
-                    countGt5++;
-                  }
-                  let bx = Math.min(49, Math.floor((i / N_audit) * 50));
-                  let by = Math.min(49, Math.floor(((k - 1) / maxK) * 50));
-                  densityGrid[bx][by].count++;
-                  if (densityGrid[bx][by].samples.length < 3) {
-                    densityGrid[bx][by].samples.push(sqObj);
-                  }
+                if (k >= 2 && k <= 5) {
+                  boundarySquares[k].push(sqObj);
+                } else if (k > 5) {
+                  countGt5++;
+                }
+                let bx = Math.min(49, Math.floor((i / N_audit) * 50));
+                let by = Math.min(49, Math.floor(((k - 1) / maxK) * 50));
+                densityGrid[bx][by].count++;
+                if (densityGrid[bx][by].samples.length < 3) {
+                  densityGrid[bx][by].samples.push(sqObj);
                 }
               }
             }
@@ -1178,6 +1174,40 @@ function startAuditG3(maxK = 500) {
       setTimeout(scanChunkG3, 0);
     } else {
       const timeScanMs = performance.now() - tScanStart;
+
+      // Compute Logarithmic Checkpoint Profile across N_audit
+      const cpLengths = [1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000].filter(len => len <= N_audit);
+      const checkpointProfile = cpLengths.map(cpLen => {
+        const row = { N: cpLen, densities: {}, counts: {} };
+        let totalCnt = 0;
+        for (let k = 2; k <= 5; k++) {
+          const validStarts = Math.max(1, cpLen - 2 * k + 1);
+          const cnt = (boundarySquares[k] || []).filter(sq => sq.i <= cpLen - 2 * k).length;
+          row.counts[k] = cnt;
+          row.densities[k] = parseFloat(((cnt / validStarts) * 1000).toFixed(3));
+          totalCnt += cnt;
+        }
+        row.totalCount = totalCnt;
+        const avgValidStarts = Math.max(1, cpLen - 7);
+        row.totalDensity = parseFloat(((totalCnt / avgValidStarts) * 1000).toFixed(3));
+        return row;
+      });
+
+      // Compute Localization Split (Internal vs Boundary) for each K=2..5
+      const localizationSplit = {};
+      for (let k = 2; k <= 5; k++) {
+        const list = boundarySquares[k] || [];
+        const intCnt = list.filter(sq => sq.isInternal).length;
+        const bndCnt = list.length - intCnt;
+        localizationSplit[k] = {
+          total: list.length,
+          internal: intCnt,
+          boundary: bndCnt,
+          internalPct: list.length > 0 ? parseFloat(((intCnt / list.length) * 100).toFixed(1)) : 0,
+          boundaryPct: list.length > 0 ? parseFloat(((bndCnt / list.length) * 100).toFixed(1)) : 0
+        };
+      }
+
       self.postMessage({
         type: 'val_g3_results',
         results: {
@@ -1191,6 +1221,8 @@ function startAuditG3(maxK = 500) {
           period1Count,
           boundarySquares,
           densityGrid,
+          checkpointProfile,
+          localizationSplit,
           forbiddenRealmCount: countGt5,
           countGt5,
           squaresFound: allSquares,

@@ -36,18 +36,18 @@ const MORPHISM_METADATA = {
   h6: {
     name: 'h6 (6-letter ternary extension seed)',
     verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
-    badgeText: '🟢 Level 2: Verified Source (arXiv:1511.05875 C++)',
-    status: 'PRIMARY — Verified against arXiv:1511.05875 e-print C++ source (firstmorphism)',
-    sourceNote: 'Verified 2026-07-26 from arXiv:1511.05875 source archive (Theorem 6 verification code). Previous SIAM 2018 citation was a title confusion.',
-    doi: 'arXiv:1511.05875'
+    badgeText: '🟢 Level 2: Verified Source (arXiv:1511.05875 / SIAM 2018 Thm 5)',
+    status: 'PRIMARY — Verified against arXiv:1511.05875 / SIAM 2018 Theorem 5 (`\\label{abelianthe}`, C++ `firstmorphism`)',
+    sourceNote: 'Independently human-verified 2026-07-26 from source archive (Theorem 5 / `\\label{abelianthe}` & firstmorphism code). Confirmed SIAM 2018 is identical published journal article.',
+    doi: 'arXiv:1511.05875 / SIAM J. Discrete Math 2018'
   },
   g3: {
     name: 'g3 (10-length ternary morphism)',
     verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
-    badgeText: '🟢 Level 2: Verified Source (arXiv:1511.05875 C++)',
-    status: 'PRIMARY — Verified against arXiv:1511.05875 e-print C++ source (h morphism)',
-    sourceNote: 'Verified 2026-07-26 from arXiv:1511.05875 source archive (Theorem 6 verification code: vector<string> h).',
-    doi: 'arXiv:1511.05875'
+    badgeText: '🟢 Level 2: Verified Source (arXiv:1511.05875 / SIAM 2018 Thm 11)',
+    status: 'PRIMARY — Verified against arXiv:1511.05875 / SIAM 2018 Theorem 11 (`\\label{makanswerr}`, C++ `vector<string> h`)',
+    sourceNote: 'Independently human-verified 2026-07-26 from source archive (Theorem 11 / `\\label{makanswerr}` & vector<string> h). Confirmed SIAM 2018 is identical published journal article.',
+    doi: 'arXiv:1511.05875 / SIAM J. Discrete Math 2018'
   }
 };
 
