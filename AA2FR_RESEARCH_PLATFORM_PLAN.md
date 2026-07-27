@@ -923,5 +923,53 @@ Rationale:
 
 ---
 
-*Document version: 2026-07-24T12:22*
-*Status: APPROVED — Phase 1 implementation in progress*
+## 12. Strategic Research Roadmap & Epistemological Calibration (Added 2026-07-27)
+
+Following empirical data validation and third-party AI peer review, the research roadmap and future architectural horizons are calibrated as follows:
+
+### 12.1 Priority Order & Epistemological Discipline
+The platform strictly adheres to the following sequence of research priorities:
+1. **Current Audit Claims & Boundary Localization Precision:** Ensuring that every empirical statement differentiates between full avoidance and boundary-spanning avoidance.
+2. **Reproducible Search & Independent Verification:** Strengthening the dual-validator architecture (reference vs optimized integer-packed prefix-sum validators).
+3. **Formal Proof Bridges (Lean 4 / SAT):** Automating theorem generation for bounded, decidable subclasses before attempting infinite general conjectures.
+4. **Targeted GPU Acceleration:** Deploying WebGPU/CUDA compute shaders *only* where algorithmically appropriate (data-parallel Parikh verification, not divergent DFS).
+5. **Offline Autonomous Reporting (CLI Mode):** Confining autonomous long-running research agents to optional Node.js CLI execution to preserve browser zero-install integrity.
+6. **Aperiodic Order (2D/3D Quasicrystals):** Treating higher-dimensional substitution systems as a long-term theoretical vision rather than near-term UI features.
+
+> **CRITICAL RULE (MATH_CLAIMS.md Exclusivity):** No "finding" (*löydös*), "proof" (*todistettu*), or absolute conclusion may appear in any document (including brainstorms, vision papers, or roadmap summaries) without a corresponding registered entry in `MATH_CLAIMS.md`. Any statement not backed by an active claim ledger entry must be explicitly phrased as a hypothesis or negative observation (e.g., *"the scanner found no candidate within this bounded space"*, never *"the scanner proved"*).
+
+### 12.2 Seam Surgery Precision & Sequential Transducers (Bimachines)
+Recent empirical audits of $g_3(h_6^\omega(a))$ reveal a critical distinction between $K=5$ and shorter lengths:
+
+| Length ($K$) | Total Collisions | Boundary-Spanning Fraction (10-char seam) | Internal Fraction (within single block) |
+|---|---|---|---|
+| 2 | 70,874 | 35.4% | 64.6% |
+| 3 | 44,604 | 48.8% | 51.2% |
+| 4 | 31,669 | 79.4% | 20.6% |
+| 5 | 8,775 | **100.0%** | **0.0%** |
+
+- **Mathematical Calibration:** For $K=5$, collisions are 100% boundary-spanning, confirming that standard $g_3'$ seam surgery targets the exact locus of failure. However, for $K \in \{2,3,4\}$, between 20.6% and 64.6% of collisions occur *internally* within a single 10-character image block. Therefore, seam surgery alone cannot eliminate all $K=1..4$ collisions—only the boundary-spanning fraction.
+- **Algorithmic Path:** To achieve true non-uniform (boundary-dependent) substitution without uncontrolled L-system explosion, future surgery engines must implement a **bounded-context sequential transducer (or bimachine)**. A bimachine inspects a finite left and right neighbor window ($a_{-1} a_0 a_{+1}$) to deterministically select a variable-length substitution block ($|g(a)| \in \{9, 10, 11\}$), forming a decidable and searchable mathematical structure.
+
+### 12.3 WebGPU / CUDA Compute Architecture (Warp Divergence vs. Data Parallelism)
+While massive parallelism (e.g., "100 million candidates/sec") is mathematically desirable, GPU architecture dictates a strict division of labor:
+- **Data-Parallel Parikh Queries (GPU-Optimal):** Evaluating fixed-window Parikh vectors across millions of independent candidates is data-parallel. Using integer Parikh packing (encoding $a \rightarrow 0, b \rightarrow 1, c \rightarrow 65536$) and prefix sums, WebGPU shaders can evaluate window equivalence across massive candidate pools at full streaming multiprocessor (SM) memory bandwidth.
+- **State-Dependent Backtracking DFS (GPU-Hostile):** Exhaustive DFS tree search is branching and state-dependent. Executing DFS inside GPU threads causes severe **warp divergence**: threads within the same 32-thread warp take different execution branches at different search depths, forcing the hardware to serialize execution and destroying GPU performance gains.
+- **Conclusion:** WebGPU/CUDA acceleration will be targeted exclusively at Phase 1 candidate pre-filtering and stationary density grid generation, leaving tree backtracking to CPU Web Workers.
+
+### 12.4 Architectural Tension: Zero-Install Browser Hub vs. Autonomous Overnight Lab
+- **The Conflict:** The foundational vision of this project is the **"Zero-Install Global Hub"** principle: all computation occurs 100% locally within client-side browser Web Workers without requiring backend server infrastructure, Python sidecars, or command-line installation.
+- **Resolution:** An "Overnight Autonomous Researcher-in-the-Loop" (running continuous LLM hypotheses and background validation loops) cannot execute inside a sleeping browser session without violating this core architectural promise. Therefore, autonomous overnight research is classified as an **architectural paradigm shift** requiring an optional, standalone Node.js/CLI backend (`agy` / CLI mode), strictly separated from the zero-install web application.
+
+### 12.5 Cryptographic Integrity Ledger (djb2 vs. SHA-256)
+- The canonical `djb2` hash ledger in `morphisms.js` ($h_6$: `914e2f31`, $g_3$: `428a0fcd`, $g_{85}$: `2d49c2ad`, etc.) was designed to catch accidental copy-paste errors, truncation, or refactoring corruption during software development. For this documented purpose, `djb2` is 100% sufficient and mathematically sound.
+- Upgrading to standard SHA-256 (via Web Crypto API `crypto.subtle.digest`) is adopted as a forward-looking hardening measure for external data export, but does not imply any flaw in the legacy `djb2` verification ledger.
+
+### 12.6 Higher-Dimensional Quasicrystals (Aperiodic Order)
+- Extending 1D Abelian square avoidance to 2D grids ($\mathbb{Z}^2$) or 3D lattices ($\mathbb{Z}^3$) connects formal language theory to **Aperiodic Order and Mathematical Quasicrystals** (cut-and-project schemes, substitution tilings, and diffraction spectra as established by Michael Baake, Uwe Grimm, et al.).
+- **Calibration:** Avoiding combinatorial 1D Abelian squares is not yet physically identical to avoiding 3D acoustic or photonic wave resonances. Higher-dimensional tilings remain a long-term theoretical frontier, to be explored via specialized offline synthesis tools rather than immediate browser UI widgets.
+
+---
+
+*Document version: 2026-07-27T23:50*
+*Status: APPROVED — Strategic Roadmap Calibrated*
