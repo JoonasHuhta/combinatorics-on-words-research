@@ -43,14 +43,19 @@ Every claim, feature, and result in the platform must be classified:
 
 | Observation | Source |
 |-------------|--------|
-| Long AA2F ternary words exist (record: 25,379 letters) | Gavrilenko 2017 thesis |
 | Branching factor tends to collapse at certain word lengths | Computational experiments |
 | Certain short factors ("traps") kill extensions in both directions | Keränen 2010 (MJ) |
-| Parikh-balanced words tend to extend further | Gavrilenko heuristic |
 | The forbid4 set {baac, caab, abbc, cbba, accb, bcca} enables longer ternary extensions | Computational experiments |
 | uv²X and uxv²X structural near-misses appear at specific positions | Screenshots in latest/ |
 | Integer Parikh packing (a:0, b:1, c:65536) enables O(1) abelian checks | CUDA Prompts document |
 | 6-phase rotational search bypasses local traps | CUDA Prompts document |
+
+### REJECTED / UNVERIFIED SECONDARY CLAIMS (Pending Primary Audit)
+
+| Claim / Observation | Status / Reason |
+|---------------------|-----------------|
+| Long AA2F ternary words exist (record: 25,379 letters) | **REJECTED / UNVERIFIED**: Mentioned on Keränen's webpage (algebra.fi/keranen/...), but primary Gavrilenko 2017 thesis/paper is not available or audited in `latest/`. |
+| Parikh-balanced words tend to extend further (Gavrilenko heuristic) | **REJECTED / UNVERIFIED**: Secondary claim lacking primary source verification in `latest/`. |
 
 ### Level C — Research Hypotheses (To Be Tested)
 
