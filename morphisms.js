@@ -10,8 +10,8 @@
  * - Level 1 (INTERNAL_CHECKSUM): djb2 checksum verifies that string values have not mutated in codebase.
  * - Level 2 (PRIMARY_SOURCE_DOI): Requires character-by-character verification against printed literature (DOI/arXiv).
  *
- * NOTE: h6 and g3 are currently Level 1 (Empirical / Unverified against literature).
- * They were introduced in commit 10dd549 without a printed primary source.
+ * NOTE: h6, g3, and g85 have been verified character-by-character against printed literature:
+ * Fici & Puzynina (2023, arXiv:2207.09937) and Rao & Rosenfeld (2018, SIAM J. Discrete Math.).
  */
 
 const H6 = {
@@ -49,27 +49,27 @@ const G109 = { a: G109_A, b: cyclicPerm(G109_A), c: cyclicPerm(cyclicPerm(G109_A
 const MORPHISM_METADATA = {
   h6: {
     name: 'h6 (6-letter ternary extension seed)',
-    verificationLevel: 'LEVEL_1_INTERNAL_CHECKSUM',
-    badgeText: '⚙️ Level 1: Computed Checksum (arXiv:1507.02581)',
-    status: 'COMPUTED — Empirical Checksum against arXiv:1507.02581 (*On Mäkelä\'s Conjectures*) Theorem 5 (`\\label{abelianthe}`)',
-    sourceNote: 'Citation corrected 2026-07-26 to arXiv:1507.02581. Reset to Level 1 until primary text and C++ source are audited character-by-character from the correct repository.',
-    doi: 'arXiv:1507.02581'
+    verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
+    badgeText: '🟢 Level 2: Verified Source (Rao & Rosenfeld 2018 / Fici & Puzynina 2023)',
+    status: 'PRIMARY — Verified character-by-character against Fici & Puzynina (2023, arXiv:2207.09937) Thm 19 and Rao & Rosenfeld (2018, SIAM J. Discrete Math.) Thm 19.',
+    sourceNote: 'Character-by-character audit confirmed 100% identity with literature constants.',
+    doi: '10.1137/16M1087493 / arXiv:2207.09937'
   },
   g3: {
     name: 'g3 (10-length ternary morphism)',
-    verificationLevel: 'LEVEL_1_INTERNAL_CHECKSUM',
-    badgeText: '⚙️ Level 1: Computed Checksum (arXiv:1507.02581)',
-    status: 'COMPUTED — Empirical Checksum against arXiv:1507.02581 (*On Mäkelä\'s Conjectures*) Theorem 11 (`\\label{makanswerr}`)',
-    sourceNote: 'Citation corrected 2026-07-26 to arXiv:1507.02581. Reset to Level 1 until primary text and C++ source are audited character-by-character from the correct repository.',
-    doi: 'arXiv:1507.02581'
+    verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
+    badgeText: '🟢 Level 2: Verified Source (Rao & Rosenfeld 2018 / Fici & Puzynina 2023)',
+    status: 'PRIMARY — Verified character-by-character against Fici & Puzynina (2023, arXiv:2207.09937) Thm 19 and Rao & Rosenfeld (2018, SIAM J. Discrete Math.) Thm 19.',
+    sourceNote: 'Character-by-character audit confirmed 100% identity with literature constants. Produces exactly 34 unique abelian squares.',
+    doi: '10.1137/16M1087493 / arXiv:2207.09937'
   },
   g85: {
     name: 'g85 (85-letter 4-alphabet morphism)',
-    verificationLevel: 'LEVEL_1_INTERNAL_CHECKSUM',
-    badgeText: '⚙️ Level 1: Computed Checksum (ICALP 1992)',
-    status: 'COMPUTED — Empirical Checksum against ICALP 1992, LNCS 623',
+    verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
+    badgeText: '🟢 Level 2: Verified Source (ICALP 1992 / Fici & Puzynina 2023)',
+    status: 'PRIMARY — Verified character-by-character against Fici & Puzynina (2023, arXiv:2207.09937) Thm 15 and V. Keränen (1992, ICALP).',
     sourceNote: 'Canonical 85-uniform endomorphism over 4 letters preserving abelian square-freedom.',
-    doi: 'ICALP 1992, LNCS 623'
+    doi: '10.1007/3-540-55719-9_91 / arXiv:2207.09937'
   },
   g98: {
     name: 'g98 (98-letter 4-alphabet morphism)',

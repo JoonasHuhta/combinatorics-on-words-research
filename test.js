@@ -14,6 +14,8 @@
  */
 
 const assert = require('assert');
+const fs = require('fs');
+const path = require('path');
 const { H6, G3, G85, G98, G109, verifyMorphismIntegrity, djb2Hash } = require('./morphisms.js');
 
 console.log("=== STARTING AA2FR AUTOMATED REGRESSION TEST SUITE ===\n");
@@ -148,6 +150,58 @@ test("FORBID4 Symmetry & Reversal Closure", () => {
   }
 });
 
+// ----------------------------------------------------
+// 5. RAO & ROSENFELD EXACT SQUARES THEOREM (34 SQUARES)
+// ----------------------------------------------------
+test("Rao & Rosenfeld 34 Unique Abelian Squares in g3(h6^6(a))", () => {
+  let w = 'a';
+  for (let iter = 0; iter < 6; iter++) {
+    let next = '';
+    for (let i = 0; i < w.length; i++) next += H6[w[i]];
+    w = next;
+  }
+  let g = '';
+  for (let i = 0; i < w.length; i++) g += G3[w[i]];
+  const n = g.length;
+  
+  const prefA = new Int32Array(n + 1), prefB = new Int32Array(n + 1), prefC = new Int32Array(n + 1);
+  for (let i = 0; i < n; i++) {
+    prefA[i + 1] = prefA[i] + (g[i] === 'a' ? 1 : 0);
+    prefB[i + 1] = prefB[i] + (g[i] === 'b' ? 1 : 0);
+    prefC[i + 1] = prefC[i] + (g[i] === 'c' ? 1 : 0);
+  }
+  
+  let uniqueSquares = new Set();
+  for (let i = 0; i < n; i++) {
+    for (let K = 1; K <= 5; K++) {
+      if (i + 2 * K > n) continue;
+      const da = (prefA[i + K] - prefA[i]) - (prefA[i + 2 * K] - prefA[i + K]);
+      const db = (prefB[i + K] - prefB[i]) - (prefB[i + 2 * K] - prefB[i + K]);
+      const dc = (prefC[i + K] - prefC[i]) - (prefC[i + 2 * K] - prefC[i + K]);
+      if (da === 0 && db === 0 && dc === 0) {
+        const u = g.substring(i, i + K);
+        const v = g.substring(i + K, i + 2 * K);
+        uniqueSquares.add(u + '|' + v);
+      }
+    }
+  }
+  assert.strictEqual(uniqueSquares.size, 34, `g3(h6^6(a)) must contain exactly 34 distinct abelian squares (found ${uniqueSquares.size})`);
+});
+
+// ----------------------------------------------------
+// 6. MATH_CLAIMS & CITATIONS DRIFT / INTEGRITY CHECK
+// ----------------------------------------------------
+test("MATH_CLAIMS.md Integrity & Canonical Bounds Verification", () => {
+  const claimsPath = path.join(__dirname, 'MATH_CLAIMS.md');
+  const content = fs.readFileSync(claimsPath, 'utf8');
+  
+  assert.ok(content.includes("18") && content.includes("pituudeltaan 7"), "MATH_CLAIMS.md must state 18 words of max length 7");
+  assert.ok(content.includes("34 uniikkia abelin neliötä") || content.includes("34 different abelian squares"), "MATH_CLAIMS.md must state 34 unique abelian squares");
+  assert.ok(content.includes("2018") && content.includes("SIAM"), "MATH_CLAIMS.md must cite Rao & Rosenfeld (2018) SIAM J. Discrete Math.");
+  assert.ok(!content.includes("A261352"), "MATH_CLAIMS.md must NOT contain unverified OEIS A261352 reference");
+  assert.ok(!content.includes("Rosenfeld (2016)"), "MATH_CLAIMS.md must NOT cite outdated 2016 thesis");
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
@@ -155,3 +209,4 @@ if (failed > 0) {
   console.log("🎉 ALL TESTS PASSED SUCCESSFULLY!");
   process.exit(0);
 }
+

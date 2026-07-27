@@ -582,7 +582,7 @@
       Exhaustive finite search over {a,b,c}. The laboratory keeps every prefix that avoids abelian squares,
       then shows the exact collision that prevents extension to length 8.
     </p>
-    <div class="def-box"><strong>Result:</strong> Over {a,b,c} there are exactly <strong>18</strong> distinct abelian square-free words of length 7 in total (across all 6 S₃ alphabet permutations, corresponding to 3 canonical symmetry orbits). Every one of them fails to extend to length 8 &mdash; try clicking a survivor to see which letter causes the collision. See also <a href="https://oeis.org/A261352" target="_blank" style="color:#d68910;">OEIS A261352</a>.</div>
+    <div class="def-box"><strong>Result:</strong> Over {a,b,c} there are exactly <strong>18</strong> distinct abelian square-free words of length 7 in total (across all 6 S₃ alphabet permutations, corresponding to 3 canonical symmetry orbits; note that length 6 has 30 words / 5 orbits). Every one of them fails to extend to length 8 &mdash; try clicking a survivor to see which letter causes the collision.</div>
     <div class="abc-grid">
       <div class="abc-card">
         <h3>Valid Prefix Counts</h3>
@@ -1348,6 +1348,10 @@
       <div class="impact-card" data-impact="coding">
         <div class="impact-card-icon">📡</div>
         <div class="impact-card-title">Codes &amp; Communication</div>
+      </div>
+      <div class="impact-card" data-impact="jumbled">
+        <div class="impact-card-icon">🧩</div>
+        <div class="impact-card-title">Abelian Stringology &amp; Jumbled Matching</div>
       </div>
     </div>
     <div class="impact-detail" id="impact-detail">
@@ -5098,10 +5102,10 @@ const impactData = {
     caution: "Compression uses dictionaries of exact substrings, while abelian squares involve permutations. The link is theoretical: understanding structural complexity."
   },
   security: {
-    title: "Security and Randomness",
-    content: `<p>Cryptography requires pseudorandom numbers that lack predictable structure. If a sequence generator frequently produces structured patterns, it might be vulnerable to pattern-based attacks.</p>
-      <p>The mathematics of combinatorics on words provides strict theoretical bounds on how "random-like" a deterministic sequence can be. Morphic sequences like the Keränen word show that structure and near-randomness can coexist.</p>`,
-    caution: "Abelian square-free words are NOT suitable as cryptographic keys. They are highly structured in their avoidance — predictable if the generating morphism is known."
+    title: "Security and Structural Complexity",
+    content: `<p>Rather than direct cryptographic key generation, combinatorics on words provides mathematical limits on sequence predictability and structural entropy.</p>
+      <p>While early literature speculated about pseudorandom sequence properties, modern research emphasizes that morphic words like Keränen's or Rao–Rosenfeld's constructions are deterministic and highly structured. Their value lies in proving exact bounds on combinatorial avoidance rather than applied encryption.</p>`,
+    caution: "Abelian square-free words should NOT be used as cryptographic keys or RNGs. See Fici & Puzynina (2023) for rigorous computer science applications."
   },
   search: {
     title: "Search Algorithms",
@@ -5114,6 +5118,12 @@ const impactData = {
     content: `<p>In digital communication, we design "constrained codes" that avoid certain substrings (e.g., avoiding long runs of zeros for synchronization in data transmission).</p>
       <p>The mathematical techniques used to prove the existence of abelian square-free words — morphisms, backtracking, Parikh vectors — are the same foundational tools used to design and analyze error-correcting codes and channel codes.</p>`,
     caution: "Real-world line coding (like 8b/10b) focuses on DC balance and transition density, not abelian square avoidance. The connection is at the level of proof techniques."
+  },
+  jumbled: {
+    title: "Abelian Stringology & Jumbled Pattern Matching",
+    content: `<p>In modern computer science, <strong>Abelian Stringology</strong> studies strings through their Parikh vectors rather than exact character ordering. A major application area is <a href="https://arxiv.org/abs/2207.09937" target="_blank" style="color:#008080;"><strong>Jumbled Pattern Matching</strong></a> — finding substrings in a text that match a query permutation (or histogram of characters) regardless of order.</p>
+      <p>As highlighted in comprehensive surveys like Fici & Puzynina (<em>Computer Science Review</em> 2023, arXiv:2207.09937), abelian combinatorics directly informs indexing structures (such as Parikh finger trees and prefix histograms) for jumbled matching. These algorithms are fundamental in mass spectrometry peptide identification and approximate genomic sequence alignment.</p>`,
+    caution: "Jumbled pattern matching focuses on algorithmic retrieval of permutation matches, whereas abelian square avoidance establishes the theoretical limits of such repetitions."
   }
 };
 
