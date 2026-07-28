@@ -39,12 +39,25 @@ check("Canonical Ternary Bound (Len 7, 18 words, 3 orbits)", () => {
   }
 });
 
-check("Rao & Rosenfeld (2018) Exact Citation & 34 Squares", () => {
-  if (!claimsContent.includes("34 uniikkia abelin neliötä") && !claimsContent.includes("34 different abelian squares")) {
-    throw new Error("MATH_CLAIMS.md must specify exactly 34 unique abelian squares for g3(h6^ω(a)).");
+check("Rao & Rosenfeld Exact Citation, Theorem Numbering & 34 Squares", () => {
+  if (!/34 (eri|uniikkia|distinct|different) abelin neliötä|34 distinct abelian squares/.test(claimsContent)) {
+    throw new Error("MATH_CLAIMS.md must specify the 34 distinct abelian squares figure for g3(h6^ω(a)).");
   }
-  if (!claimsContent.includes("2018") || !claimsContent.includes("SIAM")) {
-    throw new Error("MATH_CLAIMS.md must cite the primary source: Rao & Rosenfeld (2018), SIAM J. Discrete Math.");
+  // Provenance, corrected 2026-07-28: the number 34 does NOT appear anywhere in
+  // arXiv:1511.05875 (verified by full-text search). It comes solely from the survey.
+  if (!claimsContent.includes("2207.09937") || !claimsContent.includes("precisely 34 distinct abelian squares")) {
+    throw new Error("The '34' figure must be attributed to Fici & Puzynina (arXiv:2207.09937) with its verbatim quote, NOT to Rao & Rosenfeld.");
+  }
+  if (!claimsContent.includes("1511.05875")) {
+    throw new Error("MATH_CLAIMS.md must cite arXiv:1511.05875 as the primary source for the h6/g3 construction.");
+  }
+  // Theorem numbering audited 2026-07-28 against the paper itself.
+  for (const [thm, what] of [["Theorem 4", "h6^w(a) abelian-square-free"],
+                             ["Theorem 9", "g3(h6^w(a)) avoids period > 5"],
+                             ["Theorem 10", "existence of a ternary word avoiding period > 5"]]) {
+    if (!claimsContent.includes(thm)) {
+      throw new Error(`MATH_CLAIMS.md must cite ${thm} (${what}). The retracted numbering was "Theorem 5"/"Theorem 11", which point at unrelated theorems in the same paper.`);
+    }
   }
   if (claimsContent.includes("Rosenfeld (2016)") || claimsContent.includes("Thèse de doctorat (2016)")) {
     throw new Error("MATH_CLAIMS.md contains outdated reference to 'Rosenfeld (2016) thesis'. Must use Rao & Rosenfeld (2018).");

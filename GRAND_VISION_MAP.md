@@ -59,7 +59,7 @@ Our immediate development architecture is governed by five prioritized pillars d
   * **Seamless Pipeline:** Output discovered candidate morphisms directly into the verification engine.
 
 ### Pillar 4: Exhaustive Finite Verification Engine (`MorphismVerificationEngine`)
-* **Objective:** Implement the exact algorithm of Rao & Rosenfeld (*arXiv:1507.02581* / *On Mäkelä's Conjectures*) to decide unconditionally whether a candidate morphism's fixed point avoids abelian powers.
+* **Objective:** Implement an exact decision procedure for whether a candidate morphism's fixed point avoids long abelian powers. **Source not yet fixed:** the algorithm was previously attributed here to *arXiv:1507.02581 / "On Mäkelä's Conjectures"*; that arXiv record is actually *"Avoidability of long $k$-abelian repetitions"* and the quoted title matches no arXiv record (checked 2026-07-28, see `MATH_CLAIMS.md` #6). Before any implementation begins, the decision procedure must be traced to a named theorem in a PDF someone has opened — candidate leads are Rao & Rosenfeld arXiv:1511.05875 and Carpi's finite sufficient condition.
 * **Architecture:**
   * **Incidence Matrix Analysis:** Calculate the Parikh transition matrix $M_h$ and evaluate growth properties.
   * **Critical Verification Horizon ($L_{\max}$):** Algorithmically compute the bounded check horizon $L_{\max}$ required to cover all possible boundary alignments across morphism images.

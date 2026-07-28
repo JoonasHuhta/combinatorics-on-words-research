@@ -10,8 +10,11 @@
  * - Level 1 (INTERNAL_CHECKSUM): djb2 checksum verifies that string values have not mutated in codebase.
  * - Level 2 (PRIMARY_SOURCE_DOI): Requires character-by-character verification against printed literature (DOI/arXiv).
  *
- * NOTE: h6, g3, and g85 have been verified character-by-character against printed literature:
- * Fici & Puzynina (2023, arXiv:2207.09937) and Rao & Rosenfeld (2018, SIAM J. Discrete Math.).
+ * NOTE: h6 and g3 verified character-by-character on 2026-07-28 against BOTH primary sources:
+ *   - Rao & Rosenfeld, arXiv:1511.05875, Section 5.4 "Makela's Problem 1" (h6 and g3 defined there)
+ *   - Fici & Puzynina (2023), arXiv:2207.09937, discussion after Theorem 19 (same pair, relabelled
+ *     onto the digit alphabet 0-5 -> 0-2; verified identical under a -> 0, b -> 1, ... f -> 5)
+ * See MATH_CLAIMS.md rows 5, 6a, 6b, 7. Asserted by test.js test 14.
  */
 
 const H6 = {
@@ -50,18 +53,18 @@ const MORPHISM_METADATA = {
   h6: {
     name: 'h6 (6-letter ternary extension seed)',
     verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
-    badgeText: '🟢 Level 2: Verified Source (Rao & Rosenfeld 2018 / Fici & Puzynina 2023)',
-    status: 'PRIMARY — Verified character-by-character against Fici & Puzynina (2023, arXiv:2207.09937) Thm 19 and Rao & Rosenfeld (2018, SIAM J. Discrete Math.) Thm 19.',
-    sourceNote: 'Character-by-character audit confirmed 100% identity with literature constants.',
-    doi: '10.1137/16M1087493 / arXiv:2207.09937'
+    badgeText: '🟢 Level 2: Verified Source (Rao & Rosenfeld, arXiv:1511.05875, Thm 4)',
+    status: 'PRIMARY — h6^omega(a) is abelian-square-free: Rao & Rosenfeld arXiv:1511.05875 THEOREM 4 (not Theorem 5; that one concerns a different morphism h8).',
+    sourceNote: 'Images audited character-by-character against arXiv:1511.05875 Sec. 5.4 and against Fici & Puzynina (2023) arXiv:2207.09937 (digit relabelling) on 2026-07-28.',
+    doi: 'arXiv:1511.05875 / arXiv:2207.09937'
   },
   g3: {
     name: 'g3 (10-length ternary morphism)',
     verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
-    badgeText: '🟢 Level 2: Verified Source (Rao & Rosenfeld 2018 / Fici & Puzynina 2023)',
-    status: 'PRIMARY — Verified character-by-character against Fici & Puzynina (2023, arXiv:2207.09937) Thm 19 and Rao & Rosenfeld (2018, SIAM J. Discrete Math.) Thm 19.',
-    sourceNote: 'Character-by-character audit confirmed 100% identity with literature constants. Produces exactly 34 unique abelian squares.',
-    doi: '10.1137/16M1087493 / arXiv:2207.09937'
+    badgeText: '🟢 Level 2: Verified Source (Rao & Rosenfeld, arXiv:1511.05875, Thm 9)',
+    status: 'PRIMARY — g3(h6^omega(a)) contains no abelian square of period > 5: Rao & Rosenfeld arXiv:1511.05875 THEOREM 9, Sec. 5.4 (not Theorem 11; that one is about 2-abelian squares of period > 60).',
+    sourceNote: 'Images audited character-by-character against arXiv:1511.05875 Sec. 5.4 on 2026-07-28. The "exactly 34 distinct abelian squares (longest of length 10)" figure is NOT from this paper — it is from Fici & Puzynina (2023) arXiv:2207.09937, after Thm 19. See MATH_CLAIMS.md 6a/6b.',
+    doi: 'arXiv:1511.05875 / arXiv:2207.09937'
   },
   g85: {
     name: 'g85 (85-letter 4-alphabet morphism)',

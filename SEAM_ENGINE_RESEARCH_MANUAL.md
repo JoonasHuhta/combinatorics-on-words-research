@@ -32,7 +32,7 @@ For a word $w$ over an alphabet $\Sigma = \{a, b, c, \dots\}$, the **Parikh vect
 The engine evaluates and audits several benchmark constructions in combinatorics on words:
 
 1. **Keränen (1992) $g_{85}$ Morphism:** An 85-uniform morphism over a 4-letter alphabet $\Sigma_4 = \{a,b,c,d\}$ that avoids abelian squares unconditionally. It serves as the absolute benchmark for 4-letter abelian-square-free generation.
-2. **Rao & Rosenfeld (2018) Ternary Construction:** The 243-uniform morphism $g_3 : \Sigma_6^* \to \Sigma_3^*$ applied to the fixed point of the 6-uniform morphism $h_6(a)$.
+2. **Rao & Rosenfeld (2018) Ternary Construction:** The **10-uniform** morphism $g_3 : \Sigma_6^* \to \Sigma_3^*$ applied to the fixed point of the **3-uniform** morphism $h_6 : \Sigma_6^* \to \Sigma_6^*$, seeded at $a$. (Uniformity degrees taken directly from the checksum-locked constants in `morphisms.js`; verifiable by running `node perron-frobenius.js`. The subscript in $h_6$ denotes the alphabet size, not the image length.)
    * **Theorem 5 (Finite Realm Short Squares):** In any image $g_3(h_6^n(a))$, there exist **exactly 34 unique short abelian squares** localized entirely within the period realm $K \in \{2, 3, 4, 5\}$.
    * **Theorem 11 (Asymptotic Abelian-Square-Freedom):** For periods $K \ge 6$, the construction is provably abelian-square-free.
    * > [!IMPORTANT]

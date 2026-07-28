@@ -196,8 +196,14 @@ test("MATH_CLAIMS.md Integrity & Canonical Bounds Verification", () => {
   const content = fs.readFileSync(claimsPath, 'utf8');
   
   assert.ok(content.includes("18") && content.includes("pituudeltaan 7"), "MATH_CLAIMS.md must state 18 words of max length 7");
-  assert.ok(content.includes("34 uniikkia abelin neliötä") || content.includes("34 different abelian squares"), "MATH_CLAIMS.md must state 34 unique abelian squares");
-  assert.ok(content.includes("2018") && content.includes("SIAM"), "MATH_CLAIMS.md must cite Rao & Rosenfeld (2018) SIAM J. Discrete Math.");
+  assert.ok(/34 (eri|uniikkia|distinct|different) abelin neliötä|34 distinct abelian squares/.test(content),
+    "MATH_CLAIMS.md must state the 34 distinct abelian squares figure");
+  // The 34 must be attributed to Fici & Puzynina, NOT to Rao & Rosenfeld: the number
+  // does not occur anywhere in arXiv:1511.05875 (verified by full-text search 2026-07-28).
+  assert.ok(/2207\.09937/.test(content) && /precisely 34 distinct abelian squares/.test(content),
+    "MATH_CLAIMS.md must attribute the 34 figure to Fici & Puzynina (arXiv:2207.09937) with the verbatim quote");
+  assert.ok(content.includes("1511.05875"),
+    "MATH_CLAIMS.md must cite arXiv:1511.05875 as the primary source for h6/g3");
   assert.ok(!content.includes("A261352"), "MATH_CLAIMS.md must NOT contain unverified OEIS A261352 reference");
   assert.ok(!content.includes("Rosenfeld (2016)"), "MATH_CLAIMS.md must NOT cite outdated 2016 thesis");
 });
@@ -320,6 +326,165 @@ test("Negative Control Calibration (Ternary Cutoff Verification)", () => {
   assert.strictEqual(neg.maxLenFound, 7, "Max length for ternary abelian-square-free word must be 7");
   assert.strictEqual(neg.countLen7, 18, "Must find exactly 18 words of length 7");
   assert.strictEqual(neg.countLen8, 0, "Must find exactly 0 words of length 8 (proving collision check is not too loose)");
+});
+
+// ----------------------------------------------------
+// 12. EXACT SPECTRAL VALUES (MATH_CLAIMS.md #17, #18)
+// ----------------------------------------------------
+test("Perron-Frobenius Exact Frequencies & Characteristic Polynomial", () => {
+  const pf = require('./perron-frobenius.js');
+
+  const { alphabet, A, uniformLength } = pf.incidenceMatrix(H6);
+  assert.strictEqual(uniformLength, 3, "h6 must be 3-uniform (image length 3 over a 6-letter alphabet)");
+  assert.strictEqual(alphabet.length, 6, "h6 alphabet size must be 6");
+
+  const prim = pf.checkPrimitive(A);
+  assert.strictEqual(prim.primitive, true, "h6 incidence matrix must be primitive");
+  assert.strictEqual(prim.exponent, 3, "h6 primitivity exponent must be 3 (A^3 > 0)");
+
+  // MATH_CLAIMS.md #18: char poly is x^3 (x - 3)(x^2 - 3) = x^6 - 3x^5 - 3x^4 + 9x^3
+  const cp = pf.charPolyExact(A).map(String);
+  assert.deepStrictEqual(cp, ['1', '-3', '-3', '9', '0', '0', '0'],
+    "h6 characteristic polynomial must be x^6 - 3x^5 - 3x^4 + 9x^3 (spectrum {3, +-sqrt(3), 0,0,0})");
+
+  // MATH_CLAIMS.md #17: uniform 1/6 letter frequencies in h6^omega(a)
+  const f = pf.leftPerronExact(A, 3);
+  assert.strictEqual(pf.verifyEigen(A, f, 3), true, "f A = 3 f must hold exactly");
+  f.forEach((x, i) => assert.strictEqual(pf.frStr(x), '1/6',
+    `h6 asymptotic frequency of '${alphabet[i]}' must be exactly 1/6, got ${pf.frStr(x)}`));
+
+  // MATH_CLAIMS.md #17: exact ternary densities of g3(h6^omega(a))
+  const proj = pf.projectedFrequencies(alphabet, f, G3);
+  assert.deepStrictEqual(proj.alphabet, ['a', 'b', 'c'], "g3 target alphabet must be {a,b,c}");
+  assert.deepStrictEqual(proj.freq.map(pf.frStr), ['1/3', '17/60', '23/60'],
+    "Exact ternary densities of g3(h6^omega(a)) must be a=1/3, b=17/60, c=23/60");
+
+  // g3 uniformity, guarding the doc claim corrected on 2026-07-28
+  Object.keys(G3).forEach(k => assert.strictEqual(G3[k].length, 10,
+    `g3(${k}) must have length 10 (g3 is 10-uniform, NOT 243-uniform)`));
+
+  // Keranen morphisms: cyclic construction forces exactly uniform 1/4 frequencies
+  [[G85, 85], [G98, 98], [G109, 109]].forEach(([M, L]) => {
+    const im = pf.incidenceMatrix(M);
+    assert.strictEqual(im.uniformLength, L, `Morphism must be ${L}-uniform`);
+    const fv = pf.leftPerronExact(im.A, L);
+    fv.forEach(x => assert.strictEqual(pf.frStr(x), '1/4',
+      `Keranen g${L} asymptotic letter frequency must be exactly 1/4`));
+  });
+
+  console.log(`       h6 spectrum      : {3, +-sqrt(3), 0, 0, 0}  (char poly x^3(x-3)(x^2-3))`);
+  console.log(`       h6 frequencies   : all exactly 1/6`);
+  console.log(`       g3(h6^w(a))      : a=1/3, b=17/60, c=23/60  [EXACT]`);
+});
+
+// ----------------------------------------------------
+// 13. CITATION DRIFT GUARD (MATH_CLAIMS.md #6)
+// ----------------------------------------------------
+test("Citation Guard: h6/g3 construction is not attributed to arXiv:1507.02581", () => {
+  const FABRICATED = "On Mäkelä's Conjectures: deciding if a morphic word avoids long abelian-powers";
+  const docs = fs.readdirSync(__dirname).filter(f => f.endsWith('.md'));
+  const offenders = [];
+
+  for (const d of docs) {
+    const txt = fs.readFileSync(path.join(__dirname, d), 'utf8');
+    if (!txt.includes(FABRICATED)) continue;
+    // The title may only survive inside an explicit retraction / warning context.
+    const retracted = /RETRACTED|eri paperi|different Rao|must not be reused|ei vastaa|not a source/i.test(txt);
+    if (!retracted) offenders.push(d);
+  }
+
+  assert.deepStrictEqual(offenders, [],
+    `These docs cite the title "${FABRICATED}", which matches no arXiv record (checked 2026-07-28). ` +
+    `arXiv:1507.02581 is "Avoidability of long k-abelian repetitions"; the h6/g3 construction is arXiv:1511.05875. ` +
+    `Offending files: ${offenders.join(', ')}`);
+
+  const claims = fs.readFileSync(path.join(__dirname, 'MATH_CLAIMS.md'), 'utf8');
+  assert.ok(claims.includes('1511.05875'),
+    "MATH_CLAIMS.md must record arXiv:1511.05875 as the preprint for the h6/g3 construction");
+});
+
+// ----------------------------------------------------
+// 14. PRIMARY SOURCE AUDIT (MATH_CLAIMS.md rows 5, 6a, 6b, 7, 7b)
+// ----------------------------------------------------
+test("Primary Source Audit: h6/g3 verbatim vs arXiv:1511.05875 Sec 5.4", () => {
+  // Transcribed 2026-07-28 from the ar5iv rendering of arXiv:1511.05875, Section 5.4
+  // ("Makela's Problem 1") and the h6 definition preceding Theorem 4.
+  const PAPER_H6 = { a: 'ace', b: 'adf', c: 'bdf', d: 'bdc', e: 'afe', f: 'bce' };
+  const PAPER_G3 = {
+    a: 'bbbaabaaac', b: 'bccacccbcc', c: 'ccccbbbcbc',
+    d: 'ccccccccaa', e: 'bbbbbcabaa', f: 'aaaaaaabaa'
+  };
+  assert.deepStrictEqual(H6, PAPER_H6, "H6 must match arXiv:1511.05875 character-for-character");
+  assert.deepStrictEqual(G3, PAPER_G3, "G3 must match arXiv:1511.05875 Sec 5.4 character-for-character");
+
+  // Fici & Puzynina (2023) arXiv:2207.09937 state the same pair over the digit alphabet.
+  // Relabelling: a->0 b->1 c->2 d->3 e->4 f->5 (source), a->0 b->1 c->2 (target).
+  const SRC = { a: '0', b: '1', c: '2', d: '3', e: '4', f: '5' };
+  const TGT = { a: '0', b: '1', c: '2' };
+  const FP_H = { '0': '024', '1': '035', '2': '135', '3': '132', '4': '054', '5': '124' };
+  const FP_G = {
+    '0': '1110010002', '1': '1220222122', '2': '2222111212',
+    '3': '2222222200', '4': '1111120100', '5': '0000000100'
+  };
+  Object.keys(H6).forEach(k => assert.strictEqual(
+    [...H6[k]].map(c => SRC[c]).join(''), FP_H[SRC[k]],
+    `h6(${k}) must match Fici & Puzynina under digit relabelling`));
+  Object.keys(G3).forEach(k => assert.strictEqual(
+    [...G3[k]].map(c => TGT[c]).join(''), FP_G[SRC[k]],
+    `g3(${k}) must match Fici & Puzynina under digit relabelling`));
+
+  // Theorem numbering, corrected 2026-07-28. The old numbers pointed at real but
+  // unrelated theorems, which is the most dangerous kind of citation error.
+  const claims = fs.readFileSync(path.join(__dirname, 'MATH_CLAIMS.md'), 'utf8');
+  assert.ok(/Theorem 4/.test(claims), "MATH_CLAIMS.md must cite Theorem 4 for h6^w(a) abelian-square-freeness");
+  assert.ok(/Theorem 9/.test(claims), "MATH_CLAIMS.md must cite Theorem 9 for g3(h6^w(a)) period > 5");
+  assert.ok(/Theorem 10/.test(claims), "MATH_CLAIMS.md must cite Theorem 10 for ternary existence");
+  assert.ok(!/Thm 5\/11|Theorem 5 \/ Theorem 11|Thm 5 ja Thm 11/.test(claims),
+    "MATH_CLAIMS.md must not reuse the retracted 'Theorem 5 / Theorem 11' numbering");
+
+  console.log(`       h6, g3 verbatim vs arXiv:1511.05875 Sec 5.4 : IDENTICAL`);
+  console.log(`       h6, g3 vs Fici & Puzynina digit relabelling  : IDENTICAL`);
+  console.log(`       theorem numbering  Thm 4 / Thm 9 / Thm 10    : corrected`);
+});
+
+// ----------------------------------------------------
+// 15. EXACT FACTOR STATISTICS (MATH_CLAIMS.md rows 19, 20)
+// ----------------------------------------------------
+test("Exact Factor Statistics: rho_K and the 34-square census", () => {
+  const ff = require('./factor-frequencies.js');
+  const pfm = require('./perron-frobenius.js');
+
+  const MAX_K = 20;
+  const census = [];
+  for (let K = 1; K <= MAX_K; K++) census.push(ff.abelianSquareCensus(K));
+
+  // MATH_CLAIMS.md row 19: exact abelian square densities
+  const expectedRho = { 1: '109/180', 2: '13/36', 3: '41/180', 4: '29/180', 5: '2/45' };
+  for (const [K, want] of Object.entries(expectedRho)) {
+    const got = pfm.frStr(census[K - 1].rho);
+    assert.strictEqual(got, want, `rho_${K} must be exactly ${want}, got ${got}`);
+  }
+  for (let K = 6; K <= MAX_K; K++) {
+    assert.strictEqual(pfm.frStr(census[K - 1].rho), '0',
+      `rho_${K} must be exactly 0 - the complete length-${2 * K} factor set of the infinite word contains no abelian square`);
+    assert.strictEqual(census[K - 1].squares.length, 0, `No distinct abelian square may exist at K = ${K}`);
+  }
+
+  // MATH_CLAIMS.md row 20: exactly 34 distinct, longest of length 10
+  const perK = census.map(c => c.squares.length);
+  assert.deepStrictEqual(perK.slice(0, 5), [3, 7, 9, 10, 5],
+    "Distinct abelian square counts per K must be [3,7,9,10,5] for K = 1..5");
+  const totalDistinct = perK.reduce((a, b) => a + b, 0);
+  assert.strictEqual(totalDistinct, 34,
+    "The infinite word must contain exactly 34 distinct abelian squares (independent confirmation of MATH_CLAIMS.md 6b)");
+
+  // K = 5 collisions are exactly 100% boundary-spanning (row 20, replacing row 15's sample)
+  assert.strictEqual(pfm.frNum(census[4].rhoInternal), 0,
+    "Every K = 5 abelian square must be boundary-spanning: internal density must be exactly 0");
+
+  console.log(`       rho_1..5  : 109/180, 13/36, 41/180, 29/180, 2/45   [EXACT]`);
+  console.log(`       rho_K = 0 exactly for K = 6..${MAX_K} (complete factor sets, not a prefix)`);
+  console.log(`       distinct squares: 34 total, longest length 10       [EXACT]`);
 });
 
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
