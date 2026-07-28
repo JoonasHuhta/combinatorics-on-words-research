@@ -147,6 +147,7 @@ To ensure these next-generation features never violate our strict project rules:
 1. **No Automated Conjecture Promising:** The Search Ecology module will report *empirical extinction percentages over finite search depths*, never claiming an infinite proof of impossibility without human verification.
 2. **Provenance Tracking:** Any new preset constraints added to `seam-constraints.js` must be documented in `MATH_CLAIMS.md` with explicit level assignments (`LEVEL_1_INTERNAL_CHECKSUM` or `LEVEL_2_VERIFIED_SOURCE` with DOIs).
 3. **Drift Hygiene:** Automated tests in `check-claims-drift.js` and `test.js` will be expanded to assert that `ConstraintEvaluator` presets produce exact, verified benchmark counts (e.g., 18 words at length 7 for ternary abelian-square-free avoidance).
+4. **Algebraic vs. Empirical Prioritization:** Following peer-review feedback, computational scanning (DFS/Ecology profiling) is strictly bounded as a *conjecture pruning and counterexample generator*. For exact asymptotic factor densities ($\rho_K$), the primary research path is calculating the **Perron–Frobenius eigenvector** of the substitution's incidence matrix. For finite bridge-welding existence proofs ($U \cdot X \cdot V$), a **SAT/CP solver prototype (CaDiCaL/Kissat)** will be prioritized alongside naive DFS.
 
 ---
 *End of Blueprint. This document serves as the canonical roadmap for upgrading Module 18 to the Computational Discovery Laboratory.*

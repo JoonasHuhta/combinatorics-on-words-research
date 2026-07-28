@@ -35,6 +35,8 @@ The engine evaluates and audits several benchmark constructions in combinatorics
 2. **Rao & Rosenfeld (2018) Ternary Construction:** The 243-uniform morphism $g_3 : \Sigma_6^* \to \Sigma_3^*$ applied to the fixed point of the 6-uniform morphism $h_6(a)$.
    * **Theorem 5 (Finite Realm Short Squares):** In any image $g_3(h_6^n(a))$, there exist **exactly 34 unique short abelian squares** localized entirely within the period realm $K \in \{2, 3, 4, 5\}$.
    * **Theorem 11 (Asymptotic Abelian-Square-Freedom):** For periods $K \ge 6$, the construction is provably abelian-square-free.
+   * > [!IMPORTANT]
+     > **Literature Audit & Provenance Note (2026-07-28):** While the final publication venue is confirmed as **SIAM J. Discrete Math., 32(4):2381–2397 (2018)** (titled *"Avoiding two consecutive blocks of same size and same sum over $\mathbb{Z}^2$"*, originally preprinted as `arXiv:1511.05875` *"On Mäkelä's Conjectures"*; note that `arXiv:1507.02581` is a different paper on $k$-abelian repetitions), the exact numbering "Theorem 5" and "Theorem 11" reflects internal preprint/secondary literature referencing (e.g. Fici & Puzynina 2023 cite this result under their own survey numbering as **Theorem 19**). Per our Mathematical Claims Protocol (`AGENTS.md`), these theorem numbers are marked as *requiring page-by-page primary PDF audit* before elevation from Level 1 empirical matching to Level 2 verified source quotes.
 3. **Bridge Welding & Seam Surgery ($U \cdot X \cdot V$):** To construct new morphisms or extend existing ones without generating collisions across boundaries, the engine performs systematic DFS searches for bridging words $X$ connecting left boundary block $U$ and right boundary block $V$ such that the concatenation $U \cdot X \cdot V$ contains no abelian squares spanning across the seams.
 
 ---
@@ -149,10 +151,13 @@ When research group members or AI coding assistants (such as Google Antigravity,
 * **Step 4:** Hook the new morphism into `aa2fr-worker.js` and add a UI test case in `index.html` (Tab 18) and a CLI flag in `seam-hpc-cli.js`.
 
 ### 6.3. Roadmap & Future Research Directions
-The research group and future AI agents are encouraged to explore the following advanced frontiers:
-1. **CUDA / GPU Acceleration:** As outlined in the repository archives (`Reconstructing Combinatorics and CUDA Prompts.pdf`), implement WebGPU or Node.js CUDA bindings for massive parallel Parikh evaluation across billions of candidates.
-2. **Automated Carpi's Transition Matrix Test:** Implement an automated algebraic checker for Carpi's transition matrices (as referenced in `Conjecture_EnhancedCarpi'sTest.pdf`) to prove morphism k-abelian-square-freedom algebraically rather than purely via prefix scanning.
-3. **4-Letter and 5-Letter Seam Exploration:** Expand the seam welding search space beyond ternary alphabets to investigate boundary behaviors in quaternary ($\Sigma_4$) and quinary ($\Sigma_5$) words.
+The research group and future AI agents are encouraged to explore the following advanced frontiers, prioritized by mathematical rigor and asymptotic payoff:
+
+1. **Perron–Frobenius Eigenvector Algebraic Density Calculation (RQ1 Primary Path):** Before relying on deeper brute-force prefix scanning ($N=7290+$) to estimate the asymptotic factor density $\rho_K$ of the 34 short abelian squares in $g_3(h_6^\omega(a))$, compute the Perron–Frobenius eigenvector of the primitive substitution's incidence/abelianization matrix directly. Because the asymptotic frequency of any finite factor in a primitive morphic fixed point is governed strictly by this algebraic eigenvector, $\rho_K$ can be derived as an exact algebraic number without evaluating a single DFS node.
+2. **SAT / CP Solver Integration (CaDiCaL/Kissat) for Seam Welding:** For finite bridge-welding existence queries under fixed boundary constraints ($U \cdot X \cdot V$), modern Conflict-Driven Clause Learning (CDCL) SAT solvers and Constraint Programming algorithms typically outperform naive DFS backtracking by orders of magnitude. A SAT-encoding prototype should be prioritized over further thread-level DFS tuning.
+3. **Automated Carpi's Transition Matrix Test:** Implement an automated algebraic checker for Carpi's transition matrices (as referenced in `Conjecture_EnhancedCarpi'sTest.pdf`) to prove morphism k-abelian-square-freedom algebraically rather than purely via prefix scanning.
+4. **CUDA / GPU Parikh Pre-Filtering:** As outlined in `Reconstructing Combinatorics and CUDA Prompts.pdf`, explore WebGPU or Node.js CUDA kernels for massive parallel Parikh evaluation across billions of candidates—with the strict caveat that GPU acceleration benefits Parikh evaluation cost, not branching factor collapse.
+5. **4-Letter and 5-Letter Seam Exploration:** Expand the seam welding search space beyond ternary alphabets to investigate boundary behaviors in quaternary ($\Sigma_4$) and quinary ($\Sigma_5$) words.
 
 ---
 *End of Research Manual. For live interactive exploration, open `index.html` in a web browser and navigate to Tab 18: "18. Seam Search & Verification".*
