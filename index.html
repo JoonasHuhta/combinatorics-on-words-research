@@ -7644,6 +7644,8 @@ function goldPulse(speed) {
     status.style.color = '#27ae60';
     speedVal.textContent = Math.round(speed).toLocaleString();
     if (totalEl) totalEl.textContent = `Total Nodes: ${goldNodesTotal.toLocaleString()}`;
+    const nodesVal = document.getElementById('gold-nodes-val');
+    if (nodesVal) nodesVal.textContent = goldNodesTotal.toLocaleString();
     
     if (goldStartTime > 0) {
       const elapsed = ((performance.now() - goldStartTime) / 1000).toFixed(2);
@@ -7800,6 +7802,7 @@ function goldStartJob(type) {
   goldRunning = true;
   goldSparklineHistory = [];
   goldNodesTotal = 0;
+  goldStartTime = performance.now();
   goldLastMsgTime = performance.now();
   goldUpdateCumulativeDisplay();
   goldLogEvent(`[job-init] starting '${type}' execution pipeline...`);
@@ -8022,12 +8025,16 @@ function goldStopJob(isUserAbort = false) {
   
   if (isUserAbort === true) {
     const elapsed = goldStartTime > 0 ? ((performance.now() - goldStartTime) / 1000).toFixed(2) : "0.00";
-    goldLogEvent(`[job-aborted] user halted execution at ${elapsed}s.`);
-    if (led && status) { led.style.background = '#c0392b'; status.textContent = 'STOPPED / ABORTED'; status.style.color = '#c0392b'; }
+    goldLogEvent(`[job-stopped] user halted execution at ${elapsed}s.`);
+    if (led && status) { led.style.background = '#c0392b'; status.textContent = 'STOPPED'; status.style.color = '#c0392b'; }
     const timeEl1 = document.getElementById('gold-time-val');
     const timeEl2 = document.getElementById('gold-time-total');
-    if (timeEl1) timeEl1.textContent = `${elapsed}s (Aborted)`;
-    if (timeEl2) timeEl2.textContent = `Time: ${elapsed}s (Aborted)`;
+    if (timeEl1) timeEl1.textContent = `${elapsed}s (Stopped)`;
+    if (timeEl2) timeEl2.textContent = `Time: ${elapsed}s (Stopped)`;
+    const nodesVal = document.getElementById('gold-nodes-val');
+    if (nodesVal) nodesVal.textContent = goldNodesTotal.toLocaleString();
+    const speedVal = document.getElementById('gold-speed-val');
+    if (speedVal) speedVal.innerHTML = `0 <span style="font-size:0.8rem; font-weight:normal; color:#777;">/s</span>`;
 
     const banner = document.getElementById('gold-summary-banner');
     if (banner) {
