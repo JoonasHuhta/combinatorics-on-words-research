@@ -568,6 +568,41 @@ test("Smith normal form: g3 image lattice has index 10 in Z^3", () => {
   console.log(`       Lambda = full integer kernel, 3 generators`);
 });
 
+// ----------------------------------------------------
+// 18. EXACT JORDAN DECOMPOSITION OVER Q(sqrt(3)) (MATH_CLAIMS.md row 25)
+// ----------------------------------------------------
+test("Jordan form of M_h over Q(sqrt(3)): defective at 0, blocks 2 + 1", () => {
+  const jd = require('./jordan-decomposition.js');
+  const S6 = ['a', 'b', 'c', 'd', 'e', 'f'];
+  const M = jd.parikhMatrixK(H6, S6, S6);
+  const res = jd.decompose(M);   // throws unless M*P = P*J, P*Pinv = I, P*J*Pinv = M
+
+  assert.strictEqual(res.diagonalisable, false, "M_h must NOT be diagonalisable");
+
+  const byName = Object.fromEntries(res.detail.map(d => [d.name, d]));
+  assert.deepStrictEqual(byName['3'].blockSizes, [1], "eigenvalue 3 must be a single 1x1 block");
+  assert.deepStrictEqual(byName['sqrt(3)'].blockSizes, [1], "eigenvalue sqrt(3) must be a single 1x1 block");
+  assert.deepStrictEqual(byName['-sqrt(3)'].blockSizes, [1], "eigenvalue -sqrt(3) must be a single 1x1 block");
+  assert.strictEqual(byName['0'].algebraic, 3, "eigenvalue 0 must have algebraic multiplicity 3");
+  assert.strictEqual(byName['0'].geometric, 2, "eigenvalue 0 must have geometric multiplicity 2");
+  assert.deepStrictEqual(byName['0'].blockSizes, [2, 1], "eigenvalue 0 must split as a 2x2 plus a 1x1 block");
+
+  // The nilpotency index at 0 is 2, which is what MATH_CLAIMS.md row 21 relies on
+  // when it takes im(M_h^6) as E_e(M_h).
+  assert.ok(Math.max(...byName['0'].blockSizes) === 2,
+    "nilpotency index at 0 must be 2, so exponent 6 in the Fitting decomposition is more than sufficient");
+
+  // Sanity on the field: the Perron eigenvector for eigenvalue 3 is all-ones,
+  // because every column of M_h sums to 3 (h6 is 3-uniform).
+  const K = jd.K;
+  const colSums = S6.map((_, j) => M.reduce((s, row) => K.add(s, row[j]), K.zero));
+  assert.ok(colSums.every(s => K.eq(s, K.fromInt(3))),
+    "Every column of M_h must sum to 3, since h6 is 3-uniform");
+
+  console.log(`       J = diag(3, sqrt(3), -sqrt(3)) (+) J_2(0) (+) J_1(0)   [EXACT]`);
+  console.log(`       splitting field Q(sqrt(3)); M*P = P*J verified exactly`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
