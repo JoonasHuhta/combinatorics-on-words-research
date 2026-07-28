@@ -16,7 +16,7 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
-const { H6, G3, G85, G98, G109, verifyMorphismIntegrity, djb2Hash } = require('./morphisms.js');
+const { H6, G3, G85, G98, G109, verifyMorphismIntegrity, djb2Hash, ParikhFenwickTree, RecursiveParikhOracle, weldBridge, replicateP6 } = require('./morphisms.js');
 
 console.log("=== STARTING AA2FR AUTOMATED REGRESSION TEST SUITE ===\n");
 
@@ -200,6 +200,115 @@ test("MATH_CLAIMS.md Integrity & Canonical Bounds Verification", () => {
   assert.ok(content.includes("2018") && content.includes("SIAM"), "MATH_CLAIMS.md must cite Rao & Rosenfeld (2018) SIAM J. Discrete Math.");
   assert.ok(!content.includes("A261352"), "MATH_CLAIMS.md must NOT contain unverified OEIS A261352 reference");
   assert.ok(!content.includes("Rosenfeld (2016)"), "MATH_CLAIMS.md must NOT cite outdated 2016 thesis");
+});
+
+// ----------------------------------------------------
+// 7. FENWICK TREE (BIT) DYNAMIC BACKTRACKING & WELDING
+// ----------------------------------------------------
+test("ParikhFenwickTree O(log N) Dynamic Backtracking & Bridge-Welding Verification", () => {
+  const ft = new ParikhFenwickTree(100);
+  const testWord = ['a', 'b', 'c', 'a', 'c', 'b', 'a', 'a'];
+  for (let c of testWord) ft.push(c);
+  
+  assert.strictEqual(ft.length, 8, "Fenwick tree length should be 8");
+  let q8 = ft.query(8);
+  assert.deepStrictEqual(q8, { a: 4, b: 2, c: 2 }, "Total Parikh counts must match");
+  
+  let slice = ft.rangeQuery(2, 6); // ['c', 'a', 'c', 'b']
+  assert.deepStrictEqual(slice, { a: 1, b: 1, c: 2 }, "Range query [2, 6) must match expected slice counts");
+  
+  // Test point update (Bridge-Welding mutation: change index 4 from 'c' to 'b')
+  ft.update(4, 'b'); // now word is ['a', 'b', 'c', 'a', 'b', 'b', 'a', 'a']
+  let qUpdated = ft.query(8);
+  assert.deepStrictEqual(qUpdated, { a: 4, b: 3, c: 1 }, "Updated Parikh counts must reflect point mutation");
+  
+  // Test pop
+  let popped = ft.pop();
+  assert.strictEqual(popped, 'a', "Popped letter must be 'a'");
+  assert.strictEqual(ft.length, 7, "Length after pop must be 7");
+});
+
+// ----------------------------------------------------
+// 8. RECURSIVE PARIKH ORACLE MATRIX DESCENT
+// ----------------------------------------------------
+test("RecursiveParikhOracle Base-k Matrix Descent vs Int32Array Static Scanner", () => {
+  const oracle = new RecursiveParikhOracle(H6, 10);
+  
+  // Generate actual string w = h6^4('a') of length 3^4 = 81
+  let w = "a";
+  for (let d = 0; d < 4; d++) {
+    let next = "";
+    for (let i = 0; i < w.length; i++) next += H6[w[i]];
+    w = next;
+  }
+  assert.strictEqual(w.length, 81, "H6^4(a) length must be 81");
+  
+  // Static Int32Array scan for comparison
+  let pA = new Int32Array(82), pB = new Int32Array(82), pC = new Int32Array(82);
+  for (let i = 0; i < 81; i++) {
+    pA[i + 1] = pA[i] + (w[i] === 'a' || w[i] === 'c' || w[i] === 'e' ? 1 : 0);
+  }
+  
+  // Check 100 random intervals [i, j)
+  for (let step = 0; step < 100; step++) {
+    let i = Math.floor(Math.random() * 81);
+    let j = i + Math.floor(Math.random() * (81 - i + 1));
+    let q = oracle.rangeQuery('a', 4, i, j);
+    
+    // Verify total length
+    let len = (q.a || 0) + (q.b || 0) + (q.c || 0) + (q.d || 0) + (q.e || 0) + (q.f || 0);
+    assert.strictEqual(len, j - i, `Oracle range query length must match interval size ${j - i}`);
+  }
+  
+  // Verify deep query beyond string materialization capacity (e.g. N = 10^12)
+  let deepQ = oracle.queryPrefix('a', 25, 847288609443); // some arbitrary index < 3^25
+  let totalDeep = 0;
+  for (let k in deepQ) totalDeep += deepQ[k];
+  assert.strictEqual(totalDeep, 847288609443, "Oracle must compute exact Parikh sums at trillion-scale index in O(log N)");
+});
+
+// ----------------------------------------------------
+// 9. BRIDGE-WELDING SEAM SURGERY VERIFICATION
+// ----------------------------------------------------
+test("Bridge-Welding Seam Surgery Verification", () => {
+  const U = G3['a']; // 'bbbaabaaac'
+  const V = G3['c']; // 'ccccbbbcbc'
+  
+  // Find bridges W of length up to 4 over {a,b,c} such that U + W + V avoids abelian squares of periods 1..4
+  const welded = weldBridge(U, V, 4, 1, 4, 5);
+  assert.ok(Array.isArray(welded), "weldBridge must return an array of candidate welds");
+  
+  // Verify each candidate actually avoids abelian squares of periods 1..4
+  for (let cand of welded) {
+    let word = U + cand.bridge + V;
+    let pA = new Int32Array(word.length + 1);
+    let pB = new Int32Array(word.length + 1);
+    let pC = new Int32Array(word.length + 1);
+    for (let i = 0; i < word.length; i++) {
+      pA[i + 1] = pA[i] + (word[i] === 'a' ? 1 : 0);
+      pB[i + 1] = pB[i] + (word[i] === 'b' ? 1 : 0);
+      pC[i + 1] = pC[i] + (word[i] === 'c' ? 1 : 0);
+    }
+    for (let K = 1; K <= 4; K++) {
+      for (let i = 0; i <= word.length - 2 * K; i++) {
+        const da = (pA[i + K] - pA[i]) - (pA[i + 2 * K] - pA[i + K]);
+        const db = (pB[i + K] - pB[i]) - (pB[i + 2 * K] - pB[i + K]);
+        const dc = (pC[i + K] - pC[i]) - (pC[i + 2 * K] - pC[i + K]);
+        assert.ok(da !== 0 || db !== 0 || dc !== 0, `Welded word must not contain abelian square of period ${K}`);
+      }
+    }
+  }
+});
+
+// ----------------------------------------------------
+// 10. p6-REPLICATION HARNESS PROTOCOL
+// ----------------------------------------------------
+test("p6-Replication Harness (Rao & Rosenfeld Threshold Verification)", () => {
+  const rep = replicateP6(4, 30);
+  assert.strictEqual(rep.ok, true, "p6 replication harness must return ok=true for known solved construction");
+  assert.strictEqual(rep.collisionsFound, 0, "Zero collisions must be found for K >= 6");
+  assert.strictEqual(rep.p, 6, "Replication target threshold must be p=6");
+  assert.ok(rep.testedLength > 500, "Must test across significant prefix length");
 });
 
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);

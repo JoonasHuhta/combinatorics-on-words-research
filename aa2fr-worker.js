@@ -72,6 +72,223 @@ const PERMUTATIONS = [
 let currentPermutationIdx = 0;
 
 // -------------------------------------------------------------------------
+// STAGE 11 DYNAMIC ALGORITHMIC LABORATORY TOOLS
+// -------------------------------------------------------------------------
+
+class ParikhFenwickTree {
+  constructor(size) {
+    this.size = size;
+    this.treeA = new Int32Array(size + 1);
+    this.treeB = new Int32Array(size + 1);
+    this.treeC = new Int32Array(size + 1);
+    this.word = new Array(size).fill('');
+  }
+  add(idx, deltaA, deltaB, deltaC) {
+    for (++idx; idx <= this.size; idx += idx & -idx) {
+      this.treeA[idx] += deltaA;
+      this.treeB[idx] += deltaB;
+      this.treeC[idx] += deltaC;
+    }
+  }
+  setLetter(idx, char) {
+    let old = this.word[idx];
+    if (old === char) return;
+    let dA = (char === 'a' ? 1 : 0) - (old === 'a' ? 1 : 0);
+    let dB = (char === 'b' ? 1 : 0) - (old === 'b' ? 1 : 0);
+    let dC = (char === 'c' ? 1 : 0) - (old === 'c' ? 1 : 0);
+    this.word[idx] = char;
+    this.add(idx, dA, dB, dC);
+  }
+  query(idx) {
+    let sumA = 0, sumB = 0, sumC = 0;
+    for (; idx > 0; idx -= idx & -idx) {
+      sumA += this.treeA[idx];
+      sumB += this.treeB[idx];
+      sumC += this.treeC[idx];
+    }
+    return { a: sumA, b: sumB, c: sumC };
+  }
+  rangeQuery(L, R) {
+    let right = this.query(R);
+    let left = this.query(L);
+    return { a: right.a - left.a, b: right.b - left.b, c: right.c - left.c };
+  }
+  isAbelianSquare(idx, K) {
+    if (idx < 2 * K) return false;
+    let right = this.rangeQuery(idx - K, idx);
+    let left = this.rangeQuery(idx - 2 * K, idx - K);
+    return right.a === left.a && right.b === left.b && right.c === left.c;
+  }
+}
+
+class RecursiveParikhOracle {
+  constructor(morphismMap, maxDepth = 40) {
+    this.map = morphismMap;
+    this.alphabet = Object.keys(morphismMap).sort();
+    this.maxDepth = maxDepth;
+    this.precomputed = [];
+    this._precompute();
+  }
+  _precompute() {
+    let level0 = {};
+    for (let c of this.alphabet) {
+      level0[c] = {};
+      for (let a of this.alphabet) level0[c][a] = 0;
+      level0[c][c] = 1;
+    }
+    this.precomputed.push(level0);
+    this._ensureDepth(this.maxDepth);
+  }
+  _ensureDepth(targetDepth) {
+    while (this.precomputed.length <= targetDepth) {
+      let d = this.precomputed.length;
+      let prev = this.precomputed[d - 1];
+      let curr = {};
+      for (let c of this.alphabet) {
+        let vec = {};
+        for (let a of this.alphabet) vec[a] = 0;
+        let img = this.map[c];
+        for (let i = 0; i < img.length; i++) {
+          let childChar = img[i];
+          let childVec = prev[childChar];
+          for (let a of this.alphabet) vec[a] += (childVec[a] || 0);
+        }
+        curr[c] = vec;
+      }
+      this.precomputed.push(curr);
+    }
+  }
+  _addVec(target, source) {
+    for (let k in source) target[k] = (target[k] || 0) + source[k];
+  }
+  queryPrefix(letter, depth, L) {
+    this._ensureDepth(depth);
+    let res = {};
+    for (let a of this.alphabet) res[a] = 0;
+    if (L <= 0) return res;
+    let totalSize = 0;
+    for (let k in this.precomputed[depth][letter]) totalSize += this.precomputed[depth][letter][k];
+    if (L >= totalSize) {
+      this._addVec(res, this.precomputed[depth][letter]);
+      return res;
+    }
+    if (depth === 0) return res;
+    let img = this.map[letter];
+    let rem = L;
+    for (let i = 0; i < img.length; i++) {
+      if (rem <= 0) break;
+      let childChar = img[i];
+      let childSize = 0;
+      for (let k in this.precomputed[depth - 1][childChar]) childSize += this.precomputed[depth - 1][childChar][k];
+      if (rem >= childSize) {
+        this._addVec(res, this.precomputed[depth - 1][childChar]);
+        rem -= childSize;
+      } else {
+        let sub = this.queryPrefix(childChar, depth - 1, rem);
+        this._addVec(res, sub);
+        rem = 0;
+        break;
+      }
+    }
+    return res;
+  }
+  rangeQuery(letter, depth, i, j) {
+    if (i < 0) i = 0;
+    if (j < i) j = i;
+    let right = this.queryPrefix(letter, depth, j);
+    let left = this.queryPrefix(letter, depth, i);
+    let res = {};
+    for (let a of this.alphabet) res[a] = (right[a] || 0) - (left[a] || 0);
+    return res;
+  }
+}
+
+function weldBridge(U, V, maxBridgeLen = 6, minPeriod = 1, maxPeriod = 5, maxResults = 10) {
+  const alphabet = ['a', 'b', 'c'];
+  const results = [];
+  function hasAbelianSquare(s) {
+    const len = s.length;
+    const pA = new Int32Array(len + 1);
+    const pB = new Int32Array(len + 1);
+    const pC = new Int32Array(len + 1);
+    for (let i = 0; i < len; i++) {
+      pA[i + 1] = pA[i] + (s[i] === 'a' ? 1 : 0);
+      pB[i + 1] = pB[i] + (s[i] === 'b' ? 1 : 0);
+      pC[i + 1] = pC[i] + (s[i] === 'c' ? 1 : 0);
+    }
+    for (let K = minPeriod; K <= maxPeriod; K++) {
+      for (let i = 0; i <= len - 2 * K; i++) {
+        const da = (pA[i + K] - pA[i]) - (pA[i + 2 * K] - pA[i + K]);
+        if (da !== 0) continue;
+        const db = (pB[i + K] - pB[i]) - (pB[i + 2 * K] - pB[i + K]);
+        if (db !== 0) continue;
+        const dc = (pC[i + K] - pC[i]) - (pC[i + 2 * K] - pC[i + K]);
+        if (dc === 0) return true;
+      }
+    }
+    return false;
+  }
+  if (!hasAbelianSquare(U + V)) {
+    results.push({ bridge: "", word: U + V, length: 0 });
+    if (results.length >= maxResults) return results;
+  }
+  function dfs(currentW) {
+    if (results.length >= maxResults) return;
+    if (hasAbelianSquare(U + currentW)) return;
+    if (!hasAbelianSquare(U + currentW + V)) {
+      results.push({ bridge: currentW, word: U + currentW + V, length: currentW.length });
+      if (results.length >= maxResults) return;
+    }
+    if (currentW.length >= maxBridgeLen) return;
+    for (let c of alphabet) {
+      dfs(currentW + c);
+      if (results.length >= maxResults) return;
+    }
+  }
+  for (let c of alphabet) dfs(c);
+  return results;
+}
+
+function replicateP6(iterations = 4, maxK = 30) {
+  let w = "a";
+  for (let d = 0; d < iterations; d++) {
+    let next = "";
+    for (let i = 0; i < w.length; i++) next += H6[w[i]];
+    w = next;
+  }
+  let g = "";
+  for (let i = 0; i < w.length; i++) g += G3[w[i]];
+  const len = g.length;
+  const pA = new Int32Array(len + 1);
+  const pB = new Int32Array(len + 1);
+  const pC = new Int32Array(len + 1);
+  for (let i = 0; i < len; i++) {
+    pA[i + 1] = pA[i] + (g[i] === 'a' ? 1 : 0);
+    pB[i + 1] = pB[i] + (g[i] === 'b' ? 1 : 0);
+    pC[i + 1] = pC[i] + (g[i] === 'c' ? 1 : 0);
+  }
+  let collisionsFound = 0;
+  for (let K = 6; K <= maxK; K++) {
+    for (let i = 0; i <= len - 2 * K; i++) {
+      const da = (pA[i + K] - pA[i]) - (pA[i + 2 * K] - pA[i + K]);
+      if (da !== 0) continue;
+      const db = (pB[i + K] - pB[i]) - (pB[i + 2 * K] - pB[i + K]);
+      if (db !== 0) continue;
+      const dc = (pC[i + K] - pC[i]) - (pC[i + 2 * K] - pC[i + K]);
+      if (dc === 0) collisionsFound++;
+    }
+  }
+  return {
+    ok: collisionsFound === 0,
+    p: 6,
+    testedLength: len,
+    maxPeriodChecked: maxK,
+    collisionsFound,
+    status: collisionsFound === 0 ? "p=6 replication verified (0 collisions for K >= 6)" : `FAILED: found ${collisionsFound} collisions for K >= 6`
+  };
+}
+
+// -------------------------------------------------------------------------
 // CORE VALIDATION ENGINE
 // -------------------------------------------------------------------------
 
@@ -704,6 +921,16 @@ self.onmessage = function(e) {
 
     case 'val_observatory_data':
       startObservatoryAnalysis(msg.options || {});
+      break;
+
+    case 'val_p6_replicate':
+      let repRes = replicateP6(msg.iterations || 4, msg.maxK || 30);
+      self.postMessage({ type: 'val_p6_replicate_results', results: repRes });
+      break;
+
+    case 'val_bridge_weld':
+      let weldRes = weldBridge(msg.u || G3['a'], msg.v || G3['c'], msg.maxBridgeLen || 6, msg.minPeriod || 1, msg.maxPeriod || 5, msg.maxResults || 10);
+      self.postMessage({ type: 'val_bridge_weld_results', results: weldRes });
       break;
   }
 };

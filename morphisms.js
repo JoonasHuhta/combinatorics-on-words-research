@@ -158,6 +158,292 @@ function verifyMorphismIntegrity() {
   };
 }
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { H6, G3, G85, G98, G109, MORPHISM_METADATA, verifyMorphismIntegrity, djb2Hash };
+/**
+ * ParikhFenwickTree (Binary Indexed Tree for Parikh Vectors)
+ * Supports O(log N) push, pop, update, and rangeQuery for dynamic DFS backtracking and Bridge-Welding.
+ */
+class ParikhFenwickTree {
+  constructor(maxSize) {
+    this.maxSize = maxSize;
+    this.treeA = new Int32Array(maxSize + 1);
+    this.treeB = new Int32Array(maxSize + 1);
+    this.treeC = new Int32Array(maxSize + 1);
+    this.length = 0;
+    this.word = [];
+  }
+
+  push(char) {
+    if (this.length >= this.maxSize) throw new Error("Fenwick tree overflow");
+    this.length++;
+    this.word[this.length - 1] = char;
+    let idx = this.length;
+    let da = char === 'a' ? 1 : 0;
+    let db = char === 'b' ? 1 : 0;
+    let dc = char === 'c' ? 1 : 0;
+    while (idx <= this.maxSize) {
+      this.treeA[idx] += da;
+      this.treeB[idx] += db;
+      this.treeC[idx] += dc;
+      idx += (idx & -idx);
+    }
+  }
+
+  pop() {
+    if (this.length === 0) return null;
+    let char = this.word[this.length - 1];
+    let idx = this.length;
+    let da = char === 'a' ? 1 : 0;
+    let db = char === 'b' ? 1 : 0;
+    let dc = char === 'c' ? 1 : 0;
+    while (idx <= this.maxSize) {
+      this.treeA[idx] -= da;
+      this.treeB[idx] -= db;
+      this.treeC[idx] -= dc;
+      idx += (idx & -idx);
+    }
+    this.length--;
+    this.word.pop();
+    return char;
+  }
+
+  update(pos, newChar) {
+    if (pos < 0 || pos >= this.length) throw new Error("Index out of bounds");
+    let oldChar = this.word[pos];
+    if (oldChar === newChar) return;
+    this.word[pos] = newChar;
+    let da = (newChar === 'a' ? 1 : 0) - (oldChar === 'a' ? 1 : 0);
+    let db = (newChar === 'b' ? 1 : 0) - (oldChar === 'b' ? 1 : 0);
+    let dc = (newChar === 'c' ? 1 : 0) - (oldChar === 'c' ? 1 : 0);
+    let idx = pos + 1;
+    while (idx <= this.maxSize) {
+      this.treeA[idx] += da;
+      this.treeB[idx] += db;
+      this.treeC[idx] += dc;
+      idx += (idx & -idx);
+    }
+  }
+
+  query(idx) {
+    let a = 0, b = 0, c = 0;
+    let i = idx;
+    while (i > 0) {
+      a += this.treeA[i];
+      b += this.treeB[i];
+      c += this.treeC[i];
+      i -= (i & -i);
+    }
+    return { a, b, c };
+  }
+
+  rangeQuery(i, j) {
+    let right = this.query(j);
+    let left = this.query(i);
+    return { a: right.a - left.a, b: right.b - left.b, c: right.c - left.c };
+  }
 }
+
+/**
+ * RecursiveParikhOracle
+ * Computes exact Parikh vectors for slices [i, j) in uniform morphism fixed points in O(log_k N) time without string materialization.
+ * STRICT EPISTEMOLOGICAL FRAMING: This is a validation and educational demonstration tool (Tab 15 Microscope).
+ * It does NOT replace Carpi's finite sufficient condition for proof.
+ */
+class RecursiveParikhOracle {
+  constructor(morphismMap, maxDepth = 40) {
+    this.map = morphismMap;
+    this.alphabet = Object.keys(morphismMap).sort();
+    this.k = morphismMap[this.alphabet[0]].length;
+    this.maxDepth = maxDepth;
+    this.precomputed = [];
+    this._precompute();
+  }
+
+  _precompute() {
+    let level0 = {};
+    for (let c of this.alphabet) {
+      level0[c] = {};
+      for (let a of this.alphabet) level0[c][a] = 0;
+      level0[c][c] = 1;
+    }
+    this.precomputed.push(level0);
+    this._ensureDepth(this.maxDepth);
+  }
+
+  _ensureDepth(targetDepth) {
+    while (this.precomputed.length <= targetDepth) {
+      let d = this.precomputed.length;
+      let prev = this.precomputed[d - 1];
+      let curr = {};
+      for (let c of this.alphabet) {
+        let vec = {};
+        for (let a of this.alphabet) vec[a] = 0;
+        let img = this.map[c];
+        for (let i = 0; i < img.length; i++) {
+          let childChar = img[i];
+          let childVec = prev[childChar];
+          for (let a of this.alphabet) {
+            vec[a] += (childVec[a] || 0);
+          }
+        }
+        curr[c] = vec;
+      }
+      this.precomputed.push(curr);
+    }
+  }
+
+  _addVec(target, source) {
+    for (let k in source) {
+      target[k] = (target[k] || 0) + source[k];
+    }
+  }
+
+  queryPrefix(letter, depth, L) {
+    this._ensureDepth(depth);
+    let res = {};
+    for (let a of this.alphabet) res[a] = 0;
+    if (L <= 0) return res;
+
+    let totalSize = Math.pow(this.k, depth);
+    if (L >= totalSize) {
+      this._addVec(res, this.precomputed[depth][letter]);
+      return res;
+    }
+
+    let childSize = Math.pow(this.k, depth - 1);
+    let img = this.map[letter];
+    let rem = L;
+    for (let i = 0; i < img.length; i++) {
+      if (rem <= 0) break;
+      let childChar = img[i];
+      if (rem >= childSize) {
+        this._addVec(res, this.precomputed[depth - 1][childChar]);
+        rem -= childSize;
+      } else {
+        let sub = this.queryPrefix(childChar, depth - 1, rem);
+        this._addVec(res, sub);
+        rem = 0;
+        break;
+      }
+    }
+    return res;
+  }
+
+  rangeQuery(letter, depth, i, j) {
+    if (i < 0) i = 0;
+    if (j < i) j = i;
+    let right = this.queryPrefix(letter, depth, j);
+    let left = this.queryPrefix(letter, depth, i);
+    let res = {};
+    for (let a of this.alphabet) {
+      res[a] = (right[a] || 0) - (left[a] || 0);
+    }
+    return res;
+  }
+}
+
+/**
+ * weldBridge
+ * Seam-directed bridge search between fixed clean blocks U and V over alphabet {a,b,c}.
+ * Finds connecting bridges W of length 0 to maxBridgeLen such that U + W + V contains no abelian squares of periods in [minPeriod, maxPeriod].
+ */
+function weldBridge(U, V, maxBridgeLen = 6, minPeriod = 1, maxPeriod = 5, maxResults = 10) {
+  const alphabet = ['a', 'b', 'c'];
+  const results = [];
+  
+  function hasAbelianSquare(s) {
+    const len = s.length;
+    const pA = new Int32Array(len + 1);
+    const pB = new Int32Array(len + 1);
+    const pC = new Int32Array(len + 1);
+    for (let i = 0; i < len; i++) {
+      pA[i + 1] = pA[i] + (s[i] === 'a' ? 1 : 0);
+      pB[i + 1] = pB[i] + (s[i] === 'b' ? 1 : 0);
+      pC[i + 1] = pC[i] + (s[i] === 'c' ? 1 : 0);
+    }
+    for (let K = minPeriod; K <= maxPeriod; K++) {
+      for (let i = 0; i <= len - 2 * K; i++) {
+        const da = (pA[i + K] - pA[i]) - (pA[i + 2 * K] - pA[i + K]);
+        if (da !== 0) continue;
+        const db = (pB[i + K] - pB[i]) - (pB[i + 2 * K] - pB[i + K]);
+        if (db !== 0) continue;
+        const dc = (pC[i + K] - pC[i]) - (pC[i + 2 * K] - pC[i + K]);
+        if (dc === 0) return true;
+      }
+    }
+    return false;
+  }
+
+  if (!hasAbelianSquare(U + V)) {
+    results.push({ bridge: "", word: U + V, length: 0 });
+    if (results.length >= maxResults) return results;
+  }
+
+  function dfs(currentW) {
+    if (results.length >= maxResults) return;
+    if (hasAbelianSquare(U + currentW)) return;
+    if (!hasAbelianSquare(U + currentW + V)) {
+      results.push({ bridge: currentW, word: U + currentW + V, length: currentW.length });
+      if (results.length >= maxResults) return;
+    }
+    if (currentW.length >= maxBridgeLen) return;
+    for (let c of alphabet) {
+      dfs(currentW + c);
+      if (results.length >= maxResults) return;
+    }
+  }
+
+  for (let c of alphabet) dfs(c);
+  return results;
+}
+
+/**
+ * replicateP6 (p6-Replication Harness)
+ * Strict epistemological protocol: verifies that the existing infrastructure replicates the known solved case p=6
+ * (i.e. g3(h6^omega(a)) avoids abelian squares of periods K >= 6) before attempting unsolved periods.
+ */
+function replicateP6(iterations = 4, maxK = 30) {
+  let w = "a";
+  for (let d = 0; d < iterations; d++) {
+    let next = "";
+    for (let i = 0; i < w.length; i++) next += H6[w[i]];
+    w = next;
+  }
+  let g = "";
+  for (let i = 0; i < w.length; i++) g += G3[w[i]];
+  
+  const len = g.length;
+  const pA = new Int32Array(len + 1);
+  const pB = new Int32Array(len + 1);
+  const pC = new Int32Array(len + 1);
+  for (let i = 0; i < len; i++) {
+    pA[i + 1] = pA[i] + (g[i] === 'a' ? 1 : 0);
+    pB[i + 1] = pB[i] + (g[i] === 'b' ? 1 : 0);
+    pC[i + 1] = pC[i] + (g[i] === 'c' ? 1 : 0);
+  }
+  
+  let collisionsFound = 0;
+  for (let K = 6; K <= maxK; K++) {
+    for (let i = 0; i <= len - 2 * K; i++) {
+      const da = (pA[i + K] - pA[i]) - (pA[i + 2 * K] - pA[i + K]);
+      if (da !== 0) continue;
+      const db = (pB[i + K] - pB[i]) - (pB[i + 2 * K] - pB[i + K]);
+      if (db !== 0) continue;
+      const dc = (pC[i + K] - pC[i]) - (pC[i + 2 * K] - pC[i + K]);
+      if (dc === 0) collisionsFound++;
+    }
+  }
+  
+  return {
+    ok: collisionsFound === 0,
+    p: 6,
+    testedLength: len,
+    maxPeriodChecked: maxK,
+    collisionsFound,
+    status: collisionsFound === 0 ? "p=6 replication verified (0 collisions for K >= 6)" : `FAILED: found ${collisionsFound} collisions for K >= 6`
+  };
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { H6, G3, G85, G98, G109, MORPHISM_METADATA, verifyMorphismIntegrity, djb2Hash, ParikhFenwickTree, RecursiveParikhOracle, weldBridge, replicateP6 };
+}
+
