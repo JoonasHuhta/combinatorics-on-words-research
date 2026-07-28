@@ -109,7 +109,26 @@ check("No Emoji Characters in Module 18 UI & Citizen Science Dispatcher", () => 
   }
 });
 
-// 5. Git Drift Check against HEAD (if in git repo)
+// 5. Standalone HPC CLI Runner Integrity Check (seam-hpc-cli.js)
+check("Standalone HPC CLI Runner Integrity & Arithmetic Check", () => {
+  const cliPath = path.join(__dirname, 'seam-hpc-cli.js');
+  if (!fs.existsSync(cliPath)) {
+    throw new Error("seam-hpc-cli.js missing! Standalone multi-core CLI runner must exist in repository root.");
+  }
+  const cliContent = fs.readFileSync(cliPath, 'utf8');
+  if (cliContent.includes("<<")) {
+    throw new Error("seam-hpc-cli.js contains bitwise shift operator '<<'. Parikh vectors MUST use exact Float64Array arithmetic!");
+  }
+  if (!cliContent.includes("Float64Array")) {
+    throw new Error("seam-hpc-cli.js must declare prefixPacked as Float64Array!");
+  }
+  const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]|[\u2300-\u23FF]|[\u2B50-\u2B55]/;
+  if (emojiRegex.test(cliContent)) {
+    throw new Error("seam-hpc-cli.js contains forbidden emoji or symbol characters! Must maintain serious scientific styling.");
+  }
+});
+
+// 6. Git Drift Check against HEAD (if in git repo)
 check("Git Drift Check against Last Commit (MATH_CLAIMS.md)", () => {
   try {
     const headContent = execSync('git show HEAD:MATH_CLAIMS.md 2>nul', { encoding: 'utf8' });

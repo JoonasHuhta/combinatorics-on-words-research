@@ -1958,6 +1958,26 @@
         <span class="val-badge lvl1-chk">Level 1: Empirical Exploration Protocol</span>
       </div>
     </div>
+
+    <!-- Standalone HPC CLI Research Kit Card -->
+    <div class="val-card" style="border-left:5px solid #27ae60; background:#fff; border-top:1px solid #e1e8ed; border-right:1px solid #e1e8ed; border-bottom:1px solid #e1e8ed; margin-top:20px;">
+      <h3 style="color:#1a1e24; margin-top:0; font-family:'Georgia', serif; font-size:1.3rem;">Standalone HPC Research Kit (Node.js Multi-Core CLI Runner)</h3>
+      <p style="font-size:0.9rem; color:#555; line-height:1.5;">
+        Browser sandboxes impose strict memory constraints (~2GB-4GB RAM) and throttle background threads when tabs are inactive or minimized. For intensive mathematical research, multi-hour parameter evaluations, or deep seam bridge searches across high-core server clusters (e.g., 32+ cores), download our self-contained, zero-dependency command-line runner.
+      </p>
+      
+      <div style="background:#f4f9f5; border:1px solid #c2e0cf; padding:12px 16px; border-radius:4px; margin-bottom:14px; font-family:monospace; font-size:0.85rem; color:#2c3e50;">
+        <div><strong># Command-Line Usage Examples (Terminal / Bash / PowerShell):</strong></div>
+        <div style="margin-top:6px; color:#16a085;">node seam-hpc-cli.js --mode=weld --u=bbbaabaaac --v=ccccbbbcbc --maxLen=12 --workers=16</div>
+        <div style="color:#16a085;">node seam-hpc-cli.js --mode=p6 --workers=8 --iterations=20</div>
+        <div style="color:#16a085;">node seam-hpc-cli.js --mode=neg</div>
+      </div>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <button class="val-btn" style="background:#27ae60; color:#fff; padding:10px 18px; font-size:0.95rem; font-weight:bold; border:none; border-radius:4px; cursor:pointer; margin:0;" onclick="goldDownloadHpcCliKit()">Download Standalone Node.js Research Script (seam-hpc-cli.js)</button>
+        <span style="font-size:0.85rem; color:#666; font-style:italic;">Self-contained script (~8KB) utilizing native worker_threads for multi-core scaling.</span>
+      </div>
+    </div>
   </div>
   <!-- END TAB 18 -->
 
@@ -8111,6 +8131,32 @@ function goldStopJob(isUserAbort = false) {
   } else {
     if (led && status) { led.style.background = '#95a5a6'; status.textContent = 'STOPPED'; status.style.color = '#7f8c8d'; }
   }
+}
+
+function goldDownloadHpcCliKit() {
+  fetch('seam-hpc-cli.js')
+    .then(r => r.text())
+    .then(text => {
+      const blob = new Blob([text], { type: 'application/javascript' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'seam-hpc-cli.js';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      goldLogEvent('[hpc-cli] Standalone Node.js multi-core research runner downloaded via Blob.', true);
+    })
+    .catch(() => {
+      const a = document.createElement('a');
+      a.href = 'seam-hpc-cli.js';
+      a.download = 'seam-hpc-cli.js';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      goldLogEvent('[hpc-cli] Standalone Node.js multi-core research runner downloaded via link.', true);
+    });
 }
 // END TAB 18
 </script>
