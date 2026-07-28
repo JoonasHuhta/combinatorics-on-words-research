@@ -638,6 +638,51 @@ test("Factor complexity: ternary cutoff reproduced, construction is linear", () 
   console.log(`       g3(h6^w): linear, first differences in [6,8], not constant`);
 });
 
+// ----------------------------------------------------
+// 20. PROPOSITION 5 BOUNDS (MATH_CLAIMS.md row 29)
+// ----------------------------------------------------
+test("Proposition 5 bounds: c = 8/3 and 2/3, respected by actual factors", () => {
+  const jd = require('./jordan-decomposition.js');
+  const p5 = require('./proposition5-bounds.js');
+  const K = jd.K;
+  const S6 = ['a', 'b', 'c', 'd', 'e', 'f'];
+
+  const M = jd.parikhMatrixK(H6, S6, S6);
+  const { J, Pinv, blocks } = jd.decompose(M);
+  const contracting = blocks.filter(b => K.isZero(b.eigenvalue));
+  assert.strictEqual(contracting.length, 2,
+    "The contracting part must be exactly the two zero-eigenvalue blocks");
+
+  // The finite-sum shortcut is only valid because these blocks are nilpotent.
+  for (const b of contracting) {
+    const B = Array.from({ length: b.size }, (_, r) =>
+      Array.from({ length: b.size }, (_, c) => J[b.start + r][b.start + c]));
+    let cur = jd.identityK(b.size);
+    let nil = null;
+    for (let j = 1; j <= b.size + 1; j++) {
+      cur = jd.matMulK(cur, B);
+      if (cur.every(r => r.every(v => K.isZero(v)))) { nil = j; break; }
+    }
+    assert.strictEqual(nil, b.size,
+      `Zero-eigenvalue block of size ${b.size} must be nilpotent of index ${b.size}; the Neumann series shortcut depends on it`);
+  }
+
+  // The bounds themselves, and that real factors stay under them.
+  const BOUNDS = { 3: 8 / 3, 4: 8 / 3, 5: 2 / 3 };
+  const obs = p5.observeFactors(Pinv, contracting, 7, 10);
+  assert.ok(obs.checked > 10000, "Empirical scan must cover a meaningful number of factors");
+  for (const [ix, bound] of Object.entries(BOUNDS)) {
+    const seen = obs.maxByIndex[ix];
+    assert.ok(seen !== undefined, `Coordinate r_${ix} must be scanned`);
+    assert.ok(seen <= bound + 1e-12,
+      `r_${ix}: observed max ${seen} exceeds the derived Proposition 5 bound ${bound}`);
+  }
+
+  console.log(`       contracting blocks nilpotent -> Neumann series is a finite sum`);
+  console.log(`       c = 8/3 (indices 3,4) and 2/3 (index 5)   [EXACT]`);
+  console.log(`       respected by ${obs.checked.toLocaleString()} scanned factors`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
