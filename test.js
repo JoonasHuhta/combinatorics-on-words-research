@@ -487,6 +487,40 @@ test("Exact Factor Statistics: rho_K and the 34-square census", () => {
   console.log(`       distinct squares: 34 total, longest length 10       [EXACT]`);
 });
 
+// ----------------------------------------------------
+// 16. PROPOSITION 9 PRECONDITIONS (MATH_CLAIMS.md row 21)
+// ----------------------------------------------------
+test("Rao & Rosenfeld Proposition 9 preconditions hold for (h6, g3)", () => {
+  const dp = require('./decision-preconditions.js');
+  const pfm = require('./perron-frobenius.js');
+  const S6 = ['a', 'b', 'c', 'd', 'e', 'f'], S3 = ['a', 'b', 'c'];
+
+  // Condition 1 is a consequence of the spectrum; assert the spectrum itself.
+  const { A } = pfm.incidenceMatrix(H6);
+  assert.deepStrictEqual(pfm.charPolyExact(A).map(String), ['1', '-3', '-3', '9', '0', '0', '0'],
+    "Condition 1 rests on the spectrum {3, +-sqrt(3), 0,0,0}; char poly must be x^3(x-3)(x^2-3)");
+
+  const Mh = dp.parikhMatrix(H6, S6, S6);
+  const Mg = dp.parikhMatrix(G3, S6, S3);
+  const toQ = (M) => M.map(r => r.map(v => pfm.fr(v)));
+
+  // E_e(M_h) = im(M_h^6), rational because every |lambda| < 1 eigenvalue is exactly 0
+  let P = toQ(Mh);
+  for (let i = 1; i < 6; i++) P = dp.matMulQ(P, toQ(Mh));
+  const Ee = dp.columnSpaceQ(P);
+  assert.strictEqual(Ee.length, 3, "dim E_e(M_h) must be 3, one per non-zero eigenvalue");
+
+  const kerG = pfm.nullspaceQ(toQ(Mg));
+  assert.strictEqual(kerG.length, 3, "dim ker(M_g) must be 3 (M_g has full rank 3)");
+
+  const inter = dp.intersectionQ(Ee, kerG, 6);
+  assert.strictEqual(inter.dim, 0,
+    "Condition 2 of Proposition 9 requires E_e(M_h) INTERSECT ker(M_g) = {0}");
+
+  console.log(`       dim E_e(M_h) = 3, dim ker(M_g) = 3, intersection = 0`);
+  console.log(`       Q^6 = E_e(M_h) (+) ker(M_g)  -> Proposition 9 applies to (h6, g3)`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);

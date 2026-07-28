@@ -597,6 +597,7 @@ if (require.main === module) main();
 
 module.exports = {
   fr, frAdd, frSub, frMul, frDiv, frStr, frNum,
+  rrefQ, nullspaceQ,
   incidenceMatrix, checkPrimitive, leftPerronExact, verifyEigen,
   charPolyExact, polyToString, polyRootsNumeric,
   projectedFrequencies, iterateMorphism, empiricalFreq, analyze
