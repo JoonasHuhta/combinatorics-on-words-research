@@ -603,6 +603,41 @@ test("Jordan form of M_h over Q(sqrt(3)): defective at 0, blocks 2 + 1", () => {
   console.log(`       splitting field Q(sqrt(3)); M*P = P*J verified exactly`);
 });
 
+// ----------------------------------------------------
+// 19. FACTOR COMPLEXITY (MATH_CLAIMS.md rows 27, 28)
+// ----------------------------------------------------
+test("Factor complexity: ternary cutoff reproduced, construction is linear", () => {
+  const fc = require('./factor-complexity.js');
+  const byKey = Object.fromEntries(fc.LANGUAGES.map(L => [L.key, L]));
+
+  // Row 27: an independent code path must reproduce the canonical row-1 numbers.
+  const asf3 = fc.enumerate(byKey.asf3.alphabet, byKey.asf3.ok, 8, 1e6);
+  assert.ok(asf3.exhausted, "asf3 enumeration to length 8 must complete");
+  assert.strictEqual(asf3.counts[6], 30, "p(6) must be 30 for ternary abelian-square-free words");
+  assert.strictEqual(asf3.counts[7], 18, "p(7) must be 18 - cross-check of MATH_CLAIMS.md row 1");
+  assert.strictEqual(asf3.counts[8], 0, "p(8) must be 0: the language is finite");
+
+  // aa2f must still be alive well past where asf3 dies - that gap is the point.
+  const aa2f = fc.enumerate(byKey.aa2f.alphabet, byKey.aa2f.ok, 14, 5e6);
+  assert.ok(aa2f.exhausted, "aa2f enumeration to length 14 must complete");
+  assert.ok(aa2f.counts[14] > 0,
+    "aa2f must still contain words of length 14, long after abelian-square-free ternary dies at 7");
+
+  // Row 28: linear complexity of the construction, with bounded differences.
+  const p = fc.complexityOfConstruction(30);
+  const d = p.slice(1).map((v, i) => v - p[i]);
+  const tail = d.slice(14);
+  assert.ok(Math.max(...tail) <= 8 && Math.min(...tail) >= 6,
+    `First differences of p(n) for n >= 15 must lie in [6,8], got [${Math.min(...tail)},${Math.max(...tail)}]`);
+  // Guard against the overclaim an earlier draft made: they are NOT all equal.
+  assert.ok(new Set(tail).size > 1,
+    "First differences must NOT be constant - an earlier draft claimed p(n) = 8n + c from a run that stopped too early");
+
+  console.log(`       asf3: p(6)=30, p(7)=18, p(8)=0   (independent of runNegativeControlTest)`);
+  console.log(`       aa2f: still non-empty at n=14 where asf3 is already dead`);
+  console.log(`       g3(h6^w): linear, first differences in [6,8], not constant`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
