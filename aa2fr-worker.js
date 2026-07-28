@@ -288,6 +288,51 @@ function replicateP6(iterations = 4, maxK = 30) {
   };
 }
 
+function runNegativeControlTest() {
+  const chars = ['a', 'b', 'c'];
+  let maxLenFound = 0;
+  let countLen7 = 0;
+  let countLen8 = 0;
+  
+  function isASFree(w) {
+    const len = w.length;
+    for (let K = 1; K <= Math.floor(len / 2); K++) {
+      let ca = 0, cb = 0, cc = 0;
+      for (let j = 0; j < K; j++) {
+        const ch = w[len - 2 * K + j];
+        if (ch === 'a') ca++; else if (ch === 'b') cb++; else if (ch === 'c') cc++;
+      }
+      for (let j = 0; j < K; j++) {
+        const ch = w[len - K + j];
+        if (ch === 'a') ca--; else if (ch === 'b') cb--; else if (ch === 'c') cc--;
+      }
+      if (ca === 0 && cb === 0 && cc === 0) return false;
+    }
+    return true;
+  }
+
+  function dfs(w) {
+    if (w.length > maxLenFound) maxLenFound = w.length;
+    if (w.length === 7) countLen7++;
+    if (w.length === 8) { countLen8++; return; }
+    for (const c of chars) {
+      if (isASFree(w + c)) dfs(w + c);
+    }
+  }
+
+  dfs("");
+  
+  return {
+    ok: maxLenFound === 7 && countLen7 === 18 && countLen8 === 0,
+    maxLenFound,
+    countLen7,
+    countLen8,
+    status: (maxLenFound === 7 && countLen7 === 18 && countLen8 === 0) 
+      ? "NEGATIVE CONTROL PASSED: Exact ternary cutoff at length 7 verified (18 words of len 7, 0 words of len 8)" 
+      : `FAILED: max length ${maxLenFound}, len 7 count ${countLen7}, len 8 count ${countLen8}`
+  };
+}
+
 // -------------------------------------------------------------------------
 // CORE VALIDATION ENGINE
 // -------------------------------------------------------------------------
@@ -931,6 +976,11 @@ self.onmessage = function(e) {
     case 'val_bridge_weld':
       let weldRes = weldBridge(msg.u || G3['a'], msg.v || G3['c'], msg.maxBridgeLen || 6, msg.minPeriod || 1, msg.maxPeriod || 5, msg.maxResults || 10);
       self.postMessage({ type: 'val_bridge_weld_results', results: weldRes });
+      break;
+
+    case 'val_neg_control':
+      let negRes = runNegativeControlTest();
+      self.postMessage({ type: 'val_neg_control_results', results: negRes });
       break;
   }
 };

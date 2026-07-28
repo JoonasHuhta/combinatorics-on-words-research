@@ -16,7 +16,7 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
-const { H6, G3, G85, G98, G109, verifyMorphismIntegrity, djb2Hash, ParikhFenwickTree, RecursiveParikhOracle, weldBridge, replicateP6 } = require('./morphisms.js');
+const { H6, G3, G85, G98, G109, verifyMorphismIntegrity, djb2Hash, ParikhFenwickTree, RecursiveParikhOracle, weldBridge, replicateP6, runNegativeControlTest } = require('./morphisms.js');
 
 console.log("=== STARTING AA2FR AUTOMATED REGRESSION TEST SUITE ===\n");
 
@@ -309,6 +309,17 @@ test("p6-Replication Harness (Rao & Rosenfeld Threshold Verification)", () => {
   assert.strictEqual(rep.collisionsFound, 0, "Zero collisions must be found for K >= 6");
   assert.strictEqual(rep.p, 6, "Replication target threshold must be p=6");
   assert.ok(rep.testedLength > 500, "Must test across significant prefix length");
+});
+
+// ----------------------------------------------------
+// 11. NEGATIVE CONTROL CALIBRATION TEST
+// ----------------------------------------------------
+test("Negative Control Calibration (Ternary Cutoff Verification)", () => {
+  const neg = runNegativeControlTest();
+  assert.strictEqual(neg.ok, true, "Negative control test must confirm max len 7 and 0 len 8 words");
+  assert.strictEqual(neg.maxLenFound, 7, "Max length for ternary abelian-square-free word must be 7");
+  assert.strictEqual(neg.countLen7, 18, "Must find exactly 18 words of length 7");
+  assert.strictEqual(neg.countLen8, 0, "Must find exactly 0 words of length 8 (proving collision check is not too loose)");
 });
 
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);

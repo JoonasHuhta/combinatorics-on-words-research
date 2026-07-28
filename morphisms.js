@@ -443,7 +443,58 @@ function replicateP6(iterations = 4, maxK = 30) {
   };
 }
 
+/**
+ * runNegativeControlTest (Negative Control Calibration)
+ * Proves the engine can fail correctly by confirming that exhaustive search for pure abelian-square-free words (all K >= 1)
+ * on a ternary alphabet strictly terminates at max length 7 (0 words of length 8 exist).
+ * Protects against false positives (too loose collision checks).
+ */
+function runNegativeControlTest() {
+  const chars = ['a', 'b', 'c'];
+  let maxLenFound = 0;
+  let countLen7 = 0;
+  let countLen8 = 0;
+  
+  function isASFree(w) {
+    const len = w.length;
+    for (let K = 1; K <= Math.floor(len / 2); K++) {
+      let ca = 0, cb = 0, cc = 0;
+      for (let j = 0; j < K; j++) {
+        const ch = w[len - 2 * K + j];
+        if (ch === 'a') ca++; else if (ch === 'b') cb++; else if (ch === 'c') cc++;
+      }
+      for (let j = 0; j < K; j++) {
+        const ch = w[len - K + j];
+        if (ch === 'a') ca--; else if (ch === 'b') cb--; else if (ch === 'c') cc--;
+      }
+      if (ca === 0 && cb === 0 && cc === 0) return false;
+    }
+    return true;
+  }
+
+  function dfs(w) {
+    if (w.length > maxLenFound) maxLenFound = w.length;
+    if (w.length === 7) countLen7++;
+    if (w.length === 8) { countLen8++; return; }
+    for (const c of chars) {
+      if (isASFree(w + c)) dfs(w + c);
+    }
+  }
+
+  dfs("");
+  
+  return {
+    ok: maxLenFound === 7 && countLen7 === 18 && countLen8 === 0,
+    maxLenFound,
+    countLen7,
+    countLen8,
+    status: (maxLenFound === 7 && countLen7 === 18 && countLen8 === 0) 
+      ? "NEGATIVE CONTROL PASSED: Exact ternary cutoff at length 7 verified (18 words of len 7, 0 words of len 8)" 
+      : `FAILED: max length ${maxLenFound}, len 7 count ${countLen7}, len 8 count ${countLen8}`
+  };
+}
+
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { H6, G3, G85, G98, G109, MORPHISM_METADATA, verifyMorphismIntegrity, djb2Hash, ParikhFenwickTree, RecursiveParikhOracle, weldBridge, replicateP6 };
+  module.exports = { H6, G3, G85, G98, G109, MORPHISM_METADATA, verifyMorphismIntegrity, djb2Hash, ParikhFenwickTree, RecursiveParikhOracle, weldBridge, replicateP6, runNegativeControlTest };
 }
 

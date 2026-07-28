@@ -57,7 +57,19 @@ check("No Unverified OEIS A261352 References in MATH_CLAIMS.md", () => {
   }
 });
 
-// 2. Git Drift Check against HEAD (if in git repo)
+// 2. Epistemological Wording Drift Check across documentation
+check("No Overpromising Wording in Bridge-Welding Claims", () => {
+  const walkPath = path.join(__dirname, '..', '..', '..', '.gemini', 'antigravity', 'brain', 'a4eda2cb-68a5-41dc-8e98-fc3b9ce8dbec', 'walkthrough.md');
+  let walkContent = "";
+  try { if (fs.existsSync(walkPath)) walkContent = fs.readFileSync(walkPath, 'utf8'); } catch(e) {}
+  
+  const combined = (claimsContent + " " + walkContent).toLowerCase();
+  if (combined.includes("todistaa abelin-neliöttömyyden jaksoille") || combined.includes("proves abelian-square-freedom for periods")) {
+    throw new Error("Documentation contains overpromising phrase 'todistaa abelin-neliöttömyyden jaksoille'. Must specify that welding only eliminates BOUNDARY/SEAM collisions!");
+  }
+});
+
+// 3. Git Drift Check against HEAD (if in git repo)
 check("Git Drift Check against Last Commit (MATH_CLAIMS.md)", () => {
   try {
     const headContent = execSync('git show HEAD:MATH_CLAIMS.md 2>nul', { encoding: 'utf8' });
