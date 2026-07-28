@@ -69,7 +69,47 @@ check("No Overpromising Wording in Bridge-Welding Claims", () => {
   }
 });
 
-// 3. Git Drift Check against HEAD (if in git repo)
+// 3. Parikh Packing Arithmetic Integrity Check (No Bitwise << in Web Worker)
+check("No Bitwise Left Shift (<<) in Web Worker Parikh Packing", () => {
+  const workerPath = path.join(__dirname, 'aa2fr-worker.js');
+  if (fs.existsSync(workerPath)) {
+    const workerContent = fs.readFileSync(workerPath, 'utf8');
+    if (workerContent.includes("<<")) {
+      throw new Error("aa2fr-worker.js contains bitwise shift operator '<<'. Parikh vectors MUST be packed using exact 53-bit Float64Array arithmetic (+ / -) to avoid 32-bit overflow!");
+    }
+    if (!workerContent.includes("Float64Array")) {
+      throw new Error("aa2fr-worker.js must declare prefixPacked as Float64Array to prevent 32-bit integer overflow!");
+    }
+  }
+});
+
+// 4. No Emoji Characters in Tab 18 / Module 18 UI & Dispatcher
+check("No Emoji Characters in Module 18 UI & Citizen Science Dispatcher", () => {
+  const indexPath = path.join(__dirname, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    const indexContent = fs.readFileSync(indexPath, 'utf8');
+    
+    // Check HTML slice
+    const htmlStart = indexContent.indexOf('id="view-gold-lab"');
+    const htmlEnd = indexContent.indexOf('<!-- END TAB 18 -->', htmlStart);
+    const htmlSlice = htmlStart !== -1 ? indexContent.slice(htmlStart, htmlEnd !== -1 ? htmlEnd : undefined) : "";
+    
+    // Check JS slice
+    const jsStart = indexContent.indexOf('// TAB 18: SEAM SEARCH');
+    const jsEnd = indexContent.indexOf('// END TAB 18', jsStart);
+    const jsSlice = jsStart !== -1 ? indexContent.slice(jsStart, jsEnd !== -1 ? jsEnd : undefined) : "";
+    
+    const combinedSlice = htmlSlice + "\n" + jsSlice;
+    
+    // Check for emojis (surrogate pairs or common symbols like 📡, ℹ, 🧬, 🔍, etc.)
+    const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]|[\u2300-\u23FF]|[\u2B50-\u2B55]/;
+    if (emojiRegex.test(combinedSlice)) {
+      throw new Error("Module 18 HTML/JS contains forbidden emoji or symbol characters in UI or issue reports! Must maintain serious scientific styling.");
+    }
+  }
+});
+
+// 5. Git Drift Check against HEAD (if in git repo)
 check("Git Drift Check against Last Commit (MATH_CLAIMS.md)", () => {
   try {
     const headContent = execSync('git show HEAD:MATH_CLAIMS.md 2>nul', { encoding: 'utf8' });

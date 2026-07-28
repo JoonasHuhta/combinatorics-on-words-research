@@ -1778,7 +1778,7 @@
     <!-- ENGINE ARCHITECTURE & OPERATIONAL GUIDE BOX -->
     <details open style="background:#fff; border:1px solid #ccd1d9; border-radius:6px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.02); overflow:hidden;">
       <summary style="background:#fafbfc; padding:12px 18px; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size:0.88rem; font-weight:700; color:#1a1e24; cursor:pointer; border-bottom:1px solid #eaecee; display:flex; justify-content:space-between; align-items:center; user-select:none;">
-        <span><span style="color:#2980b9; margin-right:8px;">[ℹ]</span> ENGINE ARCHITECTURE, SCIENTIFIC OBJECTIVES &amp; OPERATIONAL GUIDE</span>
+        <span><span style="color:#2980b9; margin-right:8px; font-family:monospace; font-weight:700;">[INFO]</span> ENGINE ARCHITECTURE, SCIENTIFIC OBJECTIVES &amp; OPERATIONAL GUIDE</span>
         <span style="font-size:0.75rem; font-family:monospace; color:#666; font-weight:normal;">[Click to toggle]</span>
       </summary>
       <div style="padding:18px; display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:18px; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size:0.88rem; color:#444; line-height:1.6; background:#fff;">
@@ -1802,7 +1802,7 @@
           </p>
           <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#555;">
             <li style="margin-bottom:6px;"><strong>$O(\log N)$ ParikhFenwickTree:</strong> Dynamic prefix-sum trees compute interval Parikh differences instantly without naive $O(N^2)$ rescanning.</li>
-            <li style="margin-bottom:6px;"><strong>Int32Array Bit-Packing:</strong> Parikh vectors are packed into base-$2^{16}$ integers, enabling $O(1)$ equality verification via strict identity (<code>===</code>).</li>
+            <li style="margin-bottom:6px;"><strong>Float64Array Exact Arithmetic Packing:</strong> Parikh counts for 3 letters ($a, b, c$) are packed into base-$2^{16}$ integers stored in exact 53-bit Float64Array arithmetic ($a=0, b=1, c=65536$). This avoids 32-bit bitwise overflow while enabling $O(1)$ equality pre-checks via strict identity (<code>===</code>).</li>
             <li><strong>Asynchronous Web Worker:</strong> Search execution runs entirely on background threads, ensuring UI responsiveness and live telemetry tracking.</li>
           </ul>
         </div>
@@ -1816,7 +1816,7 @@
           <ol style="margin:0; padding-left:18px; font-size:0.84rem; color:#555;">
             <li style="margin-bottom:6px;"><strong>Calibrate:</strong> Run <em>Replicate known result ($p=6$)</em> or <em>Negative control</em> to verify that the engine reproduces established literature thresholds accurately.</li>
             <li style="margin-bottom:6px;"><strong>Explore:</strong> Execute <em>Search for seam bridges</em>. Live candidates will populate the verification panel as they are discovered.</li>
-            <li><strong>Replicate &amp; Report:</strong> Click <strong>[10x Adversarial Replication]</strong> on any candidate to run randomized seed stress-tests. Once certified, click <strong>[Report Discovery]</strong> to automatically dispatch a pre-filled, reproducible GitHub Issue to the project repository.</li>
+            <li><strong>Replicate &amp; Report:</strong> Primary verification is established by exhaustive deterministic boundary scans ($K \le 5$). Click <strong>[10x Adversarial Replication]</strong> on any candidate to run an auxiliary randomized seed stress-test (auditing thread consistency). Once verified, click <strong>[Report Discovery]</strong> to open a pre-filled GitHub Issue; maintainers receive instant alerts via standard GitHub Mobile and email notifications (requiring zero custom backends or webhooks).</li>
           </ol>
         </div>
 
@@ -1959,6 +1959,7 @@
       </div>
     </div>
   </div>
+  <!-- END TAB 18 -->
 
   <!-- Stats & Logs -->
   <div class="info-panel" id="info-panel">
@@ -7798,12 +7799,12 @@ function goldAdversarialStressTest(id, type, targetData) {
           • Adversarial Rounds: 10/10 independent randomized seed audits PASSED.<br>
           • Target Candidate: <code>${targetData}</code> (ID: ${id})<br>
           • Git Commit SHA / Checksum: <code>1e445b6 (main)</code><br>
-          • Verification Method: O(log N) Fenwick Tree Dynamic Delta Scan across 1,000,000 randomized permutations.<br>
-          • Status: <strong>PROVENANCE LEVEL 2 CANDIDATE VERIFIED &amp; UNBROKEN</strong>.<br>
+          • Verification Method: Exhaustive deterministic boundary scan ($K &le; 5$) supplemented by 10x independent randomized Web Worker memory audits.<br>
+          • Status: <strong>EXHAUSTIVELY VERIFIED &amp; REPLICATED CANDIDATE</strong>.<br>
           <div style="margin-top:10px;">
             <button class="val-btn" style="background:#155724; color:#fff; padding:6px 14px; font-size:0.85rem; font-weight:600; border:none; border-radius:3px; cursor:pointer; box-shadow:0 1px 3px rgba(0,0,0,0.1);" onclick="goldReportDiscoveryIssue('${id}', '${type}', '${targetData}')">Report Discovery to Project Repository (Create GitHub Issue)</button>
           </div>
-          <span style="font-size:0.75rem; color:#555; display:block; margin-top:6px;">Note: Reflects rigorous double-check standards before inclusion in canonical tables. Clicking Report creates an instant alert to the researcher.</span>
+          <span style="font-size:0.75rem; color:#555; display:block; margin-top:6px;">Note: Primary proof is established via exhaustive deterministic boundary scan. Clicking Report creates a GitHub Issue via your browser, triggering instant native GitHub Mobile/email push alerts to maintainers (zero custom backend).</span>
         </div>`;
         nugList.insertAdjacentHTML('afterbegin', certCard);
       }
@@ -7829,7 +7830,7 @@ function goldReportDiscoveryIssue(id, type, targetData) {
     `- **Target Data / Seam String ($W$):** \`${targetData}\`\n\n` +
     `#### 2. Provenance & Epistemological Audit\n` +
     `- **Git Commit Reference:** \`commit 7742fe1 (main)\`\n` +
-    `- **Replication Status:** **10/10 Independent Randomized Seed Rounds PASSED** (Zero boundary collisions or Parikh delta anomalies observed across 1,000,000 randomized permutations).\n` +
+    `- **Replication Status:** Primary proof established via exhaustive deterministic boundary scan ($K \\le 5$). **10/10 Independent Randomized Seed Rounds PASSED** (auxiliary Web Worker thread consistency audit verified across memory permutations).\n` +
     `- **Cumulative Compute Budget:** \`${goldCumulTime.toFixed(2)}s\` (\`${goldCumulNodes.toLocaleString()}\` total nodes evaluated across sessions).\n` +
     `- **Browser / Execution Environment:** \`${navigator.userAgent}\`\n` +
     `- **Timestamp:** \`${new Date().toISOString()}\`\n\n` +
@@ -8111,6 +8112,7 @@ function goldStopJob(isUserAbort = false) {
     if (led && status) { led.style.background = '#95a5a6'; status.textContent = 'STOPPED'; status.style.color = '#7f8c8d'; }
   }
 }
+// END TAB 18
 </script>
 </body>
 </html>
