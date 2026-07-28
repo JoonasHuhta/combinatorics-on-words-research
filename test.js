@@ -521,6 +521,53 @@ test("Rao & Rosenfeld Proposition 9 preconditions hold for (h6, g3)", () => {
   console.log(`       Q^6 = E_e(M_h) (+) ker(M_g)  -> Proposition 9 applies to (h6, g3)`);
 });
 
+// ----------------------------------------------------
+// 17. SMITH NORMAL FORM & THE g3 IMAGE LATTICE (MATH_CLAIMS.md row 24)
+// ----------------------------------------------------
+test("Smith normal form: g3 image lattice has index 10 in Z^3", () => {
+  const snf = require('./smith-normal-form.js');
+  const S6 = ['a', 'b', 'c', 'd', 'e', 'f'], S3 = ['a', 'b', 'c'];
+  const Mg = S3.map(y => S6.map(x => {
+    let k = 0n;
+    for (const ch of G3[x]) if (ch === y) k += 1n;
+    return k;
+  }));
+
+  const { rank, invariantFactors } = snf.smithNormalForm(Mg);
+  assert.strictEqual(rank, 3, "M_g must have rank 3");
+  assert.deepStrictEqual(invariantFactors.map(String), ['1', '1', '10'],
+    "Invariant factors of M_g must be [1, 1, 10]");
+
+  // The index-10 obstruction is forced by g3 being 10-uniform.
+  const colSums = S6.map((_, j) => Mg.reduce((s, r) => s + r[j], 0n));
+  assert.ok(colSums.every(s => s === 10n),
+    "Every column of M_g must sum to 10, since g3 is 10-uniform");
+
+  // The two descriptions of the image must coincide exactly.
+  for (let a = -10n; a <= 10n; a += 2n) {
+    for (let b = -10n; b <= 10n; b += 2n) {
+      for (let c = -10n; c <= 10n; c += 2n) {
+        const solvable = snf.solveInteger(Mg, [a, b, c]) !== null;
+        const divisible = (a + b + c) % 10n === 0n;
+        assert.strictEqual(solvable, divisible,
+          `M_g x = (${a},${b},${c}) integer-solvable should equal (sum = 0 mod 10)`);
+      }
+    }
+  }
+
+  // Lambda: the full integer kernel, 3 generators, each exactly annihilated.
+  const ker = snf.integerKernelBasis(Mg);
+  assert.strictEqual(ker.length, 3, "Integer kernel Lambda must have 3 generators");
+  for (const b of ker) {
+    const img = snf.matMul(Mg, b.map(v => [v])).map(r => r[0]);
+    assert.ok(img.every(v => v === 0n), "Each kernel generator must satisfy M_g x = 0 exactly");
+  }
+
+  console.log(`       invariant factors [1,1,10] -> [Z^3 : im(M_g)] = 10`);
+  console.log(`       forced by 10-uniformity; image = {v : v_a+v_b+v_c = 0 mod 10}`);
+  console.log(`       Lambda = full integer kernel, 3 generators`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
