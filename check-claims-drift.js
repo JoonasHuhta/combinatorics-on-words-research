@@ -157,6 +157,61 @@ check("Windows 1-Click Interactive Batch Launcher Integrity", () => {
   }
 });
 
+// 6b. Overclaiming language in PROGRAM OUTPUT, not just documentation.
+//
+// Added 2026-07-28 after seam-hpc-cli.js was found printing
+//   "[CERTIFIED] Provable asymptotic stability replicated across N worker threads"
+// for a computation that never loaded morphisms.js and printed a hardcoded
+// violation count of zero. AGENTS.md rule 3 always covered this; nothing enforced
+// it, because the ledger guarded documents while the binaries spoke freely.
+// See MATH_CLAIMS.md row 26.
+check("No Overclaiming Language in Program Output (CLI, workers, launcher)", () => {
+  const FORBIDDEN = [
+    'CERTIFIED', 'Certified', 'certified',
+    'PROVABLE', 'Provable', 'provable',
+    'PROVEN', 'Proven',
+    'Publication-Grade', 'publication-grade'
+  ];
+  const files = ['seam-hpc-cli.js', 'aa2fr-worker.js', 'run-seam-search.bat'];
+  const offences = [];
+
+  for (const f of files) {
+    const p = path.join(__dirname, f);
+    if (!fs.existsSync(p)) continue;
+    const lines = fs.readFileSync(p, 'utf8').split(/\r?\n/);
+    lines.forEach((line, i) => {
+      // Only user-facing output lines matter. Comments may discuss the rule.
+      const isOutput = /console\.log|console\.error|process\.stdout\.write|^\s*echo /i.test(line);
+      if (!isOutput) return;
+      for (const word of FORBIDDEN) {
+        if (line.includes(word)) offences.push(`${f}:${i + 1}  ${word}  ${line.trim().slice(0, 90)}`);
+      }
+    });
+  }
+
+  if (offences.length > 0) {
+    throw new Error(
+      `Program output uses unbounded proof language, which AGENTS.md rule 3 forbids ` +
+      `without an explicit stated window:\n       ` + offences.join('\n       ') +
+      `\n       Use bounded phrasing, e.g. "no violation found for K in [6,40] in this ` +
+      `65,610-letter prefix".`
+    );
+  }
+});
+
+// 6c. The p6 mode must actually load the construction it claims to audit.
+check("seam-hpc-cli p6 mode audits the real g3(h6^n(a)) construction", () => {
+  const p = path.join(__dirname, 'seam-hpc-cli.js');
+  if (!fs.existsSync(p)) return;
+  const src = fs.readFileSync(p, 'utf8');
+  if (!/require\(['"]\.\/morphisms(\.js)?['"]\)/.test(src)) {
+    throw new Error("seam-hpc-cli.js does not load morphisms.js, so its p6 mode cannot be scanning g3(h6^n(a)). This was the 2026-07-28 defect: a generic ternary DFS reported as a Rao & Rosenfeld replication.");
+  }
+  if (/Violations Observed: 0`/.test(src) || /Violations Observed: 0"/.test(src)) {
+    throw new Error("seam-hpc-cli.js prints a hardcoded violation count of 0. The count must be computed and interpolated from worker results.");
+  }
+});
+
 // 7. Git Drift Check against HEAD (if in git repo)
 check("Git Drift Check against Last Commit (MATH_CLAIMS.md)", () => {
   try {

@@ -44,7 +44,7 @@ echo Please select an operational research mode to execute:
 echo.
 echo   [1] Negative Control Calibration (Exhaustive Ternary Cutoff at Len 7/8)
 echo   [2] Seam Bridge Welding (Search for bridge connecting U and V)
-echo   [3] Rao ^& Rosenfeld p=6 Replication Stress Test (Multi-core seed audit)
+echo   [3] Bounded Scan of g3(h6^^n(a)) for Abelian Squares at K ^>= 6
 echo   [4] Display Command-Line Operational Manual (--help)
 echo   [0] Exit Launcher
 echo.
@@ -73,7 +73,8 @@ goto MENU
 :RUN_WELD
 cls
 echo Starting Seam Bridge Welding Search...
-echo Default blocks: U = bbbaabaaac, V = ccccbbbcbc, maxLen = 10
+echo Default blocks: U = bbbaabaaac, V = ccccbbbcbc, maxLen = 10, minK = 6
+echo minK=6 because g3 images contain abelian squares at K=2..5 by construction.
 echo.
 node seam-hpc-cli.js --mode=weld --u=bbbaabaaac --v=ccccbbbcbc --maxLen=10
 echo.
@@ -83,9 +84,11 @@ goto MENU
 
 :RUN_P6
 cls
-echo Starting Rao ^& Rosenfeld p=6 Replication Stress Test across CPU cores...
+echo Scanning g3(h6^^9(a)), a 196,830-letter prefix, for abelian squares at K = 6..40.
+echo This is a FINITE scan of one prefix. It does not prove anything about the
+echo infinite word. For exact statements run: node factor-frequencies.js
 echo.
-node seam-hpc-cli.js --mode=p6 --workers=8 --iterations=16
+node seam-hpc-cli.js --mode=p6 --depth=9 --maxK=40 --workers=8
 echo.
 echo ============================================================================
 pause
