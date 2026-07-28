@@ -1973,9 +1973,18 @@
         <div style="color:#16a085;">node seam-hpc-cli.js --mode=neg</div>
       </div>
 
-      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px;">
         <button class="val-btn" style="background:#27ae60; color:#fff; padding:10px 18px; font-size:0.95rem; font-weight:bold; border:none; border-radius:4px; cursor:pointer; margin:0;" onclick="goldDownloadHpcCliKit()">Download Standalone Node.js Research Script (seam-hpc-cli.js)</button>
-        <span style="font-size:0.85rem; color:#666; font-style:italic;">Self-contained script (~8KB) utilizing native worker_threads for multi-core scaling.</span>
+        <button class="val-btn" style="background:#2c3e50; color:#fff; padding:10px 18px; font-size:0.95rem; font-weight:bold; border:none; border-radius:4px; cursor:pointer; margin:0;" onclick="goldDownloadBatLauncher()">Download 1-Click Windows Launcher (run-seam-search.bat)</button>
+      </div>
+
+      <div style="border-top:1px dashed #c2e0cf; padding-top:12px; font-size:0.85rem; color:#444; background:#fafbfc; border:1px solid #e1e8ed; border-radius:4px; padding:12px;">
+        <strong style="color:#1a1e24; font-size:0.9rem;">Quick-Start Guide (How to run on your desktop or cluster):</strong>
+        <ol style="margin:8px 0 0 18px; padding:0; line-height:1.6;">
+          <li><strong>Prerequisite:</strong> Ensure you have Node.js installed (free, lightweight runtime from <code>nodejs.org</code>).</li>
+          <li><strong>Windows (1-Click Method):</strong> Download both <code>seam-hpc-cli.js</code> and <code>run-seam-search.bat</code> into the same folder (e.g., Downloads or Desktop). Double-click <code>run-seam-search.bat</code> to open an interactive terminal menu without typing commands!</li>
+          <li><strong>Terminal / Server Cluster Method:</strong> Open Terminal, PowerShell, or Command Prompt in the script folder and run: <code>node seam-hpc-cli.js --mode=weld --workers=8</code>.</li>
+        </ol>
       </div>
     </div>
   </div>
@@ -8156,6 +8165,32 @@ function goldDownloadHpcCliKit() {
       a.click();
       document.body.removeChild(a);
       goldLogEvent('[hpc-cli] Standalone Node.js multi-core research runner downloaded via link.', true);
+    });
+}
+
+function goldDownloadBatLauncher() {
+  fetch('run-seam-search.bat')
+    .then(r => r.text())
+    .then(text => {
+      const blob = new Blob([text], { type: 'application/x-bat' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'run-seam-search.bat';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      goldLogEvent('[hpc-cli] 1-Click Windows batch launcher downloaded via Blob.', true);
+    })
+    .catch(() => {
+      const a = document.createElement('a');
+      a.href = 'run-seam-search.bat';
+      a.download = 'run-seam-search.bat';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      goldLogEvent('[hpc-cli] 1-Click Windows batch launcher downloaded via link.', true);
     });
 }
 // END TAB 18

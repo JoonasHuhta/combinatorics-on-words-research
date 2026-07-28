@@ -128,7 +128,23 @@ check("Standalone HPC CLI Runner Integrity & Arithmetic Check", () => {
   }
 });
 
-// 6. Git Drift Check against HEAD (if in git repo)
+// 6. Windows 1-Click Interactive Launcher Check (run-seam-search.bat)
+check("Windows 1-Click Interactive Batch Launcher Integrity", () => {
+  const batPath = path.join(__dirname, 'run-seam-search.bat');
+  if (!fs.existsSync(batPath)) {
+    throw new Error("run-seam-search.bat missing! Windows 1-click batch launcher must exist in repository root.");
+  }
+  const batContent = fs.readFileSync(batPath, 'utf8');
+  if (!batContent.includes("node seam-hpc-cli.js")) {
+    throw new Error("run-seam-search.bat must invoke node seam-hpc-cli.js!");
+  }
+  const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]|[\u2300-\u23FF]|[\u2B50-\u2B55]/;
+  if (emojiRegex.test(batContent)) {
+    throw new Error("run-seam-search.bat contains forbidden emoji or symbol characters! Must maintain serious scientific styling.");
+  }
+});
+
+// 7. Git Drift Check against HEAD (if in git repo)
 check("Git Drift Check against Last Commit (MATH_CLAIMS.md)", () => {
   try {
     const headContent = execSync('git show HEAD:MATH_CLAIMS.md 2>nul', { encoding: 'utf8' });

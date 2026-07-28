@@ -115,7 +115,14 @@ node seam-hpc-cli.js --mode=weld --u=bbbaabaaac --v=ccccbbbcbc --maxLen=12 --wor
 node seam-hpc-cli.js --mode=p6 --workers=8 --iterations=20
 ```
 
-### 5.3. Citizen Science Issue Export
+### 5.3. Windows 1-Click Interactive Launcher (`run-seam-search.bat`)
+To make local execution effortless for Windows users, mathematicians, and citizen scientists without requiring terminal familiarity or compilation into unsigned binary executables (.exe):
+* Download both `seam-hpc-cli.js` and **`run-seam-search.bat`** into the same folder (e.g., Downloads or Desktop).
+* Double-click `run-seam-search.bat` to launch an interactive menu in Windows Command Prompt.
+* Select `[1]` for Negative Control, `[2]` for Bridge Welding, or `[3]` for the Rao & Rosenfeld stress test.
+* The launcher checks for a valid Node.js installation automatically and displays clear guidance if runtime installation is needed.
+
+### 5.4. Citizen Science Issue Export
 When running in `--mode=weld`, if a valid bridge is discovered, the CLI automatically prints a formatted **GitHub Issue Export Template**. Researchers can paste this directly into GitHub Issues to report new combinatorial seams to the repository maintainers.
 
 ---
