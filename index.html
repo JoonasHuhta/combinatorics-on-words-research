@@ -1775,6 +1775,54 @@
       </div>
     </div>
 
+    <!-- ENGINE ARCHITECTURE & OPERATIONAL GUIDE BOX -->
+    <details open style="background:#fff; border:1px solid #ccd1d9; border-radius:6px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.02); overflow:hidden;">
+      <summary style="background:#fafbfc; padding:12px 18px; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size:0.88rem; font-weight:700; color:#1a1e24; cursor:pointer; border-bottom:1px solid #eaecee; display:flex; justify-content:space-between; align-items:center; user-select:none;">
+        <span><span style="color:#2980b9; margin-right:8px;">[ℹ]</span> ENGINE ARCHITECTURE, SCIENTIFIC OBJECTIVES &amp; OPERATIONAL GUIDE</span>
+        <span style="font-size:0.75rem; font-family:monospace; color:#666; font-weight:normal;">[Click to toggle]</span>
+      </summary>
+      <div style="padding:18px; display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:18px; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size:0.88rem; color:#444; line-height:1.6; background:#fff;">
+        
+        <!-- Pillar 1: Scientific Objective -->
+        <div style="background:#fafbfc; border:1px solid #e1e8ed; border-radius:4px; padding:15px;">
+          <h4 style="margin:0 0 8px 0; font-family:'Georgia', serif; font-size:1.05rem; color:#1a1e24; border-bottom:1px solid #eaecee; padding-bottom:6px;">1. Scientific Objective</h4>
+          <p style="margin:0 0 10px 0;">
+            In combinatorics on words, verifying abelian-square-freedom over infinite morphisms often stalls at <strong>block boundaries (seams)</strong>. When two abelian-square-free blocks $U$ and $V$ are concatenated, Parikh vector collisions frequently emerge across the seam $U \cdot V$.
+          </p>
+          <p style="margin:0;">
+            <strong>Module 18</strong> acts as an automated <em>seam surgery laboratory</em>. Instead of generating brute-force words from scratch, it executes bounded Depth-First Search (DFS) in Web Workers to discover minimal connecting words (<strong>bridges</strong>) that eliminate boundary collisions without introducing internal squares.
+          </p>
+        </div>
+
+        <!-- Pillar 2: Core Mechanics & Algorithms -->
+        <div style="background:#fafbfc; border:1px solid #e1e8ed; border-radius:4px; padding:15px;">
+          <h4 style="margin:0 0 8px 0; font-family:'Georgia', serif; font-size:1.05rem; color:#1a1e24; border-bottom:1px solid #eaecee; padding-bottom:6px;">2. Core Mechanics &amp; Algorithms</h4>
+          <p style="margin:0 0 10px 0;">
+            To achieve high-throughput scanning (hundreds of thousands of nodes/sec in browser memory), the engine relies on three algorithmic optimizations:
+          </p>
+          <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#555;">
+            <li style="margin-bottom:6px;"><strong>$O(\log N)$ ParikhFenwickTree:</strong> Dynamic prefix-sum trees compute interval Parikh differences instantly without naive $O(N^2)$ rescanning.</li>
+            <li style="margin-bottom:6px;"><strong>Int32Array Bit-Packing:</strong> Parikh vectors are packed into base-$2^{16}$ integers, enabling $O(1)$ equality verification via strict identity (<code>===</code>).</li>
+            <li><strong>Asynchronous Web Worker:</strong> Search execution runs entirely on background threads, ensuring UI responsiveness and live telemetry tracking.</li>
+          </ul>
+        </div>
+
+        <!-- Pillar 3: Operational Workflow & Usage -->
+        <div style="background:#fafbfc; border:1px solid #e1e8ed; border-radius:4px; padding:15px;">
+          <h4 style="margin:0 0 8px 0; font-family:'Georgia', serif; font-size:1.05rem; color:#1a1e24; border-bottom:1px solid #eaecee; padding-bottom:6px;">3. Operational Workflow &amp; Usage</h4>
+          <p style="margin:0 0 10px 0;">
+            Follow a disciplined 3-step epistemological protocol:
+          </p>
+          <ol style="margin:0; padding-left:18px; font-size:0.84rem; color:#555;">
+            <li style="margin-bottom:6px;"><strong>Calibrate:</strong> Run <em>Replicate known result ($p=6$)</em> or <em>Negative control</em> to verify that the engine reproduces established literature thresholds accurately.</li>
+            <li style="margin-bottom:6px;"><strong>Explore:</strong> Execute <em>Search for seam bridges</em>. Live candidates will populate the verification panel as they are discovered.</li>
+            <li><strong>Replicate &amp; Report:</strong> Click <strong>[10x Adversarial Replication]</strong> on any candidate to run randomized seed stress-tests. Once certified, click <strong>[Report Discovery]</strong> to automatically dispatch a pre-filled, reproducible GitHub Issue to the project repository.</li>
+          </ol>
+        </div>
+
+      </div>
+    </details>
+
     <!-- 2-Column Main Workspace (Inspired by Publication Mockup) -->
     <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:25px; align-items:flex-start;">
       
