@@ -188,4 +188,4 @@ Tämä korvaa aiemman "havaittu suhde" -otsikkoluvun, josta jouduttiin sanomaan 
 
 ---
 
-*Lisäysohje: kirjallisuuden ongelma menee osioon A vain sitaatin ja lähteen kanssa. Projektin oma kysymys menee osioon B vain jos sillä on invariantti muotoilu. Jos muotoilu riippuu hakujärjestyksestä, se kuuluu osioon C.*
+*Lisäysohje: kirjallisuuden ongelma menee osioon A vain sitaatin ja lähteen kanssa. Projektin oma kysymys menee osioon B vain jos sillä on invariantti muotoilu. Jos muotoilu riippuu hakujärjestyksestä, se kuuluu osioon C. Uudet ideat tuotetaan `RESEARCH_ARCHITECT.md`:n menettelyllä — jokaisella ehdotuksella on oltava validointisuunnitelma, odotettu lokirivin muoto ja tappoehdot ennen kuin se kirjataan tänne.*

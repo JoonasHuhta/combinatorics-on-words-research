@@ -39,6 +39,7 @@ ainoat abelin neliöt ovat `00`, `11`, `22`? Auki puolipituuksille K = 2…5.
 | 4 | **`NEXT_STEP.md`** | Mistä jatketaan ja miksi. Mitä ei kannata tehdä |
 | 5 | `PROJECT_ARCHITECTURE.md` | Sovelluksen rakenne, välilehtien reititys |
 | 6 | `NEGATIVE_RESULTS.md` | Mikä on kokeiltu ja ei toiminut |
+| 7 | `RESEARCH_ARCHITECT.md` | **Vain kun tuotetaan uusia tutkimusideoita.** Menettely, rajaukset, tulostemuoto ja rubriikki — ideat eivät synny vapaana proosana |
 
 Muut `.md`-tiedostot juuressa ovat **historiallisia suunnitelmapapereita**
 (`GRAND_VISION_MAP`, `COMPUTATIONAL_DISCOVERY_LAB_PLAN`, `SEAM_ENGINE_…`,
