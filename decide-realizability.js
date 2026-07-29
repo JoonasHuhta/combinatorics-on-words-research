@@ -148,7 +148,7 @@ function main() {
   for (const b of blocks) {
     const bound = K.isZero(b.eigenvalue)
       ? ab.contractingBound(J, Pinv, b, sets)
-      : ab.expandingBound(Pinv, b, sets, true);
+      : ab.expandingBound(Pinv, b, sets, null);
     for (let i = b.start; i < b.start + b.size; i++) c[i] = bound;
   }
   const { vectors } = ab.enumerateBox(P, Pinv, c);

@@ -140,11 +140,23 @@ function contractingBound(J, Pinv, block, sets) {
  *
  *   |r_i(x)| <= ||B^{-l}|| * |r_i(x_0)| + ( sum_{m>=1} ||B^{-m}|| ) * D_i
  *
- * with D_i the largest |r_i(Psi(s'p') - Psi(sp))| over the finite word sets.
- * For t_0 = [eps,eps,eps,0] the only vector is zero, so the first term vanishes.
- * ||B^{-l}|| <= 1 for all l >= 0 anyway, since |lambda| > 1.
+ * with D_i the largest |r_i(Psi(s'p') - Psi(sp))| over the finite word sets, and
+ * x_0 a vector carried by the target template t_0.
+ *
+ * Since |lambda| > 1 we have ||B^{-l}|| <= 1 for every l >= 0, so the first term
+ * is bounded by |r_i(x_0)| exactly. For t_0 = [eps,eps,eps,0] that is zero and
+ * the term disappears; for any other target it does not, and it is computed here
+ * from the actual vector rather than approximated.
+ *
+ * @param {number[]|null} x0  integer vector carried by the target template, or
+ *   null for the zero vector. An earlier version took a boolean x0IsZero and,
+ *   on the false branch, added a placeholder constant of 1 that was never
+ *   derived. Every call site passed true, so the unjustified branch was dead -
+ *   and then it was reused for a target with x_0 != 0, where it silently gave a
+ *   box that was not a valid bound (MATH_CLAIMS.md rows 30, 43). Passing the
+ *   vector removes the guess.
  */
-function expandingBound(Pinv, block, sets, x0IsZero) {
+function expandingBound(Pinv, block, sets, x0 = null) {
   if (block.size !== 1) {
     throw new Error(`Expanding block at ${block.start} has size ${block.size}. The closed form sum_{m>=1} |lambda|^-m = 1/(|lambda|-1) is only valid for 1x1 blocks; a larger block needs the polynomial correction from the Jordan nilpotent part. Refusing to return a bound that has not been derived.`);
   }
@@ -167,9 +179,14 @@ function expandingBound(Pinv, block, sets, x0IsZero) {
     if (lo === null || kGt(lo, c)) lo = c;
   }
   const D = K.sub(hi, lo);
+  let bound = K.mul(geom, D);
 
-  const bound = K.mul(geom, D);
-  return x0IsZero ? bound : K.add(bound, K.one);  // ||B^{-l}|| <= 1 times |r_i(x_0)|
+  // ||B^{-l}|| * |r_i(x_0)| <= |r_i(x_0)|, computed exactly from x_0 itself.
+  if (x0 !== null && x0.some(v => v !== 0)) {
+    const r = coords(Pinv, x0.map(v => K.fromInt(BigInt(v))))[i];
+    bound = K.add(bound, kAbs(r));
+  }
+  return bound;
 }
 
 /* ---------------------------------------------------------------- *
@@ -274,7 +291,7 @@ function main() {
     const contracting = K.isZero(b.eigenvalue);
     const bound = contracting
       ? contractingBound(J, Pinv, b, sets)
-      : expandingBound(Pinv, b, sets, true);
+      : expandingBound(Pinv, b, sets, null);
     for (let i = b.start; i < b.start + b.size; i++) c[i] = bound;
     for (let i = b.start; i < b.start + b.size; i++) {
       console.log(`  ${pad(i, 4)} ${pad(b.name, 12)} ${pad(b.size, 7)} ${pad(contracting ? 'contracting' : 'expanding', 13)} ${pad(K.str(bound), 18)} ${kNum(bound).toFixed(6)}`);

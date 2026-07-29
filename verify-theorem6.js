@@ -80,6 +80,28 @@ function isPhiZero(v) {
 }
 
 function main() {
+  // Refuses to run. The target set cannot be constructed by filtering the
+  // ancestor box, which is what this script did; see the header and
+  // MATH_CLAIMS.md row 43. Proposition 11 is the construction that produces a
+  // correct finite target set, and until it exists this script has no valid
+  // question to answer. Kept because everything after this point - the closure
+  // over a given target set and the Proposition 8 length check - is reusable
+  // once the target set is derived properly.
+  throw new Error(
+    "verify-theorem6.js does not verify Theorem 6 and refuses to run.
+" +
+    "  The 25 targets were selected by membership in the ancestor box of the
+" +
+    "  template [eps,eps,eps,0], which is not a valid bound for targets with
+" +
+    "  d != 0. ker(Phi) INTERSECT Z^6 is an infinite lattice; in the cube
+" +
+    "  |d_i| <= 6 alone, 741 vectors satisfy Phi(d) = 0 and only 25 are in the box.
+" +
+    "  Implement Proposition 11 (arXiv:1511.05875, Sec 4.2) to build the target set.
+" +
+    "  Its hypothesis holds: rank(Phi)=3, dim ker(Phi)=3, dim E_e(M_h)=3, intersection 0."
+  );
   const line = '='.repeat(78);
   console.log('');
   console.log('DECIDING WHETHER h6^omega(a) REALIZES ANY SQUARE MODULO PHI (THEOREM 6)');

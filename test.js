@@ -701,7 +701,7 @@ test("Ancestor box: Prop 5 + Prop 6 bounds confine ancestors to 125,931 vectors"
   for (const b of blocks) {
     const bound = K.isZero(b.eigenvalue)
       ? ab.contractingBound(J, Pinv, b, sets)
-      : ab.expandingBound(Pinv, b, sets, true);
+      : ab.expandingBound(Pinv, b, sets, null);
     for (let i = b.start; i < b.start + b.size; i++) c[i] = bound;
   }
 
@@ -762,7 +762,7 @@ test("getParents: |Par(t_0)| = 21237, ancestor closure closes at 116578", () => 
   for (const b of blocks) {
     const bound = K.isZero(b.eigenvalue)
       ? ab.contractingBound(J, Pinv, b, sets)
-      : ab.expandingBound(Pinv, b, sets, true);
+      : ab.expandingBound(Pinv, b, sets, null);
     for (let i = b.start; i < b.start + b.size; i++) c[i] = bound;
   }
   const { vectors } = ab.enumerateBox(P, Pinv, c);
