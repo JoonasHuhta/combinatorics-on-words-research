@@ -13,7 +13,21 @@
  * If the reachable strata are empty, that fact determines what any search must
  * be built to do, and it is far more informative than an architecture diagram.
  *
- * The answer for k <= 6 is no, and the numbers below say how the failure scales.
+ * The answer for k <= 6 is no.
+ *
+ * WHAT THE MAXIMUM DOES NOT TELL YOU
+ * ----------------------------------
+ * The longest surviving prefix is tempting to extrapolate. Do not. It is an
+ * extreme-value artefact of sample size: max ~ 2.29 ln(N) - 3.67 with R^2 =
+ * 0.99875 over k = 2..6, where N is the number of morphisms tested (MATH_CLAIMS.md
+ * row 37). The maximum is reached by 2, 4 and 8 morphisms out of 95,832,
+ * 1,417,176 and 15,552,000 respectively - a handful of outliers in a fast-decaying
+ * distribution. Continuing to k = 7..9 will produce roughly 40, 45, 50 whatever
+ * the mathematics does, so neither a bend nor a jump in that curve is evidence
+ * about the uniform route.
+ *
+ * The informative statistic is the decay of the survival distribution, which is
+ * structural if it is independent of k. That has not been measured yet.
  *
  * COVERAGE, STATED PRECISELY
  * --------------------------
