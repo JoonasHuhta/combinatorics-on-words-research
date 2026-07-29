@@ -840,6 +840,61 @@ test("Decision procedure re-derives Theorem 4: h6^w(a) is abelian-square-free", 
   console.log(`       full procedure: 0 strict realizations -> h6^w(a) abelian-square-free`);
 });
 
+// ----------------------------------------------------
+// 24. RAUZY GRAPHS AND SPECIAL FACTORS (MATH_CLAIMS.md rows 34, 35)
+// ----------------------------------------------------
+test("Rauzy graphs: binary branching, Cassaigne, and the length-9 dead ends", () => {
+  const rg = require('./rauzy-graph.js');
+  const fc = require('./factor-complexity.js');
+  const S3 = ['a', 'b', 'c'];
+  const byKey = Object.fromEntries(fc.LANGUAGES.map(L => [L.key, L]));
+
+  // --- the construction: exact for the infinite word ---------------------
+  const cache = new Map();
+  const F = (n) => { if (!cache.has(n)) cache.set(n, rg.constructionFactors(n)); return cache.get(n); };
+
+  for (let n = 8; n <= 16; n++) {
+    const g = rg.rauzyGraph(F(n), F(n + 1));   // throws if s(n) != p(n+1) - p(n)
+    for (const [u, d] of g.rightSpecial) {
+      assert.strictEqual(d, 2,
+        `Right-special factor "${u}" at n=${n} has out-degree ${d}; branching must be binary for n >= 8`);
+    }
+    assert.strictEqual(g.rightSpecial.length, g.s,
+      `With every right-special factor 2-special, their count must equal s(${n})`);
+    assert.ok(rg.stronglyConnected(F(n), g.edges),
+      `The Rauzy graph of the construction must be strongly connected at order ${n}`);
+    const ext = rg.extendabilityCensus(F(n), F(n + 1), S3);
+    assert.ok(ext.biextendable,
+      `The construction must be biextendable at length ${n} - it is the factor set of an infinite word`);
+  }
+
+  // Cassaigne's formula, computed independently of the complexity counts.
+  for (let n = 8; n <= 14; n++) {
+    const gA = rg.rauzyGraph(F(n), F(n + 1));
+    const gB = rg.rauzyGraph(F(n + 1), F(n + 2));
+    let sum = 0;
+    for (const v of gA.bispecial) sum += rg.bilateralOrder(v, F(n + 1), F(n + 2), S3);
+    assert.strictEqual(sum, gB.s - gA.s,
+      `Cassaigne: sum of bilateral orders at n=${n} must equal s(${n + 1}) - s(${n})`);
+  }
+
+  // --- dead ends in the constraint languages (row 35) --------------------
+  const expect = { aa2f: 48, aa2fr: 36 };
+  for (const [key, count] of Object.entries(expect)) {
+    const L = byKey[key];
+    const e8 = rg.extendabilityCensus(rg.constraintFactors(L, 8), rg.constraintFactors(L, 9), L.alphabet);
+    assert.ok(e8.biextendable, `${key} must still be biextendable at length 8`);
+    const e9 = rg.extendabilityCensus(rg.constraintFactors(L, 9), rg.constraintFactors(L, 10), L.alphabet);
+    assert.strictEqual(e9.noRight, count, `${key} must have exactly ${count} non-right-extendable factors at length 9`);
+    assert.strictEqual(e9.noLeft, count,
+      `${key} must have the same count on the left - the constraint is reversal-invariant`);
+  }
+
+  console.log(`       construction: every right-special factor is 2-special for n >= 8`);
+  console.log(`       strongly connected at every order; Cassaigne verified independently`);
+  console.log(`       dead ends first appear at length 9: aa2f 48/48, aa2fr 36/36`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
