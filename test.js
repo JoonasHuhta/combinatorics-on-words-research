@@ -683,6 +683,61 @@ test("Proposition 5 bounds: c = 8/3 and 2/3, respected by actual factors", () =>
   console.log(`       respected by ${obs.checked.toLocaleString()} scanned factors`);
 });
 
+// ----------------------------------------------------
+// 21. THE FINITE ANCESTOR BOX (MATH_CLAIMS.md row 30)
+// ----------------------------------------------------
+test("Ancestor box: Prop 5 + Prop 6 bounds confine ancestors to 125,931 vectors", () => {
+  const jd = require('./jordan-decomposition.js');
+  const p5 = require('./proposition5-bounds.js');
+  const ab = require('./ancestor-box.js');
+  const K = jd.K;
+  const S6 = ['a', 'b', 'c', 'd', 'e', 'f'];
+
+  const M = jd.parikhMatrixK(H6, S6, S6);
+  const { P, J, Pinv, blocks } = jd.decompose(M);
+  const sets = p5.imageWordSets(H6, S6);
+
+  const c = new Array(6).fill(null);
+  for (const b of blocks) {
+    const bound = K.isZero(b.eigenvalue)
+      ? ab.contractingBound(J, Pinv, b, sets)
+      : ab.expandingBound(Pinv, b, sets, true);
+    for (let i = b.start; i < b.start + b.size; i++) c[i] = bound;
+  }
+
+  // Exact per-coordinate bounds, MATH_CLAIMS.md row 30.
+  assert.deepStrictEqual(c.map(K.str), ['1/2', '1/3r', '7/3+4/3r', '8/3', '8/3', '2/3'],
+    "Per-coordinate bounds c_i must match the derived values");
+
+  // The closed form 1/(|lambda|-1) is only valid for 1x1 expanding blocks.
+  for (const b of blocks) {
+    if (K.isZero(b.eigenvalue)) continue;
+    assert.strictEqual(b.size, 1,
+      "Expanding blocks must be 1x1; a larger one needs the polynomial correction and the bound would be unjustified");
+  }
+
+  const { vectors } = ab.enumerateBox(P, Pinv, c);
+  assert.strictEqual(vectors.length, 125931,
+    `The ancestor box must contain exactly 125931 integer vectors, got ${vectors.length}`);
+
+  // t_0 = [eps,eps,eps,0] carries the zero vector, so it must be inside.
+  assert.ok(vectors.some(v => v.every(q => q === 0)),
+    "The zero vector must lie in the box - t_0 itself carries it");
+
+  // Every returned vector must genuinely satisfy the exact test, not just the
+  // float pruning that produced it.
+  for (const v of vectors.slice(0, 200)) {
+    const r = ab.coords(Pinv, v.map(q => K.fromInt(BigInt(q))));
+    for (let i = 0; i < 6; i++) {
+      assert.ok(!p5.kGt(p5.kAbs(r[i]), c[i]),
+        `Vector [${v}] fails the exact bound at coordinate ${i}`);
+    }
+  }
+
+  console.log(`       c = [1/2, sqrt(3)/3, 7/3+4sqrt(3)/3, 8/3, 8/3, 2/3]   [EXACT]`);
+  console.log(`       box contains 125,931 integer vectors; zero vector present`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
