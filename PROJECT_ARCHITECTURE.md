@@ -85,6 +85,8 @@ Before committing UI or logic changes:
 
 ## Documentation Map
 
+- `OPEN_RESEARCH_QUESTIONS.md`: open problems, split into literature (sourced), computable project questions, and formulations that measure the implementation rather than the mathematics.
+- `NEXT_STEP.md`: what to do next and why; read this before planning.
 - `PROJECT_ARCHITECTURE.md`: technical overview and tab inventory.
 - `AGENT_CONCEPT_BRIEF.md`: project goals and mathematical guardrails.
 - `DEVELOPMENT_ROADMAP.md`: prioritized future work.

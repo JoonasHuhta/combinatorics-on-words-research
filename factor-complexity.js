@@ -176,6 +176,50 @@ function complexityOfConstruction(maxN) {
 }
 
 /* ------------------------------------------------------------------ *
+ * Rigorous upper bound on the growth rate (Fekete)
+ * ------------------------------------------------------------------ *
+ * Every language here is factorial: a factor of a member is a member. A word of
+ * length m+n is determined by its length-m prefix and its length-n suffix, both
+ * of which must themselves be in the language, so
+ *
+ *     p(m+n) <= p(m) p(n).
+ *
+ * log p is therefore subadditive, and Fekete's lemma gives
+ *
+ *     lim_n p(n)^(1/n) = inf_n p(n)^(1/n).
+ *
+ * The limit being an INFIMUM is the useful part: p(n)^(1/n) is a rigorous UPPER
+ * BOUND on the growth rate for every single n, not an estimate that might be
+ * approached from either side. So exact factor counts, which this file already
+ * computes, convert directly into a theorem-shaped bound.
+ *
+ * This replaces the observed ratio p(n+1)/p(n) as the headline quantity. That
+ * ratio is an observation over a finite window with no proven relation to the
+ * limit - the report says so - whereas the bound below holds unconditionally.
+ * The two are far apart here because Fekete convergence is slow; the honest
+ * reading is that we have a real bound and a much smaller conjectural value,
+ * and the gap between them is not yet closed.
+ */
+function growthUpperBound(counts, maxN) {
+  let bound = Infinity, at = 0;
+  for (let n = 1; n <= maxN; n++) {
+    if (!counts[n]) continue;
+    const v = Math.pow(counts[n], 1 / n);
+    if (v < bound) { bound = v; at = n; }
+  }
+  // Submultiplicativity is a theorem, but assert it on the data anyway: a
+  // violation would mean the enumeration is wrong, not that Fekete is.
+  for (let m = 1; m <= maxN; m++) {
+    for (let n = 1; m + n <= maxN; n++) {
+      if (counts[m + n] > counts[m] * counts[n]) {
+        throw new Error(`p(${m + n}) = ${counts[m + n]} exceeds p(${m}) p(${n}) = ${counts[m] * counts[n]}. The language is not factorial or the enumeration is wrong.`);
+      }
+    }
+  }
+  return { bound, at };
+}
+
+/* ------------------------------------------------------------------ *
  * Report
  * ------------------------------------------------------------------ */
 
@@ -251,10 +295,14 @@ function main() {
         if (r.counts[n] > 0) ratios.push(r.counts[n + 1] / r.counts[n]);
       }
       const avg = ratios.reduce((a, b) => a + b, 0) / ratios.length;
+      const g = growthUpperBound(r.counts, r.maxN);
       console.log(`    still growing at n = ${r.maxN}: p(${r.maxN}) = ${last.toLocaleString()}`);
+      console.log(`    growth rate <= ${g.bound.toFixed(6)}   [RIGOROUS UPPER BOUND, from p(${g.at})^(1/${g.at})]`);
+      console.log(`      by Fekete: p is submultiplicative, so lim p(n)^(1/n) = inf p(n)^(1/n),`);
+      console.log(`      hence every p(n)^(1/n) bounds the growth rate from above unconditionally.`);
       console.log(`    observed ratio p(n+1)/p(n) over the last few lengths: ${avg.toFixed(4)}`);
-      console.log(`    [OBSERVATION over n <= ${r.maxN} only. This is not an estimate of a growth`);
-      console.log(`     rate and no limit is claimed - the ratio may not converge.]`);
+      console.log(`      [OBSERVATION only, no proven relation to the limit. The gap between`);
+      console.log(`       ${avg.toFixed(4)} and the bound ${g.bound.toFixed(4)} is not closed - Fekete converges slowly.]`);
     }
     console.log('');
   }
