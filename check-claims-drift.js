@@ -212,6 +212,34 @@ check("seam-hpc-cli p6 mode audits the real g3(h6^n(a)) construction", () => {
   }
 });
 
+// 6d. The application renders no math library, so LaTeX in the HTML is shown to
+// users as raw source. Veikko Keranen reported exactly this ("matemaattinen
+// notaatio ei nyt nay netissa"). Verified in-browser on 2026-07-28: both
+// window.MathJax and window.katex are undefined and the only external script is
+// the worker. 93 inline spans were converted to HTML/Unicode; this keeps them out.
+check("No raw LaTeX or broken entities in index.html markup", () => {
+  const p = path.join(__dirname, 'index.html');
+  if (!fs.existsSync(p)) return;
+  const src = fs.readFileSync(p, 'utf8');
+  // Script blocks are exempt: JS may legitimately contain backslashes and ${...}.
+  const html = src.split(/(<script[\s\S]*?<\/script>)/g)
+    .filter(seg => !/^<script/i.test(seg))
+    .join('');
+
+  const latex = html.match(/\$[^$\n]{1,120}\$/g) || [];
+  if (latex.length) {
+    throw new Error(`index.html markup contains ${latex.length} inline LaTeX span(s), which render as literal source because no math library is loaded. First: ${latex[0].slice(0, 60)}`);
+  }
+  const macros = html.match(/\\[a-zA-Z]{2,}/g) || [];
+  if (macros.length) {
+    throw new Error(`index.html markup contains ${macros.length} TeX macro(s) outside script blocks. First: ${macros[0]}`);
+  }
+  const doubled = html.match(/&amp;[a-zA-Z]+;/g) || [];
+  if (doubled.length) {
+    throw new Error(`index.html contains ${doubled.length} double-escaped HTML entit(ies) such as ${doubled[0]}, which display as literal text. Write &mdash; not &amp;mdash;.`);
+  }
+});
+
 // 7. Git Drift Check against HEAD (if in git repo)
 check("Git Drift Check against Last Commit (MATH_CLAIMS.md)", () => {
   try {

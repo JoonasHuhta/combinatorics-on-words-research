@@ -96,7 +96,7 @@
     .audio-ui { display: flex; align-items: center; gap: 15px; font-family: Arial, sans-serif; margin-bottom: 15px;}
     .audio-note { display: inline-block; width: 20px; height: 20px; border-radius: 50%; }
 
-    /* Stats & Log */
+    /* Stats &amp; Log */
     .info-panel { display: flex; gap: 40px; font-family: Arial, sans-serif; font-size: 0.9rem; border-top: 1px solid var(--border); padding-top: 20px; flex-wrap: wrap;}
     .stats { flex: 1; min-width: 250px; }
     .log-container { flex: 2; height: 150px; overflow-y: auto; border: 1px solid var(--border); padding: 10px; background: #fff; font-family: monospace; min-width: 300px;}
@@ -433,7 +433,7 @@
     .aa2fr-challenge-feedback.bad { color: #b00020; }
 
     /* =====================================================
-       15. APPLICATIONS & IMPACT STYLES
+       15. APPLICATIONS &amp; IMPACT STYLES
        ===================================================== */
     #view-impact { font-family: Arial, sans-serif; }
     #view-impact h2 { margin-bottom: 8px; }
@@ -467,7 +467,7 @@
     .impact-caution { background: #fef9e7; border-left: 4px solid #f39c12; color: #6d4c00; }
 
     /* =====================================================
-       16. VALIDATION & REPLICATION LAB STYLES
+       16. VALIDATION &amp; REPLICATION LAB STYLES
        ===================================================== */
     #view-validation { font-family: Arial, sans-serif; }
     #view-validation h2 { margin-bottom: 8px; }
@@ -511,7 +511,7 @@
   <div class="mode-tabs">
     <div class="mode-tab active" data-mode="3letter" id="tab-3">1. Tree Search (3 letters)</div>
     <div class="mode-tab" data-mode="abc-lab" id="tab-abc">2. ABC Laboratory</div>
-    <div class="mode-tab" data-mode="4letter" id="tab-4">3. Morphism g&#8328;&#8325; (4 letters)</div>
+    <div class="mode-tab" data-mode="4letter" id="tab-4">3. Morphism g&amp;#8328;&amp;#8325; (4 letters)</div>
     <div class="mode-tab" data-mode="canvas" id="tab-canvas">4. 2D Walk</div>
     <div class="mode-tab" data-mode="audio" id="tab-audio">5. Sonification</div>
     <div class="mode-tab" data-mode="try-it" id="tab-tryit">6. Try It Yourself</div>
@@ -523,7 +523,7 @@
     <div class="mode-tab" data-mode="heat-map" id="tab-heat-map">12. Heat Map</div>
     <div class="mode-tab" data-mode="snake" id="tab-snake">13. Abelian Snake</div>
     <div class="mode-tab" data-mode="aa2fr" id="tab-aa2fr">14. AA2FR Extension Lab</div>
-    <div class="mode-tab" data-mode="impact" id="tab-impact">15. Applications & Impact</div>
+    <div class="mode-tab" data-mode="impact" id="tab-impact">15. Applications &amp; Impact</div>
     <div class="mode-tab" data-mode="validation" id="tab-validation">16. Validation Lab</div>
     <div class="mode-tab" data-mode="gallery" id="tab-gallery">17. Art &amp; Math Gallery 🎨</div>
     <div class="mode-tab" data-mode="gold-lab" id="tab-gold-lab">18. Seam Search &amp; Verification</div>
@@ -533,7 +533,7 @@
     <button class="btn" id="btn-start">Start Search</button>
     <button class="btn" id="btn-pause" disabled>Pause</button>
     <button class="btn" id="btn-reset">Reset</button>
-    <button class="btn hidden" id="btn-apply-morphism">Apply g&#8328;&#8325; Iteration</button>
+    <button class="btn hidden" id="btn-apply-morphism">Apply g&amp;#8328;&amp;#8325; Iteration</button>
     <button class="btn hidden" id="btn-draw-canvas">Draw 2D Walk</button>
     <label class="hidden" id="lbl-canvas-anim" style="font-family: Arial; font-size: 0.9rem; gap: 5px; cursor: pointer; margin-left: 10px;">
       <input type="checkbox" id="chk-anim-walk" checked> Animate Walk
@@ -614,7 +614,7 @@
     <div class="word-empty hidden" id="word-empty">Press a button to start.</div>
     <div class="word-tiles hidden" id="tiles-general"></div>
     <canvas id="condensedCanvas" class="hidden"></canvas>
-    <div class="info-box hidden" id="info-4letter"><strong>Keränen&rsquo;s g&#8328;&#8325; morphism (1992):</strong> The first known abelian square-free endomorphism over 4 letters. Each of the four letters maps to a word of length <strong>85</strong>. Applying the morphism iteratively starting from &ldquo;a&rdquo; produces an infinite abelian square-free word. The key property is that g(b), g(c), and g(d) are cyclic permutations of g(a) &mdash; this guarantees their Parikh vectors are equal, preventing abelian squares across block boundaries.</div>
+    <div class="info-box hidden" id="info-4letter"><strong>Keränen&rsquo;s g&amp;#8328;&amp;#8325; morphism (1992):</strong> The first known abelian square-free endomorphism over 4 letters. Each of the four letters maps to a word of length <strong>85</strong>. Applying the morphism iteratively starting from &ldquo;a&rdquo; produces an infinite abelian square-free word. The key property is that g(b), g(c), and g(d) are cyclic permutations of g(a) &mdash; this guarantees their Parikh vectors are equal, preventing abelian squares across block boundaries.</div>
     <div class="info-box hidden" id="info-canvas"><strong>Turtle Walk:</strong> Each letter maps to a direction &mdash; a&rarr;Right, b&rarr;Up, c&rarr;Left, d&rarr;Down. abelian square-free words have a characteristic non-repeating drift pattern in this walk. Notice the walk never returns to the same region in the same way: that visual non-repetition mirrors the algebraic non-repetition in the sequence.</div>
   </div>
 
@@ -624,7 +624,7 @@
   <div class="view-panel hidden" id="view-audio">
     <h2>Sonification (Music)</h2>
     <p style="font-family: Arial; font-size: 0.95rem; color:#555;">
-      Listen to the structure of the g&#8328;&#8325; word. Slicing into chunks of 85 corresponds to exactly one morphism image per track.
+      Listen to the structure of the g&amp;#8328;&amp;#8325; word. Slicing into chunks of 85 corresponds to exactly one morphism image per track.
       Because g(b), g(c), g(d) are cyclic permutations of g(a), each track shares the same set of pitches &mdash; only their order changes.
     </p>
     <div class="hint-box"><strong>What to listen for:</strong> Each chunk of 85 letters is one &ldquo;block&rdquo; of the morphism. Because the images of a, b, c, d are cyclic permutations of each other, all chunks contain exactly the same pitch classes (C, E, G, A &mdash; a C major 6th chord). The <em>rhythm</em> shifts block by block, but no rhythmic pattern ever repeats in the same way &mdash; that is the sonic signature of abelian square-freeness. Try chunk sizes of 1, 85, or 170 for different effects.</div>
@@ -707,7 +707,7 @@
       How many letters does it take to build an infinite abelian square-free word?
       This question took over three decades to answer &mdash; click the events to explore.
     </p>
-    <div class="info-box"><strong>Key milestones:</strong> Erd&#337;s posed the problem in 1961. Pleasants (1970) showed 5 letters suffice. Dekking (1979) proved 3 letters are impossible. The gap between 3 and 5 was finally closed by Keränen (1992) showing 4 letters are enough &mdash; settling the problem completely. Open questions remain about the exact number and structure of such words and morphisms.</div>
+    <div class="info-box"><strong>Key milestones:</strong> Erd&amp;#337;s posed the problem in 1961. Pleasants (1970) showed 5 letters suffice. Dekking (1979) proved 3 letters are impossible. The gap between 3 and 5 was finally closed by Keränen (1992) showing 4 letters are enough &mdash; settling the problem completely. Open questions remain about the exact number and structure of such words and morphisms.</div>
     <div class="timeline-wrap">
       <div class="timeline-track" id="tl-track"></div>
     </div>
@@ -727,7 +727,7 @@
       far left and right the word can grow before it gets stuck.
       (Concept from Ker&auml;nen&rsquo;s 2010 <em>Mathematica Journal</em> article.)
     </p>
-    <div class="def-box"><strong>Definition &mdash; Unfavorable Factor:</strong> An abelian square-free word <em>w</em> is an <em>unfavorable factor</em> if there exists a finite bound <em>N</em> such that every abelian square-free word containing <em>w</em> as a subword has length at most <em>N</em>. Such words act as &ldquo;dead ends&rdquo; in the search tree: no matter how you try to grow them, you will always encounter an abelian square within a bounded number of steps. Ker&auml;nen used this concept in his 2010 paper to analyze the structure of the infinite g&#8328;&#8325; word and show which local patterns are unavoidable.</div>
+    <div class="def-box"><strong>Definition &mdash; Unfavorable Factor:</strong> An abelian square-free word <em>w</em> is an <em>unfavorable factor</em> if there exists a finite bound <em>N</em> such that every abelian square-free word containing <em>w</em> as a subword has length at most <em>N</em>. Such words act as &ldquo;dead ends&rdquo; in the search tree: no matter how you try to grow them, you will always encounter an abelian square within a bounded number of steps. Ker&auml;nen used this concept in his 2010 paper to analyze the structure of the infinite g&amp;#8328;&amp;#8325; word and show which local patterns are unavoidable.</div>
     <div class="unf-layout">
       <div class="unf-left">
         <div class="unf-input-row">
@@ -762,20 +762,20 @@
       such that the image of <em>b</em>, <em>c</em>, <em>d</em> are cyclic permutations of the image of <em>a</em>.
       Iterating either morphism from the seed word &ldquo;a&rdquo; produces an infinite abelian square-free word.
     </p>
-    <div class="info-box"><strong>Why are there multiple morphisms?</strong> Ker&auml;nen&rsquo;s g&#8328;&#8325; (1992) was the first construction and remains the canonical one &mdash; length 85 per image is surprisingly long. Later work (g&#8321;&#8320;&#8329;, 2009) produced morphisms with different image lengths and combinatorial properties, demonstrating that the language of abelian square-free words over 4 letters is rich enough to support multiple distinct morphic structures. The existence of many such morphisms is itself an open research area: how many fundamentally different abelian square-free morphisms are there?</div>
+    <div class="info-box"><strong>Why are there multiple morphisms?</strong> Ker&auml;nen&rsquo;s g&amp;#8328;&amp;#8325; (1992) was the first construction and remains the canonical one &mdash; length 85 per image is surprisingly long. Later work (g&amp;#8321;&amp;#8320;&amp;#8329;, 2009) produced morphisms with different image lengths and combinatorial properties, demonstrating that the language of abelian square-free words over 4 letters is rich enough to support multiple distinct morphic structures. The existence of many such morphisms is itself an open research area: how many fundamentally different abelian square-free morphisms are there?</div>
     <div style="display:flex; gap:20px; font-family:Arial, sans-serif; margin-top:20px; flex-wrap:wrap;">
       <div style="flex:1; min-width:300px; border:1px solid var(--border); padding:15px; border-radius:5px; background:#fff;">
-        <h3 style="margin-top:0;">Morphism g&#8328;&#8325; &mdash; Ker&auml;nen 1992</h3>
+        <h3 style="margin-top:0;">Morphism g&amp;#8328;&amp;#8325; &mdash; Ker&auml;nen 1992</h3>
         <p style="font-size:0.9rem; color:#555; margin-bottom:8px;">Published at ICALP 1992. First proof that 4 letters suffice. Length of each image: <strong>85</strong>.</p>
-        <p><strong>Parikh vector of g&#8328;&#8325;(a):</strong> <span id="mic-g85-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
-        <p style="font-size:0.85rem; color:#666; margin-bottom:4px;">g&#8328;&#8325;(a) &rarr;</p>
+        <p><strong>Parikh vector of g&amp;#8328;&amp;#8325;(a):</strong> <span id="mic-g85-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
+        <p style="font-size:0.85rem; color:#666; margin-bottom:4px;">g&amp;#8328;&amp;#8325;(a) &rarr;</p>
         <div style="font-family:monospace; word-break:break-all; background:#f9f9f9; padding:10px; border:1px solid #eee; line-height:1.8; font-size:0.95rem;" id="mic-g85-a"></div>
       </div>
       <div style="flex:1; min-width:300px; border:1px solid var(--border); padding:15px; border-radius:5px; background:#fff;">
-        <h3 style="margin-top:0;">Morphism g&#8321;&#8320;&#8329; &mdash; Ker&auml;nen 2009</h3>
+        <h3 style="margin-top:0;">Morphism g&amp;#8321;&amp;#8320;&amp;#8329; &mdash; Ker&auml;nen 2009</h3>
         <p style="font-size:0.9rem; color:#555; margin-bottom:8px;">Published in Theoretical Computer Science (2009). Described as &ldquo;a powerful abelian square-free substitution.&rdquo; Length of each image: <strong id="mic-g109-len">?</strong>.</p>
-        <p><strong>Parikh vector of g&#8321;&#8320;&#8329;(a):</strong> <span id="mic-g109-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
-        <p style="font-size:0.85rem; color:#666; margin-bottom:4px;">g&#8321;&#8320;&#8329;(a) &rarr;</p>
+        <p><strong>Parikh vector of g&amp;#8321;&amp;#8320;&amp;#8329;(a):</strong> <span id="mic-g109-parikh" style="font-family:monospace; font-weight:bold;"></span></p>
+        <p style="font-size:0.85rem; color:#666; margin-bottom:4px;">g&amp;#8321;&amp;#8320;&amp;#8329;(a) &rarr;</p>
         <div style="font-family:monospace; word-break:break-all; background:#f9f9f9; padding:10px; border:1px solid #eee; line-height:1.8; font-size:0.95rem;" id="mic-g109-a"></div>
       </div>
     </div>
@@ -814,8 +814,8 @@
     </p>
     <div class="def-box"><strong>What makes a morphism abelian square-free?</strong> A trivial necessary condition is that <strong>each image must itself be abelian square-free</strong>. While many constructed morphisms use uniform lengths and cyclic Parikh vectors to restrict the search space, these are <strong>not</strong> mathematically necessary conditions. Finding a morphism whose infinite iteration avoids all abelian squares requires immense structural constraints &mdash; Ker&auml;nen&rsquo;s achievement was to discover these deep symmetries.</div>
     <div style="margin-bottom:15px;">
-      <button class="btn" id="btn-load-g85" style="font-size:0.85rem; padding:4px 8px;">Load g&#8328;&#8325;</button>
-      <button class="btn" id="btn-load-g109" style="font-size:0.85rem; padding:4px 8px;">Load g&#8321;&#8320;&#8329;</button>
+      <button class="btn" id="btn-load-g85" style="font-size:0.85rem; padding:4px 8px;">Load g&amp;#8328;&amp;#8325;</button>
+      <button class="btn" id="btn-load-g109" style="font-size:0.85rem; padding:4px 8px;">Load g&amp;#8321;&amp;#8320;&amp;#8329;</button>
       <button class="btn" id="btn-load-clear" style="font-size:0.85rem; padding:4px 8px;">Clear</button>
       <button class="btn" id="btn-run-surgery" style="font-size:0.85rem; padding:4px 8px; background:#8e44ad; color:#fff; border-color:#732d91; font-weight:bold;">🔬 Run Automated Morphism Surgery (g₃' K=5 Eliminator)</button>
     </div>
@@ -839,7 +839,7 @@
       <div style="width:100%; margin-top:20px; border:1px solid #8e44ad; padding:15px; border-radius:5px; background:#f9f2fc; display:none;" id="morph-surgery-box">
         <h3 style="margin-top:0; color:#8e44ad;">Automated Morphism Surgery — Seam Collision &amp; Mutation Scanner</h3>
         <p style="font-size:0.9rem; color:#555; margin-bottom:10px;">
-          Scanning the 14 valid bigrams of h&#8326;<sup>&omega;</sup>(a) across 126 seam offsets for K=5 collisions.
+          Scanning the 14 valid bigrams of h&amp;#8326;<sup>&omega;</sup>(a) across 126 seam offsets for K=5 collisions.
           Evaluating single and dual boundary mutations to eliminate K=5 while preserving K&gt;5 avoidance.
         </p>
         <div id="morph-surgery-results" style="font-family:monospace; font-size:0.85rem; background:#fff; padding:10px; border:1px solid #ddd; max-height:300px; overflow-y:auto; white-space:pre-wrap; line-height:1.5;"></div>
@@ -854,13 +854,13 @@
     <h2>Abelian square Heat Map</h2>
     <p style="font-family: Arial; font-size: 0.95rem; color:#555; max-width:800px; line-height:1.5;">
       Each cell (x, y) shows whether an abelian square exists starting at position x with half-length y.
-      <span style="color:#e74c3c; font-weight:bold;">&#9632; Red</span> = abelian square found,
-      <span style="color:#f1c40f; font-weight:bold;">&#9632; Yellow</span> = near-miss (Parikh diff = 1 per letter),
-      <span style="color:#bdc3c7;">&#9632; Gray</span> = no square.
-      The g&#8328;&#8325; word is abelian square-free, so the red cells come only from a random word for comparison.
+      <span style="color:#e74c3c; font-weight:bold;">&amp;#9632; Red</span> = abelian square found,
+      <span style="color:#f1c40f; font-weight:bold;">&amp;#9632; Yellow</span> = near-miss (Parikh diff = 1 per letter),
+      <span style="color:#bdc3c7;">&amp;#9632; Gray</span> = no square.
+      The g&amp;#8328;&amp;#8325; word is abelian square-free, so the red cells come only from a random word for comparison.
     </p>
     <div style="margin-bottom:15px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; font-family:Arial;">
-      <button class="btn" id="btn-heat-g85">g&#8328;&#8325; word (2 iterations, A²-free)</button>
+      <button class="btn" id="btn-heat-g85">g&amp;#8328;&amp;#8325; word (2 iterations, A²-free)</button>
       <button class="btn" id="btn-heat-rand">Random word (expect many squares)</button>
       <button class="btn" id="btn-heat-dir" style="background:#e8f8f5; border:1px solid #1abc9c; color:#16a085; font-weight:bold;">Y-Axis: Mountain View &uarr;</button>
       <span id="heat-status" style="font-size:0.85rem; color:#888;"></span>
@@ -885,7 +885,7 @@
       </div>
     </div>
     <div id="heat-tooltip" style="font-family:monospace; font-size:0.85rem; color:#555; margin-top:8px; min-height:1.4em;"></div>
-    <div class="def-box" style="max-width:860px;"><strong>Reading the Heat Map:</strong> A cell at column <em>x</em>, row <em>y</em> is <span style="color:#e74c3c; font-weight:bold;">red</span> if the word contains an abelian square starting at position <em>x</em> with half-length <em>y</em> (i.e. both halves [x, x+y) and [x+y, x+2y) have identical Parikh vectors). <span style="color:#d4ac0d; font-weight:bold;">Yellow</span> cells are &ldquo;near-misses&rdquo; (Parikh vector difference &le;2). The g&#8328;&#8325; word produces <strong>zero red cells</strong> &mdash; it is abelian square-free by construction. The random word produces many red cells, demonstrating how rare abelian square-freeness actually is. Hover over any cell to inspect the exact Parikh vectors of both halves.</div>
+    <div class="def-box" style="max-width:860px;"><strong>Reading the Heat Map:</strong> A cell at column <em>x</em>, row <em>y</em> is <span style="color:#e74c3c; font-weight:bold;">red</span> if the word contains an abelian square starting at position <em>x</em> with half-length <em>y</em> (i.e. both halves [x, x+y) and [x+y, x+2y) have identical Parikh vectors). <span style="color:#d4ac0d; font-weight:bold;">Yellow</span> cells are &ldquo;near-misses&rdquo; (Parikh vector difference &le;2). The g&amp;#8328;&amp;#8325; word produces <strong>zero red cells</strong> &mdash; it is abelian square-free by construction. The random word produces many red cells, demonstrating how rare abelian square-freeness actually is. Hover over any cell to inspect the exact Parikh vectors of both halves.</div>
   </div>
 
   <!-- ================================================
@@ -1005,9 +1005,9 @@
       <strong>Mathematical Context:</strong> Veikko Keränen proved in 1992 that an infinite fully Abelian square-free word exists over a <strong>4-letter</strong> alphabet using an 85-uniform morphism.
       This AA2FR laboratory investigates an <em>experimental research problem</em> over a <strong>3-letter</strong> (ternary) alphabet. Since 3 letters are mathematically insufficient to avoid all Abelian squares, we explore relaxed constraints:
       <ul style="margin-top:6px; margin-bottom:6px;">
-        <li><strong>Almost (A):</strong> We allow period-1 Abelian squares (<code>aa</code>, <code>bb</code>, <code>cc</code>), but <strong>strictly prohibit all other Abelian squares</strong> of half-length $\ge 2$.</li>
+        <li><strong>Almost (A):</strong> We allow period-1 Abelian squares (<code>aa</code>, <code>bb</code>, <code>cc</code>), but <strong>strictly prohibit all other Abelian squares</strong> of half-length &ge; 2.</li>
         <li><strong>Restrictions (R):</strong> We strictly prohibit 6 specific 4-letter factors: <code>baac, caab, abbc, cbba, accb, bcca</code>.</li>
-        <li><strong>Validation Optimizations:</strong> We use <em>Prefix Sum arrays</em> to calculate Parikh vectors in $\mathcal{O}(1)$ time, and <em>Integer Packing</em> to compare them in $\mathcal{O}(1)$ time.</li>
+        <li><strong>Validation Optimizations:</strong> We use <em>Prefix Sum arrays</em> to calculate Parikh vectors in O(1) time, and <em>Integer Packing</em> to compare them in O(1) time.</li>
       </ul>
       <strong>Long-term scientific goal:</strong> The objective of this platform is not merely to construct long AA2FR words, but to identify structural invariants, recurring motifs, and experimentally supported conjectures that may contribute to a future mathematical characterization of relaxed Abelian square avoidance over ternary alphabets.
     </div>
@@ -1134,13 +1134,13 @@
         <div style="margin-bottom:8px;"><strong>Mathematical Definitions:</strong></div>
         <div style="display:flex; gap:16px; flex-wrap:wrap;">
           <div style="flex:1; min-width:250px;">
-            <strong>Branching Factor $B(n)$:</strong><br>
-            $B(n) = \text{number of valid letters at word length } n$.<br>
-            Avg $B(n)$ near 1.0 means forced moves; $>1.5$ means high freedom.
+            <strong>Branching Factor B(n):</strong><br>
+            B(n) = number of valid letters at word length  n.<br>
+            Avg B(n) near 1.0 means forced moves; >1.5 means high freedom.
           </div>
           <div style="flex:1; min-width:250px;">
-            <strong>Parikh Balance $U(w)$:</strong><br>
-            $U(w) = \sum_{x \in \{a,b,c\}} \left( \frac{|w|_x}{|w|} - \frac{1}{3} \right)^2$<br>
+            <strong>Parikh Balance U(w):</strong><br>
+            U(w) = &sum;<sub>x &isin; {a,b,c}</sub> ( |w|<sub>x</sub>&frasl;|w| &minus; 1&frasl;3 )&sup2;<br>
             Lower is better (letters are equally distributed).
           </div>
         </div>
@@ -1181,7 +1181,7 @@
       <!-- Phase 2 Charts and Leaderboard -->
       <div style="margin-top:16px; display:grid; grid-template-columns: 2fr 1fr; gap:16px;">
         <div style="background:#fff; border:1px solid #eee; border-radius:6px; padding:12px;">
-          <h4 style="margin:0 0 8px 0; font-size:0.85rem; color:#2c3e50;">Branching & Parikh U Timeline</h4>
+          <h4 style="margin:0 0 8px 0; font-size:0.85rem; color:#2c3e50;">Branching &amp; Parikh U Timeline</h4>
           <canvas id="aa2fr-canvas-timeline" width="400" height="150" style="width:100%; height:150px; border-bottom:1px solid #f1f5f9;"></canvas>
 
           <h4 style="margin:16px 0 8px 0; font-size:0.85rem; color:#2c3e50;">Obstruction Histogram (Half-length)</h4>
@@ -1321,7 +1321,7 @@
   </div>
 
   <!-- ================================================
-       15. APPLICATIONS & IMPACT
+       15. APPLICATIONS &amp; IMPACT
        ================================================ -->
   <div class="view-panel hidden" id="view-impact">
     <h2>Applications &amp; Impact</h2>
@@ -1365,7 +1365,7 @@
   </div>
 
   <!-- =====================================================
-       16. VALIDATION & REPLICATION LAB PANEL
+       16. VALIDATION &amp; REPLICATION LAB PANEL
        ===================================================== -->
   <div class="view-panel hidden" id="view-validation">
     <h2>Validation &amp; Replication Lab (Phase 1)</h2>
@@ -1373,7 +1373,7 @@
       This dedicated laboratory isolates formal mathematical verification from exploratory heuristics.
       Here we execute exact reproduction tests for published literature on Mäkelä's Conjecture and bounded audits of empirical morphisms,
       while verifying core mathematical invariants like group symmetries. <br><br>
-      <strong style="color:#c0392b;">Epistemological Note:</strong> Bounded computational auditing does <em>not</em> replace formal infinite proofs or verify theorems for all $N$; it confirms published results and heuristic behavior strictly within specified finite prefix lengths ($N$) and half-length inspection windows ($K$).
+      <strong style="color:#c0392b;">Epistemological Note:</strong> Bounded computational auditing does <em>not</em> replace formal infinite proofs or verify theorems for all N; it confirms published results and heuristic behavior strictly within specified finite prefix lengths (N) and half-length inspection windows (K).
     </p>
 
     <!-- Global Worker Progress Box -->
@@ -1418,52 +1418,52 @@
             </tr>
             <tr>
               <td>3</td>
-              <td>Keränen (1992) proved the existence of an infinite abelian square-free word over a <strong>4-letter</strong> alphabet via morphism g&sub8;&sub5;.</td>
+              <td>Keränen (1992) proved the existence of an infinite abelian square-free word over a <strong>4-letter</strong> alphabet via morphism g&amp;sub8;&amp;sub5;.</td>
               <td>V. Keränen, ICALP 1992, LNCS 623</td>
               <td><span class="val-badge indirect">Indirect</span></td>
               <td>Original proof verified in literature; implemented in Tab 3 of this laboratory.</td>
             </tr>
             <tr>
               <td>4</td>
-              <td>Mäkelä's Question 2 (2002): Can a ternary word avoid abelian squares of half-length $K \ge 2$ (AA2F)?</td>
-              <td>S. Mäkelä, 2002 (via Rao &amp; Rosenfeld)</td>
-              <td><span class="val-badge open">Open</span></td>
-              <td>Open problem for half-lengths $2 \le K \le 5$. Investigated in this lab via extension search and uniform morphisms.</td>
+              <td>Mäkelä's conjecture: there is an infinite ternary word whose only abelian squares are 00, 11, 22 (the AA2F setting).</td>
+              <td>Fici &amp; Puzynina (2023), arXiv:2207.09937, <strong>Conjecture 20</strong>; same question as Rao &amp; Rosenfeld, arXiv:1511.05875, <strong>Problem 1</strong></td>
+              <td><span class="val-badge open">Open</span> <span class="val-badge lvl2-doi">🟢 Level 2: Verified Source</span></td>
+              <td>Quoted verbatim (Fici &amp; Puzynina, Conj. 20): <em>"There exists an infinite ternary word whose only abelian squares are 00, 11, 22."</em> Rao &amp; Rosenfeld, Problem 1: <em>"Can you avoid abelian squares of the form uv where |u| ≥ 2 over three letters?"</em> Both read from the arXiv sources on 2026-07-28. <strong>Open</strong> for half-lengths 2 &le; K &le; 5. Note Rao &amp; Rosenfeld add: <em>"Computer experiments show that you can avoid these patterns at least in words of length 450."</em> — the words known to this project and to Keränen (25,379 letters) are far longer. See <code>MATH_CLAIMS.md</code> row 4.</td>
             </tr>
             <tr>
               <td>5</td>
-              <td>h&sub6; uniform morphism (6 letters a&ndash;f): the fixed point h&sub6;&circ;&omega;(a) is entirely abelian square-free.</td>
-              <td>M. Rao &amp; M. Rosenfeld, arXiv:1507.02581 (2015) / <em>On Mäkelä's Conjectures</em>, <code>\label{abelianthe}</code></td>
-              <td><span class="val-badge lvl1-checksum">⚙️ Level 1: Computed Checksum</span></td>
-              <td><strong>Citation Correction (2026-07-26):</strong> Corrected arXiv ID from 1511.05875 to arXiv:1507.02581 (<em>"On Mäkelä's Conjectures"</em>). Reset to Level 1 until primary text and C++ verification source are audited character-by-character from the correct repository.</td>
+              <td>h&amp;sub6; uniform morphism (6 letters a&ndash;f): the fixed point h&amp;sub6;&circ;&omega;(a) is entirely abelian square-free.</td>
+              <td>M. Rao &amp; M. Rosenfeld, <strong>arXiv:1511.05875</strong>, <em>"Avoiding two consecutive blocks of same size and same sum over <b>Z</b><sup>2</sup>"</em>, <strong>Theorem 4</strong></td>
+              <td><span class="val-badge lvl2-doi">🟢 Level 2: Verified Source</span></td>
+              <td>Quoted verbatim: <em>"h₆<sup>ω</sup>(a) is abelian-square-free."</em> <strong>Citation retracted and re-corrected 2026-07-28:</strong> the 2026-07-26 note claiming arXiv:1507.02581 was itself wrong. That record is <em>"Avoidability of long k-abelian repetitions"</em>, a different result; the title <em>"On Mäkelä's Conjectures"</em> matches no arXiv record at all. Theorem number corrected from "Theorem 5" — the paper's actual Theorem 5 concerns a different morphism h₈. h₆'s images audited character-by-character against §5.4 and against Fici &amp; Puzynina's digit relabelling; asserted by <code>node test.js</code> test 14. <strong>Independently re-derived:</strong> <code>decide-realizability.js</code> runs the paper's own decision procedure and reaches the same conclusion (<code>MATH_CLAIMS.md</code> rows 5, 32).</td>
             </tr>
             <tr>
               <td>6</td>
-              <td>g&sub3;(h&sub6;&circ;&omega;(a)) (3 letters) contains zero abelian squares of half-length $K > 5$.</td>
-              <td>M. Rao &amp; M. Rosenfeld, arXiv:1507.02581 (2015) / <em>On Mäkelä's Conjectures</em>, <code>\label{makanswerr}</code></td>
-              <td><span class="val-badge lvl1-checksum">⚙️ Level 1: Computed Checksum</span></td>
-              <td><strong>Citation Correction (2026-07-26):</strong> Corrected arXiv ID from 1511.05875 to arXiv:1507.02581 (<em>"On Mäkelä's Conjectures"</em>). Reset to Level 1 until primary text and C++ verification source are audited character-by-character from the correct repository.</td>
+              <td>g&amp;sub3;(h&amp;sub6;&circ;&omega;(a)) (3 letters) contains zero abelian squares of half-length K > 5.</td>
+              <td>M. Rao &amp; M. Rosenfeld, <strong>arXiv:1511.05875</strong>, <strong>Theorem 9</strong> (§5.4 <em>"Mäkelä's Problem 1"</em>)</td>
+              <td><span class="val-badge lvl2-doi">🟢 Level 2: Verified Source</span></td>
+              <td>Quoted verbatim: <em>"The word obtained by applying g₃ to the fixed point of h₆, that is g₃(h₆<sup>ω</sup>(a)), does not contain any square of period more than 5."</em> <strong>Theorem number corrected 2026-07-28</strong> from "Theorem 11" — the paper's actual Theorem 11 concerns 2-abelian squares of period more than 60, a different statement. arXiv ID re-corrected as in row 5. g₃'s images audited character-by-character against §5.4. See <code>MATH_CLAIMS.md</code> row 6a.</td>
             </tr>
             <tr>
               <td>7</td>
-              <td>Rao &amp; Rosenfeld (2015): ternary period $>5$ abelian square avoidability over ternary alphabet.</td>
-              <td>M. Rao &amp; M. Rosenfeld, arXiv:1507.02581 (2015) / <em>On Mäkelä's Conjectures</em>, <code>\label{makcorr}</code></td>
-              <td><span class="val-badge lvl1-checksum">⚙️ Level 1: Computed Checksum</span></td>
-              <td><strong>Citation Correction (2026-07-26):</strong> Corrected arXiv ID from 1511.05875 to arXiv:1507.02581 (<em>"On Mäkelä's Conjectures"</em>). Reset to Level 1 until primary text and C++ verification source are audited character-by-character from the correct repository.</td>
+              <td>There exists an infinite ternary word avoiding abelian squares of period &gt; 5.</td>
+              <td>M. Rao &amp; M. Rosenfeld, <strong>arXiv:1511.05875</strong>, <strong>Theorem 10</strong>; same result as Fici &amp; Puzynina (2023) <strong>Theorem 19</strong>, part 2</td>
+              <td><span class="val-badge lvl2-doi">🟢 Level 2: Verified Source</span></td>
+              <td>Quoted verbatim: <em>"There is an infinite word over 3 letters avoiding abelian squares of period more than 5."</em> Fici &amp; Puzynina state the same as <em>"There exists an infinite ternary word with no abelian square of length 12 or greater"</em> (length 2K &ge; 12 &hArr; K &ge; 6). The authors write of their own result: <em>"We show that the answer is positive if we replace 2 by 6"</em> — so K = 2&hellip;5 is exactly the gap that remains open (row 4). See <code>MATH_CLAIMS.md</code> row 7.</td>
             </tr>
             <tr>
               <td>8</td>
-              <td>h&sub6; morphism is derived from the Hall–Janko group.</td>
+              <td>h&amp;sub6; morphism is derived from the Hall–Janko group.</td>
               <td>&mdash;</td>
               <td><span class="val-badge rejected">Rejected</span></td>
               <td>No literature support found. Removed from code and UI. Do not re-add without precise page citation.</td>
             </tr>
             <tr>
               <td>9</td>
-              <td>FORBID4 set <code>{baac, caab, abbc, cbba, accb, bcca}</code> is closed under S&sub3; letter permutations and word reversal.</td>
+              <td>FORBID4 set <code>{baac, caab, abbc, cbba, accb, bcca}</code> is closed under S&amp;sub3; letter permutations and word reversal.</td>
               <td>Project Empirical Finding</td>
               <td><span class="val-badge computed">Computed</span></td>
-              <td>S&sub3; orbit verified by Module A; reversal symmetry verified in Worker. Zero intersection with $K=2$ abelian squares.</td>
+              <td>S&amp;sub3; orbit verified by Module A; reversal symmetry verified in Worker. Zero intersection with K = 2 abelian squares.</td>
             </tr>
             <tr>
               <td>10</td>
@@ -1477,24 +1477,119 @@
       </div>
     </div>
 
+    <!-- Exact algebraic results (2026-07-28) -->
+    <div class="val-card" style="border-left:5px solid #16a085;">
+      <h3 style="margin-top:0;">Exact Algebraic Results</h3>
+      <p style="font-size:0.92rem; line-height:1.6;">
+        The figures below are <strong>exact</strong>. They are derived algebraically with rational and
+        <b>Q</b>(&radic;3) arithmetic &mdash; no floating point in any result path, and no prefix scanning.
+        Where they concern the infinite word they are statements about the infinite word, not about a window.
+      </p>
+      <p style="font-size:0.88rem; color:#8a5a00; background:#fff8e6; border-left:4px solid #e0a800; padding:10px 12px; line-height:1.5; border-radius:4px;">
+        <strong>These are not computed in your browser.</strong> They come from standalone Node scripts in the
+        repository, listed in the last column. This panel reports their output; it does not reproduce it.
+        Run the command to check any row yourself.
+      </p>
+      <div style="overflow-x:auto;">
+        <table class="val-table" style="font-size:0.86rem;">
+          <thead>
+            <tr><th>Quantity</th><th>Exact value</th><th>Status</th><th>Reproduce with</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Letter frequencies in h<sub>6</sub><sup>&omega;</sup>(a)</td>
+              <td>exactly 1&frasl;6 each</td>
+              <td><span class="val-badge lvl1-checksum">⚙️ Level 1 (exact derivation)</span></td>
+              <td rowspan="3"><code>node perron-frobenius.js</code></td>
+            </tr>
+            <tr>
+              <td>Ternary densities in g<sub>3</sub>(h<sub>6</sub><sup>&omega;</sup>(a))</td>
+              <td>a=1&frasl;3, b=17&frasl;60, c=23&frasl;60</td>
+              <td><span class="val-badge lvl1-checksum">⚙️ Level 1 (exact derivation)</span></td>
+            </tr>
+            <tr>
+              <td>Spectrum of M<sub>h6</sub>, char. poly x&sup3;(x&minus;3)(x&sup2;&minus;3)</td>
+              <td>{ 3, &plusmn;&radic;3, 0, 0, 0 }</td>
+              <td><span class="val-badge lvl1-checksum">⚙️ Level 1 (exact derivation)</span></td>
+            </tr>
+            <tr>
+              <td>Abelian square densities &rho;<sub>K</sub>, K=1&hellip;5</td>
+              <td>109&frasl;180, 13&frasl;36, 41&frasl;180, 29&frasl;180, 2&frasl;45</td>
+              <td><span class="val-badge lvl1-checksum">⚙️ Level 1 (exact derivation)</span></td>
+              <td rowspan="3"><code>node factor-frequencies.js --maxk 40</code></td>
+            </tr>
+            <tr>
+              <td>Distinct abelian squares in g<sub>3</sub>(h<sub>6</sub><sup>&omega;</sup>(a))</td>
+              <td><strong>exactly 34</strong>, longest of length 10</td>
+              <td><span class="val-badge lvl1-checksum">⚙️ Level 1 (complete factor sets)</span></td>
+            </tr>
+            <tr>
+              <td>K = 5 collisions that span an image boundary</td>
+              <td>exactly 100% (K = 4: 79.3%, K = 3: 48.8%, K = 2: 35.4%)</td>
+              <td><span class="val-badge lvl1-checksum">⚙️ Level 1 (complete factor sets)</span></td>
+            </tr>
+            <tr>
+              <td>Jordan form of M<sub>h6</sub> &mdash; the matrix is <strong>defective</strong></td>
+              <td>diag(3,&radic;3,-&radic;3)&oplus; J<sub>2</sub>(0)&oplus; J<sub>1</sub>(0)</td>
+              <td><span class="val-badge lvl1-checksum">⚙️ Level 1 (exact derivation)</span></td>
+              <td><code>node jordan-decomposition.js</code></td>
+            </tr>
+            <tr>
+              <td>Index of im(M<sub>g<sub>3</sub></sub>) in <b>Z</b><sup>3</sup></td>
+              <td>10 &mdash; forced by g<sub>3</sub> being 10-uniform</td>
+              <td><span class="val-badge lvl1-checksum">⚙️ Level 1 (exact derivation)</span></td>
+              <td><code>node smith-normal-form.js</code></td>
+            </tr>
+            <tr>
+              <td>Factor complexity of g<sub>3</sub>(h<sub>6</sub><sup>&omega;</sup>(a))</td>
+              <td>linear; p(45) = 372, first differences in [6, 8]</td>
+              <td><span class="val-badge lvl1-checksum">⚙️ Level 1 (complete factor sets)</span></td>
+              <td><code>node factor-complexity.js</code></td>
+            </tr>
+            <tr>
+              <td>Rao &amp; Rosenfeld decision procedure, run end to end</td>
+              <td>bound s = 34; <strong>0</strong> factors realize the abelian-square template &rArr; h<sub>6</sub><sup>&omega;</sup>(a) is abelian-square-free</td>
+              <td><span class="val-badge lvl1-checksum">⚙️ Level 1 (re-derivation)</span></td>
+              <td><code>node decide-realizability.js</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:0.88rem; line-height:1.6; margin-top:14px;">
+        <strong>What changed, and why it matters.</strong> The &rho;<sub>K</sub> values, the count of 34 and the
+        boundary split were previously reported here as observations over a finite prefix. A prefix scan can
+        only ever show that <em>at least</em> 34 distinct squares occur; it cannot rule out a 35th further out.
+        These are now computed from the <em>complete factor set</em> of the infinite word at each length, so the
+        count is exact in both directions. The older empirical figures agreed to within 0.1 percentage points,
+        which validates the earlier engine rather than replacing it.
+      </p>
+      <p style="font-size:0.88rem; line-height:1.6;">
+        <strong>What the last row is and is not.</strong> Running the decision procedure to completion
+        re-derives Rao &amp; Rosenfeld's Theorem 4 through their own machinery. It is a replication, not an
+        independent proof: it rests on their Propositions 5&ndash;8, which are Level 2, and on this
+        implementation being correct, which is Level 1. See <code>MATH_CLAIMS.md</code> rows 17&ndash;32 for
+        the full record, including the interpretive convention about empty blocks that the source leaves implicit.
+      </p>
+    </div>
+
     <!-- Module A -->
     <div class="val-card">
-      <h3>Module A: FORBID4 S&sub3; Symmetric Group Orbit &amp; Invariant Check</h3>
+      <h3>Module A: FORBID4 S&amp;sub3; Symmetric Group Orbit &amp; Invariant Check</h3>
       <p>
-        Verifies that our 6 forbidden factors (<code>baac, caab, abbc, cbba, accb, bcca</code>) form exactly one closed transitive orbit under the symmetric group S&sub3; (all 6 letter permutations of {a,&thinsp;b,&thinsp;c}). Also launches an empirical Worker verification across all 6 relabeled alphabetical trees, generating a canonical <strong>traceHash</strong> to prove identical search behavior ("6/6 matched").
+        Verifies that our 6 forbidden factors (<code>baac, caab, abbc, cbba, accb, bcca</code>) form exactly one closed transitive orbit under the symmetric group S&amp;sub3; (all 6 letter permutations of {a,&thinsp;b,&thinsp;c}). Also launches an empirical Worker verification across all 6 relabeled alphabetical trees, generating a canonical <strong>traceHash</strong> to prove identical search behavior ("6/6 matched").
       </p>
-      <button class="val-btn" onclick="valRunS3Check()">Run S&sub3; Symmetric Group Check (with Trace Hash)</button>
+      <button class="val-btn" onclick="valRunS3Check()">Run S&amp;sub3; Symmetric Group Check (with Trace Hash)</button>
       <div id="val-s3-output" class="val-output hidden"></div>
     </div>
 
     <!-- Module B -->
     <div class="val-card">
-      <h3>Module B: h&sub6; Bounded Prefix Audit (Level 1 Empirical Verification)</h3>
+      <h3>Module B: h&amp;sub6; Bounded Prefix Audit (Level 1 Empirical Verification)</h3>
       <p>
-        Generates the 59,049-letter prefix ($N$) of the uniform morphism h&sub6; fixed point (10 iterations from 'a') in a dedicated Web Worker and executes an O(1) prefix-sum audit across half-lengths K = 1 to 400.
-        <br><strong>Expected: Zero abelian squares observed in this prefix ($N=59,049$) and window ($K \le 400$).</strong> Note: The geometric map below highlights our exact inspected right-triangle domain $\{ (i, K) \mid i + 2K \le N \}$. This is an empirical computational verification of string integrity (Level 1 Checksum OK), not an unconditional infinite theorem proof.
+        Generates the 59,049-letter prefix (N) of the uniform morphism h&amp;sub6; fixed point (10 iterations from 'a') in a dedicated Web Worker and executes an O(1) prefix-sum audit across half-lengths K = 1 to 400.
+        <br><strong>Expected: Zero abelian squares observed in this prefix (N=59,049) and window (K &le; 400).</strong> Note: The geometric map below highlights our exact inspected right-triangle domain { (i, K) : i + 2K &le; N }. This is an empirical computational verification of string integrity (Level 1 Checksum OK), not an unconditional infinite theorem proof.
       </p>
-      <button class="val-btn" onclick="valRunH6Check()">Run Bounded Prefix Audit ($N=59,049, K \le 400$)</button>
+      <button class="val-btn" onclick="valRunH6Check()">Run Bounded Prefix Audit (N=59,049, K &le; 400)</button>
       <button class="val-btn" style="background:#7f8c8d;" onclick="valCancelJob()">⏹ Cancel</button>
       <br>
       <canvas id="val-h6-canvas" width="600" height="220" class="hidden" style="width:100%; max-width:600px; border:1px solid #ccc; margin-top:14px; background:#f8f9fa; border-radius:4px;"></canvas>
@@ -1503,12 +1598,12 @@
 
     <!-- Module C -->
     <div class="val-card">
-      <h3>Module C: g&sub3;(h&sub6;&circ;&omega;(a)) Bounded Prefix Audit &amp; Boundary Scan ($K=1..500$)</h3>
+      <h3>Module C: g&amp;sub3;(h&amp;sub6;&circ;&omega;(a)) Bounded Prefix Audit &amp; Boundary Scan (K=1..500)</h3>
       <p>
-        Applies the g&sub3; uniform morphism (length 10) to the h&sub6; word in a Web Worker, auditing the first 50,000 characters across half-length window K = 1..500.
-        <br><strong>Boundary Scan ($K=1..5$):</strong> Empirically observes 0 squares for $K > 5$ ($N \le 196,830$). Where squares occur at $K \le 5$ is tracked by our finite boundary scanner. The tool computes the <strong>Density Fade Ratio (Drop % vs. K-1)</strong>, revealing how the morphism combinatorially narrows occurrences before reaching zero at $K=6$. The Audit Area Map below visualizes square density across the audited domain, with clickable samples that open directly in the Parikh Lens!
+        Applies the g&amp;sub3; uniform morphism (length 10) to the h&amp;sub6; word in a Web Worker, auditing the first 50,000 characters across half-length window K = 1..500.
+        <br><strong>Boundary Scan (K=1..5):</strong> Empirically observes 0 squares for K > 5 (N &le; 196,830). Where squares occur at K &le; 5 is tracked by our finite boundary scanner. The tool computes the <strong>Density Fade Ratio (Drop % vs. K-1)</strong>, revealing how the morphism combinatorially narrows occurrences before reaching zero at K=6. The Audit Area Map below visualizes square density across the audited domain, with clickable samples that open directly in the Parikh Lens!
       </p>
-      <button class="val-btn" onclick="valRunG3Check()">Run g&sub3; Bounded Audit &amp; Map ($N=50,000, K=1..500$)</button>
+      <button class="val-btn" onclick="valRunG3Check()">Run g&amp;sub3; Bounded Audit &amp; Map (N=50,000, K=1..500)</button>
       <button class="val-btn" style="background:#7f8c8d;" onclick="valCancelJob()">⏹ Cancel</button>
       <br>
       <canvas id="val-g3-canvas" width="600" height="220" class="hidden" style="width:100%; max-width:600px; border:1px solid #ccc; margin-top:14px; background:#f8f9fa; border-radius:4px;"></canvas>
@@ -1522,7 +1617,7 @@
       <h3>Module D: Fair Comparative Benchmark &amp; L12 Test Suite (AA2F vs. AA2FR)</h3>
       <p>
         Executes strictly controlled, side-by-side empirical benchmarks in the Web Worker of <strong>AA2F</strong> (Mäkelä 2002, avoid K &ge; 2) versus <strong>AA2FR</strong> (Extension Lab, avoid K &ge; 2 plus FORBID4).
-        <br><strong>L12 Test Suite:</strong> Compares models across 10 frozen, independent AA2FR-valid initial seeds ($L=12$), reporting realized candidate nodes, depth curves sampled every 1,000 nodes, and a detailed stacked rejection breakdown (<code>FORBID4 only</code>, <code>square only</code>, <code>both</code>, plus <code>minSquareK</code>).
+        <br><strong>L12 Test Suite:</strong> Compares models across 10 frozen, independent AA2FR-valid initial seeds (L=12), reporting realized candidate nodes, depth curves sampled every 1,000 nodes, and a detailed stacked rejection breakdown (<code>FORBID4 only</code>, <code>square only</code>, <code>both</code>, plus <code>minSquareK</code>).
       </p>
       <div style="margin-bottom: 12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
         <label style="font-size:0.9rem; font-weight:bold; color:#444;">Node Budget:</label>
@@ -1532,7 +1627,7 @@
           <option value="100000">100,000 nodes (Deep ~4s)</option>
           <option value="250000">250,000 nodes (Intense ~10s)</option>
         </select>
-        <button class="val-btn" onclick="valRunBenchmark()">▶ Run Fair Benchmark (S&sub3; Permutations)</button>
+        <button class="val-btn" onclick="valRunBenchmark()">▶ Run Fair Benchmark (S&amp;sub3; Permutations)</button>
         <button class="val-btn" style="background:#2980b9;" onclick="valRunSeedSuite()">▶ Run L12 Test Suite (10 Seeds)</button>
         <button class="val-btn" style="background:#7f8c8d;" onclick="valCancelJob()">⏹ Cancel</button>
       </div>
@@ -1544,7 +1639,7 @@
     <div class="val-card">
       <h3>Module E: Rauzy Fractal Eigenspace Projection (&plusmn;&radic;3 &amp; Dominant 3)</h3>
       <p>
-        Projects the 6-letter cumulative Parikh trajectories of the h&sub6; fixed point onto its secondary eigenspaces (&plusmn;&radic;3). Because |&plusmn;&radic;3| &lt; 3, the projection folds into a bounded, self-similar <strong>Rauzy Fractal</strong> (&plusmn; 170 range over 177,147 letters).
+        Projects the 6-letter cumulative Parikh trajectories of the h&amp;sub6; fixed point onto its secondary eigenspaces (&plusmn;&radic;3). Because |&plusmn;&radic;3| &lt; 3, the projection folds into a bounded, self-similar <strong>Rauzy Fractal</strong> (&plusmn; 170 range over 177,147 letters).
         <br><strong>2.5D Isometric Spiral Mode:</strong> Re-introduces the dominant linear growth eigenvalue (3) along the Z-axis, revealing how the fractal climbs as a continuous genomic helix.
       </p>
       <div style="margin-bottom: 12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
@@ -1571,12 +1666,12 @@
     <div class="val-card">
       <h3>Module F: Radial Sunburst Search Tree &amp; Pruning Anatomy (AA2F vs. AA2FR)</h3>
       <p>
-        Executes exhaustive DFS tree evaluation and visualizes search topology as an interactive radial Sunburst / Icicle map. In this layout, radius represents search depth ($L$) and angle represents descendant volume ($360^\circ / N$).
+        Executes exhaustive DFS tree evaluation and visualizes search topology as an interactive radial Sunburst / Icicle map. In this layout, radius represents search depth (L) and angle represents descendant volume (360^&amp;#8728; / N).
       </p>
       <div style="background:#fef9e7; border-left:4px solid #f39c12; padding:10px 14px; margin:10px 0; font-size:0.85rem; color:#6d4c00; border-radius:4px;">
         <strong>⚠️ Epistemological &amp; Visual Normalization Notice:</strong><br>
-        1. <em>Shallow Exhaustive Cut-Off ($L \le 10$):</em> At $3^{10} \approx 59,000$ possible nodes, exhaustive DFS is feasible. However, dead ends captured here represent superficial, early-onset rejections; deeper structural traps emerge in heuristic runs ($L &gt; 700$ for AA2FR, $L &gt; 2000$ for AA2F).<br>
-        2. <em>Optical Density Normalization:</em> Because sector width is proportional to node count ($360^\circ / N_{\text{total}}$), AA2FR sectors appear wider/calmer simply because there are fewer nodes ($4,498$ vs $11,950$), an optical consequence of normalization rather than structural calmness.
+        1. <em>Shallow Exhaustive Cut-Off (L &le; 10):</em> At 3<sup>10</sup> &asymp; 59,000 possible nodes, exhaustive DFS is feasible. However, dead ends captured here represent superficial, early-onset rejections; deeper structural traps emerge in heuristic runs (L &gt; 700 for AA2FR, L &gt; 2000 for AA2F).<br>
+        2. <em>Optical Density Normalization:</em> Because sector width is proportional to node count (360^&amp;#8728; / N<sub>total</sub>), AA2FR sectors appear wider/calmer simply because there are fewer nodes (4,498 vs 11,950), an optical consequence of normalization rather than structural calmness.
       </div>
       <div style="margin-bottom: 12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
         <label style="font-size:0.9rem; font-weight:bold; color:#444;">Exhaustive Depth:</label>
@@ -1621,7 +1716,7 @@
     <div class="val-card" style="border-left:5px solid #00cec9;">
       <h3 style="color:#008080;">Exhibit 1: Substitution Trajectory in Eigenspace (Rao–Rosenfeld Construction)</h3>
       <p>
-        When the 6-letter uniform morphism $h_6$ from the Rao–Rosenfeld construction (Theorem 5, <em>SIAM J. Discrete Math.</em> 2018) is iterated infinite times, its cumulative Parikh vector grows linearly along the dominant eigenvalue ($3$). By projecting the vector trajectory onto the 2D subspace spanned by the secondary eigenvalues ($+\sqrt{3}$ and $-\sqrt{3}$), linear drift is cancelled out, folding the trajectory into a bounded, self-similar geometric domain.
+        When the 6-letter uniform morphism h<sub>6</sub> from the Rao–Rosenfeld construction (Theorem 4, arXiv:1511.05875) is iterated infinite times, its cumulative Parikh vector grows linearly along the dominant eigenvalue (3). By projecting the vector trajectory onto the 2D subspace spanned by the secondary eigenvalues (+&radic;3 and -&radic;3), linear drift is cancelled out, folding the trajectory into a bounded, self-similar geometric domain.
       </p>
       <div style="text-align:center; margin:15px 0;">
         <div id="gallery-rauzy-anim-status" style="margin-bottom:8px; font-weight:bold; color:#00cec9; font-size:0.95rem; text-align:center;"></div>
@@ -1635,7 +1730,7 @@
       </div>
       <div style="background:#f1f2f6; padding:10px 14px; border-radius:4px; font-size:0.85rem; color:#444; border:1px solid #dcdde1; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
         <div><strong>Provenance Badge:</strong> <code>[Eigenspace Projection | N = 177,147 letters (3&circ;11) | Secondary Eigenvalues &plusmn;&radic;3 | Bounded Area &plusmn;170]</code></div>
-        <span class="val-badge lvl2-doi">🟢 Level 2: Verified Source Algebra (Rao &amp; Rosenfeld 2018, Thm 5)</span>
+        <span class="val-badge lvl2-doi">🟢 Level 2: Verified Source (Rao &amp; Rosenfeld, arXiv:1511.05875, Thm 4)</span>
       </div>
     </div>
 
@@ -1643,7 +1738,7 @@
     <div class="val-card" style="border-left:5px solid #e74c3c;">
       <h3 style="color:#c0392b;">Exhibit 2: The Pruning Sunburst (Anatomy of Combinatorial Dead Ends)</h3>
       <p>
-        A side-by-side topological inspection of exhaustive ternary depth-first search up to length $L=10$. In this radial sunburst representation, radius denotes word length while angular slice width denotes the descendant budget ($360^\circ / N$). Dead-end terminations are colored by their exact mathematical rejection cause.
+        A side-by-side topological inspection of exhaustive ternary depth-first search up to length L=10. In this radial sunburst representation, radius denotes word length while angular slice width denotes the descendant budget (360^&amp;#8728; / N). Dead-end terminations are colored by their exact mathematical rejection cause.
       </p>
       <div style="text-align:center; margin:15px 0; display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
         <div style="flex:1; min-width:300px; max-width:400px;">
@@ -1663,16 +1758,16 @@
       <div style="background:#f1f2f6; padding:10px 14px; border-radius:4px; font-size:0.85rem; color:#444; border:1px solid #dcdde1;">
         <div style="margin-bottom:6px;"><strong>Provenance Badge:</strong> <code>[Exhaustive DFS Tree | Depth L &le; 10 | Exact Node Counts: 11,950 vs 4,498 | Dead-end ratio: 0.402% vs 0.800%]</code> <span class="val-badge lvl1-chk">⚙️ Exhaustive Checksum OK</span></div>
         <div style="font-size:0.8rem; color:#6d4c00; background:#fef9e7; padding:6px 10px; border-radius:3px; border-left:3px solid #f39c12;">
-          <strong>Visual Normalization &amp; Depth Disclaimer:</strong> (1) Because sector width scales as $360^\circ / N_{\text{total}}$, AA2FR sectors appear wider due to lower node count ($4,498$ vs $11,950$), an optical consequence of normalization rather than structural calmness. (2) Depth 10 is a shallow exhaustive cut-off; dead ends represent superficial rejections, whereas deep structural traps emerge in heuristic searches ($L &gt; 700$ for AA2FR).
+          <strong>Visual Normalization &amp; Depth Disclaimer:</strong> (1) Because sector width scales as 360^&amp;#8728; / N<sub>total</sub>, AA2FR sectors appear wider due to lower node count (4,498 vs 11,950), an optical consequence of normalization rather than structural calmness. (2) Depth 10 is a shallow exhaustive cut-off; dead ends represent superficial rejections, whereas deep structural traps emerge in heuristic searches (L &gt; 700 for AA2FR).
         </div>
       </div>
     </div>
 
     <!-- Exhibit 3 -->
     <div class="val-card" style="border-left:5px solid #8e44ad;">
-      <h3 style="color:#8e44ad;">Exhibit 3: Modular Seam-Welding in Rao–Rosenfeld Construction (Theorem 11)</h3>
+      <h3 style="color:#8e44ad;">Exhibit 3: Modular Seam-Welding in the Rao–Rosenfeld Construction (Theorem 9)</h3>
       <p>
-        In the Rao–Rosenfeld construction, the long abelian square avoidance of $g_3(h_6^\omega(a))$ is formally established by Theorem 11 (<em>SIAM J. Discrete Math.</em> 2018). Our empirical boundary scanner reveals a striking regularity in the finite prefix $N=200,000$: exactly <strong>100% of half-length 5 abelian square collisions occur across block image boundaries</strong> ($i \not\equiv 0 \pmod{10}$). Because primitive morphic words exhibit uniform recurrence, short squares stabilize at positive stationary densities ($\rho_5 \approx 4.3\%$), serving as a permanent combinatorial safety belt that blocks $K &gt; 5$ squares.
+        In the Rao–Rosenfeld construction, the long abelian square avoidance of g<sub>3</sub>(h<sub>6</sub><sup>&omega;</sup>(a)) is formally established by Theorem 9 (arXiv:1511.05875, §5.4). Our empirical boundary scanner reveals a striking regularity in the finite prefix N=200,000: exactly <strong>100% of half-length 5 abelian square collisions occur across block image boundaries</strong> (i &amp;#8802; 0 (mod 10)). Because primitive morphic words exhibit uniform recurrence, short squares stabilize at positive stationary densities (&rho;<sub>5</sub> &asymp; 4.3%), serving as a permanent combinatorial safety belt that blocks K &gt; 5 squares.
       </p>
       <div style="text-align:center; margin:15px 0;">
         <canvas id="gallery-seam-canvas" width="650" height="200" style="width:100%; max-width:650px; background:#f8f9fa; border-radius:6px; border:1px solid #ddd;"></canvas>
@@ -1682,7 +1777,7 @@
       </div>
       <div style="background:#f1f2f6; padding:10px 14px; border-radius:4px; font-size:0.85rem; color:#444; border:1px solid #dcdde1; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
         <div><strong>Provenance Badge:</strong> <code>[Empirical Boundary Scanner | Observed in N=200,000 prefix at half-length K=5 | 100% Boundary-Spanning (0% Internal)]</code></div>
-        <span class="val-badge lvl1-chk">⚙️ Checksum Verified (Level 1 Prefix Observation | Asymptotic proof: Thm 11)</span>
+        <span class="val-badge lvl1-chk">⚙️ Level 1: Prefix observation | Asymptotic result: Thm 9, arXiv:1511.05875</span>
       </div>
     </div>
 
@@ -1694,12 +1789,12 @@
         When a collision or near-miss is selected, all observatory instruments synchronize instantly, tracing the exact cause-and-effect chain from macroscopic Parikh topography down to its ancestral morphic root.
       </p>
 
-      <!-- Mutation Theatre & Epistemological Status -->
+      <!-- Mutation Theatre &amp; Epistemological Status -->
       <div style="background:#2c3e50; color:#fff; padding:12px 16px; border-radius:6px; margin-bottom:15px; border:1px solid #34495e;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid #465f78;">
           <div><strong style="color:#f39c12;">Mutation Theatre:</strong> Test candidate morphisms and observe real-time boundary shifts.</div>
           <div id="gal-epistemology-badge" style="background:#27ae60; color:#fff; padding:4px 10px; border-radius:4px; font-size:0.8rem; font-weight:bold;">
-            🟢 PROVED CONSTRUCTION (Rao–Rosenfeld 2018, Thm 11) | Asymptotically abelian square-free
+            🟢 Level 2: Rao–Rosenfeld, arXiv:1511.05875, Thm 9 | no abelian square of period > 5
           </div>
         </div>
         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:8px; font-size:0.85rem; margin-bottom:12px;">
@@ -1720,15 +1815,15 @@
       <!-- Macro-Scale: Topography Canvas -->
       <div style="margin-bottom:15px;">
         <h4 style="margin:0 0 6px 0; color:#333;">Macro-Scale: Collision Topography Grid (Parikh Imbalance Landscape ||Δ||₁)</h4>
-        <div style="font-size:0.8rem; color:#666; margin-bottom:8px;">X-axis: Word Position $i \in [0, 2500]$ | Y-axis: Half-length $K \in [1, 35]$. Red/Dark craters ($||\Delta||_1 \le 2$) indicate near-misses or boundary collisions. Click any crater to synchronize all instruments.</div>
+        <div style="font-size:0.8rem; color:#666; margin-bottom:8px;">X-axis: Word Position i &isin; [0, 2500] | Y-axis: Half-length K &isin; [1, 35]. Red/Dark craters (||&Delta;||<sub>1</sub> &le; 2) indicate near-misses or boundary collisions. Click any crater to synchronize all instruments.</div>
         <canvas id="gallery-topo-canvas" width="650" height="220" style="width:100%; max-width:650px; background:#161920; border-radius:6px; border:1px solid #333; box-shadow:0 2px 8px rgba(0,0,0,0.15); cursor:crosshair;" onclick="galClickTopography(event)"></canvas>
       </div>
 
-      <!-- Meso & Micro Scale: Near-Miss Cabinet and Substitution Atlas -->
+      <!-- Meso &amp; Micro Scale: Near-Miss Cabinet and Substitution Atlas -->
       <div style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:15px;">
         <div style="flex:1; min-width:280px; max-width:320px;">
           <h4 style="margin:0 0 6px 0; color:#333;">Near-Miss Cabinet (Top 20 Imbalances)</h4>
-          <div style="font-size:0.75rem; color:#666; margin-bottom:6px;">Sorted by minimal Parikh imbalance $||Δ||_1$. Click to inspect.</div>
+          <div style="font-size:0.75rem; color:#666; margin-bottom:6px;">Sorted by minimal Parikh imbalance ||Δ||<sub>1</sub>. Click to inspect.</div>
           <div id="gal-observatory-list" style="max-height:260px; overflow-y:auto; background:#f8f9fa; border:1px solid #ddd; padding:6px; border-radius:4px; font-size:0.8rem; display:flex; flex-direction:column; gap:4px;">
             <div style="color:#888; padding:10px; text-align:center;">Initializing observatory data...</div>
           </div>
@@ -1749,7 +1844,7 @@
     </div>
   </div>
 
-  <!-- TAB 18: SEAM SEARCH & VERIFICATION -->
+  <!-- TAB 18: SEAM SEARCH &amp; VERIFICATION -->
   <div class="view-panel hidden" id="view-gold-lab">
     <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px; color: #666; margin-bottom: 4px; font-family: monospace; font-weight: 600;">AA2FR RESEARCH PLATFORM · MODULE 18</div>
     <h2 style="font-family: 'Georgia', 'Cambria', 'Times New Roman', serif; font-size: 2rem; color: #1a1e24; margin-top: 0; margin-bottom: 12px; font-weight: 700; border-bottom: 2px solid #eaecee; padding-bottom: 10px;">Seam Search &amp; Verification</h2>
@@ -1758,7 +1853,7 @@
       Runs bounded searches for short connecting words between two fixed morphism blocks, and keeps what has been checked separate from what has not. Nothing on this page is called a proof unless a standalone script, run independently of this page, has confirmed it.
     </p>
 
-    <!-- Epistemological Provenance Chain & Cumulative Compute Budget Bar -->
+    <!-- Epistemological Provenance Chain &amp; Cumulative Compute Budget Bar -->
     <div style="display:flex; justify-content:space-between; align-items:center; background:#f8f9fa; border:1px solid #dcdde1; border-left:4px solid #2c3e50; padding:12px 18px; border-radius:6px; margin-bottom:24px; flex-wrap:wrap; gap:15px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
       <div style="display:flex; align-items:center; gap:10px; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size:0.85rem; flex-wrap:wrap;">
         <span style="font-weight:700; color:#1a1e24; text-transform:uppercase; letter-spacing:0.5px; font-size:0.75rem;">Provenance Chain:</span>
@@ -1775,7 +1870,7 @@
       </div>
     </div>
 
-    <!-- ENGINE ARCHITECTURE & OPERATIONAL GUIDE BOX -->
+    <!-- ENGINE ARCHITECTURE &amp; OPERATIONAL GUIDE BOX -->
     <details open style="background:#fff; border:1px solid #ccd1d9; border-radius:6px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.02); overflow:hidden;">
       <summary style="background:#fafbfc; padding:12px 18px; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size:0.88rem; font-weight:700; color:#1a1e24; cursor:pointer; border-bottom:1px solid #eaecee; display:flex; justify-content:space-between; align-items:center; user-select:none;">
         <span><span style="color:#2980b9; margin-right:8px; font-family:monospace; font-weight:700;">[INFO]</span> ENGINE ARCHITECTURE, SCIENTIFIC OBJECTIVES &amp; OPERATIONAL GUIDE</span>
@@ -1787,36 +1882,36 @@
         <div style="background:#fafbfc; border:1px solid #e1e8ed; border-radius:4px; padding:15px;">
           <h4 style="margin:0 0 8px 0; font-family:'Georgia', serif; font-size:1.05rem; color:#1a1e24; border-bottom:1px solid #eaecee; padding-bottom:6px;">1. Scientific Objective</h4>
           <p style="margin:0 0 10px 0;">
-            In combinatorics on words, verifying abelian-square-freedom over infinite morphisms often stalls at <strong>block boundaries (seams)</strong>. When two abelian-square-free blocks $U$ and $V$ are concatenated, Parikh vector collisions frequently emerge across the seam $U \cdot V$.
+            In combinatorics on words, verifying abelian-square-freedom over infinite morphisms often stalls at <strong>block boundaries (seams)</strong>. When two abelian-square-free blocks U and V are concatenated, Parikh vector collisions frequently emerge across the seam U &middot; V.
           </p>
           <p style="margin:0;">
             <strong>Module 18</strong> acts as an automated <em>seam surgery laboratory</em>. Instead of generating brute-force words from scratch, it executes bounded Depth-First Search (DFS) in Web Workers to discover minimal connecting words (<strong>bridges</strong>) that eliminate boundary collisions without introducing internal squares.
           </p>
         </div>
 
-        <!-- Pillar 2: Core Mechanics & Algorithms -->
+        <!-- Pillar 2: Core Mechanics &amp; Algorithms -->
         <div style="background:#fafbfc; border:1px solid #e1e8ed; border-radius:4px; padding:15px;">
           <h4 style="margin:0 0 8px 0; font-family:'Georgia', serif; font-size:1.05rem; color:#1a1e24; border-bottom:1px solid #eaecee; padding-bottom:6px;">2. Core Mechanics &amp; Algorithms</h4>
           <p style="margin:0 0 10px 0;">
             To achieve high-throughput scanning (hundreds of thousands of nodes/sec in browser memory), the engine relies on three algorithmic optimizations:
           </p>
           <ul style="margin:0; padding-left:18px; font-size:0.84rem; color:#555;">
-            <li style="margin-bottom:6px;"><strong>$O(\log N)$ ParikhFenwickTree:</strong> Dynamic prefix-sum trees compute interval Parikh differences instantly without naive $O(N^2)$ rescanning.</li>
-            <li style="margin-bottom:6px;"><strong>Float64Array Exact Arithmetic Packing:</strong> Parikh counts for 3 letters ($a, b, c$) are packed into base-$2^{16}$ integers stored in exact 53-bit Float64Array arithmetic ($a=0, b=1, c=65536$). This avoids 32-bit bitwise overflow while enabling $O(1)$ equality pre-checks via strict identity (<code>===</code>).</li>
+            <li style="margin-bottom:6px;"><strong>O(log N) ParikhFenwickTree:</strong> Dynamic prefix-sum trees compute interval Parikh differences instantly without naive O(N<sup>2</sup>) rescanning.</li>
+            <li style="margin-bottom:6px;"><strong>Float64Array Exact Arithmetic Packing:</strong> Parikh counts for 3 letters (a, b, c) are packed into base-2<sup>16</sup> integers stored in exact 53-bit Float64Array arithmetic (a=0, b=1, c=65536). This avoids 32-bit bitwise overflow while enabling O(1) equality pre-checks via strict identity (<code>===</code>).</li>
             <li><strong>Asynchronous Web Worker:</strong> Search execution runs entirely on background threads, ensuring UI responsiveness and live telemetry tracking.</li>
           </ul>
         </div>
 
-        <!-- Pillar 3: Operational Workflow & Usage -->
+        <!-- Pillar 3: Operational Workflow &amp; Usage -->
         <div style="background:#fafbfc; border:1px solid #e1e8ed; border-radius:4px; padding:15px;">
           <h4 style="margin:0 0 8px 0; font-family:'Georgia', serif; font-size:1.05rem; color:#1a1e24; border-bottom:1px solid #eaecee; padding-bottom:6px;">3. Operational Workflow &amp; Usage</h4>
           <p style="margin:0 0 10px 0;">
             Follow a disciplined 3-step epistemological protocol:
           </p>
           <ol style="margin:0; padding-left:18px; font-size:0.84rem; color:#555;">
-            <li style="margin-bottom:6px;"><strong>Calibrate:</strong> Run <em>Replicate known result ($p=6$)</em> or <em>Negative control</em> to verify that the engine reproduces established literature thresholds accurately.</li>
+            <li style="margin-bottom:6px;"><strong>Calibrate:</strong> Run <em>Replicate known result (p=6)</em> or <em>Negative control</em> to verify that the engine reproduces established literature thresholds accurately.</li>
             <li style="margin-bottom:6px;"><strong>Explore:</strong> Execute <em>Search for seam bridges</em>. Live candidates will populate the verification panel as they are discovered.</li>
-            <li><strong>Replicate &amp; Report:</strong> Primary verification is established by exhaustive deterministic boundary scans ($K \le 5$). Click <strong>[10x Adversarial Replication]</strong> on any candidate to run an auxiliary randomized seed stress-test (auditing thread consistency). Once verified, click <strong>[Report Discovery]</strong> to open a pre-filled GitHub Issue; maintainers receive instant alerts via standard GitHub Mobile and email notifications (requiring zero custom backends or webhooks).</li>
+            <li><strong>Replicate &amp; Report:</strong> Primary verification is established by exhaustive deterministic boundary scans (K &le; 5). Click <strong>[10x Adversarial Replication]</strong> on any candidate to run an auxiliary randomized seed stress-test (auditing thread consistency). Once verified, click <strong>[Report Discovery]</strong> to open a pre-filled GitHub Issue; maintainers receive instant alerts via standard GitHub Mobile and email notifications (requiring zero custom backends or webhooks).</li>
           </ol>
         </div>
 
@@ -1906,7 +2001,10 @@
     <div class="val-card" style="border-left:5px solid #8e44ad; margin-bottom:25px; background:#fff; border-top:1px solid #e1e8ed; border-right:1px solid #e1e8ed; border-bottom:1px solid #e1e8ed;">
       <h3 style="color:#1a1e24; margin-top:0; font-family:'Georgia', serif; font-size:1.3rem;">Rosenfeld PhD Thesis (2016/2018) Open Problems Research Board</h3>
       <p style="font-size:0.9rem; color:#555; line-height:1.5;">
-        Connect the discovery engine directly to open problems documented in Matthieu Rosenfeld's PhD dissertation &amp; SIAM (2018) publication. When verification runs complete, known bounds update automatically:
+        Connect the search engine to open problems attributed to Matthieu Rosenfeld's PhD dissertation. When verification runs complete, the bounds shown here update automatically.
+      </p>
+      <p style="font-size:0.85rem; color:#8a5a00; background:#fff8e6; border-left:4px solid #e0a800; padding:10px 12px; line-height:1.5; border-radius:4px;">
+        <strong>Provenance warning.</strong> Nobody in this project has opened the dissertation, so the problem statements below are <strong>unverified</strong> and their numbering may not match any published source. The <em>SIAM J. Discrete Math.</em> 32(4):2381&ndash;2397 (2018) reference formerly cited here has been <strong>rejected</strong>: the arXiv record for arXiv:1511.05875 shows <code>Journal ref: (none)</code>, and no one has opened the publisher's page (<code>MATH_CLAIMS.md</code> row 23). Nothing else in this application depends on that reference &mdash; every verified claim rests on the arXiv preprint alone. Treat the problems below as prompts for investigation, not as citable statements.
       </p>
       <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
         <div id="prob-card-121" style="background:#fafbfc; border:1px solid #e1e8ed; padding:14px; border-radius:6px;">
@@ -1915,19 +2013,19 @@
           <span id="prob-status-121" style="font-size:0.75rem; background:#e8f4f8; color:#2980b9; padding:3px 8px; border-radius:3px; font-family:monospace; font-weight:600;">Status: OPEN (Spectral Matrix Search)</span>
         </div>
         <div id="prob-card-49" style="background:#fafbfc; border:1px solid #e1e8ed; padding:14px; border-radius:6px;">
-          <strong style="color:#1a1e24; font-family:'Georgia', serif; font-size:0.95rem;">Problem 4.9 (Exact Value of $g(2)$)</strong>
-          <p style="font-size:0.82rem; color:#666; margin:8px 0; line-height:1.4;">What is the exact growth rate $g(2)$ of ternary abelian-square-free words? Known bound: $5 \le g(2) \le 734$.</p>
+          <strong style="color:#1a1e24; font-family:'Georgia', serif; font-size:0.95rem;">Problem 4.9 (Exact Value of g(2))</strong>
+          <p style="font-size:0.82rem; color:#666; margin:8px 0; line-height:1.4;">What is the exact growth rate g(2) of ternary abelian-square-free words? Known bound: 5 &le; g(2) &le; 734.</p>
           <span id="prob-status-49" style="font-size:0.75rem; background:#fef5e7; color:#d35400; padding:3px 8px; border-radius:3px; font-family:monospace; font-weight:600;">Status: OPEN (ParikhFenwick Tree Target)</span>
         </div>
         <div id="prob-card-26" style="background:#fafbfc; border:1px solid #e1e8ed; padding:14px; border-radius:6px;">
-          <strong style="color:#1a1e24; font-family:'Georgia', serif; font-size:0.95rem;">Problem 2.6 (Additive Squares in $\mathbb{Z}^2$)</strong>
-          <p style="font-size:0.82rem; color:#666; margin:8px 0; line-height:1.4;">What is the smallest alphabet size in $\mathbb{Z}^2$ for avoiding 2D additive squares?</p>
+          <strong style="color:#1a1e24; font-family:'Georgia', serif; font-size:0.95rem;">Problem 2.6 (Additive Squares in <b>Z</b><sup>2</sup>)</strong>
+          <p style="font-size:0.82rem; color:#666; margin:8px 0; line-height:1.4;">What is the smallest alphabet size in <b>Z</b><sup>2</sup> for avoiding 2D additive squares?</p>
           <span id="prob-status-26" style="font-size:0.75rem; background:#f4f6f7; color:#555; padding:3px 8px; border-radius:3px; font-family:monospace; font-weight:600;">Status: OPEN (2D Lattice Extension)</span>
         </div>
       </div>
     </div>
 
-    <!-- Candidate Discovery Cabinet & Execution Summary -->
+    <!-- Candidate Discovery Cabinet &amp; Execution Summary -->
     <div class="val-card" style="border-left:5px solid #34495e; background:#fff; border-top:1px solid #e1e8ed; border-right:1px solid #e1e8ed; border-bottom:1px solid #e1e8ed;">
       <h3 style="color:#1a1e24; margin-top:0; font-family:'Georgia', serif; font-size:1.3rem;">Candidate Discovery Cabinet &amp; Execution Summary</h3>
       <p style="font-size:0.9rem; color:#555; line-height:1.5;">
@@ -1990,7 +2088,7 @@
   </div>
   <!-- END TAB 18 -->
 
-  <!-- Stats & Logs -->
+  <!-- Stats &amp; Logs -->
   <div class="info-panel" id="info-panel">
     <div class="stats" id="stats-panel">
       <h3 style="margin-top:0; color:#333;">Statistics</h3>
@@ -6204,7 +6302,7 @@ function valRunH6Check() {
 
       if (res.squaresFound.length === 0) {
         log += "\n✅ RESULT: PASS! Exactly 0 abelian squares found across all inspected half-lengths K = 1..400.\n";
-        log += `No violations found (K=1..400, ${res.prefixLen.toLocaleString()}-letter prefix) — empirical observation, not an unconditional infinite theorem proof. Level 1 Computed Checksum (arXiv:1507.02581).`;
+        log += `No violations found (K=1..400, ${res.prefixLen.toLocaleString()}-letter prefix) — empirical observation, not an unconditional infinite theorem proof. Level 1 computed checksum. Asymptotic result: arXiv:1511.05875 Thm 9.`;
         valLog('val-h6-output', log, 'success');
       } else {
         log += `\n❌ RESULT: UNEXPECTED SQUARES DETECTED:\n`;
@@ -6795,7 +6893,7 @@ function valRunRauzy() {
       log += `Eigenvalues inspected: ${msg.results.eigenvalues.join(', ')}\n`;
       log += `2D Secondary Eigenspace Bounding Box: X ∈ [${msg.results.minX}, ${msg.results.maxX}], Y ∈ [${msg.results.minY}, ${msg.results.maxY}]\n\n`;
       log += "Notice: Because |±√3| < 3, projection onto the secondary eigenspace contracts linear growth into a bounded, self-similar fractal geometry (~±170 range).\n";
-      log += "✅ PROJECTION COMPLETED. Provenance verified (Level 1 Computed Checksum: arXiv:1507.02581 / On Mäkelä's Conjectures).";
+      log += "✅ PROJECTION COMPLETED. Provenance: arXiv:1511.05875, Thm 9 (Level 2 source; this projection is a Level 1 computation).";
       valLog('val-rauzy-output', log, 'success');
       const galView = document.getElementById('view-gallery');
       if (galView && !galView.classList.contains('hidden')) {
@@ -7560,7 +7658,7 @@ function galMutateG3(mode) {
     document.getElementById('mut-g3-f').value = 'aaaaaaabaa';
     if (badge) {
       badge.style.background = '#27ae60';
-      badge.innerHTML = '🟢 PROVED CONSTRUCTION (Rao–Rosenfeld 2018, Thm 11) | Asymptotically abelian square-free';
+      badge.innerHTML = '🟢 Level 2: Rao–Rosenfeld, arXiv:1511.05875, Thm 9 | no abelian square of period > 5';
     }
     if (obsBadge) {
       obsBadge.className = 'val-badge lvl1-chk';
