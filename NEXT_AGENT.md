@@ -1,5 +1,11 @@
 # Next Agent Handoff
 
+> **Uusi sessio: lue `RESEARCH_CONTEXT.md` ensin.** Se on projektin sisääntulopiste
+> ja kertoo mikä tiedosto on auktoriteetti mistäkin. Tämä dokumentti sisältää
+> historiallista tietoa, jota ei ole kaikilta osin päivitetty — tarkista jokainen
+> matemaattinen väite `MATH_CLAIMS.md`:stä ennen kuin nojaat siihen.
+
+
 Last updated: 2026-07-09
 
 ## Project Summary

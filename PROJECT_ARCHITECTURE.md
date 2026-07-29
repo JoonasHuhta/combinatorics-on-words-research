@@ -1,5 +1,11 @@
 # Project Architecture
 
+> **Uusi sessio: lue `RESEARCH_CONTEXT.md` ensin.** Se on projektin sisääntulopiste
+> ja kertoo mikä tiedosto on auktoriteetti mistäkin. Tämä dokumentti sisältää
+> historiallista tietoa, jota ei ole kaikilta osin päivitetty — tarkista jokainen
+> matemaattinen väite `MATH_CLAIMS.md`:stä ennen kuin nojaat siihen.
+
+
 ## Overview
 
 This project is a dependency-free interactive browser laboratory for Abelian square-free words and related constructions from Veikko Keranen's work. The application lives in a single file, `index.html`, and uses only browser-native APIs: DOM, Canvas, and Web Audio.

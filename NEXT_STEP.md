@@ -1,82 +1,123 @@
 # Seuraava askel
 
-**Kirjattu:** 2026-07-28
-**Tarkoitus:** yksi tiedosto joka kertoo mistä jatketaan, jottei sitä tarvitse päätellä uudelleen `NEXT_AGENT.md`:n historiasta.
+**Päivitetty:** 2026-07-29
+**Lue ensin:** `RESEARCH_CONTEXT.md`, sitten `AGENTS.md`.
 
 ---
 
-## Tehty 2026-07-28: Vaihe 2 (Rauzy-graafit) on valmis, ks. `MATH_CLAIMS.md` rivit 34-35
+## Suositus: Keräsen epäsuotuisat tekijät
 
-## Suositus: Keräsen epäsuotuisat tekijät (A4)
+`OPEN_RESEARCH_QUESTIONS.md` **A4**, `MATH_CLAIMS.md` rivi **38**.
 
-Se on ainoa listalla oleva **lähteistetty avoin ongelma** jonka koneisto on jo olemassa. Ks. alla kohta 2.
+Se on listan **ainoa lähteistetty avoin ongelma jonka työkalu on jo valmis**.
 
-## Aiempi suositus (tehty): Vaihe 2, kielen eksakti tutkija
+### Kysymys, sanatarkasti lähteestä
 
-Se on suunnitelman ainoa tekemätön osa, se käyttää valmista koneistoa, ja se täydentää `factor-complexity.js`:n taulukon visuaaliseksi.
+> *"…an unfavourable a-2-free word cannot be continued infinitely long to the
+> left and to the right without necessarily creating an abelian square at some
+> point. **However, it might well be possible to extend such a word boundlessly
+> to one direction, say to the right, without producing any abelian squares.
+> Experiments support this conjecture but the existence of such unfavourable
+> factors remains an open question.**"*
+> — V. Keränen, *Suppression of Unfavourable Factors in Pattern Avoidance*,
+> International Mathematica Symposium, Avignon 2006
 
-**Sisältö:**
-- Rauzy-graafit: solmuina pituuden n tekijät, kaarina pituuden n+1 tekijät
-- Oikealle erikoiset tekijät: p(n+1) − p(n) laskee ne, ja g₃(h₆^ω(a)):lle erotukset ovat välillä 6…8 (`MATH_CLAIMS.md` rivi 28) — **rakenne on tutkimatta**
-- Sama esitys aa2f- ja aa2fr-kielille, jolloin näkee *missä* FORBID4 puree
+Eli: **onko olemassa sana joka on rajattomasti jatkettavissa oikealle, mutta joka
+ei esiinny minkään äärettömän a-2-vapaan sanan aitona tekijänä?**
 
-**Miksi tämä eikä telemetria:** haaraantumiskertoimet ja "sukupuuttoasteet" riippuvat hakujärjestyksestä. Rauzy-graafi on kielen invariantti. Ks. `OPEN_RESEARCH_QUESTIONS.md` osio C.
+### Miksi `rauzy-graph.js` on oikea työkalu
 
-**Koneisto on olemassa:** `factor-frequencies.js` antaa täydelliset tekijäjoukot eksaktisti, `factor-complexity.js` laskee p(n). Rauzy-graafi rakentuu suoraan näistä.
+Rauzy-graafissa, kertaluvulla n:
+
+- **rajattomasti oikealle jatkettava** ⟺ solmusta pääsee johonkin sykliin
+- **rajattomasti molempiin suuntiin** ⟺ solmu on kaksisuuntaisesti äärettömällä
+  polulla, eli kuuluu ei-triviaaliin vahvasti yhtenäiseen komponenttiin tai
+  sellaisen tavoittamaan osaan molemmilta puolilta
+- **epäsuotuisa** ⟺ edellinen ei päde
+
+Erotus näiden kahden joukon välillä on täsmälleen se mitä Keränen kysyy, ja se on
+äärellisesti laskettavissa kullekin n:lle.
+
+### Konkreettinen aloitus
+
+1. `rauzy-graph.js` sisältää jo `stronglyConnected` ja `extendabilityCensus`.
+   Tarvitaan lisäksi: **saavuttaako solmu syklin eteenpäin** (ja taaksepäin) —
+   se on tavallinen SCC-laskenta + saavutettavuus, ei uutta matematiikkaa.
+2. Aja **ternäärille aa2f-kielelle ensin**, koska se on pieni ja koneisto on jo
+   viritetty siihen. Se ei ole Keräsen kysymys mutta se validoi toteutuksen.
+3. Vasta sitten **nelikirjaimiseen a-2-vapaaseen kieleen**, joka on Keräsen
+   asetelma.
+
+### Varaukset, jotka pitää tietää etukäteen
+
+- **Aakkosto eroaa.** Keränen käsittelee neljää kirjainta ja **täyttä**
+  a-2-vapautta; rivin 35 mittaus on kolme kirjainta ja aa2f. Ne eivät ole sama
+  kysymys, ja `MATH_CLAIMS.md` rivi 38 sanoo sen
+- **Rivin 35 luvut eivät ole epäsuotuisien tekijöiden lukumääriä.** Ne laskevat
+  tekijöitä joilla ei ole **yhden askeleen** jatkoa. Keräsen käsite koskee
+  ääretöntä jatkettavuutta ja on aidosti vahvempi
+- **Tavoitettavuus on epävarma.** Nelikirjaiminen a-2-vapaa kieli kasvaa
+  eksponentiaalisesti, joten Rauzy-graafit räjähtävät. Käytännössä vastaus
+  löytyy vain pienillä n, ja Keräsen omat kokeet olivat myös laskennallisia.
+  **Älä lupaa ratkaisua ennen kuin tiedät mihin n:ään haku yltää**
 
 ---
 
-## Vaihtoehto: SAT-koodaus morfismihakuun
-
-Isompi ja kannattaa aloittaa levänneenä. Kolme ehtoa ennen aloitusta:
-
-1. **Kohde on sääntöavaruus, ei sanaavaruus.** Aa2f-sanoja tunnetaan 25 379 merkkiin; UNSAT ei tule vastaan millään saavutettavalla pituudella. Morfismiavaruus 3^(3k) on oikea kohde.
-2. **Verifioija on jo olemassa** — `decide-realizability.js` (`MATH_CLAIMS.md` rivi 32) — mutta se pätee **puhtaille morfisille sanoille**. Silmukka on siis rakennettava ternäärimorfismien **kiintopisteille**, ei projektioille. Se on samalla Mäkelän ongelman reitti (a), ks. `OPEN_RESEARCH_QUESTIONS.md` A1.
-3. **Nimi on CEGIS**, ei uusi metodologia. Solar-Lezama ym. 2006. Kirjallisuus antaa konvergenssiehdot ja tunnetut epäonnistumismoodit valmiina.
-
----
-
-## Muut avoimet työt, prioriteettijärjestyksessä
+## Muut avoimet työt
 
 | # | Työ | Peruste |
 |---|---|---|
-| 1 | Rauzy-graafit (yllä) | valmis koneisto, invariantti, pedagoginen |
-| 2 | Keräsen epäsuotuisat tekijät (`OPEN_RESEARCH_QUESTIONS.md` A4) | **lähteistetty avoin ongelma**, ja `rauzy-graph.js` on juuri oikea työkalu: rajattomasti jatkettava = graafissa syklin tavoittava. Uusi 2026-07-28 |
-| 3 | FORBID4:n minimaalisuus | äärellinen: 64 osajoukkoa × kasvunopeuden yläraja. Yksikäsitteinen vastaus. `OPEN_RESEARCH_QUESTIONS.md` B1 |
-| 4 | Additiiviset toistot ℤ^d | sama koneisto, eri Ψ. Valmis verifioitava kohde: Rao & Rosenfeld Theorem 6 (Φ annettu eksplisiittisesti paperissa) |
+| 1 | Epäsuotuisat tekijät (yllä) | lähteistetty avoin ongelma, työkalu valmis |
+| 2 | FORBID4:n minimaalisuus | äärellinen: 64 osajoukkoa × kasvunopeuden yläraja. Yksikäsitteinen vastaus. `OPEN_RESEARCH_QUESTIONS.md` B1 |
+| 3 | Selviytymisjakauman vaimenemisvakio | data on jo kerätty (`morphism-scan.js`), analyysi puuttuu. Rakenteellinen jos k:sta riippumaton. **Sovita jakauman runkoon, ei ääriäntään** — maksimin saavuttaa 2, 4, 8 morfismia |
+| 4 | ℚ[x]/(m(x)) ja Theorem 8 | epäuniformi morfismi (`h₄`, pituudet 3,3,2,3), Perron-juuri irrationaalinen. Yleistää `jordan-decomposition.js`:n ℚ(√3)-koodin. **Älä koodaa faktorointia** — asteilla ≤ 6 riittää rationaalijuuritesti |
 | 5 | k-abelinen moduuli | lähin **ratkaistu** naapuri (Fici & Puzynina Thm 65). Ainoa tapa mitata mitä ekvivalenssin vahvistaminen ostaa |
-| 6 | Ennätyssanarekisteri | Keränen pyysi (WhatsApp kohta 14). Projekti on jo osoittanut tarpeen: shipattu 40-kirjaiminen esimerkki oli kelvoton |
-| 7 | SAT / CEGIS | yllä |
+| 6 | Ennätyssanarekisteri UI:hin | `word-anatomy.js` on jo rekisteri; se puuttuu sovelluksesta |
+| 7 | SAT / CEGIS sääntöavaruuteen | kohde on **morfismiavaruus**, ei sanaavaruus. Verifioija pätee **puhtaille morfisille sanoille**, joten silmukka rakennetaan kiintopisteille, ei projektioille |
 
 ---
 
 ## Mitä ei kannata tehdä
 
-- **Lisää HPC-skaalausta.** Algoritmi oli väärä ennen kuin karsinta lisättiin; eksaktit skriptit ajavat sekunneissa. Ei pullonkaulaa.
-- **`ConstraintEvaluator`-refaktorointi ennen kohtaa 6.** Abstraktio on arvaus ennen kuin SAT-koodaus kertoo mitä rajapinnan pitää kantaa. Kun se tehdään, tehdään koodigeneroinnilla — polymorfinen kutsupaikka DFS:n sisimmässä silmukassa on megamorfinen, ei "monomorfisesti inlinattu".
-- **Pidempien aa2f-sanojen jahtaaminen.** Keräsellä on 25 379. Mikä tahansa äärellinen sana on äärellinen havainto.
-- **Hakutelemetria kielen ominaisuutena.** Ks. `OPEN_RESEARCH_QUESTIONS.md` osio C.
+- **HPC-skaalaus morfismiskanneriin.** Maksimiprefiksi on ln N, R² = 0,99875
+  (rivi 37). k = 7, 8, 9 antaa 40, 45, 50 riippumatta matematiikasta
+- **Ennätyssanojen käänteismallinnus.** Ne eivät ole morfisia: p(15) = 14 502
+  vs. substitutiivisen 144 (rivi 42). Rakennetta ei ole
+- **"Rosetta-filtteri"** 25 379-sanan tekijöistä. Se hylkäisi 88 % laillisista
+  jatkoista yhden sanan valintojen perusteella — todennäköisemmin katto kuin
+  jatke
+- **Pidempien aa2f-sanojen jahtaaminen.** Keräsellä on 25 379; mikä tahansa
+  äärellinen sana on äärellinen havainto
+- **`ConstraintEvaluator`-refaktorointi** ennen kohtaa 7. Abstraktio on arvaus
+  ennen kuin SAT-koodaus kertoo mitä rajapinnan pitää kantaa
+- **Hakutelemetria kielen ominaisuutena.** `OPEN_RESEARCH_QUESTIONS.md` osio C
 
 ---
 
-## Repositorion tila 2026-07-28
+## Repositorion tila 2026-07-29
 
-Testit 25/25, driftitarkistukset 12/12, kaikki committoitu ja pushattu.
+Testit **27/27**, driftitarkistukset **12/12**, kaikki committoitu ja pushattu.
+Moduulilista ja ajokomennot: `RESEARCH_CONTEXT.md` osio 3.
 
-**Eksakti putki** (jokainen vaihe todentaa itsensä ja heittää poikkeuksen ennemmin kuin palauttaa virheellisen tuloksen):
+### Avoimet päätökset, jotka kuuluvat ylläpitäjälle
 
-```
-perron-frobenius.js     spektri, Perron-vektori, karakteristinen polynomi
-smith-normal-form.js    kokonaislukuhilat, Smithin normaalimuoto
-jordan-decomposition.js Q(sqrt3)-aritmetiikka, Jordan-muoto
-proposition5-bounds.js  supistuvan puolen rajat
-ancestor-box.js         Prop 5 + Prop 6, aarellinen laatikko
-get-parents.js          Par_h ja Anc_h
-decide-realizability.js Prop 8, koko paatosmenettely
-factor-frequencies.js   taydelliset tekijajoukot, eksaktit tiheydet
-factor-complexity.js    p(n) ja kasvunopeuden tiukat ylarajat
-rauzy-graph.js          Rauzy-graafit, erikoiset tekijat, umpikujat
-morphism-scan.js        tyhjentava pienten morfismien haku
-```
+1. **Git-historia.** Viisi ennätyssanatiedostoa ja `latest/Keranen.pdf`
+   committoitiin vahingossa ja poistettiin seurannasta, mutta ne ovat yhä
+   historiassa ja pushattu. Poistaminen vaatii force-pushin julkaistun historian
+   yli
+2. **`latest/`-kansion yhdeksän tekijänoikeudellista paperia** ovat julkisessa
+   GitHub-repositoriossa, committoituna ennen tätä istuntoa
+3. **SIAM-viite** 32(4):2381–2397 (2018) on `REJECTED` (rivi 23) — arXiv näyttää
+   `Journal ref: (none)`. Kukaan ei ole avannut julkaisijan sivua
 
-**Muistutus jokaiselle joka jatkaa:** yhdeksän kertaa tässä työssä uskottava yleistys osoittautui vääräksi vasta ajossa (M_g:n surjektiivisuus, M_h:n diagonalisoituvuus, p(n):n vakioslope, ytimen ulottuvuus, testidatan "abelin neliö", HTML-entiteettien kaksoisescapetus, TeX-jäännökset, Cassaignen hypoteesin puuttuminen, skannerin liian heikko ehto). Yksikään ei olisi kaatunut silmämääräisessä tarkistuksessa. Aja kaikki, vertaa HEAD:iin, äläkä luota kommenttiin.
+### Muistutus
+
+**Yksitoista kertaa** tässä työssä uskottava yleistys osoittautui vääräksi vasta
+ajossa: M_g:n surjektiivisuus, M_h:n diagonalisoituvuus, p(n):n vakioslope,
+ytimen ulottuvuus, testidatan "abelin neliö", HTML-entiteettien kaksoisescapetus,
+TeX-jäännökset, Cassaignen hypoteesin puuttuminen, skannerin liian heikko ehto,
+Parikh-epätasapainon erottelukyky, ja `ancestor-box.js`:n perustelematon
+`x0IsZero`-haara.
+
+Yksikään ei olisi kaatunut silmämääräisessä tarkistuksessa. **Aja kaikki, vertaa
+HEAD:iin, äläkä luota kommenttiin.**

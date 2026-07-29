@@ -240,6 +240,43 @@ check("No raw LaTeX or broken entities in index.html markup", () => {
   }
 });
 
+// 6e. The entry-point document must not rot.
+//
+// RESEARCH_CONTEXT.md is the router a new session reads first. If it names a
+// module that no longer exists, or the exact pipeline gains a module it never
+// hears about, the router sends the next reader to the wrong place. Cheap to
+// check, and the failure mode is silent otherwise.
+check("RESEARCH_CONTEXT.md lists the exact pipeline accurately", () => {
+  const p = path.join(__dirname, 'RESEARCH_CONTEXT.md');
+  if (!fs.existsSync(p)) throw new Error('RESEARCH_CONTEXT.md is missing; it is the documented entry point for a new session.');
+  const doc = fs.readFileSync(p, 'utf8');
+
+  // Every module it names must exist.
+  const named = [...doc.matchAll(/^([a-z0-9-]+\.js)\s{2,}/gm)].map(m => m[1]);
+  if (named.length === 0) throw new Error('RESEARCH_CONTEXT.md lists no pipeline modules; section 3 has lost its table.');
+  const missing = named.filter(f => !fs.existsSync(path.join(__dirname, f)));
+  if (missing.length) {
+    throw new Error(`RESEARCH_CONTEXT.md names modules that do not exist: ${missing.join(', ')}`);
+  }
+
+  // Every exact-pipeline module must be named. Deliberately excludes the app,
+  // the worker, the test harness and one-off scripts.
+  const EXCLUDE = new Set(['script.js', 'aa2fr-worker.js', 'seam-hpc-cli.js', 'test.js',
+    'check-claims-drift.js', 'test-theorem10-boundary.js', 'verify-theorem6.js', 'morphisms.js']);
+  const onDisk = fs.readdirSync(__dirname).filter(f => f.endsWith('.js') && !EXCLUDE.has(f));
+  const unlisted = onDisk.filter(f => !doc.includes(f));
+  if (unlisted.length) {
+    throw new Error(`These exact-pipeline modules are not listed in RESEARCH_CONTEXT.md section 3: ${unlisted.join(', ')}. A new session would not know they exist.`);
+  }
+
+  // The claim count it quotes must match the ledger.
+  const rows = (fs.readFileSync(path.join(__dirname, 'MATH_CLAIMS.md'), 'utf8').match(/^\| \d+[a-c]? \|/gm) || []).length;
+  const quoted = doc.match(/(\d+)\s+riviä/);
+  if (quoted && Number(quoted[1]) !== rows) {
+    throw new Error(`RESEARCH_CONTEXT.md says MATH_CLAIMS.md has ${quoted[1]} rows; it has ${rows}.`);
+  }
+});
+
 // 7. Git Drift Check against HEAD (if in git repo)
 check("Git Drift Check against Last Commit (MATH_CLAIMS.md)", () => {
   try {
