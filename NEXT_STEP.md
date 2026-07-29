@@ -15,11 +15,18 @@ pienillä L vastakkaisiin suuntiin — [2,5]-välttäjiä on tuhansia, mutta jok
 kuolee suurilla jaksoilla ≤ 44 symbolissa. Rivillä **50** on kirjattu miksi
 kasvun alaraja ei ole osatavoite vaan koko konjektuuri (König).
 
-**Seuraava askel tässä:** joko B5.1 (L=6-lakaisu karsivalla DFS:llä — mittaa
-kustannus ennen lupaamista; L=5 vaati 14,9 mrd symbolia) tai B6 (säiliökielen
-de Bruijn -graafi ja taajuusrajat — uusi moduuli, eksakti, äärellinen).
-B6 on suositus: se tuottaa välttämättömiä ehtoja *kaikille* reiteille, ei vain
-reitille (c), ja sen tulos on lauseen muotoinen kumpaan suuntaan tahansa.
+**Tehty jatkona (2026-07-29/30): B6 laskettu.** `sft-container.js`, tulokset
+rivillä **51**: säiliökielessä yksi SCC (2 844 tilaa), jokaisen kirjaimen
+taajuus välttämättä [1/11, 3/4]:ssä, binäärihäntää ei ole. Kontrollit:
+Karp verifioitu riippumattomasti Bellman–Fordilla, DP vs. DFS -ristiintarkistus,
+Keräsen sana kulkee graafin läpi. Lisäksi `RESEARCH_ARCHITECT.md`:
+tutkimusideoiden tuotantomenettely (rooli, rajaukset, tulostemuoto,
+rubriikki) — ideat eivät synny enää vapaana proosana.
+
+**Seuraava askel:** B6:n jatko 1 (kiristyvätkö taajuusvälit kun K-ikkunaa
+kasvatetaan — muisti 11 ensin, mittaa ennen muistia 13) tai B5.1 (L=6-lakaisu;
+L=5 vaati 14,9 mrd symbolia, mittaa ennen lupaamista). Kumpikin on äärellinen
+ja invariantti.
 
 ---
 
@@ -160,13 +167,13 @@ Erotus näiden kahden joukon välillä on täsmälleen se mitä Keränen kysyy, 
 
 ---
 
-## Repositorion tila 2026-07-29 (ilta)
+## Repositorion tila 2026-07-30
 
-Testit **29/29**, driftitarkistukset **13/13**. **Työpuussa on committoimattomia
-muutoksia jotka odottavat ylläpitäjän hyväksyntää** (sääntö 5): rivit 49–50
-`MATH_CLAIMS.md`:ssä, `h6-image-sweep.js`, testi 29, driftitarkistuksen
-laajennus, sekä dokumenttipäivitykset (`RESEARCH_CONTEXT.md`,
-`OPEN_RESEARCH_QUESTIONS.md`, tämä tiedosto, `SKILLS_PLAN.md`).
+Testit **30/30**, driftitarkistukset **13/13**. Rivit 49–50 ja
+tutkimusarkkitehti-protokolla on committoitu. **Työpuussa odottaa
+hyväksyntää** (sääntö 5): rivi 51 (`sft-container.js`:n tulokset) ja siihen
+liittyvät päivitykset tähän tiedostoon, `RESEARCH_CONTEXT.md`:hen ja
+`OPEN_RESEARCH_QUESTIONS.md` B6:een.
 Moduulilista ja ajokomennot: `RESEARCH_CONTEXT.md` osio 3.
 
 ### Avoimet päätökset, jotka kuuluvat ylläpitäjälle

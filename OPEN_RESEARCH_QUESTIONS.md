@@ -99,11 +99,14 @@ Selviytyjää **ei** saa kutsua kandidaatiksi ennen kuin molemmat ikkunat on tar
 
 ### B6. K ∈ [2,5]-säiliökieli on äärellisen tyypin rajoite — sen rakenne on eksaktisti laskettavissa
 
-Mäkelän avoin osa koskee puolipituuksia 2…5, ja abelin neliö puolipituudella ≤ 5 mahtuu 10 merkin ikkunaan. Kieli "vältä *vain* K ∈ [2,5]" on siis äärellisen ikkunan rajoite, ja jokainen Mäkelä-todistaja elää sen sisällä. De Bruijn -graafi (tilat = lailliset 9-sanat, ≤ 3⁹ = 19 683) on täysin laskettavissa:
+Mäkelän avoin osa koskee puolipituuksia 2…5, ja abelin neliö puolipituudella ≤ 5 mahtuu 10 merkin ikkunaan. Kieli "vältä *vain* K ∈ [2,5]" on siis äärellisen ikkunan rajoite, ja jokainen Mäkelä-todistaja elää sen sisällä.
 
-1. **Elävä osa ja SCC-rakenne:** mitkä 9-kontekstit ovat kaksisuuntaisesti äärettömällä polulla.
-2. **Kirjaintaajuuksien välttämättömät rajat:** syklien Parikh-painojen min/max-keskiarvot (Karpin algoritmi, eksakti rationaaliaritmetiikka) antavat välin johon **jokaisen** [2,5]-vapaan äärettömän sanan taajuudet kuuluvat. Jos väli on epätriviaali, jokainen kandidaattimorfismi jonka Perron-taajuudet osuvat sen ulkopuolelle on kuollut ennen yhtäkään hakua — todistettu karsintalause, joka kytkeytyy E1:n kustannuspriorisointiin. Jos väli on triviaali, sekin on yksikäsitteinen vastaus.
-3. **Binäärialiaakkostot:** selviääkö mikään kaksikirjaiminen ääretön sana [2,5]-ehdosta — vastaus putoaa suoraan graafista.
+**Kysymykset 1–3 on laskettu** (`sft-container.js`, tulokset `MATH_CLAIMS.md` **rivi 51**): yksi ei-triviaali SCC (2 844 tilaa), kirjaintaajuudet välttämättä välissä [1/11, 3/4], binäärihäntää ei ole. Väli on leveä, joten sen karsintavoima E1-käytössä on vaatimatonta — se on silti ensimmäinen kaikkia hyökkäysreittejä koskeva välttämätön ehto.
+
+**Auki jäävä jatko:**
+
+1. **Kiristyvätkö välit kun rajoitteita lisätään?** Sama analyysi kielelle K ∈ [2,6] (muisti 11, 3¹¹ = 177 147 raakatilaa) ja K ∈ [2,7] (muisti 13, 1,6 M raakatilaa). Trendi [1/11, 3/4] → ? kertoisi pakottaako pieni ikkuna taajuudet kohti tasapainoa vai ei. Mittaa tilamäärä ennen kuin lupaat muistin 13.
+2. **SCC:n hienorakenne:** synkronoivat sanat, jaksollisuus (syt sykleistä), ja missä Keräsen sanan polku kulkee suhteessa SCC:n "reunoihin" (tiloihin joilla on vain yksi jatko).
 
 Varaus: tämä on **relaksaation** analyysi. Se antaa välttämättömiä ehtoja, ei koskaan riittäviä (vrt. `NEGATIVE_RESULTS.md` §2: SCC ei todista ääretöntä aa2f-sanaa).
 

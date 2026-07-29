@@ -1098,6 +1098,43 @@ test("Route (c) sweep: uniform images of h6^w(a), L <= 3 - deaths, survivors and
   console.log(`       (L=4 and L=5 are exercised by the module run, MATH_CLAIMS row 49)`);
 });
 
+// ----------------------------------------------------
+// 30. THE K IN [2,5] CONTAINER SFT (sft-container.js, MATH_CLAIMS row 51)
+// ----------------------------------------------------
+test("Container SFT: 3114 states, one SCC of 2844, letter frequencies in [1/11, 3/4], no binary tail", () => {
+  const sc = require('./sft-container.js');
+  const container = sc.buildContainer();
+
+  // Controls throw on failure (S3 closure, negative control, DP-vs-DFS counts;
+  // Keranen trace runs when the gitignored record file is present).
+  const ctrl = sc.runControls(container);
+  assert.strictEqual(ctrl.statesCount, 3114, `states must number 3114, got ${ctrl.statesCount}`);
+  assert.strictEqual(ctrl.essential, 2844, `essential states must number 2844, got ${ctrl.essential}`);
+
+  const sccs = sc.frequencyIntervals(container);
+  assert.strictEqual(sccs.length, 1, `essential part must have exactly 1 nontrivial SCC, got ${sccs.length}`);
+  assert.strictEqual(sccs[0].size, 2844, `the SCC must have 2844 states, got ${sccs[0].size}`);
+  assert.strictEqual(sccs[0].edges, 5418, `the SCC must have 5418 internal edges, got ${sccs[0].edges}`);
+  for (let x = 0; x < 3; x++) {
+    const pl = sccs[0].perLetter[x];
+    assert.strictEqual(`${pl.lo.num}/${pl.lo.den}`, '1/11', `letter ${'abc'[x]} min frequency must be 1/11`);
+    assert.strictEqual(`${pl.hi.num}/${pl.hi.den}`, '3/4', `letter ${'abc'[x]} max frequency must be 3/4`);
+  }
+
+  assert.strictEqual(sc.binarySubAlphabetCycle(container), false,
+    "no infinite [2,5]-free word over a two-letter sub-alphabet may exist");
+
+  // The container is a strict relaxation of aa2f: its n=15 count must exceed
+  // the aa2f language's 120,084 (NEGATIVE_RESULTS.md item 6).
+  const c15 = sc.countViaDP(15, container);
+  assert.strictEqual(c15, 159006, `container count at n=15 must be 159006, got ${c15}`);
+  assert.ok(c15 > 120084, "container must be strictly larger than aa2f at n=15");
+
+  console.log(`       3114 states, essential 2844, one SCC (5418 edges)`);
+  console.log(`       every letter frequency limit point in [1/11, 3/4]; intervals S3-symmetric`);
+  console.log(`       no binary tail; container n=15 count 159,006 > aa2f 120,084`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
