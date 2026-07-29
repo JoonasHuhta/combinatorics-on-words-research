@@ -969,6 +969,7 @@ test("Record words verify as aa2f; FORBID4 is a heuristic, not a rule", () => {
   console.log(`       ${checked} record word(s) verified aa2f by exhaustive scan over all K >= 2`);
   console.log(`       FORBID4 occurs 2,820 times in the 25379 word -> heuristic, not a rule`);
   console.log(`       p(6) = 360 = the entire aa2f language -> search product, not morphic`);
+  console.log(`       Parikh excursion does NOT discriminate: substitutive is 7x more imbalanced`);
 });
 
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
