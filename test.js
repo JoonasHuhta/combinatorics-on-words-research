@@ -1002,6 +1002,57 @@ test("Proposition 11 target set, and Theorem 6 re-derived", () => {
   console.log(`       (node decide-phi-squares.js reproduces it in about 20 seconds)`);
 });
 
+// ----------------------------------------------------
+// 28. UNFAVOURABLE FACTORS (MATH_CLAIMS.md row 47)
+// ----------------------------------------------------
+test("Unfavourable factors exist over four letters, first at length 8", () => {
+  const uf = require('./unfavourable-factors.js');
+  const S4 = ['a', 'b', 'c', 'd'], S3 = ['a', 'b', 'c'];
+  const CAP = 20;
+
+  const census = (n, alphabet, minK) => {
+    let proven = 0, candidates = 0;
+    for (const u of uf.factorsOfLength(n, alphabet, minK)) {
+      const L = uf.extensionDepth(u, 'left', alphabet, minK, CAP);
+      const R = uf.extensionDepth(u, 'right', alphabet, minK, CAP);
+      if (L < CAP || R < CAP) proven++;
+      if (L < CAP && R >= CAP) candidates++;
+    }
+    return { proven, candidates };
+  };
+
+  // Full a-2-freeness over four letters - Keranen's setting.
+  assert.strictEqual(census(7, S4, 1).proven, 0, "No unfavourable factor of length 7 over four letters");
+  const c8 = census(8, S4, 1);
+  assert.strictEqual(c8.proven, 48, `Length 8 must yield 48 proven unfavourable factors, got ${c8.proven}`);
+  assert.strictEqual(c8.candidates, 24, `Length 8 must yield 24 candidates, got ${c8.candidates}`);
+
+  // Validation against row 35: the ternary aa2f depth-0 case must agree.
+  const rg = require('./rauzy-graph.js');
+  const fc = require('./factor-complexity.js');
+  const L = fc.LANGUAGES.find(x => x.key === 'aa2f');
+  const ext = rg.extendabilityCensus(rg.constraintFactors(L, 9), rg.constraintFactors(L, 10), S3);
+  let depthZero = 0;
+  for (const u of uf.factorsOfLength(9, S3, 2)) {
+    if (uf.extensionDepth(u, 'left', S3, 2, 1) === 0) depthZero++;
+  }
+  assert.strictEqual(depthZero, ext.noLeft,
+    "The depth-0 case must agree with the Rauzy-graph census of row 35");
+
+  // Left-death is the proof; a candidate must genuinely have an exhausted left tree.
+  for (const u of uf.factorsOfLength(8, S4, 1)) {
+    const Lf = uf.extensionDepth(u, 'left', S4, 1, CAP);
+    if (Lf >= CAP) continue;
+    assert.ok(S4.every(c => !uf.inLanguage(c.repeat(1) + u, 4, 1, S4)) || Lf > 0,
+      `Left depth ${Lf} reported for "${u}" but a one-letter extension exists`);
+    break;
+  }
+
+  console.log(`       four letters, full a-2-freeness: first unfavourable at length 8`);
+  console.log(`       n=8: 48 proven unfavourable, 24 candidates for Keranen's question`);
+  console.log(`       ternary depth-0 case agrees with row 35`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);

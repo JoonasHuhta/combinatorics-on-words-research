@@ -5,7 +5,21 @@
 
 ---
 
-## Suositus: Keräsen epäsuotuisat tekijät
+## Tehty 2026-07-29: epäsuotuisat tekijät, ensimmäinen vaihe
+
+`unfavourable-factors.js` on olemassa ja validoitu. Tulokset `MATH_CLAIMS.md`
+rivillä 47. **Keräsen kysymys on yhä auki** — meillä on 336 kandidaattia
+pituudella 9, mutta oikean jatkeen rajattomuus on evidenssiä eikä todiste.
+
+**Seuraava askel tässä:** todista yhden kandidaatin oikea jatke äärettömäksi.
+Ainoa tuntemani reitti on löytää morfismi jonka kiintopisteen etuliite kandidaatti
+on. Huom. `g₈₅^ω(a)` ei kelpaa: se on tasaisesti rekurrentti, joten jokainen sen
+tekijä saa mielivaltaisen pitkän vasemman kontekstin — epäsuotuisa tekijä ei voi
+esiintyä siinä lainkaan (rivi 47).
+
+---
+
+## Alkuperäinen suositus (vaihe 1 tehty): Keräsen epäsuotuisat tekijät
 
 `OPEN_RESEARCH_QUESTIONS.md` **A4**, `MATH_CLAIMS.md` rivi **38**.
 
@@ -96,7 +110,7 @@ Erotus näiden kahden joukon välillä on täsmälleen se mitä Keränen kysyy, 
 
 ## Repositorion tila 2026-07-29
 
-Testit **27/27**, driftitarkistukset **12/12**, kaikki committoitu ja pushattu.
+Testit **28/28**, driftitarkistukset **13/13**, kaikki committoitu ja pushattu.
 Moduulilista ja ajokomennot: `RESEARCH_CONTEXT.md` osio 3.
 
 ### Avoimet päätökset, jotka kuuluvat ylläpitäjälle

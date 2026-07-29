@@ -2126,8 +2126,8 @@
         </div>
         <div class="gy-accordion-content">
           <p style="font-size:0.95rem; color:#555; margin-bottom:15px;">
-            <strong>Myth:</strong> "If we keep testing larger uniform morphisms ($k=7,8,9...$), the survival length grows, so we are getting closer to a solution!"<br>
-            <strong>Reality:</strong> The growth is a statistical artifact of testing exponentially more morphisms. The maximum survival length perfectly follows $y \approx 2.29 \ln N$. It is a wall.
+            <strong>Myth:</strong> "If we keep testing larger uniform morphisms (k = 7, 8, 9 &hellip;), the survival length grows, so we are getting closer to a solution!"<br>
+            <strong>Reality:</strong> The growth is a statistical artifact of testing exponentially more morphisms. The maximum survival length perfectly follows y &asymp; 2.29 &middot; ln N. It is a wall.
           </p>
           <canvas id="graveyard-chart" width="600" height="250" style="width:100%; max-width:600px; height:250px; background:#f9f9f9; border:1px solid #eee; display:block;"></canvas>
         </div>
@@ -2144,8 +2144,8 @@
         </div>
         <div class="gy-accordion-content">
           <p style="font-size:0.95rem; color:#555; margin-bottom:15px;">
-            <strong>Myth:</strong> "Algebraic morphisms are highly synchronized, so they must maintain a very tight Parikh imbalance (e.g. difference between max and min letter counts $< 10$)."<br>
-            <strong>Reality:</strong> Exact measurements at length 25,379 prove the opposite. The expanding eigenvalue ($|\\lambda| = \\sqrt{3} > 1$) forces the imbalance of $g_3(h_6^\\omega(a))$ to diverge as $\\sqrt{N}$.
+            <strong>Myth:</strong> "Algebraic morphisms are highly synchronized, so they must maintain a very tight Parikh imbalance (e.g. difference between max and min letter counts &lt; 10)."<br>
+            <strong>Reality:</strong> Exact measurements at length 25,379 prove the opposite. The expanding eigenvalue (|&lambda;| = &radic;3 &gt; 1) forces the imbalance of g<sub>3</sub>(h<sub>6</sub><sup>&omega;</sup>(a)) to diverge as &radic;N.
           </p>
           <div style="max-width:600px;">
             <div style="margin-bottom:15px;">
@@ -2159,7 +2159,7 @@
             </div>
             <div>
               <div style="display:flex; justify-content:space-between; font-size:0.9rem; font-family:monospace; margin-bottom:5px;">
-                <span>Rao &amp; Rosenfeld $g_3(h_6)$ (Morphism)</span>
+                <span>Rao &amp; Rosenfeld g<sub>3</sub>(h<sub>6</sub>) (Morphism)</span>
                 <strong style="color:#c0392b;">Imbalance: 2,298</strong>
               </div>
               <div style="width:100%; height:16px; background:#eee; border-radius:8px; overflow:hidden;">
@@ -2202,18 +2202,18 @@
         <div class="gy-accordion-content">
           <p style="font-size:0.95rem; color:#555; margin-bottom:15px;">
             <strong>Myth:</strong> "If we feed the 25k word to an AI or algorithm, we can extract the generating morphism and continue the word to infinity."<br>
-            <strong>Reality:</strong> We measured the subword complexity $P(k)$. A true morphism is highly restricted (e.g., $P(15) = 144$). The 25k word is maximum entropy ($P(6) = 360$): it explores every possible valid combination like a random walk. You cannot extract algebraic structure from maximum entropy noise.
+            <strong>Reality:</strong> We measured the subword complexity p(k). A true morphism is highly restricted (e.g., p(15) = 144). The 25k word is maximum entropy (p(6) = 360): it explores every possible valid combination like a random walk. You cannot extract algebraic structure from maximum entropy noise.
           </p>
           <div style="display:flex; gap:20px; flex-wrap:wrap; margin-top:20px;">
             <div style="flex:1; min-width:250px; padding:15px; background:#f9f9f9; border:1px solid #ddd; border-radius:6px; text-align:center;">
               <h4 style="margin-top:0; color:#333;">Algebraic Word</h4>
               <div style="font-size:2.5rem; color:#27ae60; font-family:monospace; font-weight:bold; margin:10px 0;">144</div>
-              <div style="font-size:0.85rem; color:#666;">Subword Complexity $P(15)$<br><em>Highly restricted structure</em></div>
+              <div style="font-size:0.85rem; color:#666;">Subword Complexity p(15)<br><em>Highly restricted structure</em></div>
             </div>
             <div style="flex:1; min-width:250px; padding:15px; background:#fff5f5; border:1px solid #fadbd8; border-radius:6px; text-align:center;">
               <h4 style="margin-top:0; color:#c0392b;">Keränen 25k Word</h4>
               <div style="font-size:2.5rem; color:#c0392b; font-family:monospace; font-weight:bold; margin:10px 0;">360 <span style="font-size:1.2rem; color:#999;">/ 360</span></div>
-              <div style="font-size:0.85rem; color:#666;">Subword Complexity $P(6)$<br><em>Hits theoretical maximum (Chaos)</em></div>
+              <div style="font-size:0.85rem; color:#666;">Subword Complexity p(6)<br><em>Hits theoretical maximum (Chaos)</em></div>
             </div>
           </div>
         </div>
@@ -2230,12 +2230,12 @@
         </div>
         <div class="gy-accordion-content">
           <p style="font-size:0.95rem; color:#555; margin-bottom:15px;">
-            <strong>Myth:</strong> "Rao &amp; Rosenfeld already solved abelian squares for lengths $K \ge 6$. Therefore, our scanner only needs to check $K=2..5$."<br>
-            <strong>Reality:</strong> Rao &amp; Rosenfeld proved <em>existence</em> of a specific construction that avoids $K \ge 6$. They did not prove that <em>all</em> candidate morphisms magically avoid them. By skipping the check, our scanner falsely reported trivial periodic words (like <code>(aaabaac)ⁿ</code>) as thousands of "successful" solutions.
+            <strong>Myth:</strong> "Rao &amp; Rosenfeld already solved abelian squares for lengths K &ge; 6. Therefore, our scanner only needs to check K = 2&hellip;5."<br>
+            <strong>Reality:</strong> Rao &amp; Rosenfeld proved <em>existence</em> of a specific construction that avoids K &ge; 6. They did not prove that <em>all</em> candidate morphisms magically avoid them. By skipping the check, our scanner falsely reported trivial periodic words (like <code>(aaabaac)ⁿ</code>) as thousands of "successful" solutions.
           </p>
           <div style="background:#2c3e50; padding:15px; border-radius:6px; color:#ecf0f1; font-family:monospace; font-size:1rem; text-align:center;">
-            <div style="color:#2ecc71; margin-bottom:5px;">Scanner result for <code>(aaabaac)ⁿ</code> with $K \le 5$: <strong style="background:#2ecc71; color:#fff; padding:2px 6px; border-radius:3px;">SUCCESS</strong></div>
-            <div style="color:#e74c3c;">Scanner result for <code>(aaabaac)ⁿ</code> with $K \ge 6$: <strong style="background:#e74c3c; color:#fff; padding:2px 6px; border-radius:3px;">FAILED</strong></div>
+            <div style="color:#2ecc71; margin-bottom:5px;">Scanner result for <code>(aaabaac)ⁿ</code> with K &le; 5: <strong style="background:#2ecc71; color:#fff; padding:2px 6px; border-radius:3px;">SUCCESS</strong></div>
+            <div style="color:#e74c3c;">Scanner result for <code>(aaabaac)ⁿ</code> with K &ge; 6: <strong style="background:#e74c3c; color:#fff; padding:2px 6px; border-radius:3px;">FAILED</strong></div>
             <div style="font-size:0.8rem; margin-top:10px; color:#95a5a6;">(Contains an abelian square of length 6 starting at index 2: <code>abaaca = aabaac</code>)</div>
           </div>
         </div>

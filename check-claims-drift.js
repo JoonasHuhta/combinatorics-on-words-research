@@ -262,7 +262,8 @@ check("RESEARCH_CONTEXT.md lists the exact pipeline accurately", () => {
   // Every exact-pipeline module must be named. Deliberately excludes the app,
   // the worker, the test harness and one-off scripts.
   const EXCLUDE = new Set(['script.js', 'aa2fr-worker.js', 'seam-hpc-cli.js', 'test.js',
-    'check-claims-drift.js', 'test-theorem10-boundary.js', 'verify-theorem6.js', 'morphisms.js']);
+    'check-claims-drift.js', 'test-theorem10-boundary.js', 'verify-theorem6.js', 'morphisms.js',
+    'fix_entities.js']);
   const onDisk = fs.readdirSync(__dirname).filter(f => f.endsWith('.js') && !EXCLUDE.has(f));
   const unlisted = onDisk.filter(f => !doc.includes(f));
   if (unlisted.length) {

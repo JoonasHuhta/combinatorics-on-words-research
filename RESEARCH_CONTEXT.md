@@ -34,7 +34,7 @@ ainoat abelin neliöt ovat `00`, `11`, `22`? Auki puolipituuksille K = 2…5.
 | # | Tiedosto | Mistä se on auktoriteetti |
 |---|---|---|
 | 1 | **`AGENTS.md`** / `CLAUDE.md` | Väitteiden protokolla. **Pakollinen.** Sitaatti ennen koodia, kaksi verifiointitasoa, kielen kalibrointi, ihmisen hyväksyntä ennen committia kun väitteet muuttuvat |
-| 2 | **`MATH_CLAIMS.md`** | **Ainoa auktoriteetti jokaiselle matemaattiselle väitteelle.** 49 riviä. Mikään väite ei saa esiintyä missään ilman riviä täällä |
+| 2 | **`MATH_CLAIMS.md`** | **Ainoa auktoriteetti jokaiselle matemaattiselle väitteelle.** 50 riviä. Mikään väite ei saa esiintyä missään ilman riviä täällä |
 | 3 | **`OPEN_RESEARCH_QUESTIONS.md`** | Avoimet ongelmat, kolmijaolla: A kirjallisuus (lähteineen), B projektin omat laskettavat, **C muotoilut jotka mittaavat toteutusta eivätkä matematiikkaa**. D on hylkäysrekisteri perusteineen |
 | 4 | **`NEXT_STEP.md`** | Mistä jatketaan ja miksi. Mitä ei kannata tehdä |
 | 5 | `PROJECT_ARCHITECTURE.md` | Sovelluksen rakenne, välilehtien reititys |
@@ -69,13 +69,14 @@ factor-complexity.js       p(n), kasvunopeuden tiukat ylarajat
 rauzy-graph.js             Rauzy-graafit, erikoiset tekijat, umpikujat
 morphism-scan.js           tyhjentava pienten morfismien haku
 word-anatomy.js            ennatyssanojen verifiointi ja anatomia
+unfavourable-factors.js    Keranen 2006: epasuotuisat tekijat, jatkettavuussyvyys
 ```
 
 **Verifiointi:**
 
 ```bash
-node test.js                 # 27/27
-node check-claims-drift.js   # 12/12
+node test.js                 # 28/28
+node check-claims-drift.js   # 13/13
 ```
 
 Aja **molemmat** ennen committia ja **lue molempien tuloste**. Ne ovat eri
@@ -96,6 +97,8 @@ Yksityiskohdat `MATH_CLAIMS.md`:stä, tässä vain karttamerkit:
 - Rauzy-graafit ja umpikujatekijät (rivit 34, 35)
 - Ennätyssanat verifioitu ensimmäistä kertaa; FORBID4 osoittautui
   heuristiikaksi (rivit 40–42)
+- **Epäsuotuisia tekijöitä todistettu olemassa oleviksi** neljällä kirjaimella,
+  ensimmäiset pituudella 8 (rivi 47). Keräsen kysymys itse on yhä auki
 - Sitaatit korjattu primäärilähteistä; useita vääriä lausenumeroita ja yksi
   väärä arXiv-tunniste peruttu (rivit 4–7b, 9, 38, 39, 44)
 
