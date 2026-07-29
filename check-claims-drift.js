@@ -172,7 +172,11 @@ check("No Overclaiming Language in Program Output (CLI, workers, launcher)", () 
     'PROVEN', 'Proven',
     'Publication-Grade', 'publication-grade'
   ];
-  const files = ['seam-hpc-cli.js', 'aa2fr-worker.js', 'run-seam-search.bat'];
+  // NOT listed: unfavourable-factors.js. Its "PROVEN unfavourable" is justified
+  // finite proof language - an exhausted left extension tree IS a proof of
+  // unfavourability (MATH_CLAIMS.md row 47 documents the distinction). Adding it
+  // here would flag wording the ledger itself endorses.
+  const files = ['seam-hpc-cli.js', 'aa2fr-worker.js', 'run-seam-search.bat', 'h6-image-sweep.js', 'morphism-scan.js'];
   const offences = [];
 
   for (const f of files) {

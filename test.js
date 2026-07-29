@@ -1053,6 +1053,51 @@ test("Unfavourable factors exist over four letters, first at length 8", () => {
   console.log(`       ternary depth-0 case agrees with row 35`);
 });
 
+// ----------------------------------------------------
+// 29. ROUTE (c) IMAGE SWEEP (h6-image-sweep.js, MATH_CLAIMS row 49)
+// ----------------------------------------------------
+test("Route (c) sweep: uniform images of h6^w(a), L <= 3 - deaths, survivors and their large-K collapse", () => {
+  const sw = require('./h6-image-sweep.js');
+
+  // Built-in controls must hold (34-square census, negative control, g3 context).
+  const ctrl = sw.runControls();
+  assert.strictEqual(ctrl.censusSize, 34, "g3 census control must reproduce 34 distinct squares");
+  assert.strictEqual(ctrl.g3Death, 6, `g3 image must first violate K in [2,5] at symbol 6, got ${ctrl.g3Death}`);
+
+  // L=1 cross-check: DFS vs independent full enumeration of all 729 maps.
+  const cc = sw.crossCheckL1(6);
+  assert.strictEqual(cc.classes, 122, `L=1 must have 122 canonical classes, got ${cc.classes}`);
+  assert.strictEqual(cc.fullSurvivors, 0, "L=1: no map may avoid K in [2,5]");
+  assert.strictEqual(cc.maxViolationPos, 13, `L=1 latest first-violation must be at symbol 13, got ${cc.maxViolationPos}`);
+
+  const x = sw.h6Prefix(6);
+
+  // L=2: exhaustive, zero survivors, latest death at symbol 34.
+  const r2 = sw.sweepDFS(x, 2, { canonical: true });
+  assert.ok(!r2.aborted, "L=2 sweep must complete");
+  assert.strictEqual(r2.survivors.length, 0, `L=2 must have 0 survivors, got ${r2.survivors.length}`);
+  assert.strictEqual(r2.maxViolationPos, 34, `L=2 latest first-violation must be at symbol 34, got ${r2.maxViolationPos}`);
+
+  // L=3: exactly 35 canonical classes avoid K in [2,5]; every one of them
+  // violates K in [6,100] early, and all satisfy g(a) = g(b).
+  const r3 = sw.sweepDFS(x, 3, { canonical: true });
+  assert.ok(!r3.aborted, "L=3 sweep must complete");
+  assert.strictEqual(r3.survivors.length, 35, `L=3 must have exactly 35 [2,5]-survivor classes, got ${r3.survivors.length}`);
+  let maxLarge = -1;
+  for (const s of r3.survivors) {
+    assert.strictEqual(s[0], s[1], `every L=3 survivor must have g(a) = g(b); ${s.join(',')} does not`);
+    const images = s.map(str => str.split('').map(ch => ch.charCodeAt(0) - 97));
+    const large = sw.directScan(x, images, 6, 100);
+    assert.notStrictEqual(large, -1, `L=3 survivor ${s.join(',')} must violate K in [6,100] inside the window`);
+    if (large > maxLarge) maxLarge = large;
+  }
+  assert.strictEqual(maxLarge, 36, `latest large-K first-violation among L=3 survivors must be 36, got ${maxLarge}`);
+
+  console.log(`       L=1: 122 classes, 0 survive; L=2: 0 survive; latest deaths at symbols 13 / 34`);
+  console.log(`       L=3: 35 classes avoid K in [2,5]; all violate K in [6,100] by symbol 36; all have g(a)=g(b)`);
+  console.log(`       (L=4 and L=5 are exercised by the module run, MATH_CLAIMS row 49)`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
