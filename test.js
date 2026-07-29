@@ -895,6 +895,31 @@ test("Rauzy graphs: binary branching, Cassaigne, and the length-9 dead ends", ()
   console.log(`       dead ends first appear at length 9: aa2f 48/48, aa2fr 36/36`);
 });
 
+// ----------------------------------------------------
+// 25. SMALL MORPHISM SCAN (MATH_CLAIMS.md row 36)
+// ----------------------------------------------------
+test("No uniform ternary morphism with k <= 5 avoids abelian squares of period 2..5", () => {
+  const ms = require('./morphism-scan.js');
+
+  // The violation detector must fire on real abelian squares and not invent any.
+  assert.ok(ms.firstViolation('abab') > 0, "'abab' contains a period-2 abelian square");
+  assert.ok(ms.firstViolation('abba') > 0, "'abba' contains a period-2 abelian square");
+  assert.strictEqual(ms.firstViolation('aa'), -1, "period-1 squares are allowed in the aa2f setting");
+  assert.strictEqual(ms.firstViolation('abc'), -1, "'abc' contains no abelian square of period 2..5");
+
+  const expectedBest = { 2: 15, 3: 24, 4: 60, 5: 76 };
+  for (const [k, best] of Object.entries(expectedBest)) {
+    const r = ms.scan(Number(k));
+    assert.strictEqual(r.reachedCap, 0,
+      `No k=${k} morphism may reach the prefix cap; if one does, the Makela search has a candidate and this test must be revisited`);
+    assert.strictEqual(r.best, best,
+      `Longest surviving prefix at k=${k} must be ${best}, got ${r.best}`);
+  }
+
+  console.log(`       exhaustive over uniform morphisms, k = 2..5, up to S3 relabelling`);
+  console.log(`       longest surviving prefixes: 15, 24, 60, 76 - none reaches the cap`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
