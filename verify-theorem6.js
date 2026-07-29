@@ -1,3 +1,33 @@
+/**
+ * verify-theorem6.js
+ * ------------------
+ * !! THIS SCRIPT DOES NOT VERIFY THEOREM 6. See MATH_CLAIMS.md row 43 (REJECTED).
+ *
+ * What it does: takes the ancestor box of ancestor-box.js, keeps the 25 vectors d
+ * in it with Phi(d) = 0, computes the ancestor closure of those 25 templates, and
+ * checks that no factor of length <= 34 realises any of them. That computation is
+ * correct as far as it goes.
+ *
+ * Why it is not a verification: the box is derived for the SINGLE template
+ * [eps,eps,eps,0]. Proposition 6 bounds ancestors of a template t_0, and its
+ * expanding-side term ||B^-l|| * |r_i(x_0)| vanishes only when x_0 = 0 - which is
+ * why ancestor-box.js hardcodes expandingBound(..., x0IsZero = true). The targets
+ * here have d != 0, so the box is not a valid bound for them.
+ *
+ * Measured consequence: ker(Phi) INTERSECT Z^6 is an infinite lattice of dimension
+ * 3. In the cube |d_i| <= 6 alone there are 741 integer vectors with Phi(d) = 0;
+ * 25 lie in the box and 716 do not. Selecting targets by membership in the box
+ * assumes what the search is supposed to establish.
+ *
+ * The missing piece is Proposition 11, which is the construction that produces a
+ * correct finite target set:
+ *   "If M_h has no eigenvalue of absolute value 1 and E_e(M_h) INTERSECT ker(Phi)
+ *    = {0} then one can compute a finite set of templates S such that each k-th
+ *    power ..."
+ * Its hypothesis DOES hold here, checked exactly on 2026-07-29: rank(Phi) = 3,
+ * dim ker(Phi) = 3, dim E_e(M_h) = 3, intersection 0. So the route is open; the
+ * proposition has to be implemented rather than bypassed.
+ */
 'use strict';
 
 /**
