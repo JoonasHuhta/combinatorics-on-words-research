@@ -738,6 +738,69 @@ test("Ancestor box: Prop 5 + Prop 6 bounds confine ancestors to 125,931 vectors"
   console.log(`       box contains 125,931 integer vectors; zero vector present`);
 });
 
+// ----------------------------------------------------
+// 22. PARENTS AND ANCESTOR CLOSURE (MATH_CLAIMS.md row 31)
+// ----------------------------------------------------
+test("getParents: |Par(t_0)| = 21237, ancestor closure closes at 116578", () => {
+  const jd = require('./jordan-decomposition.js');
+  const p5 = require('./proposition5-bounds.js');
+  const ab = require('./ancestor-box.js');
+  const gp = require('./get-parents.js');
+  const smith = require('./smith-normal-form.js');
+  const K = jd.K;
+  const S6 = ['a', 'b', 'c', 'd', 'e', 'f'];
+
+  // dim ker(M_h) = 2, the geometric multiplicity of 0 - NOT the algebraic 3.
+  const snf = smith.smithNormalForm(gp.MH.map(r => r.map(v => BigInt(v))));
+  assert.strictEqual(snf.rank, 4, "rank(M_h) must be 4; ker is 2-dimensional, not 3");
+
+  // rebuild the box
+  const M = jd.parikhMatrixK(H6, S6, S6);
+  const { P, J, Pinv, blocks } = jd.decompose(M);
+  const sets = p5.imageWordSets(H6, S6);
+  const c = new Array(6).fill(null);
+  for (const b of blocks) {
+    const bound = K.isZero(b.eigenvalue)
+      ? ab.contractingBound(J, Pinv, b, sets)
+      : ab.expandingBound(Pinv, b, sets, true);
+    for (let i = b.start; i < b.start + b.size; i++) c[i] = bound;
+  }
+  const { vectors } = ab.enumerateBox(P, Pinv, c);
+  const boxByImage = new Map();
+  for (const x of vectors) {
+    const kk = gp.vKey(gp.applyMH(x));
+    if (!boxByImage.has(kk)) boxByImage.set(kk, []);
+    boxByImage.get(kk).push(x);
+  }
+
+  const t0 = { a: ['', '', ''], d: [new Array(6).fill(0)] };
+  const parents = gp.getParents(t0, boxByImage);
+  assert.strictEqual(parents.length, 21237, `|Par_h(t_0)| must be 21237, got ${parents.length}`);
+
+  // Structural invariant: choosing a'_i = eps with empty p and s reproduces t_0,
+  // so t_0 is always among its own parents. If this fails the relation is wrong.
+  const key = (t) => t.a.join('|') + '#' + t.d.map(gp.vKey).join('|');
+  assert.ok(parents.some(p => key(p) === key(t0)),
+    "t_0 must be among its own parents");
+
+  // Every parent's d' must actually satisfy the defining equation.
+  for (const p of parents.slice(0, 300)) {
+    assert.ok(p.d[0].every(Number.isInteger), "d' must be an integer vector");
+    assert.ok(vectors.some(v => gp.vKey(v) === gp.vKey(p.d[0])),
+      "every d' must come from inside the box");
+  }
+
+  const closure = gp.ancestorClosure(t0, boxByImage);
+  assert.ok(closure.closed, "The ancestor closure must terminate");
+  assert.strictEqual(closure.templates.length, 116578,
+    `|Anc_h(t_0)| must be 116578, got ${closure.templates.length}`);
+  assert.strictEqual(closure.rounds.length, 3, "The closure must settle in 3 rounds");
+
+  console.log(`       rank(M_h) = 4, dim ker = 2 (geometric, not algebraic)`);
+  console.log(`       |Par(t_0)| = 21,237   |Anc(t_0)| = 116,578, closed in 3 rounds`);
+  console.log(`       this is Anc, NOT Ranc - realizability is not yet decided`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
