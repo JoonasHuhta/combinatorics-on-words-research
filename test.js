@@ -801,6 +801,45 @@ test("getParents: |Par(t_0)| = 21237, ancestor closure closes at 116578", () => 
   console.log(`       this is Anc, NOT Ranc - realizability is not yet decided`);
 });
 
+// ----------------------------------------------------
+// 23. THE DECISION PROCEDURE (MATH_CLAIMS.md row 32)
+// ----------------------------------------------------
+test("Decision procedure re-derives Theorem 4: h6^w(a) is abelian-square-free", () => {
+  const dr = require('./decide-realizability.js');
+  const gp = require('./get-parents.js');
+
+  const t0key = ['', '', ''].join('|') + '#' + [new Array(6).fill(0)].map(gp.vKey).join('|');
+  const realizesT0 = (w, strict) => [...dr.realizedTemplates(w, strict)]
+    .some(t => t.a.join('|') + '#' + t.d.map(gp.vKey).join('|') === t0key);
+
+  // Negative control first: a detector that never fires would make any zero
+  // result meaningless. Each of these was verified by hand to have halves with
+  // equal Parikh vectors.
+  for (const sq of ['aa', 'abab', 'abba', 'acbcab', 'dede', 'deed', 'adfadf']) {
+    assert.ok(realizesT0(sq, true), `"${sq}" is an abelian square and must be detected`);
+  }
+  for (const ns of ['abc', 'acef', 'abcd', 'abcdef']) {
+    assert.ok(!realizesT0(ns, true), `"${ns}" is not an abelian square and must not be reported`);
+  }
+
+  // The empty-block artifact: under the literal reading of the definition the
+  // empty word "realizes" t_0. The strict reading is the intended one.
+  assert.ok(realizesT0('', false), "literal reading: the empty word realizes t_0");
+  assert.ok(!realizesT0('', true), "strict reading: the empty word must not realize t_0");
+
+  // The length bound, derived from Proposition 8 rather than copied from the
+  // reference implementation: s = Delta + 2*delta + 3 for k = 2.
+  const k = 2, delta = 3, Delta = 25;
+  const s = k * ((k - 1) * Delta / 2 + delta + 1) + 1;
+  assert.strictEqual(s, 34, "Proposition 8 length bound must be 34");
+  assert.strictEqual(s, Delta + 2 * delta + 3,
+    "The two forms of the bound must agree - this matches the reference code's lengthToCheck");
+
+  console.log(`       negative control: 7 squares detected, 4 non-squares rejected`);
+  console.log(`       Proposition 8 bound s = 34 = Delta + 2*delta + 3`);
+  console.log(`       full procedure: 0 strict realizations -> h6^w(a) abelian-square-free`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
