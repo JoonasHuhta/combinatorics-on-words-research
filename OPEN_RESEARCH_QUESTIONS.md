@@ -1,6 +1,6 @@
 # Avoimet tutkimuskysymykset
 
-**Päivitetty:** 2026-07-28
+**Päivitetty:** 2026-07-29
 **Tarkoitus:** erottaa toisistaan (A) alan aidot avoimet ongelmat lähteineen, (B) projektin omat kysymykset jotka ovat oikeasti laskettavissa, ja (C) kysymykset jotka *kuulostavat* tutkimukselta mutta mittaavat toteutusta eivätkä matematiikkaa.
 
 Tämä dokumentti noudattaa `AGENTS.md`:n sääntöä 7: mikään "löydös" ei esiinny tässä ilman vastaavaa riviä `MATH_CLAIMS.md`:ssä. Kysymykset saavat esiintyä — vastaukset eivät.
@@ -22,7 +22,7 @@ Ekvivalentisti (Rao & Rosenfeld, arXiv:1511.05875, **Problem 1**): *"Can you avo
 
 **Miksi juuri 2…5 on auki — lähteistetty rakenteellinen syy.** Rao & Rosenfeldin päätösmenettely (§3) päättää abelin potenssien välttämisen **puhtaille morfisille sanoille kaikilla jaksoilla**. Morfisille **kuville** g(h^ω) se päättää vain **suuret** jaksot (Proposition 9). Ternäärisana saadaan tässä konstruktiossa vain projektiona 6-kirjaimisesta, ja projektio menettää päätettävyyden pienillä jaksoilla. Ks. `MATH_CLAIMS.md` rivi 7b.
 
-**Mitä tämä tarkoittaa hyökkäyssuunnalle:** reitti ei ole "etsi pidempiä sanoja". Pisimmät tunnetut aa2f-sanat ovat 25 379 merkkiä, ja mikä tahansa äärellinen sana on äärellinen havainto. Reitti on joko (a) ternäärimorfismi jonka *kiintopiste* — ei projektio — välttää jaksot ≥ 2, jolloin §3:n menettely pätee suoraan, tai (b) päätösmenettelyn laajennus pieniin jaksoihin projektioille.
+**Mitä tämä tarkoittaa hyökkäyssuunnalle:** reitti ei ole "etsi pidempiä sanoja". Pisimmät tunnetut aa2f-sanat ovat 25 379 merkkiä, ja mikä tahansa äärellinen sana on äärellinen havainto. Reitit: (a) ternäärimorfismi jonka *kiintopiste* — ei projektio — välttää jaksot ≥ 2, jolloin §3:n menettely pätee suoraan; (b) päätösmenettelyn laajennus pieniin jaksoihin projektioille; tai (c) pidä h₆^ω(a) kiinteänä ja varioi siihen sovellettavaa morfismia g — Theorem 4 (rivi 32) kantaa pohjasanan, ja kullekin kandidaatille pienet jaksot ovat rajoitetun pituisia tekijöitä ja suuret jaksot Prop 9:n aluetta (`decision-preconditions.js`). Reitin (c) uniformi kerros L ≤ 5 on lakaistu tyhjentävästi ja se on tyhjä (`MATH_CLAIMS.md` rivi 49, B5 alla); jäljellä ovat L ≥ 6, epäuniformit kuvaukset ja CEGIS-ohjattu haku (E2).
 
 ### A2. Abelin toistokynnys (abelian repetition threshold)
 
@@ -75,7 +75,9 @@ Tarkennus: "tehokkuus" on määriteltävä invariantilla. Kasvunopeuden yläraja
 
 Nykytila: **kasvunopeus ≤ 1,9915** (tiukka yläraja, `MATH_CLAIMS.md` rivi 33). Havaittu suhde on ~1,60, mutta sillä ei ole todistettua yhteyttä raja-arvoon. **Kuilu 1,60 ↔ 1,99 on auki.**
 
-Kaventaminen ylhäältä vaatii suurempaa n:ää tai parempaa kuin Feketen argumenttia. Kaventaminen alhaalta vaatii eri tekniikan (esim. vapaasti yhdisteltävän osajoukon eksplisiittinen konstruktio). Kumpikin on aito laskennallinen tavoite.
+Kaventaminen ylhäältä vaatii suurempaa n:ää tai parempaa kuin Feketen argumenttia — tämä on aitoa inkrementaalista työtä, ja hajautettu eksakti p(n)-laskenta on siihen suora reitti (jokainen uusi p(n) on lauseen muotoinen yläraja, osio F).
+
+**Kaventaminen alhaalta ei ole inkrementaalista työtä vaan koko konjektuuri:** Königin lemmalla mikä tahansa todistettu p(n) ≥ 1 kaikilla n on ekvivalentti äärettömän aa2f-sanan olemassaolon kanssa (`MATH_CLAIMS.md` rivi 50). Alarajatyö on siis konjektuurin todistusyritys eikä sitä saa aikatauluttaa "rajan kavennuksena".
 
 ### B3. Välttämättömät tekijät (unavoidable sets)
 
@@ -84,6 +86,26 @@ Kaventaminen ylhäältä vaatii suurempaa n:ää tai parempaa kuin Feketen argum
 ### B4. Rauzy-graafit ja oikealle jatkuvuus
 
 Tekijäkompleksisuuden p(n) erotukset p(n+1) − p(n) laskevat **oikealle erikoisten tekijöiden** lukumäärän. Tämä on kielen invariantti ja se selittää *missä* rajoite puree. g₃(h₆^ω(a)):lle erotukset ovat välillä 6…8 (`MATH_CLAIMS.md` rivi 28) — mutta niiden **rakenne** on tutkimatta.
+
+### B5. Reitti (c): millä L:llä pieni ikkuna ja suuret jaksot lakkaavat sulkemasta toisensa pois?
+
+`MATH_CLAIMS.md` rivi 49: uniformeilla kuvauksilla g: Σ₆ → Σ₃^L, L ≤ 5, [2,5]-välttäjiä on olemassa (35 / 685 / 7 019 luokkaa L = 3/4/5) mutta **jokainen niistä rikkoo K ∈ [6,100] viimeistään symbolissa 44** — ja kääntäen g₃ (L=10) välttää kaikki K ≥ 6 mutta osuu 34 neliöön pienillä. Kysymykset, jotka ovat äärellisiä ja invariantteja:
+
+1. **Pienin L jolla jokin luokka selviää molemmista ikkunoista.** L = 6 on 3³⁶ kuvausta — ei enää naiivisti enumeroitavissa, mutta karsiva DFS voi silti kattaa sen (L=5 vaati 14,9 mrd symbolia; mittaa ennen kuin lupaat).
+2. **Miksi [2,5]-välttäminen pakottaa g(a)=g(b):n L=3:lla (35/35) mutta ei enää L=4:llä (601/685)?** h₆:n kuvissa a→ace ja b→adf jakavat alkukirjaimen; onko selitys tässä vai muualla — laskettavissa tarkastelemalla missä kohdin rikkomukset syntyvät.
+3. **Epäuniformi kerros:** pienin kokonaiskuvapituus |g(a)|+…+|g(f)| jolla molemmat ikkunat selviävät.
+
+Selviytyjää **ei** saa kutsua kandidaatiksi ennen kuin molemmat ikkunat on tarkistettu JA Prop 9:n esiehdot (`decision-preconditions.js`) on ajettu parille (h₆, g).
+
+### B6. K ∈ [2,5]-säiliökieli on äärellisen tyypin rajoite — sen rakenne on eksaktisti laskettavissa
+
+Mäkelän avoin osa koskee puolipituuksia 2…5, ja abelin neliö puolipituudella ≤ 5 mahtuu 10 merkin ikkunaan. Kieli "vältä *vain* K ∈ [2,5]" on siis äärellisen ikkunan rajoite, ja jokainen Mäkelä-todistaja elää sen sisällä. De Bruijn -graafi (tilat = lailliset 9-sanat, ≤ 3⁹ = 19 683) on täysin laskettavissa:
+
+1. **Elävä osa ja SCC-rakenne:** mitkä 9-kontekstit ovat kaksisuuntaisesti äärettömällä polulla.
+2. **Kirjaintaajuuksien välttämättömät rajat:** syklien Parikh-painojen min/max-keskiarvot (Karpin algoritmi, eksakti rationaaliaritmetiikka) antavat välin johon **jokaisen** [2,5]-vapaan äärettömän sanan taajuudet kuuluvat. Jos väli on epätriviaali, jokainen kandidaattimorfismi jonka Perron-taajuudet osuvat sen ulkopuolelle on kuollut ennen yhtäkään hakua — todistettu karsintalause, joka kytkeytyy E1:n kustannuspriorisointiin. Jos väli on triviaali, sekin on yksikäsitteinen vastaus.
+3. **Binäärialiaakkostot:** selviääkö mikään kaksikirjaiminen ääretön sana [2,5]-ehdosta — vastaus putoaa suoraan graafista.
+
+Varaus: tämä on **relaksaation** analyysi. Se antaa välttämättömiä ehtoja, ei koskaan riittäviä (vrt. `NEGATIVE_RESULTS.md` §2: SCC ei todista ääretöntä aa2f-sanaa).
 
 ---
 
@@ -141,6 +163,10 @@ Tämä ei muuta yhdenkään todistuksen validiteettia. Se on aikataulutusheurist
 ### E3. Geneettisen haun sileämpi kelpoisuusfunktio
 
 Yhden kirjaimen vaihto morfismissa voi romahduttaa tuloksen epäjatkuvasti, mikä on huono maisema populaatiomenetelmille. Jos GA:ta kokeillaan, kelpoisuusfunktion on mitattava jotain jatkuvampaa kuin "kuinka pitkälle selviää" — esimerkiksi kiintopisteen tekijäkompleksisuuden kasvua, joka on jo laskettavissa.
+
+### E4. Riippumaton toinen verifiointimoottori (jäljittämätön johtolanka — selvitettävä ennen käyttöä)
+
+Kaikki projektin Level 1 -laskennat on tähän asti verifioinut sama koodipohja; ainoa riippumaton vertailu on R&R:n C++-referenssi (rivi 22) ja suunniteltu ACR 2004 -replikaatio (rivi 48). h₆ on 3-uniformi, joten konstruktio elää automaattisten sanojen maailmassa, ja siellä on olemassa työkaluperhe (Walnut, Shallit ym.) jolla eräitä sanojen ominaisuuksia on päätetty koneellisesti. **Jäljittämätöntä:** kattaako se abelin ominaisuuksia tässä tarvittavassa muodossa — Parikh-vertailut eivät ole ensimmäisen kertaluvun ominaisuuksia, ja mahdollinen reitti kulkee synkronoitujen jonojen kautta. Kukaan ei ole avannut lähteitä. **Älä siteeraa äläkä rakenna tämän varaan ennen kuin joku lukee alkuperäiset** (sama sääntö kuin A5:ssä). Jos kattavuus varmistuu, tämä olisi kokonaan riippumaton toinen moottori Theorem 9 -tyyppisille väitteille — laboratoriolaitteelle arvokkaampaa kuin yksikään uusi ominaisuus.
 
 ---
 

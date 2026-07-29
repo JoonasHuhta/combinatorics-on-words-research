@@ -1,7 +1,55 @@
 # Seuraava askel
 
-**Päivitetty:** 2026-07-29
+**Päivitetty:** 2026-07-29 (ilta)
 **Lue ensin:** `RESEARCH_CONTEXT.md`, sitten `AGENTS.md`.
+
+---
+
+## Tehty 2026-07-29 (ilta): reitti (c) avattu ja lakaistu L ≤ 5
+
+`h6-image-sweep.js` on olemassa ja validoitu (sisäänrakennetut kontrollit +
+L=1-ristiintarkistus kahdella riippumattomalla koodipolulla). Tulokset
+`MATH_CLAIMS.md` rivillä **49**, kysymyksenasettelu `OPEN_RESEARCH_QUESTIONS.md`
+**B5**:ssä. Ydinhavainto: pieni ikkuna K ∈ [2,5] ja suuret jaksot vetävät
+pienillä L vastakkaisiin suuntiin — [2,5]-välttäjiä on tuhansia, mutta jokainen
+kuolee suurilla jaksoilla ≤ 44 symbolissa. Rivillä **50** on kirjattu miksi
+kasvun alaraja ei ole osatavoite vaan koko konjektuuri (König).
+
+**Seuraava askel tässä:** joko B5.1 (L=6-lakaisu karsivalla DFS:llä — mittaa
+kustannus ennen lupaamista; L=5 vaati 14,9 mrd symbolia) tai B6 (säiliökielen
+de Bruijn -graafi ja taajuusrajat — uusi moduuli, eksakti, äärellinen).
+B6 on suositus: se tuottaa välttämättömiä ehtoja *kaikille* reiteille, ei vain
+reitille (c), ja sen tulos on lauseen muotoinen kumpaan suuntaan tahansa.
+
+---
+
+## Visioluonnoksen arvio 2026-07-29 (ylläpitäjän teksti "Experimental Combinatorics Laboratory")
+
+Arvioitu kriittisesti tässä sessiossa. Talteen se mikä kestää ja se mikä ei,
+jottei visioproosaa omaksuta sellaisenaan:
+
+- **Kestää:** laboratoriolaite-ajatus — mutta laite on episteeminen koneisto
+  (väiteloki + driftitarkistin + hautausmaa + C-osio), joka on jo rakennettu ja
+  on projektin ainoa aidosti harvinainen osa. Yleistäminen ansaitaan toisella
+  konkreettisella tutkimusongelmalla, ei etukäteisarkkitehtuurilla.
+- **Ei kestä:** (1) luonnos esitti FORBID4:n rajoitteena — se on kumottu
+  hypoteesi (`NEGATIVE_RESULTS.md` §5, rivit 40–42); (2) "understand the
+  search space" on C-osion muotoilu; (3) kahdeksankerroksinen arkkitehtuuri on
+  ennenaikainen abstraktio (sama peruste kuin `ConstraintEvaluator`-kiellolla);
+  (4) empiria-ensin-hierarkia on väärinpäin — tulokset ovat syntyneet
+  järjestyksessä kirjallisuus → eksakti koneisto → verifiointi.
+- Sääntö 7 koskee myös visiodokumentteja. Skills-infra: `SKILLS_PLAN.md`
+  (parkissa, ei hyväksytty).
+
+**Lokaalin/ladattavan ohjelman suunnittelusääntö** (kun siihen palataan):
+työyksikön tuloksen pitää olla väitelokikelpoinen — eksakti, tyhjentävä
+rajatussa ikkunassa, hakujärjestyksestä riippumaton. Jos tulos ei voi olla
+lokirivi, se on viihdettä. Läpäisevät tehtävätyypit: hajautettu eksakti
+p(n)-sensus (jokainen arvo on Feketen kautta lauseen muotoinen yläraja, osio
+F), lakaisutyöyksiköt (B5), epäsuotuisien tekijöiden sensukset (A4).
+Ennätyssanajahti ei läpäise. Tekniset lisät nykyiseen CLI:hin:
+työyksikkömanifesti (parametrit + commit-hash + osite), pistokoeverifiointi,
+kalibroitu kieli valmiina tulosteessa.
 
 ---
 
@@ -94,6 +142,9 @@ Erotus näiden kahden joukon välillä on täsmälleen se mitä Keränen kysyy, 
 
 ## Mitä ei kannata tehdä
 
+- **Älä kutsu rivin 49 [2,5]-selviytyjiä "kandidaateiksi".** Jokainen niistä
+  rikkoo K ∈ [6,100] viimeistään symbolissa 44. Kandidaatti on vasta luokka
+  joka selviää molemmista ikkunoista JA jonka parille Prop 9:n esiehdot pätevät
 - **HPC-skaalaus morfismiskanneriin.** Maksimiprefiksi on ln N, R² = 0,99875
   (rivi 37). k = 7, 8, 9 antaa 40, 45, 50 riippumatta matematiikasta
 - **Ennätyssanojen käänteismallinnus.** Ne eivät ole morfisia: p(15) = 14 502
@@ -109,9 +160,13 @@ Erotus näiden kahden joukon välillä on täsmälleen se mitä Keränen kysyy, 
 
 ---
 
-## Repositorion tila 2026-07-29
+## Repositorion tila 2026-07-29 (ilta)
 
-Testit **28/28**, driftitarkistukset **13/13**, kaikki committoitu ja pushattu.
+Testit **29/29**, driftitarkistukset **13/13**. **Työpuussa on committoimattomia
+muutoksia jotka odottavat ylläpitäjän hyväksyntää** (sääntö 5): rivit 49–50
+`MATH_CLAIMS.md`:ssä, `h6-image-sweep.js`, testi 29, driftitarkistuksen
+laajennus, sekä dokumenttipäivitykset (`RESEARCH_CONTEXT.md`,
+`OPEN_RESEARCH_QUESTIONS.md`, tämä tiedosto, `SKILLS_PLAN.md`).
 Moduulilista ja ajokomennot: `RESEARCH_CONTEXT.md` osio 3.
 
 ### Avoimet päätökset, jotka kuuluvat ylläpitäjälle
