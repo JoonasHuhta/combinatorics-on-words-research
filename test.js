@@ -898,16 +898,19 @@ test("Rauzy graphs: binary branching, Cassaigne, and the length-9 dead ends", ()
 // ----------------------------------------------------
 // 25. SMALL MORPHISM SCAN (MATH_CLAIMS.md row 36)
 // ----------------------------------------------------
-test("No uniform ternary morphism with k <= 5 avoids abelian squares of period 2..5", () => {
+test("No uniform ternary morphism with k <= 5 avoids abelian squares of period >= 2", () => {
   const ms = require('./morphism-scan.js');
 
   // The violation detector must fire on real abelian squares and not invent any.
   assert.ok(ms.firstViolation('abab') > 0, "'abab' contains a period-2 abelian square");
   assert.ok(ms.firstViolation('abba') > 0, "'abba' contains a period-2 abelian square");
   assert.strictEqual(ms.firstViolation('aa'), -1, "period-1 squares are allowed in the aa2f setting");
-  assert.strictEqual(ms.firstViolation('abc'), -1, "'abc' contains no abelian square of period 2..5");
+  assert.strictEqual(ms.firstViolation('abc'), -1, "'abc' contains no abelian square of period >= 2");
+  // The K in 2..5 variant admits periodic words; the default must not.
+  assert.strictEqual(ms.firstViolation('aaabaac'.repeat(6), 2, 5), -1, "(aaabaac)^n satisfies the WEAK condition K in 2..5");
+  assert.ok(ms.firstViolation('aaabaac'.repeat(6)) > 0, "(aaabaac)^n must violate the full condition K >= 2 - it has a period-6 square");
 
-  const expectedBest = { 2: 15, 3: 24, 4: 60, 5: 76 };
+  const expectedBest = { 2: 9, 3: 16, 4: 23, 5: 29 };
   for (const [k, best] of Object.entries(expectedBest)) {
     const r = ms.scan(Number(k));
     assert.strictEqual(r.reachedCap, 0,
@@ -917,7 +920,7 @@ test("No uniform ternary morphism with k <= 5 avoids abelian squares of period 2
   }
 
   console.log(`       exhaustive over uniform morphisms, k = 2..5, up to S3 relabelling`);
-  console.log(`       longest surviving prefixes: 15, 24, 60, 76 - none reaches the cap`);
+  console.log(`       longest surviving prefixes: 9, 16, 23, 29 - none reaches the cap`);
 });
 
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
