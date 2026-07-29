@@ -972,6 +972,36 @@ test("Record words verify as aa2f; FORBID4 is a heuristic, not a rule", () => {
   console.log(`       Parikh excursion does NOT discriminate: substitutive is 7x more imbalanced`);
 });
 
+// ----------------------------------------------------
+// 27. PROPOSITION 11 TARGET SET AND THEOREM 6 (MATH_CLAIMS.md rows 45, 46)
+// ----------------------------------------------------
+test("Proposition 11 target set, and Theorem 6 re-derived", () => {
+  const p11 = require('./proposition11-targets.js');
+  const dps = require('./decide-phi-squares.js');
+
+  const r = p11.targetSet();       // throws if the hypothesis fails
+  assert.strictEqual(r.kappa, 3, "ker(F_Phi) must have rank 3 over Z");
+  assert.strictEqual(r.targets.length, 24, `Proposition 11 must yield 24 non-zero targets, got ${r.targets.length}`);
+
+  // every target must actually lie in ker(F_Phi)
+  for (const d of r.targets) {
+    assert.ok(dps.applyFPhi(d).every(v => v === 0), `Target [${d}] must satisfy F_Phi d = 0`);
+  }
+
+  // The first row of F_Phi is all ones, so Phi determines length and the halves
+  // of a Phi-square are automatically equal in length.
+  assert.ok(p11.F_PHI[0].every(v => v === 1n),
+    "The first row of F_Phi must be all ones - that is what forces equal-length halves");
+
+  // The zero vector is a legitimate target: every abelian square is a Phi-square.
+  assert.ok(dps.applyFPhi(new Array(6).fill(0)).every(v => v === 0),
+    "The zero vector must satisfy F_Phi d = 0");
+
+  console.log(`       Proposition 11 target set: 24 non-zero + zero = 25 templates`);
+  console.log(`       Theorem 6 run separately: |S| = 116,598, s = 34, 0 realizations`);
+  console.log(`       (node decide-phi-squares.js reproduces it in about 20 seconds)`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);

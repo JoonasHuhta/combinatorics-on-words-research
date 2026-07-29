@@ -527,6 +527,7 @@
     <div class="mode-tab" data-mode="validation" id="tab-validation">16. Validation Lab</div>
     <div class="mode-tab" data-mode="gallery" id="tab-gallery">17. Art &amp; Math Gallery 🎨</div>
     <div class="mode-tab" data-mode="gold-lab" id="tab-gold-lab">18. Seam Search &amp; Verification</div>
+    <div class="mode-tab" data-mode="graveyard" id="tab-graveyard" style="background:#ffebee; border-color:#e57373;">19. The Graveyard 🪦</div>
   </div>
 
   <div class="controls">
@@ -2088,6 +2089,72 @@
   </div>
   <!-- END TAB 18 -->
 
+  <!-- =====================================================
+       19. THE GRAVEYARD (EMPIRICAL DEAD ENDS)
+       ===================================================== -->
+  <div class="view-panel hidden" id="view-graveyard" style="background:#fffafafa;">
+    <h2>The Graveyard: Empirical Dead Ends</h2>
+    <p class="intro-text">
+      In combinatorics, knowing <strong>what not to do</strong> saves millions of CPU hours. This laboratory visualizes the cognitive traps and algorithmic dead ends encountered during the search for abelian square-free words. These are not abstract theories, but empirical measurements that shattered our initial intuition.
+    </p>
+
+    <div style="display:flex; flex-wrap:wrap; gap:20px; margin-top:20px;">
+      
+      <!-- Module A: The Uniform Wall -->
+      <div style="flex:1; min-width:400px; background:#fff; border:1px solid var(--border); padding:20px; border-radius:6px;">
+        <h3 style="color:#c0392b; margin-bottom:10px;">Trap 1: The Logarithmic Illusion</h3>
+        <p style="font-size:0.95rem; color:#555;">
+          <strong>Myth:</strong> "If we keep testing larger uniform morphisms ($k=7,8,9...$), the survival length grows, so we are getting closer to a solution!"<br>
+          <strong>Reality:</strong> The growth is a statistical artifact of testing exponentially more morphisms. The maximum survival length perfectly follows $y \approx 2.29 \ln N$. It is a wall.
+        </p>
+        <canvas id="graveyard-chart" width="400" height="200" style="width:100%; height:200px; background:#f9f9f9; border:1px solid #eee; margin-top:10px;"></canvas>
+      </div>
+
+      <!-- Module B: The Parikh Myth -->
+      <div style="flex:1; min-width:400px; background:#fff; border:1px solid var(--border); padding:20px; border-radius:6px;">
+        <h3 style="color:#c0392b; margin-bottom:10px;">Trap 2: The Perfect Balance</h3>
+        <p style="font-size:0.95rem; color:#555;">
+          <strong>Myth:</strong> "Algebraic morphisms are highly synchronized, so they must maintain a very tight Parikh imbalance (e.g. difference between max and min letter counts $< 10$)."<br>
+          <strong>Reality:</strong> Exact measurements at length 25,379 prove the opposite. The expanding eigenvalue ($|\\lambda| = \\sqrt{3} > 1$) forces the imbalance of $g_3(h_6^\\omega(a))$ to diverge as $\\sqrt{N}$.
+        </p>
+        <div style="margin-top:20px;">
+          <div style="margin-bottom:15px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.9rem; font-family:monospace; margin-bottom:5px;">
+              <span>Keränen 25k (DFS Random Walk)</span>
+              <strong>Imbalance: 322</strong>
+            </div>
+            <div style="width:100%; height:12px; background:#eee; border-radius:6px; overflow:hidden;">
+              <div style="width:14%; height:100%; background:#3498db;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; font-size:0.9rem; font-family:monospace; margin-bottom:5px;">
+              <span>Rao &amp; Rosenfeld $g_3(h_6)$ (Morphism)</span>
+              <strong style="color:#c0392b;">Imbalance: 2,298</strong>
+            </div>
+            <div style="width:100%; height:12px; background:#eee; border-radius:6px; overflow:hidden;">
+              <div style="width:100%; height:100%; background:#e74c3c;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module C: The FORBID4 Trap -->
+      <div style="flex:1 1 100%; background:#fff; border:1px solid var(--border); padding:20px; border-radius:6px;">
+        <h3 style="color:#c0392b; margin-bottom:10px;">Trap 3: Universal Death Factors</h3>
+        <p style="font-size:0.95rem; color:#555;">
+          <strong>Myth:</strong> "Factors like <code>baac</code> immediately lead to dead ends in all searches and must be hard-banned globally."<br>
+          <strong>Reality:</strong> They are only fatal in tight constraint boundaries. The 25,379-letter record word contains <strong>2,820 occurrences</strong> of these so-called 'death factors'. Banning them makes finding the 25k word mathematically impossible.
+        </p>
+        <div style="margin-top:15px; border:1px solid #ccc; background:#f4f4f4; padding:10px; font-family:monospace; font-size:0.85rem; line-height:1.4; max-height:150px; overflow-y:auto; word-break:break-all;" id="forbid4-snippet">
+          <!-- Snippet injected by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- END TAB 19 -->
+
   <!-- Stats &amp; Logs -->
   <div class="info-panel" id="info-panel">
     <div class="stats" id="stats-panel">
@@ -3176,7 +3243,7 @@ function switchMode(newMode) {
   });
 
   // Hide all view panels
-  ['view-3letter','view-abc-lab','view-general','view-audio','view-tryit','view-timeline','view-unfavorable','view-microscope','view-knowledge','view-morph-lab','view-heat-map','view-snake','view-aa2fr','view-impact','view-validation','view-gallery','view-gold-lab'].forEach(id => $(id).classList.add('hidden'));
+  ['view-3letter','view-abc-lab','view-general','view-audio','view-tryit','view-timeline','view-unfavorable','view-microscope','view-knowledge','view-morph-lab','view-heat-map','view-snake','view-aa2fr','view-impact','view-validation','view-gallery','view-gold-lab','view-graveyard'].forEach(id => $(id).classList.add('hidden'));
   try { snakePause(); } catch(e) { /* snake vars not yet initialized on first load */ }
   $('condensedCanvas').classList.add('hidden');
   $('audio-ui').classList.add('hidden');
@@ -3184,7 +3251,7 @@ function switchMode(newMode) {
   $('tiles-general').classList.add('hidden');
 
   // Hide info panel for some modes, show for others
-  const noInfoModes = ['timeline', 'microscope', 'knowledge', 'morph-lab', 'heat-map', 'snake', 'aa2fr', 'impact', 'validation', 'gallery', 'gold-lab'];
+  const noInfoModes = ['timeline', 'microscope', 'knowledge', 'morph-lab', 'heat-map', 'snake', 'aa2fr', 'impact', 'validation', 'gallery', 'gold-lab', 'graveyard'];
   $('info-panel').style.display = noInfoModes.includes(newMode) ? 'none' : '';
   $('speed-wrap').style.display = ['3letter'].includes(newMode) ? '' : 'none';
 
@@ -3206,6 +3273,10 @@ function switchMode(newMode) {
     setAttemptsLabel('Rejected Extensions');
     setSquaresLabel('Square Collisions');
     renderAbcLab();
+
+  } else if (mode === 'graveyard') {
+    $('view-graveyard').classList.remove('hidden');
+    setTimeout(renderGraveyard, 50);
 
   } else if (mode === 'try-it') {
     $('view-tryit').classList.remove('hidden');
