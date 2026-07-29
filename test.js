@@ -923,6 +923,54 @@ test("No uniform ternary morphism with k <= 5 avoids abelian squares of period >
   console.log(`       longest surviving prefixes: 9, 16, 23, 29 - none reaches the cap`);
 });
 
+// ----------------------------------------------------
+// 26. RECORD WORD VERIFICATION (MATH_CLAIMS.md rows 40, 41, 42)
+// ----------------------------------------------------
+test("Record words verify as aa2f; FORBID4 is a heuristic, not a rule", () => {
+  const wa = require('./word-anatomy.js');
+
+  const expected = [
+    { file: 'keranen_1928.txt', length: 1928, forbidTotal: 0 },
+    { file: 'keranen_15796.txt', length: 15796, forbidTotal: 1694 },
+    { file: 'keranen_25379.txt', length: 25379, forbidTotal: 2820 }
+  ];
+
+  let checked = 0;
+  for (const e of expected) {
+    if (!fs.existsSync(path.join(__dirname, e.file))) continue;   // words are not tracked in git
+    const w = wa.extractWord(path.join(__dirname, e.file));
+    assert.strictEqual(w.length, e.length, `${e.file} must contain a ${e.length}-letter ternary word`);
+    assert.strictEqual(wa.firstAbelianSquare(w, 2), null,
+      `${e.file} must be aa2f: no abelian square of any half-length K >= 2`);
+    const total = wa.FORBID4.reduce((s, p) => s + wa.countOccurrences(w, p), 0);
+    assert.strictEqual(total, e.forbidTotal, `${e.file} must contain ${e.forbidTotal} FORBID4 occurrences`);
+    checked++;
+  }
+  if (checked === 0) {
+    console.log('       (record word files not present - skipped)');
+    return;
+  }
+
+  // Row 41: the heuristic is violated by real records, so it cannot be necessary.
+  const big = path.join(__dirname, 'keranen_25379.txt');
+  if (fs.existsSync(big)) {
+    const w = wa.extractWord(big);
+    assert.ok(wa.countOccurrences(w, 'baac') > 0,
+      "FORBID4 must occur in the 25379 record - it is a pruning heuristic, not a necessary condition");
+    // Row 42: not morphic. It contains the entire aa2f language at length 6.
+    const P = wa.complexity(w, 6);
+    assert.strictEqual(P[6], 360, "The 25379 word must contain all 360 aa2f words of length 6");
+    const par = wa.parikhExcursion(w);
+    const ratio = par.max / Math.sqrt(w.length);
+    assert.ok(ratio > 1 && ratio < 4,
+      `Parikh imbalance should scale like sqrt(N); ratio ${ratio.toFixed(2)} outside [1,4] would contradict row 42`);
+  }
+
+  console.log(`       ${checked} record word(s) verified aa2f by exhaustive scan over all K >= 2`);
+  console.log(`       FORBID4 occurs 2,820 times in the 25379 word -> heuristic, not a rule`);
+  console.log(`       p(6) = 360 = the entire aa2f language -> search product, not morphic`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
