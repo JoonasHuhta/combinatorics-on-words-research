@@ -525,9 +525,9 @@
     <div class="mode-tab" data-mode="aa2fr" id="tab-aa2fr">14. AA2FR Extension Lab</div>
     <div class="mode-tab" data-mode="impact" id="tab-impact">15. Applications &amp; Impact</div>
     <div class="mode-tab" data-mode="validation" id="tab-validation">16. Validation Lab</div>
-    <div class="mode-tab" data-mode="gallery" id="tab-gallery">17. Art &amp; Math Gallery 🎨</div>
+    <div class="mode-tab" data-mode="gallery" id="tab-gallery">17. Art &amp; Math Gallery</div>
     <div class="mode-tab" data-mode="gold-lab" id="tab-gold-lab">18. Seam Search &amp; Verification</div>
-    <div class="mode-tab" data-mode="graveyard" id="tab-graveyard" style="background:#ffebee; border-color:#e57373;">19. The Graveyard 🪦</div>
+    <div class="mode-tab" data-mode="graveyard" id="tab-graveyard" style="background:#ffebee; border-color:#e57373;">19. The Graveyard</div>
   </div>
 
   <div class="controls">
@@ -3577,7 +3577,7 @@ function initKG() {
     { id: 'g85', label: 'Morphism g85', cat: 'discovery', desc: 'Keränen\'s 85-uniform endomorphism (1992); the core substitution preserving abelian square-freedom over 4 letters.' },
     { id: 'g109', label: 'Morphism g109', cat: 'discovery', desc: 'Keränen\'s 109-uniform endomorphism (2009); an advanced substitution preserving abelian square-freedom over 4 letters.' },
     { id: 'unfavorable', label: 'Unfavorable Factor', cat: 'concept', desc: 'A short pattern that cannot be extended into an infinite abelian square-free word.' },
-    { id: 'neg_greedy', label: 'Greedy Trap (Ahne ansa)', cat: 'concept', desc: 'Cognitive trap: Local greedy letter choices inevitably lead to dead ends in abelian combinatorics. Global algebraic structure is required.' },
+    { id: 'neg_greedy', label: 'Greedy Trap', cat: 'concept', desc: 'Cognitive trap: Local greedy letter choices inevitably lead to dead ends in abelian combinatorics. Global algebraic structure is required.' },
     { id: 'neg_divide', label: 'Divide & Conquer Trap', cat: 'concept', desc: 'Cognitive trap: Static block grouping without boundary/seam surgery fails because abelian squares can span across arbitrary block boundaries.' }
   ];
 
@@ -8480,10 +8480,22 @@ function goldDownloadBatLauncher() {
 // END TAB 18
 
 // --- Tab 19: The Graveyard -------------------------------------------------
+function toggleGraveyard(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.toggle('open');
+  }
+}
+
 // Plots the measured maximum surviving prefix against ln(number of morphisms
 // tested), together with the fitted line. Data and fit are MATH_CLAIMS.md row 37:
 // max = 2.290 ln N - 3.67, R^2 = 0.99875 over k = 2..6. Reproduce with
 // "node morphism-scan.js".
+function toggleGraveyard(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+
 function renderGraveyard() {
   const cv = document.getElementById('graveyard-chart');
   if (!cv || !cv.getContext) return;
