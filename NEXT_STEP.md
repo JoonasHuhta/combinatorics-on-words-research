@@ -82,12 +82,13 @@ Erotus näiden kahden joukon välillä on täsmälleen se mitä Keränen kysyy, 
 | # | Työ | Peruste |
 |---|---|---|
 | 1 | Epäsuotuisat tekijät (yllä) | lähteistetty avoin ongelma, työkalu valmis |
-| 2 | FORBID4:n minimaalisuus | äärellinen: 64 osajoukkoa × kasvunopeuden yläraja. Yksikäsitteinen vastaus. `OPEN_RESEARCH_QUESTIONS.md` B1 |
-| 3 | Selviytymisjakauman vaimenemisvakio | data on jo kerätty (`morphism-scan.js`), analyysi puuttuu. Rakenteellinen jos k:sta riippumaton. **Sovita jakauman runkoon, ei ääriäntään** — maksimin saavuttaa 2, 4, 8 morfismia |
-| 4 | ℚ[x]/(m(x)) ja Theorem 8 | epäuniformi morfismi (`h₄`, pituudet 3,3,2,3), Perron-juuri irrationaalinen. Yleistää `jordan-decomposition.js`:n ℚ(√3)-koodin. **Älä koodaa faktorointia** — asteilla ≤ 6 riittää rationaalijuuritesti |
-| 5 | k-abelinen moduuli | lähin **ratkaistu** naapuri (Fici & Puzynina Thm 65). Ainoa tapa mitata mitä ekvivalenssin vahvistaminen ostaa |
-| 6 | Ennätyssanarekisteri UI:hin | `word-anatomy.js` on jo rekisteri; se puuttuu sovelluksesta |
-| 7 | SAT / CEGIS sääntöavaruuteen | kohde on **morfismiavaruus**, ei sanaavaruus. Verifioija pätee **puhtaille morfisille sanoille**, joten silmukka rakennetaan kiintopisteille, ei projektioille |
+| 2 | **Replikoi 103 templaattia** (rivi 48). Aberkane–Currie–Rampersad 2004 laskee abelin kuutioille (k=3, ternääri) esivanhempisulkeumaksi tasan 103. Se on pieni, tarkka ja **vertailukelpoinen** — paras itsenäinen validointi `get-parents.js`:lle. Vaatii k=3-templaattien tuen (nyt vain k=2) | tunti työtä, ja se joko vahvistaa koneiston tai paljastaa virheen |
+| 3 | FORBID4:n minimaalisuus | äärellinen: 64 osajoukkoa × kasvunopeuden yläraja. Yksikäsitteinen vastaus. `OPEN_RESEARCH_QUESTIONS.md` B1 |
+| 4 | Selviytymisjakauman vaimenemisvakio | data on jo kerätty (`morphism-scan.js`), analyysi puuttuu. Rakenteellinen jos k:sta riippumaton. **Sovita jakauman runkoon, ei ääriäntään** — maksimin saavuttaa 2, 4, 8 morfismia |
+| 5 | ℚ[x]/(m(x)) ja Theorem 8 | epäuniformi morfismi (`h₄`, pituudet 3,3,2,3), Perron-juuri irrationaalinen. Yleistää `jordan-decomposition.js`:n ℚ(√3)-koodin. **Älä koodaa faktorointia** — asteilla ≤ 6 riittää rationaalijuuritesti |
+| 6 | k-abelinen moduuli | lähin **ratkaistu** naapuri (Fici & Puzynina Thm 65). Ainoa tapa mitata mitä ekvivalenssin vahvistaminen ostaa |
+| 7 | Ennätyssanarekisteri UI:hin | `word-anatomy.js` on jo rekisteri; se puuttuu sovelluksesta |
+| 8 | SAT / CEGIS sääntöavaruuteen | kohde on **morfismiavaruus**, ei sanaavaruus. Verifioija pätee **puhtaille morfisille sanoille**, joten silmukka rakennetaan kiintopisteille, ei projektioille |
 
 ---
 
