@@ -5,7 +5,13 @@
 
 ---
 
-## Suositus: Vaihe 2, kielen eksakti tutkija
+## Tehty 2026-07-28: Vaihe 2 (Rauzy-graafit) on valmis, ks. `MATH_CLAIMS.md` rivit 34-35
+
+## Suositus: Keräsen epäsuotuisat tekijät (A4)
+
+Se on ainoa listalla oleva **lähteistetty avoin ongelma** jonka koneisto on jo olemassa. Ks. alla kohta 2.
+
+## Aiempi suositus (tehty): Vaihe 2, kielen eksakti tutkija
 
 Se on suunnitelman ainoa tekemätön osa, se käyttää valmista koneistoa, ja se täydentää `factor-complexity.js`:n taulukon visuaaliseksi.
 
@@ -35,11 +41,12 @@ Isompi ja kannattaa aloittaa levänneenä. Kolme ehtoa ennen aloitusta:
 | # | Työ | Peruste |
 |---|---|---|
 | 1 | Rauzy-graafit (yllä) | valmis koneisto, invariantti, pedagoginen |
-| 2 | FORBID4:n minimaalisuus | äärellinen: 64 osajoukkoa × kasvunopeuden yläraja. Yksikäsitteinen vastaus. `OPEN_RESEARCH_QUESTIONS.md` B1 |
-| 3 | Additiiviset toistot ℤ^d | sama koneisto, eri Ψ. Valmis verifioitava kohde: Rao & Rosenfeld Theorem 6 (Φ annettu eksplisiittisesti paperissa) |
-| 4 | k-abelinen moduuli | lähin **ratkaistu** naapuri (Fici & Puzynina Thm 65). Ainoa tapa mitata mitä ekvivalenssin vahvistaminen ostaa |
-| 5 | Ennätyssanarekisteri | Keränen pyysi (WhatsApp kohta 14). Projekti on jo osoittanut tarpeen: shipattu 40-kirjaiminen esimerkki oli kelvoton |
-| 6 | SAT / CEGIS | yllä |
+| 2 | Keräsen epäsuotuisat tekijät (`OPEN_RESEARCH_QUESTIONS.md` A4) | **lähteistetty avoin ongelma**, ja `rauzy-graph.js` on juuri oikea työkalu: rajattomasti jatkettava = graafissa syklin tavoittava. Uusi 2026-07-28 |
+| 3 | FORBID4:n minimaalisuus | äärellinen: 64 osajoukkoa × kasvunopeuden yläraja. Yksikäsitteinen vastaus. `OPEN_RESEARCH_QUESTIONS.md` B1 |
+| 4 | Additiiviset toistot ℤ^d | sama koneisto, eri Ψ. Valmis verifioitava kohde: Rao & Rosenfeld Theorem 6 (Φ annettu eksplisiittisesti paperissa) |
+| 5 | k-abelinen moduuli | lähin **ratkaistu** naapuri (Fici & Puzynina Thm 65). Ainoa tapa mitata mitä ekvivalenssin vahvistaminen ostaa |
+| 6 | Ennätyssanarekisteri | Keränen pyysi (WhatsApp kohta 14). Projekti on jo osoittanut tarpeen: shipattu 40-kirjaiminen esimerkki oli kelvoton |
+| 7 | SAT / CEGIS | yllä |
 
 ---
 
@@ -54,7 +61,7 @@ Isompi ja kannattaa aloittaa levänneenä. Kolme ehtoa ennen aloitusta:
 
 ## Repositorion tila 2026-07-28
 
-Testit 23/23, driftitarkistukset 12/12, kaikki committoitu ja pushattu.
+Testit 25/25, driftitarkistukset 12/12, kaikki committoitu ja pushattu.
 
 **Eksakti putki** (jokainen vaihe todentaa itsensä ja heittää poikkeuksen ennemmin kuin palauttaa virheellisen tuloksen):
 
@@ -68,6 +75,8 @@ get-parents.js          Par_h ja Anc_h
 decide-realizability.js Prop 8, koko paatosmenettely
 factor-frequencies.js   taydelliset tekijajoukot, eksaktit tiheydet
 factor-complexity.js    p(n) ja kasvunopeuden tiukat ylarajat
+rauzy-graph.js          Rauzy-graafit, erikoiset tekijat, umpikujat
+morphism-scan.js        tyhjentava pienten morfismien haku
 ```
 
-**Muistutus jokaiselle joka jatkaa:** seitsemän kertaa tässä työssä uskottava yleistys osoittautui vääräksi vasta ajossa (M_g:n surjektiivisuus, M_h:n diagonalisoituvuus, p(n):n vakioslope, ytimen ulottuvuus, testidatan "abelin neliö", HTML-entiteettien kaksoisescapetus, TeX-jäännökset). Yksikään ei olisi kaatunut silmämääräisessä tarkistuksessa. Aja kaikki, vertaa HEAD:iin, äläkä luota kommenttiin.
+**Muistutus jokaiselle joka jatkaa:** yhdeksän kertaa tässä työssä uskottava yleistys osoittautui vääräksi vasta ajossa (M_g:n surjektiivisuus, M_h:n diagonalisoituvuus, p(n):n vakioslope, ytimen ulottuvuus, testidatan "abelin neliö", HTML-entiteettien kaksoisescapetus, TeX-jäännökset, Cassaignen hypoteesin puuttuminen, skannerin liian heikko ehto). Yksikään ei olisi kaatunut silmämääräisessä tarkistuksessa. Aja kaikki, vertaa HEAD:iin, äläkä luota kommenttiin.

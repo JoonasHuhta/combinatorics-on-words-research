@@ -44,7 +44,18 @@ Mikä tahansa suunnitelma joka lupaa "löytää RT(n)-arvoja" nojaa vanhentunees
 
 Keskimmäinen kohta on **täsmälleen A1** abelisen ekvivalenssin korvattuna 2-abelisella — ja se on **ratkaistu myönteisesti**. Tämä on ainoa tunnettu tapa mitata *kuinka paljon* ekvivalenssin vahvistaminen ostaa. Projektissa ei ole k-abelista moduulia.
 
-### A4. Jäljittämätön: minimimäärä eri 2-abelin neliöitä binäärisanassa
+### A4. Epäsuotuisat tekijät — yksisuuntainen jatkettavuus
+
+> *"…an unfavourable a-2-free word cannot be continued infinitely long to the left and to the right without necessarily creating an abelian square at some point. **However, it might well be possible to extend such a word boundlessly to one direction, say to the right, without producing any abelian squares. Experiments support this conjecture but the existence of such unfavourable factors remains an open question.**"*
+> — V. Keränen, *"Suppression of Unfavourable Factors in Pattern Avoidance"*, International Mathematica Symposium, Avignon, 2006
+
+**Kysymys:** onko olemassa a-2-vapaata sanaa, joka voidaan jatkaa rajattomasti oikealle mutta joka ei silti esiinny minkään äärettömän a-2-vapaan sanan aitona tekijänä?
+
+**Miksi tämä on projektille poikkeuksellisen sopiva:** se on Rauzy-graafin kysymys, ja koneisto on olemassa (`rauzy-graph.js`). Sana on rajattomasti oikealle jatkettavissa täsmälleen silloin kun se on graafissa äärettömällä polulla — eli kun siitä pääsee johonkin sykliin. Sana on epäsuotuisa jos se ei ole millään **molempiin suuntiin** äärettömällä polulla. Erotus näiden kahden joukon välillä on juuri se mitä Keränen kysyy, ja se on äärellisesti laskettavissa kullekin pituudelle.
+
+**Varaus:** Keräsen kysymys koskee neljää kirjainta (Σ₄) ja täyttä a-2-vapautta. Projektin rivin 35 mittaus koskee kolmea kirjainta ja aa2f-ehtoa, eikä se ole sama asia. Ks. `MATH_CLAIMS.md` rivi 38 — rivin 35 umpikujaluvut **eivät** ole epäsuotuisien tekijöiden lukumääriä.
+
+### A5. Jäljittämätön: minimimäärä eri 2-abelin neliöitä binäärisanassa
 
 Keskustelussa on esiintynyt väite *"5 ≤ g(2) ≤ 734"* Rosenfeldin väitöskirjan Problem 4.9:nä. **Lukua 734 eikä merkintää g(2) ei löydy Fici & Puzyninan katsauksesta**, eikä väitöskirjaa ole avattu projektissa. Väite on **jäljittämätön** eikä sitä saa käyttää ennen kuin joku lukee alkuperäisen. Jos se pitää paikkansa, se on houkutteleva kohde: binäärinen hakuavaruus on pienempi kuin ternäärinen ja nykyiset työkalut siirtyisivät lähes suoraan.
 
