@@ -2104,8 +2104,8 @@
       <div style="flex:1; min-width:400px; background:#fff; border:1px solid var(--border); padding:20px; border-radius:6px;">
         <h3 style="color:#c0392b; margin-bottom:10px;">Trap 1: The Logarithmic Illusion</h3>
         <p style="font-size:0.95rem; color:#555;">
-          <strong>Myth:</strong> "If we keep testing larger uniform morphisms ($k=7,8,9...$), the survival length grows, so we are getting closer to a solution!"<br>
-          <strong>Reality:</strong> The growth is a statistical artifact of testing exponentially more morphisms. The maximum survival length perfectly follows $y \approx 2.29 \ln N$. It is a wall.
+          <strong>Myth:</strong> "If we keep testing larger uniform morphisms (k = 7, 8, 9 &hellip;), the survival length grows, so we are getting closer to a solution!"<br>
+          <strong>Reality:</strong> The growth is a statistical artifact of testing exponentially more morphisms. The maximum survival length perfectly follows y &asymp; 2.29 &middot; ln N. It is a wall.
         </p>
         <canvas id="graveyard-chart" width="400" height="200" style="width:100%; height:200px; background:#f9f9f9; border:1px solid #eee; margin-top:10px;"></canvas>
       </div>
@@ -2114,8 +2114,8 @@
       <div style="flex:1; min-width:400px; background:#fff; border:1px solid var(--border); padding:20px; border-radius:6px;">
         <h3 style="color:#c0392b; margin-bottom:10px;">Trap 2: The Perfect Balance</h3>
         <p style="font-size:0.95rem; color:#555;">
-          <strong>Myth:</strong> "Algebraic morphisms are highly synchronized, so they must maintain a very tight Parikh imbalance (e.g. difference between max and min letter counts $< 10$)."<br>
-          <strong>Reality:</strong> Exact measurements at length 25,379 prove the opposite. The expanding eigenvalue ($|\\lambda| = \\sqrt{3} > 1$) forces the imbalance of $g_3(h_6^\\omega(a))$ to diverge as $\\sqrt{N}$.
+          <strong>Myth:</strong> "Algebraic morphisms are highly synchronized, so they must maintain a very tight Parikh imbalance (e.g. difference between max and min letter counts &lt; 10)."<br>
+          <strong>Reality:</strong> Exact measurements at length 25,379 prove the opposite. The expanding eigenvalue (|&lambda;| = &radic;3 &gt; 1) forces the imbalance of g<sub>3</sub>(h<sub>6</sub><sup>&omega;</sup>(a)) to diverge as &radic;N.
         </p>
         <div style="margin-top:20px;">
           <div style="margin-bottom:15px;">
@@ -2129,7 +2129,7 @@
           </div>
           <div>
             <div style="display:flex; justify-content:space-between; font-size:0.9rem; font-family:monospace; margin-bottom:5px;">
-              <span>Rao &amp; Rosenfeld $g_3(h_6)$ (Morphism)</span>
+              <span>Rao &amp; Rosenfeld g<sub>3</sub>(h<sub>6</sub>) (Morphism)</span>
               <strong style="color:#c0392b;">Imbalance: 2,298</strong>
             </div>
             <div style="width:100%; height:12px; background:#eee; border-radius:6px; overflow:hidden;">
@@ -8363,6 +8363,62 @@ function goldDownloadBatLauncher() {
     });
 }
 // END TAB 18
+
+// --- Tab 19: The Graveyard -------------------------------------------------
+// Plots the measured maximum surviving prefix against ln(number of morphisms
+// tested), together with the fitted line. Data and fit are MATH_CLAIMS.md row 37:
+// max = 2.290 ln N - 3.67, R^2 = 0.99875 over k = 2..6. Reproduce with
+// "node morphism-scan.js".
+function renderGraveyard() {
+  const cv = document.getElementById('graveyard-chart');
+  if (!cv || !cv.getContext) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const data = [
+    { k: 2, N: 243,      max: 9  },
+    { k: 3, N: 6561,     max: 16 },
+    { k: 4, N: 95832,    max: 23 },
+    { k: 5, N: 1417176,  max: 29 },
+    { k: 6, N: 15552000, max: 34 }
+  ];
+  const A = 2.290, B = -3.67;                 // fitted, row 37
+  const pad = { l: 42, r: 12, t: 14, b: 30 };
+  const xs = data.map(d => Math.log(d.N));
+  const xMin = 4, xMax = 19, yMin = 0, yMax = 46;
+  const px = x => pad.l + (x - xMin) / (xMax - xMin) * (W - pad.l - pad.r);
+  const py = y => H - pad.b - (y - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
+
+  // axes
+  ctx.strokeStyle = '#bbb'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, H - pad.b); ctx.lineTo(W - pad.r, H - pad.b); ctx.stroke();
+  ctx.fillStyle = '#666'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+  for (let y = 0; y <= 40; y += 10) { ctx.fillText(String(y), pad.l - 5, py(y) + 3);
+    ctx.strokeStyle = '#eee'; ctx.beginPath(); ctx.moveTo(pad.l, py(y)); ctx.lineTo(W - pad.r, py(y)); ctx.stroke(); }
+  ctx.textAlign = 'center';
+  ctx.fillText('ln N  (morphisms tested)', (pad.l + W - pad.r) / 2, H - 8);
+  ctx.save(); ctx.translate(11, (pad.t + H - pad.b) / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('max surviving prefix', 0, 0); ctx.restore();
+
+  // fitted line
+  ctx.strokeStyle = '#c0392b'; ctx.lineWidth = 2; ctx.setLineDash([5, 4]);
+  ctx.beginPath(); ctx.moveTo(px(xMin), py(A * xMin + B)); ctx.lineTo(px(xMax), py(A * xMax + B)); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // measured points
+  ctx.fillStyle = '#2c3e50';
+  data.forEach((d, i) => {
+    const x = px(xs[i]), y = py(d.max);
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
+    ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('k=' + d.k, x, y - 9);
+  });
+
+  ctx.fillStyle = '#c0392b'; ctx.font = '11px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('fit: 2.29 ln N - 3.67   (R\u00b2 = 0.99875)', pad.l + 8, pad.t + 12);
+}
+
 </script>
 </body>
 </html>
