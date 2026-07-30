@@ -194,6 +194,14 @@ Rivin 54 lakaisussa **jokainen** tasapainoinen aakkosto (muotoa {0, p, q, p+q}) 
 - **Tappoehto:** jos summaeron kasvua **ei** saada rajattua insidenssimatriisin spektristä, laatikko on ääretön eikä menettelyä ole tässä muodossa. **Tämä nähdään ensimmäisestä johdosta, ei ajosta** — eli tappoehto laukeaa paperilla tuntien, ei viikkojen sisällä.
 - **Työmäärä:** esimittaus = johda raja **yhdelle** 2-uniformille morfismille käsin ja vertaa `ancestor-box.js`:n antamaan abelin laatikkoon. Vasta jos se toimii, yleistä. **Vaikuttavuus 5.**
 
+**ESIMITTAUS TEHTY 2026-07-30 (rivi 71) — reitti on olemassa mutta kapea, ja tulos kääntää abelin puolen intuition päinvastaiseksi.**
+
+Hypoteesin muoto siirtyy: `ker Φ` korvautuu hypertasolla `ker(v^T)`, jonka ulottuvuus on 3, joten nollaleikkaus pakottaa **dim im(Mⁿ) ≤ 1**. Mitattu tyhjentävästi: k=2 → 6,46 %, k=3 → 2,12 %, k=4 → **0,87 %** hakuavaruudesta.
+
+**Rakenteellinen havainto joka on tämän esimittauksen tärkein anti:** abelin puolella kuvien identtiset Parikh-vektorit ovat se ominaisuus joka *kantaa* konstruktion (Keräsen g₈₅, rivi 3). Additiivisella puolella **sama ominaisuus tappaa morfismin välittömästi** — samat kuvasummat tarkoittavat että mitkä tahansa kaksi vierekkäistä kokonaista lohkoa muodostavat additiivisen neliön puolipituudella k, ilman hakua. **Se mikä kantaa abelin ratkaisun estää additiivisen.** Tämä on yksi selitys sille miksi rivit 67–69 ovat kauttaaltaan kielteisiä, eikä sitä ollut aiemmin kirjattu.
+
+**Seuraus B11:n arvolle, rehellisesti:** menettely ei toisi mitään uutta k ≤ 4:lle, koska luettelu on siellä jo tyhjentävä (rivit 67–69). **Koko arvo on siinä että se skaalautuu k:hon jossa luettelu ei skaalaudu**, ja rank-1 + pareittain eri kuvasummat -suodatin leikkaa avaruuden 0,08 %:iin — juuri niin pieneksi että suurempi k on mahdollinen. **Varsinainen tappoehto on yhä auki:** itse rajaa (summaeron äärellisyyttä) ei ole johdettu, vain hypoteesin muoto ja kattavuus. Se on seuraava askel, ja se ratkeaa paperilla.
+
 ### B12. Question 3 on eksistenssikysymys — kohde on ollut väärinpäin (RESEARCH_ARCHITECT-ajo 2026-07-30)
 
 **Kysymys:** onko olemassa **jokin** äärellinen kokonaislukuaakkosto jolla additiiviset neliöt ovat vältettävissä — ja jos on, miksi sitä etsitään aakkostokoosta jossa välttäminen on vaikeinta?

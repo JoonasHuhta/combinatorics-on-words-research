@@ -35,7 +35,7 @@ ainoat abelin neliöt ovat `00`, `11`, `22`? Auki puolipituuksille K = 2…5.
 |---|---|---|
 | 0 | **`KNOWLEDGE_STATE.md`** | **Tilannekuva: mitä tiedetään, mikä on todistetusti suljettu, mikä hylätty varmuudella, mikä auki, mitä ei saa käyttää.** Johdettu hakemisto — väiteloki voittaa aina. Nopein tapa saada kokonaiskuva |
 | 1 | **`AGENTS.md`** / `CLAUDE.md` | Väitteiden protokolla. **Pakollinen.** Sitaatti ennen koodia, kaksi verifiointitasoa, kielen kalibrointi, ihmisen hyväksyntä ennen committia kun väitteet muuttuvat |
-| 2 | **`MATH_CLAIMS.md`** | **Ainoa auktoriteetti jokaiselle matemaattiselle väitteelle.** 73 riviä. Mikään väite ei saa esiintyä missään ilman riviä täällä |
+| 2 | **`MATH_CLAIMS.md`** | **Ainoa auktoriteetti jokaiselle matemaattiselle väitteelle.** 74 riviä. Mikään väite ei saa esiintyä missään ilman riviä täällä |
 | 3 | **`OPEN_RESEARCH_QUESTIONS.md`** | Avoimet ongelmat, kolmijaolla: A kirjallisuus (lähteineen), B projektin omat laskettavat, **C muotoilut jotka mittaavat toteutusta eivätkä matematiikkaa**. D on hylkäysrekisteri perusteineen |
 | 4 | **`NEXT_STEP.md`** | Mistä jatketaan ja miksi. Mitä ei kannata tehdä |
 | 5 | `docs/plans/PROJECT_ARCHITECTURE.md` | Sovelluksen rakenne, välilehtien reititys |
