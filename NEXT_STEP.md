@@ -298,7 +298,7 @@ aakkostoluokittelua. **Rivin 54 lakaisua ei ole syrjäytetty.** Mutta uutuutta
 kirjallisuudessa ei saa väittää yhden paperin perusteella — Lietardin
 väitöskirja on yhä avaamatta (A7 kohta 2).
 
-**Vakavampi löydös: rivin 23 DOI ei ollut olemassa.** antaa Crossrefissa 404:n; oikea on . Tunniste oli
+**Vakavampi löydös: rivin 23 DOI ei ollut olemassa.** `10.1137/16M1087493` antaa Crossrefissa 404:n; oikea on `10.1137/17M1149377`. Tunniste oli
 lokissa alkuperäisestä hylkäyksestä asti ja poistui vasta kun solu
 kirjoitettiin uusiksi — **vahingossa, ei tarkistuksen tuloksena**. Kirjattu
 hautausmaalle §13: osittainen korroboraatio esiintyi täytenä, koska neljä
@@ -311,7 +311,7 @@ oikeassa kysymyksessä.
 
 **Seuraava askel:** Lietardin väitöskirja (A7 kohta 2, ranskaksi) — se on
 ainoa jäljellä oleva lähde joka voi kertoa onko neliöpuolen lakaisu tehty.
-Vaihtoehto: :n kytkeminen :iin.
+Vaihtoehto: `index.html`:n kytkeminen `claims.json`:iin.
 
 ## Repositorion tila 2026-07-30
 
