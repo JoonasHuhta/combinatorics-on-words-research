@@ -162,17 +162,21 @@ Rivin 54 lakaisussa **jokainen** tasapainoinen aakkosto (muotoa {0, p, q, p+q}) 
 
 **Päivitys 2026-07-30 (rivi 66):** Freedmanin todistama yleinen raja (61, kaikille tasapainoisille eli Sidon-aakkostoille) selittää kohdan 2 kysymyksen tyhjentävästi kirjallisuuden puolelta — 60 on kirjallisuuden mukaan yleinen katto, ei pelkkä tämän projektin span≤8-havainto. Kohdat 1 ja 3 ovat silti auki: rakenteellinen selitys (kohta 3) on nyt testattavissa Freedmanin todistuksen menetelmää vasten, mikä on eri kysymys kuin lisää laskentaa.
 
-### B10. Epäuniformi morfismihaku additiivisille neliöille (rivi 67)
+### B10. Epäuniformi morfismihaku additiivisille neliöille — OSITTAIN LASKETTU 2026-07-30 (rivi 68)
 
 **Kysymys:** onko olemassa epäuniformi morfismi jonka kiintopiste välttää additiiviset neliöt täydellisesti (kaikilla K ≥ 1) jollain epätasapainoisella nelikirjaimisella aakkostolla?
 
-**Miksi juuri tämä, eikä lisää uniformia hakua:** `additive-morphism-scan.js` (rivi 67) tyhjensi uniformin tapauksen k ≤ 4:llä kuudella epätasapainoisella aakkostolla — negatiivisesti, mutta äärellisesti. Cassaigne et al. (2013) -konstruktio additiivisille **kuutioille** on todistetusti **epäuniformi** (φ_{a,b,c,d}: a→ac, b→dc, c→b, d→ab, pituudet 2,2,1,2), suoraan Lietard & Rosenfeldin preprintistä uutettuna. Tämä on vahva ennakko-oletus: uniformi on todennäköisesti väärä hakuavaruus myös neliöille.
+**Miksi juuri tämä, eikä lisää uniformia hakua:** `additive-morphism-scan.js` (rivi 67) tyhjensi uniformin tapauksen k ≤ 4:llä kuudella epätasapainoisella aakkostolla — negatiivisesti, mutta äärellisesti. Cassaigne et al. (2013) -konstruktio additiivisille **kuutioille** on todistetusti **epäuniformi** (φ_{a,b,c,d}: a→ac, b→dc, c→b, d→ab, pituudet 2,2,1,2), suoraan Lietard & Rosenfeldin preprintistä uutettuna. Tämä oli vahva ennakko-oletus siitä että uniformi olisi väärä hakuavaruus myös neliöille.
 
-- **Ei ole olemassa oleva moduuli.** Epäuniformien morfismien hakuavaruus on eri muotoinen (pituusprofiilien yli, ei kiinteän k:n yli), joten tämä on aidosti uusi moduuli eikä `additive-morphism-scan.js`:n laajennus.
-- **Validointi:** sama kolmikerroksinen kuvio kuin muualla — riippumaton koodipolku, ternäärikontrolli jos sovellettavissa, todistuskappaleen verifiointi määritelmästä.
-- **Odotettu lokirivi:** joko *"epäuniformi morfismihaku pituusprofiileilla ⟨lista⟩ ei tuottanut kiintopistettä joka välttäisi additiiviset neliöt aakkostolla A"* (kielteinen, äärellinen) tai — jos jokin selviää — **bounded evidence**, ei todiste, koska päätösmenettelyä additiiviselle ehdolle ei ole olemassa (vrt. `decide-realizability.js`:n abelin vastine).
-- **Tappoehto:** ei signaalia kohtuullisella pituusprofiilibudjetilla ilman uutta rakenteellista ideaa — sama kriteeri kuin `NEGATIVE_RESULTS.md` §1:ssä.
-- **Vaikuttavuus, jos onnistuu:** hyvin korkea — vastaisi myöntävästi Question 3:een (rivi 63/66: *"Is there any finite alphabet of integers over which additive squares are avoidable?"*), joka on ollut avoin ainakin vuodesta 1987.
+**Tulos (rivi 68):** `additive-nonuniform-morphism-scan.js` yleisti haun pituusprofiileihin (La,Lb,Lc,Ld) ∈ [1,4]⁴ (La ≥ 2), sisältäen Cassaigne-tyyppisen (2,2,1,2)-profiilin yhtenä 192:sta. Tyhjentävä ja negatiivinen neljällä aakkostolla ({0,1,2,5}, {0,1,6,8}, {0,3,4,8}, {0,2,4,7}), ~117 M morfismia per aakkosto. **Cassaigne-tyyppinen epäuniformisuus ei siis yksinään riitä** — ainakaan tässä ikkunassa.
+
+**Auki jää:**
+1. **Pidemmät profiilit** (maxlen > 4) — kustannus kasvaa nopeasti, mittaa ennen lupaamista.
+2. **16 muuta epätasapainoista luokkaa** joita ei ole testattu tällä moduulilla.
+3. **Rakenteellisesti erilaiset konstruktiot** — Cassaignen oma φ_{a,b,c,d} on määritelty ℂ:n yli eikä rajattu neljään kiinteään symboliin samalla tavalla kuin tämä haku; mahdollisesti tarvitaan muu morfismimuoto kokonaan (esim. useampikirjaiminen aputila, kuten h₆→g₃-konstruktio abelin puolella).
+- **Validointi:** kolmikerroksinen kuvio täyttyi — regressiokontrolli uniformiin tapaukseen (`additive-morphism-scan.js`) on riippumaton todiste yleistyksen oikeellisuudesta.
+- **Tappoehto seuraavalle syvennykselle:** ei signaalia kohtuullisella budjetilla ilman uutta rakenteellista ideaa — sama kriteeri kuin `NEGATIVE_RESULTS.md` §1:ssä ja nyt myös §14:ssä.
+- **Vaikuttavuus, jos joskus onnistuu:** hyvin korkea — vastaisi myöntävästi Question 3:een (rivi 63/66: *"Is there any finite alphabet of integers over which additive squares are avoidable?"*), joka on ollut avoin ainakin vuodesta 1987.
 
 ### B8. Taajuusmonikulmio — yhteisjakauma laatikon sijaan (RESEARCH_ARCHITECT-ajo 2026-07-30)
 

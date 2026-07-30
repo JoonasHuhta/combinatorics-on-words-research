@@ -1496,6 +1496,49 @@ test("Additive morphism scan: agrees with additive-sweep.js; k<=4 exhaustive neg
   console.log("       agrees with additive-sweep.js's definitional checker; K=1 case verified separately");
 });
 
+// ----------------------------------------------------
+// 39. ADDITIVE NON-UNIFORM MORPHISM SCAN (additive-nonuniform-morphism-scan.js, row 68)
+// ----------------------------------------------------
+test("Non-uniform additive morphism scan: reproduces the uniform case; exhaustive negative to maxlen=3", () => {
+  const anms = require("./additive-nonuniform-morphism-scan.js");
+  const ams = require("./additive-morphism-scan.js");
+
+  // Controls throw on failure: K=1 definitional sanity, exact regression
+  // against additive-morphism-scan.js's uniform scan(), and the length-1
+  // image table needed for Cassaigne-style profiles.
+  const notes = anms.runControls();
+  assert.strictEqual(notes.length, 3, "runControls must report 3 control groups");
+
+  const valueOf = { a: 0, b: 1, c: 2, d: 5 };
+  const clean = anms.buildCleanTables(3, valueOf);
+
+  // The regression control restated directly: a uniform profile must match
+  // additive-morphism-scan.js's own scan() bit for bit, since it is the same
+  // search restricted to one point in the length-profile space.
+  for (const k of [2, 3]) {
+    const uniform = ams.scan(k, valueOf, 400, 5e6);
+    const nonUniform = anms.scanProfile([k, k, k, k], clean, valueOf, 400, 5e6);
+    assert.strictEqual(nonUniform.tested, uniform.tested, `k=${k}: tested count must match the uniform scan`);
+    assert.strictEqual(nonUniform.best, uniform.best, `k=${k}: best prefix must match the uniform scan`);
+  }
+
+  // Exhaustive over all profiles up to maxlen=3: every profile must be
+  // tested (none skipped), and none may reach the cap over {0,1,2,5}.
+  let allTested = true, anyReachedCap = false, profileCount = 0;
+  for (const p of anms.profiles(3)) {
+    profileCount++;
+    const r = anms.scanProfile(p, clean, valueOf, 400, 5e6);
+    if (r.skipped) allTested = false;
+    if (r.reachedCap > 0) anyReachedCap = true;
+  }
+  assert.ok(allTested, "no profile should be skipped over budget at maxlen=3");
+  assert.ok(!anyReachedCap, "no profile should reach the prefix cap over {0,1,2,5} at maxlen=3");
+  assert.ok(profileCount > 30, `too few profiles enumerated: ${profileCount}`);
+
+  console.log("       uniform profiles (k,k,k,k) reproduce additive-morphism-scan.js exactly for k=2,3");
+  console.log(`       ${profileCount} length profiles at maxlen=3 over {0,1,2,5}: all tested, none survive`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);

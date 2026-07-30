@@ -81,17 +81,20 @@ Uudet dokumentit: `KNOWLEDGE_STATE.md`, `LITERATURE_COVERAGE.md`,
 
 ## Seuraavat askeleet, suositusjärjestyksessä
 
-**Päivitys 2026-07-30 (myöhäisilta):** kohta 1 aloitettu ja jo osittain
-tehty — ks. rivi 67 ja B10 alla. Uusi ykkönen on epäuniformi haku.
+**Päivitys 2026-07-30 (yö):** kohta 1 tehty ja myös **negatiivinen** —
+ks. rivi 68 ja B10 alla. Cassaigne-tyyppinen epäuniformisuus (pituudet
+1..4, La ≥ 2) ei yksinään riitä neljällä testatulla aakkostolla,
+~117 M morfismia per aakkosto, tyhjentävästi. Kaksi riippumatonta
+moduulia (`additive-morphism-scan.js`, `additive-nonuniform-morphism-scan.js`)
+kirjattu, regressiokontrolloitu keskenään. **Uusi ykkönen: pidemmät
+profiilit tai muut aakkostot, tai siirtymä kohtaan 2.**
 
-1. **Epäuniformi morfismihaku additiivisille neliöille** (`OPEN_RESEARCH_QUESTIONS.md`
-   B10, rivi 67). `additive-morphism-scan.js` tyhjensi uniformin tapauksen
-   k ≤ 4 kuudella epätasapainoisella aakkostolla, negatiivisesti. Cassaignen
-   additiivinen kuutio-konstruktio on todistetusti **epäuniformi**
-   (φ_{a,b,c,d}: pituudet 2,2,1,2, uutettu suoraan preprintistä) — vahva
-   ennakko-oletus että sama pätee neliöille. Uusi moduuli, ei laajennus,
-   koska hakuavaruus (pituusprofiilien yli) on eri muotoinen. **Jos
-   onnistuu: vastaisi Question 3:een myöntävästi — avoin ainakin 1987.**
+1. *(Suurelta osin tehty, jää auki)* **Epäuniformi morfismihaku
+   laajemmalla kattavuudella** — maxlen > 4 (kustannus kasvaa nopeasti,
+   mittaa ensin) tai loput 16 epätasapainoista luokkaa joita ei ole
+   vielä testattu tällä moduulilla. Ei signaalia ilman uutta
+   rakenteellista ideaa on nyt aito tappoehto tälle linjalle (§14:n
+   opetus): älä jatka pelkällä syvemmällä samalla haulla.
 2. **Epätasapainoisten luokkien alarajojen syventäminen** —
    diagnostiikka-ajo (2026-07-30, scratchpad) näytti että kaikki 20
    avointa luokkaa kasvavat yhä 10⁸ solmun kohdalla eivätkä tasaannu,
