@@ -35,7 +35,7 @@ ainoat abelin neliöt ovat `00`, `11`, `22`? Auki puolipituuksille K = 2…5.
 |---|---|---|
 | 0 | **`KNOWLEDGE_STATE.md`** | **Tilannekuva: mitä tiedetään, mikä on todistetusti suljettu, mikä hylätty varmuudella, mikä auki, mitä ei saa käyttää.** Johdettu hakemisto — väiteloki voittaa aina. Nopein tapa saada kokonaiskuva |
 | 1 | **`AGENTS.md`** / `CLAUDE.md` | Väitteiden protokolla. **Pakollinen.** Sitaatti ennen koodia, kaksi verifiointitasoa, kielen kalibrointi, ihmisen hyväksyntä ennen committia kun väitteet muuttuvat |
-| 2 | **`MATH_CLAIMS.md`** | **Ainoa auktoriteetti jokaiselle matemaattiselle väitteelle.** 76 riviä. Mikään väite ei saa esiintyä missään ilman riviä täällä |
+| 2 | **`MATH_CLAIMS.md`** | **Ainoa auktoriteetti jokaiselle matemaattiselle väitteelle.** 77 riviä. Mikään väite ei saa esiintyä missään ilman riviä täällä |
 | 3 | **`OPEN_RESEARCH_QUESTIONS.md`** | Avoimet ongelmat, kolmijaolla: A kirjallisuus (lähteineen), B projektin omat laskettavat, **C muotoilut jotka mittaavat toteutusta eivätkä matematiikkaa**. D on hylkäysrekisteri perusteineen |
 | 4 | **`NEXT_STEP.md`** | Mistä jatketaan ja miksi. Mitä ei kannata tehdä |
 | 5 | `docs/plans/PROJECT_ARCHITECTURE.md` | Sovelluksen rakenne, välilehtien reititys |
@@ -100,6 +100,7 @@ claims-export.js           vaiteloki koneluettavaksi; vain lokista jaljitettavat
 unavoidable-factors.js     sailion valttamattomat tekijat: mita jokaisen todistajan on sisallettava
 additive-morphism-scan.js  additiiviset neliot: uniformien morfismien tyhjentava haku, k<=4
 additive-nonuniform-morphism-scan.js  sama, epauniformit pituusprofiilit 1..4, regressio uniformiin
+additive-affine-decision.js  paatosmenettely affiineille morfismeille (Theorem 2.4, rivi 72), portattu ja validoitu
 ```
 
 **Verifiointi:**

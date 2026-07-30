@@ -27,7 +27,12 @@
  * WHAT WOULD IT MEAN IF SOMETHING SURVIVES
  * -------------------------------------------
  * Identical caveat to additive-morphism-scan.js: bounded evidence, never a
- * proof. No exact decision procedure exists yet for the additive condition.
+ * proof. As of 2026-07-30 an exact decision procedure exists for the
+ * ADDITIVE case, but only for morphisms satisfying Theorem 2.4's affine
+ * hypothesis (additive-affine-decision.js, MATH_CLAIMS.md rows 72-74) -
+ * length AND weighted sum both linear in the letter's own value, which a
+ * non-uniform (by construction, variable-length) morphism need not have.
+ * A survivor here must be checked against that hypothesis independently.
  *
  * COVERAGE, STATED PRECISELY
  * ----------------------------
@@ -256,8 +261,10 @@ function main() {
   console.log('='.repeat(78));
   if (anySurvived) {
     console.log('  A morphism reached the prefix cap. This is BOUNDED EVIDENCE, not a proof');
-    console.log('  of an infinite fixed point - no exact decision procedure exists yet for');
-    console.log('  the additive condition. Escalate the cap and verify independently.');
+    console.log('  of an infinite fixed point. As of 2026-07-30 an exact decision procedure');
+    console.log('  exists for morphisms satisfying Theorem 2.4\'s affine hypothesis');
+    console.log('  (additive-affine-decision.js, MATH_CLAIMS.md rows 72-74) - check that first.');
+    console.log('  If it does not apply, escalate the cap and verify independently.');
   } else if (skippedCount === 0) {
     console.log(`  NO non-uniform morphism with per-letter lengths 1..${maxLen} (h(a) length >= 2)`);
     console.log(`  over {${sorted.join(',')}} has a fixed point avoiding additive squares of any`);

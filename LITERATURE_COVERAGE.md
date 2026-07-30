@@ -73,6 +73,9 @@ Sarake **"Avaruus"** kertoo mitä täsmälleen on lakaistu, ei pelkkää kyllä/
 | 12 | K ∈ [2,5]-säiliön rakenne (SCC, taajuudet, tekijät) | **ei löytynyt** | — | rivit 51, 52, 62 | ei — kolmesti mitattu löysäksi |
 | 13 | AA2FR-kieli | **ei löytynyt** | — | rivit 27, 33, 35 | **kyllä, käytännössä koskematon** |
 | 14 | k-abelinen hierarkia | **kyllä** (Fici & Puzynina Thm 65) | ratkaistu tapaus 2-abelin ternääri | ei moduulia | mahdollinen mittatikku |
+| 15 | Theorem 2.4:n affiiniehdon täyttävien morfismien osuus / tiheys hakuavaruudessa | **ei löytynyt tarkistetuista lähteistä** | Semantic Scholar -sitaattigraafi kokonaisuudessaan molemmille lähdepapereille (2408.15390: 1 siteeraaja; 2111.07857: 2 siteeraajaa) + kohdennetut hakusanat ("affine morphism fraction/density eligibility additive powers", "how many morphisms affine eigenvalue decidable power-free") | rivi 73 | **kyllä — tässä on aukko jos tarkistus pitää** |
+
+**Rivin 15 sivuhavainto, jäljitetty muttei rakennettu:** haku löysi tuoreen (2026-05, rev. 2026-07) paperin **Eyidoğan, Göral & Tanısalı, "Box Progressions, Abelian Power-Free Morphisms and A Sieve Technique for the Template Method", arXiv:2605.20504** — abstrakti luettu ja lainattu, koko paperia ei avattu. Se ei mittaa samaa suuretta: kyseessä on **abelin** (ei additiivinen) potenssittomuus **binääriaakkostolla**, ja "seula" siinä vähentää **esi-isien laskentakustannusta** templaattimenetelmässä, ei mittaa kelpoisten morfismien osuutta hakuavaruudesta. Ei siis vastaa rivin 73 kysymykseen, mutta on mahdollinen johtolanka `additive-affine-decision.js`:n oman esi-isälaskennan nopeuttamiseksi isommilla k:lla, jos ja kun se tulee tarpeeseen. **Ei siteerata sisällöllisesti ennen kuin koko paperi on avattu.**
 
 ---
 

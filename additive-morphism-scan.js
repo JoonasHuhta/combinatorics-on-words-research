@@ -35,10 +35,14 @@
  * A morphism whose fixed point avoids additive squares up to the prefix cap
  * is BOUNDED EVIDENCE, never a proof - identical framing to
  * morphism-scan.js's own caveat. Turning bounded evidence into a proof needs
- * an exact decision procedure analogous to Rao & Rosenfeld's for the abelian
- * case (decision-preconditions.js / decide-realizability.js), which does not
- * exist yet for additive squares. That gap is real and is not silently
- * papered over here.
+ * an exact decision procedure. As of 2026-07-30 one exists for the ADDITIVE
+ * case too, but only for morphisms satisfying Theorem 2.4's affine hypothesis
+ * (additive-affine-decision.js, MATH_CLAIMS.md rows 72-74) - a narrow
+ * subclass, measured at 0.006-0.021% of this module's own uniform search
+ * space (row 73). A morphism from THIS scan that survives to the cap is not
+ * automatically covered: it must independently satisfy Theorem 2.4's
+ * hypotheses (affine image lengths and sums, invertible matrix, eigenvalues
+ * of modulus > 1) before additive-affine-decision.js applies to it.
  *
  * WHAT WOULD IT MEAN IF NOTHING SURVIVES
  * ----------------------------------------
@@ -248,9 +252,10 @@ function main() {
   console.log('='.repeat(78));
   if (anySurvived) {
     console.log('  A morphism reached the prefix cap. This is BOUNDED EVIDENCE, not a proof');
-    console.log('  of an infinite fixed point - no exact decision procedure exists yet for');
-    console.log('  the additive condition (unlike decide-realizability.js for the abelian case).');
-    console.log('  Escalate the cap and verify the witness independently before claiming more.');
+    console.log('  of an infinite fixed point. Check first whether it satisfies Theorem 2.4\'s');
+    console.log('  affine hypothesis (morphismMatrix in additive-affine-decision.js throws if');
+    console.log('  not) - if it does, that module DECIDES the question exactly. If not, escalate');
+    console.log('  the cap and verify the witness independently before claiming more.');
   } else if (tested.length > 0) {
     console.log(`  NO uniform morphism with 2 <= k <= ${tested[tested.length - 1].k} over {${sorted.join(',')}} has a`);
     console.log('  fixed point avoiding additive squares of any half-length K >= 1.');
