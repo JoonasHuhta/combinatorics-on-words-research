@@ -3,7 +3,9 @@
 **Päivitetty:** 2026-07-30 (jäljitys tehty, suunnitelma syvennetty)
 **Tila:** SUUNNITELMA — vaiheen 0 jäljitysosuus on tehty; spesifikaatio-osuus
 ja toteutus odottavat hyväksyntää.
-**Työnimi:** `sanalab`
+**Työnimi:** `sanalab`. Nimikandidaatti julkiselle, ladattavalle työkalulle:
+**Abracalabra** (abc + labra — aakkosto {a,b,c} ja laboratorio samassa
+sanassa; ylläpitäjän ehdotus 2026-07-30).
 **Yksi lause:** anna rajoite — saat kielen invarianttiprofiilin
 sertifikaatteineen.
 
@@ -266,6 +268,72 @@ on sertifikaatti + toistokomento. Hylätty ehdotus jää kansioon
 hylkäysperusteineen (sama periaate kuin `REJECTED`-riveillä: peruttua
 ei poisteta). Tämä on täsmälleen se polku jota tämän session rivit
 49–52 kulkivat käsityönä — `sanalab` tekee siitä rakenteen.
+
+## 5d. Ennätykset ja eksakti tieto ruokkivat toisiaan — kehys, ei kielto
+
+Ylläpitäjän eksplisiittinen ja legitiimi tutkimusmotivaatio on myös
+**ennätyspituuksien löytäminen** (kirjattu 2026-07-30). Repositorion aiemmat
+ennätysvaroitukset (rivit 37, 42; `NEGATIVE_RESULTS.md` §3, §6) eivät kiellä
+ennätyksiä — ne kieltävät neljä spesifiä virhepäätelmää: rakenteen lukemisen
+ennätys-vs-työmäärä-käyrästä (se on otoskoon logaritmi), ennätyssanan
+käänteismallinnuksen, ennätyksen tekijöiden käytön suodattimena, ja
+ennätyksen kutsumisen todisteeksi. Rivi 54 osoitti että ennätys voi olla
+myös lause: kun haku tyhjenee, "pisin sana on L" on eksakti invariantti.
+
+**Ennätyksen legitimiteettiehdot** (kaikki neljä, tai kyse on viihteestä):
+
+1. **Sertifikaatti:** todistuskappale tulostetaan ja verifioidaan suoraan
+   määritelmästä (nyt sisäänrakennettu: `additive-sweep.js` verifioi
+   todistuskappaleen myös ratkaisemattomille luokille).
+2. **Työmäärä ilmoitetaan** ennätyksen rinnalla — rivin 37 vastalääke.
+3. **Kytkentä rekisteröityyn kysymykseen:** additiivisella puolella jokainen
+   pidempi sana ratkaisemattoman luokan yli on alarajadataa lähteistettyyn
+   avoimeen ongelmaan (rivi 53) — toisin kuin aa2f-ennätykset, joissa
+   25 379 on jo olemassa eikä pituuden lisäys muuta mitään. Ja rivin 50
+   nojalla Mäkelän konjektuuri *on* väite että ennätykset eivät koskaan
+   lopu — ennätysdata on konjektuurin äärellinen varjo.
+4. **Falsifiointirooli:** jokainen ennätyssana on ilmainen testikappale
+   kaikille ehdotetuille välttämättömille ehdoille — jos ehdokas-ehto
+   hylkää verifioidun ennätyssanan, ehto on väärä (Keräsen sanan
+   säiliökontrolli rivillä 51 on tämän kuvion prototyyppi).
+
+**Miten eksakti laskenta nopeuttaa ennätyksiä** (ei vain päinvastoin):
+
+- **Triaasi:** lakaisun verdiktit kertovat missä ennätysjahti on mielekästä.
+  Ratkaistu luokka = älä tuhlaa; ratkaisematon luokka korkealla verifioidulla
+  alarajalla = rintama. Tämä on suora vastaus kysymykseen "meneekö laskenta
+  hukkaan" — verdiktitaulukko on ennätysjahdin kartta.
+- **Terveet karsintaoraakkelit:** rajatun horisontin jatkettavuustaulut
+  (suffiksin selviytymissyvyys — `unfavourable-factors.js`:n
+  jatkettavuussyvyys on juuri tämä invariantti) ovat *todistetusti* terveitä
+  karsintoja: ne eivät koskaan leikkaa elinkelpoista haaraa, joten
+  tyhjentymisverdiktit säilyvät todisteina ja DFS ulottuu syvemmälle samalla
+  budjetilla. **Karsinnan terveys on todistettava, ei oletettava** — muuten
+  jokainen tyhjentymisväite kaatuu.
+- **Järjestysheuristiikat, heuristiikoiksi merkittyinä:** taajuusvälit
+  (rivit 51–52) voivat ohjata kirjainten kokeilujärjestystä. Järjestys ei
+  vaikuta täydellisyyteen, joten se on aina sallittu — mutta sen tuottamat
+  havainnot ovat C-osiota, eivät kielen ominaisuuksia.
+- **Jäännösperiaate:** hukkaan mennyt lasku määritellään: ajo joka ei jätä
+  sertifioitua jäännöstä (todistuskappaletta, taulua, verdiktiä,
+  tarkistuspistettä jonka joku voi kuluttaa). Jokainen `sanalab`-ajo
+  suunnitellaan jättämään jäännös.
+
+**Ensimmäinen jäännös on olemassa (2026-07-30): `extension-table.js`, rivi 55.**
+Jatkettavuussyvyystaulu on yhtä aikaa (a) eksakti kielen invariantti, (b) terve
+karsintaoraakkeli joka säilyttää sekä pisimmän sanan että tyhjentymisverdiktin
+— terveys on todistettu tekijäargumentilla ja testattu 400 etuliitteellä — ja
+(c) levylle tallennettava artefakti joka **siirtyy koko affiiniluokalle nollalla
+hakusolmulla**. Mitattu vaikutus hakuun on n. 84–89×, mutta taulun rakentaminen
+maksaa suunnilleen alkuperäisen haun verran: **yhden ajon nettovoitto on nolla,
+ja koko arvo on uudelleenkäytössä.** Se on jäännösperiaate puhtaimmillaan — ja
+samalla varoitus: jäännöksen arvo on aina mitattava uudelleenkäytön yli, ei
+yhden ajon sisällä.
+
+Suunnitteluseuraus `sanalab`iin: **ajot kuluttavat ja tuottavat tauluja.**
+Taulukirjasto (`tables/`, avaimena affiiniluokan kanoninen edustaja + h + katto)
+on v1:n ensimmäinen pysyvä rakenne, ja jokainen ajo raportoi kumpaakin: mitä
+tauluja se kulutti ja mitä se jätti.
 
 ## 6. Yhteys käytäntöön — tulkintakerros, ei väitekerros
 

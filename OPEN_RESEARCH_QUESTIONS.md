@@ -69,6 +69,8 @@ Eli: onko olemassa ääretön jono äärellisen ℤ:n osajoukon yli, joka vältt
 - **Kuutiot ratkaistu:** *"there exists an infinite word over the alphabet {0, 1, 3, 4} containing no three consecutive blocks of the same size and the same sum"* — Cassaigne, Currie, Schaeffer & Shallit, arXiv:1106.5204, abstrakti (avattu 2026-07-30). Sama abstrakti: *"This answers an open problem of Pirillo and Varricchio from 1994."* Koko tekstistä (ar5iv, 2026-07-30): neliökysymyksen esittivät Halbeisen & Hungerbühler (2000): *"They asked (in our terminology) if it is possible to avoid additive squares."*
 - **ℤ² ratkaistu — ja ratkaisu on projektin ydinlähde:** arXiv:1511.05875:n varsinainen otsikko on *"Avoiding two consecutive blocks of same size and same sum over ℤ²"*, päätulos *"ℤ² is not uniformly 2-repetitive"*, ja abstrakti kytkee sen suoraan projektin pääongelmaan: *"this problem is related to a question from Mäkelä in combinatorics on words and we answer to a weak version of it."* **Projektin templaatti/esivanhempikoneisto on siis alun perin rakennettu juuri additiivisten neliöiden ongelmaa varten** — additiivinen instanssi (`SANALAB_PLAN.md`) ei ole naapuri vaan paluu ydinlähteen emo-ongelmaan.
 
+**Projektin tila:** aakkostolakaisu on olemassa (`additive-sweep.js`) ja ensimmäiset tulokset ovat rivillä **54**; jatkokysymykset **B9** alla.
+
 Ks. `MATH_CLAIMS.md` rivi 53. Sekundäärihavainto ilman avattua lähdettä (EI saa käyttää ennen jäljitystä): hakutulosteessa esiintyi Freedmanin nimiin laitettu väite 4-kirjaimisista aakkostoista a+d=b+c ja pituusrajasta ≤ 60, sekä tuore variaatiopaperi arXiv:2506.21200 (2025) — jälkimmäinen viittaa pääkysymyksen olleen auki vielä 2025, mutta kumpaakaan ei ole avattu.
 
 ---
@@ -131,6 +133,14 @@ Varaus: tämä on **relaksaation** analyysi. Se antaa välttämättömiä ehtoja
 - **Odotettu lokirivi:** *"Säiliökielen välttämättömät tekijät pituuteen ℓ asti ovat täsmälleen ⟨joukko⟩ (N kpl); jokainen Mäkelä-todistaja sisältää ne."*
 - **Tappoehto:** ei tarvita — äärellinen lasku, yksikäsitteinen vastaus; myös "vain kirjaimet" kirjataan.
 - **Työmäärä:** yksi sessio. **Vaikuttavuus 3–4.**
+
+### B9. Tasapainoiset aakkostot — miksi dikotomia on niin puhdas? (rivi 54)
+
+Rivin 54 lakaisussa **jokainen** tasapainoinen aakkosto (muotoa {0, p, q, p+q}) tyhjeni, eikä yksikään ratkaisematon luokka ollut tasapainoinen. Kysymykset, jotka ovat äärellisiä ja invariantteja:
+
+1. **Päteekö dikotomia laajemmalla spannilla?** Jokainen uusi span on äärellinen lasku samalla moduulilla. Ensimmäinen tasapainoinen luokka joka **ei** tyhjenny kumoaisi kuvion; ensimmäinen epätasapainoinen joka tyhjenee laajentaisi poikkeuslistaa ({0,1,2,4} on toistaiseksi ainoa).
+2. **Onko 60 tasapainoisten katto?** Arvot kulkevat 50 → 55 → 58 → 60 kun (p,q) etääntyvät, ja pysähtyvät 60:een. Onko olemassa tasapainoinen aakkosto jonka pisin sana on > 60?
+3. **Rakenteellinen selitysehdokas — testattava, ei oletettava.** Tasapainoinen aakkosto on summajoukko {0,p} + {0,q}, joten kirjain on p·x + q·y missä x,y ∈ {0,1}: aakkosto on {0,1}² ⊂ ℤ²:n projektio. Riittävän riippumattomilla p, q summat ovat yhtä suuret täsmälleen kun **molemmat binäärikoordinaatit** täsmäävät, jolloin additiivinen neliö ℤ-sanassa vastaa yhtäaikaista abelin neliötä kahdessa binääriprojektiossa. Tämä kytkeytyy suoraan riviin 53 (ℤ² ratkaistu). **Ennuste jonka voi kumota:** jos selitys pätee, tasapainoisen aakkoston tulos saa riippua vain siitä ovatko p ja q "riittävän riippumattomia", ei niiden koosta — ja (1,2):n poikkeava 50 selittyy sillä että q = 2p. Testattavissa vertaamalla luokkia joilla on sama riippuvuusrakenne mutta eri koko.
 
 ### B8. Taajuusmonikulmio — yhteisjakauma laatikon sijaan (RESEARCH_ARCHITECT-ajo 2026-07-30)
 

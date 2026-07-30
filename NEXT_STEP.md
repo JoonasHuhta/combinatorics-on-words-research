@@ -179,12 +179,64 @@ Erotus näiden kahden joukon välillä on täsmälleen se mitä Keränen kysyy, 
 
 ---
 
+## Tehty 2026-07-30 (ilta): additiivinen aakkostolakaisu, ensimmäinen vaihe
+
+`additive-sweep.js` on olemassa ja validoitu kolmikerroksisella verifioinnilla
+(`SANALAB_PLAN.md` 6b.2). Tulokset rivillä **54**: 31 affiiniluokasta 11
+ratkaistiin, ja tasapainoiset aakkostot erottuivat puhtaasti. Jatkokysymykset
+`OPEN_RESEARCH_QUESTIONS.md` **B9**.
+
+**Seuraava askel, prioriteettijärjestyksessä:**
+
+1. **Jäljitä Freedman-lähde** (rivi 53:n jäljittämätön attribuutio: a+d=b+c,
+   raja ≤ 60). Se osuu suoraan rivin 54 tasapainoisiin luokkiin ja arvoon 60.
+   Jos lähde löytyy, osa rivistä 54 on **replikaatio** eikä uusi tulos, ja rivi
+   on päivitettävä. Tämä on halvin ja tärkein: se ratkaisee mitä taulukosta
+   ylipäätään saa sanoa uutena.
+2. **B9.1 laajempi span** — sama moduuli, isompi `--span`. Kumoaako jokin
+   tasapainoinen luokka dikotomian?
+3. **5 kirjainta.** Kustannus mitattava ensin: `--letters 5 --span 6` pienellä
+   budjetilla, ja katsottava paljonko luokkia ja solmuja syntyy.
+
+**Älä** kutsu ratkaisemattomia luokkia "välttäjiksi". Ratkaisematta tarkoittaa
+ratkaisematta; budjetti loppui.
+
+**Ennätyskehys** kirjattu `SANALAB_PLAN.md` 5d:hen (2026-07-30): ennätysjahti
+on legitiimi kun todistuskappale verifioidaan, työmäärä ilmoitetaan, kohde
+kytkeytyy rekisteröityyn avoimeen kysymykseen ja ennätyksiä käytetään
+falsifiointiin. Additiivinen rintama on tähän täsmälleen oikea kohde:
+ratkaisemattomien luokkien verifioidut alarajat (83–200, rivi 54) ovat
+alarajadataa avoimeen ongelmaan — toisin kuin aa2f-ennätykset. Eksakti
+laskenta nopeuttaa jahtia kolmella mekanismilla: triaasi (verdiktitaulukko
+kertoo missä jahti kannattaa), terveiksi todistetut karsintaoraakkelit
+(jatkettavuussyvyystaulut), ja järjestysheuristiikat (heuristiikoiksi
+merkittyinä).
+
+## Tehty 2026-07-30 (myöhäisilta): jatkettavuustaulut, sanalabin ensimmäinen jäännös
+
+`extension-table.js`, tulokset rivillä **55**. Taulu on kolme asiaa yhdessä:
+eksakti invariantti, terve karsintaoraakkeli (84–89× vähemmän hakusolmuja,
+verdikti muuttumatta) ja **affiiniluokalle nollakustannuksella siirtyvä
+artefakti**. Terveys todistettu tekijäargumentilla ja testattu 400
+etuliitteellä. Rehellinen rajoitus samassa rivissä: taulun rakentaminen maksaa
+yhden haun verran, joten **arvo on yksinomaan uudelleenkäytössä** — ja
+ennätysjahdissa kannattavuus on mitattava erikseen (ratkaisemattomalla luokalla
+{0,1,2,5} taulu vaati 1,2 mrd solmua).
+
+**Seuraava askel sanalabille:** taulukirjasto (`tables/`, avaimena
+affiiniluokan kanoninen edustaja + h + katto) ja ajoprotokolla
+(`SANALAB_PLAN.md` 5c): NDJSON-tapahtumavirta, kolme lopputilaa, jatkettavat
+tarkistuspisteet. Jatkettavuus on toinen puoli samaa jäännösperiaatetta:
+budjettiin päättynyt ajo jättää tilan josta seuraava jatkaa sen sijaan että
+aloittaisi alusta.
+
 ## Repositorion tila 2026-07-30
 
-Testit **31/31**, driftitarkistukset **13/13**. Rivit 49–51 ja
-tutkimusarkkitehti-protokolla on committoitu. **Työpuussa odottaa
-hyväksyntää** (sääntö 5): rivi 52 (K ∈ [2,6], välin stabiilius),
-`sft-container.js`:n parametrisointi, testi 31 ja dokumenttipäivitykset.
+Testit **33/33**, driftitarkistukset **13/13**. Rivit 49–53,
+tutkimusarkkitehti-protokolla ja suunnitteludokumentit on committoitu.
+**Työpuussa odottaa hyväksyntää** (sääntö 5): rivit 54–55,
+`additive-sweep.js`, `extension-table.js`, testit 32–33, driftivahdin
+laajennus ja näihin liittyvät dokumenttipäivitykset.
 Moduulilista ja ajokomennot: `RESEARCH_CONTEXT.md` osio 3.
 
 ### Avoimet päätökset, jotka kuuluvat ylläpitäjälle
