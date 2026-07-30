@@ -1,74 +1,59 @@
 # Seuraava askel
 
-**Päivitetty:** 2026-07-30 (session luovutus)
+**Päivitetty:** 2026-07-30 (myöhäisyö, session luovutus)
 **Lue ensin:** `KNOWLEDGE_STATE.md`, `RESEARCH_CONTEXT.md`, `AGENTS.md`.
 
 ---
 
 # LUOVUTUS SEURAAVALLE SESSIOLLE
 
-**Repositorion tila:** testit **37/37**, driftitarkistukset **15/15**, kaikki
-committoitu ja pushattu. Väiteloki **69 riviä**. Työpuu puhdas.
+**Repositorion tila:** testit **39/39**, driftitarkistukset **15/15**, kaikki
+committoitu ja pushattu (HEAD `26e4e90`). Väiteloki **71 riviä**. Työpuu
+puhdas. Ei kriittistä avointa lankaa — kaikki alla on priorisoitu valinta,
+ei este.
 
-## Kriittisin yksittäinen asia — suurin osa ratkesi 2026-07-30 (rivi 66)
+**Taustalla käynnissä:** tausta-agentti `task_ad941573` korjaa
+`index.html`:n välilehden 3 painikkeen kaksoisescapetusbugia
+(`&#8328;&#8325;` näkyy kirjaimellisena), eri sessiossa. Älä duplikoi —
+tarkista `git log` ennen kuin kosket samaan kohtaan.
 
-**Luku on 61, ei 50, ja se on attribuoitu Freedmanille — vahvistettu suoraan
-avatusta täystekstistä, ei toisen mallin tiivistelmästä.**
+## Mitä tässä sessiossa tehtiin (kokonaisuudessaan, useampi luovutuskierros)
 
-- arXiv:1304.1829 (Brown, Jungić & Poelstra) avattu ar5iv-renderöinnistä ja
-  haettu sanatarkasti. Sitaatti: *"Freedman [Freedman 2013+] has shown that
-  if a<b<c<d satisfy the Sidon equation a+d=b+c, then every word on
-  {a,b,c,d} of length 61 contains an additive square."*
-- [Freedman 2013+] on **eri paperi** kuin Brown & Freedman 1987 — se on
-  Freedmanin *"Sequences on sets of four numbers"*, silloin ("to appear in
-  INTEGERS") vielä julkaisematon. Brown & Freedman 1987:n sisältö vahvistui
-  samaksi kuin ennen: avoin **Conjecture 1**, ei pituusraja.
-- **Projektin data (rivi 54: pisin tasapainoinen neliötön sana 60) on
-  täydellisesti yhteensopiva 61-rajan kanssa.** Väitöskirjan "≥ 50" näyttää
-  virheelliseltä luvulta — todennäköisesti hyvässä uskossa tehty sekaannus,
-  koska sama Freedmanin paperi mainitsee myös 51-termisiä jonoja *eri*
-  kontekstissa (double-3-AP-vapaus, ei additiivinen neliö).
-- **Yksi asia jäi silti auki:** onko Freedmanin INTEGERS-paperi hänen
-  yksinään vai yhdessä Brownin kanssa. arXiv:1304.1829 siteeraa sitä
-  muodossa "[Freedman 2013+]" (viittaa yksin), mutta Semantic Scholar
-  listaa saman paperin otsikkoslugissa "Freedman-Brown". **Sivua eikä sen
-  API:a ei saatu auki (HTTP 429, kaksi yritystä).** Tämä ei vaikuta
-  pituuslukuun (61 on nyt vahva), vain tekijyyteen.
-- **Saa nyt sanoa:** "61, attribuoitu Freedmanille (2013+), lähteenä
-  arXiv:1304.1829." **Ei saa vielä sanoa:** mitään Freedmanin oman paperin
-  sisällöstä tai lopullista tekijyyttä.
-- **Avattavana jos joku haluaa viedä loppuun:** Freedmanin *"Sequences on
-  sets of four numbers"* (INTEGERS) itse — todennäköisesti löytyy INTEGERS-
-  lehden verkkosivun taulukosta hakemalla "Freedman"; Semantic Scholarin
-  API kannattaa yrittää uudelleen kun 429 on väistynyt.
-
-## Mitä tässä sessiossa tehtiin
-
-Väitelokin rivit **58–65** ja hautausmaan kohdat **11–13**. Uudet moduulit:
-`additive-sweep.js`, `extension-table.js`, `sanalab-run.js`,
-`table-library.js`, `unavoidable-factors.js`, `claims-export.js`.
+Väitelokin rivit **58–68**, hautausmaan kohdat **11–14** (nyt 14/14 näkyy
+myös `index.html`:n "The Graveyard" -välilehdellä, Trap 1–14). Uudet
+moduulit: `additive-sweep.js`, `extension-table.js`, `sanalab-run.js`,
+`table-library.js`, `unavoidable-factors.js`, `claims-export.js`,
+`additive-morphism-scan.js`, `additive-nonuniform-morphism-scan.js`.
 Uudet dokumentit: `KNOWLEDGE_STATE.md`, `LITERATURE_COVERAGE.md`,
 `README.md`, `poster.html`, `docs/plans/LAB_VISION_2035.md`.
 
 **Tärkeimmät tulokset:**
 
 1. **Additiivinen aakkostolakaisu** (rivi 54): 31 affiiniluokasta 11
-   ratkaistu tyhjentävästi. **Mutta rajaus tarkentui:** tasapainoiset luokat
-   kattaa Brown & Freedman 1987, joten kymmenen niistä on replikaatio.
+   ratkaistu tyhjentävästi. **Rajaus tarkentui riveillä 65–66:** tasapainoiset
+   luokat kattaa Brown & Freedman 1987 / Freedman 2013+ (raja **61**,
+   vahvistettu suoraan arXiv:1304.1829:n täystekstistä — ei toisen mallin
+   tiivistelmästä). Kymmenen tasapainoista tulosta ovat siis replikaatio.
    **Vain {0,1,2,4} (epätasapainoinen, pisin 62) jää kirjallisuuden
-   ulkopuolelle.** Uutuus asuu **epätasapainoisissa** luokissa, joita on
-   ratkaisematta 20.
-2. **Säiliö on löysä, mitattuna kolmesti** (rivit 51, 52, 62): taajuusväli
+   ulkopuolelle.** Uutuus asuu **epätasapainoisissa** luokissa (20 auki).
+2. **Uniformi ja epäuniformi morfismihaku additiivisille neliöille**
+   (rivit 67–68): molemmat tyhjentäviä ja **negatiivisia** useilla
+   epätasapainoisilla aakkostoilla — myös Cassaignen kuutiokonstruktion
+   pituusprofiili (2,2,1,2) mukaan lukien. Ei vielä ratkaisua Question
+   3:een ("onko mitään äärellistä ℤ-aakkostoa jolla additiiviset neliöt
+   ovat vältettävissä", avoin ainakin 1987), mutta hakuavaruus on nyt
+   kartoitettu pituuteen 4 asti neljällä aakkostolla.
+3. **Säiliö on löysä, mitattuna kolmesti** (rivit 51, 52, 62): taajuusväli
    liian leveä, ei kiristy ikkunaa kasvattamalla, eikä yksikään pituuden ≥ 2
    tekijä ole välttämätön. **Älä etsi säiliöstä lisää välttämättömiä ehtoja.**
-3. **Jatkettavat ajot toimivat** (rivit 56, 64): {0,1,6,8}:n verifioitu
+4. **Jatkettavat ajot toimivat** (rivit 56, 64): {0,1,6,8}:n verifioitu
    alaraja **244**, koottu yhdeksästä ketjutetusta ajosta.
-4. **Väiteloki on koneluettava** (rivi 61): vain `QUOTABLE_FACTS`-lohkossa
-   olevat luvut ovat julkaistavissa.
-5. **Rivin 23 DOI oli keksitty** — `10.1137/16M1087493` ei ole olemassa,
+5. **Väiteloki on koneluettava** (rivi 61): vain `QUOTABLE_FACTS`-lohkossa
+   olevat luvut ovat julkaistavissa (`claims-export.js` → `claims.json`).
+6. **Rivin 23 DOI oli keksitty** — `10.1137/16M1087493` ei ole olemassa,
    oikea on `10.1137/17M1149377`.
 
-## Kolme sääntöä jotka tässä sessiossa opittiin kantapään kautta
+## Neljä sääntöä jotka tässä sessiossa opittiin kantapään kautta
 
 - **§11:** hakukonetiiviste on kohinaa kunnes se on paikannettu avattavaan
   dokumenttiin. Merkintä "jäljittämätön" ei estä väitettä **ohjaamasta
@@ -78,23 +63,24 @@ Uudet dokumentit: `KNOWLEDGE_STATE.md`, `LITERATURE_COVERAGE.md`,
   neliöillä; kuutioilla se antoi +1130 %.
 - **§13:** korroboraatio kattaa vain **verratut kentät**. Neljä oikeaa kenttää
   viidestä tuntui vahvistukselta; tarkistamatta jäänyt DOI ei ollut olemassa.
+- **§14:** budjettikäyrän muoto (tasaantuva vs. kiihtyvä) on liian kohinainen
+  ennustamaan mikä hakulinja kannattaa syventää — ei käytetty priorisointiin.
 
-## Seuraavat askeleet, suositusjärjestyksessä
+## Avoin sivujuonne, ei kriittinen
 
-**Päivitys 2026-07-30 (yö):** kohta 1 tehty ja myös **negatiivinen** —
-ks. rivi 68 ja B10 alla. Cassaigne-tyyppinen epäuniformisuus (pituudet
-1..4, La ≥ 2) ei yksinään riitä neljällä testatulla aakkostolla,
-~117 M morfismia per aakkosto, tyhjentävästi. Kaksi riippumatonta
-moduulia (`additive-morphism-scan.js`, `additive-nonuniform-morphism-scan.js`)
-kirjattu, regressiokontrolloitu keskenään. **Uusi ykkönen: pidemmät
-profiilit tai muut aakkostot, tai siirtymä kohtaan 2.**
+**Freedmanin INTEGERS-paperin tekijyys** (rivi 66): 61-raja on vahva ja
+attribuoitu Freedmanille (2013+), mutta onko paperi hänen yksinään vai
+yhdessä Brownin kanssa on avoinna (Semantic Scholar antoi ristiriitaisen
+vihjeen, HTTP 429 esti tarkistuksen kahdesti). Ei vaikuta mihinkään
+matemaattiseen päätelmään — vain lähdemerkinnän viimeistelyä.
 
-1. *(Suurelta osin tehty, jää auki)* **Epäuniformi morfismihaku
-   laajemmalla kattavuudella** — maxlen > 4 (kustannus kasvaa nopeasti,
-   mittaa ensin) tai loput 16 epätasapainoista luokkaa joita ei ole
-   vielä testattu tällä moduulilla. Ei signaalia ilman uutta
-   rakenteellista ideaa on nyt aito tappoehto tälle linjalle (§14:n
-   opetus): älä jatka pelkällä syvemmällä samalla haulla.
+## Seuraavat askeleet, priorisoituna (ei jonoa, valitse yksi)
+
+1. **Epäuniformi morfismihaku laajemmalla kattavuudella** — maxlen > 4
+   (kustannus kasvaa nopeasti, **mittaa ensin**) tai loput 16
+   epätasapainoista luokkaa joita ei ole vielä testattu. **Tappoehto on
+   asetettu (§14): ei signaalia ilman uutta rakenteellista ideaa — älä
+   jatka pelkällä syvemmällä samalla haulla.**
 2. **Epätasapainoisten luokkien alarajojen syventäminen** —
    diagnostiikka-ajo (2026-07-30, scratchpad) näytti että kaikki 20
    avointa luokkaa kasvavat yhä 10⁸ solmun kohdalla eivätkä tasaannu,
@@ -133,7 +119,7 @@ aikajärjestyksen ja perustelujen vuoksi.
   toteaa neliökysymyksen avoimeksi, ei sisällä neliöiden aakkostoluokittelua.
 - **Lietardin väitöskirja avattiin myöhemmin** (rivi 65) — löysi Brown &
   Freedman 1987:n primäärilähteeksi ja kaksi ristiriitaista väitemuotoa
-  (50 vs. 61). Ks. luovutusosan "Kriittisin yksittäinen asia".
+  (50 vs. 61). Ratkaistu rivillä 66: 61 on oikea, vahvistettu primäärilähteestä.
 - **Rivin 23 DOI oli keksitty**, `10.1137/16M1087493` → 404 Crossrefissa;
   korjattu `10.1137/17M1149377`:ksi ja tila nostettu `PRIMARY`:ksi
   (aiemmin virheellisesti `REJECTED`). Kirjattu hautausmaalle §13.
