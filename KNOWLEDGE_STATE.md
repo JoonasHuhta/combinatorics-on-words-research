@@ -32,6 +32,7 @@ omia tuloksia.
 | Paperi vahvistaa Jordan-rakenteen sanatarkasti | 44 |
 | Templaatti-/esivanhempimenetelmä on **ACR 2004**, ei 2015 | 48 |
 | **Additiiviset neliöt:** "onko ℤ uniformisti 2-repetitiivinen" on avoin; kuutiot ratkaistu {0,1,3,4}:llä; **ℤ²-tapaus on projektin oman ydinlähteen aihe** | 53 |
+| Additiivisten neliöiden avoimuus vahvistettu tuoreena (2023 ja 2024); **affiiniluokittelu on alan oma kehys**, ja kuutioiden nelialkioinen tapaus on ratkaistu {0,1,2,3}:n luokkaa lukuun ottamatta | 58 |
 | R&R:n oma referenssitoteutus on julkisesti saatavilla ja vastaa `morphisms.js`:ää | 22 |
 
 Heikommalla tasolla (`INDIRECT`, alkuperäistä ei ole luettu rivi riviltä):
@@ -138,7 +139,7 @@ Peruttua riviä ei poisteta, jottei sitä lisätä uudelleen.
 | h₆ on johdettu Hall–Janko-ryhmästä | Ei löytynyt mitään tukea | 8 |
 | Gavrilenkon toteutusta koskeva väite | — | 14 |
 | `seam-hpc-cli --mode=p6` auditoi konstruktion | Se ei ladannut `morphisms.js`:ää lainkaan ja tulosti kovakoodatun nollan | 26 |
-| SIAM-julkaisuviite ja DOI konstruktiolle | arXiv näyttää `Journal ref: (none)`; kukaan ei ole avannut julkaisijan sivua | 23 |
+| SIAM-julkaisuviite konstruktion lähdepaperille | **Peruutus kumottu 2026-07-30:** viite on oikea, korroboroitu riippumattomasta lähdeluettelosta (rivi 58). Peruste oli "ei jäljitetty", ei "väärä" — siksi se oli korjattavissa | 23 |
 | Alkuperäinen yhdistetty muotoilu, jossa 34 neliötä ja Theorem 9 olivat samassa väitteessä | Kaksi eri väitettä ja kaksi eri lähdettä yhdessä; korvattu muodoilla 6a ja 6b | 6c |
 | Theorem 6 ensimmäisellä yrityksellä | Ei ollut verifioitu; **johdettu myöhemmin uudelleen kunnolla riville 46** | 43 |
 
@@ -168,13 +169,20 @@ Näitä ei ole avattu primäärilähteestä. **Älä siteeraa, älä rakenna var
 |---|---|
 | "5 ≤ g(2) ≤ 734" Rosenfeldin väitöskirjan Problem 4.9:nä | A5 |
 | Walnutin kattavuus abelin ominaisuuksille | E4 |
-| Freedman-attribuutio: 4 kirjainta, a+d = b+c, raja ≤ 60 | rivi 53 |
+| Freedman-attribuutio: 4 kirjainta, a+d = b+c, raja ≤ 60. **Haettu perusteellisesti 2026-07-30: nimeä ei esiinny katsauksessa lainkaan. Pysyy käyttökiellossa** | rivit 53, 58 |
 | 2025 variaatiopaperi additiivisista neliöistä (arXiv:2506.21200) | rivi 53 |
+| Lietard & Rosenfeld, *Avoidability of additive cubes over alphabets of four numbers* (DLT 2020) — **lähin naapuri riville 54, avaamatta** | rivi 58 |
 
-**Freedman on kriittisellä polulla.** Se osuu suoraan rivin 54 tasapainoisiin
-luokkiin ja arvoon 60. Jos lähde avataan ja se pitää paikkansa, osa rivistä 54
-on **replikaatio eikä uusi tulos** — ja se ratkaisee mitä koko additiivisesta
-lakaisusta saa sanoa uutena. Tätä ei ole tehty.
+**Freedman jäljitettiin 2026-07-30 eikä sitä löytynyt.** Nimi ei esiinny
+Fici & Puzyninan katsauksen tekstissä eikä lähdeluettelossa, eikä lukua 60 ole
+§8.4:ssä. Ainoa jälki on hakukoneen tiiviste ilman tunnistettavaa lähdettä.
+**Se pysyy käyttökiellossa.**
+
+Jäljitys tuotti kuitenkin vahvemman rajauksen kuin haettu väite olisi tuottanut
+(rivi 58): **affiiniluokittelu on alan oma kehys**, ja **neljän luvun aakkostojen
+additiiviset kuutiot on jo käsitelty omana paperinaan** (Lietard & Rosenfeld,
+DLT 2020). Rivin 54 uutuus voi siis olla vain neliöiden puolella, eikä sitä saa
+väittää ennen kuin tuo paperi on avattu. **Se on nyt kriittisen polun kärki.**
 
 ---
 
