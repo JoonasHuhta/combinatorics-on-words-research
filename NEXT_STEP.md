@@ -8,27 +8,39 @@
 # LUOVUTUS SEURAAVALLE SESSIOLLE
 
 **Repositorion tila:** testit **37/37**, driftitarkistukset **15/15**, kaikki
-committoitu ja pushattu. Väiteloki **68 riviä**. Työpuu puhdas.
+committoitu ja pushattu. Väiteloki **69 riviä**. Työpuu puhdas.
 
-## Kriittisin yksittäinen asia
+## Kriittisin yksittäinen asia — suurin osa ratkesi 2026-07-30 (rivi 66)
 
-**Freedmanin pituusraja on jäljitettävä loppuun.** Tilanne:
+**Luku on 61, ei 50, ja se on attribuoitu Freedmanille — vahvistettu suoraan
+avatusta täystekstistä, ei toisen mallin tiivistelmästä.**
 
-- Lietardin väitöskirja (avattu, teksti uutettu) sanoo: *"Freedman and Brown
-  showed that any word of length at least 50 over {a,b,c,d} with a+d=c+b
-  necessarily contains an additive square."*
-- **Projektin data kumoaa tuon muodon**: yhdeksällä tasapainoisella
-  affiiniluokalla on verifioitu neliötön sana yli 50:n, pisin **60**.
-  Vastaesimerkit on tarkistettu naiivilla, riippumattomalla tarkistimella.
-- **Jäljittämätön johtolanka (rivi 65):** INTEGERS-lehden paperi attribuoisi
-  **Freedmanille yksin** rajan **61**, ja Brown & Freedman 1987:n sisällöksi
-  avoimen **Conjecture 1:n** eikä pituusrajaa. **Jos tämä pitää, projektin
-  data osuu siihen täsmälleen** (pisin 60 ⇒ kynnys 61) ja on riippumaton
-  vahvistus, ei korjaus.
-- **Avattavat:** `emis.de/journals/INTEGERS/papers/o43/o43.pdf` (redirect esti
-  tässä sessiossa), ja Brown & Freedman, *Arithmetic progressions in lacunary
-  sets*, Rocky Mountain J. Math. **17**(3):587–596, 1987.
-- **Älä attribuoi lukua 50 eikä 61 kenellekään ennen tätä.**
+- arXiv:1304.1829 (Brown, Jungić & Poelstra) avattu ar5iv-renderöinnistä ja
+  haettu sanatarkasti. Sitaatti: *"Freedman [Freedman 2013+] has shown that
+  if a<b<c<d satisfy the Sidon equation a+d=b+c, then every word on
+  {a,b,c,d} of length 61 contains an additive square."*
+- [Freedman 2013+] on **eri paperi** kuin Brown & Freedman 1987 — se on
+  Freedmanin *"Sequences on sets of four numbers"*, silloin ("to appear in
+  INTEGERS") vielä julkaisematon. Brown & Freedman 1987:n sisältö vahvistui
+  samaksi kuin ennen: avoin **Conjecture 1**, ei pituusraja.
+- **Projektin data (rivi 54: pisin tasapainoinen neliötön sana 60) on
+  täydellisesti yhteensopiva 61-rajan kanssa.** Väitöskirjan "≥ 50" näyttää
+  virheelliseltä luvulta — todennäköisesti hyvässä uskossa tehty sekaannus,
+  koska sama Freedmanin paperi mainitsee myös 51-termisiä jonoja *eri*
+  kontekstissa (double-3-AP-vapaus, ei additiivinen neliö).
+- **Yksi asia jäi silti auki:** onko Freedmanin INTEGERS-paperi hänen
+  yksinään vai yhdessä Brownin kanssa. arXiv:1304.1829 siteeraa sitä
+  muodossa "[Freedman 2013+]" (viittaa yksin), mutta Semantic Scholar
+  listaa saman paperin otsikkoslugissa "Freedman-Brown". **Sivua eikä sen
+  API:a ei saatu auki (HTTP 429, kaksi yritystä).** Tämä ei vaikuta
+  pituuslukuun (61 on nyt vahva), vain tekijyyteen.
+- **Saa nyt sanoa:** "61, attribuoitu Freedmanille (2013+), lähteenä
+  arXiv:1304.1829." **Ei saa vielä sanoa:** mitään Freedmanin oman paperin
+  sisällöstä tai lopullista tekijyyttä.
+- **Avattavana jos joku haluaa viedä loppuun:** Freedmanin *"Sequences on
+  sets of four numbers"* (INTEGERS) itse — todennäköisesti löytyy INTEGERS-
+  lehden verkkosivun taulukosta hakemalla "Freedman"; Semantic Scholarin
+  API kannattaa yrittää uudelleen kun 429 on väistynyt.
 
 ## Mitä tässä sessiossa tehtiin
 
@@ -69,13 +81,16 @@ Uudet dokumentit: `KNOWLEDGE_STATE.md`, `LITERATURE_COVERAGE.md`,
 
 ## Seuraavat askeleet, suositusjärjestyksessä
 
-1. **Freedman/INTEGERS** (yllä). Halvin, ja ratkaisee rivin 54 uutuuden lopullisesti.
-2. **Epätasapainoisten luokkien ratkaiseminen** — 20 auki, ja siellä on aukko
+1. **Epätasapainoisten luokkien ratkaiseminen** — 20 auki, ja siellä on aukko
    jonka `LITERATURE_COVERAGE.md` osoittaa. Työkalu on valmis
-   (`sanalab-run.js`, jatkettavat ajot).
-3. **Epäuniformit morfismit** — `LITERATURE_COVERAGE.md` rivi 6: ei tehty
+   (`sanalab-run.js`, jatkettavat ajot). **Uusi ykkönen**, koska Freedman-
+   kysymys on nyt suurelta osin ratkaistu (rivi 66).
+2. **Epäuniformit morfismit** — `LITERATURE_COVERAGE.md` rivi 6: ei tehty
    täällä eikä löytynyt kirjallisuudesta.
-4. `index.html` → `claims.json` (`docs/plans/UI_UX_PLAN.md` kohta 1).
+3. `index.html` → `claims.json` (`docs/plans/UI_UX_PLAN.md` kohta 1).
+4. *(Matalan prioriteetin siisteystyö, ei tutkimusta):* Freedmanin oman
+   INTEGERS-paperin avaaminen tekijyyden viimeistelyä varten — ei muuta
+   mitään matemaattista päätelmää, vain lähdemerkintää.
 
 ## Mitä EI kannata tehdä
 
