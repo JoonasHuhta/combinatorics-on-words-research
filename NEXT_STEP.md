@@ -1,6 +1,6 @@
 # Seuraava askel
 
-**Päivitetty:** 2026-07-30 (RESEARCH_ARCHITECT-ajo + rivit 69–71)
+**Päivitetty:** 2026-07-31 (päätösmenettely rakennettu ja ajettu ensi kertaa oikeaan dataan, rivit 72–75)
 **Lue ensin:** `KNOWLEDGE_STATE.md`, `RESEARCH_CONTEXT.md`, `AGENTS.md`.
 
 ---
@@ -8,9 +8,50 @@
 # LUOVUTUS SEURAAVALLE SESSIOLLE
 
 **Repositorion tila:** testit **39/39**, driftitarkistukset **15/15**.
-Väiteloki **74 riviä**. Työpuu puhdas. Ei kriittistä avointa lankaa.
+Väiteloki **78 riviä**. Työpuu puhdas. Ei kriittistä avointa lankaa.
 
-## Tässä sessiossa tehty (rivit 69–71)
+## Tämän session tärkein tulos (rivit 74–75)
+
+**Additiivisen ehdon päätösmenettely on nyt toteutettu, validoitu VIIDELLÄ
+tunnetulla tapauksella, ja ajettu ensimmäistä kertaa oikeaan dataan (rivi 75).**
+`additive-affine-decision.js` on rivi riviltä käännetty referenssitoteutuksesta
+(`github.com/lgmol/Additive-Powers-Decision-Algorithm`), ei omaa johtoa.
+
+**Tulos:** kaikki **221 296** affiinia, puhdasta, k=5-uniformia morfismia
+kuudella rivien 67–69 aakkostolla ({0,1,2,5}, {0,1,6,8}, {0,3,4,8}, {0,2,4,7},
+{0,1,2,6}, {0,2,5,8}) **DEKIISATTU** (ei etuliitekattoon perustuva näyttö —
+oikea Theorem 2.4:n päätös), **0 selviytyjää**. k=5 on ensimmäinen kerta kun
+projekti tavoittaa alueen jota raaka voima (`additive-morphism-scan.js`,
+korkeintaan k=4) ei koskaan kattanut — tulos on siis aidosti uutta tietoa,
+ei toistoa.
+
+**Kaksi virhettä jotka syntyivät ja korjattiin saman istunnon aikana, kirjattu
+koska ne ovat opettavaisia:**
+1. Rivi 73:n alkuperäinen versio nimesi validointiesimerkeiksi "β" ja "δ=γ²"
+   matriiseineen — nämä eivät esiinny lähteessä missään muodossa, ne tulivat
+   toisen käden mukailusta jota ei tarkistettu itse ennen kirjaamista. Korjattu
+   ennen kuin mitään ehdittiin rakentaa sen varaan.
+2. Rivi 75:n ensimmäinen versio kirjoitti itseisarvomerkinnän `\|d\|`
+   JavaScript-merkkijonoliteraalissa `'\|'`, joka pudottaa kenoviivan pois (ei
+   tunnettu escape-sekvenssi) — tiedostoon päätyi paljas `|d|`, kaksi
+   suojaamatonta pystyviivaa, mikä rikkoi `claims-export.js`:n rivijäsentimen
+   (`node test.js` löysi tämän heti, 38/39). Korjattu kirjoittamalla korvaus
+   erilliseen tekstitiedostoon JS-merkkijonon sijaan.
+
+## Seuraava askel: k=6, kustannus mitattava ensin
+
+k=6:n koko yhdellä aakkostolla ({0,1,2,5}) on jo mitattu: **~4 976 088
+konkreettista kandidaattia**, arvioitu ajoaika nykyvauhdilla (~2,8 ms/ehdokas)
+**~3,6 tuntia per aakkosto**. Kuudella aakkostolla se olisi ~22 tuntia
+yhteensä sarjassa. **Ei luvattu, ei ajettu.** Ennen lupaamista:
+1. Mittaa uudelleen tarkemmalla otoksella (nykyinen arvio yhden 1000 kappaleen
+   otoksen varassa k=5:llä, ei k=6:lla erikseen).
+2. Harkitse rinnakkaistusta tai `mainPure`:n sisäisen ancestor-laskennan
+   profilointia ennen isoa ajoa — 3,6 h on paljon yhdelle istunnolle.
+3. k=7 (~214 miljoonaa kandidaattia) ei ole tässä mittakaavassa järkevä
+   ilman merkittävää optimointia.
+
+## Aiemmin tehty (rivit 69–71)
 
 1. **4→4-morfismimuoto on suljettu koko epätasapainoisella alueella (rivi 69).**
    Rivin 68 neljän aakkoston lisäksi ajettiin loput **16**, yhteensä
