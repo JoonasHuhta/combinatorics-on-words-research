@@ -87,6 +87,47 @@ liittää sellaisenaan projektiin. Löytäjän kokemus ei ole "kuinka pitkälle
 pääsin" vaan "tässä on rivini". Ks. `NEXT_STEP.md`:n suunnittelusääntö ja
 `SANALAB_PLAN.md`. **Työmäärä:** pieni lisäys olemassa oleviin CLI:hin.
 
+## 5. Luettavuus ulkopuoliselle — kolme asiaa joita ei ole otettu huomioon (RESEARCH_ARCHITECT-ajo 2026-07-30)
+
+Lähtökohta, joka on syytä sanoa suoraan: **projektin harvinaisin omaisuus ei ole
+yksikään matemaattinen tulos vaan `NEGATIVE_RESULTS.md` ja väitelokin
+kaksitasoinen statusjärjestelmä.** 14 dokumentoitua umpikujaa perusteineen ja
+kalibroitu kieli joka erottaa *"ei rikkomuksia välillä [a,b]"* sanasta
+*"todistettu"*. Oppikirja näyttää onnistuneen polun; tämä repositorio näyttää
+sen hinnan päivämäärineen. Kohta 3 esittää tämän tapauskertomuksina — alla
+kolme asiaa jotka jäävät siltäkin varjoon.
+
+**(a) Epistemologinen status ei näy sivulla.** Level 1, Level 2 ja `REJECTED`
+ovat lokissa mutta eivät käyttöliittymässä. Vierailija ei voi erottaa
+toistettua kirjallisuustulosta projektin omasta laskennasta, eikä nähdä että
+osa riveistä on **peruttu**. Tämä on kohta 1 (`claims.json`-kytkentä) ja se on
+ainoa UI-työ joka läpäisee `RESEARCH_ARCHITECT.md` §1:n suodattimen, koska se
+poistaa vikatilan rakenteellisesti eikä vain lisää ominaisuuden.
+
+**(b) Vierailija ei voi kumota mitään.** Jokainen välilehti näyttää tuloksen.
+Yksikään ei anna ajaa tarkistusta joka voisi mennä **kumpaan suuntaan tahansa**
+ja nähdä sen menevän. Falsifioitavuus on se taito jota projekti opettaa
+dokumenteissaan mutta ei sovelluksessaan. Halvin muoto: tarkistus jonka
+syötteen vierailija valitsee, ja jonka tulos on joskus "ei täsmää".
+
+**(c) Protokolla ei ole luettavissa ulkopuolelta, ja se on
+tutkimuksellinen ongelma eikä tyylikysymys.** `AGENTS.md`,
+`RESEARCH_CONTEXT.md`, `NEXT_STEP.md` ja väitelokin rivit ovat suomeksi.
+Sääntö 8 on jo päättänyt suunnan ja perustelun — *"väite jota ulkopuolinen ei
+voi lukea ei ole tarkistettavissa"* — mutta ydindokumentit ovat kääntämättä.
+Mahdollinen yhteistyökumppani näkee siis tuloksia, joiden **luotettavuuden
+perustelu on hänelle lukukelvoton**, mikä kääntää järjestyksen väärin päin:
+juuri se osa jonka pitäisi kestää ulkopuolinen tarkastelu on ainoa jota
+ulkopuolinen ei pysty lukemaan. Migraatio tapahtuu rivi kerrallaan kun riviä
+muutenkin kosketaan (sääntö 8), joten tämä ei ole massaurakka vaan päätös
+aloittaa — ja `MATH_CLAIMS.md`:n kohdalla massakäännös on **kielletty**, koska
+kalibroitu kielenkäyttö on juuri se mikä siinä katoaisi.
+
+**Työmäärä:** (a) on kohta 1. (b) pieni, yhden välilehden kokoinen. (c) ei
+erillistä työmäärää, vaan sääntö olemassa olevaan työhön.
+**Vaikuttavuus 2–3** — rehellinen luku: tämä ei tuota uutta matematiikkaa,
+vaan tekee olemassa olevasta tarkistettavaa. Se on eri asia.
+
 ---
 
 ## Mitä EI tehdä

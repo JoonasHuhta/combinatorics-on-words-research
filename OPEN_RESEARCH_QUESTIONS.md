@@ -170,13 +170,56 @@ Rivin 54 lakaisussa **jokainen** tasapainoinen aakkosto (muotoa {0, p, q, p+q}) 
 
 **Tulos (rivi 68):** `additive-nonuniform-morphism-scan.js` yleisti haun pituusprofiileihin (La,Lb,Lc,Ld) ∈ [1,4]⁴ (La ≥ 2), sisältäen Cassaigne-tyyppisen (2,2,1,2)-profiilin yhtenä 192:sta. Tyhjentävä ja negatiivinen neljällä aakkostolla ({0,1,2,5}, {0,1,6,8}, {0,3,4,8}, {0,2,4,7}), ~117 M morfismia per aakkosto. **Cassaigne-tyyppinen epäuniformisuus ei siis yksinään riitä** — ainakaan tässä ikkunassa.
 
+**Loput 16 luokkaa ajettu 2026-07-30 (rivi 69):** kohta 2 alla on nyt suljettu. Kaikki 20 avointa epätasapainoista luokkaa on käyty läpi tällä moduulilla, tyhjentävästi ja negatiivisesti. **Tämä sulkee 4→4-morfismimuodon pituusprofiileihin 4 asti koko epätasapainoisella alueella**, ei enää vain neljällä otoksella.
+
 **Auki jää:**
-1. **Pidemmät profiilit** (maxlen > 4) — kustannus kasvaa nopeasti, mittaa ennen lupaamista.
-2. **16 muuta epätasapainoista luokkaa** joita ei ole testattu tällä moduulilla.
-3. **Rakenteellisesti erilaiset konstruktiot** — Cassaignen oma φ_{a,b,c,d} on määritelty ℂ:n yli eikä rajattu neljään kiinteään symboliin samalla tavalla kuin tämä haku; mahdollisesti tarvitaan muu morfismimuoto kokonaan (esim. useampikirjaiminen aputila, kuten h₆→g₃-konstruktio abelin puolella).
+1. **Pidemmät profiilit** (maxlen > 4) — kustannus kasvaa nopeasti, mittaa ennen lupaamista. **Tappoehto §14 on nyt laukennut kahdesti:** 20/20 luokkaa negatiivisia ilman signaalia. Älä syvennä samaa hakua ilman uutta rakenteellista ideaa.
+2. ~~16 muuta epätasapainoista luokkaa~~ — **tehty 2026-07-30, rivi 69.**
+3. **Rakenteellisesti erilaiset konstruktiot** — Cassaignen oma φ_{a,b,c,d} on määritelty ℂ:n yli eikä rajattu neljään kiinteään symboliin samalla tavalla kuin tämä haku; mahdollisesti tarvitaan muu morfismimuoto kokonaan (esim. useampikirjaiminen aputila, kuten h₆→g₃-konstruktio abelin puolella). **Nostettu omaksi kohdakseen B13**, koska kahden negatiivisen kierroksen jälkeen todennäköisin selitys ei ole "morfismeja ei ole" vaan "hakuavaruus on väärän muotoinen".
 - **Validointi:** kolmikerroksinen kuvio täyttyi — regressiokontrolli uniformiin tapaukseen (`additive-morphism-scan.js`) on riippumaton todiste yleistyksen oikeellisuudesta.
 - **Tappoehto seuraavalle syvennykselle:** ei signaalia kohtuullisella budjetilla ilman uutta rakenteellista ideaa — sama kriteeri kuin `NEGATIVE_RESULTS.md` §1:ssä ja nyt myös §14:ssä.
 - **Vaikuttavuus, jos joskus onnistuu:** hyvin korkea — vastaisi myöntävästi Question 3:een (rivi 63/66: *"Is there any finite alphabet of integers over which additive squares are avoidable?"*), joka on ollut avoin ainakin vuodesta 1987.
+
+### B11. Additiivisen ehdon päätösmenettely — kone osaa vain kumota, ei koskaan vahvistaa (RESEARCH_ARCHITECT-ajo 2026-07-30)
+
+**Kysymys:** onko olemassa **äärellinen** kriteeri joka ratkaisee, välttääkö annetun morfismin kiintopiste additiiviset neliöt kaikilla K ≥ 1 — additiivinen vastine sille mitä `decide-realizability.js` ja Theorem 4/6 (rivit 32, 46) tekevät abelin puolella?
+
+**Miksi tämä on koko koneiston tärkein aukko, eikä yksi ominaisuus muiden joukossa.** `additive-nonuniform-morphism-scan.js` sanoo sen omassa tulosteessaan: *"This is BOUNDED EVIDENCE, not a proof of an infinite fixed point — no exact decision procedure exists yet for the additive condition."* Seuraus, jota ei ole aiemmin kirjattu: **jos rivien 68–69 lakaisu olisi löytänyt selviytyjän, projekti ei olisi osannut todeta sitä oikeaksi.** Se olisi voinut vain nostaa etuliitekattoa. Kone kerää kielteisiä tuloksia mielivaltaisen pitkälle mutta ei voi tuottaa myönteistä — ja Question 3 (rivi 63) on **eksistenssikysymys**. Tässä muodossa laboratorio ei voi periaatteessakaan ratkaista sitä ongelmaa jonka se on ottanut tavoitteekseen.
+
+**Miksi tämä on uskottava eikä toiveajattelu:** additiivinen ekvivalenssi on Parikh-vektorin **lineaarinen funktionaali** (alkioiden painotettu summa), joten sauman ylittävän additiivisen neliön tila on pari (pituusero, summaero) — kaksiulotteinen kokonaislukuhila. Se on samaa muotoa kuin Rao & Rosenfeldin Proposition 5/6 -rajat, ja projektissa on jo `perron-frobenius.js`, `smith-normal-form.js` ja `ancestor-box.js` jotka laskevat juuri sellaisia rajoja. Kyse on olemassa olevan koneiston siirrosta uuteen ekvivalenssirelaatioon.
+
+- **Kytkentä koneistoon:** `perron-frobenius.js` (summan kasvu = insidenssimatriisin spektri), `ancestor-box.js` (laatikon muoto), `decide-realizability.js` (päätösrunko). Puuttuu: summaeron raja ja sen todistus.
+- **Validointi:** positiivinen kontrolli = menettelyn on annettava **kielteinen** verdikti jokaiselle riveillä 67–69 tyhjentävästi hylätylle morfismille (yhteensä yli 2·10⁹ morfismia, jokainen tunnettu vastaus); negatiivinen kontrolli = tarkoituksella rikottu morfismi jonka kiintopisteessä on tunnettu additiivinen neliö; ristiintarkistus = menettelyn verdikti vs. raaka etuliiteajo katolle 10⁴.
+- **Odotettu lokirivi:** *"Additiivisen ehdon päätösmenettely johdettu k-uniformeille morfismeille: summaero sauman yli on rajattu arvolla ⟨B⟩, joten tarkistus on äärellinen ja kattaa kaikki K ≥ 1. Verifioitu N morfismilla joilla vastaus tunnettiin ennalta."* — `COMPUTED` (Level 1), tai `PRIMARY` jos raja johdetaan julkaistusta lauseesta.
+- **Tappoehto:** jos summaeron kasvua **ei** saada rajattua insidenssimatriisin spektristä, laatikko on ääretön eikä menettelyä ole tässä muodossa. **Tämä nähdään ensimmäisestä johdosta, ei ajosta** — eli tappoehto laukeaa paperilla tuntien, ei viikkojen sisällä.
+- **Työmäärä:** esimittaus = johda raja **yhdelle** 2-uniformille morfismille käsin ja vertaa `ancestor-box.js`:n antamaan abelin laatikkoon. Vasta jos se toimii, yleistä. **Vaikuttavuus 5.**
+
+### B12. Question 3 on eksistenssikysymys — kohde on ollut väärinpäin (RESEARCH_ARCHITECT-ajo 2026-07-30)
+
+**Kysymys:** onko olemassa **jokin** äärellinen kokonaislukuaakkosto jolla additiiviset neliöt ovat vältettävissä — ja jos on, miksi sitä etsitään aakkostokoosta jossa välttäminen on vaikeinta?
+
+**Havainto joka motivoi tämän.** Rivi 63 lainaa Question 3:a sanatarkasti: *"Is there any finite alphabet of integers over which additive squares are avoidable?"* — **mikä tahansa** äärellinen aakkosto kelpaa, ja useampi kirjain tekee välttämisestä helpompaa. Projekti on silti käyttänyt koko laskentabudjettinsa **neljään** kirjaimeen, jossa tasapainoiset luokat ovat Brown & Freedmanin nojalla äärellisiä (rivit 65–66) ja loputkin näyttävät kuolevan (rivit 54, 64, 67, 69). Se on vaikein tapaus, ja tulokset ovat siksi olleet kielteisiä.
+
+**Kaksi rajausta jotka osoittautuivat valinnoiksi eivätkä rajoiksi** (mitattu 2026-07-30, rivi 70):
+1. `additive-sweep.js` **tukee jo useampaa kirjainta** — `canonicalAlphabets(5, 8)` antaa 37 affiiniluokkaa. Parametri on olemassa eikä sitä ole kertaakaan käännetty. Morfismiskannerit on kovakoodattu neljään yhdellä rivillä (`length !== 4`).
+2. Span ≤ 8 antaa neljällä kirjaimella 31 luokkaa; **span ≤ 10 antaa 62.** Puolet neljänkin kirjaimen avaruudesta on lakaisematta, eikä rajaa 8 ole perusteltu missään dokumentissa.
+
+- **Validointi:** affiini-invarianssi ja todistuskappaleen tarkistus määritelmästä pätevät sellaisenaan viiteen kirjaimeen (`verdictFor`:n omat kerrokset); positiivinen kontrolli = nelikirjaimisten tunnettujen luokkien on toistuttava täsmälleen kun sama koodi ajetaan `letters = 4`:llä.
+- **Odotettu lokirivi:** *"Viisikirjaimiset aakkostot, span ≤ ⟨s⟩, ⟨n⟩ affiiniluokkaa lakaistu: ⟨e⟩ luokan kieli on äärellinen, ⟨o⟩ jäi auki budjetilla ⟨b⟩ solmua, pisin verifioitu sana ⟨L⟩. Mitään ei väitetä alarajojen yli."* — `COMPUTED` (Level 1).
+- **Tappoehto:** jos viisikirjaimiset luokat käyttäytyvät laadullisesti samoin kuin nelikirjaimiset (kielet tyhjenevät saavutettavilla budjeteilla), aakkostokoko ei ole se muuttuja joka ratkaisee, ja linja lopetetaan — **eikä sitä korvata alarajojen jahtaamisella** (`NEGATIVE_RESULTS.md` §2: mikään DFS-alaraja ei todista äärettömyyttä).
+- **Rehellinen vastaväite, kirjattuna tähän ettei se unohdu:** pidempi sana isommalla aakkostolla ei ole "ennätys" missään mielekkäässä mielessä. Tämän arvo **ei ole alarajassa** vaan siinä että viisi kirjainta on se paikka jossa **B11:n sertifioijalla on realistinen mahdollisuus saada jotain sertifioitavaa**. B11 ja B12 ovat sama työ eri päistä; kumpikaan ei kanna yksin.
+- **Työmäärä:** parametrin kääntäminen, esimittaus tehty (rivi 70). **Vaikuttavuus 5**, kustannus lähellä nollaa.
+
+### B13. Apuaakkostoreitti — se morfismimuoto joka abelin puolella oikeasti toimi (RESEARCH_ARCHITECT-ajo 2026-07-30)
+
+**Kysymys:** onko olemassa morfismi **suuremman apuaakkoston** yli, jonka kiintopisteen projektio nelikirjaimiseen kokonaislukuaakkostoon välttää additiiviset neliöt — eli additiivinen vastine h₆ → g₃ -konstruktiolle?
+
+**Miksi juuri nyt.** Abelin puolella ratkaisu ei ole 4→4-morfismi: Rao & Rosenfeldin konstruktio on **h₆ kuudella kirjaimella, projisoituna g₃:lla kolmeen** (rivi 49:n koko koneisto). Additiivisella puolella on haettu vain muotoa 4→4, ja se on nyt suljettu kahdesti: uniformisti k ≤ 4 (rivi 67) ja epäuniformisti profiileihin 4 asti kaikilla 20 avoimella luokalla (rivit 68–69). **Kahden tyhjentävän kielteisen kierroksen jälkeen todennäköisin selitys ei ole "morfismeja ei ole" vaan "hakuavaruus on väärän muotoinen"** — sama virhepäätelmä tehtiin kerran jo uniformilla haulla ennen riviä 68, ja kolmas kerta olisi ennustettavissa.
+
+- **Kytkentä koneistoon:** `h6-image-sweep.js` tekee jo täsmälleen tämän muotoisen lakaisun abelin puolella (uniformit kuvat Σ₆ → Σ₃^L); rakenne siirtyy, arvofunktio vaihtuu.
+- **Odotettu lokirivi:** *"Apuaakkosto Σ_m → nelikirjaiminen kokonaislukuaakkosto, kuvapituudet L ≤ ⟨L⟩: yksikään projektio ei tuota additiivisesti neliötöntä kiintopistettä / ehdokas löytyi ja se on ⟨…⟩."* — `COMPUTED` (Level 1).
+- **Tappoehto:** jos apuaakkoston kasvattaminen m = 5 → 6 ei muuta selviytyneen etuliitteen jakaumaa lainkaan, muoto ei ole ongelma ja hypoteesi on väärä.
+- **Työmäärä:** esimittaus = m = 5, L ≤ 2 symbolimäärän mittaus ennen kuin L = 3 luvataan (sama kuvio kuin rivillä 49). **Vaikuttavuus 4.**
 
 ### B8. Taajuusmonikulmio — yhteisjakauma laatikon sijaan (RESEARCH_ARCHITECT-ajo 2026-07-30)
 
