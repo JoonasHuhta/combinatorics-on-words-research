@@ -19,9 +19,23 @@ viittaa.** `REJECTED`-riviä ei voi lainata koskaan. 11 lukua määritelty.
 Ajaminen: `node claims-export.js`. Kytketty driftitarkistukseen (6g) ja
 testiin 36.
 
-**Jäljellä:** selainsovelluksen kytkeminen `claims.json`:iin — tällä hetkellä
-luvut ovat yhä käsin HTML:ssä. Kun se tehdään, jokainen näytöllä näkyvä luku
-linkittyy lokiriviinsä, ja Level 1/2/REJECTED-badget tulevat datasta.
+**Kytkentä ALOITETTU 2026-07-31, ei valmis.** `claims-export.js` synkkaa nyt
+myös `index.html`:n upotetun `<script id="claims-data">`-lohkon (ei fetch,
+toimii ilman palvelinta). Elementit joissa on `data-claim-status="<rivi>"`
+tai `data-claim-key="<avain>"` täyttyvät sivun latautuessa lokista, eivätkä
+voi jäädä jälkeen — `node test.js` (testi 40) vertaa upotettua lohkoa tuoreeseen
+vientiin ja kaatuu jos ne eroavat. **Sidottu tähän mennessä:** 9
+statusbadgea "Validation Lab" -välilehden Module 0 -taulukossa (riveihin 1,
+2, 3, 4, 5, 6a, 7, 8, 9) ja 1 lukuarvo ("34 distinct squares" → rivi 6b).
+
+**Jäljellä:** loput Module 0:n ja "Exact Algebraic Results" -taulukon
+badgeista (kymmeniä), ja koko sovelluksen muut käsin kirjoitetut luvut.
+Sidonta tehdään yksi rivi kerrallaan sitä mukaa kun sisältö varmennetaan
+oikeaksi ledger-riviksi (ei massana — sama periaate kuin väitelokin
+englanninkielisessä käännöksessä, sääntö 8). Module 0:n taulukon oma
+"#"-sarake **ei** ole sama kuin väitelokin rivi-ID (esim. taulukon rivi 6
+vastaa lokin riviä 6a) — sitominen vaatii sisällön tarkistamisen jokaiselle
+riville erikseen, ei suoraa numeroiden kopiointia.
 
 **Miksi tämä nousi kärkeen juuri nyt:** projektista tehtiin ulkopuolella
 infografiikka, jossa luki ennätyssanan pituudeksi "~2 026" — lukua jota ei ole

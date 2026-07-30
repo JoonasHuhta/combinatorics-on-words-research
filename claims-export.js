@@ -30,6 +30,13 @@
  * this project keeps correcting. The ledger states what is quotable; this
  * module only checks and transports.
  *
+ * As of 2026-07-31 this also syncs an embedded copy into index.html's
+ * <script id="claims-data"> block, so the page can bind figures and status
+ * badges (data-claim-key / data-claim-status attributes) without a server or
+ * fetch() -- opening the file directly still works, and the embedded copy
+ * cannot silently drift because this script overwrites it every run and
+ * check-claims-drift.js verifies it matches.
+ *
  * Usage:  node claims-export.js [--out claims.json] [--check]
  */
 
@@ -37,6 +44,7 @@ const fs = require('fs');
 const path = require('path');
 
 const LEDGER = path.join(__dirname, 'MATH_CLAIMS.md');
+const INDEX_HTML = path.join(__dirname, 'index.html');
 const VALID_STATUS = ['PRIMARY', 'COMPUTED', 'INDIRECT', 'REJECTED'];
 
 // ---------------------------------------------------------------------------
@@ -132,6 +140,44 @@ function verifyQuotable(facts, rows) {
 }
 
 // ---------------------------------------------------------------------------
+// index.html sync
+// ---------------------------------------------------------------------------
+
+const CLAIMS_SCRIPT_RE = /(<script id="claims-data" type="application\/json">)([\s\S]*?)(<\/script>)/;
+
+/** Every data-claim-status / data-claim-key reference must resolve, so a
+ *  binding attribute can never silently point at nothing. Script blocks are
+ *  excluded: the binding code's own comments name these attributes as
+ *  documentation, which is not a real usage (same exemption
+ *  check-claims-drift.js applies to entities and LaTeX). */
+function verifyHtmlBindings(html, data) {
+  const byId = new Set(data.rows.map(r => r.id));
+  const byKey = new Set(data.quotable.map(f => f.key));
+  const markup = html.split(/(<script[\s\S]*?<\/script>)/g)
+    .filter(seg => !/^<script/i.test(seg))
+    .join('');
+  const issues = [];
+  for (const m of markup.matchAll(/data-claim-status="([^"]+)"/g)) {
+    if (!byId.has(m[1])) issues.push(`data-claim-status="${m[1]}" cites a row that does not exist`);
+  }
+  for (const m of markup.matchAll(/data-claim-key="([^"]+)"/g)) {
+    if (!byKey.has(m[1])) issues.push(`data-claim-key="${m[1]}" cites a quotable key that does not exist`);
+  }
+  return issues;
+}
+
+/** Returns the index.html text with the embedded claims-data block replaced
+ *  by a fresh export, or throws if the marker block is missing. */
+function syncedHtml(html, data) {
+  if (!CLAIMS_SCRIPT_RE.test(html)) {
+    throw new Error('index.html has no <script id="claims-data"> block to sync');
+  }
+  const issues = verifyHtmlBindings(html, data);
+  if (issues.length) throw new Error('index.html has dangling claim bindings:\n  ' + issues.join('\n  '));
+  return html.replace(CLAIMS_SCRIPT_RE, (_, open, _old, close) => open + JSON.stringify(data) + close);
+}
+
+// ---------------------------------------------------------------------------
 // Export
 // ---------------------------------------------------------------------------
 
@@ -192,6 +238,16 @@ function runControls() {
   if (!refused) throw new Error('an invented figure was not refused; the check is not doing anything');
   notes.push('an invented figure is refused rather than exported');
 
+  // 5. index.html's embedded copy, if present, must reference only real rows
+  //    and keys. This does not require the block to be in sync (main() does
+  //    that); it only requires that nothing in it dangles.
+  if (fs.existsSync(INDEX_HTML)) {
+    const html = fs.readFileSync(INDEX_HTML, 'utf8');
+    const issues = verifyHtmlBindings(html, data);
+    if (issues.length) throw new Error('index.html has dangling claim bindings:\n  ' + issues.join('\n  '));
+    notes.push(`index.html's claim bindings (data-claim-status / data-claim-key) all resolve`);
+  }
+
   return { notes, data };
 }
 
@@ -219,6 +275,17 @@ function main() {
   if (!checkOnly) {
     fs.writeFileSync(out, JSON.stringify(data, null, 1));
     console.log(`\nwritten to ${path.basename(out)}`);
+
+    if (fs.existsSync(INDEX_HTML)) {
+      const html = fs.readFileSync(INDEX_HTML, 'utf8');
+      const synced = syncedHtml(html, data);
+      if (synced !== html) {
+        fs.writeFileSync(INDEX_HTML, synced);
+        console.log('index.html claims-data block resynced');
+      } else {
+        console.log('index.html claims-data block already in sync');
+      }
+    }
   }
   console.log('\nA page may display a figure only if it appears above. The ledger decides what is');
   console.log('quotable; this file only checks and transports it.');
@@ -228,4 +295,4 @@ if (require.main === module) {
   main();
 }
 
-module.exports = { parseLedger, parseQuotable, verifyQuotable, build, runControls, VALID_STATUS };
+module.exports = { parseLedger, parseQuotable, verifyQuotable, build, runControls, syncedHtml, verifyHtmlBindings, VALID_STATUS };

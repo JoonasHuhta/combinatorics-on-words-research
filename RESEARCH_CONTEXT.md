@@ -96,7 +96,7 @@ additive-sweep.js          additiiviset neliot: aakkostolakaisu affiiniluokittai
 extension-table.js         jatkettavuussyvyystaulut: terve karsintaoraakkeli, siirtyy affiinisti
 sanalab-run.js             jatkettavat sertifioidut ajot: tarkistuspisteet, kolme lopputilaa
 table-library.js           taulukirjasto: yksi taulu per affiiniluokka, tarkiste ja provenienssi
-claims-export.js           vaiteloki koneluettavaksi; vain lokista jaljitettavat luvut julkaistavissa
+claims-export.js           vaiteloki koneluettavaksi; vain lokista jaljitettavat luvut julkaistavissa; synkkaa myos index.html:n upotetun claims-data-lohkon
 unavoidable-factors.js     sailion valttamattomat tekijat: mita jokaisen todistajan on sisallettava
 additive-morphism-scan.js  additiiviset neliot: uniformien morfismien tyhjentava haku, k<=4
 additive-nonuniform-morphism-scan.js  sama, epauniformit pituusprofiilit 1..4, regressio uniformiin
@@ -106,7 +106,7 @@ additive-affine-decision.js  paatosmenettely affiineille morfismeille (Theorem 2
 **Verifiointi:**
 
 ```bash
-node test.js                 # 39/39
+node test.js                 # 40/40
 node check-claims-drift.js   # 15/15
 ```
 

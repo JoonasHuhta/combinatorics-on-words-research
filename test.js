@@ -1389,7 +1389,7 @@ test("Ledger exports cleanly; a figure not in its row cannot be published", () =
   const ce = require("./claims-export.js");
 
   const { notes, data } = ce.runControls();
-  assert.strictEqual(notes.length, 4, "runControls must report 4 control groups");
+  assert.strictEqual(notes.length, 5, "runControls must report 5 control groups");
   assert.ok(data.rowCount >= 60, "fewer than 60 rows parsed; the table format changed");
   assert.ok(data.quotable.length > 0, "at least one quotable figure must be declared");
 
@@ -1537,6 +1537,40 @@ test("Non-uniform additive morphism scan: reproduces the uniform case; exhaustiv
 
   console.log("       uniform profiles (k,k,k,k) reproduce additive-morphism-scan.js exactly for k=2,3");
   console.log(`       ${profileCount} length profiles at maxlen=3 over {0,1,2,5}: all tested, none survive`);
+});
+
+// ----------------------------------------------------
+// 40. CLAIMS-DATA HTML BINDING (claims-export.js, UI_UX_PLAN item 1)
+// ----------------------------------------------------
+test("index.html's embedded claims-data block is in sync and every binding resolves", () => {
+  const ce = require("./claims-export.js");
+  const fs = require("fs");
+  const path = require("path");
+
+  const htmlPath = path.join(__dirname, "index.html");
+  const html = fs.readFileSync(htmlPath, "utf8");
+  const { data } = ce.runControls();
+
+  // The embedded block must be byte-identical to what a fresh export would
+  // write. This is the whole point: a stale block is exactly the "figure
+  // typed by hand" failure mode this mechanism exists to make impossible.
+  const synced = ce.syncedHtml(html, data);
+  assert.strictEqual(synced, html,
+    "index.html's claims-data block is out of sync; run node claims-export.js");
+
+  // At least one row-status binding and one figure-value binding must exist,
+  // so this test cannot pass vacuously once bindings are removed by accident.
+  assert.ok(/data-claim-status="/.test(html), "no data-claim-status binding found in index.html");
+  assert.ok(/data-claim-key="/.test(html), "no data-claim-key binding found in index.html");
+
+  // Every binding must resolve against the current ledger (dangling
+  // references are refused, not silently ignored).
+  const issues = ce.verifyHtmlBindings(html, data);
+  assert.strictEqual(issues.length, 0, "dangling claim binding(s): " + issues.join("; "));
+
+  const statusCount = (html.match(/data-claim-status="/g) || []).length;
+  const keyCount = (html.match(/data-claim-key="/g) || []).length;
+  console.log(`       ${statusCount} status binding(s), ${keyCount} figure binding(s), all resolve; embedded block matches a fresh export`);
 });
 
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
