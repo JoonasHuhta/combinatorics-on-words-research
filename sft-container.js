@@ -3,32 +3,34 @@
 /**
  * sft-container.js
  * ----------------
- * The K in [2,5] CONTAINER of Makela's problem, analyzed exactly.
+ * The K in [2,kmax] CONTAINER of Makela's problem, analyzed exactly.
  *
  * WHY THIS EXISTS
  * ---------------
  * The open part of Makela's conjecture concerns abelian squares of
  * half-length K in [2,5] (MATH_CLAIMS.md rows 4, 7b). An abelian square with
- * K <= 5 spans at most 10 letters, so the language "avoid ONLY K in [2,5]"
- * is a finite-window constraint, and EVERY witness of Makela's conjecture -
- * whatever route produces it - is an infinite word inside this container.
- * The container is therefore the one object that yields necessary conditions
- * for all attack routes at once (OPEN_RESEARCH_QUESTIONS.md B6).
+ * K <= kmax spans at most 2*kmax letters, so the language "avoid ONLY
+ * K in [2,kmax]" is a finite-window constraint, and EVERY witness of
+ * Makela's conjecture - whatever route produces it - is an infinite word
+ * inside this container for every kmax. The container therefore yields
+ * necessary conditions for all attack routes at once
+ * (OPEN_RESEARCH_QUESTIONS.md B6). Growing kmax shows whether those
+ * conditions tighten as constraints accumulate.
  *
  * WHAT IS COMPUTED
  * ----------------
- * De Bruijn presentation with memory 9:
- *   states = ternary 9-words with no abelian square of half-length 2..4
- *            (a K=5 square needs 10 letters and cannot fit in 9);
- *   edge u -> v when u,v overlap in 8 letters and the 10-word u+last(v) is
- *            not itself an abelian square with K=5. Every factor of length
- *            <= 9 of the 10-word lies inside u or inside v, so this single
- *            check is complete.
- * A word of length n >= 9 avoids all K in [2,5] squares if and only if its
- * 9-windows are states and its consecutive windows are edges. The graph is
- * essentialized (iterated removal of in/out-degree-0 states), decomposed
- * into SCCs, and the exact min/max cycle means of each letter's indicator
- * weight are computed with Karp's algorithm in integer arithmetic.
+ * De Bruijn presentation with memory m = 2*kmax - 1:
+ *   states = ternary m-words with no abelian square of half-length in
+ *            [2, kmax-1] (a K=kmax square needs 2*kmax > m letters);
+ *   edge u -> v when u,v overlap in m-1 letters and the 2*kmax-word
+ *            u+last(v) is not itself an abelian square with K=kmax. Every
+ *            factor of length <= m of that word lies inside u or inside v,
+ *            so this single check is complete.
+ * A word of length n >= m avoids all K in [2,kmax] squares if and only if
+ * its m-windows are states and consecutive windows are edges. The graph is
+ * essentialized, decomposed into SCCs, and the exact min/max cycle means of
+ * each letter's indicator weight are computed with Karp's algorithm in
+ * integer arithmetic.
  *
  * Any Cesaro limit point of prefix letter frequencies of any right-infinite
  * container word lies in [min cycle mean, max cycle mean] over the SCCs:
@@ -39,31 +41,28 @@
  * -------------------
  * This is an analysis of a RELAXATION. It yields necessary conditions for
  * Makela witnesses, never sufficient ones (NEGATIVE_RESULTS.md item 2: an
- * SCC does not prove an infinite aa2f word). The frequency interval is a
- * pruning theorem: any candidate whose letter frequencies fall outside it
- * cannot be a witness.
+ * SCC does not prove an infinite aa2f word).
  *
  * SELF-VERIFICATION (module refuses to report if any fails)
  * ---------------------------------------------------------
- *   - S3 closure of states and edges; per-letter intervals must coincide
+ *   - S3 closure of the state set; per-letter intervals must coincide
  *   - Karp's lambda* re-verified independently by Bellman-Ford: no negative
  *     cycle at lambda*, and a zero-mean cycle exists (achievability)
- *   - path-count DP vs direct DFS enumeration of [2,5]-free words (two
- *     independent code paths) must agree at n = 12 and 13
+ *   - path-count DP vs direct DFS enumeration of [2,kmax]-free words (two
+ *     independent code paths) must agree at n = m+3 and m+4
  *   - positive control: the 25,379-letter Keranen aa2f record word (avoids
- *     ALL K >= 2, hence a fortiori the container constraint) must trace as
- *     a path through the graph, all 25,370 windows
- *   - negative control: aabbcbcbaa (a K=5 abelian square by construction)
- *     must be rejected
+ *     ALL K >= 2, hence a fortiori every container constraint) must trace
+ *     as a path through the graph; skips cleanly when the gitignored file
+ *     is absent, same pattern as word-anatomy.js
+ *   - negative control: a 2*kmax-word rejected during edge construction
+ *     purely by the K=kmax check is asserted to be a K=kmax abelian square
+ *     with NO smaller violation, and to be refused by traceWord
  *
- * Usage:  node sft-container.js
+ * Usage:  node sft-container.js [--kmax 5]
  */
 
 const fs = require('fs');
 const path = require('path');
-
-const M = 9;                 // de Bruijn memory
-const NSTATES_RAW = 19683;   // 3^9
 
 // ---------------------------------------------------------------------------
 // Small helpers
@@ -89,44 +88,55 @@ function hasAbelianSquare(w, klo, khi) {
   return false;
 }
 
+function gcd(a, b) { while (b) { const t = a % b; a = b; b = t; } return a === 0 ? 1 : a; }
+
 // ---------------------------------------------------------------------------
 // Container construction
 // ---------------------------------------------------------------------------
 
-function buildContainer() {
-  // States
-  const stateIdx = new Int32Array(NSTATES_RAW).fill(-1);
+function buildContainer(kmax = 5) {
+  if (kmax < 3) throw new Error('kmax must be at least 3');
+  const m = 2 * kmax - 1;
+  const raw = Math.pow(3, m);
+  if (raw > 5e7) throw new Error(`memory ${m} means ${raw} raw states - measure and redesign before attempting`);
+  const powPrev = Math.pow(3, m - 1);
+
+  const stateIdx = new Int32Array(raw).fill(-1);
   const states = [];
-  for (let code = 0; code < NSTATES_RAW; code++) {
-    if (!hasAbelianSquare(codeToWord(code, M), 2, 4)) {
+  for (let code = 0; code < raw; code++) {
+    if (!hasAbelianSquare(codeToWord(code, m), 2, kmax - 1)) {
       stateIdx[code] = states.length;
       states.push(code);
     }
   }
   const n = states.length;
 
-  // Edges: u -> (u drop first letter) + s, unless the 10-word is a K=5 square.
-  const POW8 = Math.pow(3, 8);
+  // Edges; record one sample rejected purely by the K=kmax check.
   const adj = new Array(n);
+  let sampleRejected = null;
+  let kmaxRejections = 0;
   for (let i = 0; i < n; i++) {
     const code = states[i];
-    const suffix = code % POW8;
+    const suffix = code % powPrev;
     const out = [];
     for (let s = 0; s < 3; s++) {
       const ncode = suffix * 3 + s;
       if (stateIdx[ncode] === -1) continue;
-      const w10 = codeToWord(code, M); w10.push(s);
+      const w2k = codeToWord(code, m); w2k.push(s);
       let da = 0, db = 0, dc = 0;
-      for (let j = 0; j < 5; j++) { const c = w10[j]; if (c === 0) da++; else if (c === 1) db++; else dc++; }
-      for (let j = 5; j < 10; j++) { const c = w10[j]; if (c === 0) da--; else if (c === 1) db--; else dc--; }
-      if (da === 0 && db === 0 && dc === 0) continue;
+      for (let j = 0; j < kmax; j++) { const c = w2k[j]; if (c === 0) da++; else if (c === 1) db++; else dc++; }
+      for (let j = kmax; j < 2 * kmax; j++) { const c = w2k[j]; if (c === 0) da--; else if (c === 1) db--; else dc--; }
+      if (da === 0 && db === 0 && dc === 0) {
+        kmaxRejections++;
+        if (sampleRejected === null) sampleRejected = w2k.slice();
+        continue;
+      }
       out.push(stateIdx[ncode]);
     }
     adj[i] = out;
   }
 
-  // Essentialize: keep only states on bi-infinite paths' candidates
-  // (iterated trimming of out-degree-0 and in-degree-0 states).
+  // Essentialize.
   const alive = new Uint8Array(n).fill(1);
   let changed = true;
   while (changed) {
@@ -143,7 +153,7 @@ function buildContainer() {
     }
   }
 
-  return { states, stateIdx, adj, alive };
+  return { kmax, m, raw, powPrev, states, stateIdx, adj, alive, sampleRejected, kmaxRejections };
 }
 
 // ---------------------------------------------------------------------------
@@ -161,7 +171,6 @@ function tarjanSCC(nodeList, adj, alive) {
 
   for (const root of nodeList) {
     if (index[root] !== -1) continue;
-    // iterative Tarjan
     const callStack = [[root, 0]];
     while (callStack.length > 0) {
       const frame = callStack[callStack.length - 1];
@@ -200,25 +209,27 @@ function tarjanSCC(nodeList, adj, alive) {
 // ---------------------------------------------------------------------------
 
 /**
- * Min cycle mean of integer edge weights inside one SCC.
- * vertices: array of global vertex ids; edges: [from, to, weight] (local ids).
- * Returns { num, den } in lowest terms. Throws if the SCC has no cycle.
+ * Min cycle mean of integer edge weights (each in {-1,0,1}) inside one SCC.
+ * Edges as flat arrays eu[], ev[], ew[] with local vertex ids.
+ * Returns { num, den } in lowest terms.
  */
-function karpMinCycleMean(nv, edges) {
-  const INF = 0x3f3f3f3f;
-  // D[k*nv + v], k = 0..nv
-  const D = new Int32Array((nv + 1) * nv).fill(INF);
+function karpMinCycleMean(nv, eu, ev, ew) {
+  if (nv > 30000) throw new Error('Karp table would not fit Int16 - implement Howard first, do not weaken exactness');
+  const INF = 31000;
+  const ne = eu.length;
+  // D[k*nv + v]; |D| <= nv < 31000 for weights in {-1,0,1}.
+  const D = new Int16Array((nv + 1) * nv).fill(INF);
   D[0] = 0; // source = local vertex 0
   for (let k = 1; k <= nv; k++) {
     const prev = (k - 1) * nv, cur = k * nv;
-    for (const [u, v, w] of edges) {
-      if (D[prev + u] === INF) continue;
-      const cand = D[prev + u] + w;
-      if (cand < D[cur + v]) D[cur + v] = cand;
+    for (let e = 0; e < ne; e++) {
+      const du = D[prev + eu[e]];
+      if (du === INF) continue;
+      const cand = du + ew[e];
+      if (cand < D[cur + ev[e]]) D[cur + ev[e]] = cand;
     }
   }
-  // lambda* = min over v of max over k of (D_n(v) - D_k(v)) / (n - k)
-  let bestNum = 0, bestDen = 0; // empty
+  let bestNum = 0, bestDen = 0;
   for (let v = 0; v < nv; v++) {
     if (D[nv * nv + v] === INF) continue;
     let vNum = 0, vDen = 0;
@@ -235,35 +246,35 @@ function karpMinCycleMean(nv, edges) {
   return { num: bestNum / g, den: bestDen / g };
 }
 
-function gcd(a, b) { while (b) { const t = a % b; a = b; b = t; } return a === 0 ? 1 : a; }
-
 /**
- * Independent verification of a claimed min cycle mean p/q:
- * with integer weights w*q - p, Bellman-Ford must find no negative cycle
- * (optimality) and the zero-reduced-cost subgraph must contain a cycle
- * (achievability). Throws on failure.
+ * Independent verification of a claimed min cycle mean p/q: with integer
+ * weights w*q - p, Bellman-Ford must find no negative cycle (optimality)
+ * and the zero-reduced-cost subgraph must contain a cycle (achievability).
  */
-function verifyMinCycleMean(nv, edges, num, den) {
-  const W = edges.map(([u, v, w]) => [u, v, w * den - num]);
-  const dist = new Float64Array(nv).fill(0); // 0-init: detects any negative cycle
+function verifyMinCycleMean(nv, eu, ev, ew, num, den) {
+  const ne = eu.length;
+  const W = new Float64Array(ne);
+  for (let e = 0; e < ne; e++) W[e] = ew[e] * den - num;
+  const dist = new Float64Array(nv).fill(0);
   for (let it = 0; it < nv; it++) {
     let changed = false;
-    for (const [u, v, w] of W) {
-      if (dist[u] + w < dist[v]) { dist[v] = dist[u] + w; changed = true; }
+    for (let e = 0; e < ne; e++) {
+      const cand = dist[eu[e]] + W[e];
+      if (cand < dist[ev[e]]) { dist[ev[e]] = cand; changed = true; }
     }
     if (!changed) break;
   }
-  for (const [u, v, w] of W) {
-    if (dist[u] + w < dist[v]) {
-      throw new Error(`cycle-mean verification failed: a cycle with mean < ${num}/${den} exists`);
+  for (let e = 0; e < ne; e++) {
+    if (dist[eu[e]] + W[e] < dist[ev[e]]) {
+      throw new Error(`cycle-mean verification failed: a cycle with mean below ${num}/${den} exists`);
     }
   }
   // Achievability: cycle within edges of zero reduced cost.
   const zAdj = new Array(nv).fill(null).map(() => []);
-  for (const [u, v, w] of W) {
-    if (dist[u] + w === dist[v]) zAdj[u].push(v);
+  for (let e = 0; e < ne; e++) {
+    if (dist[eu[e]] + W[e] === dist[ev[e]]) zAdj[eu[e]].push(ev[e]);
   }
-  const color = new Uint8Array(nv); // 0 white, 1 gray, 2 black
+  const color = new Uint8Array(nv);
   let found = false;
   for (let s = 0; s < nv && !found; s++) {
     if (color[s] !== 0) continue;
@@ -292,7 +303,6 @@ function frequencyIntervals(container) {
   for (let i = 0; i < n; i++) if (alive[i]) liveNodes.push(i);
   const { comp, ncomp } = tarjanSCC(liveNodes, adj, alive);
 
-  // group by component; a component is nontrivial if it has an internal edge
   const members = new Array(ncomp).fill(null).map(() => []);
   for (const v of liveNodes) members[comp[v]].push(v);
 
@@ -301,28 +311,23 @@ function frequencyIntervals(container) {
     const vs = members[c];
     if (vs.length === 0) continue;
     const localId = new Map(vs.map((v, i) => [v, i]));
-    let internal = 0;
-    const edgesByLetter = [[], [], []]; // weight = 1 if appended letter == x
-    const edgesNegByLetter = [[], [], []];
+    const eu = [], ev = [], letters = [];
     for (const v of vs) {
       for (const w of adj[v]) {
         if (!alive[w] || comp[w] !== c) continue;
-        internal++;
-        const letter = states[w] % 3;
-        for (let x = 0; x < 3; x++) {
-          const wt = letter === x ? 1 : 0;
-          edgesByLetter[x].push([localId.get(v), localId.get(w), wt]);
-          edgesNegByLetter[x].push([localId.get(v), localId.get(w), -wt]);
-        }
+        eu.push(localId.get(v)); ev.push(localId.get(w)); letters.push(states[w] % 3);
       }
     }
-    if (internal === 0) continue; // trivial SCC, cannot host a path tail
-    const res = { size: vs.length, edges: internal, perLetter: [] };
+    if (eu.length === 0) continue; // trivial SCC, cannot host a path tail
+    const euA = Int32Array.from(eu), evA = Int32Array.from(ev);
+    const res = { size: vs.length, edges: eu.length, perLetter: [] };
     for (let x = 0; x < 3; x++) {
-      const lo = karpMinCycleMean(vs.length, edgesByLetter[x]);
-      verifyMinCycleMean(vs.length, edgesByLetter[x], lo.num, lo.den);
-      const hiNeg = karpMinCycleMean(vs.length, edgesNegByLetter[x]);
-      verifyMinCycleMean(vs.length, edgesNegByLetter[x], hiNeg.num, hiNeg.den);
+      const wPos = new Int8Array(eu.length), wNeg = new Int8Array(eu.length);
+      for (let e = 0; e < eu.length; e++) { const b = letters[e] === x ? 1 : 0; wPos[e] = b; wNeg[e] = -b; }
+      const lo = karpMinCycleMean(vs.length, euA, evA, wPos);
+      verifyMinCycleMean(vs.length, euA, evA, wPos, lo.num, lo.den);
+      const hiNeg = karpMinCycleMean(vs.length, euA, evA, wNeg);
+      verifyMinCycleMean(vs.length, euA, evA, wNeg, hiNeg.num, hiNeg.den);
       res.perLetter.push({ lo, hi: { num: -hiNeg.num, den: hiNeg.den } });
     }
     sccResults.push(res);
@@ -336,21 +341,20 @@ function frequencyIntervals(container) {
 
 /** Trace a letter string through the graph. Returns -1 or failure position. */
 function traceWord(str, container) {
-  const { stateIdx, adj, states } = container;
+  const { stateIdx, adj, states, m, powPrev } = container;
   const sym = [];
   for (const ch of str) {
     const c = ch.charCodeAt(0) - 97;
-    if (c < 0 || c > 2) continue; // ignore whitespace/other
+    if (c < 0 || c > 2) continue;
     sym.push(c);
   }
-  if (sym.length < M) throw new Error('word shorter than memory');
+  if (sym.length < m) throw new Error('word shorter than memory');
   let code = 0;
-  for (let i = 0; i < M; i++) code = code * 3 + sym[i];
-  if (stateIdx[code] === -1) return M - 1;
+  for (let i = 0; i < m; i++) code = code * 3 + sym[i];
+  if (stateIdx[code] === -1) return m - 1;
   let cur = stateIdx[code];
-  const POW8 = Math.pow(3, 8);
-  for (let i = M; i < sym.length; i++) {
-    const ncode = (states[cur] % POW8) * 3 + sym[i];
+  for (let i = m; i < sym.length; i++) {
+    const ncode = (states[cur] % powPrev) * 3 + sym[i];
     if (stateIdx[ncode] === -1) return i;
     const nxt = stateIdx[ncode];
     if (!adj[cur].includes(nxt)) return i;
@@ -359,12 +363,12 @@ function traceWord(str, container) {
   return -1;
 }
 
-/** Count [2,5]-free words of length n via DP over the graph. */
+/** Count [2,kmax]-free words of length n via DP over the graph. */
 function countViaDP(n, container) {
-  const { adj } = container;
+  const { adj, m } = container;
   const nv = adj.length;
-  let cnt = new Float64Array(nv).fill(1); // every state = one word of length 9
-  for (let t = M; t < n; t++) {
+  let cnt = new Float64Array(nv).fill(1);
+  for (let t = m; t < n; t++) {
     const next = new Float64Array(nv);
     for (let v = 0; v < nv; v++) {
       if (cnt[v] === 0) continue;
@@ -378,13 +382,12 @@ function countViaDP(n, container) {
   return total;
 }
 
-/** Count [2,5]-free words of length n by direct DFS (independent path). */
-function countViaDFS(n) {
+/** Count [2,kmax]-free words of length n by direct DFS (independent path). */
+function countViaDFS(n, kmax = 5) {
   let count = 0;
   const w = new Array(n);
   function ok(len) {
-    // check squares K in [2,5] ending at position len-1
-    for (let K = 2; K <= 5; K++) {
+    for (let K = 2; K <= kmax; K++) {
       if (len < 2 * K) break;
       let da = 0, db = 0, dc = 0;
       for (let j = len - 2 * K; j < len - K; j++) { const c = w[j]; if (c === 0) da++; else if (c === 1) db++; else dc++; }
@@ -409,15 +412,12 @@ function countViaDFS(n) {
 // ---------------------------------------------------------------------------
 
 function binarySubAlphabetCycle(container) {
-  // Does any infinite [2,5]-free word over a 2-letter sub-alphabet exist?
-  // By S3 symmetry it suffices to test {a,b}: restrict to states whose 9
-  // letters avoid 'c' and to edges appending 'a' or 'b', then look for a cycle.
-  const { states, adj } = container;
+  const { states, adj, m } = container;
   const n = adj.length;
   const binary = new Uint8Array(n);
   for (let i = 0; i < n; i++) {
     let code = states[i], usesC = false;
-    for (let j = 0; j < M; j++) { if (code % 3 === 2) { usesC = true; break; } code = Math.floor(code / 3); }
+    for (let j = 0; j < m; j++) { if (code % 3 === 2) { usesC = true; break; } code = Math.floor(code / 3); }
     binary[i] = usesC ? 0 : 1;
   }
   const color = new Uint8Array(n);
@@ -446,37 +446,32 @@ function binarySubAlphabetCycle(container) {
 // ---------------------------------------------------------------------------
 
 function runControls(container) {
-  const { states, stateIdx, adj, alive } = container;
+  const { states, stateIdx, adj, alive, m, kmax, sampleRejected } = container;
 
-  // S3 closure of the state set and edge set.
+  // S3 closure of the state set (all 6 permutations, complete check).
   const perms = [[0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0]];
-  function permCode(code, p) {
-    let out = 0;
-    const w = codeToWord(code, M);
-    for (let j = 0; j < M; j++) out = out * 3 + p[w[j]];
-    return out;
-  }
-  for (const p of perms) {
-    for (let i = 0; i < states.length; i += 97) { // stride sample plus full closure check below
-      if (stateIdx[permCode(states[i], p)] === -1) throw new Error('S3 closure violated for states');
-    }
-  }
-  // full closure count check (cheap and complete): permuted set must be the same set
   for (const p of perms) {
     let ok = 0;
-    for (const code of states) if (stateIdx[permCode(code, p)] !== -1) ok++;
+    for (const code of states) {
+      let out = 0;
+      const w = codeToWord(code, m);
+      for (let j = 0; j < m; j++) out = out * 3 + p[w[j]];
+      if (stateIdx[out] !== -1) ok++;
+    }
     if (ok !== states.length) throw new Error('S3 closure violated: permuted state missing');
   }
 
-  // Negative control: an explicit K=5 abelian square must be rejected.
-  const neg = 'aabbcbcbaa';
-  const negSym = neg.split('').map(ch => ch.charCodeAt(0) - 97);
-  if (!hasAbelianSquare(negSym, 5, 5)) throw new Error('negative control is not a K=5 abelian square');
-  if (traceWord(neg + 'abc', container) === -1) throw new Error('negative control traced as container word');
+  // Negative control: a word rejected during edge construction purely by the
+  // K=kmax check must be a clean K=kmax abelian square with no smaller
+  // violation, and traceWord must refuse it.
+  if (sampleRejected === null) throw new Error('no edge was rejected by the K=kmax check - construction is suspect');
+  if (!hasAbelianSquare(sampleRejected, kmax, kmax)) throw new Error('negative control is not a K=kmax abelian square');
+  if (hasAbelianSquare(sampleRejected, 2, kmax - 1)) throw new Error('negative control unexpectedly contains a smaller square');
+  const negStr = sampleRejected.map(c => 'abc'[c]).join('');
+  if (traceWord(negStr, container) === -1) throw new Error('negative control traced as container word');
 
-  // Positive control: the Keranen record word traces fully. The record files
-  // are gitignored (author's data, not redistributed), so like word-anatomy.js
-  // this control skips cleanly when the file is absent - and says so.
+  // Positive control: the Keranen record word traces fully; skips cleanly
+  // when the gitignored file is absent (same pattern as word-anatomy.js).
   const kf = path.join(__dirname, 'keranen_25379.txt');
   let keranenLength = 0;
   if (fs.existsSync(kf)) {
@@ -486,10 +481,10 @@ function runControls(container) {
     keranenLength = kw.length;
   }
 
-  // Counting cross-check: DP over the graph vs direct DFS, n = 12 and 13.
-  for (const n of [12, 13]) {
+  // Counting cross-check: DP over the graph vs direct DFS.
+  for (const n of [m + 3, m + 4]) {
     const a = countViaDP(n, container);
-    const b = countViaDFS(n);
+    const b = countViaDFS(n, kmax);
     if (a !== b) throw new Error(`count mismatch at n=${n}: DP ${a} vs DFS ${b}`);
   }
 
@@ -505,24 +500,31 @@ function runControls(container) {
 function fmt(f) { return `${f.num}/${f.den} = ${(f.num / f.den).toFixed(6)}`; }
 
 function main() {
-  console.log('=== sft-container: the K in [2,5] container of Makela\'s problem ===\n');
+  const args = process.argv.slice(2);
+  let kmax = 5;
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--kmax') kmax = parseInt(args[++i], 10);
+  }
 
-  const container = buildContainer();
+  console.log(`=== sft-container: the K in [2,${kmax}] container of Makela's problem ===\n`);
+
+  const container = buildContainer(kmax);
   const ctrl = runControls(container);
   console.log(`[CONTROL] S3 closure of states holds (all 6 permutations)`);
-  console.log(`[CONTROL] negative control aabbcbcbaa (K=5 square) rejected`);
+  console.log(`[CONTROL] negative control (pure K=${kmax} square from edge construction) rejected`);
   if (ctrl.keranenLength > 0) {
-    console.log(`[CONTROL] Keranen ${ctrl.keranenLength}-letter aa2f word traces through all ${ctrl.keranenLength - M} windows`);
+    console.log(`[CONTROL] Keranen ${ctrl.keranenLength}-letter aa2f word traces through all ${ctrl.keranenLength - container.m} windows`);
   } else {
     console.log(`[CONTROL] SKIPPED: keranen_25379.txt not present (gitignored author data)`);
   }
-  console.log(`[CONTROL] word counts agree between graph DP and direct DFS at n = 12, 13\n`);
+  console.log(`[CONTROL] word counts agree between graph DP and direct DFS at n = ${container.m + 3}, ${container.m + 4}\n`);
 
-  console.log(`states (9-words, no K in [2,4] square): ${ctrl.statesCount} of ${NSTATES_RAW}`);
+  console.log(`memory: ${container.m}; states (no K in [2,${kmax - 1}] square): ${ctrl.statesCount} of ${container.raw}`);
   console.log(`essential states (on candidate bi-infinite paths): ${ctrl.essential}`);
 
+  const t0 = Date.now();
   const sccs = frequencyIntervals(container);
-  console.log(`nontrivial SCCs in the essential part: ${sccs.length}`);
+  console.log(`nontrivial SCCs in the essential part: ${sccs.length} (interval computation ${(((Date.now() - t0)) / 1000).toFixed(1)}s)`);
   for (const s of sccs) {
     console.log(`  SCC: ${s.size} states, ${s.edges} internal edges`);
     for (let x = 0; x < 3; x++) {
@@ -536,10 +538,11 @@ function main() {
   }
 
   const binaryCycle = binarySubAlphabetCycle(container);
-  console.log(`\nbinary sub-alphabet: infinite [2,5]-free word over two letters ${binaryCycle ? 'EXISTS (cycle found)' : 'does not exist (no cycle in the binary restriction)'}`);
+  console.log(`\nbinary sub-alphabet: infinite [2,${kmax}]-free word over two letters ${binaryCycle ? 'EXISTS (cycle found)' : 'does not exist (no cycle in the binary restriction)'}`);
 
   console.log('\nword counts in the container language (exact, graph DP):');
-  for (const n of [9, 10, 12, 15, 20, 25, 30]) {
+  const ns = [...new Set([container.m, container.m + 1, 12, 15, 20, 25, 30])].filter(n => n >= container.m).sort((a, b) => a - b);
+  for (const n of ns) {
     console.log(`  n=${n}: ${countViaDP(n, container)}`);
   }
 

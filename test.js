@@ -1135,6 +1135,40 @@ test("Container SFT: 3114 states, one SCC of 2844, letter frequencies in [1/11, 
   console.log(`       no binary tail; container n=15 count 159,006 > aa2f 120,084`);
 });
 
+// ----------------------------------------------------
+// 31. CONTAINER SFT AT K IN [2,6]: THE INTERVAL DOES NOT TIGHTEN (MATH_CLAIMS row 52)
+// ----------------------------------------------------
+test("Container SFT, K in [2,6]: language shrinks, frequency interval stays [1/11, 3/4]", () => {
+  const sc = require('./sft-container.js');
+  const c6 = sc.buildContainer(6);
+
+  const ctrl = sc.runControls(c6);
+  assert.strictEqual(ctrl.statesCount, 11070, `states must number 11070, got ${ctrl.statesCount}`);
+  assert.strictEqual(ctrl.essential, 10128, `essential states must number 10128, got ${ctrl.essential}`);
+
+  const sccs = sc.frequencyIntervals(c6);
+  assert.strictEqual(sccs.length, 1, `essential part must have exactly 1 nontrivial SCC, got ${sccs.length}`);
+  assert.strictEqual(sccs[0].size, 10128, `the SCC must have 10128 states, got ${sccs[0].size}`);
+  assert.strictEqual(sccs[0].edges, 18774, `the SCC must have 18774 internal edges, got ${sccs[0].edges}`);
+  for (let x = 0; x < 3; x++) {
+    const pl = sccs[0].perLetter[x];
+    assert.strictEqual(`${pl.lo.num}/${pl.lo.den}`, '1/11', `letter ${'abc'[x]} min frequency must remain 1/11`);
+    assert.strictEqual(`${pl.hi.num}/${pl.hi.den}`, '3/4', `letter ${'abc'[x]} max frequency must remain 3/4`);
+  }
+
+  assert.strictEqual(sc.binarySubAlphabetCycle(c6), false,
+    "no infinite [2,6]-free word over a two-letter sub-alphabet may exist");
+
+  // Strict sandwich at n=15: aa2f <= [2,6]-free <= [2,5]-free.
+  const c15 = sc.countViaDP(15, c6);
+  assert.strictEqual(c15, 128940, `[2,6]-container count at n=15 must be 128940, got ${c15}`);
+  assert.ok(120084 <= c15 && c15 <= 159006, "sandwich aa2f <= [2,6] <= [2,5] must hold at n=15");
+
+  console.log(`       11070 states, essential 10128, one SCC (18774 edges)`);
+  console.log(`       interval [1/11, 3/4] unchanged from K in [2,5] although the language shrinks`);
+  console.log(`       sandwich at n=15: 120,084 <= 128,940 <= 159,006`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
