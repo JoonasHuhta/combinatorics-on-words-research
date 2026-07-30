@@ -97,6 +97,18 @@ written earlier in Finnish are migrated as they are revised; the claim ledger
 is migrated row by row rather than in bulk, because bulk translation is
 precisely where calibrated wording gets lost.
 
+## Getting involved
+
+See **`CONTRIBUTING.md`**. In short: this is a research project, so a gap
+found in an existing claim, a literature reference that closes an open
+question, or an independent reproduction of a `COMPUTED` row are treated as
+seriously as new code — the project's own ledger has rows that exist only
+because an earlier claim was checked again and found wanting. Read
+`OPEN_RESEARCH_QUESTIONS.md` and `NEGATIVE_RESULTS.md` before starting
+anything, so effort does not repeat what the project already knows not to
+do. `index.html` is the browser visualiser — open it directly, no build step
+or server needed.
+
 ## Sources and licence
 
 The literature in `papers/` and the record words in `datasets/` belong to their
