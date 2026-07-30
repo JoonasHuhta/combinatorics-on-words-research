@@ -49,8 +49,11 @@ k-potenssittomuuden **affiineille** morfismeille, ja toteutus on paperin oma:
 
 **Aloituskohta, tässä järjestyksessä:**
 
-1. **Toteuta CMRS-algoritmi ja validoi se paperin omilla esimerkeillä**
-   (β ja δ=γ², luvut rivillä 73). **Pysäytysehto: jos ei toista, pysähdy.**
+1. **Toteuta CMRS-algoritmi ja validoi se repon viidellä omalla tapaustutkimuksella**
+   (Dekking 1979, Currie & Aberkane 2009, Andrade & Mol Prop. 3.1/4.1, CMRS 2021 —
+   morfismit rivillä 73). **Ei β/δ — se oli 2026-07-30 kirjattu virheellinen
+   viittaus toisesta kädestä, korjattu ennen kuin ehdittiin ajaa mitään sen
+   varaan.** Pysäytysehto: jos ei toista näitä viittä, pysähdy.
    Halpa ja nopea; säästää turhan k=16-ajon väärällä koodilla.
 2. Vasta sitten aja affiini luokka kasvavalla k:lla.
 3. B12 (viisi kirjainta, span ≤ 10) sen jälkeen tai rinnalla.

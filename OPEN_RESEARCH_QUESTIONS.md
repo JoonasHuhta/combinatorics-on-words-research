@@ -212,7 +212,7 @@ Menettely on **jo olemassa julkaistuna**, eikä sitä tarvitse johtaa: Theorem 2
 2. **Se ei ole olemassa olevan koodin uudelleenkäyttöä.** Lähde sanoo itse että γ:n insidenssimatriisilla on ominaisarvo tasan 1 eikä se täytä Rao & Rosenfeldin ehtoja lainkaan. CMRS-algoritmi on **erikseen toteutettava** komponentti; `decide-realizability.js` ei tee sitä.
 3. **Mitään ei ole vielä päätetty.** Rivi 73 mittaa **kelpoisuutta**, ei päätöstä. Yhtään ehdokasta ei ole ajettu läpi päätösalgoritmilla, koska algoritmia ei ole toteutettu.
 
-**PYSÄYTYSEHTO ennen kuin yhtäkään ehdokasta kutsutaan miksikään:** toteutuksen on toistettava paperin omat esimerkit — β(0)=00001, β(1)=01101, M_β=[[5,0],[1,2]], ominaisarvot 2 ja 5; δ=γ², δ(0)=10001, δ(1)=1012101, δ(2)=101222101, M_δ=[[5,2],[2,4]], ominaisarvot (9±√17)/2. Jos ei toista, pysähdy. Sama kuvio kuin rivin 68 regressiokontrollissa.
+**PYSÄYTYSEHTO ennen kuin yhtäkään ehdokasta kutsutaan miksikään:** toteutuksen on toistettava repon **viisi omaa tapaustutkimusta** (Dekking 1979, Currie & Aberkane 2009, Andrade & Mol Prop. 3.1 ja 4.1, CMRS 2021 — täsmälleen rivillä 73 luetellut morfismit). **Ei β/δ — se oli virheellinen viittaus, korjattu rivillä 73.** Jos ei toista, pysähdy. Sama kuvio kuin rivin 68 regressiokontrollissa.
 
 **Ja yksi rajaus jota ei saa unohtaa:** additiivinen linja on **rinnakkainen tutkimuslinja, ei silta Mäkelän konjektuuriin.** Additiivinen välttäminen on tiukempi kuin abelin (jokainen abelin neliö on additiivinen neliö), mutta implikaatio osuu jo ratkaistuun maastoon: neljän kirjaimen abelin-neliöttömyys on Keräsen 1992 (rivi 3). Mäkelä on eri ehto. Ks. rivi 72 ja A6/E6.
 
