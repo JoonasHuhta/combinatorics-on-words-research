@@ -304,14 +304,75 @@ toteutusta; jos molemmat kirjoittaa sama malli samasta ajattelusta, ne
 korreloivat ja ristiintarkistus heikkenee. Toinen malli, joka näkee **vain
 spesifikaation eikä koskaan ensimmäistä toteutusta**, tuottaa aidosti
 riippumattoman verifioijan — E5:n puhdashuonereplikaatio rakenteeksi
-muutettuna ja jokaisen ajon sisään vietynä. Erimielisyys on silloin bugi-
-löydös, ei kohina.
+muutettuna ja jokaisen ajon sisään vietynä.
 
 Ehto: spesifikaatio kirjoitetaan väitelokirivin ja määritelmien tasolla
 (mitä lasketaan), ei algoritmitasolla (miten lasketaan) — muuten
-riippumattomuus katoaa. Prompt-runko on `RESEARCH_ARCHITECT.md`:n
-tulostemuodon sukulainen ja se säilytetään versionhallinnassa yhdessä
-verifioijan kanssa, jotta myöhemmin näkee mitä replikoijalle kerrottiin.
+riippumattomuus katoaa. Prompt säilytetään versionhallinnassa verifioijan
+vieressä, jotta myöhemmin näkee mitä replikoijalle kerrottiin.
+
+### 6b.1 Koeajo 2026-07-30 ja promptin korjaus
+
+Delegointi kokeiltiin oikeasti: toinen malli tuotti verifioijan yllä olevan
+kaltaisella promptilla, ja se ristiintarkistettiin oman inkrementaalisen
+DFS-toteutuksen kanssa (scratchpad). **Kaikki testatut lukumäärät täsmäsivät**,
+ja koe validoi nimenomaan sen kohdan jonka piti: oman toteutuksen
+inkrementaalinen optimointi (jatkettaessa tarkistetaan vain uuteen loppuun
+päättyvät neliöt) on validi vain koska etuliite on jo neliötön — juuri sitä
+päättelyä tyhjentävä generointi ei tee.
+
+**Mutta koe paljasti virheen promptissa, ei koodissa.** Kielto "älä käytä
+graafi-, automaatti- tai DP-rakenteita" pakotti tyhjentävään generointiin,
+jonka kustannus on |A|^N. Se kattaa neljällä kirjaimella noin N ≤ 10 — kun
+taas eliminaatiotulokset (pisimmät sanat kymmenissä) ovat kertaluokkia
+kauempana. **Tyhjentävä generointi ei voi koskaan verifioida sitä tulosta
+jonka vuoksi lakaisu tehdään.**
+
+Oikea riippumattomuusakseli ei siis ole "tyhmä vs. älykäs" vaan **eri
+algoritminen idea samassa suorituskykyluokassa**. Korjattu spesifikaatio
+toiselle mallille: *taso kerrallaan etenevä leveyshaku, joka pitää yllä
+neliöttömien sanojen joukkoa pituudella n, laajentaa jokaisen kaikilla
+kirjaimilla ja tarkistaa jokaisen laajennuksen **kokonaan alusta asti***.
+Se on riippumaton inkrementaalisesta päättelystä mutta skaalautuu
+neliöttömien sanojen lukumäärän mukaan, ei |A|^N:n — ja yltää siten samalle
+pituusalueelle kuin varsinainen lakaisu.
+
+### 6b.2 Verifiointi on kolmikerroksinen, ei kaksikerroksinen
+
+Koeajon tärkein opetus: kaksi toteutusta ei riitä, koska niiden yhteinen
+kattavuus on rajattu hitaamman mukaan. Kerrokset:
+
+1. **Ominaisuusinvariantit — ainoa kerros joka yltää täyteen N:ään.**
+   Eivät vaadi toista toteutusta lainkaan. Koeajossa testattiin ja ne
+   pitivät: **affiini-invarianssi** (count(A,N) = count(αA+β,N), mukaan
+   lukien negatiivinen α ja skaalaus — tämä testaa suoraan sitä symmetriaa
+   jolla lakaisu redusoidaan), **käännösinvarianssi** (sanatasolla kaikille
+   pituuden 8 sanoille), ja **sisältyvyys** additiivinen ⇒ abelin. Näitä voi
+   ajaa täydellä pituudella: lakaisu aakkostolle A ja aakkostolle 3A+7 on
+   päädyttävä identtiseen verdiktiin.
+2. **Riippumaton toteutus samassa suorituskykyluokassa** (leveyshaku yllä)
+   — kattaa koko alueen eliminaatiotuloksia myöten.
+3. **Tyhjentävä referenssi** (koeajon verifioija) — kattaa vain pienet N,
+   mutta nollalla jaetulla oletuksella. Arvokas juuri siksi.
+
+### 6b.3 Väitteen kaksi puoliskoa maksavat eri verran — ja ne kirjataan erikseen
+
+Eliminaatioväite "pisin sana on L" on kaksi väitettä, joiden
+verifiointikustannus eroaa kertaluokkia:
+
+- **"≥ L" — halpa ja vahvasti verifioitavissa.** Riittää esittää yksi
+  pituuden L sana, ja sen neliöttömyyden tarkistaa tyhjentävä referenssi
+  (kerros 3) suoraan määritelmästä yhdessä silmänräpäyksessä. Todistusarvo
+  on täysi.
+- **"≤ L" — kallis.** Vaatii tyhjentävän haun; sen kantaa vain nopea
+  toteutus, jota kerros 3 ei yllä tarkistamaan tuolla pituudella.
+
+Siksi lakaisun on **aina tulostettava pisin löytämänsä sana todistuskappaleena**
+(witness), ja väitelokirivin on eroteltava puoliskot: alaraja on
+todistuskappaleella verifioitu, yläraja nojaa tyhjentävään hakuun jonka
+kate on ilmoitettava. Tämä on sama erottelu kuin rivillä 47 (tyhjennetty
+hakupuu = todiste; katon saavuttaminen = evidenssi), ja se on nyt
+sisäänrakennettu tulosmuotoon.
 
 ## 7. Vaiheet, kustannukset ja tappoehdot
 
