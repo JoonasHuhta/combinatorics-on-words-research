@@ -10,7 +10,36 @@ kustannus, ei retoriikkaa. Tämä dokumentti ei sisällä matemaattisia väittei
 
 ---
 
-## 1. "UI ei siteeraa — se lukee lokia" (arkkitehtuurikorjaus, tärkein)
+## 1. "UI ei siteeraa — se lukee lokia" (arkkitehtuurikorjaus) — **PERUSTA TEHTY 2026-07-30**
+
+**Tehty:** `claims-export.js` (`MATH_CLAIMS.md` rivi 61) emittoi `claims.json`:n
+ja pakottaa säännön: **sivu saa näyttää luvun vain jos se on lokin
+`QUOTABLE_FACTS`-lohkossa ja esiintyy kirjaimellisesti siinä rivissä johon se
+viittaa.** `REJECTED`-riviä ei voi lainata koskaan. 11 lukua määritelty.
+Ajaminen: `node claims-export.js`. Kytketty driftitarkistukseen (6g) ja
+testiin 36.
+
+**Jäljellä:** selainsovelluksen kytkeminen `claims.json`:iin — tällä hetkellä
+luvut ovat yhä käsin HTML:ssä. Kun se tehdään, jokainen näytöllä näkyvä luku
+linkittyy lokiriviinsä, ja Level 1/2/REJECTED-badget tulevat datasta.
+
+**Miksi tämä nousi kärkeen juuri nyt:** projektista tehtiin ulkopuolella
+infografiikka, jossa luki ennätyssanan pituudeksi "~2 026" — lukua jota ei ole
+missään tässä repositoriossa (jokainen 2026 väitelokissa on päivämäärä). Juliste
+oli muuten hyvä ja rakenteeltaan juuri se mitä tämä dokumentti kaipaa; ongelma
+oli että se kirjoitettiin käsin. **Se on tämän kohdan koko perustelu yhdessä
+tapauksessa.**
+
+### 1b. Juliste generoituna, ei käsin kirjoitettuna
+
+Ulkopuolinen infografiikka (2026-07-30) on hyvä **malli**: määritelmä,
+keskeinen kysymys, nykytila, menetelmät, koeputki, negatiiviset tulokset,
+yhteenveto. Se kannattaa toteuttaa **generoituna** `claims.json`:sta:
+jokainen luku tulee lokista ja kantaa rivinumeronsa, ja luku jota ei ole
+lokissa ei yksinkertaisesti renderöidy. Silloin julisteen voi päivittää
+ajamalla komennon, eikä se voi vanhentua hiljaa.
+
+## 1a. Alkuperäinen muotoilu (säilytetty)
 
 **Ongelma:** tieteelliset luvut on kopioitu HTML:ään ja driftitarkistin vahtii
 kopioita jälkikäteen. Kaksi totuuslähdettä on projektin toistuvin vikatila.

@@ -1382,6 +1382,49 @@ test("Table library: affine keying is exact, a hit costs no search, tampering is
   }
 });
 
+// ----------------------------------------------------
+// 36. LEDGER EXPORT AND QUOTABLE FIGURES (claims-export.js, MATH_CLAIMS row 61)
+// ----------------------------------------------------
+test("Ledger exports cleanly; a figure not in its row cannot be published", () => {
+  const ce = require("./claims-export.js");
+
+  const { notes, data } = ce.runControls();
+  assert.strictEqual(notes.length, 4, "runControls must report 4 control groups");
+  assert.ok(data.rowCount >= 60, "fewer than 60 rows parsed; the table format changed");
+  assert.ok(data.quotable.length > 0, "at least one quotable figure must be declared");
+
+  for (const r of data.rows) {
+    assert.ok(ce.VALID_STATUS.includes(r.status), "row " + r.id + " has an unrecognised status");
+    assert.ok(r.claim.length > 0 && r.source.length > 0, "row " + r.id + " is missing claim or source");
+  }
+
+  // A value absent from its row must be refused. This is the case the
+  // 2026-07-30 infographic would have failed.
+  assert.throws(
+    () => ce.verifyQuotable([{ key: "invented", value: "2 026", row: "1", label: "a record length nobody claimed" }], data.rows),
+    /does not occur/,
+    "an invented figure must be refused");
+
+  // A retracted row must never be quotable, whatever it contains.
+  const rejected = data.rows.find(r => r.status === "REJECTED");
+  assert.ok(rejected, "the ledger must retain at least one REJECTED row");
+  assert.throws(
+    () => ce.verifyQuotable([{ key: "fromRejected", value: rejected.claim.slice(0, 6), row: rejected.id, label: "x" }], data.rows),
+    /REJECTED/,
+    "a REJECTED row must never be quotable");
+
+  const byId = new Map(data.rows.map(r => [r.id, r]));
+  for (const f of data.quotable) {
+    const row = byId.get(f.row);
+    assert.ok(row, "quotable " + f.key + " cites missing row " + f.row);
+    assert.ok((row.claim + " " + row.notes).includes(f.value),
+      "quotable " + f.key + " value is absent from row " + f.row);
+  }
+
+  console.log("       " + data.rowCount + " rows parsed; " + data.quotable.length + " quotable figures, each traced to its row");
+  console.log("       invented figures and REJECTED rows are both refused");
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);

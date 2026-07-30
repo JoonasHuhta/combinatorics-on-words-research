@@ -313,14 +313,37 @@ check("KNOWLEDGE_STATE.md cites only ledger rows that exist", () => {
 
   // Every REJECTED row must be represented, or the retraction register silently
   // loses entries and a withdrawn claim can quietly return.
-  const rejectedRows = [];
-  for (const line of claimsContent.split(/\r?\n/)) {
-    const m = line.match(/^\| (\d+[a-c]?) \|/);
-    if (m && /`REJECTED`/.test(line)) rejectedRows.push(m[1]);
-  }
+  // Use the real column parser rather than a regex over the whole line: a row
+  // that DISCUSSES retraction (row 61 does) is not itself retracted. That false
+  // positive appeared the first time this check met row 61.
+  const rejectedRows = require('./claims-export.js')
+    .parseLedger(claimsContent)
+    .filter(r => r.status === 'REJECTED')
+    .map(r => r.id);
   const missingRejected = rejectedRows.filter(r => !cited.has(r));
   if (missingRejected.length) {
     throw new Error(`KNOWLEDGE_STATE.md omits REJECTED row(s) ${missingRejected.join(', ')}. A withdrawn claim that is not listed can quietly come back.`);
+  }
+});
+
+// 6g. The ledger must stay machine-readable, and every quotable figure must
+// still occur in the row it cites.
+//
+// Added 2026-07-30 after an externally produced infographic stated a record
+// length of "2 026" that appears nowhere in this repository as a length. The
+// export refuses figures that are not literally in their row, so this check is
+// what makes an unsourced number impossible rather than merely discouraged. It
+// also catches unescaped pipes in mathematical notation, which silently break
+// a row's columns in every markdown renderer - five rows were broken that way
+// when this was first run.
+check("MATH_CLAIMS.md exports cleanly and every quotable figure traces to its row", () => {
+  const ce = require('./claims-export.js');
+  const res = ce.runControls();          // throws on any structural defect
+  if (res.data.rowCount < 60) {
+    throw new Error(`only ${res.data.rowCount} rows parsed; the table format probably changed`);
+  }
+  if (res.data.quotable.length === 0) {
+    throw new Error('no quotable figures declared; pages would have no sourced numbers to show');
   }
 });
 

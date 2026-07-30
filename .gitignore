@@ -13,3 +13,6 @@ latest/*.pdf
 # construction and large; every record carries its own checksum and provenance,
 # so a missing cache costs time, never correctness.
 tables/
+
+# Derived from MATH_CLAIMS.md by claims-export.js. Regenerate, never edit.
+claims.json
