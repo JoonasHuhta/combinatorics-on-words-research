@@ -73,6 +73,21 @@ Eli: onko olemassa ääretön jono äärellisen ℤ:n osajoukon yli, joka vältt
 
 Ks. `MATH_CLAIMS.md` rivi 53. Sekundäärihavainto ilman avattua lähdettä (EI saa käyttää ennen jäljitystä): hakutulosteessa esiintyi Freedmanin nimiin laitettu väite 4-kirjaimisista aakkostoista a+d=b+c ja pituusrajasta ≤ 60, sekä tuore variaatiopaperi arXiv:2506.21200 (2025) — jälkimmäinen viittaa pääkysymyksen olleen auki vielä 2025, mutta kumpaakaan ei ole avattu.
 
+### A7. Avattavat lähteet, ml. muunkieliset (jäljitysjono, 2026-07-30)
+
+Alan kirjallisuus on **valtaosin englanniksi**, mutta ei kokonaan — ja juuri nyt kriittisen polun kärki on ranskaksi. Jono avattavista lähteistä, tärkein ensin. Kaikki tunnisteet luettu Fici & Puzyninan (2023) lähdeluettelosta 2026-07-30 (ks. `MATH_CLAIMS.md` rivi 58).
+
+| # | Lähde | Kieli | Miksi |
+|---|---|---|---|
+| 1 | F. Lietard, M. Rosenfeld. *Avoidability of additive cubes over alphabets of four numbers.* DLT 2020, LNCS 12086, s. 192–206 | englanti | **Lähin naapuri riville 54.** Ratkaisee onko affiiniluokkalakaisu neljän luvun aakkostoille jo tehty, ja tehtiinkö siinä sivutuotteena myös neliöitä |
+| 2 | F. Lietard. *Évitabilité de puissances additives en combinatoire des mots.* Väitöskirja, Université de Lorraine, 2020 | **ranska** | Kohdan 1 laaja versio. Väitöskirjassa on tyypillisesti se laskennallinen aineisto jota konferenssipaperiin ei mahdu — juuri sitä mitä rivin 54 vertailuun tarvitaan |
+| 3 | M. Rao. *On some generalizations of abelian power avoidability.* TCS 601:39–46, 2015 | englanti | Additiivisten kuutioiden minimiaakkostokoko 3 |
+| 4 | Rosenfeldin väitöskirja | ranska (todennäköisesti) | A5:n jäljittämätön `g(2)`-väite |
+
+**Vastaus kysymykseen "pitäisikö etsiä muunkielisiä lähteitä":** kyllä, mutta ei laajana kartoituksena vaan **kohdennetusti sitaattiketjua seuraten**. Tämän alan ranskankielinen haara on aito (Dejeanin alkuperäinen työ, Lorrainen koulukunta), ja se löytyy englanninkielisten papereiden lähdeluetteloista — ei erillisellä kieliluotauksella. Venäjänkielisiä ja suomenkielisiä jälkiä on projektin historiassa (IAS Murmansk 2002, rivi 3), mutta niitä ei ole tarvittu koska englanninkieliset versiot ovat olemassa.
+
+**Sääntö:** kieli ei ole peruste jättää lähde avaamatta. Sitaatti säilytetään alkukielellään ja käännös merkitään käännökseksi.
+
 ---
 
 ## B. Projektin omat kysymykset, jotka ovat oikeasti laskettavissa

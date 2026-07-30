@@ -245,11 +245,17 @@ rakennuskustannus. Kirjasto ei kumoa §9:ää; se muuntaa rivin 55 kiihdytyksen
 työkuormille jotka palaavat samaan luokkaan. Ensimmäinen lakaisu 31 eri
 luokan yli ei hyödy siitä lainkaan.
 
-**Seuraava askel sanalabille — päätettävä ennen lisärakentamista.** Kolme
-mahdollisuutta, ja ensimmäinen on suositus:
+**Seuraava askel — Freedman on jäljitetty, kärki siirtyi.** Freedman ei
+löytynyt (rivi 58, `NEGATIVE_RESULTS.md` §11), mutta jäljitys nosti esiin
+oikean kysymyksen. Kolme mahdollisuutta, ensimmäinen on suositus:
 
-1. **Jäljitä Freedman-lähde** (rivi 53). Yhä halvin ja tärkein: se ratkaisee
-   onko rivin 54 taulukko uutta vai replikaatiota. Tätä ei ole vielä tehty.
+1. **Avaa Lietard & Rosenfeld, DLT 2020** (`OPEN_RESEARCH_QUESTIONS.md` A7
+   kohta 1). Se on koko paperi neljän luvun aakkostojen additiivisista
+   kuutioista, ja affiiniluokittelu on siellä alan omana kehyksenä
+   (Theorem 86, rivi 58). **Se ratkaisee onko rivin 54 neliölakaisu uutta vai
+   jo tehtyä.** Ennen sitä rivin 54 menetelmällistä uutuutta ei saa väittää.
+   Jos konferenssipaperi ei riitä, jatko on Lietardin väitöskirja — **ranskaksi**,
+   ja kieli ei ole peruste jättää avaamatta (A7).
 2. **B9.1 laajempi span / 5 kirjainta.** Sama moduuli, isompi `--span`;
    kustannus mitattava ensin.
 3. **Lopeta infran rakentaminen.** Sanalabilla on nyt lakaisu, oraakkeli,

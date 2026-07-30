@@ -8,6 +8,27 @@ Matematiikassa ja algoritmiikassa umpikujat ovat yhtä arvokasta tietoa kuin onn
 
 ---
 
+## Hakemisto, uusin ensin
+
+Numerointi on pysyvä (siihen viitataan muualta), joten uutuusjärjestys on
+tässä eikä dokumentin rungossa. Aja silmäys tästä ennen kuin ehdotat mitään.
+
+| Pvm | # | Mikä kaatui | Yhdellä lauseella |
+|---|---|---|---|
+| 2026-07-30 | [§11](#11-vapaa-hakukonetiiviste-lähteenä-metodologinen-umpikuja) | Hakukonetiiviste lähteenä | Tiiviste antoi kirjaimellisen väitteen tekijänimineen ja lukuineen; kumpaakaan ei ollut alkuperäisessä |
+| 2026-07-30 | [§10](#10-puhdas-määritelmäverifioija-riippumattomana-tarkistajana-metodologinen-umpikuja) | Määritelmäverifioija riippumattomana tarkistajana | Toimi virheettömästi mutta ei yltänyt omaan kohteeseensa |
+| 2026-07-30 | [§9](#9-yhden-ajon-nettovoitto-karsintataulusta) | Karsintataulun nettovoitto yhdessä ajossa | 1,00× — arvo on yksinomaan uudelleenkäytössä |
+| 2026-07-30 | [§8](#8-jatkettavuustaulu-ennätysjahdin-kiihdyttimenä) | Taulu ennätysjahdin kiihdyttimenä | Sama pisin sana karsittuna ja karsimattomana |
+| 2026-07-30 | [§7](#7-säiliörelaksaatio-additiivisten-neliöiden-eliminaatiotyökaluna) | Säiliö additiivisena eliminaatiotyökaluna | Ei kuollut saavutettavilla ikkunakoilla |
+| aiemmin | §6 | "Rosetta-filtteri" | Hylkäisi 88 % laillisista jatkoista |
+| aiemmin | §5 | FORBID4 universaalina sääntönä | Esiintyy 2 820 kertaa ennätyssanassa |
+| aiemmin | §4 | Parikh-epätasapaino pienenä | Mitattu päinvastoin |
+| aiemmin | §3 | Ennätyssanan käänteismallinnus | Rakennetta ei ole purettavaksi |
+| aiemmin | §2 | Rauzy-SCC äärettömyyden todisteena | Lokaali ehto, globaali ongelma |
+| aiemmin | §1 | Morfismiskannaus k = 7…9 | Otoskoon logaritmi |
+
+---
+
 ## 1. Uniformien Morfismien Skannaus ($k=7..9$)
 **Hypoteesi:** Jos testaamme yhä suurempia uniformien morfismien pituuksia ($k=7, 8, 9...$), löydämme lopulta kiintopisteen, joka välttää abelin neliöt puolipituudella $K \ge 2$.
 **Miksi se ammuttiin alas:** 
@@ -75,3 +96,15 @@ Matematiikassa ja algoritmiikassa umpikujat ovat yhtä arvokasta tietoa kuin onn
 - Kielto pakotti tyhjentävään generointiin, jonka kustannus on |A|^N. Se kattaa neljällä kirjaimella noin N ≤ 10, kun taas verifioitavat tulokset ovat pituuksilla 50–62.
 - **Verifioija ei siis voinut koskaan tarkistaa sitä tulosta, jonka vuoksi laskenta tehdään** — vaikka se toimi moitteettomasti ja täsmäsi kaikilla testatuilla arvoilla.
 - **Johtopäätös:** riippumattomuuden oikea akseli ei ole "tyhmä vs. älykäs" vaan **eri algoritminen idea samassa suorituskykyluokassa**. Korjattu spesifikaatio (taso kerrallaan etenevä leveyshaku, joka tarkistaa jokaisen jatkeen kokonaan alusta) on `SANALAB_PLAN.md` 6b.1:ssä, ja se on käytössä `additive-sweep.js`:ssä. Yleinen opetus: **kaksi toteutusta kattaa vain sen mihin hitaampi yltää**, joten verifiointi tarvitsee kolmannen kerroksen — ominaisuusinvariantit, jotka pätevät täydellä pituudella (6b.2).
+
+## 11. Vapaa hakukonetiiviste lähteenä (metodologinen umpikuja)
+*Kirjattu 2026-07-30.*
+
+**Hypoteesi:** hakukoneen tuottama tiiviste kelpaa *johtolangaksi*, joka voidaan merkitä jäljittämättömäksi ja jäljittää myöhemmin. Riski on hallittu, koska merkintä estää käytön.
+
+**Miksi se ammuttiin alas:**
+- Tiiviste antoi kirjaimellisen, uskottavan väitteen tekijänimineen ja lukuarvoineen: *"Freedman on osoittanut, että pisin sana yli {a,b,c,d} ehdolla a+d = b+c, joka välttää additiiviset neliöt, on pituudeltaan ≤ 60."* Se osui täydellisesti yhteen projektin oman rivin 54 tasapainoisten luokkien ja arvon 60 kanssa — juuri niin hyvin, että se tuntui vahvistukselta.
+- Perusteellinen jäljitys 2026-07-30: **nimeä "Freedman" ei esiinny Fici & Puzyninan katsauksessa lainkaan** (koko teksti uutettu PDF:stä ja haettu), eikä lukua 60 ole §8.4:ssä. Alkuperää ei löytynyt mistään.
+- **Vahinko oli jo tapahtunut ennen jäljitystä.** Väite ohjasi kahden istunnon prioriteetteja: se merkittiin kriittiselle polulle kahteen dokumenttiin, ja rivi 54 kirjoitettiin varauksella "tämä voi olla replikaatio" — varauksella, jolle ei ollut mitään perustetta.
+- **Johtopäätös:** jäljittämättömäksi merkitseminen estää *siteeraamisen* mutta ei estä väitettä **ohjaamasta työjärjestystä**, ja juuri se on kallis vaikutus. Sääntö: hakukonetiiviste ei ole johtolanka vaan **kohina, kunnes se on paikannettu johonkin avattavaan dokumenttiin**. Se saa kirjata *kysymyksen* ("onko tällaista tulosta olemassa?"), ei koskaan *väitteen muotoa* tekijänimineen ja lukuineen. Sama koskee mitä tahansa kielimallin tuottamaa tiivistelmää lähteestä jota se ei ole avannut — myös tämän agentin.
+- **Mitä jäljitys silti tuotti:** vahvemman rajauksen kuin haettu väite olisi tuottanut (rivi 58). Se ei kumoa opetusta; onnekas sivutuotos ei tee menetelmästä oikeaa.
