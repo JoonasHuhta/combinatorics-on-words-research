@@ -105,7 +105,7 @@ additive-nonuniform-morphism-scan.js  sama, epauniformit pituusprofiilit 1..4, r
 **Verifiointi:**
 
 ```bash
-node test.js                 # 37/37
+node test.js                 # 39/39
 node check-claims-drift.js   # 15/15
 ```
 
