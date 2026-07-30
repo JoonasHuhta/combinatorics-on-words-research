@@ -79,7 +79,7 @@ Alan kirjallisuus on **valtaosin englanniksi**, mutta ei kokonaan — ja juuri n
 
 | # | Lähde | Kieli | Miksi |
 |---|---|---|---|
-| 1 | F. Lietard, M. Rosenfeld. *Avoidability of additive cubes over alphabets of four numbers.* DLT 2020, LNCS 12086, s. 192–206. DOI 10.1007/978-3-030-48516-0_15 | englanti | **Lähin naapuri riville 54.** Ratkaisee onko affiiniluokkalakaisu neljän luvun aakkostoille jo tehty, ja tehtiinkö siinä sivutuotteena myös neliöitä. **Huom: paperi koskee KUUTIOITA; neliöt mainitaan siinä avoimena ongelmana** |
+| 1 | ~~F. Lietard, M. Rosenfeld. *Avoidability of additive cubes over alphabets of four numbers.* DLT 2020~~ **AVATTU 2026-07-30** (avoin preprint `lirmm.fr/~mrosenfeld/LieRos.pdf`; DOI `10.1007/978-3-030-48516-0_15`) | englanti | **Suljettu, ks. rivi 63.** Koskee kuutioita; toteaa neliökysymyksen avoimeksi (Question 3); ei sisällä neliöiden aakkostoluokittelua. Rivi 54 ei ole sen syrjäyttämä |
 | 2 | F. Lietard. *Évitabilité de puissances additives en combinatoire des mots.* Väitöskirja, Université de Lorraine, 2020 | **ranska** | Kohdan 1 laaja versio. Väitöskirjassa on tyypillisesti se laskennallinen aineisto jota konferenssipaperiin ei mahdu — juuri sitä mitä rivin 54 vertailuun tarvitaan |
 | 3 | M. Rao. *On some generalizations of abelian power avoidability.* TCS 601:39–46, 2015 | englanti | Additiivisten kuutioiden minimiaakkostokoko 3 |
 | 4 | Rosenfeldin väitöskirja | ranska (todennäköisesti) | A5:n jäljittämätön `g(2)`-väite |

@@ -289,6 +289,30 @@ ja se ratkaisee rivin 54 uutuuden. Toinen vaihtoehto: `index.html`:n
 kytkeminen `claims.json`:iin, jolloin sovelluksen luvut lakkaavat olemasta
 käsin kirjoitettuja (`docs/plans/UI_UX_PLAN.md` kohta 1).
 
+## Tehty 2026-07-30 (yö, jatko): A7 kohta 1 suljettu, DOI-virhe löytyi
+
+**Lietard & Rosenfeld DLT 2020 avattu** (avoin preprint) ja varmennettu
+paperin omasta tekstistä (rivi 63): se koskee **kuutioita**, toteaa
+neliökysymyksen avoimeksi (Question 3) eikä sisällä neliöiden
+aakkostoluokittelua. **Rivin 54 lakaisua ei ole syrjäytetty.** Mutta uutuutta
+kirjallisuudessa ei saa väittää yhden paperin perusteella — Lietardin
+väitöskirja on yhä avaamatta (A7 kohta 2).
+
+**Vakavampi löydös: rivin 23 DOI ei ollut olemassa.** antaa Crossrefissa 404:n; oikea on . Tunniste oli
+lokissa alkuperäisestä hylkäyksestä asti ja poistui vasta kun solu
+kirjoitettiin uusiksi — **vahingossa, ei tarkistuksen tuloksena**. Kirjattu
+hautausmaalle §13: osittainen korroboraatio esiintyi täytenä, koska neljä
+kenttää viidestä täsmäsi. **Sääntö: pysyvät tunnisteet tarkistetaan
+rekisteristä, koska juuri ne ovat kenttiä joita ei voi arvioida silmällä.**
+
+**{0,1,6,8}: verifioitu alaraja 244** (rivi 64), koottu yhdeksästä
+ketjutetusta ajosta, 3,6 mrd solmua. Jäännösperiaatteen ensimmäinen maksu
+oikeassa kysymyksessä.
+
+**Seuraava askel:** Lietardin väitöskirja (A7 kohta 2, ranskaksi) — se on
+ainoa jäljellä oleva lähde joka voi kertoa onko neliöpuolen lakaisu tehty.
+Vaihtoehto: :n kytkeminen :iin.
+
 ## Repositorion tila 2026-07-30
 
 Testit **33/33**, driftitarkistukset **13/13**. Rivit 49–53,

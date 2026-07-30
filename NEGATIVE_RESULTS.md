@@ -15,6 +15,7 @@ tässä eikä dokumentin rungossa. Aja silmäys tästä ennen kuin ehdotat mitä
 
 | Pvm | # | Mikä kaatui | Yhdellä lauseella |
 |---|---|---|---|
+| 2026-07-30 | [§13](#13-osittainen-korroboraatio-täytenä-vahvistuksena) | Osittainen korroboraatio täytenä | Neljä täsmäävää kenttää viidestä tuntui vahvistukselta; tarkistamatta jäänyt DOI ei ollut olemassa |
 | 2026-07-30 | [§12](#12-up-and-down--järjestysheuristiikan-siirto-aa2f-hakuun) | Up-and-Down -järjestyksen siirto aa2f-hakuun | Toimii dramaattisesti omassa asetelmassaan, häviää aa2f:ssä — tekniikka on asetelmakohtainen |
 | 2026-07-30 | [§11](#11-vapaa-hakukonetiiviste-lähteenä-metodologinen-umpikuja) | Hakukonetiiviste lähteenä | Tiiviste antoi kirjaimellisen väitteen tekijänimineen ja lukuineen; kumpaakaan ei ollut alkuperäisessä |
 | 2026-07-30 | [§10](#10-puhdas-määritelmäverifioija-riippumattomana-tarkistajana-metodologinen-umpikuja) | Määritelmäverifioija riippumattomana tarkistajana | Toimi virheettömästi mutta ei yltänyt omaan kohteeseensa |
@@ -120,3 +121,15 @@ tässä eikä dokumentin rungossa. Aja silmäys tästä ennen kuin ehdotat mitä
 - Aa2f:ssä se **hävisi selvästi**: budjetilla 2·10⁷ kiinteä järjestys 2 034, vuorotteleva 619 ja 1 764. Myös harvinaisinta kirjainta suosiva järjestys hävisi (1 111).
 - **Johtopäätös:** tekniikka on asetelmakohtainen, ei yleinen. Selitysehdokas (hypoteesi): vuorottelu torjuu *ajautumista*, ja aa2f:n vikatila ei ilmeisesti ole ajautuminen. Tätä tukee riippumattomasti rivi 42 — Parikh-epätasapaino ei erottele aa2f:ssä, joten sen tasapainottaminen ei voi ohjata hakua.
 - **Metodologinen opetus, joka on tässä tärkeämpi kuin tulos:** ensimmäinen mittaukseni tehtiin väärässä asetelmassa (additiiviset neliöt) ja olisi yksinään johtanut päättelemään että *tekniikka ei toimi*. Kontrolloitu testi sen omassa asetelmassa kumosi sen. **Kirjallisuudesta lainattu menetelmä on testattava ensin siellä mistä se on peräisin** — muuten mitataan siirtoa eikä menetelmää, ja hylätään toimiva idea väärin perustein.
+
+## 13. Osittainen korroboraatio täytenä vahvistuksena
+*Kirjattu 2026-07-30. Ks. `MATH_CLAIMS.md` rivi 23.*
+
+**Hypoteesi:** kun peruutettu lähdeviite löytyy riippumattomasta lähdeluettelosta ja **volyymi, numero, sivut ja vuosi täsmäävät**, viite on korroboroitu ja peruutus voidaan purkaa.
+
+**Miksi se ammuttiin alas:**
+- Näin tehtiin rivin 23 kanssa aiemmin samana päivänä: Fici & Puzyninan lähdeluettelo antoi neljä täsmäävää kenttää, ja rivi nostettiin `REJECTED` → `INDIRECT`.
+- **DOI:ta ei tarkistettu.** Muutamaa tuntia myöhemmin DOI-rekisteristä selvisi että lokissa ollut tunniste `10.1137/16M1087493` **ei ole olemassa lainkaan** (Crossref 404), ja oikea on `10.1137/17M1149377`.
+- Neljä oikeaa kenttää viidestä tuntui vahvistukselta. Se oli juuri se kenttä joka jäi tarkistamatta, joka oli väärä.
+- **Nolaava yksityiskohta joka on kirjattava:** väärä tunniste poistui lokista vasta kun solu kirjoitettiin uusiksi — **vahingossa, ei tarkistuksen tuloksena**. Rivi ei parantunut huolellisuudesta vaan sattumasta.
+- **Johtopäätös:** **korroboraatio kattaa vain ne kentät jotka on tosiasiassa verrattu, ei tietuetta kokonaisuutena.** Kun viite palautetaan peruutuksesta, jokainen kenttä on tarkistettava erikseen ja tarkistetut kentät nimettävä. Pysyvät tunnisteet (DOI, arXiv-id) on tarkistettava rekisteristä, koska juuri ne ovat kenttiä joita ihminen tai malli ei osaa arvioida silmämääräisesti — vuosiluvun virheen huomaa, DOI:n ei.
