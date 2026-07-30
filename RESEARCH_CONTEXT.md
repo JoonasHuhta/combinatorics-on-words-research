@@ -33,6 +33,7 @@ ainoat abelin neliöt ovat `00`, `11`, `22`? Auki puolipituuksille K = 2…5.
 
 | # | Tiedosto | Mistä se on auktoriteetti |
 |---|---|---|
+| 0 | **`KNOWLEDGE_STATE.md`** | **Tilannekuva: mitä tiedetään, mikä on todistetusti suljettu, mikä hylätty varmuudella, mikä auki, mitä ei saa käyttää.** Johdettu hakemisto — väiteloki voittaa aina. Nopein tapa saada kokonaiskuva |
 | 1 | **`AGENTS.md`** / `CLAUDE.md` | Väitteiden protokolla. **Pakollinen.** Sitaatti ennen koodia, kaksi verifiointitasoa, kielen kalibrointi, ihmisen hyväksyntä ennen committia kun väitteet muuttuvat |
 | 2 | **`MATH_CLAIMS.md`** | **Ainoa auktoriteetti jokaiselle matemaattiselle väitteelle.** 60 riviä. Mikään väite ei saa esiintyä missään ilman riviä täällä |
 | 3 | **`OPEN_RESEARCH_QUESTIONS.md`** | Avoimet ongelmat, kolmijaolla: A kirjallisuus (lähteineen), B projektin omat laskettavat, **C muotoilut jotka mittaavat toteutusta eivätkä matematiikkaa**. D on hylkäysrekisteri perusteineen |
@@ -83,7 +84,7 @@ table-library.js           taulukirjasto: yksi taulu per affiiniluokka, tarkiste
 
 ```bash
 node test.js                 # 35/35
-node check-claims-drift.js   # 13/13
+node check-claims-drift.js   # 14/14
 ```
 
 Aja **molemmat** ennen committia ja **lue molempien tuloste**. Ne ovat eri

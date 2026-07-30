@@ -282,6 +282,48 @@ check("RESEARCH_CONTEXT.md lists the exact pipeline accurately", () => {
   }
 });
 
+// 6f. KNOWLEDGE_STATE.md is a derived index, so it rots silently.
+//
+// It cites ledger rows by number in tables and in prose. If a row is renumbered
+// or removed, every pointer to it becomes a lie that nothing else would catch:
+// the document reads fine, and only someone who follows a pointer discovers it
+// leads nowhere. Cheap to check, so it is checked.
+check("KNOWLEDGE_STATE.md cites only ledger rows that exist", () => {
+  const p = path.join(__dirname, 'KNOWLEDGE_STATE.md');
+  if (!fs.existsSync(p)) return;   // optional document
+  const doc = fs.readFileSync(p, 'utf8');
+
+  const existing = new Set(
+    (claimsContent.match(/^\| (\d+[a-c]?) \|/gm) || []).map(m => m.replace(/^\| | \|$/g, ''))
+  );
+  if (existing.size === 0) throw new Error('no rows parsed from MATH_CLAIMS.md; the row format changed');
+
+  // Table cells that are bare row ids, plus prose references "rivi N"/"rivit N".
+  const cited = new Set();
+  for (const m of doc.matchAll(/^\| .*\| (\d+[a-c]?) \|\s*$/gm)) cited.add(m[1]);
+  for (const m of doc.matchAll(/\briv(?:i|it|ille|ill[aä]|in|ien)\s+(\d+[a-c]?)/gi)) cited.add(m[1]);
+
+  if (cited.size < 20) {
+    throw new Error(`KNOWLEDGE_STATE.md cites only ${cited.size} rows; it is supposed to be a map of the ledger`);
+  }
+  const dangling = [...cited].filter(r => !existing.has(r));
+  if (dangling.length) {
+    throw new Error(`KNOWLEDGE_STATE.md points at rows that do not exist in MATH_CLAIMS.md: ${dangling.join(', ')}`);
+  }
+
+  // Every REJECTED row must be represented, or the retraction register silently
+  // loses entries and a withdrawn claim can quietly return.
+  const rejectedRows = [];
+  for (const line of claimsContent.split(/\r?\n/)) {
+    const m = line.match(/^\| (\d+[a-c]?) \|/);
+    if (m && /`REJECTED`/.test(line)) rejectedRows.push(m[1]);
+  }
+  const missingRejected = rejectedRows.filter(r => !cited.has(r));
+  if (missingRejected.length) {
+    throw new Error(`KNOWLEDGE_STATE.md omits REJECTED row(s) ${missingRejected.join(', ')}. A withdrawn claim that is not listed can quietly come back.`);
+  }
+});
+
 // 7. Git Drift Check against HEAD (if in git repo)
 check("Git Drift Check against Last Commit (MATH_CLAIMS.md)", () => {
   try {
