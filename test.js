@@ -1266,6 +1266,56 @@ test("Extension tables: bound is sound, oracle preserves the verdict, table tran
   console.log(`       affine transfer reproduces the table exactly at zero search cost`);
 });
 
+// ----------------------------------------------------
+// 34. RESUMABLE CERTIFIED RUNS (sanalab-run.js, MATH_CLAIMS row 56)
+// ----------------------------------------------------
+test("Resumable runs: split budgets reproduce an unsplit run exactly; PARTIAL decides nothing", () => {
+  const sr = require('./sanalab-run.js');
+
+  // Controls throw on failure: iterative-vs-recursive agreement, exact
+  // resumption across 2, 3 and 7 slices, PARTIAL honesty, lossless
+  // checkpoints, and the ternary control tied to row 1.
+  const notes = sr.runControls();
+  assert.strictEqual(notes.length, 5, `runControls must report 5 control groups, got ${notes.length}`);
+
+  const A = [0, 1, 2, 3], CAP = 200;
+  const whole = sr.runFromScratch(A, CAP, 1e9);
+  assert.strictEqual(whole.status, 'COMPLETE', "the walk over {0,1,2,3} must complete");
+  assert.strictEqual(whole.longest, 50, `longest must be 50, got ${whole.longest}`);
+
+  // Exact resumption is the load-bearing property: every future exhaustion
+  // claim assembled from several runs depends on it.
+  let st = sr.freshState(A, CAP), rounds = 0;
+  while (st.status !== 'COMPLETE') {
+    st = sr.advance(st, 90000);
+    st = JSON.parse(JSON.stringify(st));   // a real serialisation round-trip
+    if (++rounds > 50) throw new Error('resumption did not converge');
+  }
+  assert.ok(rounds > 3, `the split run must actually take several slices, took ${rounds}`);
+  assert.strictEqual(st.nodes, whole.nodes, "a resumed run must spend exactly the same nodes");
+  assert.strictEqual(st.longest, whole.longest, "a resumed run must find the same longest word");
+  assert.deepStrictEqual(st.witness, whole.witness, "a resumed run must find the same witness");
+
+  // A budget-limited run must never claim a decided upper bound, and must
+  // still carry a witness verified from the definition.
+  const partial = sr.runFromScratch(A, CAP, 1000);
+  assert.strictEqual(partial.status, 'PARTIAL', "a 1000-node run must be PARTIAL");
+  const pcert = sr.certificate(partial);
+  assert.strictEqual(pcert.upperBoundDecided, false, "a PARTIAL run must not report a decided upper bound");
+  assert.ok(pcert.witnessVerified, "a PARTIAL run must carry a verified witness");
+
+  // A completed walk that only finished because it hit the length cap has
+  // likewise decided nothing about the upper bound.
+  const capped = sr.runFromScratch([0, 1, 2, 8], 12, 1e9);
+  assert.ok(capped.hitCap, "{0,1,2,8} must reach a length cap of 12");
+  assert.strictEqual(sr.certificate(capped).upperBoundDecided, false,
+    "a walk that finished only via the length cap must not claim a decided upper bound");
+
+  console.log(`       iterative walk matches recursive exactly (${whole.nodes} nodes, longest 50)`);
+  console.log(`       ${rounds} chained slices reproduce the unsplit run node for node`);
+  console.log(`       PARTIAL and cap-limited runs decide nothing but still verify their witness`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);

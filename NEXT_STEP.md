@@ -228,14 +228,17 @@ säiliö ei kelpaa additiiviseen eliminaatioon, taulu ei auta ennätysjahdissa,
 yhden ajon nettovoitto taulusta on nolla, ja määritelmätason verifioija ei
 yllä verifioimaan omaa kohdettaan. Kaikki neljä ovat mitattuja.
 
+**Ajoprotokolla on tehty:** `sanalab-run.js`, rivi **56**. Eksakti jatkaminen
+(k ajoa budjetilla B = yksi ajo budjetilla k·B, solmumäärää myöten),
+NDJSON-tapahtumavirta, kolme lopputilaa ja sertifikaatti. Demonstroitu
+ratkaisemattomalla luokalla {0,1,2,8}: kolme peräkkäistä 2·10⁷ solmun ajoa
+nostivat verifioidun alarajan 156 → 160 → 171. Tämä on §8:n jälkeen se
+mekanismi joka ennätyksiä oikeasti auttaa: se kasvattaa efektiivistä
+budjettia sessioiden ja koneiden yli sen sijaan että yrittäisi karsia hakua.
+
 **Seuraava askel sanalabille:** taulukirjasto (`tables/`, avaimena
-affiiniluokan kanoninen edustaja + h + katto) ja ajoprotokolla
-(`SANALAB_PLAN.md` 5c): NDJSON-tapahtumavirta, kolme lopputilaa, jatkettavat
-tarkistuspisteet. Jatkettavuus on toinen puoli samaa jäännösperiaatetta:
-budjettiin päättynyt ajo jättää tilan josta seuraava jatkaa sen sijaan että
-aloittaisi alusta. **Huom. §8:n nojalla** ennätysjahdin kiihdytystä ei saa
-luvata taululla — jatkettavuus (tarkistuspisteet) on se mekanismi joka
-ennätyksiä oikeasti auttaa, koska se kasvattaa efektiivistä budjettia.
+affiiniluokan kanoninen edustaja + h + katto) — jäännösperiaatteen toinen
+puolisko, ja ainoa tapa saada rivin 55 kiihdytys maksamaan itsensä takaisin.
 
 ## Repositorion tila 2026-07-30
 
