@@ -34,7 +34,7 @@ ainoat abelin neliöt ovat `00`, `11`, `22`? Auki puolipituuksille K = 2…5.
 | # | Tiedosto | Mistä se on auktoriteetti |
 |---|---|---|
 | 1 | **`AGENTS.md`** / `CLAUDE.md` | Väitteiden protokolla. **Pakollinen.** Sitaatti ennen koodia, kaksi verifiointitasoa, kielen kalibrointi, ihmisen hyväksyntä ennen committia kun väitteet muuttuvat |
-| 2 | **`MATH_CLAIMS.md`** | **Ainoa auktoriteetti jokaiselle matemaattiselle väitteelle.** 59 riviä. Mikään väite ei saa esiintyä missään ilman riviä täällä |
+| 2 | **`MATH_CLAIMS.md`** | **Ainoa auktoriteetti jokaiselle matemaattiselle väitteelle.** 60 riviä. Mikään väite ei saa esiintyä missään ilman riviä täällä |
 | 3 | **`OPEN_RESEARCH_QUESTIONS.md`** | Avoimet ongelmat, kolmijaolla: A kirjallisuus (lähteineen), B projektin omat laskettavat, **C muotoilut jotka mittaavat toteutusta eivätkä matematiikkaa**. D on hylkäysrekisteri perusteineen |
 | 4 | **`NEXT_STEP.md`** | Mistä jatketaan ja miksi. Mitä ei kannata tehdä |
 | 5 | `PROJECT_ARCHITECTURE.md` | Sovelluksen rakenne, välilehtien reititys |
@@ -76,12 +76,13 @@ sft-container.js           K in [2,5]-sailiokieli: de Bruijn -graafi, SCC, taaju
 additive-sweep.js          additiiviset neliot: aakkostolakaisu affiiniluokittain
 extension-table.js         jatkettavuussyvyystaulut: terve karsintaoraakkeli, siirtyy affiinisti
 sanalab-run.js             jatkettavat sertifioidut ajot: tarkistuspisteet, kolme lopputilaa
+table-library.js           taulukirjasto: yksi taulu per affiiniluokka, tarkiste ja provenienssi
 ```
 
 **Verifiointi:**
 
 ```bash
-node test.js                 # 34/34
+node test.js                 # 35/35
 node check-claims-drift.js   # 13/13
 ```
 

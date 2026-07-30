@@ -6,3 +6,8 @@ keranen_*.txt
 # Copyrighted papers. Cited in MATH_CLAIMS.md, never redistributed.
 latest/*.pdf
 *.pdf
+
+# Local cache of extension-depth tables (table-library.js). Regenerable by
+# construction and large; every record carries its own checksum and provenance,
+# so a missing cache costs time, never correctness.
+tables/

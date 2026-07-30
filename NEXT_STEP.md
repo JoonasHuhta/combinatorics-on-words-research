@@ -236,9 +236,27 @@ nostivat verifioidun alarajan 156 → 160 → 171. Tämä on §8:n jälkeen se
 mekanismi joka ennätyksiä oikeasti auttaa: se kasvattaa efektiivistä
 budjettia sessioiden ja koneiden yli sen sijaan että yrittäisi karsia hakua.
 
-**Seuraava askel sanalabille:** taulukirjasto (`tables/`, avaimena
-affiiniluokan kanoninen edustaja + h + katto) — jäännösperiaatteen toinen
-puolisko, ja ainoa tapa saada rivin 55 kiihdytys maksamaan itsensä takaisin.
+**Taulukirjasto on tehty:** `table-library.js`, rivi **57**. Yksi taulu per
+affiiniluokka, tarkiste ja provenienssi, tietue hylätään jos se on muuttunut.
+**Ja mitattu rajaus, joka on tärkeämpi kuin kirjasto itse:** demonstraatio
+antoi vain **1,03×** — säästö on täsmälleen toistuvien luokkien
+rakennuskustannus. Kirjasto ei kumoa §9:ää; se muuntaa rivin 55 kiihdytyksen
+*yhtä hakua* koskevasta väitteestä *työkuormaa* koskevaksi, ja vain
+työkuormille jotka palaavat samaan luokkaan. Ensimmäinen lakaisu 31 eri
+luokan yli ei hyödy siitä lainkaan.
+
+**Seuraava askel sanalabille — päätettävä ennen lisärakentamista.** Kolme
+mahdollisuutta, ja ensimmäinen on suositus:
+
+1. **Jäljitä Freedman-lähde** (rivi 53). Yhä halvin ja tärkein: se ratkaisee
+   onko rivin 54 taulukko uutta vai replikaatiota. Tätä ei ole vielä tehty.
+2. **B9.1 laajempi span / 5 kirjainta.** Sama moduuli, isompi `--span`;
+   kustannus mitattava ensin.
+3. **Lopeta infran rakentaminen.** Sanalabilla on nyt lakaisu, oraakkeli,
+   kirjasto ja jatkettavat ajot. Kolme viimeisintä riviä (55–57) ovat kaikki
+   *työkaluja*, eivät matematiikkaa, ja kaksi niistä sisältää mitatun
+   rajauksen omalle hyödylleen. Se on merkki siitä että infran rajahyöty on
+   laskeva ja seuraava askel kuuluu matematiikan puolelle.
 
 ## Repositorion tila 2026-07-30
 

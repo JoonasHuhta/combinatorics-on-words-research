@@ -1316,6 +1316,71 @@ test("Resumable runs: split budgets reproduce an unsplit run exactly; PARTIAL de
   console.log(`       PARTIAL and cap-limited runs decide nothing but still verify their witness`);
 });
 
+// ----------------------------------------------------
+// 35. TABLE LIBRARY (table-library.js, MATH_CLAIMS row 57)
+// ----------------------------------------------------
+test("Table library: affine keying is exact, a hit costs no search, tampering is refused", () => {
+  const tl = require('./table-library.js');
+  const et = require('./extension-table.js');
+  const os = require('os');
+  const fsx = require('fs');
+  const pathx = require('path');
+
+  const dir = fsx.mkdtempSync(pathx.join(os.tmpdir(), 'tablib-test-'));
+  try {
+    // Controls throw on failure: keying, library hits, affine siblings,
+    // checksum enforcement, oracle soundness, and the ternary control.
+    const notes = tl.runControls({ dir: pathx.join(dir, 'ctrl') });
+    assert.strictEqual(notes.length, 6, `runControls must report 6 control groups, got ${notes.length}`);
+
+    // The keying map is load-bearing: a wrong map would serve wrong tables
+    // silently. Check reflection, scaling, shifting and negation.
+    for (const A of [[0, 1, 3, 4], [4, 3, 1, 0], [-2, 3, 13, 18], [0, 2, 3, 4], [-5, -4, -2, -1]]) {
+      const { canon, alpha, beta } = tl.canonicalMap(A);
+      const sorted = Array.from(new Set(A)).sort((x, y) => x - y);
+      const rebuilt = canon.map(x => alpha * x + beta).sort((x, y) => x - y);
+      assert.deepStrictEqual(rebuilt, sorted, `canonical map must rebuild {${A}}`);
+    }
+    assert.strictEqual(tl.canonicalMap([0, 2, 3, 4]).alpha, -1, "{0,2,3,4} must key through a reflection");
+
+    // A repeat request costs no search and returns identical entries.
+    const A = [0, 1, 2, 3], h = 7, cap = 40;
+    const first = tl.get(A, h, cap, { dir });
+    assert.strictEqual(first.source, 'built', "the first request must build");
+    assert.ok(first.searchNodes > 0, "building must cost search nodes");
+    const again = tl.get(A, h, cap, { dir });
+    assert.strictEqual(again.source, 'library', "the second request must hit the library");
+    assert.strictEqual(again.searchNodes, 0, "a library hit must cost no search");
+    for (const [k, v] of first.table.entries) {
+      assert.strictEqual(again.table.entries.get(k), v, `library hit must agree at ${k}`);
+    }
+
+    // An affine sibling of a cached class is free and matches a direct build.
+    const sibling = tl.get([100, 101, 102, 103], h, cap, { dir });
+    assert.strictEqual(sibling.searchNodes, 0, "an affine sibling must cost no search");
+    assert.deepStrictEqual(sibling.canon, [0, 1, 2, 3], "the sibling must key to the same class");
+    const direct = et.buildTable([100, 101, 102, 103], h, cap);
+    for (const [k, v] of direct.entries) {
+      assert.strictEqual(sibling.table.entries.get(k), v, `sibling must match a direct build at ${k}`);
+    }
+
+    // A tampered record must be refused rather than repaired.
+    const file = tl.fileFor(dir, [0, 1, 2, 3], h, cap);
+    const rec = JSON.parse(fsx.readFileSync(file, 'utf8'));
+    const key0 = Object.keys(rec.entries)[0];
+    rec.entries[key0] = (rec.entries[key0] === null ? 0 : rec.entries[key0] + 1);
+    fsx.writeFileSync(file, JSON.stringify(rec));
+    assert.throws(() => tl.loadRecord(dir, [0, 1, 2, 3], h, cap), /checksum/,
+      "a tampered table must be refused by the checksum");
+
+    console.log(`       affine keying exact for reflections, scalings, shifts and negations`);
+    console.log(`       library hit and affine sibling both cost 0 search nodes and match a direct build`);
+    console.log(`       a single altered entry is caught by the checksum`);
+  } finally {
+    fsx.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
