@@ -38,18 +38,20 @@ koska ne ovat opettavaisia:**
    (`node test.js` löysi tämän heti, 38/39). Korjattu kirjoittamalla korvaus
    erilliseen tekstitiedostoon JS-merkkijonon sijaan.
 
-## Seuraava askel: k=6, kustannus mitattava ensin
+## k=6 käynnissä (2026-07-31), korjattu kustannusarvio
 
-k=6:n koko yhdellä aakkostolla ({0,1,2,5}) on jo mitattu: **~4 976 088
-konkreettista kandidaattia**, arvioitu ajoaika nykyvauhdilla (~2,8 ms/ehdokas)
-**~3,6 tuntia per aakkosto**. Kuudella aakkostolla se olisi ~22 tuntia
-yhteensä sarjassa. **Ei luvattu, ei ajettu.** Ennen lupaamista:
-1. Mittaa uudelleen tarkemmalla otoksella (nykyinen arvio yhden 1000 kappaleen
-   otoksen varassa k=5:llä, ei k=6:lla erikseen).
-2. Harkitse rinnakkaistusta tai `mainPure`:n sisäisen ancestor-laskennan
-   profilointia ennen isoa ajoa — 3,6 h on paljon yhdelle istunnolle.
-3. k=7 (~214 miljoonaa kandidaattia) ei ole tässä mittakaavassa järkevä
-   ilman merkittävää optimointia.
+**Ensimmäinen arvio (2,8 ms/ehdokas, ekstrapoloitu k=5:stä) oli väärä.**
+Mitattu suoraan k=6:lla ({0,1,2,5}, 500 kappaleen otos): **5,6 ms/ehdokas**
+— noin kaksinkertainen. Koko avaruus yhdellä aakkostolla on **4 976 088**
+kandidaattia, joten yhden aakkoston ajoaika on **~7,7 tuntia**, ei 3,6 h.
+Kuudella aakkostolla sarjassa se olisi ~35–46 tuntia — ei realistista luvata
+kerralla. **Yksi aakkosto ({0,1,2,5}) käynnistetty taustalle 2026-07-31,
+tulos tähän kun valmis.** Loput viisi aakkostoa odottavat tämän tulosta ja
+päätöstä kannattaako jatkaa sarjassa vai rinnakkaistaa.
+
+k=7 (~214 miljoonaa kandidaattia) ei ole tässä mittakaavassa järkevä ilman
+merkittävää optimointia (rinnakkaistus tai `mainPure`:n sisäisen
+ancestor-laskennan profilointi).
 
 ## Aiemmin tehty (rivit 69–71)
 
