@@ -79,10 +79,11 @@ Alan kirjallisuus on **valtaosin englanniksi**, mutta ei kokonaan — ja juuri n
 
 | # | Lähde | Kieli | Miksi |
 |---|---|---|---|
-| 1 | F. Lietard, M. Rosenfeld. *Avoidability of additive cubes over alphabets of four numbers.* DLT 2020, LNCS 12086, s. 192–206 | englanti | **Lähin naapuri riville 54.** Ratkaisee onko affiiniluokkalakaisu neljän luvun aakkostoille jo tehty, ja tehtiinkö siinä sivutuotteena myös neliöitä |
+| 1 | F. Lietard, M. Rosenfeld. *Avoidability of additive cubes over alphabets of four numbers.* DLT 2020, LNCS 12086, s. 192–206. DOI 10.1007/978-3-030-48516-0_15 | englanti | **Lähin naapuri riville 54.** Ratkaisee onko affiiniluokkalakaisu neljän luvun aakkostoille jo tehty, ja tehtiinkö siinä sivutuotteena myös neliöitä. **Huom: paperi koskee KUUTIOITA; neliöt mainitaan siinä avoimena ongelmana** |
 | 2 | F. Lietard. *Évitabilité de puissances additives en combinatoire des mots.* Väitöskirja, Université de Lorraine, 2020 | **ranska** | Kohdan 1 laaja versio. Väitöskirjassa on tyypillisesti se laskennallinen aineisto jota konferenssipaperiin ei mahdu — juuri sitä mitä rivin 54 vertailuun tarvitaan |
 | 3 | M. Rao. *On some generalizations of abelian power avoidability.* TCS 601:39–46, 2015 | englanti | Additiivisten kuutioiden minimiaakkostokoko 3 |
 | 4 | Rosenfeldin väitöskirja | ranska (todennäköisesti) | A5:n jäljittämätön `g(2)`-väite |
+| 5 | **A. Freedman & (T.C.?) Brown, additiiviset neliöt neljän luvun aakkostoilla** — täsmällinen viite tuntematon | englanti (oletus) | **Kriittinen rivin 59 kannalta.** Kaksi mallin tuottamaa tiivistelmää ovat antaneet *keskenään ristiriitaiset* luvut samalle tulokselle (raja ≤ 60 / pituus ≥ 50 pakottaa neliön). Projektin oma data kumoaa jälkimmäisen ja on yhteensopiva ensimmäisen kanssa (rivi 59). **Vasta primäärilähde ratkaisee kumpi on oikea muotoilu, ja kuuluuko tulos ylipäätään näille tekijöille** |
 
 **Vastaus kysymykseen "pitäisikö etsiä muunkielisiä lähteitä":** kyllä, mutta ei laajana kartoituksena vaan **kohdennetusti sitaattiketjua seuraten**. Tämän alan ranskankielinen haara on aito (Dejeanin alkuperäinen työ, Lorrainen koulukunta), ja se löytyy englanninkielisten papereiden lähdeluetteloista — ei erillisellä kieliluotauksella. Venäjänkielisiä ja suomenkielisiä jälkiä on projektin historiassa (IAS Murmansk 2002, rivi 3), mutta niitä ei ole tarvittu koska englanninkieliset versiot ovat olemassa.
 

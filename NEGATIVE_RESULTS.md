@@ -15,6 +15,7 @@ tässä eikä dokumentin rungossa. Aja silmäys tästä ennen kuin ehdotat mitä
 
 | Pvm | # | Mikä kaatui | Yhdellä lauseella |
 |---|---|---|---|
+| 2026-07-30 | [§12](#12-up-and-down--järjestysheuristiikan-siirto-aa2f-hakuun) | Up-and-Down -järjestyksen siirto aa2f-hakuun | Toimii dramaattisesti omassa asetelmassaan, häviää aa2f:ssä — tekniikka on asetelmakohtainen |
 | 2026-07-30 | [§11](#11-vapaa-hakukonetiiviste-lähteenä-metodologinen-umpikuja) | Hakukonetiiviste lähteenä | Tiiviste antoi kirjaimellisen väitteen tekijänimineen ja lukuineen; kumpaakaan ei ollut alkuperäisessä |
 | 2026-07-30 | [§10](#10-puhdas-määritelmäverifioija-riippumattomana-tarkistajana-metodologinen-umpikuja) | Määritelmäverifioija riippumattomana tarkistajana | Toimi virheettömästi mutta ei yltänyt omaan kohteeseensa |
 | 2026-07-30 | [§9](#9-yhden-ajon-nettovoitto-karsintataulusta) | Karsintataulun nettovoitto yhdessä ajossa | 1,00× — arvo on yksinomaan uudelleenkäytössä |
@@ -108,3 +109,14 @@ tässä eikä dokumentin rungossa. Aja silmäys tästä ennen kuin ehdotat mitä
 - **Vahinko oli jo tapahtunut ennen jäljitystä.** Väite ohjasi kahden istunnon prioriteetteja: se merkittiin kriittiselle polulle kahteen dokumenttiin, ja rivi 54 kirjoitettiin varauksella "tämä voi olla replikaatio" — varauksella, jolle ei ollut mitään perustetta.
 - **Johtopäätös:** jäljittämättömäksi merkitseminen estää *siteeraamisen* mutta ei estä väitettä **ohjaamasta työjärjestystä**, ja juuri se on kallis vaikutus. Sääntö: hakukonetiiviste ei ole johtolanka vaan **kohina, kunnes se on paikannettu johonkin avattavaan dokumenttiin**. Se saa kirjata *kysymyksen* ("onko tällaista tulosta olemassa?"), ei koskaan *väitteen muotoa* tekijänimineen ja lukuineen. Sama koskee mitä tahansa kielimallin tuottamaa tiivistelmää lähteestä jota se ei ole avannut — myös tämän agentin.
 - **Mitä jäljitys silti tuotti:** vahvemman rajauksen kuin haettu väite olisi tuottanut (rivi 58). Se ei kumoa opetusta; onnekas sivutuotos ei tee menetelmästä oikeaa.
+
+## 12. "Up and Down" -järjestysheuristiikan siirto aa2f-hakuun
+*Kirjattu 2026-07-30. Ks. `MATH_CLAIMS.md` rivi 60.*
+
+**Hypoteesi:** Lietardin väitöskirjassa raportoitu vuorotteleva prioriteettijärjestys, joka kasvatti additiivisesti kuutiovapaan sanan pituutta {0,1,2,3}:ssa dramaattisesti, siirtyy projektin aa2f-ennätyshakuun. Perustelu vaikutti vahvalta: molemmat ovat syviä kieliä, ja `NEGATIVE_RESULTS.md` §8 oli jo sulkenut pois karsinnan mutta jättänyt **järjestyksen** auki.
+
+**Miksi se ammuttiin alas:**
+- Kontrolloitu mittaus tekniikan **omassa** asetelmassa vahvisti että se toimii: additiivisilla kuutioilla {0,1,2,3} budjetilla 10⁶ kiinteä järjestys saavutti 24 396 ja vuorotteleva pituuskaton 300 000. Tekniikka ei siis ole huono.
+- Aa2f:ssä se **hävisi selvästi**: budjetilla 2·10⁷ kiinteä järjestys 2 034, vuorotteleva 619 ja 1 764. Myös harvinaisinta kirjainta suosiva järjestys hävisi (1 111).
+- **Johtopäätös:** tekniikka on asetelmakohtainen, ei yleinen. Selitysehdokas (hypoteesi): vuorottelu torjuu *ajautumista*, ja aa2f:n vikatila ei ilmeisesti ole ajautuminen. Tätä tukee riippumattomasti rivi 42 — Parikh-epätasapaino ei erottele aa2f:ssä, joten sen tasapainottaminen ei voi ohjata hakua.
+- **Metodologinen opetus, joka on tässä tärkeämpi kuin tulos:** ensimmäinen mittaukseni tehtiin väärässä asetelmassa (additiiviset neliöt) ja olisi yksinään johtanut päättelemään että *tekniikka ei toimi*. Kontrolloitu testi sen omassa asetelmassa kumosi sen. **Kirjallisuudesta lainattu menetelmä on testattava ensin siellä mistä se on peräisin** — muuten mitataan siirtoa eikä menetelmää, ja hylätään toimiva idea väärin perustein.
