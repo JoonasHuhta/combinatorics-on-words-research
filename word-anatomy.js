@@ -28,7 +28,12 @@
  *     word's imbalance grows like N^(log|lambda_2|/log lambda_1); an
  *     unconstrained walk grows like sqrt(N).
  *
- * Usage:  node word-anatomy.js keranen_25379.txt [more files...]
+ * Usage:  node word-anatomy.js datasets/keranen_25379.txt [more files...]
+ *
+ * Record words live in datasets/ and are gitignored: they are the authors'
+ * data, verified here but never redistributed. resolveDataFile() also accepts
+ * the repository root, where they used to sit before the 2026-07-30 tidy-up,
+ * so an existing local checkout keeps working.
  */
 
 const fs = require('fs');
@@ -200,4 +205,18 @@ function main() {
 
 if (require.main === module) main();
 
-module.exports = { firstAbelianSquare, countOccurrences, complexity, parikhExcursion, extractWord, analyse, FORBID4 };
+/**
+ * Locate a gitignored data file. Looks in datasets/ first, then the repository
+ * root where the record words lived before the 2026-07-30 reorganisation.
+ * Returns null when absent, so every caller can skip cleanly rather than fail.
+ */
+function resolveDataFile(name) {
+  const path_ = require('path'), fs_ = require('fs');
+  for (const dir of ['datasets', '.']) {
+    const p = path_.join(__dirname, dir, name);
+    if (fs_.existsSync(p)) return p;
+  }
+  return null;
+}
+
+module.exports = { firstAbelianSquare, countOccurrences, complexity, parikhExcursion, extractWord, analyse, resolveDataFile, FORBID4 };

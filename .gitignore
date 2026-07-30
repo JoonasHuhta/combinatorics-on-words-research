@@ -1,9 +1,11 @@
 # Research data supplied by the author, not redistributed from this repository.
 # The record words are Keranen / Gavrilenko's; word-anatomy.js verifies them
-# locally and its test skips cleanly when they are absent.
+# locally and every consumer skips cleanly when they are absent.
+datasets/keranen_*.txt
 keranen_*.txt
 
 # Copyrighted papers. Cited in MATH_CLAIMS.md, never redistributed.
+papers/*.pdf
 latest/*.pdf
 *.pdf
 

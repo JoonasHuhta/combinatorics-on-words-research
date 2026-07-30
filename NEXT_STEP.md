@@ -269,11 +269,11 @@ Moduulilista ja ajokomennot: `RESEARCH_CONTEXT.md` osio 3.
 
 ### Avoimet päätökset, jotka kuuluvat ylläpitäjälle
 
-1. **Git-historia.** Viisi ennätyssanatiedostoa ja `latest/Keranen.pdf`
+1. **Git-historia.** Viisi ennätyssanatiedostoa ja `papers/Keranen.pdf`
    committoitiin vahingossa ja poistettiin seurannasta, mutta ne ovat yhä
    historiassa ja pushattu. Poistaminen vaatii force-pushin julkaistun historian
    yli
-2. **`latest/`-kansion yhdeksän tekijänoikeudellista paperia** ovat julkisessa
+2. **`papers/`-kansion (ent. `latest/`) yhdeksän tekijänoikeudellista paperia** ovat julkisessa
    GitHub-repositoriossa, committoituna ennen tätä istuntoa
 3. **SIAM-viite** 32(4):2381–2397 (2018) on `REJECTED` (rivi 23) — arXiv näyttää
    `Journal ref: (none)`. Kukaan ei ole avannut julkaisijan sivua

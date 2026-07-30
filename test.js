@@ -937,8 +937,9 @@ test("Record words verify as aa2f; FORBID4 is a heuristic, not a rule", () => {
 
   let checked = 0;
   for (const e of expected) {
-    if (!fs.existsSync(path.join(__dirname, e.file))) continue;   // words are not tracked in git
-    const w = wa.extractWord(path.join(__dirname, e.file));
+    const p = wa.resolveDataFile(e.file);
+    if (!p) continue;   // words are not tracked in git
+    const w = wa.extractWord(p);
     assert.strictEqual(w.length, e.length, `${e.file} must contain a ${e.length}-letter ternary word`);
     assert.strictEqual(wa.firstAbelianSquare(w, 2), null,
       `${e.file} must be aa2f: no abelian square of any half-length K >= 2`);
@@ -952,8 +953,8 @@ test("Record words verify as aa2f; FORBID4 is a heuristic, not a rule", () => {
   }
 
   // Row 41: the heuristic is violated by real records, so it cannot be necessary.
-  const big = path.join(__dirname, 'keranen_25379.txt');
-  if (fs.existsSync(big)) {
+  const big = wa.resolveDataFile('keranen_25379.txt');
+  if (big) {
     const w = wa.extractWord(big);
     assert.ok(wa.countOccurrences(w, 'baac') > 0,
       "FORBID4 must occur in the 25379 record - it is a pruning heuristic, not a necessary condition");

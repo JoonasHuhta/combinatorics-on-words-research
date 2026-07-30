@@ -472,9 +472,9 @@ function runControls(container) {
 
   // Positive control: the Keranen record word traces fully; skips cleanly
   // when the gitignored file is absent (same pattern as word-anatomy.js).
-  const kf = path.join(__dirname, 'keranen_25379.txt');
+  const kf = require('./word-anatomy.js').resolveDataFile('keranen_25379.txt');
   let keranenLength = 0;
-  if (fs.existsSync(kf)) {
+  if (kf) {
     const kw = fs.readFileSync(kf, 'utf8').trim();
     const fail = traceWord(kw, container);
     if (fail !== -1) throw new Error(`Keranen word rejected at position ${fail} - container or word is wrong`);

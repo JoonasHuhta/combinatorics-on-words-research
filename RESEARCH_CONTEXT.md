@@ -38,15 +38,32 @@ ainoat abelin neliöt ovat `00`, `11`, `22`? Auki puolipituuksille K = 2…5.
 | 2 | **`MATH_CLAIMS.md`** | **Ainoa auktoriteetti jokaiselle matemaattiselle väitteelle.** 60 riviä. Mikään väite ei saa esiintyä missään ilman riviä täällä |
 | 3 | **`OPEN_RESEARCH_QUESTIONS.md`** | Avoimet ongelmat, kolmijaolla: A kirjallisuus (lähteineen), B projektin omat laskettavat, **C muotoilut jotka mittaavat toteutusta eivätkä matematiikkaa**. D on hylkäysrekisteri perusteineen |
 | 4 | **`NEXT_STEP.md`** | Mistä jatketaan ja miksi. Mitä ei kannata tehdä |
-| 5 | `PROJECT_ARCHITECTURE.md` | Sovelluksen rakenne, välilehtien reititys |
+| 5 | `docs/plans/PROJECT_ARCHITECTURE.md` | Sovelluksen rakenne, välilehtien reititys |
 | 6 | `NEGATIVE_RESULTS.md` | Mikä on kokeiltu ja ei toiminut |
-| 7 | `RESEARCH_ARCHITECT.md` | **Vain kun tuotetaan uusia tutkimusideoita.** Menettely, rajaukset, tulostemuoto ja rubriikki — ideat eivät synny vapaana proosana |
+| 7 | `docs/plans/RESEARCH_ARCHITECT.md` | **Vain kun tuotetaan uusia tutkimusideoita.** Menettely, rajaukset, tulostemuoto ja rubriikki — ideat eivät synny vapaana proosana |
 
-Muut `.md`-tiedostot juuressa ovat **historiallisia suunnitelmapapereita**
-(`GRAND_VISION_MAP`, `COMPUTATIONAL_DISCOVERY_LAB_PLAN`, `SEAM_ENGINE_…`,
-`AA2FR_RESEARCH_PLATFORM_PLAN`, `NEXT_AGENT`). Ne sisältävät vanhentuneita
-suunnitelmia ja osin korjattuja sitaatteja. **Älä nojaa niihin ilman että
-tarkistat väitteen `MATH_CLAIMS.md`:stä.**
+**Juuressa on täsmälleen ne kahdeksan `.md`-tiedostoa jotka sessio oikeasti
+lukee.** Loput on siirretty 2026-07-30:
+
+- `docs/historical/` — **vanhentuneita suunnitelmapapereita**
+  (`GRAND_VISION_MAP`, `COMPUTATIONAL_DISCOVERY_LAB_PLAN`, `SEAM_ENGINE_…`,
+  `AA2FR_*`, `NEXT_AGENT`, `DEVELOPMENT_ROADMAP`, …). Ne sisältävät
+  vanhentuneita suunnitelmia ja osin korjattuja sitaatteja. **Älä nojaa
+  niihin ilman että tarkistat väitteen `MATH_CLAIMS.md`:stä.** Kansion nimi
+  tekee tuon varoituksen rakenteelliseksi eikä pelkäksi proosaksi
+- `docs/plans/` — **elävät suunnitelmat**: `SANALAB_PLAN`, `UI_UX_PLAN`,
+  `SKILLS_PLAN`, `RESEARCH_ARCHITECT`, `PROJECT_ARCHITECTURE`
+- `papers/` (ent. `latest/`) — kirjallisuus, gitignoressa
+- `datasets/` — ennätyssanat, gitignoressa. Koodi hakee ne
+  `word-anatomy.js`:n `resolveDataFile()`:llä, joka katsoo myös juuren, joten
+  vanha kloonaus toimii yhä
+
+**Eksakti putki pysyy juuressa** (osio 3). Sitä ei ole jaettu alikansioihin
+`search/`, `constraints/`, `analytics/` tai vastaaviin: se olisi arvaus
+rajapinnoista joita ei vielä tunneta, ja se on sama virhe jonka
+`ConstraintEvaluator`-kielto ja `SANALAB_PLAN.md`:n periaate 4 jo torjuvat.
+Jokainen moduuli todentaa itsensä; jako ansaitaan kun jokin oikeasti pakottaa
+sen.
 
 ---
 
