@@ -238,9 +238,28 @@ check("No raw LaTeX or broken entities in index.html markup", () => {
   if (macros.length) {
     throw new Error(`index.html markup contains ${macros.length} TeX macro(s) outside script blocks. First: ${macros[0]}`);
   }
-  const doubled = html.match(/&amp;[a-zA-Z]+;/g) || [];
+  // Both spellings, named and numeric. The numeric arm was missing until
+  // 2026-07-30 and the gap was not theoretical: this check reported 15/15 while
+  // 51 numeric entities (g85/g109 subscripts, Erdos, the heat-map swatches)
+  // displayed as literal "&#8328;" on the page. `#` is not in [a-zA-Z].
+  const doubled = html.match(/&amp;#?[a-zA-Z0-9]+;/g) || [];
   if (doubled.length) {
-    throw new Error(`index.html contains ${doubled.length} double-escaped HTML entit(ies) such as ${doubled[0]}, which display as literal text. Write &mdash; not &amp;mdash;.`);
+    throw new Error(`index.html contains ${doubled.length} double-escaped HTML entit(ies) such as ${doubled[0]}, which display as literal text. Write &mdash; not &amp;mdash;, and &#8328; not &amp;#8328;.`);
+  }
+  // An entity whose digits went missing renders as nothing and is invisible in
+  // review. Commit 0c56150 unescaped with a regex that ate them ("Erd&#;s") and
+  // was reverted four minutes later; this is that revert made permanent.
+  const gutted = html.match(/&#;|&#[a-zA-Z]/g) || [];
+  if (gutted.length) {
+    throw new Error(`index.html contains ${gutted.length} malformed numeric entit(ies) such as ${gutted[0]}, missing their code point. A regex-based unescape most likely stripped the digits.`);
+  }
+  // `&sub3;` is not an HTML entity and never was: `&sub;` is the subset sign and
+  // there is no digit-suffixed form. 21 of these sat in the Validation Lab
+  // rendering as literal "S&sub3;" where "S3" was meant. Caught here in both
+  // spellings because the single-escaped form survives the check above.
+  const pseudo = html.match(/&(amp;)?sub\d+;/g) || [];
+  if (pseudo.length) {
+    throw new Error(`index.html contains ${pseudo.length} invalid entit(ies) such as ${pseudo[0]}. No such entity exists; use the subscript code point (&#8323; for 3) instead.`);
   }
 });
 
