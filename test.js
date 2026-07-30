@@ -1169,6 +1169,103 @@ test("Container SFT, K in [2,6]: language shrinks, frequency interval stays [1/1
   console.log(`       sandwich at n=15: 120,084 <= 128,940 <= 159,006`);
 });
 
+// ----------------------------------------------------
+// 32. ADDITIVE SWEEP (additive-sweep.js, MATH_CLAIMS row 54)
+// ----------------------------------------------------
+test("Additive sweep: three-layer verification, ternary control ties to row 1, {0,1,2,3} exhausts at 50", () => {
+  const as = require('./additive-sweep.js');
+
+  // All controls throw on failure: the ternary positive control (row 1),
+  // the independent BFS cross-check, affine and reversal invariance, the
+  // containment additive => abelian, and the planted definition controls.
+  const notes = as.runControls();
+  assert.strictEqual(notes.length, 6, `runControls must report 6 control groups, got ${notes.length}`);
+
+  // Affine equivalence classes: 4 letters, max element <= 8.
+  const classes = as.canonicalAlphabets(4, 8);
+  assert.strictEqual(classes.length, 31, `4-letter classes with span <= 8 must number 31, got ${classes.length}`);
+
+  // canonicalForm must be a genuine affine invariant, including reflection.
+  assert.strictEqual(as.canonicalForm([4, 3, 1, 0]).join(','), '0,1,3,4', "reflection must canonicalise to {0,1,3,4}");
+  assert.strictEqual(as.canonicalForm([-2, 3, 13, 18]).join(','), '0,1,3,4', "x -> 5x-2 image must canonicalise back");
+  assert.strictEqual(as.canonicalForm([0, 3, 9, 12]).join(','), '0,1,3,4', "scaling by 3 must divide out");
+
+  // {0,1,2,3}: search exhausts, all three verification layers agree.
+  const r = as.verdictFor([0, 1, 2, 3], 200, 1e8);
+  assert.ok(r.exhausted, "search over {0,1,2,3} must exhaust");
+  assert.strictEqual(r.longest, 50, `longest word over {0,1,2,3} must be 50, got ${r.longest}`);
+  assert.ok(r.witnessVerified, "witness must be verified straight from the definition");
+  assert.ok(r.affineChecked, "an affine image must produce the same verdict");
+  assert.ok(r.bfsConfirmed, "the independent BFS must confirm the verdict");
+
+  // The witness is a genuine lower bound: length 50 and additive-square-free.
+  assert.strictEqual(r.witness.length, 50, "witness length must equal the longest");
+  assert.ok(!as.hasAdditiveSquareFull(r.witness), "witness must be additive-square-free by the definition check");
+  assert.ok(!as.hasAdditiveSquareFull(r.witness.slice().reverse()), "the reversed witness must be square-free too");
+
+  // Undecided classes carry verified lower bounds too: a budget-limited run
+  // must still emit a definition-checked witness of its longest word.
+  const u = as.verdictFor([0, 1, 2, 5], 100, 2e6);
+  assert.ok(!u.exhausted, "{0,1,2,5} must not exhaust within 2e6 nodes");
+  assert.ok(u.witnessVerified, "an undecided class must still verify its witness from the definition");
+  assert.strictEqual(u.witness.length, u.longest, "undecided-class witness must have the reported length");
+
+  // Containment is a strict relation, not an identity: blocks 0,3 and 1,2 have
+  // equal sums but different Parikh vectors, so this word is an additive but
+  // not an abelian square.
+  assert.ok(as.hasAdditiveSquareFull([0, 3, 1, 2]), "0 3 | 1 2 must count as an additive square");
+
+  console.log(`       ternary control reproduces row 1 (longest 7, 18 words of length 7)`);
+  console.log(`       31 affine classes on 4 letters with span <= 8; canonical form affine-invariant`);
+  console.log(`       {0,1,2,3}: search exhausted, longest 50, witness + affine + BFS all agree`);
+});
+
+// ----------------------------------------------------
+// 33. EXTENSION TABLES AS A SOUND ORACLE (extension-table.js, MATH_CLAIMS row 55)
+// ----------------------------------------------------
+test("Extension tables: bound is sound, oracle preserves the verdict, table transfers affinely", () => {
+  const et = require('./extension-table.js');
+
+  // Controls throw on failure: the bound tested against directly computed
+  // extensions, verdict preservation, affine transfer, serialisation, and the
+  // ternary control tied to row 1.
+  const notes = et.runControls();
+  assert.strictEqual(notes.length, 5, `runControls must report 5 control groups, got ${notes.length}`);
+
+  const A = [0, 1, 2, 3];
+  const table = et.buildTable(A, 8, 70);
+  assert.ok(table.complete, "the h=8 table over {0,1,2,3} must build completely");
+  assert.strictEqual(table.size, 1626, `length-8 square-free words over {0,1,2,3} must number 1626, got ${table.size}`);
+
+  // The oracle must not change the answer, and must actually prune.
+  const base = et.search(A, 200, 1e9, null);
+  const pruned = et.search(A, 200, 1e9, table);
+  assert.strictEqual(base.longest, 50, `baseline longest must be 50, got ${base.longest}`);
+  assert.strictEqual(pruned.longest, base.longest, "the oracle must preserve the longest word");
+  assert.strictEqual(pruned.exhausted, base.exhausted, "the oracle must preserve the exhaustion verdict");
+  assert.ok(pruned.nodes < base.nodes / 10, `the oracle must cut search nodes by at least 10x (${base.nodes} -> ${pruned.nodes})`);
+
+  // Affine transfer is exact and costs no search.
+  const moved = et.affineImage(table, 3, -5);
+  assert.strictEqual(moved.nodes, 0, "an affine transfer must perform no search");
+  const direct = et.buildTable(A.map(x => 3 * x - 5), 8, 70);
+  assert.strictEqual(moved.entries.size, direct.entries.size, "transferred table must have the same size as the direct one");
+  for (const [k, v] of direct.entries) {
+    assert.strictEqual(moved.entries.get(k), v, `transferred table must agree at ${k}`);
+  }
+
+  // An unknown entry must never prune: that is what keeps the oracle safe.
+  const weakened = { A: table.A, h: table.h, cap: table.cap, entries: new Map(table.entries) };
+  for (const k of weakened.entries.keys()) weakened.entries.set(k, et.UNKNOWN);
+  const noOracle = et.search(A, 200, 1e9, weakened);
+  assert.strictEqual(noOracle.prunes, 0, "a table of unknowns must prune nothing");
+  assert.strictEqual(noOracle.longest, base.longest, "a table of unknowns must leave the answer untouched");
+
+  console.log(`       bound verified on 400 directly computed prefixes; oracle keeps longest 50`);
+  console.log(`       search nodes ${base.nodes} -> ${pruned.nodes} with the verdict unchanged`);
+  console.log(`       affine transfer reproduces the table exactly at zero search cost`);
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
