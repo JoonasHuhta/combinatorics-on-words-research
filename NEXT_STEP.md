@@ -28,22 +28,49 @@ Väiteloki **74 riviä**. Työpuu puhdas. Ei kriittistä avointa lankaa.
    keksittyä `&subN;`-pseudoentiteettiä näkyivät sivulla literaalina; vahti
    raportoi 15/15 koko ajan, koska `#` ei ole `[a-zA-Z]`:ssä.
 
-## Seuraava askel, päätetty: B11 + B12 yhdessä
+## Seuraava askel: ÄLÄ rakenna B11:tä — se on olemassa julkaistuna (rivit 72–73)
 
-Ne ovat sama työ eri päistä eivätkä kanna erikseen. **B11** (additiivisen ehdon
-päätösmenettely) on ainoa tie siihen että kone voi *vahvistaa* eikä vain kumota
-— tällä hetkellä laboratorio ei voi periaatteessakaan ratkaista Question 3:a,
-joka on eksistenssikysymys. **B12** (viisi kirjainta, span ≤ 10) on se paikka
-jossa sertifioijalla olisi jotain sertifioitavaa.
+Päätösmenettely löytyi kirjallisuudesta kesken session. **Theorem 2.4**
+(Currie, Mol, Rampersad & Shallit, arXiv:2111.07857, lainattuna ja
+varmennettuna Andrade & Molin arXiv:2408.15390:stä) ratkaisee additiivisen
+k-potenssittomuuden **affiineille** morfismeille, ja toteutus on paperin oma:
+`github.com/lgmol/Additive-Powers-Decision-Algorithm`.
 
-**Konkreettinen aloituskohta:** B11:n varsinainen tappoehto on yhä auki —
-saadaanko summaeron kasvu rajattua insidenssimatriisin spektristä. **Se
-ratkeaa paperilla, tunneissa, ei ajossa.** Tee se ensin; jos raja ei tule,
-B11 on kuollut siinä muodossa ja B12 jää yksin alarajojen keräämiseksi, mikä
-ei `NEGATIVE_RESULTS.md` §2:n nojalla riitä mihinkään.
+**Mitä tästä seuraa, ja mitä ei:**
 
-**Älä aloita B12:ta ilman B11:tä.** Ilman sertifioijaa laajempi haku tuottaa
-vain lisää alarajoja, ja rivi 70 sanoo suoraan ettei niistä seuraa mitään.
+- **Kelpoisuus mitattu (rivi 73):** 0,006–0,021 % uniformista avaruudesta on
+  affiini. Kapeus on hyöty: k=16:lla koko avaruus on 8,82·10¹¹ mutta affiini
+  luokka 10–60 miljoonaa — **saman kokoluokan kuin rivin 69 lakaisu jo teki
+  paljon pienemmällä k:lla.** Tämä on se skaalautuvuus jota B12 tarvitsi.
+- **Mitään ei ole päätetty.** Rivi 73 on kelpoisuusseula, ei päätöstulos.
+  Päätösalgoritmia **ei ole toteutettu tässä projektissa lainkaan**, eikä se
+  ole `decide-realizability.js`:n uudelleenkäyttöä — lähde sanoo itse että
+  γ ei täytä Rao & Rosenfeldin ehtoja (ominaisarvo tasan 1).
+
+**Aloituskohta, tässä järjestyksessä:**
+
+1. **Toteuta CMRS-algoritmi ja validoi se paperin omilla esimerkeillä**
+   (β ja δ=γ², luvut rivillä 73). **Pysäytysehto: jos ei toista, pysähdy.**
+   Halpa ja nopea; säästää turhan k=16-ajon väärällä koodilla.
+2. Vasta sitten aja affiini luokka kasvavalla k:lla.
+3. B12 (viisi kirjainta, span ≤ 10) sen jälkeen tai rinnalla.
+
+**Kaksi rajausta jotka on pidettävä näkyvissä:**
+
+- **Tyhjentävä kielteinen tulos affiinille luokalle on tarkka tulos siitä
+  luokasta, ei koko avaruudesta.** Sama kalibrointi kuin riveillä 67–69.
+- **Additiivinen linja on rinnakkainen tutkimuslinja, ei silta Mäkelään.**
+  Additiivinen välttäminen on tiukempi kuin abelin, mutta implikaatio osuu jo
+  ratkaistuun maastoon (Keränen 1992, rivi 3). Mäkelä on eri ehto.
+
+## Lähdehygienia: yksi konkreettinen varoitus
+
+Tässä sessiossa tarjottiin kirjattavaksi sitaatteja Brown & Freedman 1987:stä
+**lähdelinkeillä jotka osoittivat finlex.fi:hin** — Suomen korkeimman oikeuden
+ennakkopäätökseen. Väitteet olivat sisällöltään oikein (ne täsmäävät riviin 66,
+joka oli varmennettu jo aiemmin), **mutta eivät sen lähteen nojalla.**
+`NEGATIVE_RESULTS.md` §11 kirjasi tämän vikatilan jo kerran. Se toistui.
+Tarkista lähde, älä vain väitettä.
 
 ## Mitä tässä sessiossa tehtiin (kokonaisuudessaan, useampi luovutuskierros)
 

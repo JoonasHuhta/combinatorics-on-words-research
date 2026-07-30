@@ -202,6 +202,20 @@ Hypoteesin muoto siirtyy: `ker Φ` korvautuu hypertasolla `ker(v^T)`, jonka ulot
 
 **Seuraus B11:n arvolle, rehellisesti:** menettely ei toisi mitään uutta k ≤ 4:lle, koska luettelu on siellä jo tyhjentävä (rivit 67–69). **Koko arvo on siinä että se skaalautuu k:hon jossa luettelu ei skaalaudu**, ja rank-1 + pareittain eri kuvasummat -suodatin leikkaa avaruuden 0,08 %:iin — juuri niin pieneksi että suurempi k on mahdollinen. **Varsinainen tappoehto on yhä auki:** itse rajaa (summaeron äärellisyyttä) ei ole johdettu, vain hypoteesin muoto ja kattavuus. Se on seuraava askel, ja se ratkeaa paperilla.
 
+### B11 ON OSITTAIN KORVAUTUNUT — ÄLÄ RAKENNA SITÄ (2026-07-30, rivit 72–73)
+
+Menettely on **jo olemassa julkaistuna**, eikä sitä tarvitse johtaa: Theorem 2.4 (Currie, Mol, Rampersad & Shallit, arXiv:2111.07857, lainattu Andrade & Molin arXiv:2408.15390:ssä) ratkaisee additiivisen k-potenssittomuuden **affiineille** morfismeille, ja toteutus on paperin oma: `github.com/lgmol/Additive-Powers-Decision-Algorithm`. Sanamuoto ja affiinin morfismin määritelmä ovat rivillä 72, varmennettuna primäärilähteestä.
+
+**Korvautumisen rajaus on tärkeämpi kuin korvautuminen:**
+
+1. **Se ei ole sama luokka.** Rivin 71 rank-1-ehto (Proposition 11:n siirto) ja Theorem 2.4:n affiiniehto ovat **eri** osajoukkoja. Affiini vaatii että kuvan pituus **ja** summa ovat affiineja funktioita kirjaimen omasta arvosta — mitattuna 0,006–0,021 % avaruudesta (rivi 73), kun rank-1 oli 0,87 %.
+2. **Se ei ole olemassa olevan koodin uudelleenkäyttöä.** Lähde sanoo itse että γ:n insidenssimatriisilla on ominaisarvo tasan 1 eikä se täytä Rao & Rosenfeldin ehtoja lainkaan. CMRS-algoritmi on **erikseen toteutettava** komponentti; `decide-realizability.js` ei tee sitä.
+3. **Mitään ei ole vielä päätetty.** Rivi 73 mittaa **kelpoisuutta**, ei päätöstä. Yhtään ehdokasta ei ole ajettu läpi päätösalgoritmilla, koska algoritmia ei ole toteutettu.
+
+**PYSÄYTYSEHTO ennen kuin yhtäkään ehdokasta kutsutaan miksikään:** toteutuksen on toistettava paperin omat esimerkit — β(0)=00001, β(1)=01101, M_β=[[5,0],[1,2]], ominaisarvot 2 ja 5; δ=γ², δ(0)=10001, δ(1)=1012101, δ(2)=101222101, M_δ=[[5,2],[2,4]], ominaisarvot (9±√17)/2. Jos ei toista, pysähdy. Sama kuvio kuin rivin 68 regressiokontrollissa.
+
+**Ja yksi rajaus jota ei saa unohtaa:** additiivinen linja on **rinnakkainen tutkimuslinja, ei silta Mäkelän konjektuuriin.** Additiivinen välttäminen on tiukempi kuin abelin (jokainen abelin neliö on additiivinen neliö), mutta implikaatio osuu jo ratkaistuun maastoon: neljän kirjaimen abelin-neliöttömyys on Keräsen 1992 (rivi 3). Mäkelä on eri ehto. Ks. rivi 72 ja A6/E6.
+
 ### B12. Question 3 on eksistenssikysymys — kohde on ollut väärinpäin (RESEARCH_ARCHITECT-ajo 2026-07-30)
 
 **Kysymys:** onko olemassa **jokin** äärellinen kokonaislukuaakkosto jolla additiiviset neliöt ovat vältettävissä — ja jos on, miksi sitä etsitään aakkostokoosta jossa välttäminen on vaikeinta?
