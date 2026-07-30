@@ -141,7 +141,7 @@ Mäkelän avoin osa koskee puolipituuksia 2…5, ja abelin neliö puolipituudell
 
 Varaus: tämä on **relaksaation** analyysi. Se antaa välttämättömiä ehtoja, ei koskaan riittäviä (vrt. `NEGATIVE_RESULTS.md` §2: SCC ei todista ääretöntä aa2f-sanaa).
 
-### B7. Säiliökielen välttämättömät tekijät (B3 konkreettisena; RESEARCH_ARCHITECT-ajo 2026-07-30)
+### B7. Säiliökielen välttämättömät tekijät — LASKETTU 2026-07-30, vastaus kielteinen (rivi 62)
 
 **Kysymys:** mitkä tekijät (pituuteen 9 asti) esiintyvät jokaisessa äärettömässä [2,5]-vapaassa sanassa — siis jokaisessa mahdollisessa Mäkelä-todistajassa? "u on välttämätön" ⟺ säiliögraafi ilman u:n sisältäviä tiloja on syklitön; äärellinen tarkistus per tekijä (`sft-container.js`:n tilasuodatus + syklintunnistus, molemmat olemassa).
 
@@ -149,6 +149,8 @@ Varaus: tämä on **relaksaation** analyysi. Se antaa välttämättömiä ehtoja
 - **Odotettu lokirivi:** *"Säiliökielen välttämättömät tekijät pituuteen ℓ asti ovat täsmälleen ⟨joukko⟩ (N kpl); jokainen Mäkelä-todistaja sisältää ne."*
 - **Tappoehto:** ei tarvita — äärellinen lasku, yksikäsitteinen vastaus; myös "vain kirjaimet" kirjataan.
 - **Työmäärä:** yksi sessio. **Vaikuttavuus 3–4.**
+
+**Tulos (rivi 62): yksikään pituuden ≥ 2 tekijä ei ole välttämätön** — ei K ∈ [2,5]-säiliössä (1 016 luokkaa pituuksiin 9 asti) eikä K ∈ [2,6]-säiliössä (3 837 luokkaa pituuksiin 11 asti). Vain yksittäiset kirjaimet. Toivottua *"jokainen todistaja sisältää tekijän X"* -lausetta ei ole. **Kysymys on suljettu tässä ikkunassa.** Tämä on kolmas riippumaton mittaus samasta tosiasiasta: säiliö on löysä relaksaatio (vrt. rivit 51 ja 52). **Seuraus: säiliöstä ei kannata etsiä lisää välttämättömiä ehtoja.** Auki jää sama kysymys aa2f-kielelle itselleen, joka on säiliön aito osajoukko — siellä välttämättömiä tekijöitä voi yhä olla, mutta aa2f ei ole äärellisen tyypin kieli eikä tätä menetelmää voi soveltaa siihen suoraan.
 
 ### B9. Tasapainoiset aakkostot — miksi dikotomia on niin puhdas? (rivi 54)
 

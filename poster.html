@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avoiding Abelian Squares — Mäkelä's Conjecture and the Claim Ledger</title>
+</head>
+<body style="margin:0;padding:0;background:#ffffff;color:#141414;font-family:Georgia,'Times New Roman',serif;">
+
+<div style="max-width:1180px;margin:0 auto;padding:36px 44px 56px;">
+
+<!-- ============ TITLE ============ -->
+<div style="border-bottom:3px double #2b2b2b;padding-bottom:18px;margin-bottom:26px;">
+  <div style="font-size:11px;letter-spacing:0.24em;text-transform:uppercase;color:#6b6b6b;margin-bottom:10px;">Experimental mathematics laboratory &middot; Combinatorics on words</div>
+  <h1 style="font-size:42px;line-height:1.1;margin:0 0 12px;font-weight:normal;letter-spacing:0.005em;">Avoiding Abelian Squares</h1>
+  <p style="margin:0;font-size:17px;line-height:1.5;color:#333333;max-width:52em;">Exact, reproducible computations on the avoidance of abelian and additive squares, in which every mathematical claim carries a source, a verification level and a date &mdash; and in which no figure may appear anywhere without the ledger row it came from.</p>
+</div>
+
+<!-- ============ HEADLINE FIGURES ============ -->
+<div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:34px;">
+
+  <div style="flex:1 1 210px;border:1px solid #cbcbc4;background:#faf9f6;padding:14px 16px;">
+    <div style="font-size:27px;line-height:1.1;white-space:nowrap;">25379</div>
+    <div style="font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;margin:5px 0 7px;">row 40</div>
+    <div style="font-size:13px;line-height:1.45;color:#3a3a3a;">Length of the longest aa2f word verified inside this project, checked exhaustively at every position and every half-length.</div>
+  </div>
+
+  <div style="flex:1 1 210px;border:1px solid #cbcbc4;background:#faf9f6;padding:14px 16px;">
+    <div style="font-size:27px;line-height:1.1;white-space:nowrap;">3 114</div>
+    <div style="font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;margin:5px 0 7px;">row 51</div>
+    <div style="font-size:13px;line-height:1.45;color:#3a3a3a;">States of the container automaton for the half-lengths that remain open; its structure yields necessary conditions on every possible witness.</div>
+  </div>
+
+  <div style="flex:1 1 210px;border:1px solid #cbcbc4;background:#faf9f6;padding:14px 16px;">
+    <div style="font-size:27px;line-height:1.1;white-space:nowrap;">1,9915</div>
+    <div style="font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;margin:5px 0 7px;">row 33</div>
+    <div style="font-size:13px;line-height:1.45;color:#3a3a3a;">Proved upper bound on the growth rate of the aa2f language, from Fekete's lemma. Written with the decimal comma exactly as the ledger records it.</div>
+  </div>
+
+  <div style="flex:1 1 210px;border:1px solid #cbcbc4;background:#faf9f6;padding:14px 16px;">
+    <div style="font-size:27px;line-height:1.1;white-space:nowrap;">11</div>
+    <div style="font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;margin:5px 0 7px;">row 54</div>
+    <div style="font-size:13px;line-height:1.45;color:#3a3a3a;">Additive affine classes decided out of 31, on the additive side of the laboratory: each one exhausted by search, with proof pieces.</div>
+  </div>
+
+</div>
+
+<!-- ============ TWO COLUMNS ============ -->
+<div style="display:flex;flex-wrap:wrap;gap:38px;">
+
+<!-- ---------- LEFT COLUMN ---------- -->
+<div style="flex:1 1 460px;min-width:340px;">
+
+  <div style="margin:0 0 30px;page-break-inside:avoid;break-inside:avoid;">
+    <div style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:#5f5f5f;border-bottom:1px solid #bdbdb8;padding-bottom:5px;margin:0 0 12px;">Definition</div>
+    <p style="margin:0 0 10px;font-size:15px;line-height:1.55;">An <strong>abelian square</strong> is a factor <em>uv</em> of a word in which the two halves have equal length &mdash; the <em>half-length</em> K &mdash; and <em>v</em> is an anagram of <em>u</em>: the two halves carry identical Parikh vectors. An ordinary square is the special case <em>v</em> = <em>u</em>.</p>
+    <p style="margin:0 0 10px;font-size:15px;line-height:1.55;">Over the ternary alphabet {a, b, c} the single-letter squares <em>aa</em>, <em>bb</em>, <em>cc</em> are abelian squares of the smallest possible half-length, and no infinite word can avoid them. The <strong>aa2f condition</strong> asks for everything else to be avoided: a word is <em>aa2f</em> when it contains no abelian square of half-length K &ge; 2 at any position. The stricter <em>aa2fr</em> condition additionally forbids the six FORBID4 factors (row 9).</p>
+    <p style="margin:0;font-size:15px;line-height:1.55;color:#444444;">The condition is a global one. It cannot be packed into a bounded memory window, and that single fact is responsible for most of what has failed in this project.</p>
+  </div>
+
+  <div style="margin:0 0 30px;page-break-inside:avoid;break-inside:avoid;">
+    <div style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:#5f5f5f;border-bottom:1px solid #bdbdb8;padding-bottom:5px;margin:0 0 12px;">Central question</div>
+    <div style="border-left:4px solid #7a2f18;padding:2px 0 2px 16px;margin-bottom:14px;">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#7a2f18;margin-bottom:6px;">Mäkelä's conjecture &mdash; open</div>
+      <p style="margin:0 0 8px;font-size:16px;line-height:1.5;">There exists an infinite ternary word whose only abelian squares are the single-letter squares. Equivalently: an infinite aa2f word exists.</p>
+      <p style="margin:0;font-size:13px;line-height:1.45;color:#555555;">Stated as a conjecture in the survey literature and as a problem in the source paper; both formulations opened and compared word for word (row 4, PRIMARY). <strong>Open for the half-lengths K = 2&hellip;5.</strong></p>
+    </div>
+    <p style="margin:0 0 10px;font-size:15px;line-height:1.55;">The large half-lengths are settled: an infinite ternary word avoiding every abelian square of period greater than five is known to exist (row 7, PRIMARY), obtained by projecting the fixed point of a morphism over a larger alphabet (rows 5 and 6a). Exactly the small half-lengths remain.</p>
+    <p style="margin:0 0 10px;font-size:15px;line-height:1.55;"><strong>Why that gap and no other (row 7b).</strong> The decision procedure behind the positive result decides abelian-power avoidance for <em>pure</em> morphic words at all periods, but for morphic <em>images</em> only at large periods, and only under spectral hypotheses on the incidence matrices. The ternary word is available only as such an image. Decidability at small periods is lost precisely in the projection.</p>
+    <p style="margin:0;font-size:15px;line-height:1.55;"><strong>An equivalence worth knowing (row 50).</strong> The conjecture is equivalent to the statement that aa2f words exist at every length. Any nonzero lower bound on the growth rate would therefore prove it outright: narrowing the growth from below is not a partial goal, it is the entire problem. Narrowing it from above (row 33) is genuine partial progress.</p>
+  </div>
+
+  <div style="margin:0 0 30px;page-break-inside:avoid;break-inside:avoid;">
+    <div style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:#5f5f5f;border-bottom:1px solid #bdbdb8;padding-bottom:5px;margin:0 0 12px;">Methods</div>
+    <p style="margin:0 0 10px;font-size:15px;line-height:1.55;"><strong>Exhaustive sweeps.</strong> Uniform ternary morphisms are enumerated up to a declared block length and each candidate fixed point is scanned until it breaks; uniform maps from the larger alphabet onto ternary blocks are swept the same way. A violation found in a prefix of a fixed point is final; the absence of one is evidence bounded by the window that was scanned, and is always reported with that window.</p>
+    <p style="margin:0 0 10px;font-size:15px;line-height:1.55;"><strong>Container and SFT analysis.</strong> The constraint over the open half-lengths fits in a finite window, so it can be represented as a shift of finite type over de Bruijn states. Its strongly connected structure gives necessary conditions on every possible witness &mdash; letter frequency intervals from Karp's cycle mean, each bound re-verified independently by Bellman&ndash;Ford, plus exact counts of container words. Necessary, never sufficient.</p>
+    <p style="margin:0 0 10px;font-size:15px;line-height:1.55;"><strong>Rauzy graphs and factor complexity.</strong> Branching structure, special factors, Cassaigne's second-difference formula as an independent cross-check, dead-end factors as an order-independent formulation of where a constraint bites, and factor counts feeding the Fekete bound.</p>
+    <p style="margin:0 0 10px;font-size:15px;line-height:1.55;"><strong>Decision procedures.</strong> The template and ancestor machinery is re-derived inside the project with the authors' own apparatus &mdash; a re-derivation, explicitly not an independent proof &mdash; together with Smith normal form, Jordan structure and eigenvalue bounds for the hypotheses those procedures require.</p>
+    <p style="margin:0;font-size:15px;line-height:1.55;"><strong>Search engineering.</strong> Extension-depth tables as provably sound pruning oracles, resumable runs, affine transport of tables between equivalent alphabets, and positive and negative controls inside every module: a module throws rather than return an answer it cannot justify.</p>
+  </div>
+
+</div>
+
+<!-- ---------- RIGHT COLUMN ---------- -->
+<div style="flex:1 1 460px;min-width:340px;">
+
+  <div style="margin:0 0 30px;page-break-inside:avoid;break-inside:avoid;">
+    <div style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:#5f5f5f;border-bottom:1px solid #bdbdb8;padding-bottom:5px;margin:0 0 12px;">What is known</div>
+    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+      <thead>
+        <tr>
+          <th style="border-bottom:1px solid #8c8c86;padding:6px 8px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#5f5f5f;">Figure</th>
+          <th style="border-bottom:1px solid #8c8c86;padding:6px 8px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#5f5f5f;">Ledger</th>
+          <th style="border-bottom:1px solid #8c8c86;padding:6px 8px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#5f5f5f;">What it is</th>
+          <th style="border-bottom:1px solid #8c8c86;padding:6px 8px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#5f5f5f;">Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:17px;white-space:nowrap;">length 7</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;white-space:nowrap;">row 1</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;line-height:1.45;">Longest abelian-square-free ternary word. The ternary abelian-square-free language is finite; it simply stops.</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:10px;letter-spacing:0.08em;color:#7a2f18;">PRIMARY</td>
+        </tr>
+        <tr>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:17px;white-space:nowrap;">18</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;white-space:nowrap;">row 1</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;line-height:1.45;">Number of such words at that maximal length, confirmed by a second, independent code path.</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:10px;letter-spacing:0.08em;color:#7a2f18;">PRIMARY</td>
+        </tr>
+        <tr>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:17px;white-space:nowrap;">34</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;white-space:nowrap;">row 6b</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;line-height:1.45;">Distinct abelian squares in the projected morphic word that settles the large half-lengths. All of them sit at small half-lengths &mdash; that word is not a witness.</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:10px;letter-spacing:0.08em;color:#7a2f18;">PRIMARY</td>
+        </tr>
+        <tr>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:17px;white-space:nowrap;">1,9915</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;white-space:nowrap;">row 33</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;line-height:1.45;">Proved upper bound on the growth rate of the aa2f language. Every factor count gives an absolute bound, not an estimate, because the limit is an infimum.</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:10px;letter-spacing:0.08em;color:#2f4f2f;">COMPUTED</td>
+        </tr>
+        <tr>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:17px;white-space:nowrap;">25379</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;white-space:nowrap;">row 40</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;line-height:1.45;">Longest aa2f word verified here, from record words supplied by their authors. Verification came before analysis, deliberately.</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:10px;letter-spacing:0.08em;color:#2f4f2f;">COMPUTED</td>
+        </tr>
+        <tr>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:17px;white-space:nowrap;">2 820</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;white-space:nowrap;">row 41</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;line-height:1.45;">Occurrences of the FORBID4 factors inside that record word &mdash; the measurement that demoted FORBID4 from a rule to a heuristic.</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:10px;letter-spacing:0.08em;color:#2f4f2f;">COMPUTED</td>
+        </tr>
+        <tr>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:17px;white-space:nowrap;">3 114</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;white-space:nowrap;">row 51</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;line-height:1.45;">States of the container for the open half-lengths K = 2&hellip;5; the essential part forms exactly one non-trivial strongly connected component.</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:10px;letter-spacing:0.08em;color:#2f4f2f;">COMPUTED</td>
+        </tr>
+        <tr>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:17px;white-space:nowrap;">1/11 &hellip; 3/4</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;white-space:nowrap;">row 51</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;line-height:1.45;">Interval containing every accumulation value of every letter frequency, in every infinite word avoiding those half-lengths. In particular no letter may vanish asymptotically. A wide interval, so a weak filter &mdash; and reported as such.</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:10px;letter-spacing:0.08em;color:#2f4f2f;">COMPUTED</td>
+        </tr>
+        <tr>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:17px;white-space:nowrap;">11</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;white-space:nowrap;">row 54</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;line-height:1.45;">Additive affine classes decided out of 31, on the additive-square side. Deciding means the search tree was exhausted, not that a bound was estimated.</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:10px;letter-spacing:0.08em;color:#2f4f2f;">COMPUTED</td>
+        </tr>
+        <tr>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:17px;white-space:nowrap;">50</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;white-space:nowrap;">row 54</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;line-height:1.45;">Longest additive-square-free word over the smallest of those integer alphabets; the alphabet itself is named in the ledger row.</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:10px;letter-spacing:0.08em;color:#2f4f2f;">COMPUTED</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin:12px 0 0;font-size:12.5px;line-height:1.5;color:#4a4a4a;"><strong style="color:#7a2f18;">PRIMARY</strong> &mdash; somebody opened the primary source and compared it word for word; the identifier, the date and a short quotation sit next to the claim. &nbsp;<strong style="color:#2f4f2f;">COMPUTED</strong> &mdash; an exact, reproducible computation inside this project with no external check. The default status for new data is always the weaker one.</p>
+  </div>
+
+  <div style="margin:0 0 30px;page-break-inside:avoid;break-inside:avoid;">
+    <div style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:#5f5f5f;border-bottom:1px solid #bdbdb8;padding-bottom:5px;margin:0 0 12px;">What is closed for good</div>
+    <p style="margin:0 0 12px;font-size:14px;line-height:1.5;color:#444444;">These are not estimates. Each is a finite computation whose search tree was emptied, and each holds <strong>only inside its declared window</strong>. &ldquo;Does not cover longer block lengths&rdquo; or &ldquo;does not cover larger alphabets&rdquo; is not a footnote &mdash; it is part of the claim.</p>
+    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+      <tbody>
+        <tr>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;line-height:1.45;">The ternary abelian-square-free language ends at its maximal length; nothing longer exists.</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:12px;color:#555555;white-space:nowrap;">exhaustive search</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;white-space:nowrap;">row 1</td>
+        </tr>
+        <tr>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;line-height:1.45;">No uniform ternary morphism, up to the scanned block length, has a fixed point meeting the aa2f condition.</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:12px;color:#555555;white-space:nowrap;">exhaustive sweep</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;white-space:nowrap;">row 36</td>
+        </tr>
+        <tr>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;line-height:1.45;">No uniform map from the larger alphabet onto short ternary blocks turns the known fixed point into a witness.</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:12px;color:#555555;white-space:nowrap;">exhaustive sweep</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;white-space:nowrap;">row 49</td>
+        </tr>
+        <tr>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;line-height:1.45;">No infinite word over a binary subalphabet avoids the open half-lengths, computed independently of the frequency argument that implies it.</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:12px;color:#555555;white-space:nowrap;">cycle search</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;white-space:nowrap;">row 51</td>
+        </tr>
+        <tr>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;line-height:1.45;">Eleven additive affine classes cannot host an infinite additive-square-free word; the remaining classes are undecided, which does not mean they avoid.</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-size:12px;color:#555555;white-space:nowrap;">exhaustive search</td>
+          <td style="border-bottom:1px solid #e4e4e0;padding:7px 8px;vertical-align:top;font-family:'Courier New',monospace;font-size:12px;color:#7a2f18;white-space:nowrap;">row 54</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</div>
+
+<!-- ============ NEGATIVE RESULTS ============ -->
+<div style="margin:8px 0 30px;border:1px solid #bdbdb8;background:#fbfaf7;padding:20px 22px;page-break-inside:avoid;break-inside:avoid;">
+  <div style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:#5f5f5f;border-bottom:1px solid #bdbdb8;padding-bottom:5px;margin:0 0 12px;">Negative results are results</div>
+  <p style="margin:0 0 14px;font-size:15px;line-height:1.55;max-width:62em;">The graveyard is a first-class part of this laboratory, and its threshold for entry is deliberately low. It records dead ends, but also ideas that <em>worked</em> and did not pay, ideas that worked in the wrong place, and a working method that turned out to be wrong even though its output was flawless. A dead end is not a mistake; it is measured knowledge about a direction not worth taking. Every entry below was measured, not guessed, and each keeps a permanent number because the rest of the repository points at it.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:26px;">
+    <div style="flex:1 1 420px;min-width:320px;">
+      <table style="width:100%;border-collapse:collapse;font-size:13.5px;">
+        <tbody>
+          <tr><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;font-family:'Courier New',monospace;color:#7a2f18;white-space:nowrap;">&sect;12</td><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;line-height:1.45;"><strong>An ordering heuristic transplanted into the aa2f search.</strong> Dramatic in its own setting, a loss here: the technique is specific to the setting, not to the search.</td></tr>
+          <tr><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;font-family:'Courier New',monospace;color:#7a2f18;white-space:nowrap;">&sect;11</td><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;line-height:1.45;"><strong>A search-engine snippet used as a source.</strong> The snippet returned a literal claim complete with an author name and a numeric bound; neither was in the original. Methodological dead end, and the reason a whole attribution now stands under a use ban.</td></tr>
+          <tr><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;font-family:'Courier New',monospace;color:#7a2f18;white-space:nowrap;">&sect;10</td><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;line-height:1.45;"><strong>A definition-level verifier as an independent checker.</strong> It ran flawlessly and never reached its own target. The axis of independence was the wrong one &mdash; a correct answer to a question nobody needed answered.</td></tr>
+          <tr><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;font-family:'Courier New',monospace;color:#7a2f18;white-space:nowrap;">&sect;9</td><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;line-height:1.45;"><strong>Net gain of a pruning table within a single run.</strong> None: building the table costs about one search. The value is exclusively in reuse.</td></tr>
+          <tr><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;font-family:'Courier New',monospace;color:#7a2f18;white-space:nowrap;">&sect;8</td><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;line-height:1.45;"><strong>The extension table as a record-hunt accelerator.</strong> The same longest word, pruned and unpruned. Branch-and-bound does not bite when the incumbent best keeps improving.</td></tr>
+          <tr><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;font-family:'Courier New',monospace;color:#7a2f18;white-space:nowrap;">&sect;7</td><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;line-height:1.45;"><strong>Container relaxation as an elimination tool for additive squares.</strong> It did not die at any reachable window size, while exhaustive search on the real language finished in seconds. Elimination is a search question, not a container question.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="flex:1 1 420px;min-width:320px;">
+      <table style="width:100%;border-collapse:collapse;font-size:13.5px;">
+        <tbody>
+          <tr><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;font-family:'Courier New',monospace;color:#7a2f18;white-space:nowrap;">&sect;6</td><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;line-height:1.45;"><strong>A filter distilled from the record word's own factors.</strong> It would discard the large majority of perfectly legal continuations, purely because one search never happened to visit them. Overfitting: a ceiling, not a springboard.</td></tr>
+          <tr><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;font-family:'Courier New',monospace;color:#7a2f18;white-space:nowrap;">&sect;5</td><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;line-height:1.45;"><strong>FORBID4 as a universally lethal rule.</strong> Those factors occur 2 820 times (row 41) in the verified record word. Banning them globally would have made the record mathematically impossible to find.</td></tr>
+          <tr><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;font-family:'Courier New',monospace;color:#7a2f18;white-space:nowrap;">&sect;4</td><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;line-height:1.45;"><strong>&ldquo;A morphism keeps the Parikh imbalance small.&rdquo;</strong> Measured to be the opposite, and wrong in both directions: the morphic word is the more unbalanced one, because a transfer eigenvalue off the unit circle drives the imbalance up without bound.</td></tr>
+          <tr><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;font-family:'Courier New',monospace;color:#7a2f18;white-space:nowrap;">&sect;3</td><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;line-height:1.45;"><strong>Reverse-engineering the record word into a morphism.</strong> Its factor complexity follows the language rather than the linear bound a morphic word must obey. The rule cannot be extracted because there is no rule: the word is the product of a well-pruned depth-first walk.</td></tr>
+          <tr><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;font-family:'Courier New',monospace;color:#7a2f18;white-space:nowrap;">&sect;2</td><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;line-height:1.45;"><strong>A strongly connected component of a Rauzy graph as a proof of infiniteness.</strong> The abelian condition is global; a component is local. An excellent prefilter with exactly zero proof value &mdash; and the reason the container results above are phrased as necessary conditions only.</td></tr>
+          <tr><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;font-family:'Courier New',monospace;color:#7a2f18;white-space:nowrap;">&sect;1</td><td style="border-bottom:1px solid #e4e4e0;padding:6px 8px;vertical-align:top;line-height:1.45;"><strong>Scanning uniform morphisms at ever larger block lengths.</strong> The maximum surviving length tracks the logarithm of the sample size. The growth appears even if the mathematics is doing nothing at all, so a longer scan buys no structural signal.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:#444444;max-width:62em;">Rejected on structural grounds, without a run: hyperbolic Parikh space (it destroys additivity), the spectral gap as a predictor of a morphism's <em>correctness</em> (the incidence matrix forgets order), and a translation to a general solver before a finite criterion exists (the translation <em>is</em> the hard part). Separately quarantined: framings that measure the implementation rather than the mathematics &mdash; search-tree geometry, phase transitions in search, survival curves. Those may be measured; their outputs may never be presented as properties of the language.</p>
+</div>
+
+<!-- ============ HOW A CLAIM EARNS ITS STATUS ============ -->
+<div style="margin:0 0 30px;page-break-inside:avoid;break-inside:avoid;">
+  <div style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:#5f5f5f;border-bottom:1px solid #bdbdb8;padding-bottom:5px;margin:0 0 14px;">How a claim earns its status</div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin-bottom:16px;">
+    <div style="flex:1 1 150px;border:1px solid #cbcbc4;padding:11px 13px;background:#ffffff;">
+      <div style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#7a2f18;margin-bottom:5px;">Stated</div>
+      <div style="font-size:13px;line-height:1.45;color:#3a3a3a;">A claim enters the ledger with a source and a date, never as an assertion in prose alone.</div>
+    </div>
+    <div style="flex:0 0 auto;align-self:center;font-size:19px;color:#9a9a94;">&rarr;</div>
+    <div style="flex:1 1 150px;border:1px solid #cbcbc4;padding:11px 13px;background:#ffffff;">
+      <div style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#7a2f18;margin-bottom:5px;">Questioned</div>
+      <div style="font-size:13px;line-height:1.45;color:#3a3a3a;">A drift checker rejects overclaiming language, dangling references and rotted documents. It has caught its own author more than once.</div>
+    </div>
+    <div style="flex:0 0 auto;align-self:center;font-size:19px;color:#9a9a94;">&rarr;</div>
+    <div style="flex:1 1 150px;border:1px solid #cbcbc4;padding:11px 13px;background:#ffffff;">
+      <div style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#7a2f18;margin-bottom:5px;">Measured</div>
+      <div style="font-size:13px;line-height:1.45;color:#3a3a3a;">The computation is run, with positive and negative controls and, where possible, two independent code paths.</div>
+    </div>
+    <div style="flex:0 0 auto;align-self:center;font-size:19px;color:#9a9a94;">&rarr;</div>
+    <div style="flex:1 1 150px;border:1px solid #cbcbc4;padding:11px 13px;background:#ffffff;">
+      <div style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#7a2f18;margin-bottom:5px;">Corrected</div>
+      <div style="font-size:13px;line-height:1.45;color:#3a3a3a;">Theorem numbers, attributions and provenance are fixed in place, and the correction is written into the row rather than over it.</div>
+    </div>
+    <div style="flex:0 0 auto;align-self:center;font-size:19px;color:#9a9a94;">&rarr;</div>
+    <div style="flex:1 1 150px;border:1px solid #cbcbc4;padding:11px 13px;background:#ffffff;">
+      <div style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#7a2f18;margin-bottom:5px;">Verified</div>
+      <div style="font-size:13px;line-height:1.45;color:#3a3a3a;">Only when somebody has opened the primary source and compared it word for word does a row become PRIMARY.</div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:26px;">
+    <div style="flex:1 1 400px;min-width:320px;">
+      <p style="margin:0 0 10px;font-size:15px;line-height:1.55;"><strong>A retracted claim is never deleted.</strong> It stays visible in REJECTED state, with its reasons attached, so that nobody can quietly put it back. A morphism's supposed origin in a sporadic group was withdrawn for lack of any support (row 8); an attribution of an implementation was withdrawn as unaudited (row 14); an audit found that a mode advertised as certifying a construction never loaded the construction at all and printed a hard-coded zero (row 26); a theorem re-derivation was withdrawn as unverified and only later done properly, in a new row (row 43).</p>
+    </div>
+    <div style="flex:1 1 400px;min-width:320px;">
+      <p style="margin:0 0 10px;font-size:15px;line-height:1.55;"><strong>And a retraction can itself be overturned.</strong> The journal reference for the construction's source paper was retracted because nobody had traced it &mdash; the preprint record carried no journal field. It was later restored when an independent bibliography corroborated it character by character: same authors, same title, same volume, issue, pages and year (row 23). The ground for retraction had been &ldquo;not traced&rdquo;, not &ldquo;wrong&rdquo;, and that is exactly why it was recoverable. The row still sits at the weaker status, because a third-party bibliography is not the publisher's own record.</p>
+      <p style="margin:0;font-size:15px;line-height:1.55;color:#444444;">A finite check is always reported with its window, never with the words <em>proven</em> or <em>certified</em> unless a stated bound sits beside them.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div style="border-top:3px double #2b2b2b;padding-top:14px;margin-top:8px;font-size:12.5px;line-height:1.6;color:#4a4a4a;">
+  <p style="margin:0 0 5px;">Generated from <strong>MATH_CLAIMS.md</strong> via <strong>claims-export.js</strong>. Date: <strong>2026-07-30</strong>.</p>
+  <p style="margin:0 0 5px;"><strong>MATH_CLAIMS.md is the authority.</strong> This poster is a derived view; where the two disagree, the ledger wins. Every figure above carries the ledger row it came from &mdash; a figure without a row is an error, and quantities that the ledger does not certify have been left out rather than approximated.</p>
+  <p style="margin:0;">Source identifiers, quotations and verification dates for every cited work are recorded in the ledger and are deliberately not reproduced here.</p>
+</div>
+
+</div>
+</body>
+</html>

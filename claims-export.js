@@ -121,6 +121,9 @@ function verifyQuotable(facts, rows) {
       throw new Error(`quotable "${f.key}" cites row ${f.row}, which is REJECTED and must never be quoted`);
     }
     const haystack = `${row.claim} ${row.notes}`;
+    if (f.display !== undefined && (typeof f.display !== 'string' || f.display === '')) {
+      throw new Error(`quotable "${f.key}" has a non-string or empty "display"`);
+    }
     if (!haystack.includes(f.value)) {
       throw new Error(`quotable "${f.key}" declares value "${f.value}" but that string does not occur in row ${f.row}`);
     }
@@ -208,7 +211,7 @@ function main() {
   for (const [s, n] of Object.entries(data.statusCounts)) console.log(`  ${s.padEnd(9)} ${n}`);
   if (data.quotable.length) {
     console.log('\nquotable figures (the only ones a page may display):');
-    for (const f of data.quotable) console.log(`  ${f.key.padEnd(28)} ${String(f.value).padEnd(14)} row ${f.row.padStart(3)}  ${f.label}`);
+    for (const f of data.quotable) console.log(`  ${f.key.padEnd(28)} ${String(f.display || f.value).padEnd(14)} row ${f.row.padStart(3)}  ${f.label}`);
   } else {
     console.log('\nno quotable figures declared yet; add a QUOTABLE_FACTS block to MATH_CLAIMS.md');
   }

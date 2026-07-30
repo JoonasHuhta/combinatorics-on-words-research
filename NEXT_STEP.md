@@ -264,6 +264,31 @@ oikean kysymyksen. Kolme mahdollisuutta, ensimmäinen on suositus:
    rajauksen omalle hyödylleen. Se on merkki siitä että infran rajahyöty on
    laskeva ja seuraava askel kuuluu matematiikan puolelle.
 
+## Tehty 2026-07-30 (yö): B7 laskettu ja suljettu, väiteloki koneluettavaksi
+
+**B7 (rivi 62):** säiliökieli ei pakota mitään rakennetta yhtä kirjainta
+pidemmälle. Yksikään pituuden 2…9 tekijä ei ole välttämätön K ∈ [2,5]:ssä eikä
+pituuden 2…11 tekijä K ∈ [2,6]:ssa. **Kolmas riippumaton mittaus siitä että
+säiliö on löysä** (rivit 51, 52, 62) — säiliöstä ei kannata etsiä enää lisää
+välttämättömiä ehtoja.
+
+**Väiteloki koneluettavaksi (rivi 61):** `claims-export.js`. Vain lokista
+jäljitettävät luvut ovat julkaistavissa. Löysi heti viisi riviä joiden
+sarakkeet olivat rikki escapoimattomista pystyviivoista.
+
+**Juliste:** `poster.html`, generoitu `claims.json`:sta toisella mallilla.
+Jokainen luku kantaa rivinumeronsa. Tarkistettu itsenäisesti: ei skriptejä, ei
+ulkoisia viitteitä, ei emojia, eikä yhtään lukua jota ei voi jäljittää riviin
+(paitsi alatunnisteen päiväys). Se paljasti yhden aidon aukon — lainattava arvo
+oli suomeksi, mikä pakotti käännöksen ja katkaisi kirjaimellisen
+jäljitettävyyden. Korjattu lisäämällä `display`-kenttä: `value` todistaa
+provenienssin, `display` on se mitä sivu näyttää.
+
+**Seuraava askel:** A7 kohta 1 on yhä avaamatta (Lietard & Rosenfeld DLT 2020),
+ja se ratkaisee rivin 54 uutuuden. Toinen vaihtoehto: `index.html`:n
+kytkeminen `claims.json`:iin, jolloin sovelluksen luvut lakkaavat olemasta
+käsin kirjoitettuja (`docs/plans/UI_UX_PLAN.md` kohta 1).
+
 ## Repositorion tila 2026-07-30
 
 Testit **33/33**, driftitarkistukset **13/13**. Rivit 49–53,

@@ -1425,6 +1425,49 @@ test("Ledger exports cleanly; a figure not in its row cannot be published", () =
   console.log("       invented figures and REJECTED rows are both refused");
 });
 
+// ----------------------------------------------------
+// 37. UNAVOIDABLE FACTORS OF THE CONTAINER (unavoidable-factors.js, row 62)
+// ----------------------------------------------------
+test("Container unavoidable factors: only single letters, none of length 2..9", () => {
+  const uf = require("./unavoidable-factors.js");
+  const sc = require("./sft-container.js");
+
+  const container = sc.buildContainer(5);
+  const words = uf.allStateWords(container);
+
+  // Controls throw: single letters unavoidable (agreeing with row 51 by a
+  // different code path), avoidable factors carry an explicit avoiding cycle,
+  // unavoidability is inherited by subfactors, absent factors are avoidable.
+  const notes = uf.runControls(container, words);
+  assert.strictEqual(notes.length, 4, "runControls must report 4 control groups");
+
+  // Every single letter is forced.
+  for (const c of "abc") {
+    assert.ok(uf.decideFactor(container, words, c).unavoidable,
+      "letter " + c + " must be unavoidable");
+  }
+
+  // Nothing longer is. This is the result: the container forces no structure
+  // beyond "all three letters occur".
+  let candidates = 0;
+  for (let len = 2; len <= container.m; len++) {
+    for (const u of uf.containerFactors(container, words, len)) {
+      candidates++;
+      assert.ok(!uf.decideFactor(container, words, u).unavoidable,
+        "factor " + u + " was reported unavoidable; row 62 says none of length >= 2 is");
+    }
+  }
+  assert.ok(candidates > 900, "too few candidate factors examined: " + candidates);
+
+  // An avoidable factor must come with a cycle that really avoids it.
+  const cyc = uf.avoidingCycle(container, words, "ab");
+  assert.ok(cyc && cyc.length > 0, "an avoiding cycle for ab must exist");
+  for (const s of cyc) assert.ok(!s.includes("ab"), "the avoiding cycle must not contain ab");
+
+  console.log("       single letters unavoidable; " + candidates + " longer factor classes all avoidable");
+  console.log("       avoidable verdicts carry an explicit avoiding cycle");
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);
