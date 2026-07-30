@@ -1,21 +1,49 @@
 # Seuraava askel
 
-**Päivitetty:** 2026-07-30 (myöhäisyö, session luovutus)
+**Päivitetty:** 2026-07-30 (RESEARCH_ARCHITECT-ajo + rivit 69–71)
 **Lue ensin:** `KNOWLEDGE_STATE.md`, `RESEARCH_CONTEXT.md`, `AGENTS.md`.
 
 ---
 
 # LUOVUTUS SEURAAVALLE SESSIOLLE
 
-**Repositorion tila:** testit **39/39**, driftitarkistukset **15/15**, kaikki
-committoitu ja pushattu (HEAD `26e4e90`). Väiteloki **71 riviä**. Työpuu
-puhdas. Ei kriittistä avointa lankaa — kaikki alla on priorisoitu valinta,
-ei este.
+**Repositorion tila:** testit **39/39**, driftitarkistukset **15/15**.
+Väiteloki **74 riviä**. Työpuu puhdas. Ei kriittistä avointa lankaa.
 
-**Taustalla käynnissä:** tausta-agentti `task_ad941573` korjaa
-`index.html`:n välilehden 3 painikkeen kaksoisescapetusbugia
-(`&#8328;&#8325;` näkyy kirjaimellisena), eri sessiossa. Älä duplikoi —
-tarkista `git log` ennen kuin kosket samaan kohtaan.
+## Tässä sessiossa tehty (rivit 69–71)
+
+1. **4→4-morfismimuoto on suljettu koko epätasapainoisella alueella (rivi 69).**
+   Rivin 68 neljän aakkoston lisäksi ajettiin loput **16**, yhteensä
+   **1 867 272 192 morfismia**, 192/192 profiilia kullakin, nolla ohitettua.
+   Kaikki kielteisiä. **`NEGATIVE_RESULTS.md` §14:n tappoehto on nyt laukennut
+   20/20 luokalla** — samaa hakua ei syvennetä ilman uutta rakenteellista ideaa.
+2. **Viisi kirjainta on ~2 kertaluokkaa halvempi (rivi 70)**, ja kaksi rajausta
+   osoittautui valinnoiksi: `additive-sweep.js` tukee jo useampaa kirjainta
+   (parametria ei ole koskaan käännetty), ja span ≤ 8 jättää neljälläkin
+   kirjaimella puolet luokista lakaisematta (31/62).
+3. **B11:n esimittaus (rivi 71): abelin kantava ominaisuus on additiivinen
+   este.** Identtiset Parikh-vektorit kuvien yli kantavat Keräsen g₈₅:n mutta
+   tappavat additiivisen morfismin välittömästi. Ei ollut aiemmin kirjattu.
+4. **Entiteettikorjaus + vahdin leventäminen.** 51 kaksoisescapetettua ja 21
+   keksittyä `&subN;`-pseudoentiteettiä näkyivät sivulla literaalina; vahti
+   raportoi 15/15 koko ajan, koska `#` ei ole `[a-zA-Z]`:ssä.
+
+## Seuraava askel, päätetty: B11 + B12 yhdessä
+
+Ne ovat sama työ eri päistä eivätkä kanna erikseen. **B11** (additiivisen ehdon
+päätösmenettely) on ainoa tie siihen että kone voi *vahvistaa* eikä vain kumota
+— tällä hetkellä laboratorio ei voi periaatteessakaan ratkaista Question 3:a,
+joka on eksistenssikysymys. **B12** (viisi kirjainta, span ≤ 10) on se paikka
+jossa sertifioijalla olisi jotain sertifioitavaa.
+
+**Konkreettinen aloituskohta:** B11:n varsinainen tappoehto on yhä auki —
+saadaanko summaeron kasvu rajattua insidenssimatriisin spektristä. **Se
+ratkeaa paperilla, tunneissa, ei ajossa.** Tee se ensin; jos raja ei tule,
+B11 on kuollut siinä muodossa ja B12 jää yksin alarajojen keräämiseksi, mikä
+ei `NEGATIVE_RESULTS.md` §2:n nojalla riitä mihinkään.
+
+**Älä aloita B12:ta ilman B11:tä.** Ilman sertifioijaa laajempi haku tuottaa
+vain lisää alarajoja, ja rivi 70 sanoo suoraan ettei niistä seuraa mitään.
 
 ## Mitä tässä sessiossa tehtiin (kokonaisuudessaan, useampi luovutuskierros)
 
