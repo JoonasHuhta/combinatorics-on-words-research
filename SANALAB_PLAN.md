@@ -335,6 +335,15 @@ Taulukirjasto (`tables/`, avaimena affiiniluokan kanoninen edustaja + h + katto)
 on v1:n ensimmäinen pysyvä rakenne, ja jokainen ajo raportoi kumpaakin: mitä
 tauluja se kulutti ja mitä se jätti.
 
+**Ja mitattu rajaus samalta istunnolta (`NEGATIVE_RESULTS.md` §8):
+oraakkeli EI auta ennätysjahdissa.** Ratkaisemattomilla luokilla karsittu ja
+karsimaton haku antoivat saman pisimmän sanan; branch-and-bound karsii vain
+haaroja jotka eivät voi voittaa nykyistä parasta, ja kun kieli ei lopu, paras
+kasvaa koko ajan. Ennätysjahtiin tarvitaan **eri lajin apuväline** — hakujärjestys,
+joka on heuristiikka eikä invariantti, ja jonka tuotokset kuuluvat C-osioon.
+Tämä on hyvä esimerkki siitä miksi 5d:n neljä ehtoa ovat tarpeen: ilman
+mittausta oraakkelin olisi *olettanut* palvelevan molempia tavoitteita.
+
 ## 6. Yhteys käytäntöön — tulkintakerros, ei väitekerros
 
 Rehellinen muotoilu: emme väitä sovelluksia, tarjoamme **tulkinnan** jolla

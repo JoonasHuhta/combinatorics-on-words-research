@@ -223,12 +223,19 @@ yhden haun verran, joten **arvo on yksinomaan uudelleenkäytössä** — ja
 ennätysjahdissa kannattavuus on mitattava erikseen (ratkaisemattomalla luokalla
 {0,1,2,5} taulu vaati 1,2 mrd solmua).
 
+**Neljä umpikujaa kirjattu samalta istunnolta** (`NEGATIVE_RESULTS.md` §7–10):
+säiliö ei kelpaa additiiviseen eliminaatioon, taulu ei auta ennätysjahdissa,
+yhden ajon nettovoitto taulusta on nolla, ja määritelmätason verifioija ei
+yllä verifioimaan omaa kohdettaan. Kaikki neljä ovat mitattuja.
+
 **Seuraava askel sanalabille:** taulukirjasto (`tables/`, avaimena
 affiiniluokan kanoninen edustaja + h + katto) ja ajoprotokolla
 (`SANALAB_PLAN.md` 5c): NDJSON-tapahtumavirta, kolme lopputilaa, jatkettavat
 tarkistuspisteet. Jatkettavuus on toinen puoli samaa jäännösperiaatetta:
 budjettiin päättynyt ajo jättää tilan josta seuraava jatkaa sen sijaan että
-aloittaisi alusta.
+aloittaisi alusta. **Huom. §8:n nojalla** ennätysjahdin kiihdytystä ei saa
+luvata taululla — jatkettavuus (tarkistuspisteet) on se mekanismi joka
+ennätyksiä oikeasti auttaa, koska se kasvattaa efektiivistä budjettia.
 
 ## Repositorion tila 2026-07-30
 

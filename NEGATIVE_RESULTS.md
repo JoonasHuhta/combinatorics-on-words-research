@@ -4,6 +4,8 @@ Tämä dokumentti on arkisto tutkimuslinjoista, ideoista ja hypoteeseista, jotka
 
 Matematiikassa ja algoritmiikassa umpikujat ovat yhtä arvokasta tietoa kuin onnistumiset. Dokumentoimalla nämä säästämme tulevilta tutkijoilta (ja tekoälyiltä) viikkojen turhan työn, ja estämme projektia kiertämästä kehää.
 
+**Kirjaamiskynnys on matala tarkoituksella.** Tänne kuuluu myös idea joka *toimi* mutta ei kannattanut (§9), idea joka toimi väärässä paikassa (§8), ja työtapa joka osoittautui vääräksi vaikka sen tuotos oli virheetön (§10). Umpikuja ei tarkoita virhettä — se tarkoittaa mitattua tietoa siitä mihin suuntaan ei kannata mennä.
+
 ---
 
 ## 1. Uniformien Morfismien Skannaus ($k=7..9$)
@@ -41,3 +43,35 @@ Matematiikassa ja algoritmiikassa umpikujat ovat yhtä arvokasta tietoa kuin onn
 **Miksi se ammuttiin alas:**
 - 25 379 merkin sana käyttää pituudella 15 yhteensä 14 502 uniikkia tekijää. Koko $aa2f$-kielen luvallisten 15-pituisten tekijöiden määrä on 120 084. 
 - **Johtopäätös:** Filtteri heittäisi roskakoriin 88 % täysin laillisista jatkopoluista vain siksi, että Keräsen haku ei *sattunut* osumaan niihin. Tämä johtaisi ylisovittamiseen (overfitting) ja toimisi todennäköisemmin kattona kuin ponnahduslautana. Puhdasta empiiristä ennätyshakua on muutenkin syytä välttää, sillä tavoitteemme on eksakti, ääretön todistus (Level 2).
+
+---
+
+*Kohdat 7–10 kirjattu 2026-07-30 (`sanalab`-kehityssessio). Kaikki neljä ovat mitattuja, eivät arvattuja; luvut ovat väitelokin riveillä 51–55.*
+
+## 7. Säiliörelaksaatio additiivisten neliöiden eliminaatiotyökaluna
+**Hypoteesi:** Sama de Bruijn -säiliökoneisto, joka tuotti abelin puolella taajuusrajat ja SCC-rakenteen (rivit 51–52), toimii additiivisella puolella **eliminaationa**: kasvattamalla ikkunaa K ∈ [2,kmax] säiliö lopulta kuolee, ja kuollut säiliö todistaisi ettei aakkosto voi välttää additiivisia neliöitä.
+**Miksi se ammuttiin alas:**
+- Säiliön kustannus kasvaa muodossa |A|^(2·kmax−1). Neljällä kirjaimella kmax = 7 on jo kymmeniä miljoonia raakatiloja, ja saavutettavilla kmax-arvoilla säiliö **ei kuollut yhdelläkään** nelikirjaimisella aakkostolla.
+- Samaan aikaan tyhjentävä DFS **oikeaan** kieleen päättyi sekunneissa usealle aakkostoluokalle (rivi 54).
+- **Johtopäätös:** eliminaatio on hakukysymys, ei säiliökysymys. Säiliö säilyy oikeana työkaluna siihen mihin se on hyvä — välttämättömiin ehtoihin ja rakenteeseen — mutta relaksaatio on liian löysä kuollakseen siellä missä oikea kieli kuolee. Yleisemmin: **relaksaation kuolema on vahva todiste, mutta relaksaatiota ei voi kiristää mielivaltaisesti ilman eksponentiaalista hintaa.** Suunnanmuutos kirjattu `SANALAB_PLAN.md` 3b.
+
+## 8. Jatkettavuustaulu ennätysjahdin kiihdyttimenä
+**Hypoteesi:** Koska jatkettavuussyvyystaulu on terve karsintaoraakkeli ja vähentää hakusolmuja 84–89× eliminaatiossa (rivi 55), sen pitäisi auttaa myös **ennätysjahdissa** eli löytää pidempiä sanoja samalla budjetilla ratkaisemattomilla aakkostoluokilla.
+**Miksi se ammuttiin alas:**
+- Mitattu luokilla {0,1,2,5} ja {0,1,3,5}, budjeteilla 2·10⁶ ja 10⁷: karsittu ja karsimaton haku antoivat **täsmälleen saman pisimmän sanan** (78/81 ja 76/83), vaikka karsintoja tapahtui tuhansia.
+- Syy on rakenteellinen: branch-and-bound karsii vain haaroja jotka **eivät voi voittaa nykyistä parasta**. Kun kieli ei lopu, paras kasvaa jatkuvasti eikä karsinta osu ennätyspolkuun.
+- Taulun informatiivisuus ja hinta kasvavat yhdessä: h = 7 → 0,7 % merkinnöistä sai äärellisen rajan (62 M solmua), h = 8 → 6,0 % (162 M), h = 10 → 96,3 % (1,2 mrd). **Jokainen tapaus maksaa enemmän kuin koko hakubudjetti.**
+- **Johtopäätös:** oraakkeli on **eliminaatiotyökalu, ei ennätystyökalu**. Karsinta joka nojaa "tämä haara ei voi olla parempi" -päättelyyn on hyödytön silloin kun parempaa löytyy koko ajan. Ennätysjahtiin tarvitaan eri lajin apuväline (esim. hakujärjestys), ja se on heuristiikka eikä invariantti.
+
+## 9. Yhden ajon nettovoitto karsintataulusta
+**Hypoteesi:** Terve karsintaoraakkeli, joka vähentää hakusolmuja lähes satakertaisesti, nopeuttaa ajoa vastaavasti.
+**Miksi se ammuttiin alas:**
+- Taulun rakentaminen vaatii käytännössä saman puun läpikäynnin kuin itse haku: {0,1,2,3} hakusolmut 751 156 vs. taulun 725 960; {0,1,3,4} 2 638 908 vs. 2 611 320. Kokonaiskustannus on **1,00×**.
+- **Johtopäätös:** hyöty on **yksinomaan uudelleenkäytössä** — samalle aakkostolle uudelleen, syvemmällä katolla, tai affiiniluokan toiselle edustajalle (siirto maksaa 0 hakusolmua). Tämä on `SANALAB_PLAN.md` 5d:n jäännösperiaate ja samalla sen varoitus: **jäännöksen arvo on aina mitattava uudelleenkäytön yli, ei yhden ajon sisällä.** Kiihdytysluku ilman rakennuskustannusta on harhaanjohtava tapa raportoida.
+
+## 10. Puhdas määritelmäverifioija riippumattomana tarkistajana (metodologinen umpikuja)
+**Hypoteesi:** Riippumattomuuden maksimoimiseksi toiselle mallille annettu verifiointiprompti kannattaa rajata mahdollisimman tiukasti — kieltämällä graafit, automaatit ja dynaaminen ohjelmointi saadaan varmasti eri rakenteinen toteutus.
+**Miksi se ammuttiin alas:**
+- Kielto pakotti tyhjentävään generointiin, jonka kustannus on |A|^N. Se kattaa neljällä kirjaimella noin N ≤ 10, kun taas verifioitavat tulokset ovat pituuksilla 50–62.
+- **Verifioija ei siis voinut koskaan tarkistaa sitä tulosta, jonka vuoksi laskenta tehdään** — vaikka se toimi moitteettomasti ja täsmäsi kaikilla testatuilla arvoilla.
+- **Johtopäätös:** riippumattomuuden oikea akseli ei ole "tyhmä vs. älykäs" vaan **eri algoritminen idea samassa suorituskykyluokassa**. Korjattu spesifikaatio (taso kerrallaan etenevä leveyshaku, joka tarkistaa jokaisen jatkeen kokonaan alusta) on `SANALAB_PLAN.md` 6b.1:ssä, ja se on käytössä `additive-sweep.js`:ssä. Yleinen opetus: **kaksi toteutusta kattaa vain sen mihin hitaampi yltää**, joten verifiointi tarvitsee kolmannen kerroksen — ominaisuusinvariantit, jotka pätevät täydellä pituudella (6b.2).
