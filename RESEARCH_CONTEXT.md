@@ -35,12 +35,13 @@ ainoat abelin neliöt ovat `00`, `11`, `22`? Auki puolipituuksille K = 2…5.
 |---|---|---|
 | 0 | **`KNOWLEDGE_STATE.md`** | **Tilannekuva: mitä tiedetään, mikä on todistetusti suljettu, mikä hylätty varmuudella, mikä auki, mitä ei saa käyttää.** Johdettu hakemisto — väiteloki voittaa aina. Nopein tapa saada kokonaiskuva |
 | 1 | **`AGENTS.md`** / `CLAUDE.md` | Väitteiden protokolla. **Pakollinen.** Sitaatti ennen koodia, kaksi verifiointitasoa, kielen kalibrointi, ihmisen hyväksyntä ennen committia kun väitteet muuttuvat |
-| 2 | **`MATH_CLAIMS.md`** | **Ainoa auktoriteetti jokaiselle matemaattiselle väitteelle.** 67 riviä. Mikään väite ei saa esiintyä missään ilman riviä täällä |
+| 2 | **`MATH_CLAIMS.md`** | **Ainoa auktoriteetti jokaiselle matemaattiselle väitteelle.** 68 riviä. Mikään väite ei saa esiintyä missään ilman riviä täällä |
 | 3 | **`OPEN_RESEARCH_QUESTIONS.md`** | Avoimet ongelmat, kolmijaolla: A kirjallisuus (lähteineen), B projektin omat laskettavat, **C muotoilut jotka mittaavat toteutusta eivätkä matematiikkaa**. D on hylkäysrekisteri perusteineen |
 | 4 | **`NEXT_STEP.md`** | Mistä jatketaan ja miksi. Mitä ei kannata tehdä |
 | 5 | `docs/plans/PROJECT_ARCHITECTURE.md` | Sovelluksen rakenne, välilehtien reititys |
 | 6 | `NEGATIVE_RESULTS.md` | Mikä on kokeiltu ja ei toiminut |
-| 7 | `docs/plans/RESEARCH_ARCHITECT.md` | **Vain kun tuotetaan uusia tutkimusideoita.** Menettely, rajaukset, tulostemuoto ja rubriikki — ideat eivät synny vapaana proosana |
+| 7 | **`LITERATURE_COVERAGE.md`** | **Mitä kirjallisuus kattaa ja mitä ei, sekä minkä avaruuden lakaisu on tehty.** Lue ennen kuin rakennat uuden laskentalinjan — estää saman työn tekemisen uudelleen |
+| 8 | `docs/plans/RESEARCH_ARCHITECT.md` | **Vain kun tuotetaan uusia tutkimusideoita.** Menettely, rajaukset, tulostemuoto ja rubriikki — ideat eivät synny vapaana proosana |
 
 **Juuressa on täsmälleen ne kahdeksan `.md`-tiedostoa jotka sessio oikeasti
 lukee.** Loput on siirretty 2026-07-30:
