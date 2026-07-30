@@ -15,6 +15,7 @@ tässä eikä dokumentin rungossa. Aja silmäys tästä ennen kuin ehdotat mitä
 
 | Pvm | # | Mikä kaatui | Yhdellä lauseella |
 |---|---|---|---|
+| 2026-07-30 | [§14](#14-kasvukäyrän-muoto-lähestyvän-tyhjentymisen-ennustajana) | Kasvukäyrän muoto tyhjentymisen ennustajana | Kolmen pisteen budjettikäyrä oli kohinaa 20 luokan yli, ei ennustanut mitään |
 | 2026-07-30 | [§13](#13-osittainen-korroboraatio-täytenä-vahvistuksena) | Osittainen korroboraatio täytenä | Neljä täsmäävää kenttää viidestä tuntui vahvistukselta; tarkistamatta jäänyt DOI ei ollut olemassa |
 | 2026-07-30 | [§12](#12-up-and-down--järjestysheuristiikan-siirto-aa2f-hakuun) | Up-and-Down -järjestyksen siirto aa2f-hakuun | Toimii dramaattisesti omassa asetelmassaan, häviää aa2f:ssä — tekniikka on asetelmakohtainen |
 | 2026-07-30 | [§11](#11-vapaa-hakukonetiiviste-lähteenä-metodologinen-umpikuja) | Hakukonetiiviste lähteenä | Tiiviste antoi kirjaimellisen väitteen tekijänimineen ja lukuineen; kumpaakaan ei ollut alkuperäisessä |
@@ -133,3 +134,13 @@ tässä eikä dokumentin rungossa. Aja silmäys tästä ennen kuin ehdotat mitä
 - Neljä oikeaa kenttää viidestä tuntui vahvistukselta. Se oli juuri se kenttä joka jäi tarkistamatta, joka oli väärä.
 - **Nolaava yksityiskohta joka on kirjattava:** väärä tunniste poistui lokista vasta kun solu kirjoitettiin uusiksi — **vahingossa, ei tarkistuksen tuloksena**. Rivi ei parantunut huolellisuudesta vaan sattumasta.
 - **Johtopäätös:** **korroboraatio kattaa vain ne kentät jotka on tosiasiassa verrattu, ei tietuetta kokonaisuutena.** Kun viite palautetaan peruutuksesta, jokainen kenttä on tarkistettava erikseen ja tarkistetut kentät nimettävä. Pysyvät tunnisteet (DOI, arXiv-id) on tarkistettava rekisteristä, koska juuri ne ovat kenttiä joita ihminen tai malli ei osaa arvioida silmämääräisesti — vuosiluvun virheen huomaa, DOI:n ei.
+
+## 14. Kasvukäyrän muoto lähestyvän tyhjentymisen ennustajana
+*Kirjattu 2026-07-30. Ks. `additive-morphism-scan.js`, `OPEN_RESEARCH_QUESTIONS.md` B10.*
+
+**Hypoteesi:** kun budjettia kasvatetaan (10⁶ → 10⁷ → 10⁸), pisimmän löydetyn sanan kasvun muoto (tasaantuva vs. kiihtyvä vs. tasainen) ennustaisi mikä ratkaisemattomista epätasapainoisista aakkostoluokista on lähimpänä tyhjentymistä, ja ohjaisi mihin kannattaa syventää hakua ensin.
+
+**Miksi se ammuttiin alas:**
+- Ajettiin kaikille 20 avoimelle luokalle kolmella budjettitasolla ja luokiteltiin kasvun muoto kahden peräkkäisen erotuksen perusteella. Tulos oli kohinaista: luokat jakautuivat "tasaantuva", "kiihtyvä" ja "tasainen kasvu" -ryhmiin ilman havaittavaa yhteyttä muihin ominaisuuksiin (esim. epäbalanssin suuruuteen).
+- Kolmen pisteen kasvukäyrä on liian lyhyt erottelemaan aitoa rakennetta otantakohinasta — sama perusongelma kuin rivin 37 otoskoko-artefaktissa, nyt eri muuttujalla mitattuna.
+- **Johtopäätös:** diagnostiikkaa ei käytetty priorisointiin. Sen sijaan siirryttiin suoraan menetelmään joka voi oikeasti ratkaista äärettömyyden kumpaankin suuntaan — morfismihakuun (`additive-morphism-scan.js`) — koska mikään DFS-kasvukäyrän muoto ei voi koskaan todistaa ääretöntä kieltä (§2:n opetus yleistettynä uuteen kontekstiin).

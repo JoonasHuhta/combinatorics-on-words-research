@@ -2266,6 +2266,191 @@
         </div>
       </div>
 
+      <!-- Trap 7 -->
+      <div class="gy-accordion" id="gy-trap7">
+        <div class="gy-accordion-header" onclick="toggleGraveyard('gy-trap7')">
+          <div>
+            <div class="gy-accordion-title">Trap 7: The Relaxation Ceiling</div>
+            <div class="gy-accordion-desc">Why the tool that worked for abelian squares does not work as an elimination test for additive squares.</div>
+          </div>
+          <div class="gy-icon">&#9660;</div>
+        </div>
+        <div class="gy-accordion-content">
+          <p style="font-size:0.95rem; color:#555;">
+            <strong>Myth:</strong> "The de&nbsp;Bruijn container relaxation that gave frequency bounds and SCC structure for abelian squares should also work as an elimination test for additive squares &mdash; keep growing the window until the container dies."<br>
+            <strong>Reality:</strong> Container cost grows as |A|<sup>2k&minus;1</sup>. It never died on any tested 4-letter alphabet at a reachable window size, while an exhaustive search on the true language finished in seconds for the same alphabets. Elimination turned out to be a search question, not a container question.
+          </p>
+        </div>
+      </div>
+
+      <!-- Trap 8 -->
+      <div class="gy-accordion" id="gy-trap8">
+        <div class="gy-accordion-header" onclick="toggleGraveyard('gy-trap8')">
+          <div>
+            <div class="gy-accordion-title">Trap 8: The Pruning Mirage</div>
+            <div class="gy-accordion-desc">A search oracle that cuts nodes by 84&ndash;89% in elimination turned out useless for chasing longer records.</div>
+          </div>
+          <div class="gy-icon">&#9660;</div>
+        </div>
+        <div class="gy-accordion-content">
+          <p style="font-size:0.95rem; color:#555; margin-bottom:15px;">
+            <strong>Myth:</strong> "A sound pruning oracle that removes 84&ndash;89% of search nodes when eliminating an alphabet should also help find longer record words on the alphabets that remain open."<br>
+            <strong>Reality:</strong> Measured on two open alphabets at two budgets, pruned and unpruned search returned the <strong>exact same longest word</strong> every time. Branch-and-bound only cuts a branch that provably cannot beat the current best &mdash; and when the language never runs out, the best keeps growing, so nothing is ever provably beaten.
+          </p>
+          <div style="max-width:600px;">
+            <div style="margin-bottom:15px;">
+              <div style="display:flex; justify-content:space-between; font-size:0.9rem; font-family:monospace; margin-bottom:5px;">
+                <span>Unpruned search, budget 2&times;10&#8311;</span>
+                <strong>Longest: 81</strong>
+              </div>
+              <div style="width:100%; height:16px; background:#eee; border-radius:8px; overflow:hidden;">
+                <div style="width:100%; height:100%; background:#3498db;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.9rem; font-family:monospace; margin-bottom:5px;">
+                <span>Pruned search, same budget</span>
+                <strong style="color:#27ae60;">Longest: 81 (identical)</strong>
+              </div>
+              <div style="width:100%; height:16px; background:#eee; border-radius:8px; overflow:hidden;">
+                <div style="width:100%; height:100%; background:#3498db;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trap 9 -->
+      <div class="gy-accordion" id="gy-trap9">
+        <div class="gy-accordion-header" onclick="toggleGraveyard('gy-trap9')">
+          <div>
+            <div class="gy-accordion-title">Trap 9: The Free Lunch That Wasn't</div>
+            <div class="gy-accordion-desc">An 85&times; pruning speedup that gains nothing on the run that builds it.</div>
+          </div>
+          <div class="gy-icon">&#9660;</div>
+        </div>
+        <div class="gy-accordion-content">
+          <p style="font-size:0.95rem; color:#555; margin-bottom:15px;">
+            <strong>Myth:</strong> "A pruning table worth roughly 85&times; on search nodes should make any single search dramatically faster."<br>
+            <strong>Reality:</strong> Building the table walks essentially the same tree as the unpruned search itself &mdash; 751,156 nodes to search one alphabet directly versus 725,960 nodes to build its table. Net gain for one run: <strong>1.00&times;</strong>. The entire value is in reusing the table later, never in the run that built it.
+          </p>
+          <div style="background:#2c3e50; padding:15px; border-radius:6px; color:#ecf0f1; font-family:monospace; font-size:0.95rem; text-align:center;">
+            <div>Direct search: <strong>751,156</strong> nodes</div>
+            <div>Build the pruning table: <strong>725,960</strong> nodes</div>
+            <div style="color:#f1c40f; margin-top:8px;">Net gain this run: <strong>1.00&times;</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trap 10 -->
+      <div class="gy-accordion" id="gy-trap10">
+        <div class="gy-accordion-header" onclick="toggleGraveyard('gy-trap10')">
+          <div>
+            <div class="gy-accordion-title">Trap 10: The Wrong Axis of Independence</div>
+            <div class="gy-accordion-desc">Banning graphs and dynamic programming from a second verifier produced code too slow to check anything.</div>
+          </div>
+          <div class="gy-icon">&#9660;</div>
+        </div>
+        <div class="gy-accordion-content">
+          <p style="font-size:0.95rem; color:#555;">
+            <strong>Myth:</strong> "To maximize independence when a second model verifies a result, forbid it from using graphs, automata, or dynamic programming &mdash; that guarantees a structurally different implementation."<br>
+            <strong>Reality:</strong> The ban forced exhaustive generation, whose cost grows as |A|<sup>N</sup>. It could check words up to roughly N&nbsp;=&nbsp;10 while the results needing verification sit at length 50&ndash;62. It worked flawlessly on everything within reach &mdash; and could never reach the result it existed to check. Independence should vary the algorithmic <em>idea</em> at the same performance class, not cripple the performance class itself.
+          </p>
+        </div>
+      </div>
+
+      <!-- Trap 11 -->
+      <div class="gy-accordion" id="gy-trap11">
+        <div class="gy-accordion-header" onclick="toggleGraveyard('gy-trap11')">
+          <div>
+            <div class="gy-accordion-title">Trap 11: The Borrowed Citation</div>
+            <div class="gy-accordion-desc">A search-engine summary of an unopened paper steered two working sessions before anyone opened the actual source.</div>
+          </div>
+          <div class="gy-icon">&#9660;</div>
+        </div>
+        <div class="gy-accordion-content">
+          <p style="font-size:0.95rem; color:#555;">
+            <strong>Myth:</strong> "A search-engine summary of an unopened paper is a usable lead, as long as it is labelled 'untraced' so nobody cites it directly."<br>
+            <strong>Reality:</strong> The label prevented citation but not influence. A fabricated author name and figure from a summary sat on the critical path of two working sessions before the actual source was opened and the name turned out not to appear in it anywhere. A summary is noise until it is located inside a document someone has actually read.
+          </p>
+        </div>
+      </div>
+
+      <!-- Trap 12 -->
+      <div class="gy-accordion" id="gy-trap12">
+        <div class="gy-accordion-header" onclick="toggleGraveyard('gy-trap12')">
+          <div>
+            <div class="gy-accordion-title">Trap 12: Test It Where It's From</div>
+            <div class="gy-accordion-desc">A search-order trick measured in the wrong setting looked useless; in its own setting it gained +1130%.</div>
+          </div>
+          <div class="gy-icon">&#9660;</div>
+        </div>
+        <div class="gy-accordion-content">
+          <p style="font-size:0.95rem; color:#555; margin-bottom:15px;">
+            <strong>Myth:</strong> "An alternating search-order technique reported to work spectacularly for additive cubes should transfer directly to this project's own record hunt."<br>
+            <strong>Reality:</strong> Tested first in the project's own search, the technique looked useless. A controlled test in the setting it was actually reported for reversed that completely &mdash; and the technique still lost when honestly re-tried on the project's real target. A borrowed method has to be tested first where it came from, or the transfer gets measured instead of the method.
+          </p>
+          <div style="max-width:600px;">
+            <div style="margin-bottom:15px;">
+              <div style="display:flex; justify-content:space-between; font-size:0.9rem; font-family:monospace; margin-bottom:5px;">
+                <span>Additive cubes over {0,1,2,3} (its own setting)</span>
+                <strong style="color:#27ae60;">+1130%</strong>
+              </div>
+              <div style="width:100%; height:16px; background:#eee; border-radius:8px; overflow:hidden;">
+                <div style="width:100%; height:100%; background:#27ae60;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.9rem; font-family:monospace; margin-bottom:5px;">
+                <span>This project's own record search (borrowed, retested)</span>
+                <strong style="color:#c0392b;">worse than plain search</strong>
+              </div>
+              <div style="width:100%; height:16px; background:#eee; border-radius:8px; overflow:hidden;">
+                <div style="width:35%; height:100%; background:#e74c3c;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trap 13 -->
+      <div class="gy-accordion" id="gy-trap13">
+        <div class="gy-accordion-header" onclick="toggleGraveyard('gy-trap13')">
+          <div>
+            <div class="gy-accordion-title">Trap 13: Four Fields Out of Five</div>
+            <div class="gy-accordion-desc">A citation looked corroborated on every field that was checked &mdash; except the one that mattered.</div>
+          </div>
+          <div class="gy-icon">&#9660;</div>
+        </div>
+        <div class="gy-accordion-content">
+          <p style="font-size:0.95rem; color:#555; margin-bottom:15px;">
+            <strong>Myth:</strong> "When a withdrawn citation is found in an independent bibliography with matching volume, issue, pages, and year, it is corroborated and the retraction can be lifted."<br>
+            <strong>Reality:</strong> The DOI &mdash; the one field never actually compared &mdash; turned out not to exist at all. Four correct fields felt like confirmation; the unchecked fifth field was the wrong one. Corroboration only covers the fields actually compared, never the record as a whole.
+          </p>
+          <div style="background:#2c3e50; padding:15px; border-radius:6px; color:#ecf0f1; font-family:monospace; font-size:0.9rem; text-align:center;">
+            <div>Volume &middot; Issue &middot; Pages &middot; Year: <strong style="background:#2ecc71; color:#fff; padding:2px 6px; border-radius:3px;">MATCH</strong></div>
+            <div style="margin-top:6px;">DOI (never compared): <strong style="background:#e74c3c; color:#fff; padding:2px 6px; border-radius:3px;">DID NOT EXIST</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trap 14 -->
+      <div class="gy-accordion" id="gy-trap14">
+        <div class="gy-accordion-header" onclick="toggleGraveyard('gy-trap14')">
+          <div>
+            <div class="gy-accordion-title">Trap 14: The Noisy Curve</div>
+            <div class="gy-accordion-desc">Watching how far a search gets at three budget levels does not tell you which open case is closest to done.</div>
+          </div>
+          <div class="gy-icon">&#9660;</div>
+        </div>
+        <div class="gy-accordion-content">
+          <p style="font-size:0.95rem; color:#555;">
+            <strong>Myth:</strong> "Watching how the best result found so far grows across increasing computation budgets &mdash; flattening versus still climbing &mdash; should predict which of several open cases is closest to being resolved, so compute can be spent there first."<br>
+            <strong>Reality:</strong> Run across 20 open cases at three budget scales, the growth shape was pure noise: no visible relationship to any other property of the cases. A three-point curve cannot separate real structure from sampling variance. The diagnostic was set aside in favour of a method that can actually settle a question either way, rather than one that only describes how a search is currently struggling.
+          </p>
+        </div>
+      </div>
+
     </div>
   </div>
   <!-- END TAB 19 -->
