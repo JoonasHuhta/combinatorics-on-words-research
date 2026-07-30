@@ -59,6 +59,18 @@ Keskimmäinen kohta on **täsmälleen A1** abelisen ekvivalenssin korvattuna 2-a
 
 Keskustelussa on esiintynyt väite *"5 ≤ g(2) ≤ 734"* Rosenfeldin väitöskirjan Problem 4.9:nä. **Lukua 734 eikä merkintää g(2) ei löydy Fici & Puzyninan katsauksesta**, eikä väitöskirjaa ole avattu projektissa. Väite on **jäljittämätön** eikä sitä saa käyttää ennen kuin joku lukee alkuperäisen. Jos se pitää paikkansa, se on houkutteleva kohde: binäärinen hakuavaruus on pienempi kuin ternäärinen ja nykyiset työkalut siirtyisivät lähes suoraan.
 
+### A6. Additiiviset neliöt: onko ℤ uniformisti 2-repetitiivinen? (jäljitetty 2026-07-30)
+
+> *"A long standing question asks whether ℤ is uniformly 2-repetitive [Justin 1972, Pirillo and Varricchio, 1994]"*
+> — Rao & Rosenfeld, arXiv:1511.05875, abstrakti (avattu 2026-07-30)
+
+Eli: onko olemassa ääretön jono äärellisen ℤ:n osajoukon yli, joka välttää kaksi peräkkäistä yhtä pitkää lohkoa samalla summalla (additiiviset neliöt)? **Avoin** ainakin lähteen päiväyksen mukaan. Tunnettu ympäristö:
+
+- **Kuutiot ratkaistu:** *"there exists an infinite word over the alphabet {0, 1, 3, 4} containing no three consecutive blocks of the same size and the same sum"* — Cassaigne, Currie, Schaeffer & Shallit, arXiv:1106.5204, abstrakti (avattu 2026-07-30). Sama abstrakti: *"This answers an open problem of Pirillo and Varricchio from 1994."* Koko tekstistä (ar5iv, 2026-07-30): neliökysymyksen esittivät Halbeisen & Hungerbühler (2000): *"They asked (in our terminology) if it is possible to avoid additive squares."*
+- **ℤ² ratkaistu — ja ratkaisu on projektin ydinlähde:** arXiv:1511.05875:n varsinainen otsikko on *"Avoiding two consecutive blocks of same size and same sum over ℤ²"*, päätulos *"ℤ² is not uniformly 2-repetitive"*, ja abstrakti kytkee sen suoraan projektin pääongelmaan: *"this problem is related to a question from Mäkelä in combinatorics on words and we answer to a weak version of it."* **Projektin templaatti/esivanhempikoneisto on siis alun perin rakennettu juuri additiivisten neliöiden ongelmaa varten** — additiivinen instanssi (`SANALAB_PLAN.md`) ei ole naapuri vaan paluu ydinlähteen emo-ongelmaan.
+
+Ks. `MATH_CLAIMS.md` rivi 53. Sekundäärihavainto ilman avattua lähdettä (EI saa käyttää ennen jäljitystä): hakutulosteessa esiintyi Freedmanin nimiin laitettu väite 4-kirjaimisista aakkostoista a+d=b+c ja pituusrajasta ≤ 60, sekä tuore variaatiopaperi arXiv:2506.21200 (2025) — jälkimmäinen viittaa pääkysymyksen olleen auki vielä 2025, mutta kumpaakaan ei ole avattu.
+
 ---
 
 ## B. Projektin omat kysymykset, jotka ovat oikeasti laskettavissa
@@ -105,10 +117,29 @@ Mäkelän avoin osa koskee puolipituuksia 2…5, ja abelin neliö puolipituudell
 
 **Auki jäävä jatko:**
 
-1. **Kiristyvätkö välit kun rajoitteita lisätään?** Sama analyysi kielelle K ∈ [2,6] (muisti 11, 3¹¹ = 177 147 raakatilaa) ja K ∈ [2,7] (muisti 13, 1,6 M raakatilaa). Trendi [1/11, 3/4] → ? kertoisi pakottaako pieni ikkuna taajuudet kohti tasapainoa vai ei. Mittaa tilamäärä ennen kuin lupaat muistin 13.
-2. **SCC:n hienorakenne:** synkronoivat sanat, jaksollisuus (syt sykleistä), ja missä Keräsen sanan polku kulkee suhteessa SCC:n "reunoihin" (tiloihin joilla on vain yksi jatko).
+1. ~~Kiristyvätkö välit kun rajoitteita lisätään?~~ **Laskettu K=6:lle** (`MATH_CLAIMS.md` rivi 52): väli **ei kiristy** — [1/11, 3/4] on stabiili 5 → 6 vaikka kieli aidosti kutistuu. Jatko K ∈ [2,7] (muisti 13) vaatii Howardin algoritmin: tilamäärä ylittää Karp-taulukon Int16-rajan. Eksaktiutta ei saa heikentää — liukulukuapproksimaatio kelpaa vain jos tulos verifioidaan rationaalisesti (rivin 51 Bellman–Ford-kuvio kantaa sellaisenaan).
+2. **Missä stabiilius katkeaa?** Jaksollinen sana jaksolla p sisältää aina K=p-neliön, joten yksittäiset ääriarvosyklit kuolevat väistämättä ikkunan kasvaessa — stabiilius vaatii joka tasolle uusia, pidempiä syklejä samalla keskiarvolla. Pienin kmax jolla yläraja putoaa alle 3/4:n (tai alaraja nousee yli 1/11:n) on hyvin määritelty luku, ja jokainen taso on äärellinen lasku.
+3. **SCC:n hienorakenne:** synkronoivat sanat, jaksollisuus (syt sykleistä), ja missä Keräsen sanan polku kulkee suhteessa SCC:n "reunoihin" (tiloihin joilla on vain yksi jatko).
 
 Varaus: tämä on **relaksaation** analyysi. Se antaa välttämättömiä ehtoja, ei koskaan riittäviä (vrt. `NEGATIVE_RESULTS.md` §2: SCC ei todista ääretöntä aa2f-sanaa).
+
+### B7. Säiliökielen välttämättömät tekijät (B3 konkreettisena; RESEARCH_ARCHITECT-ajo 2026-07-30)
+
+**Kysymys:** mitkä tekijät (pituuteen 9 asti) esiintyvät jokaisessa äärettömässä [2,5]-vapaassa sanassa — siis jokaisessa mahdollisessa Mäkelä-todistajassa? "u on välttämätön" ⟺ säiliögraafi ilman u:n sisältäviä tiloja on syklitön; äärellinen tarkistus per tekijä (`sft-container.js`:n tilasuodatus + syklintunnistus, molemmat olemassa).
+
+- **Validointi:** yksittäiskirjainten on tultava välttämättömiksi (yhtäpitävä rivin 51(b) binäärihäntätuloksen kanssa, eri koodipolku); ei-välttämättömälle tekijälle esitetään eksplisiittinen välttävä sykli.
+- **Odotettu lokirivi:** *"Säiliökielen välttämättömät tekijät pituuteen ℓ asti ovat täsmälleen ⟨joukko⟩ (N kpl); jokainen Mäkelä-todistaja sisältää ne."*
+- **Tappoehto:** ei tarvita — äärellinen lasku, yksikäsitteinen vastaus; myös "vain kirjaimet" kirjataan.
+- **Työmäärä:** yksi sessio. **Vaikuttavuus 3–4.**
+
+### B8. Taajuusmonikulmio — yhteisjakauma laatikon sijaan (RESEARCH_ARCHITECT-ajo 2026-07-30)
+
+**Kysymys:** mikä on säiliökielen saavutettavien taajuusvektorien (f_a, f_b, f_c) tarkka monikulmio simpleksissä? Rivit 51–52 antavat vain laatikon [1/11, 3/4]³; monikulmio kertoo esim. voiko f_a = 3/4 esiintyä yhtä aikaa f_b = 1/11:n kanssa. Menetelmä: suuntaparametrisoitu Karp (lineaarifunktionaalin max-syklikeskiarvo = tukisuora); äärellinen suuntajoukko antaa ulkoapproksimaation joka on jo sellaisenaan pätevä välttämätön ehto, saavuttavat syklit sisäpisteet.
+
+- **Validointi:** projektioiden on toistettava [1/11, 3/4] täsmälleen; S₃-invarianssi koordinaattipermutaatioissa; jokainen kärki Bellman–Ford-verifioitu (rivin 51 kuvio).
+- **Odotettu lokirivi:** *"K ∈ [2,5]-säiliön taajuusmonikulmio on täsmälleen ⟨kärjet⟩; se on / ei ole aidosti pienempi kuin laatikon ja simpleksin leikkaus."*
+- **Tappoehto:** jos monikulmio ≈ laatikko ∩ simpleksi, kirjataan negatiivisena ja linja lopetetaan.
+- **Työmäärä:** 1–2 sessiota; esimittaus kolmella suunnalla. **Vaikuttavuus 3–4.**
 
 ---
 
@@ -170,6 +201,14 @@ Yhden kirjaimen vaihto morfismissa voi romahduttaa tuloksen epäjatkuvasti, mik�
 ### E4. Riippumaton toinen verifiointimoottori (jäljittämätön johtolanka — selvitettävä ennen käyttöä)
 
 Kaikki projektin Level 1 -laskennat on tähän asti verifioinut sama koodipohja; ainoa riippumaton vertailu on R&R:n C++-referenssi (rivi 22) ja suunniteltu ACR 2004 -replikaatio (rivi 48). h₆ on 3-uniformi, joten konstruktio elää automaattisten sanojen maailmassa, ja siellä on olemassa työkaluperhe (Walnut, Shallit ym.) jolla eräitä sanojen ominaisuuksia on päätetty koneellisesti. **Jäljittämätöntä:** kattaako se abelin ominaisuuksia tässä tarvittavassa muodossa — Parikh-vertailut eivät ole ensimmäisen kertaluvun ominaisuuksia, ja mahdollinen reitti kulkee synkronoitujen jonojen kautta. Kukaan ei ole avannut lähteitä. **Älä siteeraa äläkä rakenna tämän varaan ennen kuin joku lukee alkuperäiset** (sama sääntö kuin A5:ssä). Jos kattavuus varmistuu, tämä olisi kokonaan riippumaton toinen moottori Theorem 9 -tyyppisille väitteille — laboratoriolaitteelle arvokkaampaa kuin yksikään uusi ominaisuus.
+
+### E5. Puhdashuonereplikaatio toisella kielellä (RESEARCH_ARCHITECT-ajo 2026-07-30)
+
+Kaikki Level 1 -rivit nojaavat samaan JS-koodipohjaan. Halvin tapa nostaa koko lokin uskottavuutta: replikoi kanoniset luvut (18 sanaa pituudella 7, 34 neliötä, 3 114 tilaa, [1/11, 3/4]) riippumattomalla toteutuksella (esim. Python), **väitelokirivin sanamuodosta, ei koodia lukemalla** (clean room). Eromitta on täsmälleen nolla tai rivi avataan uudelleen — poikkeama olisi arvokkain mahdollinen tulos, ei epäonnistuminen. "Replikoitu riippumattomasti" -merkintä lokiin on skeemamuutos → ylläpitäjän päätös (sääntö 5). Työmäärä: yksi sessio 4–5 luvulle. Vaikuttavuus 4 (kyvykkyysluokka: replikaatio).
+
+### E6. Additiiviset neliöt laskentakoneen toiseksi instanssiksi — JÄLJITETTY 2026-07-30 → osio A6
+
+Johtolanka jäljitettiin ja se osoittautui vahvemmaksi kuin muistikuva: additiivisten neliöiden avoimuus ℤ:ssa, kuutioiden ratkaisu {0,1,3,4}:llä JA se että **projektin oma ydinlähde arXiv:1511.05875 on juuri tämän ongelman ℤ²-ratkaisu** — sitaatit ja päiväykset osiossa **A6** ja `MATH_CLAIMS.md` rivillä 53. Additiivinen instanssi ei siis ole naapuriongelma vaan paluu sen paperin emo-ongelmaan, josta projektin templaattikoneisto tulee. Tekninen peruste ennallaan: additiivinen ekvivalenssi on Parikh-vektorin lineaarinen funktionaali, joten säiliökoneisto (rajattu K → äärellinen ikkuna → de Bruijn → SCC → taajuusrajat) siirtyy sellaisenaan. Ks. `SANALAB_PLAN.md`.
 
 ---
 

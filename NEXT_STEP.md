@@ -15,18 +15,23 @@ pienillä L vastakkaisiin suuntiin — [2,5]-välttäjiä on tuhansia, mutta jok
 kuolee suurilla jaksoilla ≤ 44 symbolissa. Rivillä **50** on kirjattu miksi
 kasvun alaraja ei ole osatavoite vaan koko konjektuuri (König).
 
-**Tehty jatkona (2026-07-29/30): B6 laskettu.** `sft-container.js`, tulokset
-rivillä **51**: säiliökielessä yksi SCC (2 844 tilaa), jokaisen kirjaimen
-taajuus välttämättä [1/11, 3/4]:ssä, binäärihäntää ei ole. Kontrollit:
-Karp verifioitu riippumattomasti Bellman–Fordilla, DP vs. DFS -ristiintarkistus,
-Keräsen sana kulkee graafin läpi. Lisäksi `RESEARCH_ARCHITECT.md`:
-tutkimusideoiden tuotantomenettely (rooli, rajaukset, tulostemuoto,
-rubriikki) — ideat eivät synny enää vapaana proosana.
+**Tehty jatkona (2026-07-29/30): B6 laskettu kahdella tasolla.**
+`sft-container.js` (parametrisoitu kmax:lla), tulokset riveillä **51–52**:
+K ∈ [2,5]: yksi SCC (2 844 tilaa), jokaisen kirjaimen taajuus välttämättä
+[1/11, 3/4]:ssä, binäärihäntää ei ole. K ∈ [2,6]: kieli kutistuu aidosti
+(p(15): 159 006 → 128 940) mutta **väli ei kiristy lainkaan** — [1/11, 3/4]
+on stabiili. Kontrollit: Karp verifioitu riippumattomasti Bellman–Fordilla,
+DP vs. DFS -ristiintarkistus, Keräsen sana kulkee molempien graafien läpi,
+kmax=5-regressio ajettu refaktoroinnin jälkeen. Lisäksi
+`RESEARCH_ARCHITECT.md`: tutkimusideoiden tuotantomenettely (rooli,
+rajaukset, tulostemuoto, rubriikki) — ideat eivät synny enää vapaana
+proosana.
 
-**Seuraava askel:** B6:n jatko 1 (kiristyvätkö taajuusvälit kun K-ikkunaa
-kasvatetaan — muisti 11 ensin, mittaa ennen muistia 13) tai B5.1 (L=6-lakaisu;
-L=5 vaati 14,9 mrd symbolia, mittaa ennen lupaamista). Kumpikin on äärellinen
-ja invariantti.
+**Seuraava askel:** B6:n jatko 2 — missä stabiilius katkeaa? K ∈ [2,7]
+vaatii Howardin algoritmin (Karp-taulukko ei mahdu; eksaktius säilytettävä
+rationaalisella verifioinnilla, rivin 51 Bellman–Ford-kuvio kantaa).
+Vaihtoehto: B5.1 (L=6-lakaisu; L=5 vaati 14,9 mrd symbolia, mittaa ennen
+lupaamista). Kumpikin on äärellinen ja invariantti.
 
 ---
 
@@ -47,6 +52,13 @@ jottei visioproosaa omaksuta sellaisenaan:
   järjestyksessä kirjallisuus → eksakti koneisto → verifiointi.
 - Sääntö 7 koskee myös visiodokumentteja. Skills-infra: `SKILLS_PLAN.md`
   (parkissa, ei hyväksytty).
+
+**Ideat kirjattu 2026-07-30 (RESEARCH_ARCHITECT-ajo):** tutkimusehdotukset
+`OPEN_RESEARCH_QUESTIONS.md` **B7** (säiliön välttämättömät tekijät), **B8**
+(taajuusmonikulmio), **E5** (puhdashuonereplikaatio), **E6** (additiiviset
+neliöt, jäljittämätön). UI/UX-backlog: `UI_UX_PLAN.md` (kärki: "UI ei siteeraa
+— se lukee lokia"). Lokaali laskentakone: `SANALAB_PLAN.md` (vaihe 0 vaatii
+E6:n jäljityksen ennen koodia).
 
 **Lokaalin/ladattavan ohjelman suunnittelusääntö** (kun siihen palataan):
 työyksikön tuloksen pitää olla väitelokikelpoinen — eksakti, tyhjentävä
@@ -169,11 +181,10 @@ Erotus näiden kahden joukon välillä on täsmälleen se mitä Keränen kysyy, 
 
 ## Repositorion tila 2026-07-30
 
-Testit **30/30**, driftitarkistukset **13/13**. Rivit 49–50 ja
+Testit **31/31**, driftitarkistukset **13/13**. Rivit 49–51 ja
 tutkimusarkkitehti-protokolla on committoitu. **Työpuussa odottaa
-hyväksyntää** (sääntö 5): rivi 51 (`sft-container.js`:n tulokset) ja siihen
-liittyvät päivitykset tähän tiedostoon, `RESEARCH_CONTEXT.md`:hen ja
-`OPEN_RESEARCH_QUESTIONS.md` B6:een.
+hyväksyntää** (sääntö 5): rivi 52 (K ∈ [2,6], välin stabiilius),
+`sft-container.js`:n parametrisointi, testi 31 ja dokumenttipäivitykset.
 Moduulilista ja ajokomennot: `RESEARCH_CONTEXT.md` osio 3.
 
 ### Avoimet päätökset, jotka kuuluvat ylläpitäjälle

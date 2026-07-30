@@ -34,7 +34,7 @@ ainoat abelin neliöt ovat `00`, `11`, `22`? Auki puolipituuksille K = 2…5.
 | # | Tiedosto | Mistä se on auktoriteetti |
 |---|---|---|
 | 1 | **`AGENTS.md`** / `CLAUDE.md` | Väitteiden protokolla. **Pakollinen.** Sitaatti ennen koodia, kaksi verifiointitasoa, kielen kalibrointi, ihmisen hyväksyntä ennen committia kun väitteet muuttuvat |
-| 2 | **`MATH_CLAIMS.md`** | **Ainoa auktoriteetti jokaiselle matemaattiselle väitteelle.** 54 riviä. Mikään väite ei saa esiintyä missään ilman riviä täällä |
+| 2 | **`MATH_CLAIMS.md`** | **Ainoa auktoriteetti jokaiselle matemaattiselle väitteelle.** 56 riviä. Mikään väite ei saa esiintyä missään ilman riviä täällä |
 | 3 | **`OPEN_RESEARCH_QUESTIONS.md`** | Avoimet ongelmat, kolmijaolla: A kirjallisuus (lähteineen), B projektin omat laskettavat, **C muotoilut jotka mittaavat toteutusta eivätkä matematiikkaa**. D on hylkäysrekisteri perusteineen |
 | 4 | **`NEXT_STEP.md`** | Mistä jatketaan ja miksi. Mitä ei kannata tehdä |
 | 5 | `PROJECT_ARCHITECTURE.md` | Sovelluksen rakenne, välilehtien reititys |
@@ -78,7 +78,7 @@ sft-container.js           K in [2,5]-sailiokieli: de Bruijn -graafi, SCC, taaju
 **Verifiointi:**
 
 ```bash
-node test.js                 # 30/30
+node test.js                 # 31/31
 node check-claims-drift.js   # 13/13
 ```
 
@@ -105,9 +105,10 @@ Yksityiskohdat `MATH_CLAIMS.md`:stä, tässä vain karttamerkit:
 - **Reitti (c) lakaistu tyhjentävästi pienillä L:** yksikään uniformi kuvaus
   Σ₆→Σ₃^L, L ≤ 5, ei tuota h₆^ω(a):sta Mäkelä-sanaa; pienten ja suurten
   jaksojen vaatimukset vetävät vastakkain (rivi 49)
-- **Säiliökieli K ∈ [2,5] analysoitu eksaktisti:** yksi SCC, jokaisen
-  kirjaimen taajuus välttämättä [1/11, 3/4]:ssä, ei binäärihäntää —
-  välttämättömiä ehtoja jokaiselle Mäkelä-todistajalle (rivi 51)
+- **Säiliökielet K ∈ [2,5] ja K ∈ [2,6] analysoitu eksaktisti:** yksi SCC
+  kummassakin, jokaisen kirjaimen taajuus välttämättä [1/11, 3/4]:ssä, ei
+  binäärihäntää — ja väli on stabiili ikkunan kasvatuksessa 5 → 6 vaikka
+  kieli kutistuu (rivit 51, 52)
 - Sitaatit korjattu primäärilähteistä; useita vääriä lausenumeroita ja yksi
   väärä arXiv-tunniste peruttu (rivit 4–7b, 9, 38, 39, 44)
 
