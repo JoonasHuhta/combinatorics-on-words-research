@@ -176,7 +176,7 @@ check("No Overclaiming Language in Program Output (CLI, workers, launcher)", () 
   // finite proof language - an exhausted left extension tree IS a proof of
   // unfavourability (MATH_CLAIMS.md row 47 documents the distinction). Adding it
   // here would flag wording the ledger itself endorses.
-  const files = ['seam-hpc-cli.js', 'aa2fr-worker.js', 'run-seam-search.bat', 'h6-image-sweep.js', 'morphism-scan.js', 'sft-container.js', 'additive-sweep.js', 'extension-table.js', 'sanalab-run.js', 'table-library.js'];
+  const files = ['seam-hpc-cli.js', 'aa2fr-worker.js', 'run-seam-search.bat', 'h6-image-sweep.js', 'morphism-scan.js', 'sft-container.js', 'additive-sweep.js', 'extension-table.js', 'sanalab-run.js', 'table-library.js', 'additive-morphism-scan.js'];
   const offences = [];
 
   for (const f of files) {

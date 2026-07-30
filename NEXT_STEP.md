@@ -81,14 +81,28 @@ Uudet dokumentit: `KNOWLEDGE_STATE.md`, `LITERATURE_COVERAGE.md`,
 
 ## Seuraavat askeleet, suositusjärjestyksessä
 
-1. **Epätasapainoisten luokkien ratkaiseminen** — 20 auki, ja siellä on aukko
-   jonka `LITERATURE_COVERAGE.md` osoittaa. Työkalu on valmis
-   (`sanalab-run.js`, jatkettavat ajot). **Uusi ykkönen**, koska Freedman-
-   kysymys on nyt suurelta osin ratkaistu (rivi 66).
-2. **Epäuniformit morfismit** — `LITERATURE_COVERAGE.md` rivi 6: ei tehty
-   täällä eikä löytynyt kirjallisuudesta.
-3. `index.html` → `claims.json` (`docs/plans/UI_UX_PLAN.md` kohta 1).
-4. *(Matalan prioriteetin siisteystyö, ei tutkimusta):* Freedmanin oman
+**Päivitys 2026-07-30 (myöhäisilta):** kohta 1 aloitettu ja jo osittain
+tehty — ks. rivi 67 ja B10 alla. Uusi ykkönen on epäuniformi haku.
+
+1. **Epäuniformi morfismihaku additiivisille neliöille** (`OPEN_RESEARCH_QUESTIONS.md`
+   B10, rivi 67). `additive-morphism-scan.js` tyhjensi uniformin tapauksen
+   k ≤ 4 kuudella epätasapainoisella aakkostolla, negatiivisesti. Cassaignen
+   additiivinen kuutio-konstruktio on todistetusti **epäuniformi**
+   (φ_{a,b,c,d}: pituudet 2,2,1,2, uutettu suoraan preprintistä) — vahva
+   ennakko-oletus että sama pätee neliöille. Uusi moduuli, ei laajennus,
+   koska hakuavaruus (pituusprofiilien yli) on eri muotoinen. **Jos
+   onnistuu: vastaisi Question 3:een myöntävästi — avoin ainakin 1987.**
+2. **Epätasapainoisten luokkien alarajojen syventäminen** —
+   diagnostiikka-ajo (2026-07-30, scratchpad) näytti että kaikki 20
+   avointa luokkaa kasvavat yhä 10⁸ solmun kohdalla eivätkä tasaannu,
+   toisin kuin 10 tasapainoista jotka kaikki tyhjenivät alle 10 M solmulla.
+   **Tämä ei todista mitään** (sama ansa kuin `NEGATIVE_RESULTS.md` §1–2) —
+   se vain kertoo että sokea DFS ei ratkaise näitä, ja kohta 1 on siksi
+   parempi käyttö laskennalle kuin lisää raakaa hakua.
+3. **Epäuniformit morfismit yleisemmin** — `LITERATURE_COVERAGE.md` rivi 6:
+   ei tehty täällä eikä löytynyt kirjallisuudesta (koskee myös aa2f:ää).
+4. `index.html` → `claims.json` (`docs/plans/UI_UX_PLAN.md` kohta 1).
+5. *(Matalan prioriteetin siisteystyö, ei tutkimusta):* Freedmanin oman
    INTEGERS-paperin avaaminen tekijyyden viimeistelyä varten — ei muuta
    mitään matemaattista päätelmää, vain lähdemerkintää.
 

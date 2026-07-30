@@ -1468,6 +1468,34 @@ test("Container unavoidable factors: only single letters, none of length 2..9", 
   console.log("       avoidable verdicts carry an explicit avoiding cycle");
 });
 
+// ----------------------------------------------------
+// 38. ADDITIVE MORPHISM SCAN (additive-morphism-scan.js, MATH_CLAIMS row 67)
+// ----------------------------------------------------
+test("Additive morphism scan: agrees with additive-sweep.js; k<=4 exhaustive negative on {0,1,2,5}", () => {
+  const ams = require("./additive-morphism-scan.js");
+
+  // Controls throw on failure: K=1 additive squares caught, agreement with
+  // additive-sweep.js's definitional checker, and correct length-2 filtering.
+  const notes = ams.runControls();
+  assert.strictEqual(notes.length, 3, "runControls must report 3 control groups");
+
+  const valueOf = { a: 0, b: 1, c: 2, d: 5 };
+  for (let k = 2; k <= 4; k++) {
+    const r = ams.scan(k, valueOf, 400, 5e7);
+    assert.ok(!r.skipped, `k=${k} should fit the test budget`);
+    assert.strictEqual(r.reachedCap, 0, `k=${k} must have 0 morphisms reaching the cap over {0,1,2,5}`);
+  }
+
+  // K=1 (equal adjacent letters) is the weakest additive square and must
+  // never be missed - it is the analogue of the abelian K=1 case that
+  // aa2f explicitly permits, but the additive condition (row 54) forbids.
+  assert.strictEqual(ams.firstViolation([3, 3], 1), 2, "equal adjacent values must be caught at K=1");
+  assert.strictEqual(ams.firstViolation([0, 1, 2, 4], 1), -1, "a square-free value sequence must not be flagged");
+
+  console.log("       k=2..4 exhaustive over {0,1,2,5}: no morphism reaches the prefix cap");
+  console.log("       agrees with additive-sweep.js's definitional checker; K=1 case verified separately");
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);

@@ -160,6 +160,20 @@ Rivin 54 lakaisussa **jokainen** tasapainoinen aakkosto (muotoa {0, p, q, p+q}) 
 2. **Onko 60 tasapainoisten katto?** Arvot kulkevat 50 → 55 → 58 → 60 kun (p,q) etääntyvät, ja pysähtyvät 60:een. Onko olemassa tasapainoinen aakkosto jonka pisin sana on > 60?
 3. **Rakenteellinen selitysehdokas — testattava, ei oletettava.** Tasapainoinen aakkosto on summajoukko {0,p} + {0,q}, joten kirjain on p·x + q·y missä x,y ∈ {0,1}: aakkosto on {0,1}² ⊂ ℤ²:n projektio. Riittävän riippumattomilla p, q summat ovat yhtä suuret täsmälleen kun **molemmat binäärikoordinaatit** täsmäävät, jolloin additiivinen neliö ℤ-sanassa vastaa yhtäaikaista abelin neliötä kahdessa binääriprojektiossa. Tämä kytkeytyy suoraan riviin 53 (ℤ² ratkaistu). **Ennuste jonka voi kumota:** jos selitys pätee, tasapainoisen aakkoston tulos saa riippua vain siitä ovatko p ja q "riittävän riippumattomia", ei niiden koosta — ja (1,2):n poikkeava 50 selittyy sillä että q = 2p. Testattavissa vertaamalla luokkia joilla on sama riippuvuusrakenne mutta eri koko.
 
+**Päivitys 2026-07-30 (rivi 66):** Freedmanin todistama yleinen raja (61, kaikille tasapainoisille eli Sidon-aakkostoille) selittää kohdan 2 kysymyksen tyhjentävästi kirjallisuuden puolelta — 60 on kirjallisuuden mukaan yleinen katto, ei pelkkä tämän projektin span≤8-havainto. Kohdat 1 ja 3 ovat silti auki: rakenteellinen selitys (kohta 3) on nyt testattavissa Freedmanin todistuksen menetelmää vasten, mikä on eri kysymys kuin lisää laskentaa.
+
+### B10. Epäuniformi morfismihaku additiivisille neliöille (rivi 67)
+
+**Kysymys:** onko olemassa epäuniformi morfismi jonka kiintopiste välttää additiiviset neliöt täydellisesti (kaikilla K ≥ 1) jollain epätasapainoisella nelikirjaimisella aakkostolla?
+
+**Miksi juuri tämä, eikä lisää uniformia hakua:** `additive-morphism-scan.js` (rivi 67) tyhjensi uniformin tapauksen k ≤ 4:llä kuudella epätasapainoisella aakkostolla — negatiivisesti, mutta äärellisesti. Cassaigne et al. (2013) -konstruktio additiivisille **kuutioille** on todistetusti **epäuniformi** (φ_{a,b,c,d}: a→ac, b→dc, c→b, d→ab, pituudet 2,2,1,2), suoraan Lietard & Rosenfeldin preprintistä uutettuna. Tämä on vahva ennakko-oletus: uniformi on todennäköisesti väärä hakuavaruus myös neliöille.
+
+- **Ei ole olemassa oleva moduuli.** Epäuniformien morfismien hakuavaruus on eri muotoinen (pituusprofiilien yli, ei kiinteän k:n yli), joten tämä on aidosti uusi moduuli eikä `additive-morphism-scan.js`:n laajennus.
+- **Validointi:** sama kolmikerroksinen kuvio kuin muualla — riippumaton koodipolku, ternäärikontrolli jos sovellettavissa, todistuskappaleen verifiointi määritelmästä.
+- **Odotettu lokirivi:** joko *"epäuniformi morfismihaku pituusprofiileilla ⟨lista⟩ ei tuottanut kiintopistettä joka välttäisi additiiviset neliöt aakkostolla A"* (kielteinen, äärellinen) tai — jos jokin selviää — **bounded evidence**, ei todiste, koska päätösmenettelyä additiiviselle ehdolle ei ole olemassa (vrt. `decide-realizability.js`:n abelin vastine).
+- **Tappoehto:** ei signaalia kohtuullisella pituusprofiilibudjetilla ilman uutta rakenteellista ideaa — sama kriteeri kuin `NEGATIVE_RESULTS.md` §1:ssä.
+- **Vaikuttavuus, jos onnistuu:** hyvin korkea — vastaisi myöntävästi Question 3:een (rivi 63/66: *"Is there any finite alphabet of integers over which additive squares are avoidable?"*), joka on ollut avoin ainakin vuodesta 1987.
+
 ### B8. Taajuusmonikulmio — yhteisjakauma laatikon sijaan (RESEARCH_ARCHITECT-ajo 2026-07-30)
 
 **Kysymys:** mikä on säiliökielen saavutettavien taajuusvektorien (f_a, f_b, f_c) tarkka monikulmio simpleksissä? Rivit 51–52 antavat vain laatikon [1/11, 3/4]³; monikulmio kertoo esim. voiko f_a = 3/4 esiintyä yhtä aikaa f_b = 1/11:n kanssa. Menetelmä: suuntaparametrisoitu Karp (lineaarifunktionaalin max-syklikeskiarvo = tukisuora); äärellinen suuntajoukko antaa ulkoapproksimaation joka on jo sellaisenaan pätevä välttämätön ehto, saavuttavat syklit sisäpisteet.
