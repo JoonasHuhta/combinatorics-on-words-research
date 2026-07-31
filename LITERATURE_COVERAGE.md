@@ -64,7 +64,8 @@ Sarake **"Avaruus"** kertoo mitä täsmälleen on lakaistu, ei pelkkää kyllä/
 | 4 | Uniformit ternäärimorfismit, k ≤ 6 | **ei löytynyt** | — | rivi 36, tyhjentävä | ei tällä k:lla |
 | 5 | Uniformit kuvat h₆:n kiintopisteestä, L ≤ 5 | **ei löytynyt** | — | rivi 49, tyhjentävä | L ≥ 6 auki |
 | 6 | Epäuniformit morfismit, additiiviset neliöt, 4→4 | **ei löytynyt** | pituusprofiilit (La,Lb,Lc,Ld) ∈ [1,4]⁴, La ≥ 2, **kaikki 20 avointa epätasapainoista affiiniluokkaa** | rivit 68, 69: tyhjentävä, negatiivinen, 1,87 mrd morfismia | ei tässä ikkunassa — ks. B13 (apuaakkosto) |
-| 6b | Epäuniformit morfismit, muut muodot | **ei löytynyt** | — | ei tehty: profiilit > 4, apuaakkostomuoto Σ_m → Σ₄, aakkostokoot ≠ 4 | **kyllä, tekemättä** |
+| 6b | Epäuniformit morfismit, muut muodot | **ei löytynyt** | — | ei tehty: profiilit > 4, aakkostokoot ≠ 4 | **kyllä, tekemättä** |
+| 6c | Apuaakkostomuoto additiivisille neliöille (h₆ → kokonaislukuaakkosto) | **ei löytynyt tarkistetuista lähteistä** | uniformit koodaukset g: Σ₆ → {0,1,2,5}^L, **L ≤ 6**, h₆ kiinteänä, ehto kaikki K ≥ 1 | rivi 77: tyhjentävä, negatiivinen, 10,4 mrd symbolia L=6:lla | **kyllä** — mutta vain: apuaakkoston koon m vaihtaminen, epäuniformit koodaukset, muut aakkostot, L > 6 |
 | 7 | Additiiviset **kuutiot**, 4-alkioiset aakkostot | **kyllä, kattavasti** (Lietard & Rosenfeld 2020, Corollary 1) | kaikki 4-alkioiset aakkostot affiiniluokkina, paitsi {0,1,2,3} | ei tehty | **ei — älä tee** |
 | 8 | Additiiviset kuutiot, {0,1,2,3} | **avoin** (heidän Question 1) | — | ei tehty | mahdollinen, mutta heidän ohjelmansa ei löytänyt ehdokasta |
 | 9 | Additiiviset **neliöt**, onko mikään äärellinen ℤ-aakkosto | **avoin** (heidän Question 3; sanatarkasti rivillä 63) | — | rivit 53, 54, 59, 64 | **kyllä** |

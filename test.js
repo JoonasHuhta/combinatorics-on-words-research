@@ -1573,6 +1573,63 @@ test("index.html's embedded claims-data block is in sync and every binding resol
   console.log(`       ${statusCount} status binding(s), ${keyCount} figure binding(s), all resolve; embedded block matches a fresh export`);
 });
 
+// ----------------------------------------------------
+// 41. ADDITIVE ROUTE (c) ANALOGUE (h6-additive-image-sweep.js, MATH_CLAIMS row 77)
+// ----------------------------------------------------
+test("Additive route (c): h6 codings are exhaustively negative at L=1,2,3", () => {
+  const has = require("./h6-additive-image-sweep.js");
+  const his = require("./h6-image-sweep.js");
+
+  // Controls throw on failure: clean-image counts at L=1..6 must match the
+  // independently derived counts, and the all-zero coding must die at symbol 2.
+  has.runControls();
+
+  const V = [0, 1, 2, 5];
+  const x = his.h6Prefix(7);
+
+  // L = 1..3 are cheap and must all be exhaustive with zero survivors.
+  const expectedClean = { 1: 4, 2: 12, 3: 36 };
+  for (const L of [1, 2, 3]) {
+    const r = has.sweepDFS(x, L, V, { budget: 1e9 });
+    assert.ok(!r.aborted, `L=${L} must complete within budget`);
+    assert.strictEqual(r.cleanImages, expectedClean[L],
+      `L=${L}: clean image count ${r.cleanImages}, expected ${expectedClean[L]}`);
+    assert.strictEqual(r.survivors.length, 0, `L=${L} must have zero survivors`);
+    assert.strictEqual(r.candidatesCompleted, 0, `L=${L} must have zero completed candidates`);
+    assert.ok(r.pruneEvents > 0, `L=${L} must actually prune something`);
+  }
+
+  // The value function must genuinely differ from the abelian one. A coding
+  // whose images all carry the SAME weighted sum dies immediately here: two
+  // adjacent whole images then form an additive square of half-length L, with
+  // no search needed. That is the structural point recorded in MATH_CLAIMS
+  // row 71 (on the abelian side, equal Parikh vectors across images is what
+  // MAKES Keranen's construction work; here it is disqualifying).
+  // Indices into V=[0,1,2,5]: [0,3] -> 0+5 = 5, [3,0] -> 5+0 = 5.
+  const equalSum = [[0, 3], [3, 0], [0, 3], [3, 0], [0, 3], [3, 0]];
+  for (const img of equalSum) {
+    assert.strictEqual(img.reduce((s, i) => s + V[i], 0), 5, "setup: all images must share one sum");
+    assert.ok(has.isClean(img, V), "setup: each image must itself be additive-square-free");
+  }
+  // Apply it directly and find the first additive square.
+  const ps = [0];
+  for (let i = 0; i < 40; i++) {
+    for (const idx of equalSum[x[i]]) ps.push(ps[ps.length - 1] + V[idx]);
+  }
+  let firstViolation = -1;
+  for (let p = 2; p < ps.length && firstViolation === -1; p++) {
+    for (let K = 1; 2 * K <= p; K++) {
+      const i = p - 2 * K;
+      if (ps[i + K] - ps[i] === ps[p] - ps[i + K]) { firstViolation = p; break; }
+    }
+  }
+  assert.strictEqual(firstViolation, 4,
+    `equal-sum coding must die at symbol 4 (two adjacent images, each sum 5), got ${firstViolation}`);
+
+  console.log("       L=1,2,3 exhaustive, zero survivors; clean-image counts 4/12/36 as independently derived");
+  console.log("       equal-sum coding dies at symbol 4 — the abelian enabler is the additive blocker (row 71)");
+});
+
 console.log(`\n=== TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ===`);
 if (failed > 0) {
   process.exit(1);

@@ -243,6 +243,44 @@ Menettely on **jo olemassa julkaistuna**, eikä sitä tarvitse johtaa: Theorem 2
 - **Tappoehto:** jos apuaakkoston kasvattaminen m = 5 → 6 ei muuta selviytyneen etuliitteen jakaumaa lainkaan, muoto ei ole ongelma ja hypoteesi on väärä.
 - **Työmäärä:** esimittaus = m = 5, L ≤ 2 symbolimäärän mittaus ennen kuin L = 3 luvataan (sama kuvio kuin rivillä 49). **Vaikuttavuus 4.**
 
+**AJETTU 2026-07-31, L = 1…6, tyhjentävä ja negatiivinen (rivi 77).**
+`h6-additive-image-sweep.js` lakaisi uniformit koodaukset g: {a..f} → {0,1,2,5}^L
+sovellettuna h₆^ω(a):han, ehtona additiiviset neliöt **kaikilla K ≥ 1**.
+Jokainen taso tyhjentävä (budjetti ei sitonut), **nolla selviytyjää joka
+tasolla**. Työ: L=1 → 3 268 symbolia (0,0 s), L=2 → 386 069 (0,0 s),
+L=3 → 13,9 M (0,4 s), L=4 → 251 M (6,7 s), L=5 → 2,20 mrd (70,3 s),
+L=6 → **10,38 mrd (302,6 s)**. Kasvu ~9–12× per L, tasainen.
+
+**Kaksi asiaa jotka on sanottava tarkasti, ettei tulosta lueta laajempana kuin se on:**
+
+1. **Tämä EI ole yllä kirjatun tappoehdon testi.** Tappoehto kysyy mitä
+   tapahtuu kun **apuaakkoston koko** m vaihtuu (5 → 6). Tässä m pidettiin
+   kiinteänä (h₆, m = 6) ja vaihdettiin **koodauspituutta L** — se on
+   `h6-image-sweep.js`:n oma rakenne siirrettynä, ja rakenteellisesti
+   perusteltu, mutta eri koe. **m:n vaihtaminen on yhä tekemättä.**
+2. **Yksi aakkosto, yksi apumorfismi.** {0,1,2,5} ja h₆. Ei sano mitään
+   muista aakkostoista, epäuniformeista koodauksista, eikä L > 6:sta.
+
+**Vertailu abelin alkuperäiseen (rivi 49):** abelin route (c) pysähtyi
+L ≤ 5:een; tämä additiivinen vastine ylsi L = 6:een. **Pysähdys oli
+tarkoituksellinen päätös, ei budjettiseinä** — L=6 valmistui reilusti
+budjetin sisällä; L=7 (~90–120 mrd symbolia, ~50–70 min arvioitu) jätettiin
+lupaamatta ilman erillistä päätöstä.
+
+**Mitä tästä seuraa työjärjestykselle.** 4→4-muoto oli suljettu kolmesti
+(rivit 67–69, 75). Nyt myös apuaakkostomuoto on suljettu kuvapituuteen 6
+asti yhdellä aakkostolla. **Hypoteesi "hakuavaruus on väärän muotoinen" ei
+saanut tukea siinä muodossa jossa se oli helpoin testata.** Se ei kumoa
+hypoteesia — m:n vaihtaminen ja epäuniformit koodaukset ovat yhä auki — mutta
+seuraavan syvennyksen on nimettävä **mikä rakenteellinen asia muuttuu**, ei
+vain kasvatettava L:ää.
+
+**OSITTAIN AJETTU 2026-07-31 (rivi 77) — h₆ kiinteänä (m=6), L vaihdellen, ei tappoehtoa vielä testattu.**
+
+`h6-additive-image-sweep.js` toteutti täsmälleen `h6-image-sweep.js`:n rakenteen (h₆ muuttumattomana, arvofunktio abelin → additiivinen, K∈[2,5] → kaikki K≥1, S₃-symmetriaredusointi pudotettu koska se ei päde additiiviselle kohdealuestolle). **Tulos, aakkostolla {0,1,2,5}: L=1..6 kaikki tyhjentäviä, kaikki negatiivisia, 0 selviytyjää millään L:llä.** L=6 vei 10,4 mrd symbolia, 302,6 s. Abelin alkuperäinen versio pysähtyi L≤5:een — tämä meni yhden pidemmälle, tarkoituksellisesti pysäytettynä ennen L=7:ää (ei budjettiin, vaan päätökseen olla lupaamatta ~1 h lisää ilman erillistä vahvistusta).
+
+**Mitä tämä EI vielä testaa, ja se on B13:n alkuperäinen tappoehto:** apuaakkoston *koon* (m) vaihtaminen. h₆ pidettiin koko ajan kiinteänä. Jos joku jatkaa tätä, seuraava askel on joko (a) L=7 samalla h₆:lla, tai (b) uusi apuaakkosto m≠6:lla — jälkimmäinen on lähempänä B13:n alkuperäistä kysymystä.
+
 ### B8. Taajuusmonikulmio — yhteisjakauma laatikon sijaan (RESEARCH_ARCHITECT-ajo 2026-07-30)
 
 **Kysymys:** mikä on säiliökielen saavutettavien taajuusvektorien (f_a, f_b, f_c) tarkka monikulmio simpleksissä? Rivit 51–52 antavat vain laatikon [1/11, 3/4]³; monikulmio kertoo esim. voiko f_a = 3/4 esiintyä yhtä aikaa f_b = 1/11:n kanssa. Menetelmä: suuntaparametrisoitu Karp (lineaarifunktionaalin max-syklikeskiarvo = tukisuora); äärellinen suuntajoukko antaa ulkoapproksimaation joka on jo sellaisenaan pätevä välttämätön ehto, saavuttavat syklit sisäpisteet.

@@ -1,15 +1,37 @@
 # Seuraava askel
 
-**Päivitetty:** 2026-07-31 (k=6 valmis, E5-replikaatio tehty, git siivottu — rivit 72–76)
+**Päivitetty:** 2026-07-31 (B13 ajettu L≤6, k=6 valmis, E5-replikaatio — rivit 72–77)
 **Lue ensin:** `KNOWLEDGE_STATE.md`, `RESEARCH_CONTEXT.md`, `AGENTS.md`.
 
 ---
 
 # LUOVUTUS SEURAAVALLE SESSIOLLE
 
-**Repositorion tila:** testit **40/40**, driftitarkistukset **15/15**.
-Väiteloki **79 riviä**. Työpuu puhdas. Ei kriittistä avointa lankaa.
+**Repositorion tila:** testit **41/41**, driftitarkistukset **15/15**.
+Väiteloki **80 riviä**. Työpuu puhdas. Ei kriittistä avointa lankaa.
 `origin/main` ajan tasalla.
+
+## B13 ajettu — viimeinen kokeilematon rakenteellinen idea (rivi 77)
+
+Apuaakkostoreitti, se muoto joka abelin puolella *toimi* (h₆→g₃), ajettiin
+additiivisena: uniformit koodaukset g: {a..f} → {0,1,2,5}^L h₆^ω(a):lle,
+ehtona additiiviset neliöt kaikilla K ≥ 1. **L = 1…6 tyhjentävästi, nolla
+selviytyjää joka tasolla.** Työ L=6:lla 10,38 mrd symbolia, 302,6 s.
+Moduuli `h6-additive-image-sweep.js`, testi 41.
+
+**Miksi tämä on merkittävä ja miksi se ei silti sulje B13:a:**
+se oli ainoa jäljellä ollut rakenteellisesti perusteltu kokeilematon idea, ja
+se meni jopa yhden L:n pidemmälle kuin abelin alkuperäinen (rivi 49, L ≤ 5).
+**Mutta se testasi eri asian kuin B13:n tappoehto kirjaimellisesti kuvaa:**
+tappoehto koskee **apuaakkoston koon** m vaihtamista (5 → 6); tässä m pysyi
+kiinteänä (h₆) ja vaihdettiin **koodauspituutta** L. Se on `h6-image-sweep.js`:n
+oma rakenne siirrettynä, ei tappoehdon testi.
+
+**Seuraava syvennys on nimettävä rakenteellisesti, ei kasvattamalla L:ää.**
+Auki jäävät: m:n vaihtaminen (5, 7, 8 — vaatii uuden apumorfismin, ei ole),
+epäuniformit koodaukset, ja muut aakkostot kuin {0,1,2,5}. Pelkkä L=7
+(~90–120 mrd symbolia, ~50–70 min arvioitu) toistaisi saman kokeen isommalla
+budjetilla — juuri se mitä `NEGATIVE_RESULTS.md` §14 kieltää.
 
 ## Aloita tästä (kopioi sellaisenaan uuteen istuntoon)
 
@@ -97,13 +119,13 @@ Se on ~42 h laskentaa tuottaakseen viisi lisää samaa negatiivista tulosta.
 identtinen negatiivinen ei muuta mitään päätöstä. **Tee tämä vain jos joku
 muu syy vaatii kattavuutta** (esim. julkaisu), ei uteliaisuudesta.
 
-**2. Suositukseni: B13, apuaakkostoreitti.** Kolme tyhjentävää negatiivista
-kierrosta (k≤4 kaikki, k=5 ja k=6 affiinit) sanovat saman asian: **4→4-muoto
-ei kanna.** Abelin puolella ratkaisu ei ole 4→4 vaan h₆→g₃ eli suurempi
-apuaakkosto projisoituna alas. Sitä muotoa ei ole additiivisella puolella
-kokeiltu kertaakaan. `h6-image-sweep.js` tekee jo rakenteellisesti saman
-lakaisun abelin puolella — arvofunktio vaihtuu, rakenne siirtyy.
-**Esimittaus ensin:** m=5, L≤2 symbolimäärä ennen kuin L=3 luvataan.
+**2. ~~B13, apuaakkostoreitti~~ — AJETTU 2026-07-31, ks. yllä ja rivi 77.**
+Tyhjentävä ja negatiivinen L ≤ 6. Tämä oli edellisen luovutuksen ykkössuositus
+ja se on nyt käytetty. **Mitä siitä opittiin työjärjestykselle:** hypoteesi
+"hakuavaruus on väärän muotoinen" ei saanut tukea siinä muodossa jossa se oli
+halvin testata. Se ei kumoa hypoteesia — m:n vaihtaminen ja epäuniformit
+koodaukset ovat yhä auki — mutta **seuraavan idean on nimettävä mikä
+rakenteellinen asia muuttuu**, ei vain kasvatettava jotain parametria.
 
 **3. Halpa ja arvokas: E5:n laajennus.** Neljä lukua replikoitu (rivi 76),
 ja se maksoi yhden istunnon osan. Seuraavat kohteet: rivi 6b (34 neliötä —
