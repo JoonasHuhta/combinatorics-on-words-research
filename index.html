@@ -536,6 +536,9 @@
     <button class="btn" id="btn-reset">Reset</button>
     <button class="btn hidden" id="btn-apply-morphism">Apply g&#8328;&#8325; Iteration</button>
     <button class="btn hidden" id="btn-draw-canvas">Draw 2D Walk</button>
+    <label class="hidden" id="lbl-wrap-width" style="font-family: Arial; font-size: 0.9rem; gap: 5px; cursor: pointer; margin-left: 10px; align-items: center;">
+      Row width: <input type="number" id="wrap-width-input" min="43" max="86" value="85" style="width: 50px;">
+    </label>
     <label class="hidden" id="lbl-canvas-anim" style="font-family: Arial; font-size: 0.9rem; gap: 5px; cursor: pointer; margin-left: 10px;">
       <input type="checkbox" id="chk-anim-walk" checked> Animate Walk
     </label>
@@ -3648,7 +3651,7 @@ function switchMode(newMode) {
   $('log').innerHTML = '';
 
   document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === newMode));
-  ['btn-start','btn-pause','btn-apply-morphism','btn-draw-canvas','lbl-canvas-anim','btn-run-abc'].forEach(id => {
+  ['btn-start','btn-pause','btn-apply-morphism','btn-draw-canvas','lbl-canvas-anim','lbl-wrap-width','btn-run-abc'].forEach(id => {
     const el = $(id); if(el) el.classList.add('hidden');
   });
 
@@ -3761,6 +3764,8 @@ function switchMode(newMode) {
     setSquaresLabel('Squares Found');
 
     if (mode === '4letter') {
+      $('lbl-wrap-width').classList.remove('hidden');
+      $('lbl-wrap-width').style.display = 'flex';
       $('tiles-general').classList.remove('hidden');
       if (fourLetterWord.length <= 8000) {
         renderTiles(fourLetterWord, 'tiles-general');
