@@ -286,6 +286,11 @@ Kirjataan näkyviin, jotta niitä ei ehdoteta uudelleen ilman uutta perustelua.
 | SAT-backbone ternäärihaulle | Kieli on suljettu S₃-permutaation suhteen, joten mikään positio ei voi olla pakotettu tiettyyn kirjaimeen kaikissa ratkaisuissa — **backbone on tyhjä symmetrian nojalla**. Mielekäs vasta kun etuliite on kiinnitetty, jolloin se on eri kysymys. |
 | SWAR-bittipakkaus 64-bittiin JavaScriptissä | JS:n bittioperaattorit ovat 32-bittisiä; 64-bittinen SWAR vaatisi BigIntin (hidas) tai kahden puolikkaan käsinhallinnan. Lisäksi pullonkaula ei ole Parikh-vertailu — eksaktit skriptit ajavat sekunneissa. Idea on pätevä C:ssä, ei tässä. |
 | Holografia, Navier-Stokes, Gödel-itseviittaus, SETI, kvanttilomittuminen | Ei koodattavaa ydintä. Aperiodisten laatoitusten ja substituutioiden yhteys on aito, mutta projektissa jo olemassa (Rauzy-projektio). |
+| HD0L-projektiomorfismit additiivisille neliöille | Redundantti. Rivi 49 tyhjensi uniformin kuvauksen (L ≤ 5), ja kaikki selviävät luokat kuolivat suurilla jaksoilla. Samaan hakuavaruuteen palaaminen "HD0L"-nimellä ei muuta tulosta. Additiivisen summan 1D-luonne tuhoaa projektion vapauden, joka toimi 6D Parikh-vektorille (h6→g3). |
+| Välttämättömät tekijät epätasapainoisille (säiliökielen relaksaatio) | Neljäs versio samasta nollatuloksesta. Rivit 51, 52, 62 todistivat jo: "säiliö on löysä relaksaatio", eikä yhtään pituuden ≥2 välttämätöntä tekijää löytynyt. NEGATIVE_RESULTS §7 sulki tämän reitin. |
+| Prefiksisummien 3-AP-vapaus (Rothin lause) | Vakava matemaattinen virhe. Rothin tiheyslause koskee *joukkoja* (ilman toistoja). Prefiksisumma on *jono* (toistot sallittu). Lisäksi koskee kokonaislukujen summaa, ei abelin neliötä. |
+| Toeplitz-sanojen louhinta | Sokean DFS-haun uudelleennimeäminen. NEGATIVE_RESULTS §3 osoitti ennätyssanoista: "rakennetta ei ole purettavaksi". Toeplitz ei tuo rakenteellista syytä abelin neliöiden välttämiselle. |
+| MCTS-pohjainen syvien kielten navigointi | Mittaa toteutusta, ei matematiikkaa (ORQ osio C). Tuottaa yhä vain äärellisen sanan (rivi 50: "jokainen äärellinen sana on äärellinen havainto"). |
 
 ---
 
@@ -321,7 +326,30 @@ Kaikki Level 1 -rivit nojaavat samaan JS-koodipohjaan. Halvin tapa nostaa koko l
 
 Johtolanka jäljitettiin ja se osoittautui vahvemmaksi kuin muistikuva: additiivisten neliöiden avoimuus ℤ:ssa, kuutioiden ratkaisu {0,1,3,4}:llä JA se että **projektin oma ydinlähde arXiv:1511.05875 on juuri tämän ongelman ℤ²-ratkaisu** — sitaatit ja päiväykset osiossa **A6** ja `MATH_CLAIMS.md` rivillä 53. Additiivinen instanssi ei siis ole naapuriongelma vaan paluu sen paperin emo-ongelmaan, josta projektin templaattikoneisto tulee. Tekninen peruste ennallaan: additiivinen ekvivalenssi on Parikh-vektorin lineaarinen funktionaali, joten säiliökoneisto (rajattu K → äärellinen ikkuna → de Bruijn → SCC → taajuusrajat) siirtyy sellaisenaan. Ks. `SANALAB_PLAN.md`.
 
----
+### E7. Keräsen g85^ω → 3-kirjaiminen projektio (36 surjektiota) (RESEARCH_ARCHITECT-ajo 2026-07-31)
+
+**Tausta:** Keräsen g85:n kiintopiste (1992) on täysin abelin-neliötön 4 kirjaimella (ei edes pituuden 1 neliöitä). Mäkelän konjektuuri koskee 3 kirjainta ja *sallii* triviaalit neliöt (00, 11, 22). Tätä 4→3 -projektiota (yhdistää kaksi kirjainta) ei ole kokeiltu kirjallisuudessa eikä projektissa.
+**Miksi kannattaa:** Ylivoimaisesti halvin ja potentiaalisesti arvokkain reitti. Se voisi ratkaista Mäkelän konjektuurin 5 minuutin laskennalla (36 surjektiota), tuottaen "ilmaisia" 1-pituisia neliöitä, jotka ovat sallittuja. 
+**Tappoehto:** Kaikki 36 surjektiota kaatuvat jaksoon 2–5. Vaikka kaatuisi, saamme tarkan diagnostiikan siitä, missä positiossa Keräsen rakenne hajoaa 3-kirjaimisessa projektiossa.
+
+### E8. CEGIS-synteesi ternäärisille kiintopisteille (RESEARCH_ARCHITECT-ajo 2026-07-31)
+
+**Tausta:** R&R-päätösmenettely (`decide-realizability.js`, rivi 32) antaa meille äärellisen verifioijan puhtaille morfisille sanoille. Tämä mahdollistaa CEGIS (Counter-Example-Guided Inductive Synthesis) -silmukan rakentamisen.
+**Miksi kannattaa:** Rivi 36 enumeroi sokeasti kaikki uniformit morfismit. CEGIS oppii vastaesimerkeistä (ensimmäinen abelin neliö K ∈ [2,5]), ohjaa epäuniformia hakua, ja ratkaisee "äärettömän ehdon kääntämisen äärelliseksi" -ongelman (osio D, QBF), koska käännös on jo valmiina.
+**Tappoehto:** Mutaatiosilmukka ei tuota pituuden 500 selviäjää annetulla budjetilla (esim. 10 000 iter.).
+
+### E9. g3(h6^ω(a)):n täsmädiagnostiikka jaksoille 2–5 (RESEARCH_ARCHITECT-ajo 2026-07-31)
+
+**Tausta:** Tiedämme, että g3(h6^ω(a)) rikkoo Mäkelän ehdon "34 neliöllä" (rivi 6b), mutta niiden jakautumista tai rakennetta ei ole analysoitu.
+**Miksi kannattaa:** Kertoo täsmälleen, mitä ominaisuutta g3:lta puuttuu (esim. "kaikki rikkomukset ovat jaksolla 2 ja klusteroituvat h6-lohkorajoille"). Tämä antaa täsmällisen korjaustavoitteen ja ohjaa koko reitin (c) (B5) variointia.
+**Tappoehto:** Rikkomukset ovat satunnaisia ja tasaisesti jakautuneita, jolloin g3 on "kokonaan väärä" jaksoilla 2-5, eikä sen pikkusäätöön kannata tuhlata aikaa.
+
+### E10. Viiden ennätyssanan vertailudiagnostiikka (RESEARCH_ARCHITECT-ajo 2026-07-31)
+
+**Tausta:** Projektilla on 5 todennettua aa2f-ennätyssanaa (pisimmillään 25 379), mutta niitä ei ole koskaan vertailtu toisiinsa (vrt. rivi 40 & 42). 
+**Miksi kannattaa:** Vastaa kysymyksiin: Ovatko ne yhden hakupolun pisteitä vai haarautuvatko ne aikaisin? Mikä on niiden abelin kompleksisuus (pakko olla ρ(n) ≥ 2 jotta välttää abelin neliöt) ja palautusaika verrattuna tasaisesti rekurrenttiin g85^ω:aan? Ohjaa hakustrategiaa kertomalla onko luokka "leveä" vai "kapea".
+**Tappoehto:** Sanat ovat peräkkäisiä saman haun pisteitä ja tilastollisesti identtisiä satunnaiselle aa2f-sanalle, joten vertailu ei paljasta uutta rakennetta.
+
 
 ## F. Uusi tulos, joka syntyi tästä arvioinnista
 

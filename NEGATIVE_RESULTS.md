@@ -15,6 +15,7 @@ tässä eikä dokumentin rungossa. Aja silmäys tästä ennen kuin ehdotat mitä
 
 | Pvm | # | Mikä kaatui | Yhdellä lauseella |
 |---|---|---|---|
+| 2026-07-31 | [§15](#15-tekoälyn-epistemologia-ja-kehän-kiertäminen) | AI Epistemologia | Tekoäly on äärellisten testien suorittaja, ei matemaattinen orakkeli; vapaat ideat ovat usein vain viallisia analogioita |
 | 2026-07-30 | [§14](#14-kasvukäyrän-muoto-lähestyvän-tyhjentymisen-ennustajana) | Kasvukäyrän muoto tyhjentymisen ennustajana | Kolmen pisteen budjettikäyrä oli kohinaa 20 luokan yli, ei ennustanut mitään |
 | 2026-07-30 | [§13](#13-osittainen-korroboraatio-täytenä-vahvistuksena) | Osittainen korroboraatio täytenä | Neljä täsmäävää kenttää viidestä tuntui vahvistukselta; tarkistamatta jäänyt DOI ei ollut olemassa |
 | 2026-07-30 | [§12](#12-up-and-down--järjestysheuristiikan-siirto-aa2f-hakuun) | Up-and-Down -järjestyksen siirto aa2f-hakuun | Toimii dramaattisesti omassa asetelmassaan, häviää aa2f:ssä — tekniikka on asetelmakohtainen |
@@ -144,3 +145,21 @@ tässä eikä dokumentin rungossa. Aja silmäys tästä ennen kuin ehdotat mitä
 - Ajettiin kaikille 20 avoimelle luokalle kolmella budjettitasolla ja luokiteltiin kasvun muoto kahden peräkkäisen erotuksen perusteella. Tulos oli kohinaista: luokat jakautuivat "tasaantuva", "kiihtyvä" ja "tasainen kasvu" -ryhmiin ilman havaittavaa yhteyttä muihin ominaisuuksiin (esim. epäbalanssin suuruuteen).
 - Kolmen pisteen kasvukäyrä on liian lyhyt erottelemaan aitoa rakennetta otantakohinasta — sama perusongelma kuin rivin 37 otoskoko-artefaktissa, nyt eri muuttujalla mitattuna.
 - **Johtopäätös:** diagnostiikkaa ei käytetty priorisointiin. Sen sijaan siirryttiin suoraan menetelmään joka voi oikeasti ratkaista äärettömyyden kumpaankin suuntaan — morfismihakuun (`additive-morphism-scan.js`) — koska mikään DFS-kasvukäyrän muoto ei voi koskaan todistaa ääretöntä kieltä (§2:n opetus yleistettynä uuteen kontekstiin).
+
+## 15. Tekoälyn epistemologia ja kehän kiertäminen
+*Kirjattu 2026-07-31. Kokoava metodologinen havainto.*
+
+**Hypoteesi (aiempi työskentelytapa):** Tekoälyagentti voi generoida aidosti uusia teoreettisia läpimurtoja (kuten MCTS, Rothin lauseen soveltaminen, HD0L-projektio, holografia) kun siltä pyydetään "ihka uusia ideoita joita emme ole ajatelleet". Näitä ehdotuksia kannattaa pitää mahdollisina ratkaisupolkuina Mäkelän konjektuuriin.
+
+**Miksi se ammuttiin alas:**
+- Tekoälyn koulutusdata perustuu kielellisiin ja semanttisiin yhteyksiin, ei matemaattisiin invariantteihin. Kun AI:lta pyydetään uutta ideaa ilman rajauksia, se tuottaa **viallisia analogioita**:
+  - Esimerkki 1: "Sovelletaan Rothin tiheyslausetta prefiksisummiin" $\to$ Rothin lause koskee *joukkoja* ilman toistoja, prefiksisumma on *jono*.
+  - Esimerkki 2: "Käytetään MCTS-navigointia" $\to$ Mittaa vain hakuohjelman tehokkuutta, ei pysty koskaan todistamaan äärettömyyttä. Tuottaa yhä vain äärellisen sanan (ks. §2, §3, §14).
+  - Esimerkki 3: "Projisoidaan HD0L-morfismilla additiiviset neliöt" $\to$ Additiivinen ehto on skalaari (summa), kun taas abelin ehto (missä projektio toimi) on 6D-vektori. Vapausasteet eivät siirry.
+- **Tekoäly kiertää kehää**, koska se nimeää saman perusvirheen (esim. äärellinen haku) yhä uusilla termeillä (Toeplitz-louhinta, MCTS, sokea DFS) ymmärtämättä, että matemaattinen tappoehto on niille kaikille sama.
+
+**Johtopäätös ja oikea käyttötapa (Mekanismi):**
+- Tekoälyä **EI** tule käyttää matemaattisena oraakkelina, jolta kysytään avoimia suuntia.
+- Tekoäly on **äärellisten testien armoton suorittaja**.
+- Ideoinnin evaluointimekanismi: Idean on oltava **invariantti muotoilu**, joka on muutettavissa **äärelliseksi laskennaksi**. 
+- Jokaisella uudella idealla on oltava heti alussa eksplisiittinen **Tappoehto (Kill Condition)**. Jos ideaa ei voida koodata ja todistaa vääräksi (kaataa) 5 minuutin koodaus- ja laskenta-ajalla, se ei ole kelvollinen tutkimusidea tälle projektille. Esimerkiksi CEGIS-morfismisynteesi (ORQ osio E8) tai Keräsen $g_{85}$:n 3-kirjaiminen projektio (E7) ovat oikein muotoiltuja tekoäly-tehtäviä, koska ne ovat selkeästi rajattuja ja äärellisesti suoritettavia.
