@@ -1,192 +1,196 @@
-# RESEARCH_CONTEXT.md — lue tämä ensin
+# RESEARCH_CONTEXT.md — read this first
 
-**Päivitetty:** 2026-07-29
-**Tarkoitus:** yksi sisääntulopiste uudelle sessiolle tai uudelle tekijälle.
+**Updated:** 2026-07-29
+**Purpose:** a single entry point for a new session or a new contributor.
 
-> **Tämä tiedosto on reititin, ei kopio.** Se ei toista minkään toisen tiedoston
-> sisältöä. Jos jokin väite tai luku esiintyy tässä ja `MATH_CLAIMS.md`:ssä,
-> **väiteloki voittaa aina** — kaksi totuuslähdettä on juuri se vikatila jota
-> tämä projekti on toistuvasti korjannut. Lisää tähän vain osoittimia.
+> **This file is a router, not a copy.** It does not repeat the content of
+> any other file. If a claim or figure appears here and in `MATH_CLAIMS.md`,
+> **the ledger always wins** — two sources of truth is exactly the failure
+> mode this project has repeatedly had to correct. Add only pointers here.
 
-Aloita uusi sessio näin:
+Start a new session like this:
 
 > *"Lue RESEARCH_CONTEXT.md ja AGENTS.md ennen kuin muutat mitään."*
+> *(kept in Finnish: the literal prompt the maintainer copy-pastes to start a session — AGENTS.md rule 8 governs the recorded trail, not the interaction)*
 
 ---
 
-## 1. Mikä tämä projekti on
+## 1. What this project is
 
-Kokeellisen kombinatoriikan laboratorio abelin-neliöttömille sanoille. Kaksi
-puolta:
+An experimental combinatorics laboratory for abelian-square-free words. Two
+sides:
 
-- **Selainsovellus** `index.html` (19 välilehteä, riippuvuudeton) — opetus ja
-  visualisointi. Se **raportoi** tuloksia, ei laske niitä.
-- **Eksakti Node-putki** (alla) — kaikki matematiikka. Rationaali- ja
-  ℚ(√3)-aritmetiikka, ei liukulukuja tulospoluilla.
+- **Browser app** `index.html` (19 tabs, no dependencies) — teaching and
+  visualization. It **reports** results, it does not compute them.
+- **Exact Node pipeline** (below) — all the mathematics. Rational and
+  ℚ(√3) arithmetic, no floating point on result paths.
 
-Päätavoite on **Mäkelän konjektuuri**: onko olemassa ääretön ternäärisana jonka
-ainoat abelin neliöt ovat `00`, `11`, `22`? Auki puolipituuksille K = 2…5.
+The main goal is **Mäkelä's conjecture**: does there exist an infinite
+ternary word whose only abelian squares are `00`, `11`, `22`? Open for
+half-lengths K = 2…5.
 
 ---
 
-## 2. Lue nämä, tässä järjestyksessä
+## 2. Read these, in this order
 
-| # | Tiedosto | Mistä se on auktoriteetti |
+| # | File | What it is the authority for |
 |---|---|---|
-| 0 | **`KNOWLEDGE_STATE.md`** | **Tilannekuva: mitä tiedetään, mikä on todistetusti suljettu, mikä hylätty varmuudella, mikä auki, mitä ei saa käyttää.** Johdettu hakemisto — väiteloki voittaa aina. Nopein tapa saada kokonaiskuva |
-| 1 | **`AGENTS.md`** / `CLAUDE.md` | Väitteiden protokolla. **Pakollinen.** Sitaatti ennen koodia, kaksi verifiointitasoa, kielen kalibrointi, ihmisen hyväksyntä ennen committia kun väitteet muuttuvat |
-| 2 | **`MATH_CLAIMS.md`** | **Ainoa auktoriteetti jokaiselle matemaattiselle väitteelle.** 81 riviä. Mikään väite ei saa esiintyä missään ilman riviä täällä |
-| 3 | **`OPEN_RESEARCH_QUESTIONS.md`** | Avoimet ongelmat, kolmijaolla: A kirjallisuus (lähteineen), B projektin omat laskettavat, **C muotoilut jotka mittaavat toteutusta eivätkä matematiikkaa**. D on hylkäysrekisteri perusteineen |
-| 4 | **`NEXT_STEP.md`** | Mistä jatketaan ja miksi. Mitä ei kannata tehdä |
-| 5 | `docs/plans/PROJECT_ARCHITECTURE.md` | Sovelluksen rakenne, välilehtien reititys |
-| 6 | `NEGATIVE_RESULTS.md` | Mikä on kokeiltu ja ei toiminut |
-| 7 | **`LITERATURE_COVERAGE.md`** | **Mitä kirjallisuus kattaa ja mitä ei, sekä minkä avaruuden lakaisu on tehty.** Lue ennen kuin rakennat uuden laskentalinjan — estää saman työn tekemisen uudelleen |
-| 8 | `docs/plans/RESEARCH_ARCHITECT.md` | **Vain kun tuotetaan uusia tutkimusideoita.** Menettely, rajaukset, tulostemuoto ja rubriikki — ideat eivät synny vapaana proosana |
+| 0 | **`KNOWLEDGE_STATE.md`** | **Snapshot: what is known, what is provably closed, what has been rejected with certainty, what is open, what must not be used.** A derived index — the ledger always wins. The fastest way to get the full picture |
+| 1 | **`AGENTS.md`** / `CLAUDE.md` | The claims protocol. **Mandatory.** Cite before code, two verification levels, language calibration, human approval before commit when claims change |
+| 2 | **`MATH_CLAIMS.md`** | **The sole authority for every mathematical claim.** 81 rows. No claim may appear anywhere without a row here |
+| 3 | **`OPEN_RESEARCH_QUESTIONS.md`** | Open problems, in three parts: A literature (with sources), B the project's own computable questions, **C formulations that measure the implementation, not the mathematics**. D is a rejection register with reasons |
+| 4 | **`NEXT_STEP.md`** | Where to continue and why. What is not worth doing |
+| 5 | `docs/plans/PROJECT_ARCHITECTURE.md` | The app's structure, tab routing |
+| 6 | `NEGATIVE_RESULTS.md` | What has been tried and did not work |
+| 7 | **`LITERATURE_COVERAGE.md`** | **What the literature covers and what it does not, and which search space has been swept.** Read before building a new computation line — it prevents redoing the same work |
+| 8 | `docs/plans/RESEARCH_ARCHITECT.md` | **Only when producing new research ideas.** Procedure, constraints, output format and rubric — ideas are not produced as free prose |
 
-**Juuressa on täsmälleen ne kahdeksan `.md`-tiedostoa jotka sessio oikeasti
-lukee.** Loput on siirretty 2026-07-30:
+**The root has exactly the eight `.md` files a session actually reads.**
+Everything else was moved out on 2026-07-30:
 
-- `docs/historical/` — **vanhentuneita suunnitelmapapereita**
+- `docs/historical/` — **outdated planning papers**
   (`GRAND_VISION_MAP`, `COMPUTATIONAL_DISCOVERY_LAB_PLAN`, `SEAM_ENGINE_…`,
-  `AA2FR_*`, `NEXT_AGENT`, `DEVELOPMENT_ROADMAP`, …). Ne sisältävät
-  vanhentuneita suunnitelmia ja osin korjattuja sitaatteja. **Älä nojaa
-  niihin ilman että tarkistat väitteen `MATH_CLAIMS.md`:stä.** Kansion nimi
-  tekee tuon varoituksen rakenteelliseksi eikä pelkäksi proosaksi
-- `docs/plans/` — **elävät suunnitelmat**: `SANALAB_PLAN`, `UI_UX_PLAN`,
+  `AA2FR_*`, `NEXT_AGENT`, `DEVELOPMENT_ROADMAP`, …). They contain
+  outdated plans and partly-corrected citations. **Do not rely on them
+  without checking the claim in `MATH_CLAIMS.md`.** The folder name makes
+  that warning structural, not just prose
+- `docs/plans/` — **living plans**: `SANALAB_PLAN`, `UI_UX_PLAN`,
   `SKILLS_PLAN`, `RESEARCH_ARCHITECT`, `PROJECT_ARCHITECTURE`
-- `papers/` (ent. `latest/`) — kirjallisuus, gitignoressa
-- `datasets/` — ennätyssanat, gitignoressa. Koodi hakee ne
-  `word-anatomy.js`:n `resolveDataFile()`:llä, joka katsoo myös juuren, joten
-  vanha kloonaus toimii yhä
+- `papers/` (formerly `latest/`) — literature, gitignored
+- `datasets/` — record words, gitignored. The code looks them up via
+  `word-anatomy.js`'s `resolveDataFile()`, which also checks the root, so
+  an old clone still works
 
-**Eksakti putki pysyy juuressa** (osio 3). Sitä ei ole jaettu alikansioihin
-`search/`, `constraints/`, `analytics/` tai vastaaviin: se olisi arvaus
-rajapinnoista joita ei vielä tunneta, ja se on sama virhe jonka
-`ConstraintEvaluator`-kielto ja `SANALAB_PLAN.md`:n periaate 4 jo torjuvat.
-Jokainen moduuli todentaa itsensä; jako ansaitaan kun jokin oikeasti pakottaa
-sen.
+**The exact pipeline stays in the root** (section 3). It has not been split
+into subfolders like `search/`, `constraints/`, `analytics/` or similar:
+that would be guessing at interfaces that are not yet known, and it is the
+same mistake the `ConstraintEvaluator` ban and `SANALAB_PLAN.md`'s
+principle 4 already reject. Every module verifies itself; a split is
+earned when something actually forces it.
 
 ---
 
-## 3. Eksakti putki
+## 3. The exact pipeline
 
-Jokainen moduuli **todentaa itsensä ja heittää poikkeuksen** ennemmin kuin
-palauttaa virheellisen tuloksen.
+Every module **verifies itself and throws an exception** rather than
+returning an incorrect result.
 
 ```
-perron-frobenius.js        spektri, Perron-vektori, karakteristinen polynomi
-smith-normal-form.js       Smithin normaalimuoto, kokonaislukuhilat
-jordan-decomposition.js    Q(sqrt3), Jordan-muoto
-decision-preconditions.js  Proposition 9:n hypoteesit
-proposition5-bounds.js     supistuvan puolen rajat
-ancestor-box.js            Prop 5 + Prop 6, aarellinen laatikko
-get-parents.js             Par_h ja Anc_h
+perron-frobenius.js        spectrum, Perron vector, characteristic polynomial
+smith-normal-form.js       Smith normal form, integer lattices
+jordan-decomposition.js    Q(sqrt3), Jordan form
+decision-preconditions.js  Proposition 9's hypotheses
+proposition5-bounds.js     bounds on the contracting side
+ancestor-box.js            Prop 5 + Prop 6, finite box
+get-parents.js             Par_h and Anc_h
 decide-realizability.js    Prop 8 -> Theorem 4
-proposition11-targets.js   Prop 11:n kohdejoukko
+proposition11-targets.js   Prop 11's target set
 decide-phi-squares.js      Prop 8 modulo Phi -> Theorem 6
-factor-frequencies.js      taydelliset tekijajoukot, eksaktit tiheydet
-factor-complexity.js       p(n), kasvunopeuden tiukat ylarajat
-rauzy-graph.js             Rauzy-graafit, erikoiset tekijat, umpikujat
-morphism-scan.js           tyhjentava pienten morfismien haku (reitti a: kiintopisteet)
-word-anatomy.js            ennatyssanojen verifiointi ja anatomia
-unfavourable-factors.js    Keranen 2006: epasuotuisat tekijat, jatkettavuussyvyys
-h6-image-sweep.js          reitti c: h6:n kiintopisteen uniformit kuvat 6->3 kirjaimistoon, L<=5
-sft-container.js           K in [2,5]-sailiokieli: de Bruijn -graafi, SCC, taajuusrajat
-additive-sweep.js          additiiviset neliot: aakkostolakaisu affiiniluokittain
-extension-table.js         jatkettavuussyvyystaulut: terve karsintaoraakkeli, siirtyy affiinisti
-sanalab-run.js             jatkettavat sertifioidut ajot: tarkistuspisteet, kolme lopputilaa
-table-library.js           taulukirjasto: yksi taulu per affiiniluokka, tarkiste ja provenienssi
-claims-export.js           vaiteloki koneluettavaksi; vain lokista jaljitettavat luvut julkaistavissa; synkkaa myos index.html:n upotetun claims-data-lohkon
-unavoidable-factors.js     sailion valttamattomat tekijat: mita jokaisen todistajan on sisallettava
-additive-morphism-scan.js  additiiviset neliot: uniformien morfismien tyhjentava haku, k<=4
-additive-nonuniform-morphism-scan.js  sama, epauniformit pituusprofiilit 1..4, regressio uniformiin
-additive-affine-decision.js  paatosmenettely affiineille morfismeille (Theorem 2.4, rivi 72), portattu ja validoitu
-h6-additive-image-sweep.js  B13: additiivinen vastine reitille (c); h6 kiinteana, uniformit koodaukset L, kaikki K>=1 (rivi 77)
+factor-frequencies.js      complete factor sets, exact densities
+factor-complexity.js       p(n), tight growth-rate upper bounds
+rauzy-graph.js             Rauzy graphs, special factors, dead ends
+morphism-scan.js           exhaustive search of small morphisms (route a: fixed points)
+word-anatomy.js            record-word verification and anatomy
+unfavourable-factors.js    Keranen 2006: unfavourable factors, extendability depth
+h6-image-sweep.js          route c: uniform images of h6's fixed point to a 3-letter alphabet, L<=5
+sft-container.js           K in [2,5] container language: de Bruijn graph, SCC, frequency bounds
+additive-sweep.js          additive squares: alphabet sweep by affine class
+extension-table.js         extendability-depth tables: sound pruning oracle, transfers affinely
+sanalab-run.js             resumable certified runs: checkpoints, three end states
+table-library.js           table library: one table per affine class, checksum and provenance
+claims-export.js           ledger made machine-readable; only figures traceable to the ledger may be published; also syncs index.html's embedded claims-data block
+unavoidable-factors.js     the container's unavoidable factors: what every certificate must contain
+additive-morphism-scan.js  additive squares: exhaustive search of uniform morphisms, k<=4
+additive-nonuniform-morphism-scan.js  same, non-uniform length profiles 1..4, regression to uniform
+additive-affine-decision.js  decision procedure for affine morphisms (Theorem 2.4, row 72), ported and validated
+h6-additive-image-sweep.js  B13: additive analogue of route (c); h6 fixed, uniform codings of length L, all K>=1 (row 77)
 ```
 
-**Verifiointi:**
+**Verification:**
 
 ```bash
 node test.js                 # 41/41
 node check-claims-drift.js   # 15/15
 ```
 
-Aja **molemmat** ennen committia ja **lue molempien tuloste**. Ne ovat eri
-asioita: `test.js` testaa matematiikkaa, `check-claims-drift.js` vartioi
-väitteitä, sitaatteja ja käyttöliittymän tekstiä.
+Run **both** before a commit and **read both outputs**. They are different
+things: `test.js` tests the mathematics, `check-claims-drift.js` guards
+claims, citations, and UI text.
 
 ---
 
-## 4. Mitä on saavutettu
+## 4. What has been achieved
 
-Yksityiskohdat `MATH_CLAIMS.md`:stä, tässä vain karttamerkit:
+Details are in `MATH_CLAIMS.md`; here just the landmarks:
 
-- **Theorem 4 ja Theorem 6 johdettu uudelleen** koko Rao & Rosenfeldin
-  päätösmenettelyllä (rivit 32, 46). Molemmat ovat *uudelleenjohtoja tekijöiden
-  koneistolla*, eivät riippumattomia todistuksia
-- Eksaktit tekijätiheydet, tekijäkompleksisuus ja kasvunopeuden tiukat ylärajat
-  (rivit 17–20, 27, 28, 33)
-- Rauzy-graafit ja umpikujatekijät (rivit 34, 35)
-- Ennätyssanat verifioitu ensimmäistä kertaa; FORBID4 osoittautui
-  heuristiikaksi (rivit 40–42)
-- **Epäsuotuisia tekijöitä todistettu olemassa oleviksi** neljällä kirjaimella,
-  ensimmäiset pituudella 8 (rivi 47). Keräsen kysymys itse on yhä auki
-- **Reitti (c) lakaistu tyhjentävästi pienillä L:** yksikään uniformi kuvaus
-  Σ₆→Σ₃^L, L ≤ 5, ei tuota h₆^ω(a):sta Mäkelä-sanaa; pienten ja suurten
-  jaksojen vaatimukset vetävät vastakkain (rivi 49)
-- **Säiliökielet K ∈ [2,5] ja K ∈ [2,6] analysoitu eksaktisti:** yksi SCC
-  kummassakin, jokaisen kirjaimen taajuus välttämättä [1/11, 3/4]:ssä, ei
-  binäärihäntää — ja väli on stabiili ikkunan kasvatuksessa 5 → 6 vaikka
-  kieli kutistuu (rivit 51, 52)
-- **Additiiviset neliöt avattu toiseksi tutkimuskohteeksi** (lähteistetty avoin
-  ongelma, rivi 53 — ja projektin ydinlähteen emo-ongelma): aakkostolakaisu
-  ratkaisee 11 affiiniluokkaa 31:stä, tasapainoiset aakkostot erottuvat
-  puhtaasti (rivi 54)
-- Sitaatit korjattu primäärilähteistä; useita vääriä lausenumeroita ja yksi
-  väärä arXiv-tunniste peruttu (rivit 4–7b, 9, 38, 39, 44)
+- **Theorem 4 and Theorem 6 re-derived** with the full Rao & Rosenfeld
+  decision procedure (rows 32, 46). Both are *re-derivations using the
+  factor machinery*, not independent proofs
+- Exact factor densities, factor complexity, and tight growth-rate upper
+  bounds (rows 17–20, 27, 28, 33)
+- Rauzy graphs and dead-end factors (rows 34, 35)
+- Record words verified for the first time; FORBID4 turned out to be a
+  heuristic (rows 40–42)
+- **Unfavourable factors proven to exist** with four letters,
+  the first at length 8 (row 47). Keränen's own question is still open
+- **Route (c) swept exhaustively at small L:** no uniform map
+  Σ₆→Σ₃^L, L ≤ 5, produces a Mäkelä word from h₆^ω(a); the small- and
+  large-period requirements pull against each other (row 49)
+- **Container languages K ∈ [2,5] and K ∈ [2,6] analysed exactly:** one SCC
+  in each, every letter's frequency necessarily in [1/11, 3/4], no
+  binary tail — and the interval is stable when the window grows 5 → 6
+  even though the language strictly shrinks (rows 51, 52)
+- **Additive squares opened as a second research target** (a sourced open
+  problem, row 53 — and the parent problem of the project's own core
+  source): the alphabet sweep resolves 11 of 31 affine classes, balanced
+  alphabets separate cleanly (row 54)
+- Citations corrected from primary sources; several wrong theorem numbers
+  and one wrong arXiv identifier retracted (rows 4–7b, 9, 38, 39, 44)
 
 ---
 
-## 5. Asiat joita EI saa väittää ilman lähdettä
+## 5. Things that must NOT be claimed without a source
 
-Nämä ovat toistuneet ja aiheuttaneet perumisia:
+These have recurred and caused retractions:
 
-1. **Älä esitä FORBID4:ää "Keräsen joukkona".** Merkkijonot ovat hänen
-   taulukoissaan, mutta juuri sen kuuden erityisyys on projektin oma väite
-   (rivi 9)
-2. **Älä sano "morfismi pitää Parikh-epätasapainon pienenä".** Väärin
-   kummallakin tavalla — se ei ole pieni eikä se erottele (rivi 42)
-3. **Älä lue morfismiskannerin maksimiprefiksistä rakenteellista signaalia.**
-   Se on otoskoon logaritmi, R² = 0,99875 (rivi 37)
-4. **Älä vertaa paperin lukuja (28 514 / 48 459 / 16 214) omiimme.** Ne on
-   laskettu eri morfismille tai mittaavat eri asiaa (rivit 22, 44)
-5. **Älä käytä `ancestor-box.js`:n laatikkoa muulle kuin sille templaatille
-   jolle se on johdettu** (rivit 30, 43)
-6. **Älä käytä Dejeanin konjektuuria avoimena.** Se on todistettu
+1. **Do not present FORBID4 as "Keränen's set."** The strings are in his
+   tables, but the specificity of exactly these six is the project's own
+   claim (row 9)
+2. **Do not say "the morphism keeps Parikh imbalance small."** Wrong both
+   ways — it is not small and it does not discriminate (row 42)
+3. **Do not read a structural signal from the morphism scanner's maximum
+   prefix.** It is a logarithm of sample size, R² = 0.99875 (row 37)
+4. **Do not compare the paper's figures (28,514 / 48,459 / 16,214) to our
+   own.** They were computed for a different morphism or measure a
+   different thing (rows 22, 44)
+5. **Do not use `ancestor-box.js`'s box for any template other than the
+   one it was derived for** (rows 30, 43)
+6. **Do not treat Dejean's conjecture as open.** It is proven
    (`OPEN_RESEARCH_QUESTIONS.md` A2)
 
 ---
 
-## 6. Työtapa, joka on tässä projektissa ansaittu
+## 6. The working method this project has earned
 
-**Yksitoista kertaa** tässä työssä uskottava yleistys osoittautui vääräksi vasta
-ajossa. Lista on `NEXT_STEP.md`:ssä. Yksikään ei olisi kaatunut silmämääräisessä
-tarkistuksessa.
+**Eleven times** in this work a plausible generalization turned out to be
+wrong only once it was run. The list is in `NEXT_STEP.md`. None of them
+would have failed a visual inspection.
 
-Siitä seuraa kolme sääntöä:
+Three rules follow from that:
 
-- **Aja se.** Väite ilman ajettua koodia on hypoteesi
-- **Vertaa HEAD:iin, älä silmällä.** Kaksi kertaa muutos rikkoi jotain mitä
-  vain `git diff` paljasti
-- **Kuollut koodihaara jota ei ole perusteltu on ansa seuraavalle.** Poista se
-  tai heitä poikkeus
+- **Run it.** A claim without run code is a hypothesis
+- **Compare against HEAD, don't eyeball it.** Twice a change broke
+  something that only `git diff` revealed
+- **A dead code branch with no justification is a trap for the next
+  person.** Remove it or throw an exception
 
-Ja yksi kirjanpitosääntö: **peruttua riviä ei poisteta.** Se jää näkyviin
-`REJECTED`-tilassa perusteineen, jottei sitä lisätä uudelleen.
+And one bookkeeping rule: **a retracted row is never deleted.** It stays
+visible in `REJECTED` status with its reasons, so it does not get added
+again.
 
 ---
 
-## 7. Seuraava askel
+## 7. Next step
 
-Ks. **`NEXT_STEP.md`** — se on ajan tasalla ja sisältää konkreettisen
-aloituskohdan.
+See **`NEXT_STEP.md`** — it is up to date and contains a concrete
+starting point.
