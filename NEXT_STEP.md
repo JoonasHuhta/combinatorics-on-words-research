@@ -1,14 +1,37 @@
 # Seuraava askel
 
-**Päivitetty:** 2026-07-31 (päätösmenettely rakennettu ja ajettu ensi kertaa oikeaan dataan, rivit 72–75)
+**Päivitetty:** 2026-07-31 (k=6 valmis, E5-replikaatio tehty, git siivottu — rivit 72–76)
 **Lue ensin:** `KNOWLEDGE_STATE.md`, `RESEARCH_CONTEXT.md`, `AGENTS.md`.
 
 ---
 
 # LUOVUTUS SEURAAVALLE SESSIOLLE
 
-**Repositorion tila:** testit **39/39**, driftitarkistukset **15/15**.
-Väiteloki **78 riviä**. Työpuu puhdas. Ei kriittistä avointa lankaa.
+**Repositorion tila:** testit **40/40**, driftitarkistukset **15/15**.
+Väiteloki **79 riviä**. Työpuu puhdas. Ei kriittistä avointa lankaa.
+`origin/main` ajan tasalla.
+
+## Aloita tästä (kopioi sellaisenaan uuteen istuntoon)
+
+> *"Lue `RESEARCH_CONTEXT.md` ja `AGENTS.md` ennen kuin muutat mitään, sitten
+> `NEXT_STEP.md`:n luovutusosa kokonaan. Älä kirjoita `MATH_CLAIMS.md`:hen
+> ilman hyväksyntääni (sääntö 5)."*
+
+**Kolme asiaa jotka uuden istunnon on tiedettävä heti:**
+
+1. **Sääntö 1 pettää käytännössä useimmin.** Tässä istunnossa kirjattiin
+   väitelokkiin kaksi morfismia (β, δ=γ²) matriiseineen, jotka **eivät ole
+   lähteessä lainkaan** — ne tulivat toisen käden mukailusta jota ei avattu
+   itse. Korjattu ennen kuin mitään rakennettiin sen varaan, mutta se meni
+   lokiin asti. **Avaa lähde itse, myös kun se näyttää varmalta.**
+2. **Työkalut voivat valehdella hiljaa.** WebFetch tiivistää AI:lla ja pudotti
+   juuri ne yksityiskohdat joissa virhe oli; oikea koodi saatiin vasta
+   `curl`illa raakana. Jos yksityiskohta ratkaisee, hae raakana.
+3. **Täsmäävä tulos ei ole todiste oikeellisuudesta.** E5:ssä oli kaksi
+   PowerShell-bugia (`$V`/`$v` ja `$E`/`$e` ovat sama muuttuja — nimet eivät
+   ole isokirjain-herkkiä), jotka nollasivat koko laskennan. Ne löytyivät vain
+   koska tulos oli järjetön. Testaa käsin tarkistettavalla miniesimerkillä
+   **ennen** kuin luotat isoon ajoon.
 
 ## Tämän session tärkein tulos (rivit 74–75)
 
@@ -38,20 +61,73 @@ koska ne ovat opettavaisia:**
    (`node test.js` löysi tämän heti, 38/39). Korjattu kirjoittamalla korvaus
    erilliseen tekstitiedostoon JS-merkkijonon sijaan.
 
-## k=6 käynnissä (2026-07-31), korjattu kustannusarvio
+## k=6 VALMIS (2026-07-31) — ja kustannusarvio oli väärä kahdesti
 
-**Ensimmäinen arvio (2,8 ms/ehdokas, ekstrapoloitu k=5:stä) oli väärä.**
-Mitattu suoraan k=6:lla ({0,1,2,5}, 500 kappaleen otos): **5,6 ms/ehdokas**
-— noin kaksinkertainen. Koko avaruus yhdellä aakkostolla on **4 976 088**
-kandidaattia, joten yhden aakkoston ajoaika on **~7,7 tuntia**, ei 3,6 h.
-Kuudella aakkostolla sarjassa se olisi ~35–46 tuntia — ei realistista luvata
-kerralla. **Yksi aakkosto ({0,1,2,5}) käynnistetty taustalle 2026-07-31,
-tulos tähän kun valmis.** Loput viisi aakkostoa odottavat tämän tulosta ja
-päätöstä kannattaako jatkaa sarjassa vai rinnakkaistaa.
+**Tulos:** {0,1,2,5}, kaikki **4 976 088** affiinia k=6-morfismia päätetty,
+**0 selviytyjää**, 30 607,8 s (**8,5 h**), 6,15 ms/ehdokas. Kirjattu riville 75.
 
-k=7 (~214 miljoonaa kandidaattia) ei ole tässä mittakaavassa järkevä ilman
-merkittävää optimointia (rinnakkaistus tai `mainPure`:n sisäisen
-ancestor-laskennan profilointi).
+**Kustannusarvio meni pieleen kahdesti, ja se on itsessään opetus:** ensin
+2,8 ms/ehdokas (ekstrapoloitu k=5:stä — väärin), sitten 5,6 ms/ehdokas
+(mitattu 500 kappaleen otoksella k=6:lla — yhä alakanttiin, todellinen
+6,15). **Otos ei ennustanut täyttä ajoa edes samalla k:lla.** Älä lupaa
+ajoaikaa otoksen perusteella; sano "mitattu otoksella, todellinen voi olla
+suurempi".
+
+**Kate juuri nyt, tarkasti:**
+
+| k | Mitä katettu | Miten |
+|---|---|---|
+| ≤ 4 | **kaikki** morfismit, 20 aakkostoluokkaa | raaka voima (rivit 67–69) |
+| 5 | **vain affiinit**, 6 aakkostoa, 221 296 kpl | päätösmenettely (rivi 75) |
+| 6 | **vain affiinit**, 1 aakkosto, 4 976 088 kpl | päätösmenettely (rivi 75) |
+
+k=5 ja k=6 kattavat vain affiinin alaluokan (0,006–0,021 % avaruudesta,
+rivi 73). **Se ei ole sama asia kuin "k=5 ja k=6 on suljettu."**
+
+k=7 (~214 M kandidaattia, ≥ 15 vrk nykyvauhdilla) ei ole järkevä ilman
+rinnakkaistusta tai `mainPure`:n ancestor-laskennan profilointia.
+
+## SEURAAVAKSI — suositus perusteluineen (2026-07-31)
+
+Alempana olevat vanhemmat prioriteettilistat ovat historiaa; tämä korvaa ne.
+
+**1. Loput viisi aakkostoa k=6:lla — EI ensimmäisenä, ja tässä on miksi.**
+Se on ~42 h laskentaa tuottaakseen viisi lisää samaa negatiivista tulosta.
+`NEGATIVE_RESULTS.md` §14:n tappoehto on jo laukennut kahdesti; kuudes
+identtinen negatiivinen ei muuta mitään päätöstä. **Tee tämä vain jos joku
+muu syy vaatii kattavuutta** (esim. julkaisu), ei uteliaisuudesta.
+
+**2. Suositukseni: B13, apuaakkostoreitti.** Kolme tyhjentävää negatiivista
+kierrosta (k≤4 kaikki, k=5 ja k=6 affiinit) sanovat saman asian: **4→4-muoto
+ei kanna.** Abelin puolella ratkaisu ei ole 4→4 vaan h₆→g₃ eli suurempi
+apuaakkosto projisoituna alas. Sitä muotoa ei ole additiivisella puolella
+kokeiltu kertaakaan. `h6-image-sweep.js` tekee jo rakenteellisesti saman
+lakaisun abelin puolella — arvofunktio vaihtuu, rakenne siirtyy.
+**Esimittaus ensin:** m=5, L≤2 symbolimäärä ennen kuin L=3 luvataan.
+
+**3. Halpa ja arvokas: E5:n laajennus.** Neljä lukua replikoitu (rivi 76),
+ja se maksoi yhden istunnon osan. Seuraavat kohteet: rivi 6b (34 neliötä —
+vaatii h₆:n ja g₃:n taulut **primäärilähteestä**, ei `morphisms.js`:stä) ja
+rivi 33 (kasvunopeuden yläraja). Jokainen nostaa koko lokin uskottavuutta.
+
+**4. `claims.json`-kytkennän loppuunvienti.** 10 sidontaa tehty, kymmeniä
+käsin kirjoitettuja lukuja jäljellä (`UI_UX_PLAN.md` kohta 1 listaa mitkä).
+Kytkentä paljasti heti kaksi väärää statusbadgea — loput todennäköisesti
+paljastavat lisää.
+
+**5. `FINDINGS.md`** — ylläpitäjä on hyväksynyt idean, mutta se odottaa
+tarkoituksella kohtaa 4: käsin kirjoitettu tulosdokumentti ennen
+`claims.json`-kytkentää olisi juuri se vikatila jota koko kytkentä korjaa.
+
+## Avoin kysymys ylläpitäjälle: väitelokin kieli
+
+Sääntö 8 sanoo että **uudet väitelokirivit kirjoitetaan englanniksi**. Rivit
+69–75 kirjoitettiin silti suomeksi (johdonmukaisuudesta olemassa olevien
+rivien kanssa), rivi 76 englanniksi. **Tämä on nyt epäjohdonmukainen.**
+Kaksi vaihtoehtoa, ylläpitäjän päätös: (a) uudet rivit englanniksi tästä
+eteenpäin ja vanhat käännetään kun niihin muuten kosketaan (= sääntö 8
+kirjaimellisesti), tai (b) sääntöä 8 muutetaan vastaamaan käytäntöä.
+**Älä ratkaise tätä itse.**
 
 ## Aiemmin tehty (rivit 69–71)
 
