@@ -1,409 +1,410 @@
-# Avoimet tutkimuskysymykset
+# Open Research Questions
 
-**Päivitetty:** 2026-07-29
-**Tarkoitus:** erottaa toisistaan (A) alan aidot avoimet ongelmat lähteineen, (B) projektin omat kysymykset jotka ovat oikeasti laskettavissa, ja (C) kysymykset jotka *kuulostavat* tutkimukselta mutta mittaavat toteutusta eivätkä matematiikkaa.
+**Updated:** 2026-07-29
+**Purpose:** to separate (A) the field's genuine open problems with sources, (B) the project's own questions that are actually computable, and (C) questions that *sound* like research but measure the implementation rather than the mathematics.
 
-Tämä dokumentti noudattaa `AGENTS.md`:n sääntöä 7: mikään "löydös" ei esiinny tässä ilman vastaavaa riviä `MATH_CLAIMS.md`:ssä. Kysymykset saavat esiintyä — vastaukset eivät.
+This document follows `AGENTS.md`'s rule 7: no "finding" appears here without a corresponding row in `MATH_CLAIMS.md`. Questions may appear here — answers may not.
 
 ---
 
-## A. Kirjallisuuden avoimet ongelmat
+## A. Open problems from the literature
 
-Nämä ovat lähteistettyjä ja auki. Sitaatit luettu ar5iv-renderöinnistä 2026-07-28.
+These are sourced and open. Quotes read from the ar5iv rendering on 2026-07-28.
 
-### A1. Mäkelän konjektuuri — projektin päätavoite
+### A1. Mäkelä's conjecture — the project's main goal
 
 > *"There exists an infinite ternary word whose only abelian squares are 00, 11, 22."*
 > — Fici & Puzynina (2023), arXiv:2207.09937, **Conjecture 20**
 
-Ekvivalentisti (Rao & Rosenfeld, arXiv:1511.05875, **Problem 1**): *"Can you avoid abelian squares of the form uv where |u| ≥ 2 over three letters?"*
+Equivalently (Rao & Rosenfeld, arXiv:1511.05875, **Problem 1**): *"Can you avoid abelian squares of the form uv where |u| ≥ 2 over three letters?"*
 
-**Tila:** auki puolipituuksille K = 2…5. K > 5 on ratkaistu myönteisesti (`MATH_CLAIMS.md` rivi 7).
+**Status:** open for half-lengths K = 2…5. K > 5 is solved affirmatively (`MATH_CLAIMS.md` row 7).
 
-**Miksi juuri 2…5 on auki — lähteistetty rakenteellinen syy.** Rao & Rosenfeldin päätösmenettely (§3) päättää abelin potenssien välttämisen **puhtaille morfisille sanoille kaikilla jaksoilla**. Morfisille **kuville** g(h^ω) se päättää vain **suuret** jaksot (Proposition 9). Ternäärisana saadaan tässä konstruktiossa vain projektiona 6-kirjaimisesta, ja projektio menettää päätettävyyden pienillä jaksoilla. Ks. `MATH_CLAIMS.md` rivi 7b.
+**Why exactly 2…5 is open — a sourced structural reason.** Rao & Rosenfeld's decision procedure (§3) decides avoidance of abelian powers **for pure morphic words at all periods**. For morphic **images** g(h^ω) it decides only **large** periods (Proposition 9). In this construction the ternary word is obtained only as a projection of the 6-letter one, and the projection loses decidability at small periods. See `MATH_CLAIMS.md` row 7b.
 
-**Mitä tämä tarkoittaa hyökkäyssuunnalle:** reitti ei ole "etsi pidempiä sanoja". Pisimmät tunnetut aa2f-sanat ovat 25 379 merkkiä, ja mikä tahansa äärellinen sana on äärellinen havainto. Reitit: (a) ternäärimorfismi jonka *kiintopiste* — ei projektio — välttää jaksot ≥ 2, jolloin §3:n menettely pätee suoraan; (b) päätösmenettelyn laajennus pieniin jaksoihin projektioille; tai (c) pidä h₆^ω(a) kiinteänä ja varioi siihen sovellettavaa morfismia g — Theorem 4 (rivi 32) kantaa pohjasanan, ja kullekin kandidaatille pienet jaksot ovat rajoitetun pituisia tekijöitä ja suuret jaksot Prop 9:n aluetta (`decision-preconditions.js`). Reitin (c) uniformi kerros L ≤ 5 on lakaistu tyhjentävästi ja se on tyhjä (`MATH_CLAIMS.md` rivi 49, B5 alla); jäljellä ovat L ≥ 6, epäuniformit kuvaukset ja CEGIS-ohjattu haku (E2).
+**What this means for the attack direction:** the route is not "search for longer words". The longest known aa2f words are 25,379 characters, and any finite word is a finite observation. Routes: (a) a ternary morphism whose *fixed point* — not a projection — avoids periods ≥ 2, in which case §3's procedure applies directly; (b) an extension of the decision procedure to small periods for images; or (c) keep h₆^ω(a) fixed and vary the morphism g applied to it — Theorem 4 (row 32) carries the base word, and for each candidate, small periods are factors of bounded length and large periods are Prop 9's territory (`decision-preconditions.js`). Route (c)'s uniform layer L ≤ 5 has been swept exhaustively and is empty (`MATH_CLAIMS.md` row 49, B5 below); what remains are L ≥ 6, non-uniform maps, and CEGIS-guided search (E2).
 
-### A2. Abelin toistokynnys (abelian repetition threshold)
+### A2. Abelian repetition threshold
 
 > *"The authors found lower and upper bounds for abelian repetition thresholds, some of which are conjectured to be tight."*
 > — Fici & Puzynina (2023), arXiv:2207.09937
 
-**Tila:** osittain auki. Ala on olemassa ja nimetty; sitä ei tarvitse keksiä uudelleen, mutta siinä on aitoja rakoja.
+**Status:** partially open. The field exists and is named; it does not need to be reinvented, but it has genuine gaps.
 
-**Huom.** Tavallinen (ei-abelin) **Dejeanin konjektuuri on todistettu**, ei auki:
+**Note.** The ordinary (non-abelian) **Dejean's conjecture is proven**, not open:
 
 > *"The famous Dejean's conjecture dating back to 1972 stated that RT(3) = 7/4, RT(4) = 7/5, and RT(d) = d/(d−1) for every d > 5. The conjecture has been proved in a series of papers — the last cases have been proved independently by Rampersad and Currie, and Rao."*
 
-Mikä tahansa suunnitelma joka lupaa "löytää RT(n)-arvoja" nojaa vanhentuneeseen tietoon. Abelin versio on eri asia ja se on osin auki.
+Any plan that promises to "find RT(n) values" relies on outdated information. The abelian version is a different matter and is partially open.
 
-### A3. k-abelinen hierarkia — lähin ratkaistu naapuri
+### A3. The k-abelian hierarchy — the nearest solved neighbour
 
 > *"One can avoid 3-abelian-squares of period at least 3 in infinite binary words, **2-abelian-squares of period at least 2 in infinite ternary words**, and 2-abelian squares of period more than 63 in infinite binary words."*
 > — Fici & Puzynina (2023), **Theorem 65**
 
-Keskimmäinen kohta on **täsmälleen A1** abelisen ekvivalenssin korvattuna 2-abelisella — ja se on **ratkaistu myönteisesti**. Tämä on ainoa tunnettu tapa mitata *kuinka paljon* ekvivalenssin vahvistaminen ostaa. Projektissa ei ole k-abelista moduulia.
+The middle item is **exactly A1** with the abelian equivalence replaced by 2-abelian — and it is **solved affirmatively**. This is the only known way to measure *how much* strengthening the equivalence costs. The project has no k-abelian module.
 
-### A4. Epäsuotuisat tekijät — yksisuuntainen jatkettavuus
+### A4. Unfavourable factors — one-sided extendability
 
 > *"…an unfavourable a-2-free word cannot be continued infinitely long to the left and to the right without necessarily creating an abelian square at some point. **However, it might well be possible to extend such a word boundlessly to one direction, say to the right, without producing any abelian squares. Experiments support this conjecture but the existence of such unfavourable factors remains an open question.**"*
 > — V. Keränen, *"Suppression of Unfavourable Factors in Pattern Avoidance"*, International Mathematica Symposium, Avignon, 2006
 
-**Kysymys:** onko olemassa a-2-vapaata sanaa, joka voidaan jatkaa rajattomasti oikealle mutta joka ei silti esiinny minkään äärettömän a-2-vapaan sanan aitona tekijänä?
+**Question:** does there exist an a-2-free word that can be extended without bound to the right, yet still never occurs as a proper factor inside any infinite a-2-free word?
 
-**Miksi tämä on projektille poikkeuksellisen sopiva:** se on Rauzy-graafin kysymys, ja koneisto on olemassa (`rauzy-graph.js`). Sana on rajattomasti oikealle jatkettavissa täsmälleen silloin kun se on graafissa äärettömällä polulla — eli kun siitä pääsee johonkin sykliin. Sana on epäsuotuisa jos se ei ole millään **molempiin suuntiin** äärettömällä polulla. Erotus näiden kahden joukon välillä on juuri se mitä Keränen kysyy, ja se on äärellisesti laskettavissa kullekin pituudelle.
+**Why this suits the project exceptionally well:** it is a Rauzy-graph question, and the machinery exists (`rauzy-graph.js`). A word is boundlessly extendable to the right exactly when it is on an infinite path in the graph — i.e. when it can reach some cycle. A word is unfavourable if it is not on an infinite path in **both** directions. The difference between these two sets is exactly what Keränen asks, and it is finitely computable for each length.
 
-**Varaus:** Keräsen kysymys koskee neljää kirjainta (Σ₄) ja täyttä a-2-vapautta. Projektin rivin 35 mittaus koskee kolmea kirjainta ja aa2f-ehtoa, eikä se ole sama asia. Ks. `MATH_CLAIMS.md` rivi 38 — rivin 35 umpikujaluvut **eivät** ole epäsuotuisien tekijöiden lukumääriä.
+**Caveat:** Keränen's question concerns four letters (Σ₄) and full a-2-freeness. The project's measurement at row 35 concerns three letters and the aa2f condition, and is not the same thing. See `MATH_CLAIMS.md` row 38 — row 35's dead-end counts are **not** counts of unfavourable factors.
 
-### A5. Jäljittämätön: minimimäärä eri 2-abelin neliöitä binäärisanassa
+### A5. Untraced: the minimum number of distinct 2-abelian squares in a binary word
 
-Keskustelussa on esiintynyt väite *"5 ≤ g(2) ≤ 734"* Rosenfeldin väitöskirjan Problem 4.9:nä. **Lukua 734 eikä merkintää g(2) ei löydy Fici & Puzyninan katsauksesta**, eikä väitöskirjaa ole avattu projektissa. Väite on **jäljittämätön** eikä sitä saa käyttää ennen kuin joku lukee alkuperäisen. Jos se pitää paikkansa, se on houkutteleva kohde: binäärinen hakuavaruus on pienempi kuin ternäärinen ja nykyiset työkalut siirtyisivät lähes suoraan.
+A claim has appeared in discussion, *"5 ≤ g(2) ≤ 734"*, as Problem 4.9 of Rosenfeld's thesis. **Neither the number 734 nor the notation g(2) is found in Fici & Puzynina's survey**, and the thesis has not been opened in the project. The claim is **untraced** and must not be used before someone reads the original. If it holds, it is an attractive target: the binary search space is smaller than the ternary one, and the current tools would transfer almost directly.
 
-### A6. Additiiviset neliöt: onko ℤ uniformisti 2-repetitiivinen? (jäljitetty 2026-07-30)
+### A6. Additive squares: is ℤ uniformly 2-repetitive? (traced 2026-07-30)
 
 > *"A long standing question asks whether ℤ is uniformly 2-repetitive [Justin 1972, Pirillo and Varricchio, 1994]"*
-> — Rao & Rosenfeld, arXiv:1511.05875, abstrakti (avattu 2026-07-30)
+> — Rao & Rosenfeld, arXiv:1511.05875, abstract (opened 2026-07-30)
 
-Eli: onko olemassa ääretön jono äärellisen ℤ:n osajoukon yli, joka välttää kaksi peräkkäistä yhtä pitkää lohkoa samalla summalla (additiiviset neliöt)? **Avoin** ainakin lähteen päiväyksen mukaan. Tunnettu ympäristö:
+That is: does there exist an infinite sequence over a finite subset of ℤ that avoids two consecutive blocks of equal length and equal sum (additive squares)? **Open**, at least as of the source's date. Known context:
 
-- **Kuutiot ratkaistu:** *"there exists an infinite word over the alphabet {0, 1, 3, 4} containing no three consecutive blocks of the same size and the same sum"* — Cassaigne, Currie, Schaeffer & Shallit, arXiv:1106.5204, abstrakti (avattu 2026-07-30). Sama abstrakti: *"This answers an open problem of Pirillo and Varricchio from 1994."* Koko tekstistä (ar5iv, 2026-07-30): neliökysymyksen esittivät Halbeisen & Hungerbühler (2000): *"They asked (in our terminology) if it is possible to avoid additive squares."*
-- **ℤ² ratkaistu — ja ratkaisu on projektin ydinlähde:** arXiv:1511.05875:n varsinainen otsikko on *"Avoiding two consecutive blocks of same size and same sum over ℤ²"*, päätulos *"ℤ² is not uniformly 2-repetitive"*, ja abstrakti kytkee sen suoraan projektin pääongelmaan: *"this problem is related to a question from Mäkelä in combinatorics on words and we answer to a weak version of it."* **Projektin templaatti/esivanhempikoneisto on siis alun perin rakennettu juuri additiivisten neliöiden ongelmaa varten** — additiivinen instanssi (`SANALAB_PLAN.md`) ei ole naapuri vaan paluu ydinlähteen emo-ongelmaan.
+- **Cubes solved:** *"there exists an infinite word over the alphabet {0, 1, 3, 4} containing no three consecutive blocks of the same size and the same sum"* — Cassaigne, Currie, Schaeffer & Shallit, arXiv:1106.5204, abstract (opened 2026-07-30). Same abstract: *"This answers an open problem of Pirillo and Varricchio from 1994."* From the full text (ar5iv, 2026-07-30): the square question was posed by Halbeisen & Hungerbühler (2000): *"They asked (in our terminology) if it is possible to avoid additive squares."*
+- **ℤ² solved — and the solution is the project's core source:** arXiv:1511.05875's actual title is *"Avoiding two consecutive blocks of same size and same sum over ℤ²"*, its main result is *"ℤ² is not uniformly 2-repetitive"*, and the abstract connects it directly to the project's main problem: *"this problem is related to a question from Mäkelä in combinatorics on words and we answer to a weak version of it."* **The project's template/ancestor machinery was thus originally built precisely for the additive-square problem** — the additive instance (`SANALAB_PLAN.md`) is not a neighbouring problem but a return to the core source's own parent problem.
 
-**Projektin tila:** aakkostolakaisu on olemassa (`additive-sweep.js`) ja ensimmäiset tulokset ovat rivillä **54**; jatkokysymykset **B9** alla.
+**Project status:** an alphabet sweep exists (`additive-sweep.js`) and the first results are at row **54**; follow-up questions are **B9** below.
 
-Ks. `MATH_CLAIMS.md` rivi 53. Sekundäärihavainto ilman avattua lähdettä (EI saa käyttää ennen jäljitystä): hakutulosteessa esiintyi Freedmanin nimiin laitettu väite 4-kirjaimisista aakkostoista a+d=b+c ja pituusrajasta ≤ 60, sekä tuore variaatiopaperi arXiv:2506.21200 (2025) — jälkimmäinen viittaa pääkysymyksen olleen auki vielä 2025, mutta kumpaakaan ei ole avattu.
+See `MATH_CLAIMS.md` row 53. Secondary observation without an opened source (MUST NOT be used before tracing): the search output contained a claim attributed to Freedman about 4-letter alphabets a+d=b+c and a length bound ≤ 60, plus a recent 2025 variation paper (arXiv:2506.21200) — the latter suggests the main question was still open as of 2025, but neither has been opened.
 
-### A7. Avattavat lähteet, ml. muunkieliset (jäljitysjono, 2026-07-30)
+### A7. Sources to open, including other languages (tracing queue, 2026-07-30)
 
-Alan kirjallisuus on **valtaosin englanniksi**, mutta ei kokonaan — ja juuri nyt kriittisen polun kärki on ranskaksi. Jono avattavista lähteistä, tärkein ensin. Kaikki tunnisteet luettu Fici & Puzyninan (2023) lähdeluettelosta 2026-07-30 (ks. `MATH_CLAIMS.md` rivi 58).
+The field's literature is **mostly in English**, but not entirely — and right now the critical path's tip is in French. Queue of sources to open, most important first. All identifiers read from Fici & Puzynina's (2023) bibliography on 2026-07-30 (see `MATH_CLAIMS.md` row 58).
 
-| # | Lähde | Kieli | Miksi |
+| # | Source | Language | Why |
 |---|---|---|---|
-| 1 | ~~F. Lietard, M. Rosenfeld. *Avoidability of additive cubes over alphabets of four numbers.* DLT 2020~~ **AVATTU 2026-07-30** (avoin preprint `lirmm.fr/~mrosenfeld/LieRos.pdf`; DOI `10.1007/978-3-030-48516-0_15`) | englanti | **Suljettu, ks. rivi 63.** Koskee kuutioita; toteaa neliökysymyksen avoimeksi (Question 3); ei sisällä neliöiden aakkostoluokittelua. Rivi 54 ei ole sen syrjäyttämä |
-| 2 | ~~F. Lietard. *Évitabilité de puissances additives en combinatoire des mots.* Väitöskirja, Université de Lorraine, 2020~~ **AVATTU 2026-07-30** | **ranska** | **Suljettu, ks. rivi 65.** Ei sisällä neliöiden aakkostoluokittelua, mutta jäljitti Brown & Freedman 1987:n ja antoi sen väitteen muodon, jonka projektin data osin vahvistaa ja osin kumoaa |
-| 3 | M. Rao. *On some generalizations of abelian power avoidability.* TCS 601:39–46, 2015 | englanti | Additiivisten kuutioiden minimiaakkostokoko 3 |
-| 4 | Rosenfeldin väitöskirja | ranska (todennäköisesti) | A5:n jäljittämätön `g(2)`-väite |
-| 5 | **T. C. Brown & A. R. Freedman, *"Arithmetic progressions in lacunary sets"*, Rocky Mountain J. Math. **17**(3):587–596, 1987** — viite jäljitetty 2026-07-30 | englanti | **Kriittisin avaamaton lähde.** Väitöskirjan mukaan he todistivat tasapainoisten aakkostojen tapauksen; projektin data vahvistaa kvalitatiivisen väitteen mutta kumoaa siteeratun vakion 50 (rivi 65). Vasta alkuperäinen kertoo kumpi muoto on heidän |
+| 1 | ~~F. Lietard, M. Rosenfeld. *Avoidability of additive cubes over alphabets of four numbers.* DLT 2020~~ **OPENED 2026-07-30** (open preprint `lirmm.fr/~mrosenfeld/LieRos.pdf`; DOI `10.1007/978-3-030-48516-0_15`) | English | **Closed, see row 63.** Concerns cubes; states the square question as open (Question 3); does not contain an alphabet classification for squares. Row 54 is not superseded by it |
+| 2 | ~~F. Lietard. *Évitabilité de puissances additives en combinatoire des mots.* PhD thesis, Université de Lorraine, 2020~~ **OPENED 2026-07-30** | **French** | **Closed, see row 65.** Contains no alphabet classification for squares, but traced Brown & Freedman 1987 and gave the form of its claim, which the project's data partly confirms and partly refutes |
+| 3 | M. Rao. *On some generalizations of abelian power avoidability.* TCS 601:39–46, 2015 | English | Minimum alphabet size 3 for additive cubes |
+| 4 | Rosenfeld's PhD thesis | French (likely) | A5's untraced `g(2)` claim |
+| 5 | **T. C. Brown & A. R. Freedman, *"Arithmetic progressions in lacunary sets"*, Rocky Mountain J. Math. **17**(3):587–596, 1987** — reference traced 2026-07-30 | English | **The most critical unopened source.** According to the thesis, they proved the balanced-alphabet case; the project's data confirms the qualitative claim but refutes the cited constant of 50 (row 65). Only the original can tell which form is theirs |
 
-**Vastaus kysymykseen "pitäisikö etsiä muunkielisiä lähteitä":** kyllä, mutta ei laajana kartoituksena vaan **kohdennetusti sitaattiketjua seuraten**. Tämän alan ranskankielinen haara on aito (Dejeanin alkuperäinen työ, Lorrainen koulukunta), ja se löytyy englanninkielisten papereiden lähdeluetteloista — ei erillisellä kieliluotauksella. Venäjänkielisiä ja suomenkielisiä jälkiä on projektin historiassa (IAS Murmansk 2002, rivi 3), mutta niitä ei ole tarvittu koska englanninkieliset versiot ovat olemassa.
+**Answer to the question "should sources in other languages be sought":** yes, but not as a broad survey, rather **targeted, following the citation chain**. This field's French branch is genuine (Dejean's original work, the Lorraine school), and it is found in the bibliographies of English-language papers — not by a separate language sweep. There are Russian- and Finnish-language traces in the project's history (IAS Murmansk 2002, row 3), but they have not been needed since English versions exist.
 
-**Sääntö:** kieli ei ole peruste jättää lähde avaamatta. Sitaatti säilytetään alkukielellään ja käännös merkitään käännökseksi.
+**Rule:** language is not a reason to leave a source unopened. A quote is kept in its original language, and a translation is marked as a translation.
 
 ---
 
-## B. Projektin omat kysymykset, jotka ovat oikeasti laskettavissa
+## B. The project's own questions that are actually computable
 
-Nämä eivät ole kirjallisuuden avoimia ongelmia. Ne ovat äärellisiä laskentatehtäviä joilla on yksikäsitteinen vastaus, ja projektin koneisto riittää niihin.
+These are not open problems from the literature. They are finite computational tasks with a unique answer, and the project's machinery suffices for them.
 
-### B1. Onko FORBID4-joukko minimaalinen?
+### B1. Is the FORBID4 set minimal?
 
-`{baac, caab, abbc, cbba, accb, bcca}` ei ole kirjallisuudesta — se on projektin oma (`MATH_CLAIMS.md` rivi 9). Kysymys **onko jokin aito osajoukko yhtä tehokas** on äärellinen: 2⁶ = 64 osajoukkoa, ja kullekin lasketaan tekijäkompleksisuus `factor-complexity.js`:n koneistolla. Vastaus on yksikäsitteinen luku, ei mielipide.
+`{baac, caab, abbc, cbba, accb, bcca}` is not from the literature — it is the project's own (`MATH_CLAIMS.md` row 9). The question **whether some proper subset is equally effective** is finite: 2⁶ = 64 subsets, and factor complexity is computed for each with `factor-complexity.js`'s machinery. The answer is a unique number, not an opinion.
 
-Tarkennus: "tehokkuus" on määriteltävä invariantilla. Kasvunopeuden yläraja (B2) käy; "kuinka pitkälle DFS pääsee" ei käy, koska se riippuu hakujärjestyksestä.
+Refinement: "effectiveness" must be defined by an invariant. The growth-rate upper bound (B2) works; "how far a DFS gets" does not, because it depends on search order.
 
-### B2. Aa2f-kielen kasvunopeus
+### B2. The aa2f language's growth rate
 
-Nykytila: **kasvunopeus ≤ 1,9915** (tiukka yläraja, `MATH_CLAIMS.md` rivi 33). Havaittu suhde on ~1,60, mutta sillä ei ole todistettua yhteyttä raja-arvoon. **Kuilu 1,60 ↔ 1,99 on auki.**
+Current state: **growth rate ≤ 1.9915** (a tight upper bound, `MATH_CLAIMS.md` row 33). The observed ratio is ~1.60, but it has no proven connection to the limiting value. **The gap 1.60 ↔ 1.99 is open.**
 
-Kaventaminen ylhäältä vaatii suurempaa n:ää tai parempaa kuin Feketen argumenttia — tämä on aitoa inkrementaalista työtä, ja hajautettu eksakti p(n)-laskenta on siihen suora reitti (jokainen uusi p(n) on lauseen muotoinen yläraja, osio F).
+Narrowing it from above requires larger n or something better than Fekete's argument — this is genuine incremental work, and distributed exact p(n) computation is a direct route to it (every new p(n) is a theorem-shaped upper bound, section F).
 
-**Kaventaminen alhaalta ei ole inkrementaalista työtä vaan koko konjektuuri:** Königin lemmalla mikä tahansa todistettu p(n) ≥ 1 kaikilla n on ekvivalentti äärettömän aa2f-sanan olemassaolon kanssa (`MATH_CLAIMS.md` rivi 50). Alarajatyö on siis konjektuurin todistusyritys eikä sitä saa aikatauluttaa "rajan kavennuksena".
+**Narrowing it from below is not incremental work but the whole conjecture:** by König's lemma, any proven p(n) ≥ 1 for all n is equivalent to the existence of an infinite aa2f word (`MATH_CLAIMS.md` row 50). Lower-bound work is therefore an attempt to prove the conjecture and must not be scheduled as "narrowing the bound".
 
-### B3. Välttämättömät tekijät (unavoidable sets)
+### B3. Unavoidable sets
 
-"Onko olemassa motiiveja joiden kautta kulkeminen johtaa aina umpikujaan" on kirjallisuudessa **unavoidable set** -käsite. Äärellisen joukon välttämättömyys on päätettävissä. Tämä on B1:n yleistys ja se kannattaa muotoilla sillä sanastolla, ei uudella.
+"Are there motifs such that passing through them always leads to a dead end" is, in the literature, the **unavoidable set** concept. The unavoidability of a finite set is decidable. This is a generalization of B1 and is best formulated with that vocabulary, not a new one.
 
-### B4. Rauzy-graafit ja oikealle jatkuvuus
+### B4. Rauzy graphs and right-extendability
 
-Tekijäkompleksisuuden p(n) erotukset p(n+1) − p(n) laskevat **oikealle erikoisten tekijöiden** lukumäärän. Tämä on kielen invariantti ja se selittää *missä* rajoite puree. g₃(h₆^ω(a)):lle erotukset ovat välillä 6…8 (`MATH_CLAIMS.md` rivi 28) — mutta niiden **rakenne** on tutkimatta.
+The differences p(n+1) − p(n) in factor complexity count the number of **right-special factors**. This is a language invariant and it explains *where* the constraint bites. For g₃(h₆^ω(a)), the differences lie between 6…8 (`MATH_CLAIMS.md` row 28) — but their **structure** is unexplored.
 
-### B5. Reitti (c): millä L:llä pieni ikkuna ja suuret jaksot lakkaavat sulkemasta toisensa pois?
+### B5. Route (c): at what L do the small window and large periods stop excluding each other?
 
-`MATH_CLAIMS.md` rivi 49: uniformeilla kuvauksilla g: Σ₆ → Σ₃^L, L ≤ 5, [2,5]-välttäjiä on olemassa (35 / 685 / 7 019 luokkaa L = 3/4/5) mutta **jokainen niistä rikkoo K ∈ [6,100] viimeistään symbolissa 44** — ja kääntäen g₃ (L=10) välttää kaikki K ≥ 6 mutta osuu 34 neliöön pienillä. Kysymykset, jotka ovat äärellisiä ja invariantteja:
+`MATH_CLAIMS.md` row 49: for uniform maps g: Σ₆ → Σ₃^L, L ≤ 5, [2,5]-avoiders exist (35 / 685 / 7,019 classes for L = 3/4/5) but **every one of them violates K ∈ [6,100] by symbol 44 at the latest** — and conversely g₃ (L=10) avoids all K ≥ 6 but hits 34 squares at small periods. Questions that are finite and invariant:
 
-1. **Pienin L jolla jokin luokka selviää molemmista ikkunoista.** ~~L = 6 on 3³⁶ kuvausta — ei enää naiivisti enumeroitavissa~~ **vanhentunut 2026-07-31 (rivi 78):** [2,5]-ikkunan paikallisuus (K ≤ 5 mahtuu 10 symboliin) tekee ongelmasta äärellisen CSP:n, ei 3^(6L)-hakua, ja L=6 on nyt tyhjentävästi ratkaistu tällä muotoilulla: **200 106 kanonista luokkaa** välttää K ∈ [2,5]. **Kohta 1 on yhä auki** kokonaisuudessaan: yhtään näistä ei ole eskaloitu K ≥ 6:een asti — vain yksi satunnaisotos testattiin ja se kuoli varhain (rivi 78:n huomiot). Sama CSP-muotoilu kattaa L ≤ 12 (rajoitteiden ariteetti B(L) putoaa kahteen L ≥ 9:llä), joten seuraava askel on eskalointi koko L=6-joukolle, ei suurempi L.
-2. **Miksi [2,5]-välttäminen pakottaa g(a)=g(b):n L=3:lla (35/35) mutta ei enää L=4:llä (601/685)?** h₆:n kuvissa a→ace ja b→adf jakavat alkukirjaimen; onko selitys tässä vai muualla — laskettavissa tarkastelemalla missä kohdin rikkomukset syntyvät.
-3. **Epäuniformi kerros:** pienin kokonaiskuvapituus |g(a)|+…+|g(f)| jolla molemmat ikkunat selviävät.
+1. **The smallest L at which some class survives both windows.** ~~L = 6 is 3³⁶ maps — no longer naively enumerable~~ **outdated as of 2026-07-31 (row 78):** the locality of the [2,5] window (K ≤ 5 fits in 10 symbols) turns the problem into a finite CSP, not a 3^(6L) search, and L=6 is now decided exhaustively under this reformulation: **200,106 canonical classes** avoid K ∈ [2,5]. **Item 1 remains entirely open**: none of these has been escalated to K ≥ 6 — only one random sample was tested and it died early (row 78's notes). The same CSP reformulation covers L ≤ 12 (the constraint arity B(L) drops to two at L ≥ 9), so the next step is escalating the full L=6 set, not increasing L further.
+2. **Why does avoiding [2,5] force g(a)=g(b) at L=3 (35/35) but no longer at L=4 (601/685)?** In h₆'s images, a→ace and b→adf share their first letter; is the explanation here or elsewhere — computable by examining where the violations arise.
+3. **The non-uniform layer:** the smallest total image length |g(a)|+…+|g(f)| at which both windows survive.
 
-Selviytyjää **ei** saa kutsua kandidaatiksi ennen kuin molemmat ikkunat on tarkistettu JA Prop 9:n esiehdot (`decision-preconditions.js`) on ajettu parille (h₆, g).
+A survivor **may not** be called a candidate until both windows have been checked AND Prop 9's preconditions (`decision-preconditions.js`) have been run for the pair (h₆, g).
 
-### B6. K ∈ [2,5]-säiliökieli on äärellisen tyypin rajoite — sen rakenne on eksaktisti laskettavissa
+### B6. The K ∈ [2,5] container language is a finite-type constraint — its structure is exactly computable
 
-Mäkelän avoin osa koskee puolipituuksia 2…5, ja abelin neliö puolipituudella ≤ 5 mahtuu 10 merkin ikkunaan. Kieli "vältä *vain* K ∈ [2,5]" on siis äärellisen ikkunan rajoite, ja jokainen Mäkelä-todistaja elää sen sisällä.
+Mäkelä's open part concerns half-lengths 2…5, and an abelian square of half-length ≤ 5 fits in a 10-character window. The language "avoid *only* K ∈ [2,5]" is therefore a finite-window constraint, and every Mäkelä witness lives inside it.
 
-**Kysymykset 1–3 on laskettu** (`sft-container.js`, tulokset `MATH_CLAIMS.md` **rivi 51**): yksi ei-triviaali SCC (2 844 tilaa), kirjaintaajuudet välttämättä välissä [1/11, 3/4], binäärihäntää ei ole. Väli on leveä, joten sen karsintavoima E1-käytössä on vaatimatonta — se on silti ensimmäinen kaikkia hyökkäysreittejä koskeva välttämätön ehto.
+**Questions 1–3 have been computed** (`sft-container.js`, results at `MATH_CLAIMS.md` **row 51**): one non-trivial SCC (2,844 states), letter frequencies necessarily in [1/11, 3/4], no binary tail. The interval is wide, so its pruning power in E1 use is modest — it is nonetheless the first necessary condition covering every attack route.
 
-**Auki jäävä jatko:**
+**Follow-up that remains open:**
 
-1. ~~Kiristyvätkö välit kun rajoitteita lisätään?~~ **Laskettu K=6:lle** (`MATH_CLAIMS.md` rivi 52): väli **ei kiristy** — [1/11, 3/4] on stabiili 5 → 6 vaikka kieli aidosti kutistuu. Jatko K ∈ [2,7] (muisti 13) vaatii Howardin algoritmin: tilamäärä ylittää Karp-taulukon Int16-rajan. Eksaktiutta ei saa heikentää — liukulukuapproksimaatio kelpaa vain jos tulos verifioidaan rationaalisesti (rivin 51 Bellman–Ford-kuvio kantaa sellaisenaan).
-2. **Missä stabiilius katkeaa?** Jaksollinen sana jaksolla p sisältää aina K=p-neliön, joten yksittäiset ääriarvosyklit kuolevat väistämättä ikkunan kasvaessa — stabiilius vaatii joka tasolle uusia, pidempiä syklejä samalla keskiarvolla. Pienin kmax jolla yläraja putoaa alle 3/4:n (tai alaraja nousee yli 1/11:n) on hyvin määritelty luku, ja jokainen taso on äärellinen lasku.
-3. **SCC:n hienorakenne:** synkronoivat sanat, jaksollisuus (syt sykleistä), ja missä Keräsen sanan polku kulkee suhteessa SCC:n "reunoihin" (tiloihin joilla on vain yksi jatko).
+1. ~~Do the intervals tighten as constraints are added?~~ **Computed for K=6** (`MATH_CLAIMS.md` row 52): the interval **does not tighten** — [1/11, 3/4] is stable from 5 → 6 even though the language strictly shrinks. Extension to K ∈ [2,7] (memory 13) requires Howard's algorithm: the state count exceeds the Karp table's Int16 limit. Exactness must not be weakened — a floating-point approximation is acceptable only if the result is verified rationally (row 51's Bellman–Ford pattern carries over unchanged).
+2. **Where does the stability break?** A periodic word with period p always contains a K=p square, so individual extremal cycles inevitably die as the window grows — stability requires new, longer cycles with the same average at every level. The smallest kmax at which the upper bound drops below 3/4 (or the lower bound rises above 1/11) is a well-defined number, and every level is a finite computation.
+3. **The SCC's fine structure:** synchronizing words, periodicity (gcd of cycles), and where Keränen's word's path runs relative to the SCC's "edges" (states with only one continuation).
 
-Varaus: tämä on **relaksaation** analyysi. Se antaa välttämättömiä ehtoja, ei koskaan riittäviä (vrt. `NEGATIVE_RESULTS.md` §2: SCC ei todista ääretöntä aa2f-sanaa).
+Caveat: this is a **relaxation** analysis. It gives necessary conditions, never sufficient ones (cf. `NEGATIVE_RESULTS.md` §2: an SCC does not prove an infinite aa2f word).
 
-### B7. Säiliökielen välttämättömät tekijät — LASKETTU 2026-07-30, vastaus kielteinen (rivi 62)
+### B7. The container language's unavoidable factors — COMPUTED 2026-07-30, answer negative (row 62)
 
-**Kysymys:** mitkä tekijät (pituuteen 9 asti) esiintyvät jokaisessa äärettömässä [2,5]-vapaassa sanassa — siis jokaisessa mahdollisessa Mäkelä-todistajassa? "u on välttämätön" ⟺ säiliögraafi ilman u:n sisältäviä tiloja on syklitön; äärellinen tarkistus per tekijä (`sft-container.js`:n tilasuodatus + syklintunnistus, molemmat olemassa).
+**Question:** which factors (up to length 9) occur in every infinite [2,5]-free word — i.e. in every possible Mäkelä witness? "u is unavoidable" ⟺ the container graph with all states containing u removed is acyclic; a finite check per factor (`sft-container.js`'s state filtering + cycle detection, both already exist).
 
-- **Validointi:** yksittäiskirjainten on tultava välttämättömiksi (yhtäpitävä rivin 51(b) binäärihäntätuloksen kanssa, eri koodipolku); ei-välttämättömälle tekijälle esitetään eksplisiittinen välttävä sykli.
-- **Odotettu lokirivi:** *"Säiliökielen välttämättömät tekijät pituuteen ℓ asti ovat täsmälleen ⟨joukko⟩ (N kpl); jokainen Mäkelä-todistaja sisältää ne."*
-- **Tappoehto:** ei tarvita — äärellinen lasku, yksikäsitteinen vastaus; myös "vain kirjaimet" kirjataan.
-- **Työmäärä:** yksi sessio. **Vaikuttavuus 3–4.**
+- **Validation:** single letters must turn out unavoidable (consistent with row 51(b)'s binary-tail result, a different code path); for a non-unavoidable factor an explicit avoiding cycle is exhibited.
+- **Expected ledger sentence:** *"The container language's unavoidable factors up to length ℓ are exactly ⟨set⟩ (N of them); every Mäkelä witness contains them."*
+- **Kill condition:** not needed — a finite computation, a unique answer; "letters only" is also logged.
+- **Effort:** one session. **Impact 3–4.**
 
-**Tulos (rivi 62): yksikään pituuden ≥ 2 tekijä ei ole välttämätön** — ei K ∈ [2,5]-säiliössä (1 016 luokkaa pituuksiin 9 asti) eikä K ∈ [2,6]-säiliössä (3 837 luokkaa pituuksiin 11 asti). Vain yksittäiset kirjaimet. Toivottua *"jokainen todistaja sisältää tekijän X"* -lausetta ei ole. **Kysymys on suljettu tässä ikkunassa.** Tämä on kolmas riippumaton mittaus samasta tosiasiasta: säiliö on löysä relaksaatio (vrt. rivit 51 ja 52). **Seuraus: säiliöstä ei kannata etsiä lisää välttämättömiä ehtoja.** Auki jää sama kysymys aa2f-kielelle itselleen, joka on säiliön aito osajoukko — siellä välttämättömiä tekijöitä voi yhä olla, mutta aa2f ei ole äärellisen tyypin kieli eikä tätä menetelmää voi soveltaa siihen suoraan.
+**Result (row 62): no factor of length ≥ 2 is unavoidable** — neither in the K ∈ [2,5] container (1,016 classes up to length 9) nor in the K ∈ [2,6] container (3,837 classes up to length 11). Only individual letters. The hoped-for *"every witness contains factor X"* statement does not exist. **The question is closed within this window.** This is a third independent measurement of the same fact: the container is a loose relaxation (cf. rows 51 and 52). **Consequence: it is not worth searching the container for more necessary conditions.** The same question remains open for the aa2f language itself, which is a proper subset of the container — necessary factors may still exist there, but aa2f is not a finite-type language and this method cannot be applied to it directly.
 
-### B9. Tasapainoiset aakkostot — miksi dikotomia on niin puhdas? (rivi 54)
+### B9. Balanced alphabets — why is the dichotomy so clean? (row 54)
 
-Rivin 54 lakaisussa **jokainen** tasapainoinen aakkosto (muotoa {0, p, q, p+q}) tyhjeni, eikä yksikään ratkaisematon luokka ollut tasapainoinen. Kysymykset, jotka ovat äärellisiä ja invariantteja:
+In row 54's sweep, **every** balanced alphabet (of the form {0, p, q, p+q}) terminated, and no unresolved class was balanced. Questions that are finite and invariant:
 
-1. **Päteekö dikotomia laajemmalla spannilla?** Jokainen uusi span on äärellinen lasku samalla moduulilla. Ensimmäinen tasapainoinen luokka joka **ei** tyhjenny kumoaisi kuvion; ensimmäinen epätasapainoinen joka tyhjenee laajentaisi poikkeuslistaa ({0,1,2,4} on toistaiseksi ainoa).
-2. **Onko 60 tasapainoisten katto?** Arvot kulkevat 50 → 55 → 58 → 60 kun (p,q) etääntyvät, ja pysähtyvät 60:een. Onko olemassa tasapainoinen aakkosto jonka pisin sana on > 60?
-3. **Rakenteellinen selitysehdokas — testattava, ei oletettava.** Tasapainoinen aakkosto on summajoukko {0,p} + {0,q}, joten kirjain on p·x + q·y missä x,y ∈ {0,1}: aakkosto on {0,1}² ⊂ ℤ²:n projektio. Riittävän riippumattomilla p, q summat ovat yhtä suuret täsmälleen kun **molemmat binäärikoordinaatit** täsmäävät, jolloin additiivinen neliö ℤ-sanassa vastaa yhtäaikaista abelin neliötä kahdessa binääriprojektiossa. Tämä kytkeytyy suoraan riviin 53 (ℤ² ratkaistu). **Ennuste jonka voi kumota:** jos selitys pätee, tasapainoisen aakkoston tulos saa riippua vain siitä ovatko p ja q "riittävän riippumattomia", ei niiden koosta — ja (1,2):n poikkeava 50 selittyy sillä että q = 2p. Testattavissa vertaamalla luokkia joilla on sama riippuvuusrakenne mutta eri koko.
+1. **Does the dichotomy hold at a wider span?** Every new span is a finite computation with the same module. The first balanced class that does **not** terminate would break the pattern; the first unbalanced class that terminates would extend the exception list ({0,1,2,4} is so far the only one).
+2. **Is 60 the ceiling for balanced alphabets?** Values run 50 → 55 → 58 → 60 as (p,q) grow further apart, and stop at 60. Does a balanced alphabet exist whose longest word is > 60?
+3. **A candidate structural explanation — to be tested, not assumed.** A balanced alphabet is the sumset {0,p} + {0,q}, so a letter is p·x + q·y with x,y ∈ {0,1}: the alphabet is a projection of {0,1}² ⊂ ℤ². With sufficiently independent p, q, sums are equal exactly when **both binary coordinates** match, so an additive square in the ℤ-word corresponds to a simultaneous abelian square in two binary projections. This connects directly to row 53 (ℤ² solved). **A falsifiable prediction:** if the explanation holds, a balanced alphabet's result should depend only on whether p and q are "sufficiently independent", not on their size — and (1,2)'s outlier value of 50 is explained by q = 2p. Testable by comparing classes with the same dependency structure but different size.
 
-**Päivitys 2026-07-30 (rivi 66):** Freedmanin todistama yleinen raja (61, kaikille tasapainoisille eli Sidon-aakkostoille) selittää kohdan 2 kysymyksen tyhjentävästi kirjallisuuden puolelta — 60 on kirjallisuuden mukaan yleinen katto, ei pelkkä tämän projektin span≤8-havainto. Kohdat 1 ja 3 ovat silti auki: rakenteellinen selitys (kohta 3) on nyt testattavissa Freedmanin todistuksen menetelmää vasten, mikä on eri kysymys kuin lisää laskentaa.
+**Update 2026-07-30 (row 66):** Freedman's proven general bound (61, for all balanced i.e. Sidon alphabets) settles item 2's question exhaustively from the literature side — 60 is, per the literature, a general ceiling, not merely this project's own span≤8 observation. Items 1 and 3 remain open: the structural explanation (item 3) is now testable against Freedman's proof technique, which is a different question from more computation.
 
-### B10. Epäuniformi morfismihaku additiivisille neliöille — OSITTAIN LASKETTU 2026-07-30 (rivi 68)
+### B10. Non-uniform morphism search for additive squares — PARTIALLY COMPUTED 2026-07-30 (row 68)
 
-**Kysymys:** onko olemassa epäuniformi morfismi jonka kiintopiste välttää additiiviset neliöt täydellisesti (kaikilla K ≥ 1) jollain epätasapainoisella nelikirjaimisella aakkostolla?
+**Question:** does there exist a non-uniform morphism whose fixed point completely avoids additive squares (at all K ≥ 1) over some unbalanced four-letter alphabet?
 
-**Miksi juuri tämä, eikä lisää uniformia hakua:** `additive-morphism-scan.js` (rivi 67) tyhjensi uniformin tapauksen k ≤ 4:llä kuudella epätasapainoisella aakkostolla — negatiivisesti, mutta äärellisesti. Cassaigne et al. (2013) -konstruktio additiivisille **kuutioille** on todistetusti **epäuniformi** (φ_{a,b,c,d}: a→ac, b→dc, c→b, d→ab, pituudet 2,2,1,2), suoraan Lietard & Rosenfeldin preprintistä uutettuna. Tämä oli vahva ennakko-oletus siitä että uniformi olisi väärä hakuavaruus myös neliöille.
+**Why exactly this, and not more uniform search:** `additive-morphism-scan.js` (row 67) exhausted the uniform case at k ≤ 4 with six unbalanced alphabets — negatively, but exhaustively. The Cassaigne et al. (2013) construction for additive **cubes** is provably **non-uniform** (φ_{a,b,c,d}: a→ac, b→dc, c→b, d→ab, lengths 2,2,1,2), extracted directly from the Lietard & Rosenfeld preprint. This was a strong prior expectation that uniform would be the wrong search space for squares too.
 
-**Tulos (rivi 68):** `additive-nonuniform-morphism-scan.js` yleisti haun pituusprofiileihin (La,Lb,Lc,Ld) ∈ [1,4]⁴ (La ≥ 2), sisältäen Cassaigne-tyyppisen (2,2,1,2)-profiilin yhtenä 192:sta. Tyhjentävä ja negatiivinen neljällä aakkostolla ({0,1,2,5}, {0,1,6,8}, {0,3,4,8}, {0,2,4,7}), ~117 M morfismia per aakkosto. **Cassaigne-tyyppinen epäuniformisuus ei siis yksinään riitä** — ainakaan tässä ikkunassa.
+**Result (row 68):** `additive-nonuniform-morphism-scan.js` generalized the search to length profiles (La,Lb,Lc,Ld) ∈ [1,4]⁴ (La ≥ 2), including the Cassaigne-type (2,2,1,2) profile as one of 192. Exhaustive and negative on four alphabets ({0,1,2,5}, {0,1,6,8}, {0,3,4,8}, {0,2,4,7}), ~117M morphisms per alphabet. **Cassaigne-type non-uniformity alone is therefore not sufficient** — at least not in this window.
 
-**Loput 16 luokkaa ajettu 2026-07-30 (rivi 69):** kohta 2 alla on nyt suljettu. Kaikki 20 avointa epätasapainoista luokkaa on käyty läpi tällä moduulilla, tyhjentävästi ja negatiivisesti. **Tämä sulkee 4→4-morfismimuodon pituusprofiileihin 4 asti koko epätasapainoisella alueella**, ei enää vain neljällä otoksella.
+**The remaining 16 classes run 2026-07-30 (row 69):** item 2 below is now closed. All 20 open unbalanced classes have been run through this module, exhaustively and negatively. **This closes the 4→4 morphism form for length profiles up to 4 across the entire unbalanced range**, not just four samples anymore.
 
-**Auki jää:**
-1. **Pidemmät profiilit** (maxlen > 4) — kustannus kasvaa nopeasti, mittaa ennen lupaamista. **Tappoehto §14 on nyt laukennut kahdesti:** 20/20 luokkaa negatiivisia ilman signaalia. Älä syvennä samaa hakua ilman uutta rakenteellista ideaa.
-2. ~~16 muuta epätasapainoista luokkaa~~ — **tehty 2026-07-30, rivi 69.**
-3. **Rakenteellisesti erilaiset konstruktiot** — Cassaignen oma φ_{a,b,c,d} on määritelty ℂ:n yli eikä rajattu neljään kiinteään symboliin samalla tavalla kuin tämä haku; mahdollisesti tarvitaan muu morfismimuoto kokonaan (esim. useampikirjaiminen aputila, kuten h₆→g₃-konstruktio abelin puolella). **Nostettu omaksi kohdakseen B13**, koska kahden negatiivisen kierroksen jälkeen todennäköisin selitys ei ole "morfismeja ei ole" vaan "hakuavaruus on väärän muotoinen".
-- **Validointi:** kolmikerroksinen kuvio täyttyi — regressiokontrolli uniformiin tapaukseen (`additive-morphism-scan.js`) on riippumaton todiste yleistyksen oikeellisuudesta.
-- **Tappoehto seuraavalle syvennykselle:** ei signaalia kohtuullisella budjetilla ilman uutta rakenteellista ideaa — sama kriteeri kuin `NEGATIVE_RESULTS.md` §1:ssä ja nyt myös §14:ssä.
-- **Vaikuttavuus, jos joskus onnistuu:** hyvin korkea — vastaisi myöntävästi Question 3:een (rivi 63/66: *"Is there any finite alphabet of integers over which additive squares are avoidable?"*), joka on ollut avoin ainakin vuodesta 1987.
+**Remains open:**
+1. **Longer profiles** (maxlen > 4) — cost grows fast, measure before promising. **Kill condition §14 has now triggered twice:** 20/20 classes negative with no signal. Do not deepen the same search without a new structural idea.
+2. ~~16 other unbalanced classes~~ — **done 2026-07-30, row 69.**
+3. **Structurally different constructions** — Cassaigne's own φ_{a,b,c,d} is defined over ℂ and not restricted to four fixed symbols the same way this search is; an entirely different morphism form may be needed (e.g. a larger auxiliary alphabet, like the h₆→g₃ construction on the abelian side). **Raised as its own item, B13**, because after two negative rounds the most likely explanation is not "there are no morphisms" but "the search space is the wrong shape".
+- **Validation:** the three-layer pattern was met — a regression control against the uniform case (`additive-morphism-scan.js`) is independent proof of the generalization's correctness.
+- **Kill condition for the next deepening:** no signal at a reasonable budget without a new structural idea — the same criterion as in `NEGATIVE_RESULTS.md` §1 and now also §14.
+- **Impact, if it ever succeeds:** very high — it would answer Question 3 affirmatively (row 63/66: *"Is there any finite alphabet of integers over which additive squares are avoidable?"*), which has been open since at least 1987.
 
-### B11. Additiivisen ehdon päätösmenettely — kone osaa vain kumota, ei koskaan vahvistaa (RESEARCH_ARCHITECT-ajo 2026-07-30)
+### B11. A decision procedure for the additive condition — the machine can only refute, never confirm (RESEARCH_ARCHITECT run 2026-07-30)
 
-**Kysymys:** onko olemassa **äärellinen** kriteeri joka ratkaisee, välttääkö annetun morfismin kiintopiste additiiviset neliöt kaikilla K ≥ 1 — additiivinen vastine sille mitä `decide-realizability.js` ja Theorem 4/6 (rivit 32, 46) tekevät abelin puolella?
+**Question:** does there exist a **finite** criterion that decides whether a given morphism's fixed point avoids additive squares at all K ≥ 1 — the additive counterpart of what `decide-realizability.js` and Theorem 4/6 (rows 32, 46) do on the abelian side?
 
-**Miksi tämä oli koko koneiston tärkein aukko, eikä yksi ominaisuus muiden joukossa** — tilanne 2026-07-30 alkuillasta, **osittain korjautunut samana iltana, ks. alla.** Skanneri sanoi omassa tulosteessaan: *"This is BOUNDED EVIDENCE, not a proof of an infinite fixed point — no exact decision procedure exists yet for the additive condition."* Seuraus: **jos rivien 68–69 lakaisu olisi löytänyt selviytyjän, projekti ei olisi silloin osannut todeta sitä oikeaksi**, vain nostaa etuliitekattoa. Kone keräsi kielteisiä tuloksia mielivaltaisen pitkälle mutta ei voinut tuottaa myönteistä — ja Question 3 (rivi 63) on **eksistenssikysymys**.
+**Why this was the whole machinery's most important gap, not one feature among others** — the situation as of the early evening of 2026-07-30, **partially resolved the same evening, see below.** The scanner said, in its own output: *"This is BOUNDED EVIDENCE, not a proof of an infinite fixed point — no exact decision procedure exists yet for the additive condition."* Consequence: **if the sweep in rows 68–69 had found a survivor, the project would not have been able to establish it as correct at that point**, only raise the prefix cap. The machine collected negative results to arbitrary length but could not produce a positive one — and Question 3 (row 63) is an **existence question**.
 
-**Miksi tämä on uskottava eikä toiveajattelu:** additiivinen ekvivalenssi on Parikh-vektorin **lineaarinen funktionaali** (alkioiden painotettu summa), joten sauman ylittävän additiivisen neliön tila on pari (pituusero, summaero) — kaksiulotteinen kokonaislukuhila. Se on samaa muotoa kuin Rao & Rosenfeldin Proposition 5/6 -rajat, ja projektissa on jo `perron-frobenius.js`, `smith-normal-form.js` ja `ancestor-box.js` jotka laskevat juuri sellaisia rajoja. Kyse on olemassa olevan koneiston siirrosta uuteen ekvivalenssirelaatioon.
+**Why this is credible and not wishful thinking:** additive equivalence is a **linear functional** of the Parikh vector (a weighted sum of the elements), so the state of an additive square crossing a seam is a pair (length difference, sum difference) — a two-dimensional integer lattice. This is the same shape as Rao & Rosenfeld's Proposition 5/6 bounds, and the project already has `perron-frobenius.js`, `smith-normal-form.js`, and `ancestor-box.js`, which compute exactly such bounds. It is a matter of transferring existing machinery to a new equivalence relation.
 
-- **Kytkentä koneistoon:** `perron-frobenius.js` (summan kasvu = insidenssimatriisin spektri), `ancestor-box.js` (laatikon muoto), `decide-realizability.js` (päätösrunko). Puuttuu: summaeron raja ja sen todistus.
-- **Validointi:** positiivinen kontrolli = menettelyn on annettava **kielteinen** verdikti jokaiselle riveillä 67–69 tyhjentävästi hylätylle morfismille (yhteensä yli 2·10⁹ morfismia, jokainen tunnettu vastaus); negatiivinen kontrolli = tarkoituksella rikottu morfismi jonka kiintopisteessä on tunnettu additiivinen neliö; ristiintarkistus = menettelyn verdikti vs. raaka etuliiteajo katolle 10⁴.
-- **Odotettu lokirivi:** *"Additiivisen ehdon päätösmenettely johdettu k-uniformeille morfismeille: summaero sauman yli on rajattu arvolla ⟨B⟩, joten tarkistus on äärellinen ja kattaa kaikki K ≥ 1. Verifioitu N morfismilla joilla vastaus tunnettiin ennalta."* — `COMPUTED` (Level 1), tai `PRIMARY` jos raja johdetaan julkaistusta lauseesta.
-- **Tappoehto:** jos summaeron kasvua **ei** saada rajattua insidenssimatriisin spektristä, laatikko on ääretön eikä menettelyä ole tässä muodossa. **Tämä nähdään ensimmäisestä johdosta, ei ajosta** — eli tappoehto laukeaa paperilla tuntien, ei viikkojen sisällä.
-- **Työmäärä:** esimittaus = johda raja **yhdelle** 2-uniformille morfismille käsin ja vertaa `ancestor-box.js`:n antamaan abelin laatikkoon. Vasta jos se toimii, yleistä. **Vaikuttavuus 5.**
+- **Connection to the machinery:** `perron-frobenius.js` (sum growth = the incidence matrix's spectrum), `ancestor-box.js` (the box's shape), `decide-realizability.js` (the decision skeleton). Missing: a bound on the sum difference and its proof.
+- **Validation:** positive control = the procedure must give a **negative** verdict for every morphism exhaustively rejected in rows 67–69 (over 2·10⁹ morphisms in total, each a known answer); negative control = a deliberately broken morphism whose fixed point has a known additive square; cross-check = the procedure's verdict vs. a raw prefix run to a cap of 10⁴.
+- **Expected ledger sentence:** *"A decision procedure for the additive condition derived for k-uniform morphisms: the sum difference across a seam is bounded by ⟨B⟩, so the check is finite and covers all K ≥ 1. Verified on N morphisms for which the answer was known in advance."* — `COMPUTED` (Level 1), or `PRIMARY` if the bound is derived from a published theorem.
+- **Kill condition:** if the growth of the sum difference **cannot** be bounded from the incidence matrix's spectrum, the box is infinite and no procedure exists in this form. **This is seen from the first derivation, not from a run** — i.e. the kill condition fires on paper within hours, not weeks.
+- **Effort:** pre-measurement = derive the bound **for one** 2-uniform morphism by hand and compare to the abelian box given by `ancestor-box.js`. Generalize only if that works. **Impact 5.**
 
-**ESIMITTAUS TEHTY 2026-07-30 (rivi 71) — reitti on olemassa mutta kapea, ja tulos kääntää abelin puolen intuition päinvastaiseksi.**
+**PRE-MEASUREMENT DONE 2026-07-30 (row 71) — the route exists but is narrow, and the result reverses the abelian-side intuition.**
 
-Hypoteesin muoto siirtyy: `ker Φ` korvautuu hypertasolla `ker(v^T)`, jonka ulottuvuus on 3, joten nollaleikkaus pakottaa **dim im(Mⁿ) ≤ 1**. Mitattu tyhjentävästi: k=2 → 6,46 %, k=3 → 2,12 %, k=4 → **0,87 %** hakuavaruudesta.
+The hypothesis's form shifts: `ker Φ` is replaced by the hyperplane `ker(v^T)`, whose dimension is 3, so a zero intersection forces **dim im(Mⁿ) ≤ 1**. Measured exhaustively: k=2 → 6.46%, k=3 → 2.12%, k=4 → **0.87%** of the search space.
 
-**Rakenteellinen havainto joka on tämän esimittauksen tärkein anti:** abelin puolella kuvien identtiset Parikh-vektorit ovat se ominaisuus joka *kantaa* konstruktion (Keräsen g₈₅, rivi 3). Additiivisella puolella **sama ominaisuus tappaa morfismin välittömästi** — samat kuvasummat tarkoittavat että mitkä tahansa kaksi vierekkäistä kokonaista lohkoa muodostavat additiivisen neliön puolipituudella k, ilman hakua. **Se mikä kantaa abelin ratkaisun estää additiivisen.** Tämä on yksi selitys sille miksi rivit 67–69 ovat kauttaaltaan kielteisiä, eikä sitä ollut aiemmin kirjattu.
+**The structural observation that is this pre-measurement's most important contribution:** on the abelian side, images having identical Parikh vectors is the very property that *carries* the construction (Keränen's g₈₅, row 3). On the additive side, **the same property kills the morphism immediately** — equal image sums mean that any two adjacent whole blocks form an additive square of half-length k, with no search needed. **What carries the abelian solution blocks the additive one.** This is one explanation for why rows 67–69 are uniformly negative, and it had not been logged before.
 
-**Seuraus B11:n arvolle, rehellisesti:** menettely ei toisi mitään uutta k ≤ 4:lle, koska luettelu on siellä jo tyhjentävä (rivit 67–69). **Koko arvo on siinä että se skaalautuu k:hon jossa luettelu ei skaalaudu**, ja rank-1 + pareittain eri kuvasummat -suodatin leikkaa avaruuden 0,08 %:iin — juuri niin pieneksi että suurempi k on mahdollinen. **Varsinainen tappoehto on yhä auki:** itse rajaa (summaeron äärellisyyttä) ei ole johdettu, vain hypoteesin muoto ja kattavuus. Se on seuraava askel, ja se ratkeaa paperilla.
+**Consequence for B11's value, honestly:** the procedure would add nothing new for k ≤ 4, since the enumeration is already exhaustive there (rows 67–69). **Its entire value is in scaling to a k where enumeration does not scale**, and the rank-1 + pairwise-distinct-image-sums filter cuts the space to 0.08% — small enough that a larger k becomes feasible. **The actual kill condition is still open:** the bound itself (finiteness of the sum difference) has not been derived, only the hypothesis's shape and coverage. That is the next step, and it is settled on paper.
 
-### B11 ON OSITTAIN KORVAUTUNUT — ÄLÄ RAKENNA SITÄ (2026-07-30, rivit 72–73)
+### B11 IS PARTIALLY SUPERSEDED — DO NOT BUILD IT (2026-07-30, rows 72–73)
 
-Menettely on **jo olemassa julkaistuna**, eikä sitä tarvitse johtaa: Theorem 2.4 (Currie, Mol, Rampersad & Shallit, arXiv:2111.07857, lainattu Andrade & Molin arXiv:2408.15390:ssä) ratkaisee additiivisen k-potenssittomuuden **affiineille** morfismeille, ja toteutus on paperin oma: `github.com/lgmol/Additive-Powers-Decision-Algorithm`. Sanamuoto ja affiinin morfismin määritelmä ovat rivillä 72, varmennettuna primäärilähteestä.
+The procedure **already exists, published**, and does not need to be derived: Theorem 2.4 (Currie, Mol, Rampersad & Shallit, arXiv:2111.07857, quoted in Andrade & Mol's arXiv:2408.15390) solves additive k-power-freeness for **affine** morphisms, and the implementation is the paper's own: `github.com/lgmol/Additive-Powers-Decision-Algorithm`. The statement and the definition of an affine morphism are at row 72, verified from the primary source.
 
-**Korvautumisen rajaus on tärkeämpi kuin korvautuminen:**
+**The delimitation of what is superseded matters more than the superseding itself:**
 
-1. **Se ei ole sama luokka.** Rivin 71 rank-1-ehto (Proposition 11:n siirto) ja Theorem 2.4:n affiiniehto ovat **eri** osajoukkoja. Affiini vaatii että kuvan pituus **ja** summa ovat affiineja funktioita kirjaimen omasta arvosta — mitattuna 0,006–0,021 % avaruudesta (rivi 73), kun rank-1 oli 0,87 %.
-2. **Se ei ole olemassa olevan koodin uudelleenkäyttöä.** Lähde sanoo itse että γ:n insidenssimatriisilla on ominaisarvo tasan 1 eikä se täytä Rao & Rosenfeldin ehtoja lainkaan. CMRS-algoritmi on **erikseen toteutettava** komponentti; `decide-realizability.js` ei tee sitä.
-3. **Mitään ei ole vielä päätetty.** Rivi 73 mittaa **kelpoisuutta**, ei päätöstä. Yhtään ehdokasta ei ole ajettu läpi päätösalgoritmilla, koska algoritmia ei ole toteutettu.
+1. **It is not the same class.** Row 71's rank-1 condition (a transfer of Proposition 11) and Theorem 2.4's affine condition are **different** subsets. Affine requires that the image's length **and** sum are affine functions of the letter's own value — measured at 0.006–0.021% of the space (row 73), versus rank-1's 0.87%.
+2. **It is not reuse of existing code.** The source itself states that γ's incidence matrix has an eigenvalue of exactly 1 and does not satisfy Rao & Rosenfeld's conditions at all. The CMRS algorithm is a component that must be **separately implemented**; `decide-realizability.js` does not do it.
+3. **Nothing has been decided yet.** Row 73 measures **eligibility**, not a decision. No candidate has been run through the decision algorithm, because the algorithm has not been implemented.
 
-**PYSÄYTYSEHTO ennen kuin yhtäkään ehdokasta kutsutaan miksikään:** toteutuksen on toistettava repon **viisi omaa tapaustutkimusta** (Dekking 1979, Currie & Aberkane 2009, Andrade & Mol Prop. 3.1 ja 4.1, CMRS 2021 — täsmälleen rivillä 73 luetellut morfismit). **Ei β/δ — se oli virheellinen viittaus, korjattu rivillä 73.** Jos ei toista, pysähdy. Sama kuvio kuin rivin 68 regressiokontrollissa.
+**KILL CONDITION before any candidate is called anything at all:** the implementation must reproduce the repo's own **five case studies** (Dekking 1979, Currie & Aberkane 2009, Andrade & Mol Prop. 3.1 and 4.1, CMRS 2021 — exactly the morphisms listed at row 73). **Not β/δ — that was an incorrect reference, corrected at row 73.** If it does not reproduce them, stop. Same pattern as row 68's regression control.
 
-**Ja yksi rajaus jota ei saa unohtaa:** additiivinen linja on **rinnakkainen tutkimuslinja, ei silta Mäkelän konjektuuriin.** Additiivinen välttäminen on tiukempi kuin abelin (jokainen abelin neliö on additiivinen neliö), mutta implikaatio osuu jo ratkaistuun maastoon: neljän kirjaimen abelin-neliöttömyys on Keräsen 1992 (rivi 3). Mäkelä on eri ehto. Ks. rivi 72 ja A6/E6.
+**And one delimitation that must not be forgotten:** the additive line is a **parallel research line, not a bridge to Mäkelä's conjecture.** Additive avoidance is stricter than abelian (every abelian square is an additive square), but the implication lands on already-solved ground: four-letter abelian-square-freeness is Keränen 1992 (row 3). Mäkelä is a different condition. See row 72 and A6/E6.
 
-### B12. Question 3 on eksistenssikysymys — kohde on ollut väärinpäin (RESEARCH_ARCHITECT-ajo 2026-07-30)
+### B12. Question 3 is an existence question — the target has been backwards (RESEARCH_ARCHITECT run 2026-07-30)
 
-**Kysymys:** onko olemassa **jokin** äärellinen kokonaislukuaakkosto jolla additiiviset neliöt ovat vältettävissä — ja jos on, miksi sitä etsitään aakkostokoosta jossa välttäminen on vaikeinta?
+**Question:** does there exist **some** finite integer alphabet over which additive squares are avoidable — and if so, why is it being sought at the alphabet size where avoidance is hardest?
 
-**Havainto joka motivoi tämän.** Rivi 63 lainaa Question 3:a sanatarkasti: *"Is there any finite alphabet of integers over which additive squares are avoidable?"* — **mikä tahansa** äärellinen aakkosto kelpaa, ja useampi kirjain tekee välttämisestä helpompaa. Projekti on silti käyttänyt koko laskentabudjettinsa **neljään** kirjaimeen, jossa tasapainoiset luokat ovat Brown & Freedmanin nojalla äärellisiä (rivit 65–66) ja loputkin näyttävät kuolevan (rivit 54, 64, 67, 69). Se on vaikein tapaus, ja tulokset ovat siksi olleet kielteisiä.
+**The observation motivating this.** Row 63 quotes Question 3 verbatim: *"Is there any finite alphabet of integers over which additive squares are avoidable?"* — **any** finite alphabet qualifies, and more letters make avoidance easier. The project has nonetheless spent its entire computing budget on **four** letters, where balanced classes are finite by Brown & Freedman (rows 65–66) and the rest also appear to die (rows 54, 64, 67, 69). That is the hardest case, and the results have therefore been negative.
 
-**Kaksi rajausta jotka osoittautuivat valinnoiksi eivätkä rajoiksi** (mitattu 2026-07-30, rivi 70):
-1. `additive-sweep.js` **tukee jo useampaa kirjainta** — `canonicalAlphabets(5, 8)` antaa 37 affiiniluokkaa. Parametri on olemassa eikä sitä ole kertaakaan käännetty. Morfismiskannerit on kovakoodattu neljään yhdellä rivillä (`length !== 4`).
-2. Span ≤ 8 antaa neljällä kirjaimella 31 luokkaa; **span ≤ 10 antaa 62.** Puolet neljänkin kirjaimen avaruudesta on lakaisematta, eikä rajaa 8 ole perusteltu missään dokumentissa.
+**Two restrictions that turned out to be choices, not limits** (measured 2026-07-30, row 70):
+1. `additive-sweep.js` **already supports more letters** — `canonicalAlphabets(5, 8)` gives 37 affine classes. The parameter exists and has never once been turned. The morphism scanners are hard-coded to four on a single line (`length !== 4`).
+2. Span ≤ 8 gives 31 classes with four letters; **span ≤ 10 gives 62.** Half of even the four-letter space is unswept, and the bound of 8 is not justified anywhere in the documents.
 
-- **Validointi:** affiini-invarianssi ja todistuskappaleen tarkistus määritelmästä pätevät sellaisenaan viiteen kirjaimeen (`verdictFor`:n omat kerrokset); positiivinen kontrolli = nelikirjaimisten tunnettujen luokkien on toistuttava täsmälleen kun sama koodi ajetaan `letters = 4`:llä.
-- **Odotettu lokirivi:** *"Viisikirjaimiset aakkostot, span ≤ ⟨s⟩, ⟨n⟩ affiiniluokkaa lakaistu: ⟨e⟩ luokan kieli on äärellinen, ⟨o⟩ jäi auki budjetilla ⟨b⟩ solmua, pisin verifioitu sana ⟨L⟩. Mitään ei väitetä alarajojen yli."* — `COMPUTED` (Level 1).
-- **Tappoehto:** jos viisikirjaimiset luokat käyttäytyvät laadullisesti samoin kuin nelikirjaimiset (kielet tyhjenevät saavutettavilla budjeteilla), aakkostokoko ei ole se muuttuja joka ratkaisee, ja linja lopetetaan — **eikä sitä korvata alarajojen jahtaamisella** (`NEGATIVE_RESULTS.md` §2: mikään DFS-alaraja ei todista äärettömyyttä).
-- **Rehellinen vastaväite, kirjattuna tähän ettei se unohdu:** pidempi sana isommalla aakkostolla ei ole "ennätys" missään mielekkäässä mielessä. Tämän arvo **ei ole alarajassa** vaan siinä että viisi kirjainta on se paikka jossa **B11:n sertifioijalla on realistinen mahdollisuus saada jotain sertifioitavaa**. B11 ja B12 ovat sama työ eri päistä; kumpikaan ei kanna yksin.
-- **Työmäärä:** parametrin kääntäminen, esimittaus tehty (rivi 70). **Vaikuttavuus 5**, kustannus lähellä nollaa.
+- **Validation:** affine invariance and witness verification from the definition hold as-is for five letters (`verdictFor`'s own layers); positive control = the known four-letter classes must reproduce exactly when the same code is run with `letters = 4`.
+- **Expected ledger sentence:** *"Five-letter alphabets, span ≤ ⟨s⟩, ⟨n⟩ affine classes swept: ⟨e⟩ classes' language is finite, ⟨o⟩ remained open at budget ⟨b⟩ nodes, longest verified word ⟨L⟩. Nothing is claimed beyond the lower bounds."* — `COMPUTED` (Level 1).
+- **Kill condition:** if five-letter classes behave qualitatively the same as four-letter ones (languages terminate at reachable budgets), alphabet size is not the deciding variable, and the line is stopped — **and not replaced by chasing lower bounds** (`NEGATIVE_RESULTS.md` §2: no DFS lower bound proves infiniteness).
+- **An honest objection, recorded here so it is not forgotten:** a longer word on a larger alphabet is not a "record" in any meaningful sense. This item's value is **not** the lower bound but that five letters is the place where **B11's certifier has a realistic chance of getting something to certify**. B11 and B12 are the same work from different ends; neither carries alone.
+- **Effort:** turning the parameter, pre-measurement done (row 70). **Impact 5**, cost near zero.
 
-### B13. Apuaakkostoreitti — se morfismimuoto joka abelin puolella oikeasti toimi (RESEARCH_ARCHITECT-ajo 2026-07-30)
+### B13. The auxiliary-alphabet route — the morphism form that actually worked on the abelian side (RESEARCH_ARCHITECT run 2026-07-30)
 
-**Kysymys:** onko olemassa morfismi **suuremman apuaakkoston** yli, jonka kiintopisteen projektio nelikirjaimiseen kokonaislukuaakkostoon välttää additiiviset neliöt — eli additiivinen vastine h₆ → g₃ -konstruktiolle?
+**Question:** does there exist a morphism over a **larger auxiliary alphabet** whose fixed point's projection to a four-letter integer alphabet avoids additive squares — i.e. the additive counterpart of the h₆ → g₃ construction?
 
-**Miksi juuri nyt.** Abelin puolella ratkaisu ei ole 4→4-morfismi: Rao & Rosenfeldin konstruktio on **h₆ kuudella kirjaimella, projisoituna g₃:lla kolmeen** (rivi 49:n koko koneisto). Additiivisella puolella on haettu vain muotoa 4→4, ja se on nyt suljettu kahdesti: uniformisti k ≤ 4 (rivi 67) ja epäuniformisti profiileihin 4 asti kaikilla 20 avoimella luokalla (rivit 68–69). **Kahden tyhjentävän kielteisen kierroksen jälkeen todennäköisin selitys ei ole "morfismeja ei ole" vaan "hakuavaruus on väärän muotoinen"** — sama virhepäätelmä tehtiin kerran jo uniformilla haulla ennen riviä 68, ja kolmas kerta olisi ennustettavissa.
+**Why now.** On the abelian side, the solution is not a 4→4 morphism: Rao & Rosenfeld's construction is **h₆ with six letters, projected by g₃ to three** (all of row 49's machinery). On the additive side, only the 4→4 form has been searched, and it is now closed twice: uniformly at k ≤ 4 (row 67) and non-uniformly to profiles of length 4 on all 20 open classes (rows 68–69). **After two exhaustive negative rounds, the most likely explanation is not "there are no morphisms" but "the search space is the wrong shape"** — the same wrong inference was already made once with the uniform search before row 68, and a third time would be predictable.
 
-- **Kytkentä koneistoon:** `h6-image-sweep.js` tekee jo täsmälleen tämän muotoisen lakaisun abelin puolella (uniformit kuvat Σ₆ → Σ₃^L); rakenne siirtyy, arvofunktio vaihtuu.
-- **Odotettu lokirivi:** *"Apuaakkosto Σ_m → nelikirjaiminen kokonaislukuaakkosto, kuvapituudet L ≤ ⟨L⟩: yksikään projektio ei tuota additiivisesti neliötöntä kiintopistettä / ehdokas löytyi ja se on ⟨…⟩."* — `COMPUTED` (Level 1).
-- **Tappoehto:** jos apuaakkoston kasvattaminen m = 5 → 6 ei muuta selviytyneen etuliitteen jakaumaa lainkaan, muoto ei ole ongelma ja hypoteesi on väärä.
-- **Työmäärä:** esimittaus = m = 5, L ≤ 2 symbolimäärän mittaus ennen kuin L = 3 luvataan (sama kuvio kuin rivillä 49). **Vaikuttavuus 4.**
+- **Connection to the machinery:** `h6-image-sweep.js` already performs exactly this shape of sweep on the abelian side (uniform images Σ₆ → Σ₃^L); the structure transfers, the value function changes.
+- **Expected ledger sentence:** *"Auxiliary alphabet Σ_m → a four-letter integer alphabet, image lengths L ≤ ⟨L⟩: no projection produces an additively-square-free fixed point / a candidate was found and it is ⟨…⟩."* — `COMPUTED` (Level 1).
+- **Kill condition:** if growing the auxiliary alphabet m = 5 → 6 does not change the surviving-prefix distribution at all, the form is not the issue and the hypothesis is wrong.
+- **Effort:** pre-measurement = m = 5, L ≤ 2 symbol-count measurement before promising L = 3 (same pattern as row 49). **Impact 4.**
 
-**AJETTU 2026-07-31, L = 1…6, tyhjentävä ja negatiivinen (rivi 77).**
-`h6-additive-image-sweep.js` lakaisi uniformit koodaukset g: {a..f} → {0,1,2,5}^L
-sovellettuna h₆^ω(a):han, ehtona additiiviset neliöt **kaikilla K ≥ 1**.
-Jokainen taso tyhjentävä (budjetti ei sitonut), **nolla selviytyjää joka
-tasolla**. Työ: L=1 → 3 268 symbolia (0,0 s), L=2 → 386 069 (0,0 s),
-L=3 → 13,9 M (0,4 s), L=4 → 251 M (6,7 s), L=5 → 2,20 mrd (70,3 s),
-L=6 → **10,38 mrd (302,6 s)**. Kasvu ~9–12× per L, tasainen.
+**RUN 2026-07-31, L = 1…6, exhaustive and negative (row 77).**
+`h6-additive-image-sweep.js` swept uniform codings g: {a..f} → {0,1,2,5}^L
+applied to h₆^ω(a), with the condition additive squares at **all K ≥ 1**.
+Every level exhaustive (the budget never bound), **zero survivors at every
+level**. Work: L=1 → 3,268 symbols (0.0s), L=2 → 386,069 (0.0s),
+L=3 → 13.9M (0.4s), L=4 → 251M (6.7s), L=5 → 2.20 billion (70.3s),
+L=6 → **10.38 billion (302.6s)**. Growth ~9–12× per L, consistent.
 
-**Kaksi asiaa jotka on sanottava tarkasti, ettei tulosta lueta laajempana kuin se on:**
+**Two things must be stated precisely so the result is not read as broader than it is:**
 
-1. **Tämä EI ole yllä kirjatun tappoehdon testi.** Tappoehto kysyy mitä
-   tapahtuu kun **apuaakkoston koko** m vaihtuu (5 → 6). Tässä m pidettiin
-   kiinteänä (h₆, m = 6) ja vaihdettiin **koodauspituutta L** — se on
-   `h6-image-sweep.js`:n oma rakenne siirrettynä, ja rakenteellisesti
-   perusteltu, mutta eri koe. **m:n vaihtaminen on yhä tekemättä.**
-2. **Yksi aakkosto, yksi apumorfismi.** {0,1,2,5} ja h₆. Ei sano mitään
-   muista aakkostoista, epäuniformeista koodauksista, eikä L > 6:sta.
+1. **This is NOT a test of the kill condition logged above.** The kill
+   condition asks what happens when the **auxiliary alphabet's size** m
+   changes (5 → 6). Here m was held fixed (h₆, m = 6) and the **coding
+   length L** was varied instead — that is `h6-image-sweep.js`'s own
+   structure transferred, and structurally justified, but a different
+   experiment. **Varying m is still undone.**
+2. **One alphabet, one auxiliary morphism.** {0,1,2,5} and h₆. It says
+   nothing about other alphabets, non-uniform codings, or L > 6.
 
-**Vertailu abelin alkuperäiseen (rivi 49):** abelin route (c) pysähtyi
-L ≤ 5:een; tämä additiivinen vastine ylsi L = 6:een. **Pysähdys oli
-tarkoituksellinen päätös, ei budjettiseinä** — L=6 valmistui reilusti
-budjetin sisällä; L=7 (~90–120 mrd symbolia, ~50–70 min arvioitu) jätettiin
-lupaamatta ilman erillistä päätöstä.
+**Comparison to the abelian original (row 49):** abelian route (c)
+stopped at L ≤ 5; this additive counterpart reached L = 6. **The stop was
+a deliberate decision, not a budget wall** — L=6 finished comfortably
+within budget; L=7 (~90–120 billion symbols, ~50–70 min estimated) was
+left unpromised without a separate decision.
 
-**Mitä tästä seuraa työjärjestykselle.** 4→4-muoto oli suljettu kolmesti
-(rivit 67–69, 75). Nyt myös apuaakkostomuoto on suljettu kuvapituuteen 6
-asti yhdellä aakkostolla. **Hypoteesi "hakuavaruus on väärän muotoinen" ei
-saanut tukea siinä muodossa jossa se oli helpoin testata.** Se ei kumoa
-hypoteesia — m:n vaihtaminen ja epäuniformit koodaukset ovat yhä auki — mutta
-seuraavan syvennyksen on nimettävä **mikä rakenteellinen asia muuttuu**, ei
-vain kasvatettava L:ää.
+**What this means for the work order.** The 4→4 form was closed three
+times over (rows 67–69, 75). Now the auxiliary-alphabet form is also
+closed up to image length 6 on one alphabet. **The hypothesis "the search
+space is the wrong shape" found no support in the form easiest to test.**
+It does not refute the hypothesis — varying m and non-uniform codings are
+still open — but the next deepening must name **what structural thing
+changes**, not merely increase L.
 
-**OSITTAIN AJETTU 2026-07-31 (rivi 77) — h₆ kiinteänä (m=6), L vaihdellen, ei tappoehtoa vielä testattu.**
+**PARTIALLY RUN 2026-07-31 (row 77) — h₆ fixed (m=6), L varied, the kill condition not yet tested.**
 
-`h6-additive-image-sweep.js` toteutti täsmälleen `h6-image-sweep.js`:n rakenteen (h₆ muuttumattomana, arvofunktio abelin → additiivinen, K∈[2,5] → kaikki K≥1, S₃-symmetriaredusointi pudotettu koska se ei päde additiiviselle kohdealuestolle). **Tulos, aakkostolla {0,1,2,5}: L=1..6 kaikki tyhjentäviä, kaikki negatiivisia, 0 selviytyjää millään L:llä.** L=6 vei 10,4 mrd symbolia, 302,6 s. Abelin alkuperäinen versio pysähtyi L≤5:een — tämä meni yhden pidemmälle, tarkoituksellisesti pysäytettynä ennen L=7:ää (ei budjettiin, vaan päätökseen olla lupaamatta ~1 h lisää ilman erillistä vahvistusta).
+`h6-additive-image-sweep.js` implemented exactly `h6-image-sweep.js`'s structure (h₆ unchanged, the value function switched abelian → additive, K∈[2,5] → all K≥1, the S₃ symmetry reduction dropped since it does not hold for the additive target alphabet). **Result, alphabet {0,1,2,5}: L=1..6 all exhaustive, all negative, 0 survivors at any L.** L=6 took 10.4 billion symbols, 302.6s. The abelian original stopped at L≤5 — this went one further, deliberately stopped before L=7 (not on a budget, but a decision not to promise ~1h more without separate confirmation).
 
-**Mitä tämä EI vielä testaa, ja se on B13:n alkuperäinen tappoehto:** apuaakkoston *koon* (m) vaihtaminen. h₆ pidettiin koko ajan kiinteänä. Jos joku jatkaa tätä, seuraava askel on joko (a) L=7 samalla h₆:lla, tai (b) uusi apuaakkosto m≠6:lla — jälkimmäinen on lähempänä B13:n alkuperäistä kysymystä.
+**What this does NOT yet test, and it is B13's original kill condition:** varying the auxiliary alphabet's *size* (m). h₆ was held fixed throughout. If anyone continues this, the next step is either (a) L=7 with the same h₆, or (b) a new auxiliary alphabet with m≠6 — the latter is closer to B13's original question.
 
-### B8. Taajuusmonikulmio — yhteisjakauma laatikon sijaan (RESEARCH_ARCHITECT-ajo 2026-07-30)
+### B8. The frequency polygon — the joint distribution instead of the box (RESEARCH_ARCHITECT run 2026-07-30)
 
-**Kysymys:** mikä on säiliökielen saavutettavien taajuusvektorien (f_a, f_b, f_c) tarkka monikulmio simpleksissä? Rivit 51–52 antavat vain laatikon [1/11, 3/4]³; monikulmio kertoo esim. voiko f_a = 3/4 esiintyä yhtä aikaa f_b = 1/11:n kanssa. Menetelmä: suuntaparametrisoitu Karp (lineaarifunktionaalin max-syklikeskiarvo = tukisuora); äärellinen suuntajoukko antaa ulkoapproksimaation joka on jo sellaisenaan pätevä välttämätön ehto, saavuttavat syklit sisäpisteet.
+**Question:** what is the exact polygon, in the simplex, of the container language's reachable frequency vectors (f_a, f_b, f_c)? Rows 51–52 give only the box [1/11, 3/4]³; the polygon tells us, for instance, whether f_a = 3/4 can occur simultaneously with f_b = 1/11. Method: direction-parametrized Karp (a linear functional's max mean-cycle = a supporting line); a finite set of directions gives an outer approximation that is already itself a valid necessary condition, and cycles that achieve it give interior points.
 
-- **Validointi:** projektioiden on toistettava [1/11, 3/4] täsmälleen; S₃-invarianssi koordinaattipermutaatioissa; jokainen kärki Bellman–Ford-verifioitu (rivin 51 kuvio).
-- **Odotettu lokirivi:** *"K ∈ [2,5]-säiliön taajuusmonikulmio on täsmälleen ⟨kärjet⟩; se on / ei ole aidosti pienempi kuin laatikon ja simpleksin leikkaus."*
-- **Tappoehto:** jos monikulmio ≈ laatikko ∩ simpleksi, kirjataan negatiivisena ja linja lopetetaan.
-- **Työmäärä:** 1–2 sessiota; esimittaus kolmella suunnalla. **Vaikuttavuus 3–4.**
+- **Validation:** the projections must reproduce [1/11, 3/4] exactly; S₃ invariance under coordinate permutations; every vertex Bellman–Ford-verified (row 51's pattern).
+- **Expected ledger sentence:** *"The K ∈ [2,5] container's frequency polygon is exactly ⟨vertices⟩; it is / is not strictly smaller than the box-simplex intersection."*
+- **Kill condition:** if polygon ≈ box ∩ simplex, log as negative and stop the line.
+- **Effort:** 1–2 sessions; pre-measurement with three directions. **Impact 3–4.**
 
 ---
 
-## C. Kysymykset jotka mittaavat toteutusta, eivät matematiikkaa
+## C. Questions that measure the implementation, not the mathematics
 
-Nämä on kirjattu tänne siksi, että ne toistuvat suunnitelmissa ja kuulostavat tieteeltä. Ne eivät ole invariantteja: vaihda kirjainten preferenssijärjestys tai hakustrategia, ja kaikki luvut muuttuvat.
+These are logged here because they keep recurring in plans and sound scientific. They are not invariant: change the letter preference order or the search strategy, and every figure changes.
 
-| Muotoilu joka ei kanna | Mitä se oikeasti mittaa | Invariantti vastine |
+| Formulation that does not carry | What it actually measures | Invariant counterpart |
 |---|---|---|
-| Hakupuun geometria, tunnelit ja kammiot | DFS:n läpikäyntijärjestystä | Rauzy-graafi (B4) |
-| Faasimuutos haussa | milloin *tämä* haku hidastuu | kompleksisuuden kasvu p(n) |
-| Selviytymisfunktio S(suffix) | valitun hakujärjestyksen kuolleisuutta | oikealle jatkuvien tekijöiden osuus |
-| Entropia H(d) syvyydellä d | haaraantumista *tässä* puussa | kasvunopeus (B2) |
-| Search ecology, moottoritiet, magneetit | sama kuin yllä, metaforisesti | — |
-| Onko sanoilla "DNA" | tasaista jakaumaa ikkunoissa | tasainen rekurrenssi, tunnettu ominaisuus primitiivisille substituutioille |
+| Search-tree geometry, tunnels and chambers | the DFS traversal order | the Rauzy graph (B4) |
+| Phase transition in search | when *this* search slows down | growth of complexity p(n) |
+| Survival function S(suffix) | the mortality of the chosen search order | the proportion of right-extendable factors |
+| Entropy H(d) at depth d | branching in *this* tree | growth rate (B2) |
+| Search ecology, highways, magnets | the same as above, metaphorically | — |
+| Whether words have "DNA" | uniform distribution in windows | uniform recurrence, a known property of primitive substitutions |
 
-Projekti on törmännyt tähän kerran aiemmin ja nimennyt tilastomoduulit uudelleen "hakukarsintaheuristiikoiksi" juuri tästä syystä. Sama erottelu pätee näihin.
+The project has run into this once before and renamed the statistics modules "search-pruning heuristics" for exactly this reason. The same distinction applies here.
 
-**Tämä ei tarkoita etteikö telemetriaa saisi kerätä.** Se tarkoittaa ettei sen tuloksia saa esittää kielen ominaisuuksina.
+**This does not mean telemetry may not be collected.** It means its results must not be presented as properties of the language.
 
 ---
 
-## D. Arvioidut ja hylätyt ideat
+## D. Ideas evaluated and rejected
 
-Kirjataan näkyviin, jotta niitä ei ehdoteta uudelleen ilman uutta perustelua.
+Logged visibly so they are not proposed again without a new justification.
 
-| Idea | Miksi hylätty |
+| Idea | Why rejected |
 |---|---|
-| Hyperbolinen Parikh-avaruus | Parikh-vektorin koko teho on additiivisuus Ψ(uv) = Ψ(u) + Ψ(v). Käyristetyssä avaruudessa sitä ei ole. |
-| Spektraalikuilu morfismin **oikeellisuuden** ennustajana | Insidenssimatriisi kadottaa kirjainten järjestyksen kuvan sisällä. Kaksi morfismia samalla matriisilla voivat käyttäytyä täysin eri tavalla jaksoilla K = 2…5. **Voi silti kelvata kustannusarviona**, ks. E1. |
-| QBF morfismihakuun ennen äärellistä kriteeriä | Vaatii äärettömän ehdon kääntämisen äärelliseksi — ja juuri se käännös **on** vaikea matemaattinen sisältö. Ratkaisija ei tee sitä puolestasi. Vasta äärellisen kriteerin jälkeen mielekäs. |
-| "Murtolukuresonanssi" Dejeanin arvojen löytämiseen | Dejean on todistettu, ks. A2. Arvoja ei etsitä. |
-| SAT-backbone ternäärihaulle | Kieli on suljettu S₃-permutaation suhteen, joten mikään positio ei voi olla pakotettu tiettyyn kirjaimeen kaikissa ratkaisuissa — **backbone on tyhjä symmetrian nojalla**. Mielekäs vasta kun etuliite on kiinnitetty, jolloin se on eri kysymys. |
-| SWAR-bittipakkaus 64-bittiin JavaScriptissä | JS:n bittioperaattorit ovat 32-bittisiä; 64-bittinen SWAR vaatisi BigIntin (hidas) tai kahden puolikkaan käsinhallinnan. Lisäksi pullonkaula ei ole Parikh-vertailu — eksaktit skriptit ajavat sekunneissa. Idea on pätevä C:ssä, ei tässä. |
-| Holografia, Navier-Stokes, Gödel-itseviittaus, SETI, kvanttilomittuminen | Ei koodattavaa ydintä. Aperiodisten laatoitusten ja substituutioiden yhteys on aito, mutta projektissa jo olemassa (Rauzy-projektio). |
-| HD0L-projektiomorfismit additiivisille neliöille | Redundantti. Rivi 49 tyhjensi uniformin kuvauksen (L ≤ 5), ja kaikki selviävät luokat kuolivat suurilla jaksoilla. Samaan hakuavaruuteen palaaminen "HD0L"-nimellä ei muuta tulosta. Additiivisen summan 1D-luonne tuhoaa projektion vapauden, joka toimi 6D Parikh-vektorille (h6→g3). |
-| Välttämättömät tekijät epätasapainoisille (säiliökielen relaksaatio) | Neljäs versio samasta nollatuloksesta. Rivit 51, 52, 62 todistivat jo: "säiliö on löysä relaksaatio", eikä yhtään pituuden ≥2 välttämätöntä tekijää löytynyt. NEGATIVE_RESULTS §7 sulki tämän reitin. |
-| Prefiksisummien 3-AP-vapaus (Rothin lause) | Vakava matemaattinen virhe. Rothin tiheyslause koskee *joukkoja* (ilman toistoja). Prefiksisumma on *jono* (toistot sallittu). Lisäksi koskee kokonaislukujen summaa, ei abelin neliötä. |
-| Toeplitz-sanojen louhinta | Sokean DFS-haun uudelleennimeäminen. NEGATIVE_RESULTS §3 osoitti ennätyssanoista: "rakennetta ei ole purettavaksi". Toeplitz ei tuo rakenteellista syytä abelin neliöiden välttämiselle. |
-| MCTS-pohjainen syvien kielten navigointi | Mittaa toteutusta, ei matematiikkaa (ORQ osio C). Tuottaa yhä vain äärellisen sanan (rivi 50: "jokainen äärellinen sana on äärellinen havainto"). |
+| Hyperbolic Parikh space | The Parikh vector's entire power is additivity Ψ(uv) = Ψ(u) + Ψ(v). It does not exist in a curved space. |
+| Spectral gap as a predictor of a morphism's **correctness** | The incidence matrix loses letter order within the image. Two morphisms with the same matrix can behave completely differently at periods K = 2…5. **May still be valid as a cost estimate**, see E1. |
+| QBF for morphism search before a finite criterion | Requires translating an infinite condition into a finite one — and that very translation **is** the hard mathematical content. A solver will not do it for you. Meaningful only after a finite criterion exists. |
+| "Fractional resonance" for finding Dejean's values | Dejean is proven, see A2. No values are being sought. |
+| SAT backbone for ternary search | The language is closed under S₃ permutation, so no position can be forced to a specific letter in all solutions — **the backbone is empty by symmetry**. Meaningful only once a prefix is fixed, which is a different question. |
+| 64-bit SWAR bit-packing in JavaScript | JS's bit operators are 32-bit; 64-bit SWAR would require BigInt (slow) or manually handling two halves. Also, the bottleneck is not Parikh comparison — the exact scripts run in seconds. The idea is valid in C, not here. |
+| Holography, Navier–Stokes, Gödel self-reference, SETI, quantum entanglement | No codable core. The connection to aperiodic tilings and substitutions is genuine, but already present in the project (the Rauzy projection). |
+| HD0L projection morphisms for additive squares | Redundant. Row 49 exhausted the uniform image (L ≤ 5), and every surviving class died at large periods. Returning to the same search space under the name "HD0L" changes nothing. The additive sum's 1D nature destroys the freedom of projection that worked for the 6D Parikh vector (h6→g3). |
+| Unavoidable factors for unbalanced alphabets (container relaxation) | A fourth version of the same null result. Rows 51, 52, 62 already proved: "the container is a loose relaxation", and no unavoidable factor of length ≥2 was found. NEGATIVE_RESULTS §7 closed this route. |
+| 3-AP-freeness of prefix sums (Roth's theorem) | A serious mathematical error. Roth's density theorem concerns *sets* (without repetition). A prefix sum is a *sequence* (repetition allowed). It also concerns the sum of integers, not an abelian square. |
+| Mining Toeplitz words | A renaming of blind DFS search. NEGATIVE_RESULTS §3 showed for record words: "there is no structure to extract". Toeplitz brings no structural reason for avoiding abelian squares. |
+| MCTS-based navigation of deep languages | Measures the implementation, not the mathematics (ORQ section C). Still only produces a finite word (row 50: "any finite word is a finite observation"). |
 
 ---
 
-## E. Jalostetut ideat, jotka kestävät tarkastelun
+## E. Refined ideas that survive scrutiny
 
-### E1. Verifiointikustannustietoinen priorisointi
+### E1. Verification-cost-aware prioritization
 
-Spektraalikuilu ei kerro onko morfismi oikea, mutta se kertoo **kuinka kalliiksi sen tarkistaminen tulee**: Proposition 5:n ja 6:n rajat — ja siten esivanhempilaatikon koko — riippuvat suoraan ominaisarvojen sijainnista. Jos ehdokasmorfismeja on jono, laatikon koon *arvioiminen* etukäteen järjestää jonon halvimmasta kalleimpaan.
+The spectral gap does not tell you whether a morphism is correct, but it tells you **how expensive it will be to check**: Proposition 5's and 6's bounds — and thus the ancestor box's size — depend directly on the eigenvalues' location. If there is a queue of candidate morphisms, *estimating* the box size in advance orders the queue from cheapest to most expensive.
 
-Tämä ei muuta yhdenkään todistuksen validiteettia. Se on aikataulutusheuristiikka, ja se on ainoa rooli jossa spektraalikuilu on puolustettavissa.
+This does not change the validity of any proof. It is a scheduling heuristic, and that is the only role in which the spectral gap is defensible.
 
-**Projektissa on jo tähän tarvittava:** `ancestor-box.js` laskee laatikon koon eksaktisti, joten "arviota" voi kalibroida oikeita lukuja vastaan.
+**The project already has what this needs:** `ancestor-box.js` computes the box size exactly, so the "estimate" can be calibrated against real numbers.
 
-### E2. CEGIS oikealla nimellä
+### E2. CEGIS under its right name
 
-"MUS-ohjattu mutaatio" on **CEGIS** (Counter-Example-Guided Inductive Synthesis, Solar-Lezama ym. 2006). Nimen käyttäminen ei ole pedanteriaa: se antaa valmiin kirjallisuuden konvergenssiehdoista ja tunnetuista epäonnistumismoodeista sen sijaan että metodologia keksitään tyhjästä.
+"MUS-guided mutation" is **CEGIS** (Counter-Example-Guided Inductive Synthesis, Solar-Lezama et al. 2006). Using the name is not pedantry: it comes with an existing literature on convergence conditions and known failure modes, instead of reinventing the methodology from scratch.
 
-**Edellytys:** vaatii äärellisen verifioijan. Projektissa on nyt sellainen (`decide-realizability.js`, `MATH_CLAIMS.md` rivi 32) — mutta se pätee *puhtaille morfisille sanoille*. CEGIS-silmukka kannattaa siis rakentaa **ternäärimorfismien kiintopisteille**, ei projektioille. Se on samalla A1:n reitti (a).
+**Prerequisite:** requires a finite verifier. The project now has one (`decide-realizability.js`, `MATH_CLAIMS.md` row 32) — but it applies to *pure morphic words*. A CEGIS loop should therefore be built around **fixed points of ternary morphisms**, not projections. This is also A1's route (a).
 
-### E3. Geneettisen haun sileämpi kelpoisuusfunktio
+### E3. A smoother fitness function for genetic search
 
-Yhden kirjaimen vaihto morfismissa voi romahduttaa tuloksen epäjatkuvasti, mikä on huono maisema populaatiomenetelmille. Jos GA:ta kokeillaan, kelpoisuusfunktion on mitattava jotain jatkuvampaa kuin "kuinka pitkälle selviää" — esimerkiksi kiintopisteen tekijäkompleksisuuden kasvua, joka on jo laskettavissa.
+Changing one letter in a morphism can collapse the result discontinuously, which is a poor landscape for population methods. If a GA is tried, the fitness function must measure something more continuous than "how far it survives" — for example the fixed point's factor-complexity growth, which is already computable.
 
-### E4. Riippumaton toinen verifiointimoottori (jäljittämätön johtolanka — selvitettävä ennen käyttöä)
+### E4. An independent second verification engine (an untraced lead — must be resolved before use)
 
-Kaikki projektin Level 1 -laskennat on tähän asti verifioinut sama koodipohja; ainoa riippumaton vertailu on R&R:n C++-referenssi (rivi 22) ja suunniteltu ACR 2004 -replikaatio (rivi 48). h₆ on 3-uniformi, joten konstruktio elää automaattisten sanojen maailmassa, ja siellä on olemassa työkaluperhe (Walnut, Shallit ym.) jolla eräitä sanojen ominaisuuksia on päätetty koneellisesti. **Jäljittämätöntä:** kattaako se abelin ominaisuuksia tässä tarvittavassa muodossa — Parikh-vertailut eivät ole ensimmäisen kertaluvun ominaisuuksia, ja mahdollinen reitti kulkee synkronoitujen jonojen kautta. Kukaan ei ole avannut lähteitä. **Älä siteeraa äläkä rakenna tämän varaan ennen kuin joku lukee alkuperäiset** (sama sääntö kuin A5:ssä). Jos kattavuus varmistuu, tämä olisi kokonaan riippumaton toinen moottori Theorem 9 -tyyppisille väitteille — laboratoriolaitteelle arvokkaampaa kuin yksikään uusi ominaisuus.
+All the project's Level 1 computations so far have been verified by the same codebase; the only independent comparison is R&R's C++ reference (row 22) and the planned ACR 2004 replication (row 48). h₆ is 3-uniform, so the construction lives in the world of automatic sequences, and there exists a family of tools there (Walnut, Shallit et al.) with which some word properties have been decided mechanically. **Untraced:** whether it covers abelian properties in the form needed here — Parikh comparisons are not first-order properties, and any possible route runs through synchronized sequences. Nobody has opened the sources. **Do not cite and do not build on this before someone reads the originals** (same rule as A5). If coverage is confirmed, this would be an entirely independent second engine for Theorem-9-type claims — more valuable to the laboratory than any single new feature.
 
-### E5. Puhdashuonereplikaatio toisella kielellä (RESEARCH_ARCHITECT-ajo 2026-07-30)
+### E5. Clean-room replication in another language (RESEARCH_ARCHITECT run 2026-07-30)
 
-Kaikki Level 1 -rivit nojaavat samaan JS-koodipohjaan. Halvin tapa nostaa koko lokin uskottavuutta: replikoi kanoniset luvut (18 sanaa pituudella 7, 34 neliötä, 3 114 tilaa, [1/11, 3/4]) riippumattomalla toteutuksella (esim. Python), **väitelokirivin sanamuodosta, ei koodia lukemalla** (clean room). Eromitta on täsmälleen nolla tai rivi avataan uudelleen — poikkeama olisi arvokkain mahdollinen tulos, ei epäonnistuminen. "Replikoitu riippumattomasti" -merkintä lokiin on skeemamuutos → ylläpitäjän päätös (sääntö 5). Työmäärä: yksi sessio 4–5 luvulle. Vaikuttavuus 4 (kyvykkyysluokka: replikaatio).
+All Level 1 rows rely on the same JS codebase. The cheapest way to raise the whole ledger's credibility: replicate the canonical figures (18 words of length 7, 34 squares, 3,114 states, [1/11, 3/4]) with an independent implementation (e.g. Python), **from the ledger row's own wording, not by reading the code** (clean room). The deviation is exactly zero, or the row is reopened — a discrepancy would be the most valuable possible result, not a failure. An "independently replicated" mark in the ledger is a schema change → maintainer decision (rule 5). Effort: one session for 4–5 figures. Impact 4 (capability class: replication).
 
-### E6. Additiiviset neliöt laskentakoneen toiseksi instanssiksi — JÄLJITETTY 2026-07-30 → osio A6
+### E6. Additive squares as a second instance for the computing engine — TRACED 2026-07-30 → section A6
 
-Johtolanka jäljitettiin ja se osoittautui vahvemmaksi kuin muistikuva: additiivisten neliöiden avoimuus ℤ:ssa, kuutioiden ratkaisu {0,1,3,4}:llä JA se että **projektin oma ydinlähde arXiv:1511.05875 on juuri tämän ongelman ℤ²-ratkaisu** — sitaatit ja päiväykset osiossa **A6** ja `MATH_CLAIMS.md` rivillä 53. Additiivinen instanssi ei siis ole naapuriongelma vaan paluu sen paperin emo-ongelmaan, josta projektin templaattikoneisto tulee. Tekninen peruste ennallaan: additiivinen ekvivalenssi on Parikh-vektorin lineaarinen funktionaali, joten säiliökoneisto (rajattu K → äärellinen ikkuna → de Bruijn → SCC → taajuusrajat) siirtyy sellaisenaan. Ks. `SANALAB_PLAN.md`.
+The lead was traced and turned out stronger than the recollection: the openness of additive squares over ℤ, the cube solution over {0,1,3,4}, AND the fact that **the project's own core source, arXiv:1511.05875, is precisely the ℤ² solution to this problem** — quotes and dates in section **A6** and `MATH_CLAIMS.md` row 53. The additive instance is therefore not a neighbouring problem but a return to the parent problem of the paper the project's template machinery comes from. The technical basis stands: additive equivalence is a linear functional of the Parikh vector, so the container machinery (bounded K → finite window → de Bruijn → SCC → frequency bounds) transfers unchanged. See `SANALAB_PLAN.md`.
 
-### E7. Keräsen g85^ω → 3-kirjaiminen projektio — SUORITETTU 2026-07-31 $\to$ Umpikuja (NEGATIVE_RESULTS §16)
+### E7. Keränen's g85^ω → three-letter projection — EXECUTED 2026-07-31 $\to$ dead end (NEGATIVE_RESULTS §16)
 
-**Tausta:** Keräsen g85:n kiintopiste (1992) on täysin abelin-neliötön 4 kirjaimella (ei edes pituuden 1 neliöitä). Mäkelän konjektuuri koskee 3 kirjainta ja *sallii* triviaalit neliöt (00, 11, 22). Tätä 4→3 -projektiota (yhdistää kaksi kirjainta) ei ole kokeiltu kirjallisuudessa eikä projektissa.
-**Tulos:** Kaikki 36 surjektiota testattiin ja ne kaatuivat välittömästi abelin neliöön jaksolla $K=2$. Rakenne ei tiivisty. Siirretty hautuumaalle (ks. `NEGATIVE_RESULTS.md` §16).
+**Background:** Keränen's g85's fixed point (1992) is completely abelian-square-free over four letters (not even period-1 squares). Mäkelä's conjecture concerns three letters and *allows* trivial squares (00, 11, 22). This 4→3 projection (merging two letters) has not been tried in the literature or in the project.
+**Result:** all 36 surjections were tested and they collapsed immediately into an abelian square of period $K=2$. The structure does not condense. Moved to the graveyard (see `NEGATIVE_RESULTS.md` §16).
 
-### E8. CEGIS-synteesi ternäärisille kiintopisteille — SUORITETTU (Tappoehto täyttyi 2026-07-31)
+### E8. CEGIS synthesis for ternary fixed points — EXECUTED (kill condition met 2026-07-31)
 
-**Tausta:** R&R-päätösmenettely (`decide-realizability.js`, rivi 32) antaa meille äärellisen verifioijan puhtaille morfisille sanoille. Tämä mahdollistaa CEGIS (Counter-Example-Guided Inductive Synthesis) -silmukan rakentamisen.
-**Miksi kannatti:** Rivi 36 enumeroi sokeasti kaikki uniformit morfismit. CEGIS oppii vastaesimerkeistä (ensimmäinen abelin neliö K ∈ [2,5]), ohjaa epäuniformia hakua, ja ratkaisee "äärettömän ehdon kääntämisen äärelliseksi" -ongelman (osio D, QBF), koska käännös on jo valmiina.
-**Tulos:** Tappoehto täyttyi. CEGIS-tyyppinen merkkikohtainen peruuttava haku toteutettiin (`scratch/cegis_g_synth.js`), mutta jopa erittäin lievennetyillä kriteereillä (vältä vain $K \in [2,5]$) haku kävi läpi 500 miljoonaa haaraa löytämättä yhtään selviytyjää. Tila $3^{60}$ on uniformien kuvausten osalta lähes tai täysin tyhjä pienistä neliöistä. Alkuperäisen $g_3$:n saavutukset suurilla $K$-arvoilla ovat erittäin epätyypillisiä. (Ks. Graveyard §17).
+**Background:** the R&R decision procedure (`decide-realizability.js`, row 32) gives us a finite verifier for pure morphic words. This enables building a CEGIS (Counter-Example-Guided Inductive Synthesis) loop.
+**Why it was worth it:** row 36 blindly enumerates all uniform morphisms. CEGIS learns from counterexamples (the first abelian square at K ∈ [2,5]), guides non-uniform search, and solves the "translating an infinite condition into a finite one" problem (section D, QBF), because the translation already exists.
+**Result:** the kill condition was met. A CEGIS-type character-by-character backtracking search was implemented (`scratch/cegis_g_synth.js`), but even under very loosened criteria (avoiding only $K \in [2,5]$) the search went through 500 million branches without finding a single survivor. The space $3^{60}$ is, for uniform maps, nearly or completely empty of small squares. The original $g_3$'s achievements at large $K$ values are highly atypical. (See Graveyard §17).
 
-### E9. g3(h6^ω(a)):n täsmädiagnostiikka jaksoille 2–5 — SUORITETTU 2026-07-31
+### E9. Precise diagnostics of g3(h6^ω(a)) for periods 2–5 — EXECUTED 2026-07-31
 
-**Tausta:** Tiedetään että sanassa g3(h6^ω(a)) on tarkalleen 34 abelin neliötä (MATH_CLAIMS, rivit 6b ja 20). Niiden positioita tai rakennetta ei ole kartoitettu.
-**Tulos:** Kartoitus tehty (ks. `walkthrough.md`). Neliöt eivät ole satunnaisia, vaan ne klusteroituvat voimakkaasti $h_6$:n siirtymäsaumoihin, erityisesti `c` $\to$ `e` ja `b` $\to$ `d`. Esimerkiksi $g_3(c)$ loppuu `bc` ja $g_3(e)$ alkaa `bbbbb`, mikä luo valtavan K=2..5 neliöitä generoivan "altaan".
-**Johtopäätös:** $g_3$:a ei kannata yrittää korjata satunnaismutaatioilla. CEGIS-haku (E8) tulisi kohdistaa suoraan säilyttämään K $\ge$ 6 -ominaisuudet, mutta asettamaan tiukat reunaehdot 10-merkkisten lohkojen saumakohdille.
+**Background:** it is known that the word g3(h6^ω(a)) contains exactly 34 abelian squares (MATH_CLAIMS, rows 6b and 20). Their positions or structure had not been mapped.
+**Result:** the mapping was done (see `walkthrough.md`). The squares are not random; they cluster heavily around $h_6$'s transition seams, especially `c` $\to$ `e` and `b` $\to$ `d`. For instance $g_3(c)$ ends in `bc` and $g_3(e)$ begins with `bbbbb`, creating a large "basin" that generates K=2..5 squares.
+**Conclusion:** it is not worth trying to fix $g_3$ with random mutations. The CEGIS search (E8) should be aimed directly at preserving the K $\ge$ 6 properties while imposing tight boundary conditions on the seams of the 10-character blocks.
 
-### E10. Viiden ennätyssanan vertailudiagnostiikka (RESEARCH_ARCHITECT-ajo 2026-07-31)
+### E10. Comparative diagnostics of the five record words (RESEARCH_ARCHITECT run 2026-07-31)
 
-**Tausta:** Projektilla on 5 todennettua aa2f-ennätyssanaa (pisimmillään 25 379), mutta niitä ei ole koskaan vertailtu toisiinsa (vrt. rivi 40 & 42). 
-**Miksi kannattaa:** Vastaa kysymyksiin: Ovatko ne yhden hakupolun pisteitä vai haarautuvatko ne aikaisin? Mikä on niiden abelin kompleksisuus (pakko olla ρ(n) ≥ 2 jotta välttää abelin neliöt) ja palautusaika verrattuna tasaisesti rekurrenttiin g85^ω:aan? Ohjaa hakustrategiaa kertomalla onko luokka "leveä" vai "kapea".
-**Tappoehto:** Sanat ovat peräkkäisiä saman haun pisteitä ja tilastollisesti identtisiä satunnaiselle aa2f-sanalle, joten vertailu ei paljasta uutta rakennetta.
+**Background:** the project has 5 verified aa2f record words (longest 25,379), but they have never been compared to each other (cf. rows 40 & 42).
+**Why it is worth it:** it answers questions such as: are they points on a single search path, or do they branch early? What is their abelian complexity (must be ρ(n) ≥ 2 to avoid abelian squares) and recurrence time compared to the uniformly recurrent g85^ω? It guides search strategy by indicating whether the class is "wide" or "narrow".
+**Kill condition:** the words are consecutive points of the same search and statistically identical to a random aa2f word, so the comparison reveals no new structure.
 
 
-## F. Uusi tulos, joka syntyi tästä arvioinnista
+## F. A new result that emerged from this assessment
 
-**Kasvunopeuden tiukka yläraja Feketen lemmasta.** Kaikki tässä tutkitut kielet ovat faktoriaalisia, joten p(m+n) ≤ p(m)·p(n) ja Feketen lemma antaa
+**A tight upper bound on growth rate from Fekete's lemma.** All languages studied here are factorial, so p(m+n) ≤ p(m)·p(n) and Fekete's lemma gives
 
   lim p(n)^(1/n) = **inf** p(n)^(1/n).
 
-Infimum on olennainen: **jokainen p(n)^(1/n) on ehdoton yläraja kasvunopeudelle**, ei estimaatti joka voisi lähestyä kummalta puolelta tahansa. Projektin jo laskemat eksaktit tekijämäärät muuttuvat siis suoraan lauseen muotoiseksi rajaksi.
+The infimum is essential: **every p(n)^(1/n) is an unconditional upper bound on the growth rate**, not an estimate that could approach from either side. The project's already-computed exact factor counts thus become directly a theorem-shaped bound.
 
-| kieli | tiukka yläraja | havaittu suhde |
+| language | tight upper bound | observed ratio |
 |---|---|---|
-| aa2f (Mäkelä, auki) | **≤ 1,9915** | ~1,60 |
-| aa2fr | **≤ 1,5940** | ~1,27 |
-| abelin-neliötön, 4 kirjainta | **≤ 2,1775** | ~1,70 |
+| aa2f (Mäkelä, open) | **≤ 1.9915** | ~1.60 |
+| aa2fr | **≤ 1.5940** | ~1.27 |
+| abelian-square-free, 4 letters | **≤ 2.1775** | ~1.70 |
 
-Tämä korvaa aiemman "havaittu suhde" -otsikkoluvun, josta jouduttiin sanomaan ettei sillä ole todistettua yhteyttä raja-arvoon. Nyt on sekä todistettu raja että pienempi konjekturaalinen arvo, ja **kuilu niiden välillä on rehellisesti auki** — Feketen suppeneminen on hidasta. Ks. `MATH_CLAIMS.md` rivi 33.
+This replaces the earlier "observed ratio" as the headline figure, of which it had to be said that it had no proven connection to the limiting value. Now there is both a proven bound and a smaller conjectural value, and **the gap between them is honestly open** — Fekete's convergence is slow. See `MATH_CLAIMS.md` row 33.
 
 ---
 
-*Lisäysohje: kirjallisuuden ongelma menee osioon A vain sitaatin ja lähteen kanssa. Projektin oma kysymys menee osioon B vain jos sillä on invariantti muotoilu. Jos muotoilu riippuu hakujärjestyksestä, se kuuluu osioon C. Uudet ideat tuotetaan `RESEARCH_ARCHITECT.md`:n menettelyllä — jokaisella ehdotuksella on oltava validointisuunnitelma, odotettu lokirivin muoto ja tappoehdot ennen kuin se kirjataan tänne.*
+*Addition guide: a literature problem goes into section A only with a citation and a source. The project's own question goes into section B only if it has an invariant formulation. If the formulation depends on search order, it belongs in section C. New ideas are produced by `RESEARCH_ARCHITECT.md`'s procedure — every proposal must have a validation plan, an expected ledger-sentence form, and kill conditions before it is entered here.*

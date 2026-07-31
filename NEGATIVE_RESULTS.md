@@ -1,184 +1,185 @@
-# Negatiiviset Tulokset ja Hylätyt Hypoteesit (Graveyard of Ideas)
+# Negative Results and Rejected Hypotheses (Graveyard of Ideas)
 
-Tämä dokumentti on arkisto tutkimuslinjoista, ideoista ja hypoteeseista, jotka on testattu ja **todistettu vääriksi tai riittämättömiksi**. 
+This document is an archive of research lines, ideas, and hypotheses that have been tested and **proven wrong or insufficient**.
 
-Matematiikassa ja algoritmiikassa umpikujat ovat yhtä arvokasta tietoa kuin onnistumiset. Dokumentoimalla nämä säästämme tulevilta tutkijoilta (ja tekoälyiltä) viikkojen turhan työn, ja estämme projektia kiertämästä kehää.
+In mathematics and algorithmics, dead ends are as valuable as successes. Documenting them saves future researchers (and AIs) weeks of wasted work, and keeps the project from going in circles.
 
-**Kirjaamiskynnys on matala tarkoituksella.** Tänne kuuluu myös idea joka *toimi* mutta ei kannattanut (§9), idea joka toimi väärässä paikassa (§8), ja työtapa joka osoittautui vääräksi vaikka sen tuotos oli virheetön (§10). Umpikuja ei tarkoita virhettä — se tarkoittaa mitattua tietoa siitä mihin suuntaan ei kannata mennä.
+**The bar for logging here is deliberately low.** This also includes an idea that *worked* but was not worth it (§9), an idea that worked in the wrong place (§8), and a working method that turned out to be wrong even though its output was correct (§10). A dead end does not mean a mistake — it means measured information about which direction is not worth taking.
 
 ---
 
-## Hakemisto, uusin ensin
+## Index, newest first
 
-Numerointi on pysyvä (siihen viitataan muualta), joten uutuusjärjestys on
-tässä eikä dokumentin rungossa. Aja silmäys tästä ennen kuin ehdotat mitään.
+The numbering is permanent (it is referenced elsewhere), so the order of
+novelty is here rather than in the document's body. Skim this before
+proposing anything.
 
-| Pvm | # | Mikä kaatui | Yhdellä lauseella |
+| Date | # | What collapsed | In one sentence |
 |---|---|---|---|
-| 2026-07-31 | [§16](#16-keräsen-g85-projektio-kolmelle-kirjaimelle) | $g_{85}$:n 4$\to$3 projektio | Kaikki 36 surjektiota kaatuivat heti pituudella K=2; rakenne ei tiivisty. |
-| 2026-07-31 | [§15](#15-tekoälyn-epistemologia-ja-kehän-kiertäminen) | AI Epistemologia | Tekoäly on äärellisten testien suorittaja, ei matemaattinen orakkeli; vapaat ideat ovat usein vain viallisia analogioita |
-| 2026-07-30 | [§14](#14-kasvukäyrän-muoto-lähestyvän-tyhjentymisen-ennustajana) | Kasvukäyrän muoto tyhjentymisen ennustajana | Kolmen pisteen budjettikäyrä oli kohinaa 20 luokan yli, ei ennustanut mitään |
-| 2026-07-30 | [§13](#13-osittainen-korroboraatio-täytenä-vahvistuksena) | Osittainen korroboraatio täytenä | Neljä täsmäävää kenttää viidestä tuntui vahvistukselta; tarkistamatta jäänyt DOI ei ollut olemassa |
-| 2026-07-30 | [§12](#12-up-and-down--järjestysheuristiikan-siirto-aa2f-hakuun) | Up-and-Down -järjestyksen siirto aa2f-hakuun | Toimii dramaattisesti omassa asetelmassaan, häviää aa2f:ssä — tekniikka on asetelmakohtainen |
-| 2026-07-30 | [§11](#11-vapaa-hakukonetiiviste-lähteenä-metodologinen-umpikuja) | Hakukonetiiviste lähteenä | Tiiviste antoi kirjaimellisen väitteen tekijänimineen ja lukuineen; kumpaakaan ei ollut alkuperäisessä |
-| 2026-07-30 | [§10](#10-puhdas-määritelmäverifioija-riippumattomana-tarkistajana-metodologinen-umpikuja) | Määritelmäverifioija riippumattomana tarkistajana | Toimi virheettömästi mutta ei yltänyt omaan kohteeseensa |
-| 2026-07-30 | [§9](#9-yhden-ajon-nettovoitto-karsintataulusta) | Karsintataulun nettovoitto yhdessä ajossa | 1,00× — arvo on yksinomaan uudelleenkäytössä |
-| 2026-07-30 | [§8](#8-jatkettavuustaulu-ennätysjahdin-kiihdyttimenä) | Taulu ennätysjahdin kiihdyttimenä | Sama pisin sana karsittuna ja karsimattomana |
-| 2026-07-30 | [§7](#7-säiliörelaksaatio-additiivisten-neliöiden-eliminaatiotyökaluna) | Säiliö additiivisena eliminaatiotyökaluna | Ei kuollut saavutettavilla ikkunakoilla |
-| aiemmin | §6 | "Rosetta-filtteri" | Hylkäisi 88 % laillisista jatkoista |
-| aiemmin | §5 | FORBID4 universaalina sääntönä | Esiintyy 2 820 kertaa ennätyssanassa |
-| aiemmin | §4 | Parikh-epätasapaino pienenä | Mitattu päinvastoin |
-| aiemmin | §3 | Ennätyssanan käänteismallinnus | Rakennetta ei ole purettavaksi |
-| aiemmin | §2 | Rauzy-SCC äärettömyyden todisteena | Lokaali ehto, globaali ongelma |
-| aiemmin | §1 | Morfismiskannaus k = 7…9 | Otoskoon logaritmi |
+| 2026-07-31 | [§16](#16-keränens-g85-projection-to-three-letters) | $g_{85}$'s 4$\to$3 projection | All 36 surjections collapsed immediately at length K=2; the structure does not condense. |
+| 2026-07-31 | [§15](#15-ai-epistemology-and-going-in-circles) | AI epistemology | An AI is an executor of finite tests, not a mathematical oracle; free-form ideas are often just flawed analogies |
+| 2026-07-30 | [§14](#14-the-shape-of-the-growth-curve-as-a-predictor-of-approaching-exhaustion) | Growth-curve shape as a predictor of exhaustion | A three-point budget curve was noise across 20 classes, predicted nothing |
+| 2026-07-30 | [§13](#13-partial-corroboration-as-full-confirmation) | Partial corroboration as full | Four matching fields out of five felt like confirmation; the unchecked DOI did not exist |
+| 2026-07-30 | [§12](#12-up-and-down--transferring-an-ordering-heuristic-to-the-aa2f-search) | Transferring the Up-and-Down ordering to aa2f search | Works dramatically in its own setting, loses in aa2f — the technique is setting-specific |
+| 2026-07-30 | [§11](#11-a-free-search-engine-summary-as-a-source-methodological-dead-end) | A search-engine summary as a source | The summary gave a literal claim with an author's name and figures; neither was in the original |
+| 2026-07-30 | [§10](#10-a-pure-definition-level-verifier-as-an-independent-checker-methodological-dead-end) | A definition-level verifier as an independent checker | Worked flawlessly but did not reach its own target |
+| 2026-07-30 | [§9](#9-net-gain-from-a-pruning-table-in-a-single-run) | Net gain from a pruning table in a single run | 1.00× — the value is exclusively in reuse |
+| 2026-07-30 | [§8](#8-extendability-table-as-a-record-hunt-accelerator) | Table as a record-hunt accelerator | Same longest word, pruned and unpruned |
+| 2026-07-30 | [§7](#7-container-relaxation-as-an-elimination-tool-for-additive-squares) | Container as an additive elimination tool | Did not die at reachable window sizes |
+| earlier | §6 | "Rosetta filter" | Would reject 88% of legal continuations |
+| earlier | §5 | FORBID4 as a universal rule | Occurs 2,820 times in the record word |
+| earlier | §4 | Parikh imbalance as small | Measured the opposite |
+| earlier | §3 | Reverse-engineering the record word | There is no structure to extract |
+| earlier | §2 | Rauzy SCC as proof of infiniteness | Local condition, global problem |
+| earlier | §1 | Morphism scanning k = 7…9 | A logarithm of sample size |
 
 ---
 
-## 1. Uniformien Morfismien Skannaus ($k=7..9$)
-**Hypoteesi:** Jos testaamme yhä suurempia uniformien morfismien pituuksia ($k=7, 8, 9...$), löydämme lopulta kiintopisteen, joka välttää abelin neliöt puolipituudella $K \ge 2$.
-**Miksi se ammuttiin alas:** 
-- Suoritettiin regressioanalyysi selviytymispituuksien maksimeille $k=2..6$. Tulos osoitti lähes täydellisen selitysasteen ($R^2 = 0,998$) kaavalle $max \approx 2,29 \cdot \ln N$, missä $N$ on testattujen morfismien määrä.
-- **Johtopäätös:** Maksimipituuden kasvu ei ole rakenteellinen signaali ongelman ratkeamisesta, vaan puhtaasti **otoskoon artefakti** (tilastollisen jakauman häntä). Hakeminen isommilla $k$-arvoilla ilman rakenteellista uutta ideaa on laskentaresurssien tuhlausta.
+## 1. Scanning Uniform Morphisms ($k=7..9$)
+**Hypothesis:** If we test ever-larger uniform morphism lengths ($k=7, 8, 9...$), we will eventually find a fixed point that avoids abelian squares of half-length $K \ge 2$.
+**Why it was shot down:**
+- A regression analysis was run on the survival-length maxima for $k=2..6$. The result showed an almost perfect fit ($R^2 = 0.998$) to the formula $max \approx 2.29 \cdot \ln N$, where $N$ is the number of morphisms tested.
+- **Conclusion:** the growth of the maximum length is not a structural signal that the problem is being solved, but purely a **sample-size artifact** (the tail of a statistical distribution). Searching at larger $k$ without a new structural idea is a waste of computational resources.
 
-## 2. Rauzy-graafin Vahvasti Yhtenäinen Komponentti (SCC) Todistuksena
-**Hypoteesi:** Jos löydämme rajoitekielen (esim. Abelian square-free) Rauzy-graafista ikkunalla $n$ Vahvasti Yhtenäisen Komponentin (SCC), olemme todistaneet, että kieli on ääretön.
-**Miksi se ammuttiin alas:** 
-- Abelin neliöiden välttäminen vaatii globaalia Parikh-tasapainon hallintaa, jota ei voida pakata äärelliseen muisti-ikkunaan. Rauzy-graafi pituudella $n$ takaa ainoastaan, ettei neliöitä synny **pituuteen $n$ asti**. Se on lokaali, ei globaali ominaisuus.
-- **Johtopäätös:** Rauzy-graafi ja SCC ovat erinomaisia *heuristisia esisuodattimia*, mutta niillä ei ole absoluuttista todistusarvoa (Level 2). Äärettömyyden todistaminen vaatii kielen generoivan säännön (morfismin) löytämistä ja sen syöttämistä eksaktiin verifiointimoottoriin (esim. `decide-realizability.js`).
+## 2. The Rauzy Graph's Strongly Connected Component (SCC) as Proof
+**Hypothesis:** If we find a Strongly Connected Component (SCC) in the Rauzy graph of a constraint language (e.g. abelian square-free) at window $n$, we have proven that the language is infinite.
+**Why it was shot down:**
+- Avoiding abelian squares requires global control of Parikh balance, which cannot be packed into a finite memory window. A Rauzy graph of length $n$ only guarantees that no squares arise **up to length $n$**. That is a local, not a global, property.
+- **Conclusion:** the Rauzy graph and its SCC are excellent *heuristic pre-filters*, but they have no absolute proof value (Level 2). Proving infiniteness requires finding the generating rule of the language (a morphism) and feeding it into an exact verification engine (e.g. `decide-realizability.js`).
 
-## 3. "Ennätyssanan" Käänteismallinnus (Morfismin Louhinta)
-**Hypoteesi:** Keräsen ja Gavrilenkon löytämä 25 379 merkin sana on niin pitkä, että sen takana on pakko olla algebrallinen sääntö (esim. lohkosubstituutio tai morfismi). Pöytäkoneen laskentateholla voimme purkaa (käänteismallintaa) tuon säännön sanasta.
-**Miksi se ammuttiin alas:** 
-- Sanojen tekijäkompleksisuus $p(n)$ mitattiin. Morfisen sanan kompleksisuuden on pakko kasvaa lineaarisesti ($p(n) \le C \cdot n$). Keräsen 25k sanalla $p(15) = 14 502$, eli se kasvaa eksponentiaalisesti seuraten koko $aa2f$-kielen kasvua.
-- **Johtopäätös:** Sana on puhdas optimoidun syvyyssuuntaisen haun (DFS / random walk) tuote. Sillä on massiivinen topologinen entropia. Sääntöä ("DNA:ta") ei voi käänteismallintaa, koska sitä ei ole olemassa.
+## 3. Reverse-Engineering the "Record Word" (Morphism Mining)
+**Hypothesis:** The 25,379-character word found by Keränen and Gavrilenko is so long that there must be an algebraic rule behind it (e.g. a block substitution or morphism). With desktop computing power we can extract (reverse-engineer) that rule from the word.
+**Why it was shot down:**
+- The word's factor complexity $p(n)$ was measured. A morphic word's complexity must grow linearly ($p(n) \le C \cdot n$). Keränen's 25k word has $p(15) = 14,502$, i.e. it grows exponentially, following the growth of the whole $aa2f$ language.
+- **Conclusion:** the word is a pure product of an optimized depth-first search (DFS / random walk). It has massive topological entropy. There is no rule ("DNA") to reverse-engineer, because none exists.
 
-## 4. Morfismien Parikh-epätasapaino on Pieni
-**Hypoteesi:** Algebrallisen säännön (morfismin) tuottama sana on niin synkronoitu, että sen Parikh-epätasapaino (yleisimmän ja harvinaisimman kirjaimen erotus) pysyy tiukasti rajattuna, esim. $< 10$.
-**Miksi se ammuttiin alas:** 
-- Empiirinen mittaus osoitti tismalleen päinvastaista. Oikea morfinen sana ($g_3(h_6^\omega(a))$) tuotti pituudessa 25 379 Parikh-epätasapainon **2 298**. Keräsen DFS-hakusanalla vastaava epätasapaino oli vain **322**.
-- **Johtopäätös:** Kun morfismin siirtymämatriisilla on ominaisarvo $|\lambda| > 1$ (kuten $h_6$:n tapauksessa $|\lambda_2| = \sqrt{3}$), epätasapaino kasvaa teoriassa rajatta nopeudella $\sqrt{N}$. Morfismi on tässä suhteessa "epätasapainoisempi" kuin hyvin leikattu DFS-vaellus.
+## 4. Morphisms' Parikh Imbalance is Small
+**Hypothesis:** A word produced by an algebraic rule (morphism) is so synchronized that its Parikh imbalance (the difference between the most and least frequent letter) stays tightly bounded, e.g. $< 10$.
+**Why it was shot down:**
+- Empirical measurement showed exactly the opposite. The genuine morphic word ($g_3(h_6^\omega(a))$) produced a Parikh imbalance of **2,298** at length 25,379. Keränen's DFS-search word had a corresponding imbalance of only **322**.
+- **Conclusion:** when a morphism's transition matrix has an eigenvalue $|\lambda| > 1$ (as in $h_6$'s case, $|\lambda_2| = \sqrt{3}$), the imbalance grows theoretically without bound, at rate $\sqrt{N}$. In this respect the morphism is "more imbalanced" than a well-pruned DFS walk.
 
-## 5. FORBID4-tekijät Ovat Universaalisti Kuolettavia
-**Hypoteesi:** Projektin DFS-haun löytämät kuusi "umpikujatekijää" (`baac`, `caab`, `abbc`, `cbba`, `accb`, `bcca`) johtavat väistämättä kuolemaan, ja ne tulee kovakoodata sääntönä pois kaikista hauista.
-**Miksi se ammuttiin alas:** 
-- Analysoitaessa 25 379 merkin selviytyjäsanaa havaittiin, että jokainen näistä kuudesta FORBID4-tekijästä esiintyy sanassa satoja kertoja (esim. `accb` 501 kertaa).
-- **Johtopäätös:** FORBID4 on kuolettava vain kapeassa, spesifissä hakuavaruudessa. Jos kieltäisimme ne globaalisti tulevilta tekoälyhauilta tai optimoijilta, tekisimme 25 000 merkin sanan löytymisen *matemaattisesti mahdottomaksi*. 
+## 5. FORBID4 Factors Are Universally Lethal
+**Hypothesis:** The six "dead-end factors" found by the project's DFS search (`baac`, `caab`, `abbc`, `cbba`, `accb`, `bcca`) inevitably lead to death, and should be hard-coded as a rule excluded from all searches.
+**Why it was shot down:**
+- Analyzing the 25,379-character survivor word showed that each of these six FORBID4 factors occurs in the word hundreds of times (e.g. `accb` 501 times).
+- **Conclusion:** FORBID4 is lethal only in a narrow, specific search space. If we banned them globally from future AI searches or optimizers, we would make finding the 25,000-character word *mathematically impossible*.
 
-## 6. Datavetoinen Älykäs DFS ("Rosetta-filtteri")
-**Hypoteesi:** Koska 25k sana selvisi, voimme uuttaa siitä kaikki käytetyt $N$-pituiset osasanat "sallituksi sanakirjaksi", ja suodattaa kaikki tulevat syvyyssuuntaiset haut (DFS) sen läpi.
-**Miksi se ammuttiin alas:**
-- 25 379 merkin sana käyttää pituudella 15 yhteensä 14 502 uniikkia tekijää. Koko $aa2f$-kielen luvallisten 15-pituisten tekijöiden määrä on 120 084. 
-- **Johtopäätös:** Filtteri heittäisi roskakoriin 88 % täysin laillisista jatkopoluista vain siksi, että Keräsen haku ei *sattunut* osumaan niihin. Tämä johtaisi ylisovittamiseen (overfitting) ja toimisi todennäköisemmin kattona kuin ponnahduslautana. Puhdasta empiiristä ennätyshakua on muutenkin syytä välttää, sillä tavoitteemme on eksakti, ääretön todistus (Level 2).
+## 6. Data-Driven Smart DFS ("Rosetta Filter")
+**Hypothesis:** Since the 25k word survived, we can extract from it all the used $N$-length sub-words as an "allowed dictionary", and filter all future depth-first searches (DFS) through it.
+**Why it was shot down:**
+- The 25,379-character word uses a total of 14,502 unique factors at length 15. The number of legal 15-length factors in the whole $aa2f$ language is 120,084.
+- **Conclusion:** the filter would throw away 88% of fully legal continuation paths just because Keränen's search *happened* not to hit them. This would lead to overfitting and would more likely act as a ceiling than a springboard. A pure empirical record hunt is worth avoiding in any case, since our goal is an exact, infinite proof (Level 2).
 
 ---
 
-*Kohdat 7–10 kirjattu 2026-07-30 (`sanalab`-kehityssessio). Kaikki neljä ovat mitattuja, eivät arvattuja; luvut ovat väitelokin riveillä 51–55.*
+*Items 7–10 logged 2026-07-30 (the `sanalab` development session). All four are measured, not guessed; the figures are in the claims ledger rows 51–55.*
 
-## 7. Säiliörelaksaatio additiivisten neliöiden eliminaatiotyökaluna
-**Hypoteesi:** Sama de Bruijn -säiliökoneisto, joka tuotti abelin puolella taajuusrajat ja SCC-rakenteen (rivit 51–52), toimii additiivisella puolella **eliminaationa**: kasvattamalla ikkunaa K ∈ [2,kmax] säiliö lopulta kuolee, ja kuollut säiliö todistaisi ettei aakkosto voi välttää additiivisia neliöitä.
-**Miksi se ammuttiin alas:**
-- Säiliön kustannus kasvaa muodossa |A|^(2·kmax−1). Neljällä kirjaimella kmax = 7 on jo kymmeniä miljoonia raakatiloja, ja saavutettavilla kmax-arvoilla säiliö **ei kuollut yhdelläkään** nelikirjaimisella aakkostolla.
-- Samaan aikaan tyhjentävä DFS **oikeaan** kieleen päättyi sekunneissa usealle aakkostoluokalle (rivi 54).
-- **Johtopäätös:** eliminaatio on hakukysymys, ei säiliökysymys. Säiliö säilyy oikeana työkaluna siihen mihin se on hyvä — välttämättömiin ehtoihin ja rakenteeseen — mutta relaksaatio on liian löysä kuollakseen siellä missä oikea kieli kuolee. Yleisemmin: **relaksaation kuolema on vahva todiste, mutta relaksaatiota ei voi kiristää mielivaltaisesti ilman eksponentiaalista hintaa.** Suunnanmuutos kirjattu `SANALAB_PLAN.md` 3b.
+## 7. Container Relaxation as an Elimination Tool for Additive Squares
+**Hypothesis:** The same de Bruijn container machinery that produced the frequency bounds and SCC structure on the abelian side (rows 51–52) works on the additive side as **elimination**: growing the window K ∈ [2,kmax], the container eventually dies, and a dead container would prove that an alphabet cannot avoid additive squares.
+**Why it was shot down:**
+- The container's cost grows as |A|^(2·kmax−1). With four letters, kmax = 7 already gives tens of millions of raw states, and at reachable kmax values the container **did not die** for a single four-letter alphabet.
+- Meanwhile, an exhaustive DFS on the **actual** language finished in seconds for several alphabet classes (row 54).
+- **Conclusion:** elimination is a search question, not a container question. The container remains the right tool for what it is good at — necessary conditions and structure — but the relaxation is too loose to die where the actual language dies. More generally: **a relaxation's death is strong evidence, but a relaxation cannot be tightened arbitrarily without an exponential cost.** The change of direction is logged in `SANALAB_PLAN.md` 3b.
 
-## 8. Jatkettavuustaulu ennätysjahdin kiihdyttimenä
-**Hypoteesi:** Koska jatkettavuussyvyystaulu on terve karsintaoraakkeli ja vähentää hakusolmuja 84–89× eliminaatiossa (rivi 55), sen pitäisi auttaa myös **ennätysjahdissa** eli löytää pidempiä sanoja samalla budjetilla ratkaisemattomilla aakkostoluokilla.
-**Miksi se ammuttiin alas:**
-- Mitattu luokilla {0,1,2,5} ja {0,1,3,5}, budjeteilla 2·10⁶ ja 10⁷: karsittu ja karsimaton haku antoivat **täsmälleen saman pisimmän sanan** (78/81 ja 76/83), vaikka karsintoja tapahtui tuhansia.
-- Syy on rakenteellinen: branch-and-bound karsii vain haaroja jotka **eivät voi voittaa nykyistä parasta**. Kun kieli ei lopu, paras kasvaa jatkuvasti eikä karsinta osu ennätyspolkuun.
-- Taulun informatiivisuus ja hinta kasvavat yhdessä: h = 7 → 0,7 % merkinnöistä sai äärellisen rajan (62 M solmua), h = 8 → 6,0 % (162 M), h = 10 → 96,3 % (1,2 mrd). **Jokainen tapaus maksaa enemmän kuin koko hakubudjetti.**
-- **Johtopäätös:** oraakkeli on **eliminaatiotyökalu, ei ennätystyökalu**. Karsinta joka nojaa "tämä haara ei voi olla parempi" -päättelyyn on hyödytön silloin kun parempaa löytyy koko ajan. Ennätysjahtiin tarvitaan eri lajin apuväline (esim. hakujärjestys), ja se on heuristiikka eikä invariantti.
+## 8. Extendability Table as a Record-Hunt Accelerator
+**Hypothesis:** Since the extendability-depth table is a sound pruning oracle and reduces search nodes 84–89× in elimination (row 55), it should also help with the **record hunt** — i.e. finding longer words at the same budget for unresolved alphabet classes.
+**Why it was shot down:**
+- Measured on classes {0,1,2,5} and {0,1,3,5}, at budgets 2·10⁶ and 10⁷: pruned and unpruned search gave **exactly the same longest word** (78/81 and 76/83), even though thousands of prunings occurred.
+- The reason is structural: branch-and-bound only prunes branches that **cannot beat the current best**. When the language does not end, the best keeps growing, and pruning never hits the record path.
+- The table's informativeness and cost grow together: h = 7 → 0.7% of entries got a finite bound (62M nodes), h = 8 → 6.0% (162M), h = 10 → 96.3% (1.2 billion). **Every case costs more than the entire search budget.**
+- **Conclusion:** the oracle is an **elimination tool, not a record tool**. Pruning that relies on "this branch cannot be better" is useless when something better keeps turning up. The record hunt needs a different kind of aid (e.g. search order), and that is a heuristic, not an invariant.
 
-## 9. Yhden ajon nettovoitto karsintataulusta
-**Hypoteesi:** Terve karsintaoraakkeli, joka vähentää hakusolmuja lähes satakertaisesti, nopeuttaa ajoa vastaavasti.
-**Miksi se ammuttiin alas:**
-- Taulun rakentaminen vaatii käytännössä saman puun läpikäynnin kuin itse haku: {0,1,2,3} hakusolmut 751 156 vs. taulun 725 960; {0,1,3,4} 2 638 908 vs. 2 611 320. Kokonaiskustannus on **1,00×**.
-- **Johtopäätös:** hyöty on **yksinomaan uudelleenkäytössä** — samalle aakkostolle uudelleen, syvemmällä katolla, tai affiiniluokan toiselle edustajalle (siirto maksaa 0 hakusolmua). Tämä on `SANALAB_PLAN.md` 5d:n jäännösperiaate ja samalla sen varoitus: **jäännöksen arvo on aina mitattava uudelleenkäytön yli, ei yhden ajon sisällä.** Kiihdytysluku ilman rakennuskustannusta on harhaanjohtava tapa raportoida.
+## 9. Net Gain from a Pruning Table in a Single Run
+**Hypothesis:** A sound pruning oracle that reduces search nodes by nearly a hundredfold speeds up the run correspondingly.
+**Why it was shot down:**
+- Building the table requires, in practice, the same tree traversal as the search itself: {0,1,2,3} search nodes 751,156 vs. the table's 725,960; {0,1,3,4} 2,638,908 vs. 2,611,320. The total cost is **1.00×**.
+- **Conclusion:** the benefit is **exclusively in reuse** — for the same alphabet again, at a deeper cap, or for another representative of the affine class (the transfer costs 0 search nodes). This is `SANALAB_PLAN.md` 5d's residual principle, and also its warning: **the value of a residual must always be measured over reuse, not within a single run.** A speedup figure without the construction cost is a misleading way to report.
 
-## 10. Puhdas määritelmäverifioija riippumattomana tarkistajana (metodologinen umpikuja)
-**Hypoteesi:** Riippumattomuuden maksimoimiseksi toiselle mallille annettu verifiointiprompti kannattaa rajata mahdollisimman tiukasti — kieltämällä graafit, automaatit ja dynaaminen ohjelmointi saadaan varmasti eri rakenteinen toteutus.
-**Miksi se ammuttiin alas:**
-- Kielto pakotti tyhjentävään generointiin, jonka kustannus on |A|^N. Se kattaa neljällä kirjaimella noin N ≤ 10, kun taas verifioitavat tulokset ovat pituuksilla 50–62.
-- **Verifioija ei siis voinut koskaan tarkistaa sitä tulosta, jonka vuoksi laskenta tehdään** — vaikka se toimi moitteettomasti ja täsmäsi kaikilla testatuilla arvoilla.
-- **Johtopäätös:** riippumattomuuden oikea akseli ei ole "tyhmä vs. älykäs" vaan **eri algoritminen idea samassa suorituskykyluokassa**. Korjattu spesifikaatio (taso kerrallaan etenevä leveyshaku, joka tarkistaa jokaisen jatkeen kokonaan alusta) on `SANALAB_PLAN.md` 6b.1:ssä, ja se on käytössä `additive-sweep.js`:ssä. Yleinen opetus: **kaksi toteutusta kattaa vain sen mihin hitaampi yltää**, joten verifiointi tarvitsee kolmannen kerroksen — ominaisuusinvariantit, jotka pätevät täydellä pituudella (6b.2).
+## 10. A Pure Definition-Level Verifier as an Independent Checker (methodological dead end)
+**Hypothesis:** To maximize independence, the verification prompt given to another model is best constrained as tightly as possible — banning graphs, automata, and dynamic programming guarantees a structurally different implementation.
+**Why it was shot down:**
+- The ban forced exhaustive generation, whose cost is |A|^N. With four letters that covers roughly N ≤ 10, while the results to be verified are at lengths 50–62.
+- **So the verifier could never check the very result the computation was done for** — even though it worked flawlessly and matched on every value tested.
+- **Conclusion:** the right axis of independence is not "dumb vs. smart" but **a different algorithmic idea in the same performance class**. The corrected specification (a level-by-level breadth-first search that checks every extension completely from scratch) is in `SANALAB_PLAN.md` 6b.1, and it is in use in `additive-sweep.js`. General lesson: **two implementations only cover what the slower one reaches**, so verification needs a third layer — property invariants that hold at full length (6b.2).
 
-## 11. Vapaa hakukonetiiviste lähteenä (metodologinen umpikuja)
-*Kirjattu 2026-07-30.*
+## 11. A Free Search-Engine Summary as a Source (methodological dead end)
+*Logged 2026-07-30.*
 
-**Hypoteesi:** hakukoneen tuottama tiiviste kelpaa *johtolangaksi*, joka voidaan merkitä jäljittämättömäksi ja jäljittää myöhemmin. Riski on hallittu, koska merkintä estää käytön.
+**Hypothesis:** a search engine's generated summary is good enough as a *lead*, which can be marked untraced and traced later. The risk is managed, because the mark prevents its use.
 
-**Miksi se ammuttiin alas:**
-- Tiiviste antoi kirjaimellisen, uskottavan väitteen tekijänimineen ja lukuarvoineen: *"Freedman on osoittanut, että pisin sana yli {a,b,c,d} ehdolla a+d = b+c, joka välttää additiiviset neliöt, on pituudeltaan ≤ 60."* Se osui täydellisesti yhteen projektin oman rivin 54 tasapainoisten luokkien ja arvon 60 kanssa — juuri niin hyvin, että se tuntui vahvistukselta.
-- Perusteellinen jäljitys 2026-07-30: **nimeä "Freedman" ei esiinny Fici & Puzyninan katsauksessa lainkaan** (koko teksti uutettu PDF:stä ja haettu), eikä lukua 60 ole §8.4:ssä. Alkuperää ei löytynyt mistään.
-- **Vahinko oli jo tapahtunut ennen jäljitystä.** Väite ohjasi kahden istunnon prioriteetteja: se merkittiin kriittiselle polulle kahteen dokumenttiin, ja rivi 54 kirjoitettiin varauksella "tämä voi olla replikaatio" — varauksella, jolle ei ollut mitään perustetta.
-- **Johtopäätös:** jäljittämättömäksi merkitseminen estää *siteeraamisen* mutta ei estä väitettä **ohjaamasta työjärjestystä**, ja juuri se on kallis vaikutus. Sääntö: hakukonetiiviste ei ole johtolanka vaan **kohina, kunnes se on paikannettu johonkin avattavaan dokumenttiin**. Se saa kirjata *kysymyksen* ("onko tällaista tulosta olemassa?"), ei koskaan *väitteen muotoa* tekijänimineen ja lukuineen. Sama koskee mitä tahansa kielimallin tuottamaa tiivistelmää lähteestä jota se ei ole avannut — myös tämän agentin.
-- **Mitä jäljitys silti tuotti:** vahvemman rajauksen kuin haettu väite olisi tuottanut (rivi 58). Se ei kumoa opetusta; onnekas sivutuotos ei tee menetelmästä oikeaa.
+**Why it was shot down:**
+- The summary gave a literal, plausible claim with an author's name and figures: *"Freedman has shown that the longest word over {a,b,c,d} with the condition a+d = b+c that avoids additive squares has length ≤ 60."* It matched the project's own row 54's balanced classes and the value 60 perfectly — so perfectly that it felt like confirmation.
+- Thorough tracing on 2026-07-30: **the name "Freedman" does not appear in Fici & Puzynina's survey at all** (the full text was extracted from the PDF and searched), and the number 60 is not in §8.4. No origin was found anywhere.
+- **The damage had already been done before the tracing.** The claim steered two sessions' priorities: it was marked on the critical path in two documents, and row 54 was written with the caveat "this may be a replication" — a caveat with no basis whatsoever.
+- **Conclusion:** marking something untraced prevents *citing* it but does not prevent the claim from **steering the work order**, and that is the costly effect. Rule: a search-engine summary is not a lead but **noise, until it has been located in some openable document**. It may be logged as a *question* ("does such a result exist?"), never as the *form of a claim* with an author's name and figures. The same applies to any language-model-generated summary of a source it has not opened — including this agent.
+- **What the tracing produced anyway:** a stronger delimitation than the sought claim would have (row 58). That does not undo the lesson; a lucky side effect does not make the method right.
 
-## 12. "Up and Down" -järjestysheuristiikan siirto aa2f-hakuun
-*Kirjattu 2026-07-30. Ks. `MATH_CLAIMS.md` rivi 60.*
+## 12. "Up and Down" — Transferring an Ordering Heuristic to the aa2f Search
+*Logged 2026-07-30. See `MATH_CLAIMS.md` row 60.*
 
-**Hypoteesi:** Lietardin väitöskirjassa raportoitu vuorotteleva prioriteettijärjestys, joka kasvatti additiivisesti kuutiovapaan sanan pituutta {0,1,2,3}:ssa dramaattisesti, siirtyy projektin aa2f-ennätyshakuun. Perustelu vaikutti vahvalta: molemmat ovat syviä kieliä, ja `NEGATIVE_RESULTS.md` §8 oli jo sulkenut pois karsinnan mutta jättänyt **järjestyksen** auki.
+**Hypothesis:** the alternating priority ordering reported in Lietard's thesis, which dramatically increased the length of an additively cube-free word over {0,1,2,3}, transfers to the project's aa2f record search. The reasoning seemed strong: both are deep languages, and `NEGATIVE_RESULTS.md` §8 had already ruled out pruning but left the **ordering** open.
 
-**Miksi se ammuttiin alas:**
-- Kontrolloitu mittaus tekniikan **omassa** asetelmassa vahvisti että se toimii: additiivisilla kuutioilla {0,1,2,3} budjetilla 10⁶ kiinteä järjestys saavutti 24 396 ja vuorotteleva pituuskaton 300 000. Tekniikka ei siis ole huono.
-- Aa2f:ssä se **hävisi selvästi**: budjetilla 2·10⁷ kiinteä järjestys 2 034, vuorotteleva 619 ja 1 764. Myös harvinaisinta kirjainta suosiva järjestys hävisi (1 111).
-- **Johtopäätös:** tekniikka on asetelmakohtainen, ei yleinen. Selitysehdokas (hypoteesi): vuorottelu torjuu *ajautumista*, ja aa2f:n vikatila ei ilmeisesti ole ajautuminen. Tätä tukee riippumattomasti rivi 42 — Parikh-epätasapaino ei erottele aa2f:ssä, joten sen tasapainottaminen ei voi ohjata hakua.
-- **Metodologinen opetus, joka on tässä tärkeämpi kuin tulos:** ensimmäinen mittaukseni tehtiin väärässä asetelmassa (additiiviset neliöt) ja olisi yksinään johtanut päättelemään että *tekniikka ei toimi*. Kontrolloitu testi sen omassa asetelmassa kumosi sen. **Kirjallisuudesta lainattu menetelmä on testattava ensin siellä mistä se on peräisin** — muuten mitataan siirtoa eikä menetelmää, ja hylätään toimiva idea väärin perustein.
+**Why it was shot down:**
+- A controlled measurement in the technique's **own** setting confirmed that it works: on additive cubes {0,1,2,3} with budget 10⁶, fixed order reached 24,396 and alternating reached the length cap of 300,000. So the technique is not bad.
+- In aa2f it **lost clearly**: at budget 2·10⁷, fixed order 2,034, alternating 619 and 1,764. An ordering favoring the rarest letter also lost (1,111).
+- **Conclusion:** the technique is setting-specific, not general. Candidate explanation (hypothesis): alternation counters *drift*, and aa2f's failure mode is apparently not drift. This is independently supported by row 42 — Parikh imbalance does not discriminate in aa2f, so balancing it cannot steer the search.
+- **The methodological lesson, which matters more here than the result:** my first measurement was done in the wrong setting (additive squares) and would, on its own, have led to concluding that *the technique does not work*. A controlled test in its own setting refuted that. **A technique borrowed from the literature must be tested first where it comes from** — otherwise you are measuring the transfer, not the method, and rejecting a working idea for the wrong reason.
 
-## 13. Osittainen korroboraatio täytenä vahvistuksena
-*Kirjattu 2026-07-30. Ks. `MATH_CLAIMS.md` rivi 23.*
+## 13. Partial Corroboration as Full Confirmation
+*Logged 2026-07-30. See `MATH_CLAIMS.md` row 23.*
 
-**Hypoteesi:** kun peruutettu lähdeviite löytyy riippumattomasta lähdeluettelosta ja **volyymi, numero, sivut ja vuosi täsmäävät**, viite on korroboroitu ja peruutus voidaan purkaa.
+**Hypothesis:** when a retracted source reference is found in an independent bibliography and **the volume, number, pages, and year match**, the reference is corroborated and the retraction can be reversed.
 
-**Miksi se ammuttiin alas:**
-- Näin tehtiin rivin 23 kanssa aiemmin samana päivänä: Fici & Puzyninan lähdeluettelo antoi neljä täsmäävää kenttää, ja rivi nostettiin `REJECTED` → `INDIRECT`.
-- **DOI:ta ei tarkistettu.** Muutamaa tuntia myöhemmin DOI-rekisteristä selvisi että lokissa ollut tunniste `10.1137/16M1087493` **ei ole olemassa lainkaan** (Crossref 404), ja oikea on `10.1137/17M1149377`.
-- Neljä oikeaa kenttää viidestä tuntui vahvistukselta. Se oli juuri se kenttä joka jäi tarkistamatta, joka oli väärä.
-- **Nolaava yksityiskohta joka on kirjattava:** väärä tunniste poistui lokista vasta kun solu kirjoitettiin uusiksi — **vahingossa, ei tarkistuksen tuloksena**. Rivi ei parantunut huolellisuudesta vaan sattumasta.
-- **Johtopäätös:** **korroboraatio kattaa vain ne kentät jotka on tosiasiassa verrattu, ei tietuetta kokonaisuutena.** Kun viite palautetaan peruutuksesta, jokainen kenttä on tarkistettava erikseen ja tarkistetut kentät nimettävä. Pysyvät tunnisteet (DOI, arXiv-id) on tarkistettava rekisteristä, koska juuri ne ovat kenttiä joita ihminen tai malli ei osaa arvioida silmämääräisesti — vuosiluvun virheen huomaa, DOI:n ei.
+**Why it was shot down:**
+- This is exactly what was done for row 23 earlier the same day: Fici & Puzynina's bibliography gave four matching fields, and the row was raised from `REJECTED` → `INDIRECT`.
+- **The DOI was not checked.** A few hours later the DOI registry revealed that the identifier in the ledger, `10.1137/16M1087493`, **does not exist at all** (Crossref 404), and the correct one is `10.1137/17M1149377`.
+- Four correct fields out of five felt like confirmation. It was precisely the field left unchecked that was wrong.
+- **An embarrassing detail that must be recorded:** the wrong identifier disappeared from the ledger only when the cell was rewritten — **by accident, not as the result of a check**. The row did not improve through diligence but through luck.
+- **Conclusion:** **corroboration covers only the fields actually compared, not the record as a whole.** When a reference is restored from retraction, each field must be checked separately and the checked fields named. Persistent identifiers (DOI, arXiv ID) must be checked against the registry, because they are exactly the fields a human or a model cannot assess by eye — a wrong year is noticed, a wrong DOI is not.
 
-## 14. Kasvukäyrän muoto lähestyvän tyhjentymisen ennustajana
-*Kirjattu 2026-07-30. Ks. `additive-morphism-scan.js`, `OPEN_RESEARCH_QUESTIONS.md` B10.*
+## 14. The Shape of the Growth Curve as a Predictor of Approaching Exhaustion
+*Logged 2026-07-30. See `additive-morphism-scan.js`, `OPEN_RESEARCH_QUESTIONS.md` B10.*
 
-**Hypoteesi:** kun budjettia kasvatetaan (10⁶ → 10⁷ → 10⁸), pisimmän löydetyn sanan kasvun muoto (tasaantuva vs. kiihtyvä vs. tasainen) ennustaisi mikä ratkaisemattomista epätasapainoisista aakkostoluokista on lähimpänä tyhjentymistä, ja ohjaisi mihin kannattaa syventää hakua ensin.
+**Hypothesis:** as the budget is increased (10⁶ → 10⁷ → 10⁸), the shape of the growth of the longest word found (leveling off vs. accelerating vs. steady) would predict which of the unresolved unbalanced alphabet classes is closest to exhaustion, and would guide where to deepen the search first.
 
-**Miksi se ammuttiin alas:**
-- Ajettiin kaikille 20 avoimelle luokalle kolmella budjettitasolla ja luokiteltiin kasvun muoto kahden peräkkäisen erotuksen perusteella. Tulos oli kohinaista: luokat jakautuivat "tasaantuva", "kiihtyvä" ja "tasainen kasvu" -ryhmiin ilman havaittavaa yhteyttä muihin ominaisuuksiin (esim. epäbalanssin suuruuteen).
-- Kolmen pisteen kasvukäyrä on liian lyhyt erottelemaan aitoa rakennetta otantakohinasta — sama perusongelma kuin rivin 37 otoskoko-artefaktissa, nyt eri muuttujalla mitattuna.
-- **Johtopäätös:** diagnostiikkaa ei käytetty priorisointiin. Sen sijaan siirryttiin suoraan menetelmään joka voi oikeasti ratkaista äärettömyyden kumpaankin suuntaan — morfismihakuun (`additive-morphism-scan.js`) — koska mikään DFS-kasvukäyrän muoto ei voi koskaan todistaa ääretöntä kieltä (§2:n opetus yleistettynä uuteen kontekstiin).
+**Why it was shot down:**
+- Run for all 20 open classes at three budget levels, and the growth shape was classified by the two consecutive differences. The result was noisy: classes fell into "leveling off", "accelerating", and "steady growth" groups with no detectable relationship to other properties (e.g. the size of the imbalance).
+- A three-point growth curve is too short to separate genuine structure from sampling noise — the same basic problem as the sample-size artifact of row 37, now measured on a different variable.
+- **Conclusion:** the diagnostic was not used for prioritization. Instead, the project moved directly to a method that can actually settle infiniteness in either direction — a morphism search (`additive-morphism-scan.js`) — because no shape of a DFS growth curve can ever prove an infinite language (§2's lesson generalized to a new context).
 
-## 15. Tekoälyn epistemologia ja kehän kiertäminen
-*Kirjattu 2026-07-31. Kokoava metodologinen havainto.*
+## 15. AI Epistemology and Going in Circles
+*Logged 2026-07-31. A consolidating methodological observation.*
 
-**Hypoteesi (aiempi työskentelytapa):** Tekoälyagentti voi generoida aidosti uusia teoreettisia läpimurtoja (kuten MCTS, Rothin lauseen soveltaminen, HD0L-projektio, holografia) kun siltä pyydetään "ihka uusia ideoita joita emme ole ajatelleet". Näitä ehdotuksia kannattaa pitää mahdollisina ratkaisupolkuina Mäkelän konjektuuriin.
+**Hypothesis (earlier working method):** an AI agent can genuinely generate new theoretical breakthroughs (such as MCTS, applying Roth's theorem, HD0L projection, holography) when asked for "genuinely new ideas we have not thought of". Such proposals are worth treating as possible solution paths to Mäkelä's conjecture.
 
-**Miksi se ammuttiin alas:**
-- Tekoälyn koulutusdata perustuu kielellisiin ja semanttisiin yhteyksiin, ei matemaattisiin invariantteihin. Kun AI:lta pyydetään uutta ideaa ilman rajauksia, se tuottaa **viallisia analogioita**:
-  - Esimerkki 1: "Sovelletaan Rothin tiheyslausetta prefiksisummiin" $\to$ Rothin lause koskee *joukkoja* ilman toistoja, prefiksisumma on *jono*.
-  - Esimerkki 2: "Käytetään MCTS-navigointia" $\to$ Mittaa vain hakuohjelman tehokkuutta, ei pysty koskaan todistamaan äärettömyyttä. Tuottaa yhä vain äärellisen sanan (ks. §2, §3, §14).
-  - Esimerkki 3: "Projisoidaan HD0L-morfismilla additiiviset neliöt" $\to$ Additiivinen ehto on skalaari (summa), kun taas abelin ehto (missä projektio toimi) on 6D-vektori. Vapausasteet eivät siirry.
-- **Tekoäly kiertää kehää**, koska se nimeää saman perusvirheen (esim. äärellinen haku) yhä uusilla termeillä (Toeplitz-louhinta, MCTS, sokea DFS) ymmärtämättä, että matemaattinen tappoehto on niille kaikille sama.
+**Why it was shot down:**
+- An AI's training data is based on linguistic and semantic associations, not mathematical invariants. When an AI is asked for a new idea without constraints, it produces **flawed analogies**:
+  - Example 1: "Apply Roth's density theorem to prefix sums" $\to$ Roth's theorem concerns *sets* without repetition, a prefix sum is a *sequence*.
+  - Example 2: "Use MCTS navigation" $\to$ this only measures the efficiency of the search program, and can never prove infiniteness. It still only produces a finite word (see §2, §3, §14).
+  - Example 3: "Project additive squares with an HD0L morphism" $\to$ the additive condition is a scalar (a sum), while the abelian condition (where the projection worked) is a 6D vector. The degrees of freedom do not transfer.
+- **The AI goes in circles**, because it names the same underlying mistake (e.g. finite search) with ever-new terms (Toeplitz mining, MCTS, blind DFS) without understanding that the mathematical kill condition is the same for all of them.
 
-**Johtopäätös ja oikea käyttötapa (Mekanismi):**
-- Tekoälyä **EI** tule käyttää matemaattisena oraakkelina, jolta kysytään avoimia suuntia.
-- Tekoäly on **äärellisten testien armoton suorittaja**.
-- Ideoinnin evaluointimekanismi: Idean on oltava **invariantti muotoilu**, joka on muutettavissa **äärelliseksi laskennaksi**. 
-- Jokaisella uudella idealla on oltava heti alussa eksplisiittinen **Tappoehto (Kill Condition)**. Jos ideaa ei voida koodata ja todistaa vääräksi (kaataa) 5 minuutin koodaus- ja laskenta-ajalla, se ei ole kelvollinen tutkimusidea tälle projektille. Esimerkiksi CEGIS-morfismisynteesi (ORQ osio E8) tai Keräsen $g_{85}$:n 3-kirjaiminen projektio (E7) ovat oikein muotoiltuja tekoäly-tehtäviä, koska ne ovat selkeästi rajattuja ja äärellisesti suoritettavia.
+**Conclusion and the correct way to use it (mechanism):**
+- An AI **must NOT** be used as a mathematical oracle from which open directions are requested.
+- An AI is a **relentless executor of finite tests**.
+- Idea-evaluation mechanism: an idea must be an **invariant formulation** that can be turned into a **finite computation**.
+- Every new idea must have an explicit **kill condition** stated right at the start. If an idea cannot be coded and disproven (killed) within 5 minutes of coding and computing time, it is not a valid research idea for this project. For example, CEGIS morphism synthesis (ORQ section E8) or Keränen's $g_{85}$'s three-letter projection (E7) are correctly formulated AI tasks, because they are clearly bounded and finitely executable.
 
-## 16. Keräsen g85-projektio kolmelle kirjaimelle
-*Kirjattu 2026-07-31. Ks. `OPEN_RESEARCH_QUESTIONS.md` E7, `scratch/g85_projection_test.js`*
+## 16. Keränen's g85 Projection to Three Letters
+*Logged 2026-07-31. See `OPEN_RESEARCH_QUESTIONS.md` E7, `scratch/g85_projection_test.js`*
 
-**Hypoteesi:** Keräsen $g_{85}$:n kiintopiste on 4-kirjaimisella aakkostolla täysin abelin-neliötön. Koska Mäkelän konjektuuri 3-kirjaimisella aakkostolla *sallii* triviaalit neliöt (eli abelin neliöt jaksolla K=1), voisi olla mahdollista, että projisoimalla $g_{85}$ kolmelle kirjaimelle (yhdistämällä kaksi kirjainta), syntyvät abelin neliöt olisivat vain noita sallittuja K=1 neliöitä, ja K $\ge$ 2 -neliöt vältettäisiin.
+**Hypothesis:** Keränen's $g_{85}$'s fixed point is completely abelian-square-free over a 4-letter alphabet. Since Mäkelä's conjecture over a 3-letter alphabet *allows* trivial squares (i.e. abelian squares of period K=1), it might be possible that by projecting $g_{85}$ to three letters (merging two letters), the resulting abelian squares would only be those allowed K=1 squares, and K $\ge$ 2 squares would be avoided.
 
-**Miksi se ammuttiin alas:**
-- Kaikki 36 mahdollista surjektiota 4-kirjaimisesta aakkostosta 3-kirjaimiseen generoitiin ja testattiin $g_{85}$:n toiseen iteraatioon (pituus 7225) asti.
-- **Tappoehto täyttyi välittömästi:** Yksikään 36 surjektiosta ei selvinnyt. Jokaisessa projektiossa syntyi abelin neliö jaksolla **K = 2** välittömästi sanan alussa (positiot 0, 1, 2, 4, 9 tai 27 riippuen surjektiosta).
-- **Johtopäätös:** $g_{85}$:n abelin neliöttömyys nojaa fundamentaalisti sen kykyyn hyödyntää kaikkia neljää vapausastetta ristiin. Rakenne ei ole "puristettavissa" kolmeen ulottuvuuteen niin, että tasapaino säilyisi edes lyhyissä (K=2) ikkunoissa. Yritys löytää 3-kirjaiminen ratkaisu supistamalla 4-kirjaiminen ratkaisu on todistettu umpikuja.
+**Why it was shot down:**
+- All 36 possible surjections from the 4-letter alphabet to the 3-letter one were generated and tested up to $g_{85}$'s second iteration (length 7225).
+- **The kill condition was met immediately:** none of the 36 surjections survived. Every projection produced an abelian square of period **K = 2** immediately at the start of the word (positions 0, 1, 2, 4, 9, or 27 depending on the surjection).
+- **Conclusion:** $g_{85}$'s abelian-square-freeness fundamentally relies on its ability to exploit all four degrees of freedom jointly. The structure cannot be "compressed" into three dimensions in a way that preserves balance even in short (K=2) windows. The attempt to find a 3-letter solution by shrinking the 4-letter solution is a proven dead end.
 
-## 17. 10-merkkisen uniformin kuvauksen (g') puhtaan pöydän haku h6:n kuvalle kaatuu umpikujaan
-*Kirjattu 2026-07-31. Ks. `scratch/cegis_g_synth.js`*
+## 17. A Clean-Slate Search for a 10-Character Uniform Coding (g') for h6's Image Collapses into a Dead End
+*Logged 2026-07-31. See `scratch/cegis_g_synth.js`*
 
-**Idea:** Rakentaa CEGIS-pohjainen merkkikohtainen DFS-haku, joka etsii puhdasta $g': \Sigma_6 \to \Sigma_3^{10}$ kuvausta, joka välttäisi abelin neliöt (edes jaksoilla $K \in [2,5]$, missä alkuperäinen $g_3$ epäonnistuu). Tämä olisi ollut puhdas ratkaisu alkuperäiseen Rao & Rosenfeldin $h_6$-pohjaan.
-**Toteutus:** `cegis_g_synth.js` ajettiin ensin `MAX_K=7` ja sitten löysemmällä ehdolla `MAX_K=5` karsien etuliitteitä lennossa kirjain kirjaimelta ensimmäisen esiintymisen järjestyksessä.
-**Tulos (Tappoehto täyttyi):** Bounded-exhaustion. Haku kävi läpi 500 miljoonaa haaraa ja saavutti rakennesyvyyden 59 / 60 (eli yritti sijoittaa viimeistä kirjainta $f$), mutta päätyi jatkuvasti peruuttamaan kokonaisia kirjaimia ($f$ ja $d$), löytämättä ensimmäistäkään täydellistä 60 merkin määritystä joka selviäisi. 
-**Johtopäätös:** Avaruus $3^{60}$ on näillä ehdoilla (edes $K \in [2,5]$ väistäminen) äärimmäisen vihamielinen. On mahdollista, että *yksikään* 10-uniformi kuvaus ei kykene välttämään pieniä neliöitä $h_6$:n rakenteessa ilman muita kompromisseja. Alkuperäisen $g_3$:n menestys (0 neliötä $K \ge 6$ osalta) on poikkeuksellinen ominaisuus, jota ei löydy systemaattisella "puhtaan pöydän" hakemisella. Haku tulee rajata voimakkaasti kytkettyihin paikallisiin mutaatioihin tai sallia ei-uniformeja kuvauksia.
+**Idea:** build a CEGIS-based, character-by-character DFS search looking for a pure $g': \Sigma_6 \to \Sigma_3^{10}$ coding that would avoid abelian squares (even at periods $K \in [2,5]$, where the original $g_3$ fails). This would have been a pure solution to the original Rao & Rosenfeld $h_6$ base.
+**Implementation:** `cegis_g_synth.js` was run first with `MAX_K=7` and then with the looser condition `MAX_K=5`, pruning prefixes on the fly, letter by letter, in first-occurrence order.
+**Result (kill condition met):** bounded exhaustion. The search went through 500 million branches and reached a construction depth of 59/60 (i.e. it attempted to place the last letter, $f$), but kept backtracking entire letters ($f$ and $d$), never finding a single complete 60-character assignment that survived.
+**Conclusion:** the space $3^{60}$ is, under these conditions (avoiding even $K \in [2,5]$), extremely hostile. It is possible that *no* 10-uniform coding can avoid small squares in $h_6$'s structure without other compromises. The original $g_3$'s success (0 squares for $K \ge 6$) is an exceptional property not found by systematic "clean-slate" search. The search should be constrained to strongly coupled local mutations, or non-uniform codings should be allowed.

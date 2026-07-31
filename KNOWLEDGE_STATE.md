@@ -1,202 +1,207 @@
-# KNOWLEDGE_STATE.md — mitä tiedetään ja mikä on suljettu
+# KNOWLEDGE_STATE.md — what is known and what is closed
 
-**Päivitetty:** 2026-07-30
-**Tarkoitus:** yksi lukukerta, joka kertoo missä projekti seisoo. Erottelu on
-**episteeminen, ei aiheittainen**: mitä tiedetään ulkoisesta lähteestä, mitä on
-laskettu itse, mikä on todistetusti suljettu, mikä on peruttu, ja mitä ei saa
-käyttää.
+**Updated:** 2026-07-30
+**Purpose:** a single read that says where the project stands. The split is
+**epistemic, not topical**: what is known from an external source, what has
+been computed in-house, what is provably closed, what has been retracted,
+and what must not be used.
 
-> **Tämä on johdettu hakemisto, ei totuuslähde.** Jokainen kohta on osoitin
-> `MATH_CLAIMS.md`:n riviin, ja **väiteloki voittaa aina**. Jos jokin luku
-> esiintyy tässä ilman rivinumeroa, se on virhe. Driftitarkistin varmistaa
-> että jokainen tässä mainittu rivi on olemassa.
+> **This is a derived index, not a source of truth.** Every entry is a
+> pointer to a row in `MATH_CLAIMS.md`, and **the ledger always wins**. If a
+> figure appears here without a row number, that is a bug. The drift
+> checker verifies that every row mentioned here actually exists.
 
 ---
 
-## 1. Tiedetään ulkoisesta primäärilähteestä (Level 2)
+## 1. Known from an external primary source (Level 2)
 
-Nämä on avattu, luettu ja siteerattu sanatarkasti. Ne eivät ole projektin
-omia tuloksia.
+These have been opened, read, and quoted verbatim. They are not the
+project's own results.
 
-| Mitä | Rivi |
+| What | Row |
 |---|---|
-| Ternäärisillä kolmella kirjaimella abelin neliöitä ei voi välttää; pisin sana on pituudeltaan 7 ja niitä on täsmälleen 18 | 1 |
-| Mäkelän konjektuurin täsmällinen muotoilu; **auki** puolipituuksille K = 2…5 | 4 |
-| h₆:n kiintopiste on täysin abelin-neliötön (R&R Theorem 4) | 5 |
-| g₃(h₆^ω(a)) ei sisällä abelin neliöitä jaksolla > 5 (R&R Theorem 9) | 6a |
-| Sama sana sisältää **täsmälleen 34** eri abelin neliötä (Fici & Puzynina) | 6b |
-| Ääretön ternäärisana joka välttää abelin neliöt jaksolla > 5 on olemassa | 7 |
-| **Miksi juuri K = 2…5 on auki:** päätösalgoritmi kantaa kiintopisteille kaikilla jaksoilla, mutta kuville vain suurilla | 7b |
-| Epäsuotuisan tekijän määritelmä ja Keräsen avoin kysymys (2006) | 38 |
-| g₉₈ ei ole a-2-vapaa endomorfismi vaikka sen iterointi tuottaa a-2-vapaan sanan | 39 |
-| Paperi vahvistaa Jordan-rakenteen sanatarkasti | 44 |
-| Templaatti-/esivanhempimenetelmä on **ACR 2004**, ei 2015 | 48 |
-| **Additiiviset neliöt:** "onko ℤ uniformisti 2-repetitiivinen" on avoin; kuutiot ratkaistu {0,1,3,4}:llä; **ℤ²-tapaus on projektin oman ydinlähteen aihe** | 53 |
-| Additiivisten neliöiden avoimuus vahvistettu tuoreena (2023 ja 2024); **affiiniluokittelu on alan oma kehys**, ja kuutioiden nelialkioinen tapaus on ratkaistu {0,1,2,3}:n luokkaa lukuun ottamatta | 58 |
-| R&R:n oma referenssitoteutus on julkisesti saatavilla ja vastaa `morphisms.js`:ää | 22 |
+| Abelian squares cannot be avoided with three ternary letters; the longest word has length 7 and there are exactly 18 of them | 1 |
+| Mäkelä's conjecture, precise statement; **open** for half-lengths K = 2…5 | 4 |
+| h₆'s fixed point is completely abelian-square-free (R&R Theorem 4) | 5 |
+| g₃(h₆^ω(a)) contains no abelian squares of period > 5 (R&R Theorem 9) | 6a |
+| The same word contains **exactly 34** distinct abelian squares (Fici & Puzynina) | 6b |
+| An infinite ternary word avoiding abelian squares of period > 5 exists | 7 |
+| **Why exactly K = 2…5 is open:** the decision algorithm carries over to fixed points at all periods, but only to images at large periods | 7b |
+| Definition of an unfavourable factor and Keränen's open question (2006) | 38 |
+| g₉₈ is not an a-2-free endomorphism even though its iteration produces an a-2-free word | 39 |
+| The paper confirms the Jordan structure verbatim | 44 |
+| The template/ancestor method is **ACR 2004**, not 2015 | 48 |
+| **Additive squares:** "is ℤ uniformly 2-repetitive" is open; cubes solved with {0,1,3,4}; **the ℤ² case is the topic of the project's own core source** | 53 |
+| The openness of additive squares confirmed as recent (2023 and 2024); **affine classification is the field's own framework**, and the four-element case of cubes is solved except for the {0,1,2,3} class | 58 |
+| R&R's own reference implementation is publicly available and matches `morphisms.js` | 22 |
 
-Heikommalla tasolla (`INDIRECT`, alkuperäistä ei ole luettu rivi riviltä):
-Pleasants 5 kirjaimella (rivi 2), Keränen 4 kirjaimella (rivi 3).
+At a weaker level (`INDIRECT`, the original has not been read line by line):
+Pleasants with 5 letters (row 2), Keränen with 4 letters (row 3).
 
-**Erikseen:** Dejeanin konjektuuri on **todistettu**, ei auki
-(`OPEN_RESEARCH_QUESTIONS.md` A2). Mikä tahansa suunnitelma joka lupaa
-"löytää RT(n)-arvoja" nojaa vanhentuneeseen tietoon.
-
----
-
-## 2. Laskettu ja verifioitu itse (Level 1)
-
-Nämä ovat projektin omia eksakteja laskuja. Ne eivät ole ulkoisesti
-tarkistettuja, mutta jokainen on toistettavissa ja useimmilla on kaksi
-riippumatonta koodipolkua.
-
-**Rakenne ja algebra:** h₆:n eksaktit kirjaintiheydet ja spektri (17, 18),
-neliöiden asymptoottiset tiheydet (19, 20), Prop 9:n hypoteesit (21), Smithin
-normaalimuoto (24), Jordan-rakenne (25), Prop 5:n rajat (29), esivanhempilaatikko
-ja -sulkeuma (30, 31), Prop 11:n kohdejoukko (45).
-
-**Kaksi lauseen uudelleenjohtoa koko päätösmenettelyllä:** Theorem 4 (rivi 32)
-ja Theorem 6 (rivi 46). Nämä ovat *uudelleenjohtoja tekijöiden koneistolla*,
-eivät riippumattomia todistuksia.
-
-**Kielet ja kasvu:** tekijäkompleksisuus (27, 28), **tiukat ylärajat
-kasvunopeuksille** Feketen lemmasta (33), Rauzy-graafit (34), umpikujatekijät (35).
-
-**Sanat:** ennätyssanat verifioitu ensimmäistä kertaa (40), FORBID4 on
-heuristiikka eikä sääntö (41), ennätyssanat eivät ole morfisia (42),
-epäsuotuisia tekijöitä on olemassa neljällä kirjaimella (47).
-
-**Säiliökieli:** K ∈ [2,5] rakenne ja välttämättömät ehdot (51), välin
-stabiilius kun ikkuna kasvaa 5 → 6 (52).
-
-**Additiiviset neliöt:** aakkostolakaisu, 11 luokkaa 31:stä ratkaistu (54).
-
-**Ekvivalenssi joka kannattaa tietää:** Mäkelän konjektuuri on ekvivalentti
-sen kanssa että aa2f-sanoja on jokaisella pituudella (rivi 50). Siitä seuraa
-että **kasvunopeuden alaraja ei ole osatavoite vaan koko ongelma.**
+**Separately:** Dejean's conjecture is **proven**, not open
+(`OPEN_RESEARCH_QUESTIONS.md` A2). Any plan that promises to "find RT(n)
+values" relies on outdated information.
 
 ---
 
-## 3. Todistetusti suljettu
+## 2. Computed and verified in-house (Level 1)
 
-Nämä eivät ole arvioita vaan äärellisiä laskuja joiden hakupuu on tyhjennetty.
-Ne pysyvät suljettuina.
+These are the project's own exact computations. They are not externally
+verified, but each is reproducible and most have two independent code
+paths.
 
-| Mikä on suljettu | Todistuksen laji | Rivi |
+**Structure and algebra:** h₆'s exact letter densities and spectrum (17, 18),
+asymptotic square densities (19, 20), Prop 9's hypotheses (21), Smith
+normal form (24), Jordan structure (25), Prop 5's bounds (29), the ancestor
+box and its closure (30, 31), Prop 11's target set (45).
+
+**Two theorem re-derivations with the full decision procedure:** Theorem 4
+(row 32) and Theorem 6 (row 46). These are *re-derivations using the
+factor machinery*, not independent proofs.
+
+**Languages and growth:** factor complexity (27, 28), **tight upper bounds
+on growth rates** from Fekete's lemma (33), Rauzy graphs (34), dead-end
+factors (35).
+
+**Words:** record words verified for the first time (40), FORBID4 is a
+heuristic, not a rule (41), record words are not morphic (42), unfavourable
+factors exist with four letters (47).
+
+**Container language:** K ∈ [2,5] structure and necessary conditions (51),
+stability of the interval when the window grows 5 → 6 (52).
+
+**Additive squares:** alphabet sweep, 11 of 31 classes resolved (54).
+
+**An equivalence worth knowing:** Mäkelä's conjecture is equivalent to
+saying an aa2f word exists at every length (row 50). It follows that
+**a lower bound on the growth rate is not a sub-goal but the whole
+problem.**
+
+---
+
+## 3. Provably closed
+
+These are not estimates but finite computations whose search tree has been
+exhausted. They stay closed.
+
+| What is closed | Kind of proof | Row |
 |---|---|---|
-| Ternäärinen abelin-neliötön kieli loppuu pituudella 7 | tyhjentävä haku | 1 |
-| **Yksikään** k-uniformi ternäärimorfismi, k ≤ 6, ei tuota Mäkelä-kiintopistettä | tyhjentävä lakaisu | 36 |
-| **Reitti (c):** yksikään uniformi kuvaus Σ₆ → Σ₃^L, L ≤ 5, ei tuota Mäkelä-sanaa h₆:n kiintopisteestä | tyhjentävä lakaisu | 49 |
-| Kahden kirjaimen aliaakkostolla ei ole ääretöntä [2,5]-vapaata sanaa | syklihaku säiliögraafissa | 51 |
-| 11 additiivista affiiniluokkaa 31:stä ei voi isännöidä ääretöntä additiivisesti neliötöntä sanaa | tyhjentävä haku, todistuskappaleineen | 54 |
+| The ternary abelian-square-free language ends at length 7 | exhaustive search | 1 |
+| **No** k-uniform ternary morphism, k ≤ 6, produces a Mäkelä fixed point | exhaustive sweep | 36 |
+| **Route (c):** no uniform map Σ₆ → Σ₃^L, L ≤ 5, produces a Mäkelä word from h₆'s fixed point | exhaustive sweep | 49 |
+| No infinite [2,5]-free word exists over a two-letter sub-alphabet | cycle search in the container graph | 51 |
+| 11 of 31 additive affine classes cannot host an infinite additively-square-free word | exhaustive search, with witnesses | 54 |
 
-**Huom. rajaus:** jokainen näistä on suljettu **ilmoitetussa ikkunassa**.
-"Ei kata L ≥ 6" tai "ei kata 5 kirjainta" ei ole pikkuvaraus vaan osa väitettä.
+**Note on scope:** each of these is closed **within the stated window**.
+"Does not cover L ≥ 6" or "does not cover 5 letters" is not a minor
+qualifier but part of the claim itself.
 
 ---
 
-## 4. Hylätty varmuudella — lähestymistavat ja hypoteesit
+## 4. Rejected with certainty — approaches and hypotheses
 
-Mitattuja, ei arvattuja. Täydet perustelut `NEGATIVE_RESULTS.md`:ssä; alla
-yhden rivin tiivistys ja se **mitä opetus yleistää**.
+Measured, not guessed. Full reasoning is in `NEGATIVE_RESULTS.md`; below is
+a one-line summary and **what the lesson generalizes to**.
 
-| # | Mikä hylättiin | Miksi lopullisesti |
+| # | What was rejected | Why, finally |
 |---|---|---|
-| 1 | Uniformien morfismien skannaus k = 7…9 | Maksimipituus on otoskoon logaritmi (rivi 37). Kasvu tulee vaikka matematiikka ei tekisi mitään |
-| 2 | Rauzy-graafin SCC äärettömyyden todisteena | Abelin ehto on globaali, SCC on lokaali. Erinomainen esisuodatin, nolla todistusarvoa |
-| 3 | Ennätyssanan käänteismallinnus morfismiksi | Kompleksisuus kasvaa eksponentiaalisesti (rivi 42). Sääntöä ei voi purkaa koska sitä ei ole |
-| 4 | "Morfismi pitää Parikh-epätasapainon pienenä" | Mitattu päinvastoin, ja väärin kummallakin tavalla (rivi 42) |
-| 5 | FORBID4 universaalisti kuolettavana sääntönä | Esiintyy 2 820 kertaa ennätyssanassa (rivi 41). Globaali kielto tekisi ennätyksen mahdottomaksi |
-| 6 | "Rosetta-filtteri" ennätyssanan tekijöistä | Hylkäisi 88 % laillisista jatkoista. Ylisovitus, katto eikä ponnahduslauta |
-| 7 | Säiliörelaksaatio additiivisena eliminaatiotyökaluna | Ei kuollut saavutettavilla ikkunakoilla; kustannus \|A\|^(2k−1). Eliminaatio on hakukysymys |
-| 8 | Jatkettavuustaulu ennätysjahdin kiihdyttimenä | **Sama pisin sana** karsittuna ja karsimattomana. Branch-and-bound ei pure kun paras kasvaa koko ajan |
-| 9 | Karsintataulun nettovoitto yhdessä ajossa | 1,00×. Rakentaminen maksaa yhden haun; arvo on **yksinomaan** uudelleenkäytössä |
-| 10 | Määritelmätason verifioija riippumattomana tarkistajana | Toimi virheettömästi mutta **ei yltänyt omaan kohteeseensa**. Riippumattomuuden akseli oli väärä |
+| 1 | Scanning uniform morphisms at k = 7…9 | The maximum length is a logarithm of sample size (row 37). Growth appears even if the mathematics does nothing |
+| 2 | The Rauzy graph's SCC as proof of infiniteness | The abelian condition is global, the SCC is local. An excellent pre-filter, zero proof value |
+| 3 | Reverse-engineering the record word into a morphism | Complexity grows exponentially (row 42). There is no rule to extract because none exists |
+| 4 | "The morphism keeps Parikh imbalance small" | Measured the opposite, and wrong in both senses (row 42) |
+| 5 | FORBID4 as a universally lethal rule | Occurs 2,820 times in the record word (row 41). A global ban would make the record impossible |
+| 6 | A "Rosetta filter" from the record word's factors | Would reject 88% of legal continuations. Overfitting, a ceiling rather than a springboard |
+| 7 | Container relaxation as an additive elimination tool | Did not die at reachable window sizes; cost \|A\|^(2k−1). Elimination is a search question |
+| 8 | Extendability table as a record-hunt accelerator | **The same longest word** pruned and unpruned. Branch-and-bound does not bite when the best keeps growing |
+| 9 | Net gain from a pruning table in a single run | 1.00×. Building it costs one search; the value is **exclusively** in reuse |
+| 10 | A definition-level verifier as an independent checker | Worked flawlessly but **did not reach its own target**. The independence axis was wrong |
 
-**Rakenteellisilla perusteilla hylätyt ideat** (`OPEN_RESEARCH_QUESTIONS.md` D):
-hyperbolinen Parikh-avaruus (menettää additiivisuuden), spektraalikuilu
-morfismin *oikeellisuuden* ennustajana (insidenssimatriisi kadottaa
-järjestyksen), QBF ennen äärellistä kriteeriä (käännös **on** se vaikea osa),
-"murtolukuresonanssi" Dejeanille (todistettu), SAT-backbone ternäärihaulle
-(tyhjä S₃-symmetrian nojalla), SWAR-bittipakkaus JS:ssä (32-bittiset
-operaattorit; pullonkaula ei ole siellä), sekä holografia, Navier–Stokes,
-Gödel-itseviittaus, SETI ja kvanttilomittuminen (ei koodattavaa ydintä).
+**Ideas rejected on structural grounds** (`OPEN_RESEARCH_QUESTIONS.md` D):
+hyperbolic Parikh space (loses additivity), spectral gap as a predictor of
+morphism *correctness* (the incidence matrix loses letter order), QBF
+before a finite criterion (the translation itself **is** the hard content),
+"fractional resonance" for Dejean (already proven), SAT backbone for
+ternary search (empty by S₃ symmetry), SWAR bit-packing in JS (32-bit
+operators; the bottleneck is not there), and holography, Navier–Stokes,
+Gödel self-reference, SETI, and quantum entanglement (no codable core).
 
-**Muotoilut jotka mittaavat toteutusta eivätkä matematiikkaa**
-(`OPEN_RESEARCH_QUESTIONS.md` C): hakupuun geometria, faasimuutos haussa,
-selviytymisfunktio, entropia syvyydellä, "search ecology", sanojen "DNA".
-Nämä eivät ole kiellettyjä mitattavia — niiden **tuloksia ei saa esittää
-kielen ominaisuuksina**.
+**Formulations that measure the implementation, not the mathematics**
+(`OPEN_RESEARCH_QUESTIONS.md` C): search-tree geometry, phase transitions in
+search, a survival function, entropy at depth, "search ecology", words'
+"DNA". These are not forbidden as measurements — their **results must not
+be presented as properties of the language**.
 
 ---
 
-## 5. Peruutetut väitteet — mitä on väitetty ja vedetty pois
+## 5. Retracted claims — what has been claimed and withdrawn
 
-Peruttua riviä ei poisteta, jottei sitä lisätä uudelleen.
+A retracted row is never deleted, so it does not get added again.
 
-| Mitä väitettiin | Miksi peruttu | Rivi |
+| What was claimed | Why retracted | Row |
 |---|---|---|
-| h₆ on johdettu Hall–Janko-ryhmästä | Ei löytynyt mitään tukea | 8 |
-| Gavrilenkon toteutusta koskeva väite | — | 14 |
-| `seam-hpc-cli --mode=p6` auditoi konstruktion | Se ei ladannut `morphisms.js`:ää lainkaan ja tulosti kovakoodatun nollan | 26 |
-| SIAM-julkaisuviite konstruktion lähdepaperille | **Peruutus kumottu 2026-07-30:** viite on oikea, korroboroitu riippumattomasta lähdeluettelosta (rivi 58). Peruste oli "ei jäljitetty", ei "väärä" — siksi se oli korjattavissa | 23 |
-| Alkuperäinen yhdistetty muotoilu, jossa 34 neliötä ja Theorem 9 olivat samassa väitteessä | Kaksi eri väitettä ja kaksi eri lähdettä yhdessä; korvattu muodoilla 6a ja 6b | 6c |
-| Theorem 6 ensimmäisellä yrityksellä | Ei ollut verifioitu; **johdettu myöhemmin uudelleen kunnolla riville 46** | 43 |
+| h₆ is derived from the Hall–Janko group | No support was found | 8 |
+| A claim about Gavrilenko's implementation | — | 14 |
+| `seam-hpc-cli --mode=p6` audits the construction | It never loaded `morphisms.js` at all and printed a hardcoded zero | 26 |
+| A SIAM publication reference for the construction's source paper | **Retraction reversed 2026-07-30:** the reference is correct, corroborated from an independent bibliography (row 58). The reason was "untraced", not "wrong" — which is why it was fixable | 23 |
+| The original combined formulation, where the 34 squares and Theorem 9 were in the same claim | Two different claims and two different sources combined; replaced by forms 6a and 6b | 6c |
+| Theorem 6 on the first attempt | Was not verified; **properly re-derived later at row 46** | 43 |
 
 ---
 
-## 6. Auki
+## 6. Open
 
-**Kirjallisuuden avoimet ongelmat** (`OPEN_RESEARCH_QUESTIONS.md` A):
-Mäkelän konjektuuri K = 2…5 (A1, rivi 4), abelin toistokynnys osittain (A2),
-Keräsen epäsuotuisat tekijät yksisuuntaisella jatkettavuudella (A4, rivi 38),
-**additiiviset neliöt ℤ:ssa (A6, rivi 53)**.
+**Open problems from the literature** (`OPEN_RESEARCH_QUESTIONS.md` A):
+Mäkelä's conjecture K = 2…5 (A1, row 4), the abelian repetition threshold,
+partially (A2), Keränen's unfavourable factors with one-sided
+extendability (A4, row 38), **additive squares over ℤ (A6, row 53)**.
 
-**Projektin omat laskettavat kysymykset** (osio B): FORBID4:n minimaalisuus
-(B1), kasvunopeuden kuilu (B2), välttämättömät joukot (B3), Rauzy-rakenne
-(B4), reitin (c) seuraava kerros (B5), säiliön jatkot (B6), säiliön
-välttämättömät tekijät (B7), taajuusmonikulmio (B8), **tasapainoisten
-aakkostojen dikotomia (B9)**.
+**The project's own computable questions** (section B): minimality of
+FORBID4 (B1), the growth-rate gap (B2), unavoidable sets (B3), Rauzy
+structure (B4), route (c)'s next layer (B5), container extensions (B6),
+the container's unavoidable factors (B7), the frequency polygon (B8),
+**the dichotomy of balanced alphabets (B9)**.
 
 ---
 
-## 7. Ei saa käyttää — jäljittämätön
+## 7. Must not be used — untraced
 
-Näitä ei ole avattu primäärilähteestä. **Älä siteeraa, älä rakenna varaan,
-älä kirjaa A-osioon** ennen jäljitystä.
+These have not been opened from a primary source. **Do not cite, do not
+build on them, do not enter them in section A** before tracing.
 
-| Väite | Missä |
+| Claim | Where |
 |---|---|
-| "5 ≤ g(2) ≤ 734" Rosenfeldin väitöskirjan Problem 4.9:nä | A5 |
-| Walnutin kattavuus abelin ominaisuuksille | E4 |
-| Freedman-attribuutio: 4 kirjainta, a+d = b+c, raja ≤ 60. **Haettu perusteellisesti 2026-07-30: nimeä ei esiinny katsauksessa lainkaan. Pysyy käyttökiellossa** | rivit 53, 58 |
-| 2025 variaatiopaperi additiivisista neliöistä (arXiv:2506.21200) | rivi 53 |
-| Lietard & Rosenfeld, *Avoidability of additive cubes over alphabets of four numbers* (DLT 2020) — **lähin naapuri riville 54, avaamatta** | rivi 58 |
+| "5 ≤ g(2) ≤ 734" as Rosenfeld's thesis Problem 4.9 | A5 |
+| Walnut's coverage of abelian properties | E4 |
+| Freedman attribution: 4 letters, a+d = b+c, bound ≤ 60. **Searched thoroughly 2026-07-30: the name does not appear in the survey at all. Stays banned** | rows 53, 58 |
+| A 2025 variation paper on additive squares (arXiv:2506.21200) | row 53 |
+| Lietard & Rosenfeld, *Avoidability of additive cubes over alphabets of four numbers* (DLT 2020) — **the nearest neighbour to row 54, unopened** | row 58 |
 
-**Freedman jäljitettiin 2026-07-30 eikä sitä löytynyt.** Nimi ei esiinny
-Fici & Puzyninan katsauksen tekstissä eikä lähdeluettelossa, eikä lukua 60 ole
-§8.4:ssä. Ainoa jälki on hakukoneen tiiviste ilman tunnistettavaa lähdettä.
-**Se pysyy käyttökiellossa.**
+**Freedman was traced on 2026-07-30 and not found.** The name does not
+appear in Fici & Puzynina's survey's text or bibliography, and the number
+60 is not in §8.4. The only trace is a search-engine summary with no
+identifiable source. **It stays banned.**
 
-Jäljitys tuotti kuitenkin vahvemman rajauksen kuin haettu väite olisi tuottanut
-(rivi 58): **affiiniluokittelu on alan oma kehys**, ja **neljän luvun aakkostojen
-additiiviset kuutiot on jo käsitelty omana paperinaan** (Lietard & Rosenfeld,
-DLT 2020). Rivin 54 uutuus voi siis olla vain neliöiden puolella, eikä sitä saa
-väittää ennen kuin tuo paperi on avattu. **Se on nyt kriittisen polun kärki.**
+The tracing did, however, produce a stronger delimitation than the sought
+claim would have (row 58): **affine classification is the field's own
+framework**, and **additive cubes over four-number alphabets have already
+been treated in their own paper** (Lietard & Rosenfeld, DLT 2020). Row 54's
+novelty can therefore only be on the squares side, and this must not be
+claimed until that paper is opened. **It is now the critical path's tip.**
 
 ---
 
-## 8. Työkalut ja niiden mitatut rajat
+## 8. Tools and their measured limits
 
-Sanalab-koneisto on olemassa, ja **kaksi kolmesta viimeisimmästä työkalusta
-kantaa mitatun rajauksen omalle hyödylleen**. Se on tarkoituksellista
-kirjanpitoa, ei vaatimattomuutta.
+The sanalab machinery exists, and **two of the three most recent tools
+each carry the measured limit of their own usefulness written down**. That
+is deliberate bookkeeping, not modesty.
 
-| Työkalu | Mitä se antaa | Mitattu raja | Rivi |
+| Tool | What it gives | Measured limit | Row |
 |---|---|---|---|
-| Jatkettavuustaulu | terve karsinta, 84–89× hakusolmuissa | rakentaminen maksaa yhden haun; ei auta ennätysjahdissa lainkaan | 55 |
-| Jatkettavat ajot | k ajoa budjetilla B = yksi ajo budjetilla k·B, solmumäärää myöten | — (tämä on se joka ennätyksiä oikeasti auttaa) | 56 |
-| Taulukirjasto | yksi taulu per affiiniluokka, sisarukset ilmaiseksi | **1,03×** demonstraatiossa; säästö = toistuvien luokkien hinta, ei enempää | 57 |
+| Extendability table | sound pruning, 84–89× on search nodes | building it costs one search; does not help the record hunt at all | 55 |
+| Resumable runs | k runs at budget B = one run at budget k·B, down to the node count | — (this is the one that actually helps records) | 56 |
+| Table library | one table per affine class, siblings for free | **1.03×** in the demonstration; the saving is the cost of repeated classes, no more | 57 |
 
-**Tulkinta:** infran rajahyöty on laskeva. Seuraava askel kuuluu matematiikan
-puolelle — ks. osio 7 ja `NEXT_STEP.md`.
+**Interpretation:** the marginal benefit of infrastructure is decreasing.
+The next step belongs on the mathematics side — see section 7 and
+`NEXT_STEP.md`.
