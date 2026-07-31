@@ -15,6 +15,7 @@ tässä eikä dokumentin rungossa. Aja silmäys tästä ennen kuin ehdotat mitä
 
 | Pvm | # | Mikä kaatui | Yhdellä lauseella |
 |---|---|---|---|
+| 2026-07-31 | [§16](#16-keräsen-g85-projektio-kolmelle-kirjaimelle) | $g_{85}$:n 4$\to$3 projektio | Kaikki 36 surjektiota kaatuivat heti pituudella K=2; rakenne ei tiivisty. |
 | 2026-07-31 | [§15](#15-tekoälyn-epistemologia-ja-kehän-kiertäminen) | AI Epistemologia | Tekoäly on äärellisten testien suorittaja, ei matemaattinen orakkeli; vapaat ideat ovat usein vain viallisia analogioita |
 | 2026-07-30 | [§14](#14-kasvukäyrän-muoto-lähestyvän-tyhjentymisen-ennustajana) | Kasvukäyrän muoto tyhjentymisen ennustajana | Kolmen pisteen budjettikäyrä oli kohinaa 20 luokan yli, ei ennustanut mitään |
 | 2026-07-30 | [§13](#13-osittainen-korroboraatio-täytenä-vahvistuksena) | Osittainen korroboraatio täytenä | Neljä täsmäävää kenttää viidestä tuntui vahvistukselta; tarkistamatta jäänyt DOI ei ollut olemassa |
@@ -163,3 +164,13 @@ tässä eikä dokumentin rungossa. Aja silmäys tästä ennen kuin ehdotat mitä
 - Tekoäly on **äärellisten testien armoton suorittaja**.
 - Ideoinnin evaluointimekanismi: Idean on oltava **invariantti muotoilu**, joka on muutettavissa **äärelliseksi laskennaksi**. 
 - Jokaisella uudella idealla on oltava heti alussa eksplisiittinen **Tappoehto (Kill Condition)**. Jos ideaa ei voida koodata ja todistaa vääräksi (kaataa) 5 minuutin koodaus- ja laskenta-ajalla, se ei ole kelvollinen tutkimusidea tälle projektille. Esimerkiksi CEGIS-morfismisynteesi (ORQ osio E8) tai Keräsen $g_{85}$:n 3-kirjaiminen projektio (E7) ovat oikein muotoiltuja tekoäly-tehtäviä, koska ne ovat selkeästi rajattuja ja äärellisesti suoritettavia.
+
+## 16. Keräsen g85-projektio kolmelle kirjaimelle
+*Kirjattu 2026-07-31. Ks. `OPEN_RESEARCH_QUESTIONS.md` E7, `scratch/g85_projection_test.js`*
+
+**Hypoteesi:** Keräsen $g_{85}$:n kiintopiste on 4-kirjaimisella aakkostolla täysin abelin-neliötön. Koska Mäkelän konjektuuri 3-kirjaimisella aakkostolla *sallii* triviaalit neliöt (eli abelin neliöt jaksolla K=1), voisi olla mahdollista, että projisoimalla $g_{85}$ kolmelle kirjaimelle (yhdistämällä kaksi kirjainta), syntyvät abelin neliöt olisivat vain noita sallittuja K=1 neliöitä, ja K $\ge$ 2 -neliöt vältettäisiin.
+
+**Miksi se ammuttiin alas:**
+- Kaikki 36 mahdollista surjektiota 4-kirjaimisesta aakkostosta 3-kirjaimiseen generoitiin ja testattiin $g_{85}$:n toiseen iteraatioon (pituus 7225) asti.
+- **Tappoehto täyttyi välittömästi:** Yksikään 36 surjektiosta ei selvinnyt. Jokaisessa projektiossa syntyi abelin neliö jaksolla **K = 2** välittömästi sanan alussa (positiot 0, 1, 2, 4, 9 tai 27 riippuen surjektiosta).
+- **Johtopäätös:** $g_{85}$:n abelin neliöttömyys nojaa fundamentaalisti sen kykyyn hyödyntää kaikkia neljää vapausastetta ristiin. Rakenne ei ole "puristettavissa" kolmeen ulottuvuuteen niin, että tasapaino säilyisi edes lyhyissä (K=2) ikkunoissa. Yritys löytää 3-kirjaiminen ratkaisu supistamalla 4-kirjaiminen ratkaisu on todistettu umpikuja.

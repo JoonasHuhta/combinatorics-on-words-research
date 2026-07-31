@@ -326,11 +326,10 @@ Kaikki Level 1 -rivit nojaavat samaan JS-koodipohjaan. Halvin tapa nostaa koko l
 
 Johtolanka jäljitettiin ja se osoittautui vahvemmaksi kuin muistikuva: additiivisten neliöiden avoimuus ℤ:ssa, kuutioiden ratkaisu {0,1,3,4}:llä JA se että **projektin oma ydinlähde arXiv:1511.05875 on juuri tämän ongelman ℤ²-ratkaisu** — sitaatit ja päiväykset osiossa **A6** ja `MATH_CLAIMS.md` rivillä 53. Additiivinen instanssi ei siis ole naapuriongelma vaan paluu sen paperin emo-ongelmaan, josta projektin templaattikoneisto tulee. Tekninen peruste ennallaan: additiivinen ekvivalenssi on Parikh-vektorin lineaarinen funktionaali, joten säiliökoneisto (rajattu K → äärellinen ikkuna → de Bruijn → SCC → taajuusrajat) siirtyy sellaisenaan. Ks. `SANALAB_PLAN.md`.
 
-### E7. Keräsen g85^ω → 3-kirjaiminen projektio (36 surjektiota) (RESEARCH_ARCHITECT-ajo 2026-07-31)
+### E7. Keräsen g85^ω → 3-kirjaiminen projektio — SUORITETTU 2026-07-31 $\to$ Umpikuja (NEGATIVE_RESULTS §16)
 
 **Tausta:** Keräsen g85:n kiintopiste (1992) on täysin abelin-neliötön 4 kirjaimella (ei edes pituuden 1 neliöitä). Mäkelän konjektuuri koskee 3 kirjainta ja *sallii* triviaalit neliöt (00, 11, 22). Tätä 4→3 -projektiota (yhdistää kaksi kirjainta) ei ole kokeiltu kirjallisuudessa eikä projektissa.
-**Miksi kannattaa:** Ylivoimaisesti halvin ja potentiaalisesti arvokkain reitti. Se voisi ratkaista Mäkelän konjektuurin 5 minuutin laskennalla (36 surjektiota), tuottaen "ilmaisia" 1-pituisia neliöitä, jotka ovat sallittuja. 
-**Tappoehto:** Kaikki 36 surjektiota kaatuvat jaksoon 2–5. Vaikka kaatuisi, saamme tarkan diagnostiikan siitä, missä positiossa Keräsen rakenne hajoaa 3-kirjaimisessa projektiossa.
+**Tulos:** Kaikki 36 surjektiota testattiin ja ne kaatuivat välittömästi abelin neliöön jaksolla $K=2$. Rakenne ei tiivisty. Siirretty hautuumaalle (ks. `NEGATIVE_RESULTS.md` §16).
 
 ### E8. CEGIS-synteesi ternäärisille kiintopisteille (RESEARCH_ARCHITECT-ajo 2026-07-31)
 
