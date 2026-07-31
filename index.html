@@ -2734,6 +2734,17 @@ function addLog(html) {
 function renderTiles(word, containerId, highlights = {}) {
   const container = $(containerId);
   container.innerHTML = '';
+  
+  if (containerId === 'tiles-general' && mode === '4letter') {
+    const rowWidth = parseInt($('wrap-width-input').value) || 85;
+    container.style.display = 'grid';
+    container.style.gridTemplateColumns = `repeat(${rowWidth}, 14px)`;
+    container.style.gap = '3px';
+    container.style.justifyContent = 'start';
+  } else {
+    container.style.display = 'flex';
+  }
+
   word.forEach((ch, i) => {
     const tile = document.createElement('div'); tile.className = `tile ${ch}`;
     if (highlights.sq1Start != null && i >= highlights.sq1Start && i < highlights.sq1Start + highlights.halfLen) tile.classList.add('square-half-1');
@@ -3793,6 +3804,11 @@ $('btn-pause').addEventListener('click', () => {
 });
 $('btn-reset').addEventListener('click', () => { fourLetterWord = ['a']; fourLetterIteration = 0; switchMode(mode); });
 $('btn-apply-morphism').addEventListener('click', applyMorphism);
+$('wrap-width-input').addEventListener('input', () => {
+  if (mode === '4letter' && fourLetterWord.length <= 8000) {
+    renderTiles(fourLetterWord, 'tiles-general');
+  }
+});
 $('btn-draw-canvas').addEventListener('click', drawCanvas2DWalk);
 $('btn-run-abc').addEventListener('click', renderAbcLab);
 $('abc-survivors').addEventListener('click', handleAbcClick);
