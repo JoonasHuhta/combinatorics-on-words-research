@@ -165,18 +165,61 @@ function enumerateImages(L) {
 }
 
 /**
+ * A block is "clean" if it contains no abelian square of half-length K in
+ * [klo, khi] entirely within itself (checked in isolation, not in context).
+ * LOSSLESS PRUNING, not a heuristic: every letter in the six-letter alphabet
+ * occurs at least once in x (firstOccurrenceOrder already requires this), so
+ * an internal violation inside a block reappears verbatim as an actual
+ * violation the first time that block is emitted - no candidate g using an
+ * unclean block for any letter can ever be a survivor. Restricting the
+ * per-letter search domain to clean blocks therefore cannot remove a true
+ * survivor; it only skips blocks doomed at their very first occurrence,
+ * which the unrestricted DFS would have pruned anyway (same technique
+ * `h6-additive-image-sweep.js` uses for the additive analogue, row 77).
+ */
+function isCleanBlock(img, klo, khi) {
+  const L = img.length;
+  const pa = new Int32Array(L + 1), pb = new Int32Array(L + 1), pc = new Int32Array(L + 1);
+  for (let i = 0; i < L; i++) {
+    pa[i + 1] = pa[i] + (img[i] === 0 ? 1 : 0);
+    pb[i + 1] = pb[i] + (img[i] === 1 ? 1 : 0);
+    pc[i + 1] = pc[i] + (img[i] === 2 ? 1 : 0);
+  }
+  for (let p = 1; p <= L; p++) {
+    for (let K = klo; K <= khi; K++) {
+      if (p < 2 * K) break;
+      const da = (pa[p - K] - pa[p - 2 * K]) - (pa[p] - pa[p - K]);
+      if (da !== 0) continue;
+      const db = (pb[p - K] - pb[p - 2 * K]) - (pb[p] - pb[p - K]);
+      if (db !== 0) continue;
+      const dc = (pc[p - K] - pc[p - 2 * K]) - (pc[p] - pc[p - K]);
+      if (dc === 0) return false;
+    }
+  }
+  return true;
+}
+
+/**
  * Exhaustive DFS over uniform maps g with |g| = L, testing images of x.
+ * `clean` (default false, preserving the module's original behaviour exactly)
+ * restricts the per-letter domain to blocks that are individually free of
+ * K in [KLO,KHI] violations (see isCleanBlock) before the DFS runs. This
+ * shrinks the per-letter branching factor - e.g. at L=10 from 3^10=59,049 to
+ * 5,850 - without changing which candidates can survive (see isCleanBlock's
+ * docstring), which is what makes L >= 6 reachable at all.
  * Returns { candidatesCompleted, pruneEvents, survivors, maxViolationPos,
  *           bestImages, symbolsAppended, aborted }.
  */
-function sweepDFS(x, L, { canonical = true, budget = 5e8 } = {}) {
+function sweepDFS(x, L, { canonical = true, budget = 5e8, clean = false } = {}) {
   const { order, first } = firstOccurrenceOrder(x);
   // limits[m] = length of the x-prefix scannable after assigning order[0..m]
   const limits = new Array(6);
   for (let m = 0; m < 5; m++) limits[m] = first[order[m + 1]];
   limits[5] = x.length;
 
-  const allImages = enumerateImages(L);
+  const allImages = clean
+    ? enumerateImages(L).filter(img => isCleanBlock(img, KLO, KHI))
+    : enumerateImages(L);
   const maxImageLen = x.length * L;
   const pa = new Int32Array(maxImageLen + 1);
   const pb = new Int32Array(maxImageLen + 1);
@@ -365,6 +408,34 @@ function crossCheckL1(depth) {
   return { classes: canonDeath.size, fullSurvivors, dfsSurvivors, maxViolationPos: fullMax };
 }
 
+/**
+ * Cross-check that clean-domain restriction is lossless: for each L in
+ * `Ls` (must be small enough for the raw, unfiltered DFS to finish), run
+ * sweepDFS with clean:false and clean:true and require IDENTICAL survivor
+ * sets (as sorted image tuples) and identical maxViolationPos. L=3,4,5
+ * additionally have independently published ground truth in MATH_CLAIMS.md
+ * row 49 (35 / 685 / 7,019 canonical survivors) to compare against.
+ */
+function crossCheckCleanDomain(depth, Ls) {
+  const x = h6Prefix(depth);
+  const out = [];
+  for (const L of Ls) {
+    const raw = sweepDFS(x, L, { canonical: true, clean: false });
+    const cln = sweepDFS(x, L, { canonical: true, clean: true });
+    if (raw.aborted || cln.aborted) throw new Error(`crossCheckCleanDomain: L=${L} run aborted on budget`);
+    const rawKeys = raw.survivors.map(s => s.join(',')).sort();
+    const clnKeys = cln.survivors.map(s => s.join(',')).sort();
+    if (rawKeys.length !== clnKeys.length || rawKeys.some((k, i) => k !== clnKeys[i])) {
+      throw new Error(`crossCheckCleanDomain: L=${L} survivor sets differ (raw ${rawKeys.length}, clean ${clnKeys.length})`);
+    }
+    if (raw.maxViolationPos !== cln.maxViolationPos) {
+      throw new Error(`crossCheckCleanDomain: L=${L} maxViolationPos differs (raw ${raw.maxViolationPos}, clean ${cln.maxViolationPos})`);
+    }
+    out.push({ L, survivors: rawKeys.length, maxViolationPos: raw.maxViolationPos });
+  }
+  return out;
+}
+
 // ---------------------------------------------------------------------------
 // Survivor escalation
 // ---------------------------------------------------------------------------
@@ -384,12 +455,13 @@ function escalateSurvivor(imagesStr, depth) {
 
 function main() {
   const args = process.argv.slice(2);
-  const opt = { depth: 7, Ls: [1, 2], budget: 5e8, canonical: true };
+  const opt = { depth: 7, Ls: [1, 2], budget: 5e8, canonical: true, clean: false };
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--depth') opt.depth = parseInt(args[++i], 10);
     else if (args[i] === '--L') opt.Ls = args[++i].split(',').map(Number);
     else if (args[i] === '--budget') opt.budget = Number(args[++i]);
     else if (args[i] === '--nosym') opt.canonical = false;
+    else if (args[i] === '--clean') opt.clean = true;
   }
 
   console.log('=== h6-image-sweep: route (c), uniform images of h6^omega(a) ===\n');
@@ -409,9 +481,10 @@ function main() {
 
   for (const L of opt.Ls) {
     const t0 = Date.now();
-    const r = sweepDFS(x, L, { canonical: opt.canonical, budget: opt.budget });
+    const r = sweepDFS(x, L, { canonical: opt.canonical, budget: opt.budget, clean: opt.clean });
     const dt = ((Date.now() - t0) / 1000).toFixed(1);
-    const cov = opt.canonical ? 'canonical representatives (all 3^' + (6 * L) + ' maps up to S3 relabelling)' : 'all maps, no symmetry reduction';
+    const cov = (opt.canonical ? 'canonical representatives (all 3^' + (6 * L) + ' maps up to S3 relabelling)' : 'all maps, no symmetry reduction') +
+      (opt.clean ? ', per-letter domain restricted to K in [2,5]-clean blocks (lossless, see isCleanBlock)' : '');
     console.log(`--- L = ${L} (${cov}) ---`);
     if (r.aborted) {
       console.log(`    INCOMPLETE: budget of ${opt.budget} appended symbols exhausted after ${dt}s.`);
@@ -443,4 +516,7 @@ if (require.main === module) {
   main();
 }
 
-module.exports = { h6Prefix, firstOccurrenceOrder, directScan, canonicalize, sweepDFS, runControls, crossCheckL1, KLO, KHI };
+module.exports = {
+  h6Prefix, firstOccurrenceOrder, directScan, canonicalize, sweepDFS, runControls, crossCheckL1,
+  isCleanBlock, crossCheckCleanDomain, KLO, KHI
+};

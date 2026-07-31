@@ -121,7 +121,7 @@ Tekijäkompleksisuuden p(n) erotukset p(n+1) − p(n) laskevat **oikealle erikoi
 
 `MATH_CLAIMS.md` rivi 49: uniformeilla kuvauksilla g: Σ₆ → Σ₃^L, L ≤ 5, [2,5]-välttäjiä on olemassa (35 / 685 / 7 019 luokkaa L = 3/4/5) mutta **jokainen niistä rikkoo K ∈ [6,100] viimeistään symbolissa 44** — ja kääntäen g₃ (L=10) välttää kaikki K ≥ 6 mutta osuu 34 neliöön pienillä. Kysymykset, jotka ovat äärellisiä ja invariantteja:
 
-1. **Pienin L jolla jokin luokka selviää molemmista ikkunoista.** L = 6 on 3³⁶ kuvausta — ei enää naiivisti enumeroitavissa, mutta karsiva DFS voi silti kattaa sen (L=5 vaati 14,9 mrd symbolia; mittaa ennen kuin lupaat).
+1. **Pienin L jolla jokin luokka selviää molemmista ikkunoista.** ~~L = 6 on 3³⁶ kuvausta — ei enää naiivisti enumeroitavissa~~ **vanhentunut 2026-07-31 (rivi 78):** [2,5]-ikkunan paikallisuus (K ≤ 5 mahtuu 10 symboliin) tekee ongelmasta äärellisen CSP:n, ei 3^(6L)-hakua, ja L=6 on nyt tyhjentävästi ratkaistu tällä muotoilulla: **200 106 kanonista luokkaa** välttää K ∈ [2,5]. **Kohta 1 on yhä auki** kokonaisuudessaan: yhtään näistä ei ole eskaloitu K ≥ 6:een asti — vain yksi satunnaisotos testattiin ja se kuoli varhain (rivi 78:n huomiot). Sama CSP-muotoilu kattaa L ≤ 12 (rajoitteiden ariteetti B(L) putoaa kahteen L ≥ 9:llä), joten seuraava askel on eskalointi koko L=6-joukolle, ei suurempi L.
 2. **Miksi [2,5]-välttäminen pakottaa g(a)=g(b):n L=3:lla (35/35) mutta ei enää L=4:llä (601/685)?** h₆:n kuvissa a→ace ja b→adf jakavat alkukirjaimen; onko selitys tässä vai muualla — laskettavissa tarkastelemalla missä kohdin rikkomukset syntyvät.
 3. **Epäuniformi kerros:** pienin kokonaiskuvapituus |g(a)|+…+|g(f)| jolla molemmat ikkunat selviävät.
 
