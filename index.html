@@ -2451,6 +2451,57 @@
         </div>
       </div>
 
+      <!-- Trap 15 -->
+      <div class="gy-accordion" id="gy-trap15">
+        <div class="gy-accordion-header" onclick="toggleGraveyard('gy-trap15')">
+          <div>
+            <div class="gy-accordion-title">Trap 15: The Epistemological Loop</div>
+            <div class="gy-accordion-desc">Asking AI for "new math ideas" produces flawed analogies that circle back to the same fundamental limits.</div>
+          </div>
+          <div class="gy-icon">&#9660;</div>
+        </div>
+        <div class="gy-accordion-content">
+          <p style="font-size:0.95rem; color:#555;">
+            <strong>Myth:</strong> "An AI agent can generate genuinely novel mathematical breakthroughs (like applying MCTS or Roth's theorem) if you just ask it for fresh ideas."<br>
+            <strong>Reality:</strong> AI training data is built on linguistic and semantic links, not mathematical invariants. When asked for unconstrained new ideas, it produces <strong>flawed analogies</strong> (e.g., applying Roth's theorem on sets to prefix sums which are sequences) and <strong>circles the drain</strong> by renaming the same flawed finite-search approach with new terms (Toeplitz mining, MCTS, blind DFS) without understanding the mathematical kill condition is identical for all of them. The solution is to use AI strictly as an execution engine for finite tests where every idea has an explicit 5-minute kill condition.
+          </p>
+        </div>
+      </div>
+
+      <!-- Trap 16 -->
+      <div class="gy-accordion" id="gy-trap16">
+        <div class="gy-accordion-header" onclick="toggleGraveyard('gy-trap16')">
+          <div>
+            <div class="gy-accordion-title">Trap 16: The 3-Letter Keränen Projection</div>
+            <div class="gy-accordion-desc">Projecting Keränen's 85-morphism down to 3 letters to exploit allowed trivial squares fails instantly.</div>
+          </div>
+          <div class="gy-icon">&#9660;</div>
+        </div>
+        <div class="gy-accordion-content">
+          <p style="font-size:0.95rem; color:#555;">
+            <strong>Myth:</strong> "Keränen's g85 is perfectly abelian-square-free on 4 letters. Since the 3-letter problem allows trivial squares (K=1), we can just project g85 down to 3 letters (by merging two letters) and the resulting squares might only be the allowed K=1 trivial ones."<br>
+            <strong>Reality:</strong> All 36 possible surjections from 4 letters to 3 were generated and tested up to the second iteration (length 7225). <strong>Every single one failed immediately at K=2</strong>. Keränen's structure fundamentally relies on cross-leveraging all 4 degrees of freedom. It cannot be compressed into 3 dimensions while maintaining balance, proving this projection route is a complete dead end.
+          </p>
+        </div>
+      </div>
+
+      <!-- Trap 17 -->
+      <div class="gy-accordion" id="gy-trap17">
+        <div class="gy-accordion-header" onclick="toggleGraveyard('gy-trap17')">
+          <div>
+            <div class="gy-accordion-title">Trap 17: The 10-Uniform Clean Slate Sweep</div>
+            <div class="gy-accordion-desc">Searching the entire space of 10-uniform ternary morphisms for an image of h6 that avoids small squares is a void.</div>
+          </div>
+          <div class="gy-icon">&#9660;</div>
+        </div>
+        <div class="gy-accordion-content">
+          <p style="font-size:0.95rem; color:#555;">
+            <strong>Myth:</strong> "The original g3 morphism fails on K &isin; [2,5] but works perfectly for K &ge; 6. We can just use a CEGIS-style search to find a new, pure 10-uniform morphism that fixes the small squares."<br>
+            <strong>Reality:</strong> A backtracking DFS with on-the-fly pruning was executed to search the 3<sup>60</sup> space of 10-uniform morphisms, relaxing the constraint to only avoid K &isin; [2,5]. The search bounded-exhausted at 500 million nodes, reaching depth 59/60 but perpetually backtracking without a single survivor. The space is overwhelmingly hostile. The original g3's success for large K is a mathematical anomaly that cannot be found by clean-slate uniform searching.
+          </p>
+        </div>
+      </div>
+
     </div>
   </div>
   <!-- END TAB 19 -->

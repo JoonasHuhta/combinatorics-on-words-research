@@ -174,3 +174,11 @@ tässä eikä dokumentin rungossa. Aja silmäys tästä ennen kuin ehdotat mitä
 - Kaikki 36 mahdollista surjektiota 4-kirjaimisesta aakkostosta 3-kirjaimiseen generoitiin ja testattiin $g_{85}$:n toiseen iteraatioon (pituus 7225) asti.
 - **Tappoehto täyttyi välittömästi:** Yksikään 36 surjektiosta ei selvinnyt. Jokaisessa projektiossa syntyi abelin neliö jaksolla **K = 2** välittömästi sanan alussa (positiot 0, 1, 2, 4, 9 tai 27 riippuen surjektiosta).
 - **Johtopäätös:** $g_{85}$:n abelin neliöttömyys nojaa fundamentaalisti sen kykyyn hyödyntää kaikkia neljää vapausastetta ristiin. Rakenne ei ole "puristettavissa" kolmeen ulottuvuuteen niin, että tasapaino säilyisi edes lyhyissä (K=2) ikkunoissa. Yritys löytää 3-kirjaiminen ratkaisu supistamalla 4-kirjaiminen ratkaisu on todistettu umpikuja.
+
+## 17. 10-merkkisen uniformin kuvauksen (g') puhtaan pöydän haku h6:n kuvalle kaatuu umpikujaan
+*Kirjattu 2026-07-31. Ks. `scratch/cegis_g_synth.js`*
+
+**Idea:** Rakentaa CEGIS-pohjainen merkkikohtainen DFS-haku, joka etsii puhdasta $g': \Sigma_6 \to \Sigma_3^{10}$ kuvausta, joka välttäisi abelin neliöt (edes jaksoilla $K \in [2,5]$, missä alkuperäinen $g_3$ epäonnistuu). Tämä olisi ollut puhdas ratkaisu alkuperäiseen Rao & Rosenfeldin $h_6$-pohjaan.
+**Toteutus:** `cegis_g_synth.js` ajettiin ensin `MAX_K=7` ja sitten löysemmällä ehdolla `MAX_K=5` karsien etuliitteitä lennossa kirjain kirjaimelta ensimmäisen esiintymisen järjestyksessä.
+**Tulos (Tappoehto täyttyi):** Bounded-exhaustion. Haku kävi läpi 500 miljoonaa haaraa ja saavutti rakennesyvyyden 59 / 60 (eli yritti sijoittaa viimeistä kirjainta $f$), mutta päätyi jatkuvasti peruuttamaan kokonaisia kirjaimia ($f$ ja $d$), löytämättä ensimmäistäkään täydellistä 60 merkin määritystä joka selviäisi. 
+**Johtopäätös:** Avaruus $3^{60}$ on näillä ehdoilla (edes $K \in [2,5]$ väistäminen) äärimmäisen vihamielinen. On mahdollista, että *yksikään* 10-uniformi kuvaus ei kykene välttämään pieniä neliöitä $h_6$:n rakenteessa ilman muita kompromisseja. Alkuperäisen $g_3$:n menestys (0 neliötä $K \ge 6$ osalta) on poikkeuksellinen ominaisuus, jota ei löydy systemaattisella "puhtaan pöydän" hakemisella. Haku tulee rajata voimakkaasti kytkettyihin paikallisiin mutaatioihin tai sallia ei-uniformeja kuvauksia.

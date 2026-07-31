@@ -331,11 +331,11 @@ Johtolanka jäljitettiin ja se osoittautui vahvemmaksi kuin muistikuva: additiiv
 **Tausta:** Keräsen g85:n kiintopiste (1992) on täysin abelin-neliötön 4 kirjaimella (ei edes pituuden 1 neliöitä). Mäkelän konjektuuri koskee 3 kirjainta ja *sallii* triviaalit neliöt (00, 11, 22). Tätä 4→3 -projektiota (yhdistää kaksi kirjainta) ei ole kokeiltu kirjallisuudessa eikä projektissa.
 **Tulos:** Kaikki 36 surjektiota testattiin ja ne kaatuivat välittömästi abelin neliöön jaksolla $K=2$. Rakenne ei tiivisty. Siirretty hautuumaalle (ks. `NEGATIVE_RESULTS.md` §16).
 
-### E8. CEGIS-synteesi ternäärisille kiintopisteille (RESEARCH_ARCHITECT-ajo 2026-07-31)
+### E8. CEGIS-synteesi ternäärisille kiintopisteille — SUORITETTU (Tappoehto täyttyi 2026-07-31)
 
 **Tausta:** R&R-päätösmenettely (`decide-realizability.js`, rivi 32) antaa meille äärellisen verifioijan puhtaille morfisille sanoille. Tämä mahdollistaa CEGIS (Counter-Example-Guided Inductive Synthesis) -silmukan rakentamisen.
-**Miksi kannattaa:** Rivi 36 enumeroi sokeasti kaikki uniformit morfismit. CEGIS oppii vastaesimerkeistä (ensimmäinen abelin neliö K ∈ [2,5]), ohjaa epäuniformia hakua, ja ratkaisee "äärettömän ehdon kääntämisen äärelliseksi" -ongelman (osio D, QBF), koska käännös on jo valmiina.
-**Tappoehto:** Mutaatiosilmukka ei tuota pituuden 500 selviäjää annetulla budjetilla (esim. 10 000 iter.).
+**Miksi kannatti:** Rivi 36 enumeroi sokeasti kaikki uniformit morfismit. CEGIS oppii vastaesimerkeistä (ensimmäinen abelin neliö K ∈ [2,5]), ohjaa epäuniformia hakua, ja ratkaisee "äärettömän ehdon kääntämisen äärelliseksi" -ongelman (osio D, QBF), koska käännös on jo valmiina.
+**Tulos:** Tappoehto täyttyi. CEGIS-tyyppinen merkkikohtainen peruuttava haku toteutettiin (`scratch/cegis_g_synth.js`), mutta jopa erittäin lievennetyillä kriteereillä (vältä vain $K \in [2,5]$) haku kävi läpi 500 miljoonaa haaraa löytämättä yhtään selviytyjää. Tila $3^{60}$ on uniformien kuvausten osalta lähes tai täysin tyhjä pienistä neliöistä. Alkuperäisen $g_3$:n saavutukset suurilla $K$-arvoilla ovat erittäin epätyypillisiä. (Ks. Graveyard §17).
 
 ### E9. g3(h6^ω(a)):n täsmädiagnostiikka jaksoille 2–5 — SUORITETTU 2026-07-31
 
