@@ -743,7 +743,7 @@
           <button data-ex="abcbdbcbacbdcdacbdac">Keränen 2010 example</button>
           <button data-ex="abcdacbabdabacdacbcdad">Illustration word</button>
           <button data-ex="abcd">Short start</button>
-          <button data-ex="abca">3-letter unfav.</button>
+          <button data-ex="abcabdcb" title="Proven unfavourable: left side exhausts at depth 1 (MATH_CLAIMS.md row 47)">Proven unfavourable (row 47)</button>
         </div>
         <div id="unf-stats" style="font-family:Arial; font-size:0.9rem; color:#555;"></div>
       </div>
@@ -819,6 +819,7 @@
     <div class="def-box"><strong>What makes a morphism abelian square-free?</strong> A trivial necessary condition is that <strong>each image must itself be abelian square-free</strong>. While many constructed morphisms use uniform lengths and cyclic Parikh vectors to restrict the search space, these are <strong>not</strong> mathematically necessary conditions. Finding a morphism whose infinite iteration avoids all abelian squares requires immense structural constraints &mdash; Ker&auml;nen&rsquo;s achievement was to discover these deep symmetries.</div>
     <div style="margin-bottom:15px;">
       <button class="btn" id="btn-load-g85" style="font-size:0.85rem; padding:4px 8px;">Load g&#8328;&#8325;</button>
+      <button class="btn" id="btn-load-g98" style="font-size:0.85rem; padding:4px 8px;">Load g&#8329;&#8328;</button>
       <button class="btn" id="btn-load-g109" style="font-size:0.85rem; padding:4px 8px;">Load g&#8321;&#8320;&#8329;</button>
       <button class="btn" id="btn-load-clear" style="font-size:0.85rem; padding:4px 8px;">Clear</button>
       <button class="btn" id="btn-run-surgery" style="font-size:0.85rem; padding:4px 8px; background:#8e44ad; color:#fff; border-color:#732d91; font-weight:bold;">🔬 Run Automated Morphism Surgery (g₃' K=5 Eliminator)</button>
@@ -3545,51 +3546,68 @@ function selectTimelineEvent(idx) {
 // =====================================================
 // 8. UNFAVORABLE FACTORS
 // =====================================================
+// Exhaustive, backtracking search for the extension depth, mirroring
+// unfavourable-factors.js's extensionDepth (MATH_CLAIMS.md row 47,
+// OPEN_RESEARCH_QUESTIONS.md A4). A single-path greedy walk with a fixed
+// letter order (the earlier version of this code) systematically
+// UNDERESTIMATES how far a word extends, and calling its failure a
+// "DEAD END" is not proven: a different choice earlier in the same walk
+// may extend arbitrarily further. Only an exhausted search tree (every
+// letter tried at every level, with backtracking) proves a dead end.
 const UNF_ALPHA = ['a','b','c','d'];
-const UNF_MAX_STEPS = 200; // max letters to try per direction
+const UNF_CAP = 200;             // depth cap; reaching it is evidence, not proof (same asymmetry as the Node module)
+const UNF_NODE_BUDGET = 2000000; // defensive cap on search nodes so a pathological seed can't freeze the tab
+
+/**
+ * Largest depth m such that SOME extension of length m on `side` stays in
+ * the language (no abelian square, K >= 1). Returns depth < cap only when
+ * the search tree was exhausted (PROVEN dead end); depth >= cap means the
+ * cap was reached (EVIDENCE of unbounded extension, not proof); budgetHit
+ * means the search gave up before either was established (inconclusive).
+ */
+function unfExtensionDepth(seedArr, side, cap, nodeBudget) {
+  let best = 0;
+  let bestWord = [...seedArr];
+  let nodes = 0;
+  let budgetHit = false;
+
+  function rec(word, depth) {
+    if (depth > best) { best = depth; bestWord = word; }
+    if (best >= cap) return true; // cap reached: stop, this is evidence only
+    for (const c of UNF_ALPHA) {
+      nodes++;
+      if (nodes > nodeBudget) { budgetHit = true; return true; }
+      const next = side === 'right' ? [...word, c] : [c, ...word];
+      const checkArr = side === 'right' ? next : [...next].reverse();
+      if (findSuffixAbelianSquare(checkArr, UNF_ALPHA)) continue; // this branch dies immediately
+      if (rec(next, depth + 1)) return true;
+    }
+    return false; // every letter tried at this level, all dead: tree exhausted here
+  }
+  rec([...seedArr], 0);
+  return { depth: best, word: bestWord, hitCap: best >= cap, budgetHit };
+}
 
 function unfavorableExtend(seed) {
   const seedArr = seed.toLowerCase().split('').filter(c => UNF_ALPHA.includes(c));
   if (seedArr.length === 0) return null;
 
-  // Extend right
-  let rightWord = [...seedArr];
-  let rightAdded = 0;
-  let rightDead = '';
-  while (rightAdded < UNF_MAX_STEPS) {
-    let extended = false;
-    for (const c of UNF_ALPHA) {
-      const candidate = [...rightWord, c];
-      if (!findSuffixAbelianSquare(candidate, UNF_ALPHA)) {
-        rightWord = candidate;
-        rightAdded++;
-        extended = true;
-        break;
-      }
-    }
-    if (!extended) { rightDead = UNF_ALPHA.find(c => true); break; }
-  }
+  const right = unfExtensionDepth(seedArr, 'right', UNF_CAP, UNF_NODE_BUDGET);
+  const left = unfExtensionDepth(seedArr, 'left', UNF_CAP, UNF_NODE_BUDGET);
 
-  // Extend left — reverse the word, use suffix check, reverse back
-  let leftWord = [...seedArr];
-  let leftAdded = 0;
-  while (leftAdded < UNF_MAX_STEPS) {
-    let extended = false;
-    for (const c of UNF_ALPHA) {
-      const candidate = [c, ...leftWord];
-      // Check suffix of reversed candidate (= prefix of candidate reversed)
-      const reversed = [...candidate].reverse();
-      if (!findSuffixAbelianSquare(reversed, UNF_ALPHA)) {
-        leftWord = candidate;
-        leftAdded++;
-        extended = true;
-        break;
-      }
-    }
-    if (!extended) { break; }
-  }
+  return {
+    seedArr,
+    rightWord: right.word, leftWord: left.word,
+    rightAdded: right.depth, leftAdded: left.depth,
+    hitRight: right.hitCap, hitLeft: left.hitCap,
+    budgetRight: right.budgetHit, budgetLeft: left.budgetHit
+  };
+}
 
-  return { seedArr, rightWord, leftWord, rightAdded, leftAdded, hitRight: rightAdded >= UNF_MAX_STEPS, hitLeft: leftAdded >= UNF_MAX_STEPS };
+function unfStatusHtml(added, hit, budget) {
+  if (budget) return `${added} letters added — search budget exhausted, <span style="color:#888">inconclusive</span>`;
+  if (hit) return `${added} letters added (reached cap ${UNF_CAP} — <span style="color:#16a085">evidence of unbounded extension, not proof</span>)`;
+  return `${added} letters added — <span style="color:#e74c3c">PROVEN dead end</span> (search tree exhausted)`;
 }
 
 function renderUnfavorable() {
@@ -3599,27 +3617,27 @@ function renderUnfavorable() {
   const result = unfavorableExtend(seed);
   if (!result) { $('unf-stats').textContent = 'Invalid input.'; return; }
 
-  const { seedArr, rightWord, leftWord, rightAdded, leftAdded, hitRight, hitLeft } = result;
+  const { seedArr, rightWord, leftWord, rightAdded, leftAdded, hitRight, hitLeft, budgetRight, budgetLeft } = result;
 
   // Stats
   $('unf-stats').innerHTML = `
     <strong>Seed:</strong> <code>${seedArr.join('')}</code> (length ${seedArr.length})<br>
-    <strong>Right extension:</strong> ${rightAdded} letters added ${hitRight ? '(reached limit '+UNF_MAX_STEPS+')' : '— <span style="color:#e74c3c">DEAD END</span>'}<br>
-    <strong>Left extension:</strong> ${leftAdded} letters added ${hitLeft ? '(reached limit '+UNF_MAX_STEPS+')' : '— <span style="color:#e74c3c">DEAD END</span>'}
+    <strong>Right extension:</strong> ${unfStatusHtml(rightAdded, hitRight, budgetRight)}<br>
+    <strong>Left extension:</strong> ${unfStatusHtml(leftAdded, hitLeft, budgetLeft)}
   `;
 
   // Bars
-  const maxBar = UNF_MAX_STEPS;
+  const maxBar = UNF_CAP;
   $('unf-bars').innerHTML = `
     <div class="unf-resusn-bar">
       <span class="label">Left ext.</span>
       <div class="unf-bar-fill left-ext" style="width:${Math.round(leftAdded / maxBar * 300)}px">${leftAdded}</div>
-      ${!hitLeft ? '<div class="unf-bar-fill dead" style="width:24px; margin-left:2px;">✗</div>' : ''}
+      ${(!hitLeft && !budgetLeft) ? '<div class="unf-bar-fill dead" style="width:24px; margin-left:2px;">✗</div>' : ''}
     </div>
     <div class="unf-resusn-bar">
       <span class="label">Right ext.</span>
       <div class="unf-bar-fill right-ext" style="width:${Math.round(rightAdded / maxBar * 300)}px">${rightAdded}</div>
-      ${!hitRight ? '<div class="unf-bar-fill dead" style="width:24px; margin-left:2px;">✗</div>' : ''}
+      ${(!hitRight && !budgetRight) ? '<div class="unf-bar-fill dead" style="width:24px; margin-left:2px;">✗</div>' : ''}
     </div>
   `;
 
@@ -3639,7 +3657,9 @@ function renderUnfavorable() {
 
   // add CSS for ch- classes in unf display
   updateStats({ len: leftAdded + seedArr.length + rightAdded });
-  addLog(`Seed "${seedArr.join('')}": left +${leftAdded}, right +${rightAdded} before dead end.`);
+  const rightNote = budgetRight ? 'inconclusive (budget)' : (hitRight ? `reached cap ${UNF_CAP}` : 'PROVEN dead end');
+  const leftNote = budgetLeft ? 'inconclusive (budget)' : (hitLeft ? `reached cap ${UNF_CAP}` : 'PROVEN dead end');
+  addLog(`Seed "${seedArr.join('')}": left +${leftAdded} (${leftNote}), right +${rightAdded} (${rightNote}).`);
 }
 
 // Unf examples
@@ -4118,6 +4138,12 @@ $('btn-load-g85').addEventListener('click', () => {
   $('morph-input-b').value = G85.b;
   $('morph-input-c').value = G85.c;
   $('morph-input-d').value = G85.d;
+});
+$('btn-load-g98').addEventListener('click', () => {
+  $('morph-input-a').value = G98_A;
+  $('morph-input-b').value = cyclicPerm(G98_A);
+  $('morph-input-c').value = cyclicPerm(cyclicPerm(G98_A));
+  $('morph-input-d').value = cyclicPerm(cyclicPerm(cyclicPerm(G98_A)));
 });
 $('btn-load-g109').addEventListener('click', () => {
   $('morph-input-a').value = G109_A;
