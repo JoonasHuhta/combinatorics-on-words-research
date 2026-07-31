@@ -157,6 +157,53 @@ row 73). **That is not the same thing as "k=5 and k=6 are closed."**
 k=7 (~214M candidates, ≥ 15 days at the current rate) is not sensible
 without parallelization or profiling `mainPure`'s ancestor computation.
 
+## THE PLAN — three steps, agreed with the maintainer 2026-08-01
+
+Do these in this order. Everything below this section is older and is
+superseded wherever it conflicts.
+
+**STEP 1. Pin down L\* = min{ L : S_large(L) > 0 }.**
+*Why first:* every route (c) result's interpretation depends on this one
+number, including rows 49, 78 and 79 themselves. Until it is known, we do
+not know whether our own exhaustive negatives measured anything.
+*What is needed:* not a bigger budget — L=4 already ate 50 billion symbols
+without exhausting. A **new pruning idea** is required. The concrete
+candidate: the same locality argument used for the small window works for
+a *bounded* large window too — "avoid K ∈ [6, K_max]" is block-local with
+span **2 + ⌊(2·K_max − 2)/L⌋**. At small K_max (6–8) this turns L=4 from a
+search into a CSP. Untested; measure the constraint count before promising.
+*Kill condition:* if the bounded-K_max CSP does not close L=4 either, stop
+and say so — do not raise the budget a third time.
+
+**STEP 2. Build the positive control (A3, the k-abelian case).**
+*Why second, and why it is now risk management rather than a nicety:* the
+project has produced ~15 exhaustive negatives and **not one case where the
+apparatus is known to find something that exists**. A buggy search fails
+silently in exactly one direction — it produces false negatives, never
+false positives, because a false positive would have to construct an
+object that then fails independent verification. Fici & Puzynina's
+Theorem 65 gives a ternary case with a known positive answer (2-abelian
+squares of period ≥ 2 are avoidable). Run the existing scanners with that
+equivalence relation and require them to find it.
+*Kill condition:* if the apparatus cannot recover the known solution, every
+prior negative is suspect and that becomes the top priority instead.
+*Standing rule proposed with this step:* no new exhaustive-negative claim
+is logged without a positive control at comparable scale, on the same
+footing as `node test.js` before a commit.
+
+**STEP 3. Settle B15's correctness question on paper.**
+*Why third:* it is the only route on the board that aims at a theorem
+rather than another sweep, and it costs hours, not compute. The question:
+rows 30–31's ancestor closure was computed **for the pair (h₆, g₃)**, and
+Proposition 5/6's bounds involve M_g — so it is not established that the
+same 116,578 templates apply to any other coding. Either derive a closure
+valid uniformly over all g with |g(x)| = L, or show the closure is
+g-independent. **If neither holds, B15 is dead and nothing gets built.**
+
+**Not to be done before Step 1:** extending route (c) to larger L, and
+B14's graded threshold question. Both produce results whose interpretation
+is unavailable until L\* is known.
+
 ## NEXT — a recommendation with reasoning (2026-07-31)
 
 The older priority lists below are history; this replaces them.
