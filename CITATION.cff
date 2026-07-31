@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: >-
+  If you use this project's results, code, or claim ledger in your own
+  research, please cite it as below. If you cite a specific figure or claim,
+  please also reference the row it comes from in MATH_CLAIMS.md (e.g. "row
+  75"), so the citation traces to its exact source and verification level.
+title: "Combinatorics on Words — Experimental Mathematics Laboratory"
+type: software
+authors:
+  - family-names: Huhta
+    given-names: Joonas
+url: "https://github.com/JoonasHuhta/combinatorics-on-words-research"
+repository-code: "https://github.com/JoonasHuhta/combinatorics-on-words-research"
+license: MIT
+keywords:
+  - combinatorics on words
+  - abelian squares
+  - additive squares
+  - Makela's conjecture
+  - experimental mathematics

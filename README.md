@@ -114,3 +114,10 @@ or server needed.
 The literature in `papers/` and the record words in `datasets/` belong to their
 authors and are not redistributed from this repository. Every cited work is
 recorded in `MATH_CLAIMS.md` with a DOI or arXiv identifier.
+
+This project's own code and documentation are MIT licensed — see `LICENSE`.
+**If you use a result, figure, or claim from this project in your own work,
+please cite it** (see `CITATION.cff`, or GitHub's "Cite this repository"
+button) and, where possible, reference the specific `MATH_CLAIMS.md` row it
+comes from, so the citation traces to its exact source and verification
+level rather than to the project in general.
