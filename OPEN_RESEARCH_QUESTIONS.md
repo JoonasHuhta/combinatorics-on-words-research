@@ -337,11 +337,11 @@ Johtolanka jäljitettiin ja se osoittautui vahvemmaksi kuin muistikuva: additiiv
 **Miksi kannattaa:** Rivi 36 enumeroi sokeasti kaikki uniformit morfismit. CEGIS oppii vastaesimerkeistä (ensimmäinen abelin neliö K ∈ [2,5]), ohjaa epäuniformia hakua, ja ratkaisee "äärettömän ehdon kääntämisen äärelliseksi" -ongelman (osio D, QBF), koska käännös on jo valmiina.
 **Tappoehto:** Mutaatiosilmukka ei tuota pituuden 500 selviäjää annetulla budjetilla (esim. 10 000 iter.).
 
-### E9. g3(h6^ω(a)):n täsmädiagnostiikka jaksoille 2–5 (RESEARCH_ARCHITECT-ajo 2026-07-31)
+### E9. g3(h6^ω(a)):n täsmädiagnostiikka jaksoille 2–5 — SUORITETTU 2026-07-31
 
-**Tausta:** Tiedämme, että g3(h6^ω(a)) rikkoo Mäkelän ehdon "34 neliöllä" (rivi 6b), mutta niiden jakautumista tai rakennetta ei ole analysoitu.
-**Miksi kannattaa:** Kertoo täsmälleen, mitä ominaisuutta g3:lta puuttuu (esim. "kaikki rikkomukset ovat jaksolla 2 ja klusteroituvat h6-lohkorajoille"). Tämä antaa täsmällisen korjaustavoitteen ja ohjaa koko reitin (c) (B5) variointia.
-**Tappoehto:** Rikkomukset ovat satunnaisia ja tasaisesti jakautuneita, jolloin g3 on "kokonaan väärä" jaksoilla 2-5, eikä sen pikkusäätöön kannata tuhlata aikaa.
+**Tausta:** Tiedetään että sanassa g3(h6^ω(a)) on tarkalleen 34 abelin neliötä (MATH_CLAIMS, rivit 6b ja 20). Niiden positioita tai rakennetta ei ole kartoitettu.
+**Tulos:** Kartoitus tehty (ks. `walkthrough.md`). Neliöt eivät ole satunnaisia, vaan ne klusteroituvat voimakkaasti $h_6$:n siirtymäsaumoihin, erityisesti `c` $\to$ `e` ja `b` $\to$ `d`. Esimerkiksi $g_3(c)$ loppuu `bc` ja $g_3(e)$ alkaa `bbbbb`, mikä luo valtavan K=2..5 neliöitä generoivan "altaan".
+**Johtopäätös:** $g_3$:a ei kannata yrittää korjata satunnaismutaatioilla. CEGIS-haku (E8) tulisi kohdistaa suoraan säilyttämään K $\ge$ 6 -ominaisuudet, mutta asettamaan tiukat reunaehdot 10-merkkisten lohkojen saumakohdille.
 
 ### E10. Viiden ennätyssanan vertailudiagnostiikka (RESEARCH_ARCHITECT-ajo 2026-07-31)
 
