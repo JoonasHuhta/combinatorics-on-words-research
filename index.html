@@ -537,7 +537,7 @@
     <button class="btn hidden" id="btn-apply-morphism">Apply g&#8328;&#8325; Iteration</button>
     <button class="btn hidden" id="btn-draw-canvas">Draw 2D Walk</button>
     <label class="hidden" id="lbl-wrap-width" style="font-family: Arial; font-size: 0.9rem; gap: 5px; cursor: pointer; margin-left: 10px; align-items: center;">
-      Row width: <input type="number" id="wrap-width-input" min="43" max="86" value="85" style="width: 50px;">
+      Row width: <input type="number" id="wrap-width-input" min="40" max="100" value="85" style="width: 50px;">
     </label>
     <label class="hidden" id="lbl-canvas-anim" style="font-family: Arial; font-size: 0.9rem; gap: 5px; cursor: pointer; margin-left: 10px;">
       <input type="checkbox" id="chk-anim-walk" checked> Animate Walk
@@ -614,7 +614,7 @@
   <!-- ================================================
        3+4. 4-Letter / Canvas Views (shared panel)
        ================================================ -->
-  <div class="view-panel hidden" id="view-general">
+  <div class="view-panel hidden" id="view-general" style="width: max-content; min-width: 100%; box-sizing: border-box;">
     <div class="word-empty hidden" id="word-empty">Press a button to start.</div>
     <div class="word-tiles hidden" id="tiles-general"></div>
     <canvas id="condensedCanvas" class="hidden"></canvas>
