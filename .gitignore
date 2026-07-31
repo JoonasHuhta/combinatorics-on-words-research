@@ -4,13 +4,23 @@
 datasets/keranen_*.txt
 keranen_*.txt
 
-# Copyrighted papers. Cited in MATH_CLAIMS.md, never redistributed.
-papers/*.pdf
+# Copyrighted/third-party materials. Cited in MATH_CLAIMS.md by identifier,
+# never redistributed. Whole folder ignored (2026-07-31, after history rewrite
+# purged 4 previously tracked non-PDF files that slipped past the old
+# papers/*.pdf-only rule).
+papers/
 latest/*.pdf
 *.pdf
 
 # Personal research notes and correspondence, not for redistribution.
 teoria/
+
+# Mirrored copy of a third party's (Veikko Keranen) personal homepage.
+# Not this project's content; never redistribute.
+nettisivu/
+
+# Personal correspondence, not for redistribution.
+whatsapp_transcript.txt
 
 # Local cache of extension-depth tables (table-library.js). Regenerable by
 # construction and large; every record carries its own checksum and provenance,
