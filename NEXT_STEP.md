@@ -8,8 +8,48 @@
 # HANDOFF TO THE NEXT SESSION
 
 **Repository state:** tests **41/41**, drift checks **15/15**.
-Claims ledger **80 rows**. Working tree clean. No critical open thread.
+Claims ledger **82 rows**. Working tree clean. No critical open thread.
 `origin/main` up to date.
+
+## READ THIS FIRST — route (c)'s interpretation changed on 2026-08-01 (row 79)
+
+Route (c) has always been run in one direction: find codings avoiding
+K ∈ [2,5], then test whether any also avoids K ≥ 6. The **complementary**
+question — how many codings avoid the large periods *at all*, ignoring the
+small window — was never asked until now. Measured exhaustively:
+**S_large(1) = S_large(2) = S_large(3) = 0.**
+
+**Consequence:** at L=3, row 49's result ("all 35 small-window survivors
+die at large K") measures nothing about the tension between the two
+windows, because nothing whatsoever survives the large half at that L.
+**S_large(4), S_large(5), S_large(6) are unknown** — L=4 hit the budget
+wall twice (50 billion symbols at K ∈ [6,40]; 10 billion at K ∈ [6,20];
+narrowing the K range did not help, the bottleneck is the branching
+factor, 81 images per letter at L=4 against 27 at L=3).
+
+**So rows 49 (L=4,5) and 78 (L=6) are neither known to be vacuous nor
+known to be informative.** That is a worse position than those rows
+appeared to be in, and it is the single most important open thread.
+The prerequisite for reading any route (c) result is
+**L\* = min{ L : S_large(L) > 0 }**, and L\* ≤ 10 because g₃ avoids all
+K ≥ 6 (row 6a). Do not extend route (c) to larger L, and do not run the
+graded-threshold question (B14), before L\* is pinned down.
+
+**Also completed 2026-08-01 (rows 78–79):** the full L=6 escalation — all
+**200,106** canonical codings avoiding K ∈ [2,5] were tested against
+K ∈ [6,100], and **all 200,106 die**, latest first-violation at symbol 71.
+In block units the latest death is 12.0 / 9.3 / 8.8 / 11.8 blocks for
+L = 3/4/5/6 — essentially constant, so the failure is a local seam
+phenomenon that does not get harder to hit as L grows.
+
+**One hypothesis of that session was tested and failed** (`NEGATIVE_RESULTS.md`
+§18): Proposition 9's Condition 2 was proposed as the algebraic reason for
+S_large's emptiness, which would have replaced search with linear algebra.
+It holds for 69–85% of block types at L = 1,2,3 while S_large is empty at
+all three — it is nearly orthogonal to whether a coding works. The useful
+by-product: nobody had measured how restrictive Condition 2 is, and the
+answer is "barely at all", so if a survivor is ever found the Proposition 9
+machinery will very probably apply to it.
 
 ## B13 run — the last untried structural idea (row 77)
 

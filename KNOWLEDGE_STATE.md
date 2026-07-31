@@ -89,12 +89,16 @@ exhausted. They stay closed.
 | The ternary abelian-square-free language ends at length 7 | exhaustive search | 1 |
 | **No** k-uniform ternary morphism, k ≤ 6, produces a Mäkelä fixed point | exhaustive sweep | 36 |
 | **Route (c):** no uniform map Σ₆ → Σ₃^L, L ≤ 5, produces a Mäkelä word from h₆'s fixed point | exhaustive sweep | 49 |
+| **Route (c) at L=6:** all 200,106 canonical codings avoiding K ∈ [2,5] also violate K ∈ [6,100] | locality-CSP + exhaustive escalation | 78, 79 |
+| **No coding at all** at L = 1, 2, 3 avoids the large periods, small window ignored (S_large(L) = 0) | exhaustive sweep | 79 |
 | No infinite [2,5]-free word exists over a two-letter sub-alphabet | cycle search in the container graph | 51 |
 | 11 of 31 additive affine classes cannot host an infinite additively-square-free word | exhaustive search, with witnesses | 54 |
 
 **Note on scope:** each of these is closed **within the stated window**.
 "Does not cover L ≥ 6" or "does not cover 5 letters" is not a minor
 qualifier but part of the claim itself.
+
+**A calibration that must be read together with rows 49 and 78 (added 2026-08-01, row 79).** Route (c) results say "every coding avoiding the small window fails the large window". At **L = 3 that statement is vacuous**: nothing at all avoids the large window at that L, so the finding measures no tension between the two conditions. **S_large(4), S_large(5), S_large(6) are unknown**, so rows 49 (at L=4,5) and 78 (at L=6) are neither known to be vacuous nor known to be informative. Establishing L\* = min{L : S_large(L) > 0} is the prerequisite for reading any route (c) result; L\* ≤ 10 because g₃ avoids all K ≥ 6 (row 6a).
 
 ---
 

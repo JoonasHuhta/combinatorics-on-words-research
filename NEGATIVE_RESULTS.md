@@ -16,6 +16,7 @@ proposing anything.
 
 | Date | # | What collapsed | In one sentence |
 |---|---|---|---|
+| 2026-08-01 | [§18](#18-proposition-9s-condition-2-as-a-structural-filter-for-s_largel) | Prop 9's Condition 2 as a filter for S_large(L) | Condition 2 holds for 69–85% of block types at L=1,2,3 while S_large is empty at all three — it is nearly orthogonal to whether a coding works |
 | 2026-07-31 | [§16](#16-keränens-g85-projection-to-three-letters) | $g_{85}$'s 4$\to$3 projection | All 36 surjections collapsed immediately at length K=2; the structure does not condense. |
 | 2026-07-31 | [§15](#15-ai-epistemology-and-going-in-circles) | AI epistemology | An AI is an executor of finite tests, not a mathematical oracle; free-form ideas are often just flawed analogies |
 | 2026-07-30 | [§14](#14-the-shape-of-the-growth-curve-as-a-predictor-of-approaching-exhaustion) | Growth-curve shape as a predictor of exhaustion | A three-point budget curve was noise across 20 classes, predicted nothing |
@@ -183,3 +184,16 @@ proposing anything.
 **Implementation:** `cegis_g_synth.js` was run first with `MAX_K=7` and then with the looser condition `MAX_K=5`, pruning prefixes on the fly, letter by letter, in first-occurrence order.
 **Result (kill condition met):** bounded exhaustion. The search went through 500 million branches and reached a construction depth of 59/60 (i.e. it attempted to place the last letter, $f$), but kept backtracking entire letters ($f$ and $d$), never finding a single complete 60-character assignment that survived.
 **Conclusion:** the space $3^{60}$ is, under these conditions (avoiding even $K \in [2,5]$), extremely hostile. It is possible that *no* 10-uniform coding can avoid small squares in $h_6$'s structure without other compromises. The original $g_3$'s success (0 squares for $K \ge 6$) is an exceptional property not found by systematic "clean-slate" search. The search should be constrained to strongly coupled local mutations, or non-uniform codings should be allowed.
+
+## 18. Proposition 9's Condition 2 as a structural filter for S_large(L)
+*Logged 2026-08-01. See `MATH_CLAIMS.md` row 79.*
+
+**Hypothesis:** S_large(L) — the set of uniform codings whose image of h6^omega(a) avoids the large periods — was measured empty at L = 1, 2, 3, while L = 4 hit the budget wall twice. The hypothesis was that Proposition 9's Condition 2 (E_e(M_h) INTERSECT ker(M_g) = {0}) is the algebraic reason for that emptiness. If so, symbol-level search could be replaced by linear algebra: Condition 2 depends only on each block's Parikh vector, never on the arrangement of symbols inside the block, so it can be swept over block TYPES (compositions of L into 3 parts, O(L^2) per letter) instead of strings (3^L per letter). That would have turned an intractable search into a cheap exact computation at every L.
+
+**Why it was shot down:**
+- The machinery worked and passed its regression control: g3's own block types returned rank 3 and eligible = true, reproducing `decision-preconditions.js`'s independently computed verdict for (h6, g3).
+- But Condition 2 turned out to be almost unrestrictive. Of the full-rank block-type combinations it holds for **372/540 (68.9%) at L=1, 34,560/44,100 (78.4%) at L=2, and 837,996/984,420 (85.1%) at L=3** — abundantly satisfiable at exactly the three lengths where S_large is *provably empty*. Whatever forces S_large(1..3) = 0, it is not Condition 2.
+- **The module said so in advance and it was read too quickly.** `decision-preconditions.js`'s own closing note states: *"this verifies the HYPOTHESES of Proposition 9 for our constants. It does not implement the proposition, does not compute any parent set, and does not re-prove Theorem 9. It establishes that the downstream algorithm is applicable here - nothing more."* Condition 2 is a gate on whether the decision *procedure* applies, not on whether the *word* works. Those are different questions and the hypothesis conflated them.
+- **Conclusion:** eligibility for a decision procedure is not evidence about the object the procedure would decide. More generally: when a cheap algebraic invariant is proposed as a proxy for an expensive search, the first test is not "does the invariant compute correctly" but **"does it separate known-positive from known-negative cases"**. Here it separates nothing — it is satisfied by the overwhelming majority of candidates on both sides. That test costs minutes and should precede any implementation.
+
+**One thing the failure did produce, and it is worth keeping:** nobody had ever measured how restrictive Condition 2 is. The answer — barely at all — is good news for the wider programme, because it means that if a genuine survivor is ever found, the Proposition 9 machinery will very probably apply to it. The gate is wide open; the difficulty is elsewhere.
