@@ -9,6 +9,9 @@ papers/*.pdf
 latest/*.pdf
 *.pdf
 
+# Personal research notes and correspondence, not for redistribution.
+teoria/
+
 # Local cache of extension-depth tables (table-library.js). Regenerable by
 # construction and large; every record carries its own checksum and provenance,
 # so a missing cache costs time, never correctness.
