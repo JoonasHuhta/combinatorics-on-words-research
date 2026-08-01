@@ -14,26 +14,33 @@ The numbering is permanent (it is referenced elsewhere), so the order of
 novelty is here rather than in the document's body. Skim this before
 proposing anything.
 
-| Date | # | What collapsed | In one sentence |
-|---|---|---|---|
-| 2026-08-01 | [§19](#19-near-miss-density-in-the-record-word-as-a-measure-of-structural-fragility) | Near-miss density as "structural fragility" | An unconstrained random word of the same length is near-miss-denser than the real record word — same sample-size artifact as `MATH_CLAIMS.md` row 37 |
-| 2026-08-01 | [§18](#18-proposition-9s-condition-2-as-a-structural-filter-for-s_largel) | Prop 9's Condition 2 as a filter for S_large(L) | Condition 2 holds for 69–85% of block types at L=1,2,3 while S_large is empty at all three — it is nearly orthogonal to whether a coding works |
-| 2026-07-31 | [§16](#16-keränens-g85-projection-to-three-letters) | $g_{85}$'s 4$\to$3 projection | All 36 surjections collapsed immediately at length K=2; the structure does not condense. |
-| 2026-07-31 | [§15](#15-ai-epistemology-and-going-in-circles) | AI epistemology | An AI is an executor of finite tests, not a mathematical oracle; free-form ideas are often just flawed analogies |
-| 2026-07-30 | [§14](#14-the-shape-of-the-growth-curve-as-a-predictor-of-approaching-exhaustion) | Growth-curve shape as a predictor of exhaustion | A three-point budget curve was noise across 20 classes, predicted nothing |
-| 2026-07-30 | [§13](#13-partial-corroboration-as-full-confirmation) | Partial corroboration as full | Four matching fields out of five felt like confirmation; the unchecked DOI did not exist |
-| 2026-07-30 | [§12](#12-up-and-down--transferring-an-ordering-heuristic-to-the-aa2f-search) | Transferring the Up-and-Down ordering to aa2f search | Works dramatically in its own setting, loses in aa2f — the technique is setting-specific |
-| 2026-07-30 | [§11](#11-a-free-search-engine-summary-as-a-source-methodological-dead-end) | A search-engine summary as a source | The summary gave a literal claim with an author's name and figures; neither was in the original |
-| 2026-07-30 | [§10](#10-a-pure-definition-level-verifier-as-an-independent-checker-methodological-dead-end) | A definition-level verifier as an independent checker | Worked flawlessly but did not reach its own target |
-| 2026-07-30 | [§9](#9-net-gain-from-a-pruning-table-in-a-single-run) | Net gain from a pruning table in a single run | 1.00× — the value is exclusively in reuse |
-| 2026-07-30 | [§8](#8-extendability-table-as-a-record-hunt-accelerator) | Table as a record-hunt accelerator | Same longest word, pruned and unpruned |
-| 2026-07-30 | [§7](#7-container-relaxation-as-an-elimination-tool-for-additive-squares) | Container as an additive elimination tool | Did not die at reachable window sizes |
-| earlier | §6 | "Rosetta filter" | Would reject 88% of legal continuations |
-| earlier | §5 | FORBID4 as a universal rule | Occurs 2,820 times in the record word |
-| earlier | §4 | Parikh imbalance as small | Measured the opposite |
-| earlier | §3 | Reverse-engineering the record word | There is no structure to extract |
-| earlier | §2 | Rauzy SCC as proof of infiniteness | Local condition, global problem |
-| earlier | §1 | Morphism scanning k = 7…9 | A logarithm of sample size |
+**Finality column, added 2026-08-01.** Entries are not equally final and reading them as if they were is a real failure mode (see the proposal at the end of this file for the motivating case). Three kinds:
+
+- **NECESSARY** — a logical or mathematical obstruction. Cannot change with more compute or a better method. Closed forever.
+- **BOUNDED** — exhaustive *within a stated window* and silent outside it. A better method or more compute could genuinely reopen these. **These are unfinished measurements, not dead ends** — treat the language accordingly.
+- **CONTEXTUAL** — the technique works, but not in this setting. A warning about transfer, not about the technique.
+
+| Date | # | Final? | What collapsed | In one sentence |
+|---|---|---|---|---|
+| 2026-08-01 | [§19](#19-near-miss-density-in-the-record-word-as-a-measure-of-structural-fragility) | **NECESSARY** | Near-miss density as "structural fragility" | An unconstrained random word of the same length is near-miss-denser than the real record word — same sample-size artifact as `MATH_CLAIMS.md` row 37 |
+| 2026-08-01 | [§18](#18-proposition-9s-condition-2-as-a-structural-filter-for-s_largel) | **NECESSARY** | Prop 9's Condition 2 as a filter for S_large(L) | Condition 2 holds for 69–85% of block types at L=1,2,3 while S_large is empty at all three — it is nearly orthogonal to whether a coding works |
+| 2026-07-31 | [§17](#17-a-clean-slate-search-for-a-10-character-uniform-coding-g-for-h6s-image-collapses-into-a-dead-end) | **BOUNDED** ⚠ | Clean-slate search for a 10-uniform coding | **Its own text overstates this.** Bounded exhaustion of 3^60 with weak propagation; row 78 later found 200,106 survivors of the same window at L=6 by exact CSP |
+| 2026-07-31 | [§16](#16-keränens-g85-projection-to-three-letters) | **NECESSARY** | $g_{85}$'s 4$\to$3 projection | All 36 surjections collapsed immediately at length K=2; the structure does not condense |
+| 2026-07-31 | [§15](#15-ai-epistemology-and-going-in-circles) | **CONTEXTUAL** | AI epistemology | An AI is an executor of finite tests, not a mathematical oracle; free-form ideas are often just flawed analogies |
+| 2026-07-30 | [§14](#14-the-shape-of-the-growth-curve-as-a-predictor-of-approaching-exhaustion) | **NECESSARY** | Growth-curve shape as a predictor of exhaustion | A three-point budget curve was noise across 20 classes, predicted nothing |
+| 2026-07-30 | [§13](#13-partial-corroboration-as-full-confirmation) | **NECESSARY** | Partial corroboration as full | Four matching fields out of five felt like confirmation; the unchecked DOI did not exist |
+| 2026-07-30 | [§12](#12-up-and-down--transferring-an-ordering-heuristic-to-the-aa2f-search) | **CONTEXTUAL** | Transferring the Up-and-Down ordering to aa2f search | Works dramatically in its own setting, loses in aa2f — the technique is setting-specific |
+| 2026-07-30 | [§11](#11-a-free-search-engine-summary-as-a-source-methodological-dead-end) | **NECESSARY** | A search-engine summary as a source | The summary gave a literal claim with an author's name and figures; neither was in the original |
+| 2026-07-30 | [§10](#10-a-pure-definition-level-verifier-as-an-independent-checker-methodological-dead-end) | **CONTEXTUAL** | A definition-level verifier as an independent checker | Worked flawlessly but did not reach its own target; the independence axis was wrong, not the idea |
+| 2026-07-30 | [§9](#9-net-gain-from-a-pruning-table-in-a-single-run) | **CONTEXTUAL** | Net gain from a pruning table in a single run | 1.00× — the value is exclusively in reuse |
+| 2026-07-30 | [§8](#8-extendability-table-as-a-record-hunt-accelerator) | **CONTEXTUAL** | Table as a record-hunt accelerator | Same longest word, pruned and unpruned; it is an elimination tool, not a record tool |
+| 2026-07-30 | [§7](#7-container-relaxation-as-an-elimination-tool-for-additive-squares) | **BOUNDED** | Container as an additive elimination tool | "Did not die at *reachable* window sizes" — the window bound is the whole claim |
+| earlier | §6 | **NECESSARY** | "Rosetta filter" | Would reject 88% of legal continuations |
+| earlier | §5 | **NECESSARY** | FORBID4 as a universal rule | Occurs 2,820 times in the record word |
+| earlier | §4 | **NECESSARY** | Parikh imbalance as small | Measured the opposite |
+| earlier | §3 | **NECESSARY** | Reverse-engineering the record word | Exponential factor complexity vs. the linear complexity a morphic word must have |
+| earlier | §2 | **NECESSARY** | Rauzy SCC as proof of infiniteness | Local condition, global problem |
+| earlier | §1 | **BOUNDED** | Morphism scanning k = 7…9 | A logarithm of sample size — but the statement is about reachable k, not all k |
 
 ---
 
