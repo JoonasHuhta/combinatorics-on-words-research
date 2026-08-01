@@ -328,6 +328,52 @@ changes**, not merely increase L.
 
 **B15 IS CLOSED AS AN ALGEBRAIC ROUTE (2026-08-01, row 82).** The general case needs Psi(pre_r(g(x))) for every offset r and letter x, and that data provably determines the strings themselves (verified at L=4: 81 strings, 81 distinct prefix-Parikh signatures, 0 collisions). So the Parikh compression that made row 80 fast is exactly what discards the information the general case requires, and **no algebraic impossibility argument of the shape B15 proposed exists.** This is a structural closure, not an unfinished measurement. What remains is string-level: row 80s filter leaves **2,451,788,832** codings at L=4, a 115.2x reduction from 81^6, which is a defined finite task rather than a theorem.
 
+### B16. The bigram-subset lattice between 1-abelian and 2-abelian equivalence (proposed 2026-08-01)
+
+**Question.** A3 records that avoiding **2-abelian** squares of period ≥ 2 over ternary is **solved affirmatively** (Fici & Puzynina Theorem 65), while the **1-abelian** case is Mäkelä's conjecture, open. 2-abelian equivalence counts occurrences of all **nine** length-2 factors in addition to letters. **Nothing forces the choice to be all nine or none.** For any subset S ⊆ {aa, ab, ac, ba, bb, bc, ca, cb, cc}, define *S-abelian equivalence*: same letter counts **and** same occurrence counts for every bigram in S. S = ∅ is 1-abelian (Mäkelä); S = all 9 is 2-abelian (solved). **What is the minimal S for which an infinite ternary word avoiding S-abelian squares of period ≥ 2 exists?**
+
+**Why this is a different axis, not a variation.** B14 grades the **period** (which K must be avoided). A3 names the k-abelian hierarchy but treats it as a yardstick, not as a search space. This grades the **equivalence relation itself**, over a lattice of 2⁹ = 512 points, and the grading is **monotone**: if avoidance is possible for S, it is possible for every S' ⊇ S (a finer relation identifies fewer pairs, hence fewer squares to avoid). Monotonicity makes the threshold well-defined and the search a lattice antichain problem rather than 512 independent runs.
+
+**Why it matters regardless of Mäkelä.** The answer is a statement of the form *"tracking these particular bigrams is exactly what ternary avoidance requires"* — a new classification, with a named minimal witness set, in a lattice nobody has enumerated. And it **repairs Step 2's design flaw at its root**: at S = all 9 a solution is known to exist, so any apparatus can be validated at that end of the lattice before being trusted anywhere else. That is the positive control the project has never had.
+
+- **Connection to the machinery:** the suffix-test structure of `morphism-scan.js` and `factor-complexity.js` carries over with the equivalence predicate swapped; the 2-abelian checker written on 2026-08-01 (cross-validated against a slow definitional checker on 500 random words) already handles the S = all 9 endpoint.
+- **First measurable experiment:** compute p_S(n) — the factor complexity of the S-abelian-square-free ternary language — for the 9 singleton sets S = {xy} and for S = ∅ and S = all 9, at n up to the point where p_∅ is already known (row 27). Whether any singleton already changes the growth materially tells you whether the threshold is near the bottom of the lattice or the top.
+- **Validation:** S = ∅ must reproduce row 27's aa2f figures exactly; S = all 9 must not die (Theorem 65). Monotonicity must hold empirically: p_S(n) ≥ p_{S'}(n) whenever S ⊆ S'.
+- **Expected ledger sentence:** *"S-abelian square-freeness over three letters: the language is finite for every S in ⟨list⟩ up to length ⟨n⟩, and still growing for ⟨list⟩; the minimal subsets admitting growth at this length are ⟨antichain⟩."* — `COMPUTED` (Level 1).
+- **Kill condition:** if every proper subset S ⊊ all 9 behaves indistinguishably from S = ∅ at reachable lengths, the threshold sits at the top of the lattice, the grading is trivial, and the line stops. That is visible from the singletons alone.
+- **Effort:** the predicate swap is small; cost is dominated by enumeration, comparable to row 27's. **Impact 4.**
+
+### B17. Is the aa2f language regular? (proposed 2026-08-01)
+
+**Question.** The K ∈ [2,5] container **is** a regular language — it is an SFT with 3,114 states (row 51). The full aa2f language is defined by infinitely many constraints (all K ≥ 2) and is universally assumed not to be regular, but **this has never been tested, and it has a sharp consequence either way.**
+
+**Why it matters.** If aa2f were regular, it would be recognised by a finite automaton, and the existence of an infinite word would follow from cycle detection in that automaton — **so aa2f regular ⟹ Mäkelä decidable.** The implication makes a negative answer informative too: a demonstration that aa2f is *not* regular is a structural statement about why the problem resists the container-style methods that work at bounded K, and it explains in one sentence why rows 51, 52 and 62 all found the container too loose.
+
+**The concrete test, and why it is cheap.** A regular language's factor complexity satisfies a **linear recurrence with constant coefficients**. The project already has exact p(n) for aa2f (row 27, up to n = 22) and can compute more. Testing a finite sequence for a linear recurrence is a Hankel-matrix rank computation (or Berlekamp–Massey) over ℚ — seconds, exact, no floating point.
+
+- **First measurable experiment:** build the Hankel matrices of p(2), p(3), …, p(22) and compute their exact ranks over ℚ. A regular language would show the rank saturating at some order d; a rank that keeps increasing with every added term is evidence against.
+- **Validation:** run the same test on the container language's counts, which **is** regular (row 51) — its p(n) must show a saturating Hankel rank. If it does not, the test is wrong and nothing may be concluded from the aa2f run.
+- **Expected ledger sentence:** *"The Hankel rank of aa2f's factor-complexity sequence is still increasing at order ⟨d⟩ over the ⟨n⟩ known terms, so no linear recurrence of order ≤ ⟨d⟩ fits; the container's sequence saturates at order ⟨d'⟩ as a regular language must."* — `COMPUTED` (Level 1).
+- **Kill condition, and it is honest:** a non-saturating rank over 20 terms is **evidence, not proof** — the sequence is short and `NEGATIVE_RESULTS.md` §14 is the standing warning about reading short sequences. If the rank saturates, that is the interesting case and demands immediate scrutiny rather than celebration.
+- **Effort:** hours. **Impact 3** if negative, **5** if the rank saturates.
+
+### B18. The bi-infinite core of aa2f, by iterated trimming (proposed 2026-08-01)
+
+**Question.** Mäkelä asks for a one-sided infinite word. A **bi-infinite** aa2f word is a strictly stronger object, and the difference between the two is exactly A4's unfavourable factors. Define **L_bi(n)** = the length-n factors that occur in *some* bi-infinite aa2f word. Computationally, L_bi(n) is the fixpoint of iteratively deleting, from the aa2f Rauzy graph of order n, every node with in-degree 0 or out-degree 0. **How much smaller is L_bi(n) than p(n), and does the gap grow?**
+
+**Why this is not row 35 or A4 restated.** Row 35 counts one-step dead ends — nodes with out-degree 0 (48 at length 9) and in-degree 0 (48). **The iterated trim to fixpoint is a strictly stronger operation**: it removes nodes that survive one step but die in two, three, or n steps, and it computes a *language*, not a count. A4 poses unfavourable factors as a question about individual words; this computes the whole surviving language and its growth.
+
+**Why it could produce a theorem rather than a measurement.** If L_bi(n) = ∅ at any n, **no bi-infinite aa2f word exists** — a genuine, publishable negative result, strictly weaker than refuting Mäkelä but real, and reached by a finite exhausted computation rather than a bounded search.
+
+- **Connection to the machinery:** `sft-container.js` already implements exactly this trim (its "essential part", 3,114 → 2,844 states at row 51). The operation transfers unchanged; only the input graph changes from the container to the aa2f Rauzy graph.
+- **First measurable experiment:** trim the aa2f Rauzy graph at n = 8…19, where p(n) is already computed (row 81 gives 696 → 65,790), and record |L_bi(n)| / p(n) as a function of n.
+- **Validation:** applying the same trim to the container must reproduce row 51's 3,114 → 2,844 exactly, on the same code path.
+- **Expected ledger sentence:** *"The bi-infinite core of aa2f has ⟨m⟩ factors at length ⟨n⟩ against p(n) = ⟨p⟩; the ratio ⟨rises/falls/is flat⟩ over n = 8…19."* — `COMPUTED` (Level 1).
+- **Kill condition:** if the trim removes under 1% at every length, the one-sided and bi-infinite languages are effectively the same at reachable lengths and the distinction buys nothing.
+- **Effort:** one session, reusing existing code. **Impact 3–4.**
+
+**One further idea, deliberately recorded as lower priority.** Row 81 measured that ~51% of aa2f factors have exactly one right extension. Contracting all such forced chains in the Rauzy graph leaves only genuine branch points, and the growth of the branch-point count against p(n) is a language invariant nobody has computed. It is real, but it is closer to a search reformulation than to a new mathematical object, and it should wait behind B16–B18.
+
 ### B8. The frequency polygon — the joint distribution instead of the box (RESEARCH_ARCHITECT run 2026-07-30)
 
 **Question:** what is the exact polygon, in the simplex, of the container language's reachable frequency vectors (f_a, f_b, f_c)? Rows 51–52 give only the box [1/11, 3/4]³; the polygon tells us, for instance, whether f_a = 3/4 can occur simultaneously with f_b = 1/11. Method: direction-parametrized Karp (a linear functional's max mean-cycle = a supporting line); a finite set of directions gives an outer approximation that is already itself a valid necessary condition, and cycles that achieve it give interior points.

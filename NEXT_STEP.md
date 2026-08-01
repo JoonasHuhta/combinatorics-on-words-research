@@ -5,6 +5,69 @@
 
 ---
 
+# HANDOFF — 2026-08-01 (supersedes the sections below where they conflict)
+
+**Repository state:** tests **41/41**, drift checks **15/15**. Claims ledger
+**85 rows**. Working tree clean, `origin/main` up to date.
+
+## The three agreed steps, and where each actually stands
+
+| Step | Status | What it needs |
+|---|---|---|
+| **1. Pin down L\*** = min{L : S_large(L) > 0} | **Open, but now well-defined** | Four search attempts and one algebraic attempt. The algebraic route is **closed** by row 82. What remains is string-level: **2,451,788,832** codings at L=4 (row 82), a 115.2× reduction from 81⁶. A defined finite task with a measured size |
+| **2. Positive control** (A3, k-abelian) | **Blocked by its own design** | Ran it (k ≤ 6, no survivor), then found the flaw: Theorem 65 guarantees such a word *exists*, not that it is a small uniform ternary morphism's fixed point. A negative therefore indicts nothing. **Needs the source opened**, not compute. **B16 repairs this at the root** — at S = all 9 a solution is known to exist, giving a validated end of the lattice |
+| **3. B15** (template impossibility argument) | **CLOSED, answer negative** (row 82) | Done. The general case provably needs the coding strings themselves, so no Parikh-level compression exists. This is a structural closure, not an unfinished measurement |
+
+## What was settled on 2026-08-01
+
+- **Row 79.** S_large(1) = S_large(2) = S_large(3) = 0. At L=3 this makes row 49's result **vacuous** with respect to the conjunction — nothing survives the large half there at all. S_large(4,5,6) unknown, so rows 49 (L=4,5) and 78 (L=6) are neither known vacuous nor known informative.
+- **Row 80.** The Parikh reduction: block-aligned squares with K = mL exist iff M_g·d = 0. Collapses 2.8·10¹¹ strings to 1.14·10⁷ matrices, runs in 24 s, positive control passes (g₃ must survive by Theorem 9, and does). **Saturates**: 7.5× more constraints bought 8%. Predicted in advance from the spectrum.
+- **Row 81.** aa2f branching distribution, n = 8…19. Dead ends climb 0 → 9.7%, single-extension 48.3 → 51.4%, mean branching 1.6466 → 1.3965 and still falling. Exact validation: mean at n equals p(n+1)/p(n) at every length.
+- **Row 82.** B15 closed. Deciding non-aligned squares needs Ψ(pre_r(g(x))) for every r, and that data determines the strings (81 strings, 81 signatures, 0 collisions at L=4).
+- **Graveyard §18, §19, §20** — three externally proposed ideas tested and refuted, each for a measured reason.
+- **Finality classification** added to `NEGATIVE_RESULTS.md`: NECESSARY / BOUNDED / CONTEXTUAL. §17 is flagged BOUNDED with a warning that its own text overstates it.
+- **Row 30's wording corrected** — the ancestor box does not depend on g.
+
+## Three new research lines, recorded with kill conditions
+
+**B16 — the bigram-subset lattice between 1-abelian and 2-abelian.** 2⁹ = 512
+equivalence relations between Mäkelä (open) and Theorem 65 (solved). Monotone,
+so the threshold is well-defined. **This is the one I would start with**: it is
+a new graded axis, it produces a classification whether or not Mäkelä falls,
+and it carries a built-in positive control that Step 2 never had.
+
+**B17 — is the aa2f language regular?** Never tested, and the implication is
+sharp: regular ⟹ Mäkelä decidable. The test is a Hankel-rank computation on
+the existing p(n) data, exact over ℚ, hours not days, with the container
+(known regular) as its control.
+
+**B18 — the bi-infinite core, by iterated trimming.** Strictly stronger than
+row 35's one-step dead ends. If the core is ever empty, no bi-infinite aa2f
+word exists — a real theorem reachable by exhausted finite computation.
+`sft-container.js` already implements the trim.
+
+## Two things carried over, not done
+
+- **README restructuring** is approved in principle and cheap, **but the
+  proposed open-problems table would reintroduce the banned Freedman
+  attribution** (`KNOWLEDGE_STATE.md` §7: "stays banned"). Remove that row and
+  verify Mäkelä's "2002" date before anything goes in.
+- **Step 2's literature task**: open the source behind Theorem 65 and find out
+  what form the known construction takes.
+
+## What not to do
+
+- A fifth search variant for L=4. Four have been tried; §14 forbids the rest.
+- The "send a key without sending it" idea: if the continuation is
+  deterministic from the prefix, **the prefix is the secret** — 1,697
+  characters sent to obtain 2,107 is 20% compression, not encryption. And
+  "any program gives the same result" is false: the determinism observed is a
+  property of one dictionary and one search order, not of the mathematics.
+- More ideas before one of B16–B18 is done. Thirteen were evaluated on
+  2026-08-01; two were kept. Ideas are not the bottleneck.
+
+---
+
 # HANDOFF TO THE NEXT SESSION
 
 **Repository state:** tests **41/41**, drift checks **15/15**.
