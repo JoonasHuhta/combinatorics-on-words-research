@@ -74,7 +74,7 @@ transferable part.
 |---|---|---|
 | 0 | **`KNOWLEDGE_STATE.md`** | **Snapshot: what is known, what is provably closed, what has been rejected with certainty, what is open, what must not be used.** A derived index — the ledger always wins. The fastest way to get the full picture |
 | 1 | **`AGENTS.md`** / `CLAUDE.md` | The claims protocol. **Mandatory.** Cite before code, two verification levels, language calibration, human approval before commit when claims change |
-| 2 | **`MATH_CLAIMS.md`** | **The sole authority for every mathematical claim.** 84 rows. No claim may appear anywhere without a row here |
+| 2 | **`MATH_CLAIMS.md`** | **The sole authority for every mathematical claim.** 85 rows. No claim may appear anywhere without a row here |
 | 3 | **`OPEN_RESEARCH_QUESTIONS.md`** | Open problems, in three parts: A literature (with sources), B the project's own computable questions, **C formulations that measure the implementation, not the mathematics**. D is a rejection register with reasons |
 | 4 | **`NEXT_STEP.md`** | Where to continue and why. What is not worth doing |
 | 5 | `docs/plans/PROJECT_ARCHITECTURE.md` | The app's structure, tab routing |

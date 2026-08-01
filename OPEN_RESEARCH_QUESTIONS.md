@@ -326,6 +326,8 @@ changes**, not merely increase L.
 - **Kill condition:** if the ancestor closure is genuinely g-dependent and no uniform version exists, the idea is dead on arrival and this is visible from the Proposition 5/6 bounds on paper, within hours, without running anything.
 - **Effort:** the correctness question first (paper), then one solver instance. **Impact 5 if it survives the correctness question, 0 if it does not.**
 
+**B15 IS CLOSED AS AN ALGEBRAIC ROUTE (2026-08-01, row 82).** The general case needs Psi(pre_r(g(x))) for every offset r and letter x, and that data provably determines the strings themselves (verified at L=4: 81 strings, 81 distinct prefix-Parikh signatures, 0 collisions). So the Parikh compression that made row 80 fast is exactly what discards the information the general case requires, and **no algebraic impossibility argument of the shape B15 proposed exists.** This is a structural closure, not an unfinished measurement. What remains is string-level: row 80s filter leaves **2,451,788,832** codings at L=4, a 115.2x reduction from 81^6, which is a defined finite task rather than a theorem.
+
 ### B8. The frequency polygon — the joint distribution instead of the box (RESEARCH_ARCHITECT run 2026-07-30)
 
 **Question:** what is the exact polygon, in the simplex, of the container language's reachable frequency vectors (f_a, f_b, f_c)? Rows 51–52 give only the box [1/11, 3/4]³; the polygon tells us, for instance, whether f_a = 3/4 can occur simultaneously with f_b = 1/11. Method: direction-parametrized Karp (a linear functional's max mean-cycle = a supporting line); a finite set of directions gives an outer approximation that is already itself a valid necessary condition, and cycles that achieve it give interior points.
