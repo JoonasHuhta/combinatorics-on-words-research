@@ -1,13 +1,31 @@
 # Combinatorics on Words — Experimental Mathematics Laboratory
 
-An experimental mathematics laboratory for combinatorics on words: exact
-computations about the avoidance of abelian and additive squares, where every
-result is logged, sourced and reproducible.
+An open platform for exact computations, reproducible experiments, and AI-assisted mathematical research.
 
-**The main target is Mäkelä's conjecture** — is there an infinite ternary word
-whose only abelian squares are `00`, `11`, `22`? Open for half-lengths
-K = 2…5. The second target is the **avoidance of additive squares** over
-integer alphabets, which is likewise open.
+### Project Goals
+1. **Advance research** on combinatorics on words and open problems.
+2. **Build open educational tools** to teach algorithms and research methodology.
+3. **Develop a reproducible AI-assisted research workflow** where the methodology and the process of discovery (including failures) are documented alongside the mathematics.
+
+## Start Here (Onboarding)
+
+The repository is structured to serve three different audiences. Pick the path that matches your interest:
+
+**If you want to understand the research (15 minute read):**
+* `RESEARCH_CONTEXT.md` — What is the problem and how does the project work?
+* `KNOWLEDGE_STATE.md` — What we already know and what is definitively closed.
+* `OPEN_RESEARCH_QUESTIONS.md` — What is currently open and unsolved.
+
+**If you want to understand the literature and sources:**
+* `LITERATURE_COVERAGE.md` — A guided reading list of the papers that matter, and why you should read them.
+* `MATH_CLAIMS.md` — The central ledger. Every single mathematical claim made in this project is sourced, verified, and logged here.
+
+**If you want to see how the AI and methodology works:**
+* `AGENTS.md` — The exact rules, protocols, and verification standards every AI agent (and human) must follow to contribute.
+* `NEGATIVE_RESULTS.md` — The graveyard. A systematic documentation of our research process: how ideas failed, why they were rejected, and what we learned from them.
+
+**If you want to contribute:**
+* `CONTRIBUTING.md` — You don't need to be a math PhD. We need help reading papers, replicating experiments, and building visualizations.
 
 ## What is different here
 
@@ -19,10 +37,7 @@ The most valuable part of this laboratory is not a search algorithm. It is the
   somebody opened the primary source and compared it word for word; Level 1
   means the computation is reproducible but has had no external check. The
   default for new data is always Level 1.
-- **A retracted claim is never deleted.** It stays visible in `REJECTED`
-  state with its reasons, so that nobody adds it back. One row has already
-  come back out of that state when new evidence appeared — which is exactly
-  what the register is for.
+- **A retracted claim is never deleted.** It stays visible in `REJECTED` state with its reasons, so that nobody adds it back.
 - **`NEGATIVE_RESULTS.md`** is the graveyard of dead ends. It also holds ideas
   that worked but did not pay, ideas that worked in the wrong place, and
   methods that turned out to be wrong even though their output was flawless.
@@ -33,17 +48,6 @@ The most valuable part of this laboratory is not a search algorithm. It is the
 The practical consequence: a finite check is always reported with its window
 ("no violation found for K in [2,5] in this 6,561-symbol image"), never with
 the words *proven* or *certified* without a stated bound.
-
-## Where to start
-
-| You want | Read |
-|---|---|
-| The overall picture: what is known, what is closed | **`KNOWLEDGE_STATE.md`** |
-| To work in the repository (human or AI) | **`RESEARCH_CONTEXT.md`**, then **`AGENTS.md`** |
-| To check a single claim | **`MATH_CLAIMS.md`** |
-| To know what is open | **`OPEN_RESEARCH_QUESTIONS.md`** |
-| To know what has already been tried and failed | **`NEGATIVE_RESULTS.md`** |
-| To continue the work | **`NEXT_STEP.md`** |
 
 ## Layout
 

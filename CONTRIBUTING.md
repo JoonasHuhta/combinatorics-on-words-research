@@ -14,6 +14,14 @@ to. Then check `OPEN_RESEARCH_QUESTIONS.md` (what is actually open) and
 starting new work, so effort does not repeat what the project already knows
 not to do.
 
+**If you are here to learn, not to contribute:** `index.html` is the
+entry point — open it in a browser and explore the 19 tabs. The claim
+ledger (`MATH_CLAIMS.md`) and the dead-ends register (`NEGATIVE_RESULTS.md`)
+are designed to be legible without prior background in the field: a sourced
+claim with a verification level and a date is the same whether you are a
+researcher, a student, or someone curious about how experimental mathematics
+works in practice.
+
 ## What counts as a contribution here
 
 Mathematics and code are not the only useful kind:

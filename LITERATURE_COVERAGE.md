@@ -9,6 +9,15 @@ identify than a new result, and it is where the best research ideas come from.
 > is in `MATH_CLAIMS.md`; this file only records **what has been read and
 > what has not**.
 
+## Reading Guide for Newcomers
+
+If you are new to the field and want to understand the context of this project, read these papers in this order:
+
+1. **Keränen (1992 / 2006)**: To understand the origin of abelian square avoidance on 4 letters and the concept of "unfavourable factors".
+2. **Rao (2015)**: For the general context of abelian power avoidability.
+3. **Rao & Rosenfeld (2015)**: The core source of this project. Read this to understand Mäkelä's conjecture and the construction of the $h_6$ and $g_3$ morphisms.
+4. **Andrade & Mol (2024) / Currie et al. (2021)**: For the current state of additive squares and affine equivalence classes.
+
 ---
 
 ## 1. Two things that must be kept separate, and are constantly conflated
