@@ -88,20 +88,30 @@ const kNum = p5.kNum;
  * Finite superset of the target vectors d with F_Phi d = 0 that can occur on a
  * realizable template. Returns { targets, kernelBasis, radius, hypothesis }.
  */
-function targetSet() {
+/**
+ * `F` defaults to F_PHI, so every existing caller keeps its exact previous
+ * behaviour. Passing another 3x6 integer matrix computes Proposition 11's
+ * target set for that map instead - the case that matters is F = M_g, since
+ * an abelian square in g(h6^omega(a)) is precisely a square modulo M_g. That
+ * is `OPEN_RESEARCH_QUESTIONS.md` B15. Nothing else in this function depends
+ * on the coding: the ancestor side is g-independent (see MATH_CLAIMS.md row
+ * 30's corrected wording), so only ker(F) and the Proposition 11 hypothesis
+ * change with F.
+ */
+function targetSet(F = F_PHI) {
   // ---- hypothesis of Proposition 11, checked not assumed ------------------
   const MH = dp.parikhMatrix(H6, S6, S6);
   let Q6 = toQ(MH);
   for (let i = 1; i < 6; i++) Q6 = dp.matMulQ(Q6, toQ(MH));
   const Ee = dp.columnSpaceQ(Q6);                       // = im(M_h^6), see row 21
-  const kerPhiQ = pf.nullspaceQ(toQ(F_PHI));
+  const kerPhiQ = pf.nullspaceQ(toQ(F));
   const inter = dp.intersectionQ(Ee, kerPhiQ, 6);
   if (inter.dim !== 0) {
     throw new Error(`E_e(M_h) INTERSECT ker(Phi) has dimension ${inter.dim}, not 0. Proposition 11 does not apply and no finite target set follows.`);
   }
 
   // ---- 1. integer kernel basis of F_Phi, via Smith normal form ------------
-  const B = snf.integerKernelBasis(F_PHI);              // array of column vectors
+  const B = snf.integerKernelBasis(F);                  // array of column vectors
   const kappa = B.length;
   if (kappa === 0) throw new Error('ker(F_Phi) is trivial; there are no non-zero targets.');
 
