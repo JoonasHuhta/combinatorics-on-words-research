@@ -567,7 +567,7 @@
         </p>
         <div style="display: flex; justify-content: center; margin: 30px 0;">
           <div style="padding: 15px; border: 2px solid #3498db; border-radius: 8px; background: #ebf5fb; font-size: 1.4rem; font-family: monospace; letter-spacing: 2px;">
-            <span style="color: #e74c3c; font-weight: bold;">a</span><span style="color: #2980b9; font-weight: bold;">b</span><span style="color: #27ae60; font-weight: bold;">c</span> | <span style="color: #27ae60; font-weight: bold;">c</span><span style="color: #e74c3c; font-weight: bold;">a</span><span style="color: #2980b9; font-weight: bold;">b</span>
+            <span style="color: var(--letter-a); font-weight: bold;">a</span><span style="color: var(--letter-b); font-weight: bold;">b</span><span style="color: var(--letter-c); font-weight: bold;">c</span> | <span style="color: var(--letter-c); font-weight: bold;">c</span><span style="color: var(--letter-a); font-weight: bold;">a</span><span style="color: var(--letter-b); font-weight: bold;">b</span>
           </div>
         </div>
         <p style="font-size: 1.1rem; line-height: 1.6; color: #444;">
@@ -588,7 +588,7 @@
         </p>
         <div style="background: #fdfefe; padding: 20px; border-left: 4px solid #e74c3c; margin: 20px 0; font-family: monospace; font-size: 1.2rem;">
           Here is the longest possible: <br><br>
-          <span style="color: #e74c3c; font-weight: bold;">a</span> <span style="color: #2980b9; font-weight: bold;">b</span> <span style="color: #27ae60; font-weight: bold;">c</span> <span style="color: #2980b9; font-weight: bold;">b</span> <span style="color: #e74c3c; font-weight: bold;">a</span> <span style="color: #27ae60; font-weight: bold;">c</span> <span style="color: #2980b9; font-weight: bold;">b</span> (Length 7)
+          <span style="color: var(--letter-a); font-weight: bold;">a</span> <span style="color: var(--letter-b); font-weight: bold;">b</span> <span style="color: var(--letter-c); font-weight: bold;">c</span> <span style="color: var(--letter-b); font-weight: bold;">b</span> <span style="color: var(--letter-a); font-weight: bold;">a</span> <span style="color: var(--letter-c); font-weight: bold;">c</span> <span style="color: var(--letter-b); font-weight: bold;">b</span> (Length 7)
         </div>
         <p style="font-size: 1.1rem; line-height: 1.6; color: #444;">
           No matter which letter you add (a, b, or c) after this, an Abelian square inevitably forms. Try adding 'a', 'b', or 'c' and see what happens in the "1. Tree Search (3 letters)" tab!
@@ -617,7 +617,7 @@
         </p>
         <div style="display: flex; justify-content: space-between; margin-top: 20px;">
           <button onclick="document.getElementById('tut-slide-3').classList.remove('active'); document.getElementById('tut-slide-2').classList.add('active');" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">&larr; Previous</button>
-          <button onclick="switchMode('tutorial');" style="padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: bold;">Try it yourself: Tree Search (3 letters) &rarr;</button>
+          <button onclick="switchMode('3letter');" style="padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: bold;">Try it yourself: Tree Search (3 letters) &rarr;</button>
         </div>
       </div>
 
@@ -637,7 +637,7 @@
       <div class="split-left">
         <h3>Search Tree</h3>
         <p style="font-family: Arial; font-size: 0.8rem; color:#666;">Backtracking over {a,&thinsp;b,&thinsp;c}. Each branch tries one letter; branches marked red contain an abelian square and are pruned.</p>
-        <div class="info-box"><strong>Why does 3 letters fail?</strong> Over a 3-letter alphabet, every word of length &ge;8 contains an abelian square. The longest abelian square-free words over {a,b,c} have exactly length 7 (e.g. <code>abcbacb</code>). This was proved by Dekking (1979) and independently by Ker&auml;nen. The tree search below hits a dead end every time it reaches depth 7.</div>
+        <div class="info-box"><strong>Why does 3 letters fail?</strong> Over a 3-letter alphabet, every word of length &ge;8 contains an abelian square. The longest abelian square-free words over {a,b,c} have exactly length 7 (e.g. <code>abcbacb</code>). This was noted by Dekking (1979) and independently by Ker&auml;nen. The tree search below hits a dead end every time it reaches depth 7.</div>
         <canvas id="treeCanvas"></canvas>
       </div>
       <div class="split-right">
@@ -955,7 +955,7 @@
       </div>
       <div style="display:flex; align-items:flex-start; gap:4px;">
         <div style="writing-mode:vertical-rl; transform:rotate(180deg); font-family:Arial; font-size:0.75rem; color:#888; text-align:center; width:18px; flex-shrink:0;" id="heat-y-label">
-          Half-length (y-axis) &uarr;
+          Half-length (y-axis) &rarr;
         </div>
         <div style="border:1px solid var(--border); background:#fdfdfd; padding:5px; border-radius:5px; position:relative;">
           <canvas id="heatCanvas" width="800" height="400" style="background:#f9f9f9; border:1px solid #ccc; display:block;"></canvas>
