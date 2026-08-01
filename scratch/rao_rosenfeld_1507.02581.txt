@@ -1,0 +1,757 @@
+arXiv:1507.02581v1 [cs.DM] 9 Jul 2015       Avoidability of long k-abelian repetitions
+
+                                                                    M. Rao, M. Rosenfeld
+                                                    LIP, ENS de Lyon, CNRS, Universit´e de Lyon
+
+                                                                        October 2, 2018
+
+                                                                                          Abstract
+                                                    We study the avoidability of long k-abelian-squares and k-abelian-
+                                               cubes on binary and ternary alphabets. For k = 1, these are M¨akel¨a's
+                                               questions. We show that one cannot avoid abelian-cubes of abelian period
+                                               at least 2 in infinite binary words, and therefore answering negatively one
+                                               question from M¨akela¨. Then we show that one can avoid 3-abelian-squares
+                                               of period at least 3 in infinite binary words and 2-abelian-squares of period
+                                               at least 2 in infinite ternary words. Finally we study the minimum number
+                                               of distinct k-abelian-squares that must appear in an infinite binary word.
+
+                                       1 Introduction
+
+                                       Avoidability of structures and patterns has been extensively studied in theoret-
+                                       ical computer science since the work of Thue on avoidability of repetitions in
+                                       words [15]. Thue showed that there are infinitely long ternary words avoiding
+                                       squares (factors of the form ww where w is a word) and infinitely long binary
+                                       words avoiding cubes (factors of the form www where w is a word).
+
+                                           The avoidability of abelian repetitions has been studied since a question from
+                                       Erdos in 1957 [5, 6]. A factor uv is an abelian-square if u is a permutation of
+                                       the letters of v. Erdos asked whether it is possible to avoid abelian-squares in
+                                       an infinite word over an alphabet of size 4. (Abelian-square-free ternary words
+                                       have a length of at most 7.) After some intermediary results (alphabet of size
+                                       25 by Evdokimov [7] and size 5 by Pleasant [13]), Kera¨nen answered positively
+                                       Erdos's question by giving a 85-uniform morphism (found with the assistance
+                                       of a computer) whose fixed-point is abelian-square-free [10]. Moreover, Dekking
+                                       showed that it is possible to avoid abelian-cubes on a ternary alphabet and
+                                       abelian-4th-powers over a binary alphabet [3].
+
+                                           Erdos also asked if it is possible to avoid arbitrarily long ordinary squares
+                                       on binary words. This question was answered positively by Entringer, Jackson
+                                       and Schatz [4]. Ma¨kel¨a asked the following two questions about the avoidability
+                                       of long abelian-cubes (resp. squares) on a binary (resp. ternary) alphabet:
+
+                                       Question 1 (M¨akel¨a (see [11])). Can you avoid abelian-cubes of the form uvw
+                                       where |u|  2, over two letters ? - You can do this at least for words of length
+                                       250.
+
+                                                                                          1
+Question 2 (M¨akel¨a (see [11])). Can you avoid abelian-squares of the form uv
+where |u|  2 over three letters ? - Computer experiments show that you can
+avoid these patterns at least in words of length 450.
+
+    The notion of k-abelian repetition has been introduced recently by Karhum¨aki
+et al. as a generalization of both repetition and abelian repetition [9]. One can
+avoid 3-abelian-squares (resp. 2-abelian-cubes) on ternary (resp. binary) words
+[14]. Following Erdos's and Ma¨kel¨a's questions, one can ask whether it is pos-
+sible to avoid long k-abelian-powers on binary (resp. ternary) words.
+
+    In Section 3, we answer negatively Ma¨kela¨'s Question 1, and we propose
+a new version of the conjecture. In Section 4, we show that one can avoid
+3-abelian-squares of period at least 3 in binary words and 2-abelian-squares
+of period at least 2 in ternary words. In Section 5, we study the minimum
+number of distinct k-abelian-squares that must appear in an infinite binary
+word. Finally, in Section 6, we explain the computer searches we use to find the
+morphisms of Section 4 and Section 5.
+
+2 Preliminaries and definitions
+
+We use terminology and notations of Lothaire [12]. Let  be a finite alphabet.
+For a word u   and a  , we denote by |u|a = |{i : u[i] = a}| the number
+of occurrences of the letter a in u. For u, w  , we denote by |u|w = |{i : u[i :
+i + |w| - 1] = w}| the number of occurrences of the factor w in u.
+
+    Two words u and v are said to be abelian equivalent, denoted u a v, if for
+every a  , |u|a = |v|a, and they are said k-abelian equivalent (for k  1),
+denoted u a,k v, if for every w   such that |w|  k, |u|w = |v|w. A
+word u1u2 . . . un is a k-abelian-n-power if it is non-empty, and u1 a,k u2 a,k
+. . . a,k un. Its period is |u1|. Similarly, a k-abelian-square (resp. k-abelian-
+cube) is a k-abelian-2-power (resp. k-abelian-3-power). A word is said to be
+k-abelian-n-power-free if none of its factors is a k-abelian-n-power. Note that
+when k = 1, the k-abelian-equivalence is exactly the abelian equivalence, and
+we ommit the "1-" prefix in this case.
+
+    The Parikh vector of a word w  , denoted (w), is the vector indexed
+by  such that for every a  , (w)[a] = |w|a. Then, by definition, two words
+u and v are abelian-equivalent if (u) = (v). For a set S   and a word
+w  , we denote by S(w) the vector indexed by S such that for every s  S,
+S(w)[s] = |w|s. We may write k(w) instead of k (w) if  is clear in the
+context.
+
+    For all u  , i  |u|, let prefi(u) be the prefix of size i of u and sufi(u) be
+the suffix of size i of u. There are equivalent definitions of k-abelian equivalence
+(see [9]). Two words of size at most 2k - 1 are k-abelian equivalent if and only if
+they are equal. For every two words u and v of size at least k - 1, the following
+conditions are equivalent:
+
+    · u and v are k-abelian equivalent (i.e. u a,k v),
+
+    · k(u) = k(v) and prefk-1(u) = prefk-1(v),
+
+                                                   2
+    · k(u) = k(v) and sufk-1(u) = sufk-1(v).
+
+3 Abelian cubes and M¨akel¨a's Question 1
+
+Dekking showed that it is possible to avoid abelian-cubes in an infinite word
+over a ternary alphabet [3]. More recently Rao showed that one can avoid 2-
+abelian-cubes over a binary alphabet [14] and one can check that every word
+over a binary alphabet of length greater than 9 contains an abelian-cube. The
+only open question about the avoidability of long k-abelian-cubes on infinite
+words is then the avoidability of long abelian-cubes over the binary alphabet.
+This is the subject of Question 1 from Ma¨kel¨a: he asked whether one can avoid
+every abelian-cubes of period at least 2 in binary words. We answer negatively
+this question.
+
+    For this, we used a property of Lyndon words that made the exhaustive
+search much faster. A word w   is a Lyndon word if for all u, v  + such
+that w = uv, w <lex vu, where <lex is the lexicographic order. The well known
+Chen-Fox-Lyndon Theorem states that every word may be written uniquely
+as a concatenation of non-increasing Lyndon words (see for example [12]). In
+the following, we refer to this decomposition as the Lyndon factorization. A
+language L   is factorial if for every w in L, every factor of w is in L.
+
+Lemma 1. Any factorial language L with arbitrarily long words contains arbi-
+trarily long Lyndon words or repetitions of arbitrarily large power.
+
+Proof. Let us assume that there are no arbitrarily long Lyndon words in L.
+This implies that there is a finite number n of Lyndon words in L and s  N
+such that for every Lyndon word w in L, |w|  s. Let w1, . . . , wn  Ln be the
+Lyndon words of L ordered by decreasing lexicographic order.
+
+    Then using the Lyndon factorization for every w  L there are some Lyndon
+words L1 lex L2 lex . . . lex Ld such that w = L1 . . . Ld. The fact that our
+language is factorial tells us that all the Li are in L. We get that for every w  L
+there are 1, . . . , n  N such that w = w11 . . . wnn . Then |w|  i |wi| × i 
+s × i i  s × n × maxi(i).
+
+    Since L contains arbitrarily long words, then for any t  N there is a w  L
+such that |w|  t × s × n. Let j  {1, . . . , n} be such that j = maxi(i). Thus
+j  t and then (wj)t  L. Thus we have arbitrarily long powers in L.
+
+    A set of words that avoid certain kind of abelian repetitions is a factorial
+language and does not contain arbitrarily large powers. Thus we just need to
+check that there are no arbitrarily long Lyndon words in it to deduce that this
+set does not contain arbitrarily long words. The exhaustive search on prefixes
+of Lyndon words is then much shorter. Figure 1 shows how it helps for the
+exhaustive search of binary words avoiding abelian-squares of period at least 2.
+The next Proposition answers negatively Question 1.
+
+Proposition 1. There is no infinite word over a binary alphabet avoiding
+abelian-cubes of period at least 2.
+
+                                                   3
+      011 0111 01110 011100                   0111000 01110001   011100011
+
+  01                                                             000111000
+                                                                 001110001 0011100011
+      010 0100 01000                                             100011100
+
+  0                         00011  000111     0001110  00011100  111000111
+             000 0001       00010  000100     0001000  00111000  110001110 1100011100
+                            00111  001110     0011100
+       00
+                      0011
+
+      001
+
+             0010 00100 001000
+
+      100 1000 10001 100011                   1000111 10001110
+
+  10
+
+             101 1011       10111  111000     1110001  11100011
+  1                         11100  111011     1110111  11000111
+                            11101  110001     1100011
+             111 1110       11000
+                                   110111
+  11         1100           11011
+        110  1101
+
+                 011 0111 01110
+
+             01
+
+                 010
+
+      0                                       000111  0001110  00011100  000111000
+                                       00011  000100  0001000
+                                              001110  0011100
+                 000 0001
+                                       00010
+
+             00
+
+                            0011 00111
+
+                 001
+
+                            0010 00100        001000
+
+      1 11 111
+
+Figure 1: Top: the exhaustive search of binary words avoiding abelian-squares
+of period at least 2. Bottom: the same exhaustive search restricted on the
+prefixes of Lyndon words.
+
+                                              4
+    We checked using a computer program that there are only finitely many
+Lyndon words over a binary alphabet avoiding abelian-cubes of period at least 2.
+The program took approximately 3 hours to find all 2 732 711 352 such Lyndon
+words and prefixes of Lyndon words. The longest word has a length of 290.
+Using Lemma 1 we deduce that there is no infinite binary word avoiding abelian-
+cubes of size at least two. Then we can reformulate the question and ask:
+
+Question 3. Is there a p  N such that one can avoid abelian-cubes of period
+at least p over two letters ?
+
+    For p = 3, we found a word of lenght 2 500.
+
+4 Avoiding long k-abelian-squares on binary words
+
+It is easy to verify that one cannot avoid squares of period at least 2 over a
+binary alphabet. Entringer et al. showed that it is possible to construct a
+binary word avoiding squares of period at least 3 [4]. They also showed that
+every infinite binary word contains arbitrarily long abelian-squares. Thus, one
+can wonder about the avoidability of large k-abelian-squares. Rao asked the
+following question:
+
+Question 4 (Rao [14]). What is the smallest k (if any) such that arbitrarily
+long k-abelian-squares can be avoided over a binary alphabet ?
+
+Since arbitrarily long abelian squares cannot be avoided in binary words, k
+
+is at least 2. In this section, we show that k is at most 3, that is one can avoid
+
+long 3-abelian-squares over a binary alphabet, by giving a morphism whose fixed
+
+point avoids 3-abelian-squares of period at least 3.
+
+A morphism h is said (p, k)-abelian-square-free if for every abelian-square-
+
+free word w, h(w) avoids k-abelian-squares of period at least p. Let h be the
+
+following morphism:   0
+
+                              00001101010
+                              00011111010
+                           1  00110100110
+                           2  00111001010.
+
+                     h:
+
+                     
+
+                           3
+                     
+
+Theorem 1. The morphism h is (3,3)-abelian-square-free.
+
+Proof. The proof is based on the same idea as the one used by Rao to give
+sufficient conditions for a morphism to be k-abelian-free [14] which is a gener-
+alization of the sufficient conditions given by Carpi for abelian-free-morphisms
+[1]. We checked the sufficient conditions on h by computer.
+
+    In the proof we use the following property: for every k, i  N and u, v  
+such that i < k, k-1-i  |u| and i  |v|:
+
+k(uv) = k(u prefi(v))+k(sufk-1-i(u)v).                   (S)
+
+    Let A = {0, 1, 2, 3} and w  A. Let us show that if h(w) contains a 3-
+abelian-square of period at least 3, then w is not abelian-square-free. Note that
+
+                              5
+every image h(x), x  A, starts with the prefix p = 00 and ends with the suffix
+s = 10.
+
+    We check using a computer that for every a, b  A, a = b, every 3-abelian-
+square of h(ab) has period at most 2. So if there is a forbidden 3-abelian-square,
+it has to be on the image of at least 3 letters. Then there are a1, a2, a3  A,
+x1, x2  A and (u1, v1), (u2, v2), (u3, v3)  ({0, 1}, {0, 1}+) such that:
+
+    · a1x1a2x2a3 is a factor of w,
+
+    · for every i  {1, 2, 3}, uivi = h(ai),
+
+    · v1h(x1)u2 a,3 v2h(x2)u3.
+
+    Since |v1u2v2u3|  1+|h(a2)|  12, either |v1u2|  6 or |v2u3|  6. More-
+over, |v1h(x1)u2| = |v2h(x2)u3|, thus for all i  {1, 2}, |vih(xi)ui+1|  6, and
+for all i  {1, 2}, |vi|  2, |h(xi)|  2 or |ui+1|  2. If |ui+1|  2, then:
+
+   3(vih(xi)ui+1)
+        = 3(vi00)+3(h(xi)ui+1) (using (S) and pref2(h(xi)ui+1) = 00)
+        = 3(vi00)+3(h(xi)00)+3(ui+1) (using (S) and pref2(ui+1) = 00)
+        = 3(vi00)+3(h(xi)00)+3(10ui+1)-3(1000).
+
+If |vi|  2 or |h(xi)|  2, we have the same result. So for every i  {1, 2}, we
+get:
+
+3(vih(xi)ui+1) = 3(vi00)+3(h(xi)00)+3(10ui+1)-3(1000). (L)
+
+Let N be the matrix indexed by {0, 1}3×{0, 1, 2, 3} with N [w, x] = |h(x)00|w.
+
+       3 1 2 1 1 2 1 0
+
+tN  =  2  1  1     1  1  1  1  3
+       1  2  1     2  2  1  2  0
+
+       12212111
+
+    For every word w, 3(h(w)00) = N (w), thus the equality (L) can be
+rewritten:
+
+3(vih(xi)ui+1) = 3(vi00)+N (xi)+3(10ui+1)-3(1000).
+
+Using v1h(x1)u2 a,3 v2h(x2)u3, we get the following:
+      N ((x2)-(x1)) = 3(v100)+3(10u2)-3(v200)-3(10u3). (1)
+
+    Let M be the sub-matrix of N made of its rows 1, 2, 3 and 4 (they correspond
+to the words 000, 001, 010, 011).
+
+             3 2 1 1
+
+       M  =  1  1     2  2
+             2  1     1  2
+
+             1121
+
+                6
+Let S = {000, 001, 010, 011}. Then S(w) is the sub-vector of 3(w) made of
+the rows 1, 2, 3 and 4. We can check that M is non-singular. Thus:
+
+       (x2)-(x1) = M -1(S(v100)+S(10u2)-S(v200)-S(10u3)). (2)
+
+    Let:
+
+      S(v1, u2, v2, u3) = S(v100)+S(10u2)-S(v200)-S(10u3), and
+
+           3(v1, u2, v2, u3) = 3(v100)+3(10u2)-3(v200)-3(10u3).
+    From equation (1), 3(v1, u2, v2, u3) is in Im(N ), and from equation (2),
+M -1(S(v1, u2, v2, u3)) is an integer vector. From v1h(x1)u2 a,3 v2h(x2)u3,
+if we note p = 00, s = 10 and k = 3, we get prefk-1(v1p) = prefk-1(v2p),
+sufk-1(su2) = sufk-1(su3).
+    The following claim is verified using a computer program. There are 43
+values for the ai and 113 ways of choosing the ui, vi for each of them which
+makes 85 184 cases to check (most of them are eliminated by the prefix and
+suffix conditions).
+Claim 1. For all a1, a2, a3  A and (u1, v1), (u2, v2), (u3, v3)  ({0, 1}, {0, 1}+)
+such that:
+
+    · i  {1, 2, 3}, uivi = h(ai),
+
+    · prefk-1(v1p) = prefk-1(v2p) and sufk-1(su2) = sufk-1(su3),
+    · k(v1, u2, v2, u3)  Im(N ) and M -1(S(v1, u2, v2, u3)) is an integer vec-
+
+       tor,
+
+there are (1, 2, 3)  {0, 1} such that:
+
+      M -1(S(v1, u2, v2, u3)) = 1(a1)-(22-1)(a2)-(1-3)(a3). (E)
+
+    From the claim we have (1, 2, 3)  {0, 1} such that equation (E) is ful-
+filled. Now we can introduce x1 , x2 such that: i  {1, 2}, xi = ai i xia1i+-1i+1 .
+Then x1x2 is a factor of w and we have the following.
+
+(x2 )-(x1) = (x2)+(1-3)(a3)+2(a2)-((x1)+(1-2)(a2)+1(a1))
+                  = M -1(S(v1, u2, v2, u3))-1(a1)+(22-1)(a2)+(1-3)(a3)
+
+(x2)-(x1 ) = 0
+
+This implies that there is an abelian-square on w.
+
+    Using Theorem 1 together with the existence of abelian-square-free words
+over four letters, we get the following corollary.
+
+Corollary 1. There is an infinite binary word that avoids 3-abelian-squares of
+period at least 3.
+
+                                                   7
+    Moreover, we can deduce the exponential growth of such words from the
+exponential growth of abelian-square-free words over four letters [2]. Corollary 1
+gives a partial answer to Question 4: there is such a k, and k  {2, 3}. We can
+then ask the following question.
+
+Question 5. Can we avoid 2-abelian-squares of period at least p on the binary
+alphabet, for some p  N ?
+
+    Computer experiments show that we can avoid those patterns for p = 3 in
+a word of length 15 000.
+
+2-abelian squares over a ternary alphabet
+
+Rao showed that one can build an infinite word that avoids 3-abelian-squares
+over a ternary alphabet [14]. The longest 2-abelian-square-free ternary word
+has a length of 537 [9]. Ma¨kel¨a asked whether we can avoid abelian-squares of
+period at least 2 in ternary words (Question 2). We give the answer to a weaker
+version of this question, that is one can avoid 2-abelian-squares of period at
+least 2 over the ternary alphabet. Let:
+
+     0    00021
+          00111
+          01121
+h2     1  01221.
+       2
+
+    :
+
+    
+
+       3
+    
+
+Theorem 2. h2 is (2, 2)-abelian-square-free.
+
+Proof. The proof is also done by checking sufficient conditions, similar to those
+in the proof of the Theorem 1. The Claim 1 is true for this morphism with
+k = 2, S = {00, 01, 02, 11}, s = 1 and p = 0.
+
+    If w is an infinite square-free-abelian word over four letters, h2(w) is a ternary
+word which avoid 2-abelian-squares of period at least 2.
+
+5 Minimal number of distinct 3-abelian-squares
+
+     in infinite binary words
+
+Fraenkel and Simpson showed that there is an infinite binary word containing
+only the squares 02, 12, (01)2 [8]. Moreover, every binary infinite word contains
+at least three distinct squares. It is natural to ask whether this property can be
+extended to the k-abelian case: is there a k  N such that there is an infinite
+binary word that contains only 3 distinct k-abelian-squares?
+
+    More generally let g(k) be the minimal number of distinct k-abelian squares
+that an infinite binary word must contain. Any (k + 1)-abelian-square is a k-
+abelian-square so g is non-increasing. From Fraenkel and Simpson's result, we
+know that g(k)  3 for all k.
+
+       8
+ 0         u1001011000101110001100101100010111001011000111001011100011001011000
+           10111001011001110001011000111001011100011001011000101110010110001110
+           01011100011001011000111001011001110001100101100011100101110001100101
+           10001011100101100011100101110001100101100011100101100111000101100011
+           10010110001011100101100111000101110010110001011100011001011000111001
+           0110011100010111001011000111001011100011v
+           u0001110010110011100011001011000111001011001110001011100101100011100
+           10111000110010110001110010110011100011001011000111001011100010110001
+           11001011001110001100101100011100101100111000101100011100101100010111
+           00011001011000111001011001110001100101100011100101110001100101100010
+           11100101100011100101110001100101100011100101100111000110010110001110
+           0101110001100101100010111001011001110v
+           u0001110010110011100011001011000111001011001110001011100101100011100
+           10111000110010110001011100101100111000101100011100101100010111001011
+           00111000101110010110001110010111000110010110001011100101100111000101
+           11001011000101110001100101100010111001011001110001011000111001011001
+           11000110010110001110010111000110010110001011100101100111000101110010
+           110001011100011001011000101110010110011100011v
+           u0001110010110001011100011001011000101110010110001110010111000110010
+           11000111001011001110001100101100011100101110001011000111001011001110
+           00110010110001110010110011100010110001110010110001011100011001011000
+           10111001011001110001011000111001011100010110011100011001011000111001
+           01100111000101100011100101100010111001011001110001011100101100011100
+           101110001100101100010111001011001110v
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+h3 : 2 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Where:
+
+           u = 11000110010110001011100101100111000101100011100101100
+                    01011100101100111000101110010110001011100011001011000
+                    111001011001110001100101100010111001011001110001011
+
+           v = 00101100011100101100111000110010111000101100111000101
+                    11001011000101110001100101110001011001110001100101100
+                    01110010111000101100011100101100111000101100011100101
+
+Table 1: A (5, 3)-abelian-square-free morphism, with only three distinct 5-
+abelian-squares: 00, 11 and 0101.
+
+           9
+Proposition 2. The morphism h3 (defined in Table 1) is (5, 3)-abelian-square-
+free. Moreover, for every abelian-square-free word w, h3(w) contains only 3
+distinct 5-abelian-squares: 02, 12 and (01)2.
+
+Proof. The proof that h3 is (5, 3)-abelian-square-free is also done by a computer
+check, similar to the proof of the Theorem 1. This morphism is not uniform, so
+we need to check images of words of size up to 3 to ensure that the image of a
+long 5-abelian square starts and ends on images of different letters.
+
+    This proposition together with Ker¨anen's word tells us that for any k 
+5 there is an infinite binary word with only 3 distinct k-abelian-squares, i.e.
+g(k) = 3 for every k  5. Propositions 3 and 4 give us that g(3) = g(4) = 4.
+
+Proposition 3. Every word of size more than 87 over the binary alphabet con-
+tains at least 4 distinct 4-abelian-squares.
+
+    This was verified by an exhaustive computer search.
+
+Proposition 4. Let:
+
+ 0        0001100101001101011000101010001011101011000101
+          0001100101001101011001110101011100011101011000101
+          0001100101001110001010001100101100011101011000101
+       1  000110010100111001010100111000101100101011000101.
+       2
+
+h4 :
+
+
+
+ 3 
+
+Then h4 is (3, 3)-abelian-square-free. Moreover, for every abelian-square-free
+word w, h4(w) contains only 4 distinct 3-abelian-squares: 02, 12, (01)2 and
+(10)2.
+
+    The proof that h4 is (3, 3)-abelian-square-free is also done by a computer
+check, similar to the proof of the Theorem 1. One can then check that (00)2
+and (11)2 do not appear as factors of any image of a two-letter word.
+
+    Finally using again an exhaustive search we were able to give the lower bound
+g(2)  5.
+
+Proposition 5. Every word of size more than 92 over the binary alphabet con-
+tains at least 5 distinct 2-abelian-squares.
+
+    The following question is a stronger version of Question 5:
+
+Question 6. How many distinct 2-abelian-squares must an infinite binary word
+contain?
+
+6 Computer searches
+
+The toughest part to prove the existence of an infinite word with a desired
+property (say, the property P) is to find a morphism with sufficient conditions
+whose fixed point has the property P. Let W be the family of finite words
+with the property P. This part was done by a computer-assisted search, as
+
+                     10
+follows. We look for a morphism whose images share a long common prefix and
+a long common suffix, to avoid the creation of small forbidden patterns when
+we concatenate two images. For this, we first selected one "good" factor w = uv
+(with |u| = |v|), where v will be the common prefix, and u the common suffix.
+To optimize the chance of success, we took a factor w which is supposed to
+appear often in words in W: we constructed, with a backtrack algorithm, a long
+random word in W, and selected the factor w among the factors which appear
+most often is this word. Then we constructed a family Fw of words in W with
+prefix u, suffix v, and with a size of at most a fixed number. (If the search fails,
+we try again with another w, or with a larger size.) We constructed the graph
+with vertex set Fw, and edges {x, y} such that xyx and yxy are in W. Finally,
+we checked the sufficient conditions on every morphism which corresponds to a
+clique of size 4 in the graph.
+
+    As an example, for the morphism h3, which was the most arduous to find
+among the morphisms presented here, we use the following parameters. We
+selected the 88 factors with a size of 300 which appear most often among ap-
+proximately 1.2 million factors we found in the random word. We computed the
+families Fw with words of size at most 700. All the families Fw we computed
+had a size between 1 000 and 5 000. The graph of the family that gave us the
+morphism h3 had 58 680 edges and 1 977 vertices (density of 0.03). With the
+right parameters (|w| and length of the elements of Fw) it took half a day to
+find a good morphism.
+
+    The presented approach cannot be directly used to answer positively to
+Question 5. For every binary word w, |wx|10 = |wx|01 (where x is the first letter
+of w). So the matrix N has rank at most 3, and one cannot find an invertible
+sub-matrix M of size 4. Thus Question 5 is, in spirit, close to Ma¨kel¨a's questions
+(Question 2 and Question 3, the modified version of Question 1).
+
+References
+
+ [1] A. Carpi. On abelian power-free morphisms. International Journal of
+      Algebra and Computation, 03(02):151­167, 1993.
+
+ [2] A. Carpi. On the number of abelian square-free words on four letters. Disc.
+      Appl. Math, 81(1-3):155­167, 1998.
+
+ [3] F. M. Dekking. Strongly non-repetitive sequences and progression-free sets.
+      Journal of Combinatorial Theory, Series A, 27(2):181 ­ 185, 1979.
+
+ [4] R. C. Entringer, D. E. Jackson, and J. A. Schatz. On nonrepetitive se-
+      quences. Journal of Combinatorial Theory, Series A, 16(2):159 ­ 164, 1974.
+
+ [5] P. Erdos. Some unsolved problems. The Michigan Mathematical Journal,
+      4(3):291­300, 1957.
+
+ [6] P. Erdos. Some unsolved problems. Magyar Tud. Akad. Mat. Kutato´ Int.
+      K¨ozl., 6:221­254, 1961.
+
+                                                  11
+ [7] A. A. Evdokimov. Strongly asymmetric sequences generated by a finite
+      number of symbols. Dokl. Akad. Nauk SSSR, 179:1268­1271, 1968.
+
+ [8] A. S. Fraenkel and R. J. Simpson. How many squares must a binary se-
+      quence contain? The Electronic Journal of Combinatorics, 2, 1995.
+
+ [9] J. Karhumaki, A. Saarela, and L. Q. Zamboni. On a generalization of
+      Abelian equivalence and complexity of infinite words. Journal of Combi-
+      natorial Theory, Series A, 120(8):2189­2206, 2013.
+
+[10] V. Kera¨nen. Abelian squares are avoidable on 4 letters. In ICALP, pages
+      41­52, 1992.
+
+[11] V. Ker¨anen. New abelian square-free DT0L-languages over 4 letters.
+      Manuscript, 2003.
+
+[12] M. Lothaire. Combinatorics on Words. Cambridge University Press, 1997.
+[13] P. A. B. Pleasants. Non-repetitive sequences. Mathematical Proceedings of
+
+      the Cambridge Philosophical Society, 68:267­274, 9 1970.
+[14] M. Rao. On some generalizations of abelian power avoidability. Manuscript,
+
+      2014.
+[15] A. Thue. U¨ ber die gegenseitige Lage gleicher Teile gewisser Zeichenreihen.
+
+      Norske Vid. Selsk. Skr. I. Mat. Nat. Kl. Christiania, 10:1­67, 1912.
+
+                                                  12
+

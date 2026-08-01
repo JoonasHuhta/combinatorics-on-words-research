@@ -53,12 +53,19 @@ Only these have been opened and searched. Everything else is unopened.
 | Lietard, *Évitabilité de puissances additives*, PhD thesis, Univ. de Lorraine 2020 | 2026-07-30 | PDF `docnum.univ-lorraine.fr`, text extracted, keyword search (row 65) |
 | Keränen, *Suppression of Unfavourable Factors*, IMS 2006 | earlier | PDF (row 38) |
 | ACR 2004, *The Number of Ternary Words Avoiding Abelian Cubes* | earlier | row 48 |
+| Rao & Rosenfeld, "Avoidability of long k-abelian repetitions", Math. Comput. 85(302):3051–3060 (2016), arXiv:1507.02581 | 2026-08-01 | PDF, text extracted with `pdftotext -layout` (not an AI summary), Theorem 2 and the h2 morphism quoted directly (row 84) — this is Fici & Puzynina Theorem 65's reference [124], the source of the ternary 2-abelian construction |
 
 **Not opened:** Brown & Freedman, *"Arithmetic progressions in lacunary
 sets"*, Rocky Mountain J. Math. 17(3):587–596, 1987 — **the citation is now
 traced, the paper is not opened; it is the single most important unopened
-source (row 65)**. Also: Rosenfeld's PhD thesis (ENS Lyon 2017), Rao TCS 601
-(2015), Halbeisen & Hungerbühler (2000), Dekking (1979), Justin (1972),
+source (row 65)**. Also: Rao & Rosenfeld, "Avoiding two consecutive blocks of
+same size and same sum over 2", SIAM (Theorem 65's other reference, [125] —
+**do not confuse with the Math. Comput. 2016 paper above; both are cited by
+Theorem 65 but only the Math. Comput. one has been opened, row 84**).
+Rosenfeld's PhD thesis (ENS Lyon 2017). **Rao TCS 601 (2015) is Rao SOLO — a
+third, distinct paper (3-abelian squares under a finer equivalence) —
+opening it does NOT satisfy row 84's citation; it remains genuinely
+unopened.** Also unopened: Halbeisen & Hungerbühler (2000), Dekking (1979), Justin (1972),
 Pirillo & Varricchio (1994).
 
 ### 2b. Material and visualization sources — NOT citable for claims
