@@ -62,7 +62,7 @@ function enumerateSAbelian(mask, maxN, nodeBudget) {
     }
     for (let B = 0; B < 9; B++) {
       if (!(mask & (1 << B))) continue;
-      if ((preBigram[B][m] - preBigram[B][s]) !== (preBigram[B][e] - preBigram[B][m])) return false;
+      if ((preBigram[B][m] - preBigram[B][s + 1]) !== (preBigram[B][e] - preBigram[B][m + 1])) return false;
     }
     return true;
   }
