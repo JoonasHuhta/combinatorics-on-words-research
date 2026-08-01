@@ -20,8 +20,9 @@ Start a new session like this:
 An experimental combinatorics laboratory for abelian-square-free words. Two
 sides:
 
-- **Browser app** `index.html` (19 tabs, no dependencies) — teaching and
-  visualization. It **reports** results, it does not compute them.
+- **Browser app** `index.html` (20 tabs — an unnumbered tutorial plus 1–19,
+  no dependencies) — teaching and visualization. It **reports** results, it
+  does not compute them.
 - **Exact Node pipeline** (below) — all the mathematics. Rational and
   ℚ(√3) arithmetic, no floating point on result paths.
 
@@ -82,8 +83,10 @@ transferable part.
 | 7 | **`LITERATURE_COVERAGE.md`** | **What the literature covers and what it does not, and which search space has been swept.** Read before building a new computation line — it prevents redoing the same work |
 | 8 | `docs/plans/RESEARCH_ARCHITECT.md` | **Only when producing new research ideas.** Procedure, constraints, output format and rubric — ideas are not produced as free prose |
 
-**The root has exactly the eight `.md` files a session actually reads.**
-Everything else was moved out on 2026-07-30:
+**The root holds the eight `.md` files the table above lists, plus three
+that a session does not read to do mathematics** — `README.md` (the
+outward-facing entry point), `CONTRIBUTING.md` and this file. Everything
+else was moved out on 2026-07-30:
 
 - `docs/historical/` — **outdated planning papers**
   (`GRAND_VISION_MAP`, `COMPUTATIONAL_DISCOVERY_LAB_PLAN`, `SEAM_ENGINE_…`,
@@ -141,13 +144,16 @@ additive-morphism-scan.js  additive squares: exhaustive search of uniform morphi
 additive-nonuniform-morphism-scan.js  same, non-uniform length profiles 1..4, regression to uniform
 additive-affine-decision.js  decision procedure for affine morphisms (Theorem 2.4, row 72), ported and validated
 h6-additive-image-sweep.js  B13: additive analogue of route (c); h6 fixed, uniform codings of length L, all K>=1 (row 77)
+s_large_csp.js             bounded-Kmax CSP attack on S_large(L) (Step 1, NEXT_STEP.md); validated at L=3, did not finish at L=4
+parikh-block-filter.js     S_large(L)'s block-aligned Parikh reduction (row 80/82): M_g.d = 0, meet-in-the-middle survivor search, g3 positive control
+step1_string_level.js      Step 1's fifth attempt: string-level abelian-square drop oracle seeded by parikh-block-filter.js's survivors, not a fresh raw search
 ```
 
 **Verification:**
 
 ```bash
-node test.js                 # 41/41
-node check-claims-drift.js   # 15/15
+node tests/test.js                 # 41/41
+node scripts/check-claims-drift.js # 15/15
 ```
 
 Run **both** before a commit and **read both outputs**. They are different
