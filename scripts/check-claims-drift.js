@@ -29,7 +29,7 @@ function check(name, fn) {
   }
 }
 
-const claimsPath = path.join(__dirname, 'MATH_CLAIMS.md');
+const claimsPath = path.join(path.join(__dirname, '..'), 'MATH_CLAIMS.md');
 const claimsContent = fs.readFileSync(claimsPath, 'utf8');
 
 // 1. Check Canonical Numbers in MATH_CLAIMS.md
@@ -72,7 +72,7 @@ check("No Unverified OEIS A261352 References in MATH_CLAIMS.md", () => {
 
 // 2. Epistemological Wording Drift Check across documentation
 check("No Overpromising Wording in Bridge-Welding Claims", () => {
-  const walkPath = path.join(__dirname, '..', '..', '..', '.gemini', 'antigravity', 'brain', 'a4eda2cb-68a5-41dc-8e98-fc3b9ce8dbec', 'walkthrough.md');
+  const walkPath = path.join(path.join(__dirname, '..'), '..', '..', '..', '.gemini', 'antigravity', 'brain', 'a4eda2cb-68a5-41dc-8e98-fc3b9ce8dbec', 'walkthrough.md');
   let walkContent = "";
   try { if (fs.existsSync(walkPath)) walkContent = fs.readFileSync(walkPath, 'utf8'); } catch(e) {}
   
@@ -84,7 +84,7 @@ check("No Overpromising Wording in Bridge-Welding Claims", () => {
 
 // 3. Parikh Packing Arithmetic Integrity Check (No Bitwise << in Web Worker)
 check("No Bitwise Left Shift (<<) in Web Worker Parikh Packing", () => {
-  const workerPath = path.join(__dirname, 'aa2fr-worker.js');
+  const workerPath = path.join(path.join(__dirname, '..'), 'aa2fr-worker.js');
   if (fs.existsSync(workerPath)) {
     const workerContent = fs.readFileSync(workerPath, 'utf8');
     if (workerContent.includes("<<")) {
@@ -98,7 +98,7 @@ check("No Bitwise Left Shift (<<) in Web Worker Parikh Packing", () => {
 
 // 4. No Emoji Characters in Tab 18 / Module 18 UI & Dispatcher
 check("No Emoji Characters in Module 18 UI & Citizen Science Dispatcher", () => {
-  const indexPath = path.join(__dirname, 'index.html');
+  const indexPath = path.join(path.join(__dirname, '..'), 'index.html');
   if (fs.existsSync(indexPath)) {
     const indexContent = fs.readFileSync(indexPath, 'utf8');
     
@@ -124,9 +124,9 @@ check("No Emoji Characters in Module 18 UI & Citizen Science Dispatcher", () => 
 
 // 5. Standalone HPC CLI Runner Integrity Check (seam-hpc-cli.js)
 check("Standalone HPC CLI Runner Integrity & Arithmetic Check", () => {
-  const cliPath = path.join(__dirname, 'seam-hpc-cli.js');
+  const cliPath = path.join(path.join(__dirname, '..'), 'scripts', 'seam-hpc-cli.js');
   if (!fs.existsSync(cliPath)) {
-    throw new Error("seam-hpc-cli.js missing! Standalone multi-core CLI runner must exist in repository root.");
+    throw new Error("seam-hpc-cli.js missing! Standalone multi-core CLI runner must exist in scripts directory.");
   }
   const cliContent = fs.readFileSync(cliPath, 'utf8');
   if (cliContent.includes("<<")) {
@@ -143,7 +143,7 @@ check("Standalone HPC CLI Runner Integrity & Arithmetic Check", () => {
 
 // 6. Windows 1-Click Interactive Launcher Check (run-seam-search.bat)
 check("Windows 1-Click Interactive Batch Launcher Integrity", () => {
-  const batPath = path.join(__dirname, 'run-seam-search.bat');
+  const batPath = path.join(path.join(__dirname, '..'), 'run-seam-search.bat');
   if (!fs.existsSync(batPath)) {
     throw new Error("run-seam-search.bat missing! Windows 1-click batch launcher must exist in repository root.");
   }
@@ -180,7 +180,7 @@ check("No Overclaiming Language in Program Output (CLI, workers, launcher)", () 
   const offences = [];
 
   for (const f of files) {
-    const p = path.join(__dirname, f);
+    const p = path.join(path.join(__dirname, '..'), f);
     if (!fs.existsSync(p)) continue;
     const lines = fs.readFileSync(p, 'utf8').split(/\r?\n/);
     lines.forEach((line, i) => {
@@ -205,7 +205,7 @@ check("No Overclaiming Language in Program Output (CLI, workers, launcher)", () 
 
 // 6c. The p6 mode must actually load the construction it claims to audit.
 check("seam-hpc-cli p6 mode audits the real g3(h6^n(a)) construction", () => {
-  const p = path.join(__dirname, 'seam-hpc-cli.js');
+  const p = path.join(path.join(__dirname, '..'), 'seam-hpc-cli.js');
   if (!fs.existsSync(p)) return;
   const src = fs.readFileSync(p, 'utf8');
   if (!/require\(['"]\.\/morphisms(\.js)?['"]\)/.test(src)) {
@@ -222,7 +222,7 @@ check("seam-hpc-cli p6 mode audits the real g3(h6^n(a)) construction", () => {
 // window.MathJax and window.katex are undefined and the only external script is
 // the worker. 93 inline spans were converted to HTML/Unicode; this keeps them out.
 check("No raw LaTeX or broken entities in index.html markup", () => {
-  const p = path.join(__dirname, 'index.html');
+  const p = path.join(path.join(__dirname, '..'), 'index.html');
   if (!fs.existsSync(p)) return;
   const src = fs.readFileSync(p, 'utf8');
   // Script blocks are exempt: JS may legitimately contain backslashes and ${...}.
@@ -270,16 +270,16 @@ check("No raw LaTeX or broken entities in index.html markup", () => {
 // hears about, the router sends the next reader to the wrong place. Cheap to
 // check, and the failure mode is silent otherwise.
 check("RESEARCH_CONTEXT.md lists the exact pipeline accurately", () => {
-  const p = path.join(__dirname, 'RESEARCH_CONTEXT.md');
+  const p = path.join(path.join(__dirname, '..'), 'RESEARCH_CONTEXT.md');
   if (!fs.existsSync(p)) throw new Error('RESEARCH_CONTEXT.md is missing; it is the documented entry point for a new session.');
   const doc = fs.readFileSync(p, 'utf8');
 
   // Every module it names must exist.
   const named = [...doc.matchAll(/^([a-z0-9-]+\.js)\s{2,}/gm)].map(m => m[1]);
   if (named.length === 0) throw new Error('RESEARCH_CONTEXT.md lists no pipeline modules; section 3 has lost its table.');
-  const missing = named.filter(f => !fs.existsSync(path.join(__dirname, f)));
+  const missing = named.filter(f => !fs.existsSync(path.join(path.join(__dirname, '..'), 'src', f)) && !fs.existsSync(path.join(path.join(__dirname, '..'), 'scripts', f)));
   if (missing.length) {
-    throw new Error(`RESEARCH_CONTEXT.md names modules that do not exist: ${missing.join(', ')}`);
+    throw new Error(`RESEARCH_CONTEXT.md names modules that do not exist in src or scripts: ${missing.join(', ')}`);
   }
 
   // Every exact-pipeline module must be named. Deliberately excludes the app,
@@ -287,14 +287,16 @@ check("RESEARCH_CONTEXT.md lists the exact pipeline accurately", () => {
   const EXCLUDE = new Set(['aa2fr-worker.js', 'seam-hpc-cli.js', 'test.js',
     'check-claims-drift.js', 'test-theorem10-boundary.js', 'verify-theorem6.js', 'morphisms.js',
     'fix_entities.js']);
-  const onDisk = fs.readdirSync(__dirname).filter(f => f.endsWith('.js') && !EXCLUDE.has(f));
+  const onDiskSrc = fs.readdirSync(path.join(path.join(__dirname, '..'), 'src')).filter(f => f.endsWith('.js') && !EXCLUDE.has(f));
+  const onDiskScripts = fs.readdirSync(path.join(path.join(__dirname, '..'), 'scripts')).filter(f => f.endsWith('.js') && !EXCLUDE.has(f));
+  const onDisk = [...onDiskSrc, ...onDiskScripts];
   const unlisted = onDisk.filter(f => !doc.includes(f));
   if (unlisted.length) {
     throw new Error(`These exact-pipeline modules are not listed in RESEARCH_CONTEXT.md section 3: ${unlisted.join(', ')}. A new session would not know they exist.`);
   }
 
   // The claim count it quotes must match the ledger.
-  const rows = (fs.readFileSync(path.join(__dirname, 'MATH_CLAIMS.md'), 'utf8').match(/^\| \d+[a-c]? \|/gm) || []).length;
+  const rows = (fs.readFileSync(path.join(path.join(__dirname, '..'), 'MATH_CLAIMS.md'), 'utf8').match(/^\| \d+[a-c]? \|/gm) || []).length;
   const quoted = doc.match(/(\d+)\s+riviä/);
   if (quoted && Number(quoted[1]) !== rows) {
     throw new Error(`RESEARCH_CONTEXT.md says MATH_CLAIMS.md has ${quoted[1]} rows; it has ${rows}.`);
@@ -308,7 +310,7 @@ check("RESEARCH_CONTEXT.md lists the exact pipeline accurately", () => {
 // the document reads fine, and only someone who follows a pointer discovers it
 // leads nowhere. Cheap to check, so it is checked.
 check("KNOWLEDGE_STATE.md cites only ledger rows that exist", () => {
-  const p = path.join(__dirname, 'KNOWLEDGE_STATE.md');
+  const p = path.join(path.join(__dirname, '..'), 'KNOWLEDGE_STATE.md');
   if (!fs.existsSync(p)) return;   // optional document
   const doc = fs.readFileSync(p, 'utf8');
 
@@ -335,7 +337,7 @@ check("KNOWLEDGE_STATE.md cites only ledger rows that exist", () => {
   // Use the real column parser rather than a regex over the whole line: a row
   // that DISCUSSES retraction (row 61 does) is not itself retracted. That false
   // positive appeared the first time this check met row 61.
-  const rejectedRows = require('./claims-export.js')
+  const rejectedRows = require('../src/claims-export.js')
     .parseLedger(claimsContent)
     .filter(r => r.status === 'REJECTED')
     .map(r => r.id);
@@ -356,7 +358,7 @@ check("KNOWLEDGE_STATE.md cites only ledger rows that exist", () => {
 // a row's columns in every markdown renderer - five rows were broken that way
 // when this was first run.
 check("MATH_CLAIMS.md exports cleanly and every quotable figure traces to its row", () => {
-  const ce = require('./claims-export.js');
+  const ce = require('../src/claims-export.js');
   const res = ce.runControls();          // throws on any structural defect
   if (res.data.rowCount < 60) {
     throw new Error(`only ${res.data.rowCount} rows parsed; the table format probably changed`);

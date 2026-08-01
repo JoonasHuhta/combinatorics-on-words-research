@@ -44,14 +44,14 @@
  * the theoretical bounding box.
  */
 
-const { H6 } = require('./morphisms.js');
-const jd = require('./jordan-decomposition.js');
-const p5 = require('./proposition5-bounds.js');
-const ab = require('./ancestor-box.js');
-const gp = require('./get-parents.js');
-const ff = require('./factor-frequencies.js');
+const { H6 } = require('../src/morphisms.js');
+const jd = require('../src/jordan-decomposition.js');
+const p5 = require('../src/proposition5-bounds.js');
+const ab = require('../src/ancestor-box.js');
+const gp = require('../src/get-parents.js');
+const ff = require('../src/factor-frequencies.js');
 const { K, parikhMatrixK, decompose } = jd;
-const { realizedTemplates, l1 } = require('./decide-realizability.js');
+const { realizedTemplates, l1 } = require('../src/decide-realizability.js');
 
 const S6 = ['a', 'b', 'c', 'd', 'e', 'f'];
 const N = 6;

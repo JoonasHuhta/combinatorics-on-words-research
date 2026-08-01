@@ -47,7 +47,7 @@
  * Usage:  node h6-image-sweep.js [--depth 7] [--L 1,2,3] [--budget 500000000] [--nosym]
  */
 
-const { H6, G3, verifyMorphismIntegrity } = require('./morphisms.js');
+const { H6, G3, verifyMorphismIntegrity } = require('../src/morphisms.js');
 
 const SIX = 'abcdef';
 const THREE = 'abc';

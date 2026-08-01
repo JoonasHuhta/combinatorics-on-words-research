@@ -204,7 +204,7 @@ if (!isMainThread) {
     // exact statement about the infinite word see factor-frequencies.js, which
     // enumerates complete factor sets instead of scanning a prefix.
     // ------------------------------------------------------------------------
-    const { H6, G3 } = require('./morphisms.js');
+    const { H6, G3 } = require('../src/morphisms.js');
     const { iterations, maxK, kOffset, kStride } = taskData;
 
     let w = 'a';

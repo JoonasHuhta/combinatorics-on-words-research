@@ -16,7 +16,7 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
-const { H6, G3, G85, G98, G109, verifyMorphismIntegrity, djb2Hash, ParikhFenwickTree, RecursiveParikhOracle, weldBridge, replicateP6, runNegativeControlTest } = require('./morphisms.js');
+const { H6, G3, G85, G98, G109, verifyMorphismIntegrity, djb2Hash, ParikhFenwickTree, RecursiveParikhOracle, weldBridge, replicateP6, runNegativeControlTest } = require('../src/morphisms.js');
 
 console.log("=== STARTING AA2FR AUTOMATED REGRESSION TEST SUITE ===\n");
 
@@ -192,7 +192,7 @@ test("Rao & Rosenfeld 34 Unique Abelian Squares in g3(h6^6(a))", () => {
 // 6. MATH_CLAIMS & CITATIONS DRIFT / INTEGRITY CHECK
 // ----------------------------------------------------
 test("MATH_CLAIMS.md Integrity & Canonical Bounds Verification", () => {
-  const claimsPath = path.join(__dirname, 'MATH_CLAIMS.md');
+  const claimsPath = path.join(__dirname, '../MATH_CLAIMS.md');
   const content = fs.readFileSync(claimsPath, 'utf8');
   
   assert.ok(content.includes("18") && content.includes("pituudeltaan 7"), "MATH_CLAIMS.md must state 18 words of max length 7");
@@ -332,7 +332,7 @@ test("Negative Control Calibration (Ternary Cutoff Verification)", () => {
 // 12. EXACT SPECTRAL VALUES (MATH_CLAIMS.md #17, #18)
 // ----------------------------------------------------
 test("Perron-Frobenius Exact Frequencies & Characteristic Polynomial", () => {
-  const pf = require('./perron-frobenius.js');
+  const pf = require('../src/perron-frobenius.js');
 
   const { alphabet, A, uniformLength } = pf.incidenceMatrix(H6);
   assert.strictEqual(uniformLength, 3, "h6 must be 3-uniform (image length 3 over a 6-letter alphabet)");
@@ -398,7 +398,7 @@ test("Citation Guard: h6/g3 construction is not attributed to arXiv:1507.02581",
     `arXiv:1507.02581 is "Avoidability of long k-abelian repetitions"; the h6/g3 construction is arXiv:1511.05875. ` +
     `Offending files: ${offenders.join(', ')}`);
 
-  const claims = fs.readFileSync(path.join(__dirname, 'MATH_CLAIMS.md'), 'utf8');
+  const claims = fs.readFileSync(path.join(__dirname, '../MATH_CLAIMS.md'), 'utf8');
   assert.ok(claims.includes('1511.05875'),
     "MATH_CLAIMS.md must record arXiv:1511.05875 as the preprint for the h6/g3 construction");
 });
@@ -435,7 +435,7 @@ test("Primary Source Audit: h6/g3 verbatim vs arXiv:1511.05875 Sec 5.4", () => {
 
   // Theorem numbering, corrected 2026-07-28. The old numbers pointed at real but
   // unrelated theorems, which is the most dangerous kind of citation error.
-  const claims = fs.readFileSync(path.join(__dirname, 'MATH_CLAIMS.md'), 'utf8');
+  const claims = fs.readFileSync(path.join(__dirname, '../MATH_CLAIMS.md'), 'utf8');
   assert.ok(/Theorem 4/.test(claims), "MATH_CLAIMS.md must cite Theorem 4 for h6^w(a) abelian-square-freeness");
   assert.ok(/Theorem 9/.test(claims), "MATH_CLAIMS.md must cite Theorem 9 for g3(h6^w(a)) period > 5");
   assert.ok(/Theorem 10/.test(claims), "MATH_CLAIMS.md must cite Theorem 10 for ternary existence");
@@ -451,8 +451,8 @@ test("Primary Source Audit: h6/g3 verbatim vs arXiv:1511.05875 Sec 5.4", () => {
 // 15. EXACT FACTOR STATISTICS (MATH_CLAIMS.md rows 19, 20)
 // ----------------------------------------------------
 test("Exact Factor Statistics: rho_K and the 34-square census", () => {
-  const ff = require('./factor-frequencies.js');
-  const pfm = require('./perron-frobenius.js');
+  const ff = require('../src/factor-frequencies.js');
+  const pfm = require('../src/perron-frobenius.js');
 
   const MAX_K = 20;
   const census = [];
@@ -491,8 +491,8 @@ test("Exact Factor Statistics: rho_K and the 34-square census", () => {
 // 16. PROPOSITION 9 PRECONDITIONS (MATH_CLAIMS.md row 21)
 // ----------------------------------------------------
 test("Rao & Rosenfeld Proposition 9 preconditions hold for (h6, g3)", () => {
-  const dp = require('./decision-preconditions.js');
-  const pfm = require('./perron-frobenius.js');
+  const dp = require('../src/decision-preconditions.js');
+  const pfm = require('../src/perron-frobenius.js');
   const S6 = ['a', 'b', 'c', 'd', 'e', 'f'], S3 = ['a', 'b', 'c'];
 
   // Condition 1 is a consequence of the spectrum; assert the spectrum itself.
@@ -525,7 +525,7 @@ test("Rao & Rosenfeld Proposition 9 preconditions hold for (h6, g3)", () => {
 // 17. SMITH NORMAL FORM & THE g3 IMAGE LATTICE (MATH_CLAIMS.md row 24)
 // ----------------------------------------------------
 test("Smith normal form: g3 image lattice has index 10 in Z^3", () => {
-  const snf = require('./smith-normal-form.js');
+  const snf = require('../src/smith-normal-form.js');
   const S6 = ['a', 'b', 'c', 'd', 'e', 'f'], S3 = ['a', 'b', 'c'];
   const Mg = S3.map(y => S6.map(x => {
     let k = 0n;
@@ -572,7 +572,7 @@ test("Smith normal form: g3 image lattice has index 10 in Z^3", () => {
 // 18. EXACT JORDAN DECOMPOSITION OVER Q(sqrt(3)) (MATH_CLAIMS.md row 25)
 // ----------------------------------------------------
 test("Jordan form of M_h over Q(sqrt(3)): defective at 0, blocks 2 + 1", () => {
-  const jd = require('./jordan-decomposition.js');
+  const jd = require('../src/jordan-decomposition.js');
   const S6 = ['a', 'b', 'c', 'd', 'e', 'f'];
   const M = jd.parikhMatrixK(H6, S6, S6);
   const res = jd.decompose(M);   // throws unless M*P = P*J, P*Pinv = I, P*J*Pinv = M
@@ -607,7 +607,7 @@ test("Jordan form of M_h over Q(sqrt(3)): defective at 0, blocks 2 + 1", () => {
 // 19. FACTOR COMPLEXITY (MATH_CLAIMS.md rows 27, 28)
 // ----------------------------------------------------
 test("Factor complexity: ternary cutoff reproduced, construction is linear", () => {
-  const fc = require('./factor-complexity.js');
+  const fc = require('../src/factor-complexity.js');
   const byKey = Object.fromEntries(fc.LANGUAGES.map(L => [L.key, L]));
 
   // Row 27: an independent code path must reproduce the canonical row-1 numbers.
@@ -642,8 +642,8 @@ test("Factor complexity: ternary cutoff reproduced, construction is linear", () 
 // 20. PROPOSITION 5 BOUNDS (MATH_CLAIMS.md row 29)
 // ----------------------------------------------------
 test("Proposition 5 bounds: c = 8/3 and 2/3, respected by actual factors", () => {
-  const jd = require('./jordan-decomposition.js');
-  const p5 = require('./proposition5-bounds.js');
+  const jd = require('../src/jordan-decomposition.js');
+  const p5 = require('../src/proposition5-bounds.js');
   const K = jd.K;
   const S6 = ['a', 'b', 'c', 'd', 'e', 'f'];
 
@@ -687,9 +687,9 @@ test("Proposition 5 bounds: c = 8/3 and 2/3, respected by actual factors", () =>
 // 21. THE FINITE ANCESTOR BOX (MATH_CLAIMS.md row 30)
 // ----------------------------------------------------
 test("Ancestor box: Prop 5 + Prop 6 bounds confine ancestors to 125,931 vectors", () => {
-  const jd = require('./jordan-decomposition.js');
-  const p5 = require('./proposition5-bounds.js');
-  const ab = require('./ancestor-box.js');
+  const jd = require('../src/jordan-decomposition.js');
+  const p5 = require('../src/proposition5-bounds.js');
+  const ab = require('../src/ancestor-box.js');
   const K = jd.K;
   const S6 = ['a', 'b', 'c', 'd', 'e', 'f'];
 
@@ -742,11 +742,11 @@ test("Ancestor box: Prop 5 + Prop 6 bounds confine ancestors to 125,931 vectors"
 // 22. PARENTS AND ANCESTOR CLOSURE (MATH_CLAIMS.md row 31)
 // ----------------------------------------------------
 test("getParents: |Par(t_0)| = 21237, ancestor closure closes at 116578", () => {
-  const jd = require('./jordan-decomposition.js');
-  const p5 = require('./proposition5-bounds.js');
-  const ab = require('./ancestor-box.js');
-  const gp = require('./get-parents.js');
-  const smith = require('./smith-normal-form.js');
+  const jd = require('../src/jordan-decomposition.js');
+  const p5 = require('../src/proposition5-bounds.js');
+  const ab = require('../src/ancestor-box.js');
+  const gp = require('../src/get-parents.js');
+  const smith = require('../src/smith-normal-form.js');
   const K = jd.K;
   const S6 = ['a', 'b', 'c', 'd', 'e', 'f'];
 
@@ -805,8 +805,8 @@ test("getParents: |Par(t_0)| = 21237, ancestor closure closes at 116578", () => 
 // 23. THE DECISION PROCEDURE (MATH_CLAIMS.md row 32)
 // ----------------------------------------------------
 test("Decision procedure re-derives Theorem 4: h6^w(a) is abelian-square-free", () => {
-  const dr = require('./decide-realizability.js');
-  const gp = require('./get-parents.js');
+  const dr = require('../src/decide-realizability.js');
+  const gp = require('../src/get-parents.js');
 
   const t0key = ['', '', ''].join('|') + '#' + [new Array(6).fill(0)].map(gp.vKey).join('|');
   const realizesT0 = (w, strict) => [...dr.realizedTemplates(w, strict)]
@@ -844,8 +844,8 @@ test("Decision procedure re-derives Theorem 4: h6^w(a) is abelian-square-free", 
 // 24. RAUZY GRAPHS AND SPECIAL FACTORS (MATH_CLAIMS.md rows 34, 35)
 // ----------------------------------------------------
 test("Rauzy graphs: binary branching, Cassaigne, and the length-9 dead ends", () => {
-  const rg = require('./rauzy-graph.js');
-  const fc = require('./factor-complexity.js');
+  const rg = require('../src/rauzy-graph.js');
+  const fc = require('../src/factor-complexity.js');
   const S3 = ['a', 'b', 'c'];
   const byKey = Object.fromEntries(fc.LANGUAGES.map(L => [L.key, L]));
 
@@ -899,7 +899,7 @@ test("Rauzy graphs: binary branching, Cassaigne, and the length-9 dead ends", ()
 // 25. SMALL MORPHISM SCAN (MATH_CLAIMS.md row 36)
 // ----------------------------------------------------
 test("No uniform ternary morphism with k <= 5 avoids abelian squares of period >= 2", () => {
-  const ms = require('./morphism-scan.js');
+  const ms = require('../scripts/morphism-scan.js');
 
   // The violation detector must fire on real abelian squares and not invent any.
   assert.ok(ms.firstViolation('abab') > 0, "'abab' contains a period-2 abelian square");
@@ -927,7 +927,7 @@ test("No uniform ternary morphism with k <= 5 avoids abelian squares of period >
 // 26. RECORD WORD VERIFICATION (MATH_CLAIMS.md rows 40, 41, 42)
 // ----------------------------------------------------
 test("Record words verify as aa2f; FORBID4 is a heuristic, not a rule", () => {
-  const wa = require('./word-anatomy.js');
+  const wa = require('../src/word-anatomy.js');
 
   const expected = [
     { file: 'keranen_1928.txt', length: 1928, forbidTotal: 0 },
@@ -977,8 +977,8 @@ test("Record words verify as aa2f; FORBID4 is a heuristic, not a rule", () => {
 // 27. PROPOSITION 11 TARGET SET AND THEOREM 6 (MATH_CLAIMS.md rows 45, 46)
 // ----------------------------------------------------
 test("Proposition 11 target set, and Theorem 6 re-derived", () => {
-  const p11 = require('./proposition11-targets.js');
-  const dps = require('./decide-phi-squares.js');
+  const p11 = require('../src/proposition11-targets.js');
+  const dps = require('../src/decide-phi-squares.js');
 
   const r = p11.targetSet();       // throws if the hypothesis fails
   assert.strictEqual(r.kappa, 3, "ker(F_Phi) must have rank 3 over Z");
@@ -1007,7 +1007,7 @@ test("Proposition 11 target set, and Theorem 6 re-derived", () => {
 // 28. UNFAVOURABLE FACTORS (MATH_CLAIMS.md row 47)
 // ----------------------------------------------------
 test("Unfavourable factors exist over four letters, first at length 8", () => {
-  const uf = require('./unfavourable-factors.js');
+  const uf = require('../src/unfavourable-factors.js');
   const S4 = ['a', 'b', 'c', 'd'], S3 = ['a', 'b', 'c'];
   const CAP = 20;
 
@@ -1029,8 +1029,8 @@ test("Unfavourable factors exist over four letters, first at length 8", () => {
   assert.strictEqual(c8.candidates, 24, `Length 8 must yield 24 candidates, got ${c8.candidates}`);
 
   // Validation against row 35: the ternary aa2f depth-0 case must agree.
-  const rg = require('./rauzy-graph.js');
-  const fc = require('./factor-complexity.js');
+  const rg = require('../src/rauzy-graph.js');
+  const fc = require('../src/factor-complexity.js');
   const L = fc.LANGUAGES.find(x => x.key === 'aa2f');
   const ext = rg.extendabilityCensus(rg.constraintFactors(L, 9), rg.constraintFactors(L, 10), S3);
   let depthZero = 0;
@@ -1058,7 +1058,7 @@ test("Unfavourable factors exist over four letters, first at length 8", () => {
 // 29. ROUTE (c) IMAGE SWEEP (h6-image-sweep.js, MATH_CLAIMS row 49)
 // ----------------------------------------------------
 test("Route (c) sweep: uniform images of h6^w(a), L <= 3 - deaths, survivors and their large-K collapse", () => {
-  const sw = require('./h6-image-sweep.js');
+  const sw = require('../scripts/h6-image-sweep.js');
 
   // Built-in controls must hold (34-square census, negative control, g3 context).
   const ctrl = sw.runControls();
@@ -1103,7 +1103,7 @@ test("Route (c) sweep: uniform images of h6^w(a), L <= 3 - deaths, survivors and
 // 30. THE K IN [2,5] CONTAINER SFT (sft-container.js, MATH_CLAIMS row 51)
 // ----------------------------------------------------
 test("Container SFT: 3114 states, one SCC of 2844, letter frequencies in [1/11, 3/4], no binary tail", () => {
-  const sc = require('./sft-container.js');
+  const sc = require('../src/sft-container.js');
   const container = sc.buildContainer();
 
   // Controls throw on failure (S3 closure, negative control, DP-vs-DFS counts;
@@ -1140,7 +1140,7 @@ test("Container SFT: 3114 states, one SCC of 2844, letter frequencies in [1/11, 
 // 31. CONTAINER SFT AT K IN [2,6]: THE INTERVAL DOES NOT TIGHTEN (MATH_CLAIMS row 52)
 // ----------------------------------------------------
 test("Container SFT, K in [2,6]: language shrinks, frequency interval stays [1/11, 3/4]", () => {
-  const sc = require('./sft-container.js');
+  const sc = require('../src/sft-container.js');
   const c6 = sc.buildContainer(6);
 
   const ctrl = sc.runControls(c6);
@@ -1174,7 +1174,7 @@ test("Container SFT, K in [2,6]: language shrinks, frequency interval stays [1/1
 // 32. ADDITIVE SWEEP (additive-sweep.js, MATH_CLAIMS row 54)
 // ----------------------------------------------------
 test("Additive sweep: three-layer verification, ternary control ties to row 1, {0,1,2,3} exhausts at 50", () => {
-  const as = require('./additive-sweep.js');
+  const as = require('../scripts/additive-sweep.js');
 
   // All controls throw on failure: the ternary positive control (row 1),
   // the independent BFS cross-check, affine and reversal invariance, the
@@ -1225,7 +1225,7 @@ test("Additive sweep: three-layer verification, ternary control ties to row 1, {
 // 33. EXTENSION TABLES AS A SOUND ORACLE (extension-table.js, MATH_CLAIMS row 55)
 // ----------------------------------------------------
 test("Extension tables: bound is sound, oracle preserves the verdict, table transfers affinely", () => {
-  const et = require('./extension-table.js');
+  const et = require('../src/extension-table.js');
 
   // Controls throw on failure: the bound tested against directly computed
   // extensions, verdict preservation, affine transfer, serialisation, and the
@@ -1271,7 +1271,7 @@ test("Extension tables: bound is sound, oracle preserves the verdict, table tran
 // 34. RESUMABLE CERTIFIED RUNS (sanalab-run.js, MATH_CLAIMS row 56)
 // ----------------------------------------------------
 test("Resumable runs: split budgets reproduce an unsplit run exactly; PARTIAL decides nothing", () => {
-  const sr = require('./sanalab-run.js');
+  const sr = require('../scripts/sanalab-run.js');
 
   // Controls throw on failure: iterative-vs-recursive agreement, exact
   // resumption across 2, 3 and 7 slices, PARTIAL honesty, lossless
@@ -1321,8 +1321,8 @@ test("Resumable runs: split budgets reproduce an unsplit run exactly; PARTIAL de
 // 35. TABLE LIBRARY (table-library.js, MATH_CLAIMS row 57)
 // ----------------------------------------------------
 test("Table library: affine keying is exact, a hit costs no search, tampering is refused", () => {
-  const tl = require('./table-library.js');
-  const et = require('./extension-table.js');
+  const tl = require('../src/table-library.js');
+  const et = require('../src/extension-table.js');
   const os = require('os');
   const fsx = require('fs');
   const pathx = require('path');
@@ -1386,7 +1386,7 @@ test("Table library: affine keying is exact, a hit costs no search, tampering is
 // 36. LEDGER EXPORT AND QUOTABLE FIGURES (claims-export.js, MATH_CLAIMS row 61)
 // ----------------------------------------------------
 test("Ledger exports cleanly; a figure not in its row cannot be published", () => {
-  const ce = require("./claims-export.js");
+  const ce = require('../src/claims-export.js');
 
   const { notes, data } = ce.runControls();
   assert.strictEqual(notes.length, 5, "runControls must report 5 control groups");
@@ -1429,8 +1429,8 @@ test("Ledger exports cleanly; a figure not in its row cannot be published", () =
 // 37. UNAVOIDABLE FACTORS OF THE CONTAINER (unavoidable-factors.js, row 62)
 // ----------------------------------------------------
 test("Container unavoidable factors: only single letters, none of length 2..9", () => {
-  const uf = require("./unavoidable-factors.js");
-  const sc = require("./sft-container.js");
+  const uf = require('../src/unavoidable-factors.js');
+  const sc = require('../src/sft-container.js');
 
   const container = sc.buildContainer(5);
   const words = uf.allStateWords(container);
@@ -1472,7 +1472,7 @@ test("Container unavoidable factors: only single letters, none of length 2..9", 
 // 38. ADDITIVE MORPHISM SCAN (additive-morphism-scan.js, MATH_CLAIMS row 67)
 // ----------------------------------------------------
 test("Additive morphism scan: agrees with additive-sweep.js; k<=4 exhaustive negative on {0,1,2,5}", () => {
-  const ams = require("./additive-morphism-scan.js");
+  const ams = require('../scripts/additive-morphism-scan.js');
 
   // Controls throw on failure: K=1 additive squares caught, agreement with
   // additive-sweep.js's definitional checker, and correct length-2 filtering.
@@ -1500,8 +1500,8 @@ test("Additive morphism scan: agrees with additive-sweep.js; k<=4 exhaustive neg
 // 39. ADDITIVE NON-UNIFORM MORPHISM SCAN (additive-nonuniform-morphism-scan.js, row 68)
 // ----------------------------------------------------
 test("Non-uniform additive morphism scan: reproduces the uniform case; exhaustive negative to maxlen=3", () => {
-  const anms = require("./additive-nonuniform-morphism-scan.js");
-  const ams = require("./additive-morphism-scan.js");
+  const anms = require('../scripts/additive-nonuniform-morphism-scan.js');
+  const ams = require('../scripts/additive-morphism-scan.js');
 
   // Controls throw on failure: K=1 definitional sanity, exact regression
   // against additive-morphism-scan.js's uniform scan(), and the length-1
@@ -1543,7 +1543,7 @@ test("Non-uniform additive morphism scan: reproduces the uniform case; exhaustiv
 // 40. CLAIMS-DATA HTML BINDING (claims-export.js, UI_UX_PLAN item 1)
 // ----------------------------------------------------
 test("index.html's embedded claims-data block is in sync and every binding resolves", () => {
-  const ce = require("./claims-export.js");
+  const ce = require('../src/claims-export.js');
   const fs = require("fs");
   const path = require("path");
 
@@ -1577,8 +1577,8 @@ test("index.html's embedded claims-data block is in sync and every binding resol
 // 41. ADDITIVE ROUTE (c) ANALOGUE (h6-additive-image-sweep.js, MATH_CLAIMS row 77)
 // ----------------------------------------------------
 test("Additive route (c): h6 codings are exhaustively negative at L=1,2,3", () => {
-  const has = require("./h6-additive-image-sweep.js");
-  const his = require("./h6-image-sweep.js");
+  const has = require('../scripts/h6-additive-image-sweep.js');
+  const his = require('../scripts/h6-image-sweep.js');
 
   // Controls throw on failure: clean-image counts at L=1..6 must match the
   // independently derived counts, and the all-zero coding must die at symbol 2.

@@ -43,7 +43,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const LEDGER = path.join(__dirname, 'MATH_CLAIMS.md');
+const LEDGER = path.join(__dirname, '..', 'MATH_CLAIMS.md');
 const INDEX_HTML = path.join(__dirname, 'index.html');
 const VALID_STATUS = ['PRIMARY', 'COMPUTED', 'INDIRECT', 'REJECTED'];
 
@@ -296,3 +296,4 @@ if (require.main === module) {
 }
 
 module.exports = { parseLedger, parseQuotable, verifyQuotable, build, runControls, syncedHtml, verifyHtmlBindings, VALID_STATUS };
+
