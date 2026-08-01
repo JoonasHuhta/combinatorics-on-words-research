@@ -34,9 +34,7 @@
     .legend-d { color: var(--letter-d); }
 
     /* Mode tabs */
-    .nav-group-title { font-size: 0.95rem; color: #7f8c8d; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 25px; margin-bottom: 10px; border-bottom: 1px solid #eaeaea; padding-bottom: 4px; font-weight: bold; }
-    .nav-group-title:first-of-type { margin-top: 0; }
-    .mode-tabs { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+    .mode-tabs { display: flex; gap: 8px; margin-bottom: 30px; flex-wrap: wrap; }
     .mode-tab { padding: 9px 16px; background: #f9f9f9; border: 1px solid var(--border); cursor: pointer; font-family: Arial, sans-serif; font-size: 0.85rem; transition: all 0.2s; border-radius: 4px; }
     .mode-tab:hover { background: #f0f0f0; }
     .mode-tab.active { background: #e0e0e0; font-weight: bold; border-color: #999; }
@@ -525,41 +523,29 @@
   <p class="legend">
     Letter colors:&ensp;
     <span class="legend-a">a</span>&ensp;<span class="legend-b">b</span>&ensp;<span class="legend-c">c</span>&ensp;<span class="legend-d">d</span>.
+    <span style="display: block; font-size: 0.75rem; color: #95a5a6; margin-top: 5px;">* Tab color categories:&ensp;<span class="legend-a">a</span>=Learn,&ensp;<span class="legend-b">b</span>=Explore,&ensp;<span class="legend-c">c</span>=Research,&ensp;<span class="legend-d">d</span>=How we know it</span>
   </p>
 
-  <h3 class="nav-group-title">Learn <span style="text-transform: none; font-size: 1.1em; margin-left: 5px;" class="legend-a">(a)</span></h3>
   <div class="mode-tabs">
     <div class="mode-tab tab-cat-a active" data-mode="tutorial" id="tab-tutorial">What is an Abelian square?</div>
-    <div class="mode-tab tab-cat-a" data-mode="timeline" id="tab-timeline">7. Historical Timeline</div>
-    <div class="mode-tab tab-cat-a" data-mode="knowledge" id="tab-knowledge">10. Concept Graph</div>
-    <div class="mode-tab tab-cat-a" data-mode="impact" id="tab-impact">15. Applications &amp; Impact</div>
-  </div>
-
-  <h3 class="nav-group-title">Explore <span style="text-transform: none; font-size: 1.1em; margin-left: 5px;" class="legend-b">(b)</span></h3>
-  <div class="mode-tabs">
     <div class="mode-tab tab-cat-b" data-mode="3letter" id="tab-3">1. Tree Search (3 letters)</div>
     <div class="mode-tab tab-cat-b" data-mode="abc-lab" id="tab-abc">2. ABC Laboratory</div>
-    <div class="mode-tab tab-cat-b" data-mode="try-it" id="tab-tryit">6. Try It Yourself</div>
-    <div class="mode-tab tab-cat-b" data-mode="snake" id="tab-snake">13. Abelian Snake</div>
+    <div class="mode-tab tab-cat-c" data-mode="4letter" id="tab-4">3. Morphism g&#8328;&#8325; (4 letters)</div>
     <div class="mode-tab tab-cat-b" data-mode="canvas" id="tab-canvas">4. 2D Walk</div>
     <div class="mode-tab tab-cat-b" data-mode="audio" id="tab-audio">5. Sonification</div>
-    <div class="mode-tab tab-cat-b" data-mode="gallery" id="tab-gallery">17. Art &amp; Math Gallery</div>
-  </div>
-
-  <h3 class="nav-group-title">Research <span style="text-transform: none; font-size: 1.1em; margin-left: 5px;" class="legend-c">(c)</span></h3>
-  <div class="mode-tabs">
-    <div class="mode-tab tab-cat-c" data-mode="4letter" id="tab-4">3. Morphism g&#8328;&#8325; (4 letters)</div>
+    <div class="mode-tab tab-cat-b" data-mode="try-it" id="tab-tryit">6. Try It Yourself</div>
+    <div class="mode-tab tab-cat-a" data-mode="timeline" id="tab-timeline">7. Historical Timeline</div>
     <div class="mode-tab tab-cat-c" data-mode="unfavorable" id="tab-unf">8. Unfavorable Factors</div>
     <div class="mode-tab tab-cat-c" data-mode="microscope" id="tab-microscope">9. Morphism Microscope</div>
+    <div class="mode-tab tab-cat-a" data-mode="knowledge" id="tab-knowledge">10. Concept Graph</div>
     <div class="mode-tab tab-cat-c" data-mode="morph-lab" id="tab-morph-lab">11. Morphism Lab</div>
     <div class="mode-tab tab-cat-c" data-mode="heat-map" id="tab-heat-map">12. Heat Map</div>
+    <div class="mode-tab tab-cat-b" data-mode="snake" id="tab-snake">13. Abelian Snake</div>
     <div class="mode-tab tab-cat-c" data-mode="aa2fr" id="tab-aa2fr">14. AA2FR Extension Lab</div>
-    <div class="mode-tab tab-cat-c" data-mode="gold-lab" id="tab-gold-lab">18. Seam Search &amp; Verification</div>
-  </div>
-
-  <h3 class="nav-group-title">How we know it <span style="text-transform: none; font-size: 1.1em; margin-left: 5px;" class="legend-d">(d)</span></h3>
-  <div class="mode-tabs" style="margin-bottom: 30px;">
+    <div class="mode-tab tab-cat-a" data-mode="impact" id="tab-impact">15. Applications &amp; Impact</div>
     <div class="mode-tab tab-cat-d" data-mode="validation" id="tab-validation">16. Validation Lab</div>
+    <div class="mode-tab tab-cat-b" data-mode="gallery" id="tab-gallery">17. Art &amp; Math Gallery</div>
+    <div class="mode-tab tab-cat-c" data-mode="gold-lab" id="tab-gold-lab">18. Seam Search &amp; Verification</div>
     <div class="mode-tab tab-cat-d" data-mode="graveyard" id="tab-graveyard">19. The Graveyard</div>
   </div>
 
