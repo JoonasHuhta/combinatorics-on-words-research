@@ -202,7 +202,39 @@ than another combinatorial search variant.
 to L=4 without first identifying, on paper, what makes it different from
 the three that already failed.
 
-**STEP 2. Build the positive control (A3, the k-abelian case).**
+**STEP 2. Build the positive control (A3, the k-abelian case). STARTED 2026-08-01 — and the design has a flaw that must be fixed before the result means anything.**
+
+*What was run:* `morphism-scan.js`'s exact structure with the equivalence
+relation swapped from 1-abelian to 2-abelian, exhaustive over uniform
+ternary morphisms k = 1..6. Its own controls passed first: a fast
+incremental 2-abelian checker cross-checked against a slow definitional
+one on 500 random words (identical verdicts), plus a negative control
+(literally identical adjacent blocks correctly caught).
+
+*Result:* **no survivor reached the prefix cap of 400 at any k ≤ 6.** The
+longest surviving prefix grows 1 → 17 → 34 → 39 → 71 → 149 for
+k = 1..6, roughly doubling per k. k=7 was started and had not finished.
+
+***The flaw, stated plainly:*** Fici & Puzynina's Theorem 65 guarantees
+that an infinite ternary word avoiding 2-abelian squares of period ≥ 2
+**exists**. It does *not* say that word is the fixed point of a small
+uniform ternary morphism. **So a negative result here does not indict the
+apparatus** — the known solution may simply live outside the space being
+searched (non-uniform, or a morphic image, or a projection from a larger
+alphabet), exactly as the 1-abelian solution does (g₃ ∘ h₆, row 49).
+As designed, this control cannot distinguish "the apparatus is broken"
+from "the target is not in this search space", which is the one thing it
+was supposed to do.
+
+*What must happen before Step 2 is worth anything:* **open the source for
+Theorem 65 and find out what form the known construction actually takes.**
+If it is a uniform ternary morphism fixed point with small k, this control
+is valid and its negative result is alarming. If it is anything else, the
+control must be rebuilt to search the space the known solution actually
+occupies. This is a literature task, not a compute task, and it is cheap.
+Also note the prefix-growth figures above are the kind of statistic
+`MATH_CLAIMS.md` row 37 warns about (max over a growing sample) — do not
+read the doubling as structural without the sample-size correction.
 *Why second, and why it is now risk management rather than a nicety:* the
 project has produced ~15 exhaustive negatives and **not one case where the
 apparatus is known to find something that exists**. A buggy search fails

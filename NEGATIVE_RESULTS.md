@@ -212,3 +212,50 @@ proposing anything.
 - **A visualization idea built on the same premise** (a Parikh-difference heatmap, with the pitch "the real word's heatmap would be uniformly dark, showing fragility everywhere") is undermined by the same finding: an unconstrained random word would look at least as dark, so the visualization would not distinguish structure from noise. Not built.
 
 **What would survive this critique, if anyone wants to pursue it:** normalized near-miss *rate* (not raw count, not "largest K reached") compared between the real word and the random baseline, with statistical significance stated. That is an invariant, calibrated question. It was not attempted here because it is unclear what it would be used for even if the difference is significant — no concrete follow-up question was identified.
+
+---
+
+## Proposal, not yet adopted: classifying entries by how final they are
+
+*Raised by the maintainer 2026-08-01. Recorded here because it is a real
+gap in this document, but NOT applied — reclassifying 19 existing sections
+is a change to how every one of them reads, and that is a maintainer
+decision (rule 5 in spirit, if not in letter).*
+
+Every section in this document currently reads with the same finality.
+They are not equally final, and at least one is demonstrably weaker than
+its own language suggests. Three distinguishable kinds:
+
+- **NECESSARY** — a logical or mathematical obstruction that cannot change
+  regardless of future compute or cleverness. §2 is the clearest case: a
+  local condition cannot certify a global property, and no amount of
+  computation alters that. §3 likewise: a word whose factor complexity
+  grows exponentially cannot be morphic, because morphic words have linear
+  complexity. These are closed forever.
+- **BOUNDED** — the result is exhaustive *within a stated window* and says
+  nothing outside it. §7 ("did not die at reachable window sizes"), §17
+  (bounded exhaustion of 3^60), and the L=4 attempts logged under Step 1
+  are all of this kind. A better method or more compute could genuinely
+  reopen these. They are not dead ends; they are unfinished measurements
+  wearing the language of dead ends.
+- **CONTEXTUAL** — the technique works, but not here. §8 (a sound pruning
+  oracle that is useless for record-hunting specifically), §12 (an ordering
+  heuristic that wins in its own setting and loses in aa2f). These are
+  warnings about transfer, not about the technique.
+
+**The concrete case that motivates this, and it is not hypothetical:**
+§17 concludes that the 3^60 space is "extremely hostile" and that
+possibly *no* 10-uniform coding avoids small squares. That reads as
+NECESSARY. It is BOUNDED at best — the search order had almost no
+constraint propagation (assignment was letter-major, so the first five
+letters constrained roughly 80 of 12,960 symbols), and 500 million
+branches is a vanishing fraction of 3^60. The same question was later
+shown to be *exactly decidable* by the locality-CSP (row 78), which found
+200,106 survivors of the small window at L=6 — the opposite of an empty
+stratum. §17's language outran its evidence, and nothing in this
+document's format flagged that.
+
+**Why this matters beyond tidiness:** the whole point of this file is to
+stop the project revisiting closed ground. If BOUNDED entries are read as
+NECESSARY, the file does the opposite of its job — it closes off routes
+that are merely unfinished. That is a failure mode with no current guard.
