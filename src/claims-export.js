@@ -44,7 +44,7 @@ const fs = require('fs');
 const path = require('path');
 
 const LEDGER = path.join(__dirname, '..', 'MATH_CLAIMS.md');
-const INDEX_HTML = path.join(__dirname, 'index.html');
+const INDEX_HTML = path.join(__dirname, '..', 'index.html');
 const VALID_STATUS = ['PRIMARY', 'COMPUTED', 'INDIRECT', 'REJECTED'];
 
 // ---------------------------------------------------------------------------

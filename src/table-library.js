@@ -59,7 +59,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 const et = require('./extension-table.js');
-const { canonicalForm } = require('./additive-sweep.js');
+const { canonicalForm } = require('../scripts/additive-sweep.js');
 const { djb2Hash } = require('./morphisms.js');
 
 const FORMAT = 'sanalab-extension-table/1';

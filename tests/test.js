@@ -1547,7 +1547,7 @@ test("index.html's embedded claims-data block is in sync and every binding resol
   const fs = require("fs");
   const path = require("path");
 
-  const htmlPath = path.join(__dirname, "index.html");
+  const htmlPath = path.join(__dirname, '..', 'index.html');
   const html = fs.readFileSync(htmlPath, "utf8");
   const { data } = ce.runControls();
 

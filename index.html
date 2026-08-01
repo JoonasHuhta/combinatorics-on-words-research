@@ -509,7 +509,7 @@
   </p>
 
   <div class="mode-tabs">
-    <div class="mode-tab active" data-mode="tutorial" id="tab-tutorial" style="background: #e1f5fe; border-color: #039be5;">0. Mikä on Abelin neliö?</div>
+    <div class="mode-tab active" data-mode="tutorial" id="tab-tutorial" style="background: #e1f5fe; border-color: #039be5;">0. What is an Abelian square?</div>
     <div class="mode-tab" data-mode="3letter" id="tab-3">1. Tree Search (3 letters)</div>
     <div class="mode-tab" data-mode="abc-lab" id="tab-abc">2. ABC Laboratory</div>
     <div class="mode-tab" data-mode="4letter" id="tab-4">3. Morphism g&#8328;&#8325; (4 letters)</div>
@@ -552,18 +552,18 @@
   </div>
 
   <!-- ================================================
-       0. Mikä on Abelin neliö? (Tutorial)
+       0. What is an Abelian square? (Tutorial)
        ================================================ -->
   <div class="view-panel" id="view-tutorial">
     <div class="tutorial-container" style="max-width: 800px; margin: 0 auto; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
       
       <div class="tutorial-slide active" id="tut-slide-1">
-        <h2>Mikä on Abelin neliö?</h2>
+        <h2>What is an Abelian square?</h2>
         <p style="font-size: 1.1rem; line-height: 1.6; color: #444;">
-          Tavallinen neliö on sana, joka toistuu peräkkäin, kuten <strong>hotdoghotdog</strong> (hotdog + hotdog) tai <strong>abcabc</strong> (abc + abc).
+          An ordinary square is a word that repeats consecutively, like <strong>hotdoghotdog</strong> (hotdog + hotdog) or <strong>abcabc</strong> (abc + abc).
         </p>
         <p style="font-size: 1.1rem; line-height: 1.6; color: #444;">
-          <strong>Abelin neliö</strong> on väljempi käsite: se on sana, joka koostuu kahdesta peräkkäisestä osasta, joissa on <em>täsmälleen samat kirjaimet, mutta mahdollisesti eri järjestyksessä.</em>
+          An <strong>Abelian square</strong> is a looser concept: it is a word consisting of two consecutive parts that have <em>exactly the same letters, but possibly in a different order.</em>
         </p>
         <div style="display: flex; justify-content: center; margin: 30px 0;">
           <div style="padding: 15px; border: 2px solid #3498db; border-radius: 8px; background: #ebf5fb; font-size: 1.4rem; font-family: monospace; letter-spacing: 2px;">
@@ -571,53 +571,53 @@
           </div>
         </div>
         <p style="font-size: 1.1rem; line-height: 1.6; color: #444;">
-          Vasen puolisko (abc) ja oikea puolisko (cab) sisältävät molemmat yhden a:n, yhden b:n ja yhden c:n. Tämä on Abelin neliö!
+          The left half (abc) and the right half (cab) both contain one a, one b, and one c. This is an Abelian square!
         </p>
         <div style="text-align: right; margin-top: 20px;">
-          <button onclick="document.getElementById('tut-slide-1').classList.remove('active'); document.getElementById('tut-slide-2').classList.add('active');" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">Seuraava &rarr;</button>
+          <button onclick="document.getElementById('tut-slide-1').classList.remove('active'); document.getElementById('tut-slide-2').classList.add('active');" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">Next &rarr;</button>
         </div>
       </div>
 
       <div class="tutorial-slide" id="tut-slide-2" style="display: none;">
-        <h2>Eikö Abelin neliöitä voisi vain välttää?</h2>
+        <h2>Couldn't we just avoid Abelian squares?</h2>
         <p style="font-size: 1.1rem; line-height: 1.6; color: #444;">
-          Jos käytössäsi on vain <strong>kolme kirjainta</strong> (a, b ja c), tehtävä osoittautuu mahdottomaksi.
+          If you only have <strong>three letters</strong> (a, b, and c), the task turns out to be impossible.
         </p>
         <p style="font-size: 1.1rem; line-height: 1.6; color: #444;">
-          Kuinka pitkän sanan pystyt muodostamaan niin, ettei <em>missään</em> sen osassa esiinny Abelin neliötä?
+          How long of a word can you form so that <em>no</em> part of it contains an Abelian square?
         </p>
         <div style="background: #fdfefe; padding: 20px; border-left: 4px solid #e74c3c; margin: 20px 0; font-family: monospace; font-size: 1.2rem;">
-          Tässä on pisin mahdollinen: <br><br>
-          <span style="color: #e74c3c; font-weight: bold;">a</span> <span style="color: #2980b9; font-weight: bold;">b</span> <span style="color: #27ae60; font-weight: bold;">c</span> <span style="color: #2980b9; font-weight: bold;">b</span> <span style="color: #e74c3c; font-weight: bold;">a</span> <span style="color: #27ae60; font-weight: bold;">c</span> <span style="color: #2980b9; font-weight: bold;">b</span> (Pituus 7)
+          Here is the longest possible: <br><br>
+          <span style="color: #e74c3c; font-weight: bold;">a</span> <span style="color: #2980b9; font-weight: bold;">b</span> <span style="color: #27ae60; font-weight: bold;">c</span> <span style="color: #2980b9; font-weight: bold;">b</span> <span style="color: #e74c3c; font-weight: bold;">a</span> <span style="color: #27ae60; font-weight: bold;">c</span> <span style="color: #2980b9; font-weight: bold;">b</span> (Length 7)
         </div>
         <p style="font-size: 1.1rem; line-height: 1.6; color: #444;">
-          Minkä tahansa kirjaimen lisäätkin (a, b tai c) tämän perään, muodostuu väistämättä Abelin neliö. Yritä lisätä 'a', 'b' tai 'c' ja katso mitä tapahtuu "1. Tree Search (3 letters)" -välilehdellä!
+          No matter which letter you add (a, b, or c) after this, an Abelian square inevitably forms. Try adding 'a', 'b', or 'c' and see what happens in the "1. Tree Search (3 letters)" tab!
         </p>
         <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-          <button onclick="document.getElementById('tut-slide-2').classList.remove('active'); document.getElementById('tut-slide-1').classList.add('active');" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">&larr; Edellinen</button>
-          <button onclick="document.getElementById('tut-slide-2').classList.remove('active'); document.getElementById('tut-slide-3').classList.add('active');" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">Seuraava &rarr;</button>
+          <button onclick="document.getElementById('tut-slide-2').classList.remove('active'); document.getElementById('tut-slide-1').classList.add('active');" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">&larr; Previous</button>
+          <button onclick="document.getElementById('tut-slide-2').classList.remove('active'); document.getElementById('tut-slide-3').classList.add('active');" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">Next &rarr;</button>
         </div>
       </div>
 
       <div class="tutorial-slide" id="tut-slide-3" style="display: none;">
-        <h2>Keräsen 85-kirjaiminen ratkaisu (Morfismi)</h2>
+        <h2>Keränen's 85-letter solution (Morphism)</h2>
         <p style="font-size: 1.1rem; line-height: 1.6; color: #444;">
-          Koska 3 kirjainta ei riitä, vuonna 1992 Veikko Keränen todisti, että <strong>neljällä kirjaimella</strong> (a, b, c, d) voidaan rakentaa <em>päättymätön</em> sana ilman yhtäkään Abelin neliötä.
+          Since 3 letters are not enough, in 1992 Veikko Keränen proved that with <strong>four letters</strong> (a, b, c, d) an <em>infinite</em> word can be built without a single Abelian square.
         </p>
         <p style="font-size: 1.1rem; line-height: 1.6; color: #444;">
-          Tämä tehtiin <strong>morfismilla</strong>. Morfismi on sääntö, joka korvaa jokaisen yksittäisen kirjaimen pitkällä merkkijonolla. Keräsen sääntö (g<sub>85</sub>) korvaa jokaisen kirjaimen tarkalleen 85-kirjaimisella sanalla.
+          This was done with a <strong>morphism</strong>. A morphism is a rule that replaces each single letter with a long string. Keränen's rule (g<sub>85</sub>) replaces each letter with exactly an 85-letter word.
         </p>
         <div style="background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 6px; font-family: monospace; font-size: 0.9rem; overflow-x: auto; margin: 20px 0;">
-          a &rarr; abcacdcbcdcadcdbdabacabadbabcbdbcbacbcdcacbabd... (85 kirjainta)<br>
-          b &rarr; (b:n sääntö, myös 85 kirjainta)<br>
+          a &rarr; abcacdcbcdcadcdbdabacabadbabcbdbcbacbcdcacbabd... (85 letters)<br>
+          b &rarr; (rule for b, also 85 letters)<br>
           ...
         </div>
         <p style="font-size: 1.1rem; line-height: 1.6; color: #444;">
-          Voit tutkia tätä monimutkaista rakennelmaa ja nykyisiä löytöjä (kuten g<sub>3</sub>-morfismi) muilla välilehdillä!
+          You can explore this complex structure and current discoveries (such as the g<sub>3</sub> morphism) on the other tabs!
         </p>
         <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-          <button onclick="document.getElementById('tut-slide-3').classList.remove('active'); document.getElementById('tut-slide-2').classList.add('active');" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">&larr; Edellinen</button>
-          <button onclick="switchMode('tutorial');" style="padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: bold;">Kokeile itse: Puuhaku (3 kirjainta) &rarr;</button>
+          <button onclick="document.getElementById('tut-slide-3').classList.remove('active'); document.getElementById('tut-slide-2').classList.add('active');" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">&larr; Previous</button>
+          <button onclick="switchMode('tutorial');" style="padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: bold;">Try it yourself: Tree Search (3 letters) &rarr;</button>
         </div>
       </div>
 
