@@ -198,6 +198,8 @@ basis; or (b) attack it algebraically instead of by search, e.g. via
 `decision-preconditions.js`'s machinery generalized appropriately, rather
 than another combinatorial search variant.
 
+**FOURTH ATTEMPT, 2026-08-01 — algebraic, and it is the first that completes (row 80).** The Parikh-level reduction: a block-aligned square with K = mL exists iff M_g·d = 0. This collapses 2.8e11 strings to 1.14e7 matrices at L=4 and runs in 24 s. Its positive control is strong (g3 must survive by Theorem 9, and does). **But it saturates:** 903 differences leave 320,352 survivors, 6,779 differences leave 295,836 — a 7.5x increase in constraints buys 8%. The saturation was predicted from the spectrum: on V = {sum 0} the spectrum of M_h is {+-sqrt(3),0,0,0}, so large-m differences converge into a 2-dimensional subspace and stop discriminating. **L* is still unpinned, but the search space for the remaining difficulty is now identified: short and non-block-aligned configurations, which no Parikh-level method can reach by construction.** A fifth attempt must therefore be string-level but seeded by the 295,836 surviving profiles, or must abandon the block-aligned framing entirely.
+
 *Standing kill condition:* do not attempt a fourth search-based approach
 to L=4 without first identifying, on paper, what makes it different from
 the three that already failed.
