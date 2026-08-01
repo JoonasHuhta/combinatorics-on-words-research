@@ -253,7 +253,13 @@ function runControls() {
 
 function main() {
   const args = process.argv.slice(2);
-  let out = path.join(__dirname, 'claims.json'), checkOnly = false;
+  // Default output is the REPO ROOT, not __dirname -- this module moved into
+  // src/ during the 2026-07-30 layout restructure, and __dirname changed
+  // meaning under it. Root claims.json is a published artifact (checked into
+  // git, sits next to index.html and poster.html); writing it into src/ by
+  // accident left a stale, silently-diverging copy at the root with no test
+  // that compared its rowCount against MATH_CLAIMS.md. Caught 2026-08-01.
+  let out = path.join(__dirname, '..', 'claims.json'), checkOnly = false;
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--out') out = path.resolve(args[++i]);
     else if (args[i] === '--check') checkOnly = true;

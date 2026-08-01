@@ -5,22 +5,38 @@
 
 ---
 
-# HANDOFF — 2026-08-01 (supersedes the sections below where they conflict)
+# HANDOFF — 2026-08-01, second round (supersedes the sections below where they conflict)
 
 **Repository state:** tests **41/41**, drift checks **15/15**. Claims ledger
-**85 rows**. Working tree clean, `origin/main` up to date.
+**86 rows**. Working tree has new untracked files (see below), not yet
+committed. `origin/main` up to date as of the last commit.
+
+**Session note:** the script behind rows 80/82 was lost between sessions
+(interrupted before commit). It was independently reimplemented
+(`scripts/parikh-block-filter.js`), validated by reproducing rows 80/82's
+exact published figures, then extended to string level
+(`scripts/step1_string_level.js`). Both are new files in `scripts/`, not yet
+committed. If you are starting a session and these files are missing again,
+that is the same failure mode recurring — commit working code before ending
+a session, not after.
 
 ## The three agreed steps, and where each actually stands
 
 | Step | Status | What it needs |
 |---|---|---|
-| **1. Pin down L\*** = min{L : S_large(L) > 0} | **Open, but now well-defined** | Four search attempts and one algebraic attempt. The algebraic route is **closed** by row 82. What remains is string-level: **2,451,788,832** codings at L=4 (row 82), a 115.2× reduction from 81⁶. A defined finite task with a measured size |
+| **1. Pin down L\*** = min{L : S_large(L) > 0} | **L\* narrowed to [5,10]. S_large(4) = 0 (row 83), NOT yet L\*** | S_large(4) is now known empty, exhaustively, with a positive control (row 83). L=5, L=6 are the new open lengths — no attempt has yet been made at either. The row-83 method (Parikh filter + string-level drop oracle) is directly reusable, but the domain size per letter grows fast (compositions of L into 3 parts: 15 at L=4, 21 at L=5, 28 at L=6) and the eliminated-bitset size is D^6, so L=5 (21^6 ≈ 8.6·10^7 matrices) and L=6 (28^6 ≈ 4.8·10^8) need to be measured before assuming the same approach scales — **do not assume it is a small tweak; measure it** |
 | **2. Positive control** (A3, k-abelian) | **Blocked by its own design** | Ran it (k ≤ 6, no survivor), then found the flaw: Theorem 65 guarantees such a word *exists*, not that it is a small uniform ternary morphism's fixed point. A negative therefore indicts nothing. **Needs the source opened**, not compute. **B16 repairs this at the root** — at S = all 9 a solution is known to exist, giving a validated end of the lattice |
 | **3. B15** (template impossibility argument) | **CLOSED, answer negative** (row 82) | Done. The general case provably needs the coding strings themselves, so no Parikh-level compression exists. This is a structural closure, not an unfinished measurement |
 
-## What was settled on 2026-08-01
+## What was settled on 2026-08-01, second round
 
-- **Row 79.** S_large(1) = S_large(2) = S_large(3) = 0. At L=3 this makes row 49's result **vacuous** with respect to the conjunction — nothing survives the large half there at all. S_large(4,5,6) unknown, so rows 49 (L=4,5) and 78 (L=6) are neither known vacuous nor known informative.
+- **Row 83. S_large(4) = 0, exhaustively, both stages sound, partition verified exact.** Row 80's Parikh filter (recomputed: 295,836 surviving profiles / 2,331,710,688 concrete codings, at 6,779 differences) plus a string-level drop oracle over every surviving coding: **0 survivors**, K in [6,100], 21.6 minutes. Four controls: g3 (L=10) passes the identical oracle as required by Theorem 9 (the positive control Step 2 never had); 120/120 single-symbol perturbations of g3 caught; incremental oracle matches a slow reference on 3,000 candidates exactly; stage A reproduces rows 80/82's published figures exactly. **Consequence: row 49's L=4 result is now VACUOUS**, same status row 79 already gave L=3. L\* is bounded to [5,10] (lower bound this row, upper bound row 6a's g3). **Cost lesson:** row 82 estimated this task at 2.45 billion candidates and read it as a wall; violations are found at a mean of 22.5 symbols out of 972 available, so an early-abort incremental check finishes in 21.6 minutes, not the many-hours estimate a full-cost-per-candidate model would predict. Measure the actual per-candidate cost before extrapolating linearly from a naive model.
+- **Fixed in the same session: `claims-export.js`'s default output path silently broke in the 2026-07-30 layout move.** It writes to `path.join(__dirname, 'claims.json')`; after the module moved to `src/`, that resolved to `src/claims.json` instead of the root artifact, leaving a stale root `claims.json` (85 rows) diverging silently from the ledger (86 rows) with no test catching it — `index.html`'s embedded block was fine (its resync path doesn't depend on `--out`), only the standalone root file was stale. Fixed to resolve relative to the repo root. **Same class of bug as the `RESEARCH_CONTEXT.md`-lists-the-pipeline drift check catches for code modules — this one had no equivalent guard for output *paths*, only output *content*.** Worth a "does every script's default path still make sense" pass if the layout moves again.
+- **Also fixed: `RESEARCH_CONTEXT.md` had drifted out of sync with the 2026-07-30/08-01 reorganisation** — three exact-pipeline modules unlisted (caught by `check-claims-drift.js`, was 14/15), `node test.js`/`node check-claims-drift.js` given as root-relative commands when the actual paths are `tests/test.js`/`scripts/check-claims-drift.js` (not caught by any automated check — worth asking whether one should exist), the "eight .md files" and "19 tabs" counts gone stale.
+
+## Carried over from the first 2026-08-01 round
+
+- **Row 79.** S_large(1) = S_large(2) = S_large(3) = 0. At L=3 this makes row 49's result **vacuous** with respect to the conjunction — nothing survives the large half there at all.
 - **Row 80.** The Parikh reduction: block-aligned squares with K = mL exist iff M_g·d = 0. Collapses 2.8·10¹¹ strings to 1.14·10⁷ matrices, runs in 24 s, positive control passes (g₃ must survive by Theorem 9, and does). **Saturates**: 7.5× more constraints bought 8%. Predicted in advance from the spectrum.
 - **Row 81.** aa2f branching distribution, n = 8…19. Dead ends climb 0 → 9.7%, single-extension 48.3 → 51.4%, mean branching 1.6466 → 1.3965 and still falling. Exact validation: mean at n equals p(n+1)/p(n) at every length.
 - **Row 82.** B15 closed. Deciding non-aligned squares needs Ψ(pre_r(g(x))) for every r, and that data determines the strings (81 strings, 81 signatures, 0 collisions at L=4).
@@ -225,7 +241,7 @@ without parallelization or profiling `mainPure`'s ancestor computation.
 Do these in this order. Everything below this section is older and is
 superseded wherever it conflicts.
 
-**STEP 1. Pin down L\* = min{ L : S_large(L) > 0 }. STILL OPEN at L=4 after three attempts (2026-08-01).**
+**STEP 1. Pin down L\* = min{ L : S_large(L) > 0 }. SUPERSEDED — see the "second round" handoff at the top of this file: S_large(4) = 0 is now settled (row 83). The history below (three failed attempts, then the algebraic route) is kept for how the answer was reached; do not read it as the current status.**
 
 *Why first:* every route (c) result's interpretation depends on this one
 number, including rows 49, 78 and 79 themselves.
