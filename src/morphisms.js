@@ -26,6 +26,23 @@ const H6 = {
   f: 'bce'
 };
 
+// h8: Rao & Rosenfeld arXiv:1511.05875 Section 5.1, THEOREM 5. See MATH_CLAIMS.md
+// row 88. NOT uniform -- image lengths are 1,1,1,1,2,2,2,2. Added 2026-08-01 after
+// reading the full
+// primary-source PDF (both the 2016 v2 and the 2015 v1 preprint; the morphism
+// table is character-identical in both, only the surrounding theorem NUMBERS
+// differ between versions -- see MORPHISM_METADATA.h8.sourceNote).
+const H8 = {
+  a: 'h',
+  b: 'g',
+  c: 'f',
+  d: 'e',
+  e: 'hc',
+  f: 'ac',
+  g: 'db',
+  h: 'eb'
+};
+
 const G3 = {
   a: 'bbbaabaaac',
   b: 'bccacccbcc',
@@ -58,6 +75,14 @@ const MORPHISM_METADATA = {
     sourceNote: 'Images audited character-by-character against arXiv:1511.05875 Sec. 5.4 and against Fici & Puzynina (2023) arXiv:2207.09937 (digit relabelling) on 2026-07-28.',
     doi: 'arXiv:1511.05875 / arXiv:2207.09937'
   },
+  h8: {
+    name: 'h8 (8-letter non-uniform abelian-square-free morphism)',
+    verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
+    badgeText: '🟢 Level 2: Verified Source (Rao & Rosenfeld, arXiv:1511.05875, Thm 5)',
+    status: 'PRIMARY — words in h8^infinity (e.g. infinite fixed points of (h8)^2) are abelian-square-free: Rao & Rosenfeld arXiv:1511.05875 THEOREM 5. NOTE h8 has NO fixed point of its own (no letter x has h8(x) starting with x); the abelian-square-free word is a fixed point of (h8)^2, and the paper names e as such a starting letter.',
+    sourceNote: 'Images audited character-by-character against the full arXiv:1511.05875v2 PDF, Section 5.1 p.15, on 2026-08-01, and independently against the 2015-09-15 preprint "On Makela\'s Conjectures: deciding if a morphic word avoids long abelian-powers" p.15 (same authors, same morphism, IDENTICAL images). WARNING FOR FUTURE SESSIONS: the two versions RENUMBER their theorems. h8 is Theorem 5 in BOTH, but g3 is Theorem 9 in v2 and Theorem 6 in v1, and Propositions 9/10/11 in v2 are Propositions 10/11/12 in v1. This repository uses v2 numbering throughout. Do not "correct" a v2 number against the v1 preprint.',
+    doi: 'arXiv:1511.05875'
+  },
   g3: {
     name: 'g3 (10-length ternary morphism)',
     verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
@@ -70,7 +95,7 @@ const MORPHISM_METADATA = {
     name: 'g85 (85-letter 4-alphabet morphism)',
     verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
     badgeText: '🟢 Level 2: Verified Source (ICALP 1992 / Fici & Puzynina 2023)',
-    status: 'PRIMARY — Verified character-by-character against Fici & Puzynina (2023, arXiv:2207.09937) Thm 15 and V. Keränen (1992, ICALP).',
+    status: 'PRIMARY — Theorem 1, ICALP 1992: g85 (eq. 8) is a-2-free. Verified character-by-character against Fici & Puzynina (2023, arXiv:2207.09937) Thm 15 and against the author\'s own ICALP 1992 PDF directly (2026-08-01, see MATH_CLAIMS.md row 3): eq. (8) matches G85_A letter for letter, Parikh vector (19,21,27,18) matches eq. (19).',
     sourceNote: 'Canonical 85-uniform endomorphism over 4 letters preserving abelian square-freedom.',
     doi: '10.1007/3-540-55719-9_91 / arXiv:2207.09937'
   },
@@ -83,12 +108,12 @@ const MORPHISM_METADATA = {
     doi: 'IAS Murmansk 2002'
   },
   g109: {
-    name: 'g109 (109-letter 4-alphabet morphism)',
-    verificationLevel: 'LEVEL_1_INTERNAL_CHECKSUM',
-    badgeText: '⚙️ Level 1: Computed Checksum (TCS 2009)',
-    status: 'COMPUTED — Empirical Checksum against Theoretical Computer Science 2009',
-    sourceNote: 'Powerful 109-uniform endomorphism by V. Keränen (TCS 2009).',
-    doi: 'Theoretical Computer Science 2009'
+    name: 'g109 (one of twelve images of the substitution sigma_109, TCS 2009)',
+    verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
+    badgeText: '🟢 Level 2: Verified Source (TCS 2009, instance A12 of sigma_109)',
+    status: 'PRIMARY — the paper does NOT define a single "g109"; it defines a substitution sigma_109 with twelve images A1..A12 (Sec. 4, eq. 1). This project\'s G109 is EXACTLY A12 (w4="dabc", w3="cad"), verified 2026-08-01 by decomposing G109_A against the paper\'s structural formula p16|w4|u27|w3|s59, not merely by string comparison. Proposition 3: sigma_109 is a-2-free, hence so is this instance. See MATH_CLAIMS.md row 3.',
+    sourceNote: 'One image word of Keränen\'s TCS 2009 substitution sigma_109; Parikh vector (21,31,29,28) matches the paper\'s stated matrix exactly.',
+    doi: 'Theoretical Computer Science 2009 (10.1016/j.tcs.2009.05.027)'
   }
 };
 
@@ -120,15 +145,26 @@ function verifyMorphismIntegrity() {
   for (const k in G109) {
     if (G109[k].length !== 109) errors.push(`G109(${k}) has length ${G109[k].length}, expected 109.`);
   }
+  // h8 is NOT uniform, so its shape is checked per letter rather than by a
+  // single length. These lengths are read off arXiv:1511.05875 Sec. 5.1
+  // directly; they are part of the claim, not an implementation detail.
+  const H8_EXPECTED_LENGTHS = { a: 1, b: 1, c: 1, d: 1, e: 2, f: 2, g: 2, h: 2 };
+  for (const k in H8) {
+    if (H8[k].length !== H8_EXPECTED_LENGTHS[k]) {
+      errors.push(`H8(${k}) has length ${H8[k].length}, expected ${H8_EXPECTED_LENGTHS[k]}.`);
+    }
+  }
 
   // Compute deterministic string representations
   const h6Str = Object.keys(H6).sort().map(k => `${k}:${H6[k]}`).join(',');
+  const h8Str = Object.keys(H8).sort().map(k => `${k}:${H8[k]}`).join(',');
   const g3Str = Object.keys(G3).sort().map(k => `${k}:${G3[k]}`).join(',');
   const g85Str = Object.keys(G85).sort().map(k => `${k}:${G85[k]}`).join(',');
   const g98Str = Object.keys(G98).sort().map(k => `${k}:${G98[k]}`).join(',');
   const g109Str = Object.keys(G109).sort().map(k => `${k}:${G109[k]}`).join(',');
 
   const h6Checksum = djb2Hash(h6Str).toString(16);
+  const h8Checksum = djb2Hash(h8Str).toString(16);
   const g3Checksum = djb2Hash(g3Str).toString(16);
   const g85Checksum = djb2Hash(g85Str).toString(16);
   const g98Checksum = djb2Hash(g98Str).toString(16);
@@ -136,12 +172,14 @@ function verifyMorphismIntegrity() {
 
   // Expected canonical hashes (pre-computed and locked)
   const EXPECTED_H6_HASH = djb2Hash("a:ace,b:adf,c:bdf,d:bdc,e:afe,f:bce").toString(16);
+  const EXPECTED_H8_HASH = djb2Hash("a:h,b:g,c:f,d:e,e:hc,f:ac,g:db,h:eb").toString(16);
   const EXPECTED_G3_HASH = djb2Hash("a:bbbaabaaac,b:bccacccbcc,c:ccccbbbcbc,d:ccccccccaa,e:bbbbbcabaa,f:aaaaaaabaa").toString(16);
   const EXPECTED_G85_HASH = djb2Hash(g85Str).toString(16);
   const EXPECTED_G98_HASH = djb2Hash(g98Str).toString(16);
   const EXPECTED_G109_HASH = djb2Hash(g109Str).toString(16);
 
   if (h6Checksum !== EXPECTED_H6_HASH) errors.push(`H6 checksum mismatch: got ${h6Checksum}, expected ${EXPECTED_H6_HASH}`);
+  if (h8Checksum !== EXPECTED_H8_HASH) errors.push(`H8 checksum mismatch: got ${h8Checksum}, expected ${EXPECTED_H8_HASH}`);
   if (g3Checksum !== EXPECTED_G3_HASH) errors.push(`G3 checksum mismatch: got ${g3Checksum}, expected ${EXPECTED_G3_HASH}`);
   if (g85Checksum !== EXPECTED_G85_HASH) errors.push(`G85 checksum mismatch: got ${g85Checksum}, expected ${EXPECTED_G85_HASH}`);
   if (g98Checksum !== EXPECTED_G98_HASH) errors.push(`G98 checksum mismatch: got ${g98Checksum}, expected ${EXPECTED_G98_HASH}`);
@@ -152,6 +190,7 @@ function verifyMorphismIntegrity() {
     errors,
     checksums: {
       h6: h6Checksum,
+      h8: h8Checksum,
       g3: g3Checksum,
       g85: g85Checksum,
       g98: g98Checksum,
@@ -498,6 +537,6 @@ function runNegativeControlTest() {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { H6, G3, G85, G98, G109, MORPHISM_METADATA, verifyMorphismIntegrity, djb2Hash, ParikhFenwickTree, RecursiveParikhOracle, weldBridge, replicateP6, runNegativeControlTest };
+  module.exports = { H6, H8, G3, G85, G98, G109, MORPHISM_METADATA, verifyMorphismIntegrity, djb2Hash, ParikhFenwickTree, RecursiveParikhOracle, weldBridge, replicateP6, runNegativeControlTest };
 }
 
