@@ -16,6 +16,7 @@ proposing anything.
 
 | Date | # | What collapsed | In one sentence |
 |---|---|---|---|
+| 2026-08-01 | [§19](#19-near-miss-density-in-the-record-word-as-a-measure-of-structural-fragility) | Near-miss density as "structural fragility" | An unconstrained random word of the same length is near-miss-denser than the real record word — same sample-size artifact as `MATH_CLAIMS.md` row 37 |
 | 2026-08-01 | [§18](#18-proposition-9s-condition-2-as-a-structural-filter-for-s_largel) | Prop 9's Condition 2 as a filter for S_large(L) | Condition 2 holds for 69–85% of block types at L=1,2,3 while S_large is empty at all three — it is nearly orthogonal to whether a coding works |
 | 2026-07-31 | [§16](#16-keränens-g85-projection-to-three-letters) | $g_{85}$'s 4$\to$3 projection | All 36 surjections collapsed immediately at length K=2; the structure does not condense. |
 | 2026-07-31 | [§15](#15-ai-epistemology-and-going-in-circles) | AI epistemology | An AI is an executor of finite tests, not a mathematical oracle; free-form ideas are often just flawed analogies |
@@ -197,3 +198,17 @@ proposing anything.
 - **Conclusion:** eligibility for a decision procedure is not evidence about the object the procedure would decide. More generally: when a cheap algebraic invariant is proposed as a proxy for an expensive search, the first test is not "does the invariant compute correctly" but **"does it separate known-positive from known-negative cases"**. Here it separates nothing — it is satisfied by the overwhelming majority of candidates on both sides. That test costs minutes and should precede any implementation.
 
 **One thing the failure did produce, and it is worth keeping:** nobody had ever measured how restrictive Condition 2 is. The answer — barely at all — is good news for the wider programme, because it means that if a genuine survivor is ever found, the Proposition 9 machinery will very probably apply to it. The gate is wide open; the difficulty is elsewhere.
+
+## 19. Near-miss density in the record word as a measure of "structural fragility"
+*Logged 2026-08-01.*
+
+**Hypothesis (externally proposed):** the 23,379-character verified aa2f record word contains near-abelian-squares (adjacent equal-length blocks whose Parikh vectors differ by the minimal nonzero amount) up to K=6065, spanning 51.9% of the word's length. This was proposed as evidence that the aa2f language is "structurally fragile" — long legal words walk a knife's edge with no room to maneuver, which would explain why search is hard.
+
+**Why the raw number checks out but the interpretation was shot down:**
+- The parity correction first: three Parikh differences over a fixed 3-letter alphabet with equal-length blocks always sum to zero, so their L1 norm is always even. "Off by one letter" is L1 distance 2, not 1.
+- Independently recomputed from `datasets/keranen_23379.txt` (not taken on report): largest K with a near-miss (L1=2) is **K=6065, span 12,130 characters, 51.9% of the word** — reproduced exactly. A control on the same script passed: 0 abelian squares at K≥2, 11,795 at K=1 (the allowed trivial ones), matching what a verified aa2f word must show.
+- **The decisive test: the same statistic computed on a uniformly random, completely unconstrained ternary word of the same length.** The random word's near-miss reached **K=9152 (78.3% of the word)** with **534,539** near-miss instances, against the real record word's 147,588. The unconstrained random word is *more* near-miss-dense than the carefully constructed aa2f word, not less.
+- **Conclusion:** this is the same failure mode already logged at row 37 (`MATH_CLAIMS.md`): checking O(n²) window pairs (all positions × all half-lengths) makes some near-hit close to certain regardless of the word's language, simply from the number of comparisons made. The statistic is a sample-size artifact of the measurement, not a property of aa2f. If anything, the comparison points the opposite direction from the hypothesis: the real word has *fewer* near-misses than chance would predict, which is at least consistent with (though not proof of) the avoidance constraint mildly suppressing near-collisions rather than the word "walking a tightrope."
+- **A visualization idea built on the same premise** (a Parikh-difference heatmap, with the pitch "the real word's heatmap would be uniformly dark, showing fragility everywhere") is undermined by the same finding: an unconstrained random word would look at least as dark, so the visualization would not distinguish structure from noise. Not built.
+
+**What would survive this critique, if anyone wants to pursue it:** normalized near-miss *rate* (not raw count, not "largest K reached") compared between the real word and the random baseline, with statistical significance stated. That is an invariant, calibrated question. It was not attempted here because it is unclear what it would be used for even if the difference is significant — no concrete follow-up question was identified.

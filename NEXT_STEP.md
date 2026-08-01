@@ -162,18 +162,45 @@ without parallelization or profiling `mainPure`'s ancestor computation.
 Do these in this order. Everything below this section is older and is
 superseded wherever it conflicts.
 
-**STEP 1. Pin down L\* = min{ L : S_large(L) > 0 }.**
+**STEP 1. Pin down L\* = min{ L : S_large(L) > 0 }. STILL OPEN at L=4 after three attempts (2026-08-01).**
+
 *Why first:* every route (c) result's interpretation depends on this one
-number, including rows 49, 78 and 79 themselves. Until it is known, we do
-not know whether our own exhaustive negatives measured anything.
-*What is needed:* not a bigger budget — L=4 already ate 50 billion symbols
-without exhausting. A **new pruning idea** is required. The concrete
-candidate: the same locality argument used for the small window works for
-a *bounded* large window too — "avoid K ∈ [6, K_max]" is block-local with
-span **2 + ⌊(2·K_max − 2)/L⌋**. At small K_max (6–8) this turns L=4 from a
-search into a CSP. Untested; measure the constraint count before promising.
-*Kill condition:* if the bounded-K_max CSP does not close L=4 either, stop
-and say so — do not raise the budget a third time.
+number, including rows 49, 78 and 79 themselves.
+
+*What was tried and what happened, so the next session does not repeat it:*
+1. Raw DFS, K ∈ [6,40]: aborted at 50 billion symbols, 1,981s.
+2. Raw DFS, K ∈ [6,20]: aborted at 10 billion symbols, 381s. Narrowing the
+   K range barely changed the rate (~25-26M symbols/s both times) — the
+   bottleneck is the branching factor (81 unfiltered images per letter at
+   L=4 vs 27 at L=3), not the cost of the K check.
+3. **Bounded-K_max CSP** (the locality idea below, implemented in
+   `scratch/s_large_csp.js`): validated as CORRECT at L=3 (its Kmax=6
+   result cross-checked against `directScan` on the full [6,40] range,
+   consistent) and gave a real, fast answer there (295,854 raw solutions,
+   117s). At **L=4 it found 0 solutions after 32 million nodes and 97s,
+   with no sign of finishing** — level-count telemetry showed the last
+   variable's backtrack function entered 380,862 times with zero
+   completions. This does not mean S_large(4) is empty; it means neither
+   "empty" nor "non-empty" is known yet at reasonable cost. Killed rather
+   than left to run unbounded and unmeasured.
+
+*Diagnosis:* three different attacks on the same L have now failed to
+produce an answer either way. That is itself the signal from `NEGATIVE_RESULTS.md`
+§1/§14's own standard: raising the budget a fourth time without a new idea
+is exactly what those sections forbid.
+
+*What a real next idea would need to do, since simple domain enumeration
+does not close this:* either (a) filter the length-4 block domain by some
+sound necessary condition analogous to the small-window "clean block"
+trick — none is known yet, since a single length-4 block cannot itself
+contain a K≥6 violation, so there is nothing local to filter on that
+basis; or (b) attack it algebraically instead of by search, e.g. via
+`decision-preconditions.js`'s machinery generalized appropriately, rather
+than another combinatorial search variant.
+
+*Standing kill condition:* do not attempt a fourth search-based approach
+to L=4 without first identifying, on paper, what makes it different from
+the three that already failed.
 
 **STEP 2. Build the positive control (A3, the k-abelian case).**
 *Why second, and why it is now risk management rather than a nicety:* the
