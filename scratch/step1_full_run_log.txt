@@ -1,0 +1,24 @@
+loading survivors from C:\abc\scratch\s_large_l4_survivors.json
+295836 survivor Parikh profiles, 2331710688 concrete string codings total
+h6^5(a): 243 blocks -> image length 972 symbols at L=4
+checking K in [6, 100] (needs >= 200 symbols; have 972)
+mean length at first violation: 22.5 symbols (of 972 available)
+
+tested: 2331710688
+violated (eliminated): 2331710688
+survived this oracle (K in [6,100] only -- NOT proof of full avoidance): 0
+elapsed: 1295.74s, 556 ns/candidate
+
+=== CONTROLS RUN AFTER THE SWEEP (2026-08-01) ===
+positive control : g3 over h6^5(a), K in [6,100], 2430 symbols -> NO violation.
+                   Theorem 9 (row 6a) forbids one, so the oracle is capable of
+                   returning "survivor" and is not a machine that always says
+                   "violated". This is the control Step 2 never had.
+negative control : all 120 single-symbol perturbations of g3 -> 120/120 caught.
+cross-check      : incremental oracle vs full-string oracle, 3000 candidates,
+                   0 mismatches (identical verdict AND identical violation position).
+partition check  : 15 profile multinomials sum to 81; survivors 2,331,710,688 +
+                   eliminated 280,097,825,793 = 282,429,536,481 = 81^6 exactly.
+filter soundness : reproduced row 80/82's published figures exactly
+                   (903 diffs -> 320,352 survivors / 2,451,788,832 codings;
+                    6,779 diffs -> 295,836 survivors).

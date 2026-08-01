@@ -22,6 +22,7 @@ proposing anything.
 
 | Date | # | Final? | What collapsed | In one sentence |
 |---|---|---|---|---|
+| 2026-08-01 | [§21](#21-a-certified-standalone-verifier-that-never-ran-the-verification) | **NECESSARY** / CONTEXTUAL | A standalone CLI's self-reported "Certified" banner | Three independent bugs (never loaded the morphism, a structurally-impossible default, an unpruned DFS) made a program print `[CERTIFIED]` for a computation it never ran; fixed same commit, but the module has produced no other result since |
 | 2026-08-01 | [§20](#20-spiral-dynamics-complex-eigenvalues-as-a-requirement-for-avoiding-abelian-squares) | **NECESSARY** | "Spiral dynamics": complex eigenvalues as a requirement | Prediction verified (g85 has −8±3i, h6 is real) but refuted by row 5: h6^ω(a) IS abelian-square-free with a purely real spectrum |
 | 2026-08-01 | [§19](#19-near-miss-density-in-the-record-word-as-a-measure-of-structural-fragility) | **NECESSARY** | Near-miss density as "structural fragility" | An unconstrained random word of the same length is near-miss-denser than the real record word — same sample-size artifact as `MATH_CLAIMS.md` row 37 |
 | 2026-08-01 | [§18](#18-proposition-9s-condition-2-as-a-structural-filter-for-s_largel) | **NECESSARY** | Prop 9's Condition 2 as a filter for S_large(L) | Condition 2 holds for 69–85% of block types at L=1,2,3 while S_large is empty at all three — it is nearly orthogonal to whether a coding works |
@@ -286,3 +287,68 @@ So the two morphisms do differ exactly as predicted.
 - The companion proposal to **maximize near-misses** as an objective function was refuted the previous day in §19: an unconstrained random word is *more* near-miss-dense than the real record word, so maximizing that quantity pushes toward randomness, not toward structure.
 
 **What the exercise was still worth:** g85's spectrum, including the complex pair −8 ± 3i, is a real measured fact that was not in the ledger. And the test was cheap and decisive — which is exactly the standard §15 asks new ideas to meet, even when they fail. **The general lesson, and it is the third time this document records it:** a metaphor that maps convincingly onto the mathematics is not evidence about the mathematics. The mapping has to survive contact with the cases already in the ledger, and this one did not survive the first case it met.
+
+## 21. A "Certified" Standalone Verifier That Never Ran the Verification
+
+*Logged 2026-08-01. See `MATH_CLAIMS.md` row 26 (`REJECTED` -> corrected same commit); `index.html` Module 18 ("Seam Search & Verification").*
+
+**What was believed to be true:** `seam-hpc-cli.js`, the standalone Node.js
+script the app's Module 18 tells visitors to download and run, audited
+boundary ("seam") collisions in `g3(h6^n(a))` for periods K >= 6 and, on a
+clean run, printed a banner reading `[CERTIFIED] Provable asymptotic
+stability replicated`. The UI around it presented a "Provenance Chain"
+(Observed -> Candidate -> Independently verified -> Certified) as though the
+script's own output could advance a candidate along it.
+
+**Why it was shot down, and it was not one bug but three, found in a single
+audit:**
+- **The certification was never computed.** `--mode=p6` never loaded
+  `morphisms.js` at all, so it could not scan `g3(h6^n(a))` -- it ran a
+  generic ternary DFS with an arbitrary cutoff, incremented a `passed`
+  counter unconditionally, and the main thread printed a **hardcoded** line,
+  `Boundary Collision Violations Observed: 0`, followed by the "Certified"
+  banner regardless of what (if anything) had actually run.
+- **The weld mode's own default input was mathematically impossible to
+  pass.** It scanned K from 1, but the default U = g3(a) =
+  `bbbaabaaac` contains the factor `baab`, a K=2 abelian square by
+  construction -- g3's images contain exactly 34 such squares at K in
+  [2,5] (row 6b) on purpose. The seam question is only meaningful for
+  K >= 6; the tool's own default guaranteed a false failure or a
+  meaningless pass before it ever reached the question it claimed to
+  answer.
+- **The DFS pruned nothing.** It was a full 3^maxLen enumeration,
+  asymptotically worse than `morphisms.js`'s already-existing, tested
+  `weldBridge()` -- the tool duplicated logic that already worked
+  correctly and made it slower in the process.
+
+**Corrected in the same commit** (row 26): the mode now loads H6 and G3,
+generates the real word, splits K = 6..maxK across workers, and reports an
+actual count (`--depth=8 --maxK=40`: 65,610 symbols, K = 6..40, 0 abelian
+squares) with output that explicitly disclaims proving anything about the
+infinite word. `check-claims-drift.js` gained two permanent checks (6b, 6c):
+one fails the build if any program prints the words *certified / provable /
+proven / publication-grade*, the other fails it if the p6 mode does not load
+`morphisms.js`. Both still pass as of this entry.
+
+**Why this belongs in the graveyard even though it was fixed, and why it is
+logged as a methodological entry rather than a mathematical one:** in
+roughly a year of this project's ledger, Module 18 / `seam-hpc-cli.js` has
+never produced a single mathematical finding recorded anywhere in
+`MATH_CLAIMS.md` or elsewhere in this file. Its one appearance in the
+project's history is this row -- a report on itself. **The structural
+lesson is the one this document exists to keep visible:** the ledger
+audits documents, not running programs, and a program's own stdout is not
+subject to any of the checks that guard prose. A tool can announce its own
+success in exactly the calibrated-sounding language ("CERTIFIED",
+"provable") that the rest of this project works to avoid, and nothing
+short of someone actually reading the code catches it. Three independent
+implementations of the same weld/seam search now exist in this repository
+(`src/morphisms.js`, `aa2fr-worker.js`'s in-browser copy, and this CLI); the
+first two are tested and have never produced a false claim, and the third
+is the one that did.
+
+**Finality: NECESSARY for the specific bug (a program printing an
+unconditional "Certified" banner is wrong regardless of future compute),
+CONTEXTUAL for the general lesson (extending automated auditing to program
+output, not just documents, would close this class of failure — a real
+option, not attempted here).**
