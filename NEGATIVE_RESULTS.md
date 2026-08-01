@@ -22,6 +22,7 @@ proposing anything.
 
 | Date | # | Final? | What collapsed | In one sentence |
 |---|---|---|---|---|
+| 2026-08-01 | [§20](#20-spiral-dynamics-complex-eigenvalues-as-a-requirement-for-avoiding-abelian-squares) | **NECESSARY** | "Spiral dynamics": complex eigenvalues as a requirement | Prediction verified (g85 has −8±3i, h6 is real) but refuted by row 5: h6^ω(a) IS abelian-square-free with a purely real spectrum |
 | 2026-08-01 | [§19](#19-near-miss-density-in-the-record-word-as-a-measure-of-structural-fragility) | **NECESSARY** | Near-miss density as "structural fragility" | An unconstrained random word of the same length is near-miss-denser than the real record word — same sample-size artifact as `MATH_CLAIMS.md` row 37 |
 | 2026-08-01 | [§18](#18-proposition-9s-condition-2-as-a-structural-filter-for-s_largel) | **NECESSARY** | Prop 9's Condition 2 as a filter for S_large(L) | Condition 2 holds for 69–85% of block types at L=1,2,3 while S_large is empty at all three — it is nearly orthogonal to whether a coding works |
 | 2026-07-31 | [§17](#17-a-clean-slate-search-for-a-10-character-uniform-coding-g-for-h6s-image-collapses-into-a-dead-end) | **BOUNDED** ⚠ | Clean-slate search for a 10-uniform coding | **Its own text overstates this.** Bounded exhaustion of 3^60 with weak propagation; row 78 later found 200,106 survivors of the same window at L=6 by exact CSP |
@@ -266,3 +267,22 @@ document's format flagged that.
 stop the project revisiting closed ground. If BOUNDED entries are read as
 NECESSARY, the file does the opposite of its job — it closes off routes
 that are merely unfinished. That is a failure mode with no current guard.
+
+## 20. "Spiral dynamics": complex eigenvalues as a requirement for avoiding abelian squares
+*Logged 2026-08-01. See `MATH_CLAIMS.md` rows 5, 18, 32; `OPEN_RESEARCH_QUESTIONS.md` section D.*
+
+**Hypothesis:** avoiding abelian squares in a long word requires the Parikh vector to rotate rather than travel in a straight line — a "spiral" — and in linear algebra that means the incidence matrix must have **complex conjugate eigenvalues**. Prediction: Keränen's g85 (which works, 4 letters) should have complex eigenvalues, while h6 (whose spectrum is real) should be structurally incapable, explaining route (c)'s failures. Proposed use: filter candidate morphisms by "has complex eigenvalues" before any word generation, millions of times cheaper than searching.
+
+**The empirical prediction is correct, and checking it produced a fact the project had not recorded:**
+- h6: char poly x⁶ − 3x⁵ − 3x⁴ + 9x³, spectrum **{3, +√3, −√3, 0, 0, 0}** — entirely real (row 18).
+- g85: char poly x⁴ − 76x³ − 804x² + 2804x + 43435, which factors as (x − 85)(x − 7)(x² + 16x + 73). The quadratic has discriminant 256 − 292 = **−36 < 0**, so the spectrum is **{85, 7, −8+3i, −8−3i}** — genuinely complex.
+
+So the two morphisms do differ exactly as predicted.
+
+**Why it was shot down anyway — by the project's own row 5:**
+- **h6^ω(a) is completely abelian-square-free** (row 5, Rao & Rosenfeld Theorem 4, re-derived in-house at row 32). It avoids abelian squares at *every* period, over six letters, with a **purely real spectrum**. A morphism with no complex eigenvalues therefore does avoid abelian squares, and the claimed requirement is false as stated. The counterexample was in the ledger the whole time.
+- Retreating to "…required over **four** letters" does not save it: that is a claim with one supporting example (g85) and no attempt at the other known 4-letter morphisms (g98, g109 — row 3), and it has no mechanism, only the analogy.
+- **`OPEN_RESEARCH_QUESTIONS.md` section D already rejects this exact shape**, with the reason that matters most: *"Spectral gap as a predictor of a morphism's correctness — the incidence matrix loses letter order within the image. Two morphisms with the same matrix can behave completely differently at periods K = 2…5."* Complex-vs-real is a property of the incidence matrix, so two morphisms sharing a matrix share the verdict while behaving differently. It cannot predict correctness, and a filter built on it would discard valid candidates and keep invalid ones with equal enthusiasm.
+- The companion proposal to **maximize near-misses** as an objective function was refuted the previous day in §19: an unconstrained random word is *more* near-miss-dense than the real record word, so maximizing that quantity pushes toward randomness, not toward structure.
+
+**What the exercise was still worth:** g85's spectrum, including the complex pair −8 ± 3i, is a real measured fact that was not in the ledger. And the test was cheap and decisive — which is exactly the standard §15 asks new ideas to meet, even when they fail. **The general lesson, and it is the third time this document records it:** a metaphor that maps convincingly onto the mathematics is not evidence about the mathematics. The mapping has to survive contact with the cases already in the ledger, and this one did not survive the first case it met.
