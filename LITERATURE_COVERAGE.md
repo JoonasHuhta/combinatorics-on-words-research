@@ -52,6 +52,29 @@ source (row 65)**. Also: Rosenfeld's PhD thesis (ENS Lyon 2017), Rao TCS 601
 (2015), Halbeisen & Hungerbühler (2000), Dekking (1979), Justin (1972),
 Pirillo & Varricchio (1994).
 
+### 2b. Material and visualization sources — NOT citable for claims
+
+Kept deliberately separate from the table above. These are primary-source
+*material* (data, images, constructions, exposition) from people working in
+the field, not peer-reviewed statements. **No row in `MATH_CLAIMS.md` may
+cite anything from here as its source.** Their use is orientation and
+context: seeing what the objects look like, and what the field's own
+practitioners consider worth displaying.
+
+The separation exists because the failure mode is real and already logged
+twice: §11 (a plausible claim with an author's name attached, traced to
+nothing) and §19 (a genuine number given an interpretation that did not
+survive a baseline comparison). Material that *looks* authoritative is
+exactly what slips past.
+
+| Source | What it is | Status |
+|---|---|---|
+| `algebra.fi/keranen/StructuresGraphicsMusic.html` | Veikko Keränen's own page: structures, graphics and music built from abelian-square-free words. Constructions and visualizations from the author of the 4-letter result (row 3) | **Material only.** Not opened systematically; nothing cited from it |
+
+**Rule for adding here:** a link goes in this subsection, never the table
+above, unless someone has opened a peer-reviewed document and recorded the
+search terms — the same bar section 5 sets.
+
 ---
 
 ## 3. Coverage table

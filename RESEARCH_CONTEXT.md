@@ -29,6 +29,43 @@ The main goal is **Mäkelä's conjecture**: does there exist an infinite
 ternary word whose only abelian squares are `00`, `11`, `22`? Open for
 half-lengths K = 2…5.
 
+### The second goal, stated explicitly because it is easy to mistake for a by-product
+
+This project is also, deliberately, an experiment in **how a human and an
+AI can do mathematical research together without fooling themselves.**
+That is not decoration on top of the mathematics — it is why the claims
+ledger has two verification levels, why `NEGATIVE_RESULTS.md` exists at
+all, and why kill conditions are written down *before* a computation runs
+rather than after it disappoints.
+
+The findings from that side are recorded in the same evidence-first way as
+the mathematical ones, and several are non-obvious:
+
+- **A buggy search fails asymmetrically.** It produces false *negatives*,
+  almost never false positives: a false positive would have to construct
+  an object that then fails independent verification, whereas a false
+  negative only has to skip part of the space silently. A project whose
+  output is overwhelmingly negative results is therefore exposed in
+  exactly one direction — hence the standing requirement for positive
+  controls (`NEXT_STEP.md` Step 2).
+- **An AI proposes plausible ideas far faster than it can check them.**
+  `NEGATIVE_RESULTS.md` §15 records the pattern: the same underlying
+  error returns under new names until someone states the kill condition
+  in advance. §11 records the same failure for sources.
+- **Calibrated language is a safety mechanism, not politeness.** "No
+  violation found in window [a,b]" cannot be over-marketed; "proven
+  impossible" can. §17 is the worked example of what happens when the
+  wording outruns the evidence — and §19 of what happens when a real
+  number is given a wrong interpretation.
+- **The most valuable move is often subtraction.** On 2026-08-01 the
+  session's net result was to *reduce* confidence in the project's own
+  earlier work (row 79), which is a better outcome than another
+  measurement nobody knows how to read.
+
+Anyone reproducing this project's methodology should read `AGENTS.md`
+first, then `NEGATIVE_RESULTS.md` — in that order. The protocol is the
+transferable part.
+
 ---
 
 ## 2. Read these, in this order
