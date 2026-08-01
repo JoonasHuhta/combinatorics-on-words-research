@@ -148,6 +148,7 @@ s_large_csp.js             bounded-Kmax CSP attack on S_large(L) (Step 1, NEXT_S
 parikh-block-filter.js     S_large(L)'s block-aligned Parikh reduction (row 80/82): M_g.d = 0, meet-in-the-middle survivor search, g3 positive control
 step1_string_level.js      Step 1's fifth attempt: string-level abelian-square drop oracle seeded by parikh-block-filter.js's survivors, not a fresh raw search
 theorem65-positive-control.js  Step 2's rebuilt positive control: h2 applied once to g85 (row 84/85), the shape Theorem 65 actually describes
+b16-bigram-lattice.js      B16: exact p_S(n) for the bigram-subset lattice between 1-abelian (Makela) and 2-abelian (Theorem 65) equivalence (row 86)
 ```
 
 **Verification:**
