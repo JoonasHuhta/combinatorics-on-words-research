@@ -8,13 +8,15 @@ However, the laws of physics in this universe are extremely strict. The bridge i
 
 If any two adjacent sections of the bridge contain the exact same amounts of Wood, Stone, and Iron, a resonance will build up and the bridge will instantly collapse.
 
-## Chapter 1: The Naive Builder (Mäkelä 2002)
+## Chapter 1: The Pure Abelian Failure & The Mäkelä Mystery
 
-We start building with the simplest approach: we only monitor the total count of each material. We call this the **1-abelian rule**. As long as Section 1 and Section 2 don't have the exact same total amount of Wood, Stone, and Iron, we assume the bridge is safe.
+We start building with the absolute strictest, simplest rule: any two adjacent sections with the exact same material counts are forbidden. This is the **pure abelian rule**. 
 
-But nature is harsh and combinatorial. It tests our bridge from every angle. Very quickly, we realize that our options are running out. No matter what sequence of blocks we choose, we inevitably paint ourselves into a corner. By the time the bridge is just 7 blocks long, every possible next block (Wood, Stone, or Iron) will create a forbidden repetition. 
+Nature immediately crushes this attempt. No matter what sequence of blocks we choose, by the time the bridge is just 7 blocks long, it collapses. It is a proven mathematical fact: under the pure abelian rule, an infinite bridge cannot be built out of three materials.
 
-The bridge collapses. It is a proven mathematical fact: using only three materials and the 1-abelian rule, an infinite bridge cannot be built.
+However, a researcher named Mäkelä (2002) proposed a slightly weaker condition: what if we allow tiny, single-block repetitions (like Wood-Wood), but forbid any larger identical sections? This became known as the **1-abelian rule**. 
+
+Under Mäkelä's rule, the bridge survives past 7 blocks. In fact, it reaches 16 blocks with over 200,000 surviving variations. But does it reach infinity? No one knows. It remains one of the great unsolved mathematical mysteries. The bridge stretches out into the fog, and the builders work in constant uncertainty.
 
 ## Chapter 2: The Master Blueprint (Rao & Rosenfeld / Theorem 65)
 
@@ -36,15 +38,15 @@ The builders ask a natural question: *"Do we really need all 9 joints?"*
 
 What if we only monitor the 3 most important joint types, and let nature handle the rest? Surely, at some point, the bridge becomes strong enough to reach infinity? Is there a "magic switch"—a specific combination of just a few joint constraints that suddenly unlocks the infinite structure?
 
-This unknown territory between the collapsing 1-abelian bridge (0 joints monitored) and the infinite 2-abelian bridge (9 joints monitored) is the **B16 Lattice**.
+This unknown territory between the mysterious Mäkelä 1-abelian bridge (0 joints monitored, open problem) and the infinite 2-abelian bridge (9 joints monitored, proven) is the **B16 Lattice**.
 
 ## Chapter 4: Nature Finds a Crack (The Experiment)
 
 We decide to run massive computer simulations to test every possible combination of joint constraints. We build the bridge while monitoring 1 joint type... then 2... then 3... then 4... then 5.
 
-The bridge reaches further and further each time. But it still always collapses. 
+Each time, we measure how many valid paths the bridge can take up to a certain distance (16 blocks). Its "strength value" ($p(16)$) grows. But does adding these rules guarantee an infinite bridge, or just delay an inevitable collapse?
 
-Why? Because nature is like water finding the smallest crack in a rock. If you leave even a single joint type unregulated, the unforgiving laws of combinatorics will force the construction into a state where it overuses that exact unregulated joint. The bridge becomes unbalanced, the resonance builds, and the structure fails.
+Why does the strength vary so wildly? Because nature is like water finding the smallest crack in a rock. If you leave even a single joint type unregulated, the unforgiving laws of combinatorics will force the construction into a state where it overuses that exact unregulated joint. The bridge becomes unbalanced, the resonance builds, and the number of valid paths plummets.
 
 There is no magic switch. The strength of the bridge grows in a grueling, slow staircase:
 - Monitoring 3 joints yields only 72% (using 3 joints) of the required asymptotic strength.

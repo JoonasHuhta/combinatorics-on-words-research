@@ -8,15 +8,19 @@ However, the laws of physics in this universe are extremely unforgiving. The ent
 
 If any two adjacent sections of the bridge have the exact same weight, and the exact same amounts of Wood, Stone, and Iron, a devastating resonance will build up. The bridge will instantly shatter and collapse into the abyss.
 
-### Chapter 1: The Naive Builder (Mäkelä 2002)
+### Chapter 1: The Pure Abelian Failure & The Mäkelä Mystery
 
-We begin building using the simplest possible approach: we monitor only the total count of each material. We call this the **1-abelian rule**. As long as Section 1 and Section 2 don't have the exact same total amount of Wood, Stone, and Iron, we assume the bridge is safe from resonance.
+We begin building using the absolute strictest rule possible: any two adjacent sections with the exact same material counts are forbidden. This is the **pure abelian rule**. 
 
 But nature is harsh, and combinatorics does not forgive. It tests our bridge from every conceivable angle. Very quickly, we realize that our options are running out. No matter what sequence of blocks we choose, we inevitably paint ourselves into a corner. 
 
 By the time the bridge is a mere 7 blocks long, a horrifying realization sets in: whether we choose Wood, Stone, or Iron for the 8th block, it will inevitably create a forbidden resonance with a previous section.
 
-The bridge collapses. It is a proven mathematical fact: by monitoring only the total amounts of materials, an infinite bridge cannot be built out of just three materials.
+The bridge collapses. It is a proven mathematical fact: under the pure abelian rule, an infinite bridge cannot be built out of just three materials.
+
+However, a researcher named Mäkelä (2002) proposed a slightly weaker condition: what if we allow tiny, single-block repetitions (like Wood-Wood), but forbid any larger identical sections? This became known as the **1-abelian rule**. 
+
+Under Mäkelä's rule, the bridge survives past 7 blocks. In fact, it reaches 16 blocks with over 200,000 surviving variations. But does it reach infinity? No one knows. It remains one of the great unsolved mathematical mysteries. The bridge stretches out into the fog, and the builders work in constant fear of an eventual, catastrophic collapse.
 
 ### Chapter 2: The Master Blueprint (Rao & Rosenfeld)
 
@@ -44,9 +48,9 @@ This unknown, uncharted territory between the collapsing 1-abelian bridge (0 joi
 
 We decide to run massive computer simulations to test every single possible combination of joint constraints. We build the bridge while monitoring just 1 joint... then 2... then 3... then 4... then 5.
 
-Each time, the bridge reaches further. Its "strength value" ($p(16)$) grows. But it always eventually collapses.
+Each time, we measure how many valid paths the bridge can take up to a certain distance (16 blocks). Its "strength value" ($p(16)$) grows. But does adding these rules guarantee an infinite bridge, or just delay the inevitable collapse?
 
-Why? Because nature is like water finding the smallest crack in a rock face. If you leave even a single joint type unregulated, the unforgiving laws of combinatorics will force the construction into a state where it overuses that exact free joint. The bridge loses its balance, the resonance amplifies, and the structure fails.
+Why does the strength vary so wildly? Because nature is like water finding the smallest crack in a rock face. If you leave even a single joint type unregulated, the unforgiving laws of combinatorics will force the construction into a state where it overuses that exact free joint. The bridge loses its balance, the resonance amplifies, and the number of valid paths plummets.
 
 There seems to be no magic switch. The strength of the bridge grows agonizingly slowly, like climbing a steep staircase:
 - Monitoring purely materials (0 joints) yields a tiny fraction, about **2.89%** of the required strength.
