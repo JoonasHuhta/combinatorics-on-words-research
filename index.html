@@ -936,7 +936,16 @@
     <p style="font-family: Arial; font-size: 0.95rem; color:#555; max-width:800px; line-height:1.5;">
       Design your own uniform morphism over {a,b,c,d}. The program will evaluate its Parikh vectors, check for cyclic permutations, and iteratively search for abelian squares.
     </p>
-    <div class="def-box"><strong>What makes a morphism abelian square-free?</strong> A trivial necessary condition is that <strong>each image must itself be abelian square-free</strong>. While many constructed morphisms use uniform lengths and cyclic Parikh vectors to restrict the search space, these are <strong>not</strong> mathematically necessary conditions. Finding a morphism whose infinite iteration avoids all abelian squares requires immense structural constraints &mdash; Ker&auml;nen&rsquo;s achievement was to discover these deep symmetries.</div>
+    <div class="def-box">
+      <strong>What makes a morphism abelian square-free?</strong> A trivial necessary condition is that <strong>each image must itself be abelian square-free</strong>. While many constructed morphisms use uniform lengths and cyclic Parikh vectors to restrict the search space, these are <strong>not</strong> mathematically necessary conditions. Finding a morphism whose infinite iteration avoids all abelian squares requires immense structural constraints &mdash; Ker&auml;nen&rsquo;s achievement was to discover these deep symmetries.
+      <br><br>
+      <strong>Canonical 4-letter substitutions:</strong>
+      <ul>
+        <li><strong>g<sub>85</sub> (1992):</strong> 85-uniform endomorphism, clean abelian square-free endomorphism.</li>
+        <li><strong>g<sub>98</sub> (2002/2003):</strong> 98-uniform substitution. Note: g<sub>98</sub> is not an abelian square-free endomorphism as such (it fails at length 7), but it produces an infinite abelian square-free D0L language when iterated on <em>a</em>, and together with g<sub>85</sub> produces an infinite abelian square-free DT0L language.</li>
+        <li><strong>g<sub>109</sub> / &sigma;<sub>109</sub> (2009):</strong> 109-uniform substitution (one of 12 valid image families), preserving abelian square-freeness.</li>
+      </ul>
+    </div>
     <div style="margin-bottom:15px;">
       <button class="btn" id="btn-load-g85" style="font-size:0.85rem; padding:4px 8px;">Load g&#8328;&#8325;</button>
       <button class="btn" id="btn-load-g98" style="font-size:0.85rem; padding:4px 8px;">Load g&#8329;&#8328;</button>
@@ -4288,16 +4297,16 @@ $('btn-load-g85').addEventListener('click', () => {
   $('morph-input-d').value = G85.d;
 });
 $('btn-load-g98').addEventListener('click', () => {
-  $('morph-input-a').value = G98_A;
-  $('morph-input-b').value = cyclicPerm(G98_A);
-  $('morph-input-c').value = cyclicPerm(cyclicPerm(G98_A));
-  $('morph-input-d').value = cyclicPerm(cyclicPerm(cyclicPerm(G98_A)));
+  $('morph-input-a').value = G98.a;
+  $('morph-input-b').value = G98.b;
+  $('morph-input-c').value = G98.c;
+  $('morph-input-d').value = G98.d;
 });
 $('btn-load-g109').addEventListener('click', () => {
-  $('morph-input-a').value = G109_A;
-  $('morph-input-b').value = cyclicPerm(G109_A);
-  $('morph-input-c').value = cyclicPerm(cyclicPerm(G109_A));
-  $('morph-input-d').value = cyclicPerm(cyclicPerm(cyclicPerm(G109_A)));
+  $('morph-input-a').value = G109.a;
+  $('morph-input-b').value = G109.b;
+  $('morph-input-c').value = G109.c;
+  $('morph-input-d').value = G109.d;
 });
 $('btn-load-clear').addEventListener('click', () => {
   ['a','b','c','d'].forEach(c => $('morph-input-'+c).value = '');

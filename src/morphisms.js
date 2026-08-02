@@ -61,7 +61,10 @@ const G85_A = 'abcacdcbcdcadcdbdabacabadbabcbdbcbacbcdcacbabdabacadcbcdcacdbcbac
 const G85 = { a: G85_A, b: cyclicPerm(G85_A), c: cyclicPerm(cyclicPerm(G85_A)), d: cyclicPerm(cyclicPerm(cyclicPerm(G85_A))) };
 
 const G98_A = "abcacdcbcdcadbdcbdbabcbdcacbabdbabcabdadcdadbdcbdbabdbcbacbcdbabdcdbdcacdbcbacbcdcacdcbdcdadbdcbca";
-const G98 = { a: G98_A, b: cyclicPerm(G98_A), c: cyclicPerm(cyclicPerm(G98_A)), d: cyclicPerm(cyclicPerm(cyclicPerm(G98_A))) };
+const G98_B = "dabdbcbabcbdcacbacadabacbdbadacadabdacdcbcdcacbacadacabadbabcadacbcacbdbcabadbabcbdbcbacbcdcacbabd";
+const G98_C = "cdacabadabacbdbadbdcdadbacadcdbdcdacdbcbabcbdbadbdcdbdadcadabdcdbabdbacabdadcadabacabadbabcbdbadac";
+const G98_D = "bcdbdadcdadbacadcacbcdcadbdcbcacbcdbcabadabacadcacbcacdcbdcdacbcadacadbdacdcbdcdadbdadcadabacadcdb";
+const G98 = { a: G98_A, b: G98_B, c: G98_C, d: G98_D };
 
 const G109_A = "abcacdcbcdcadcdbdabcbadacdadbdcdbdabdbcbabcbdcbcadbdcdadcdbcbabcbdcbcacdcacbadabcbdcbcadbabcbabdbcdbdadbdcbca";
 const G109 = { a: G109_A, b: cyclicPerm(G109_A), c: cyclicPerm(cyclicPerm(G109_A)), d: cyclicPerm(cyclicPerm(cyclicPerm(G109_A))) };
@@ -100,12 +103,12 @@ const MORPHISM_METADATA = {
     doi: '10.1007/3-540-55719-9_91 / arXiv:2207.09937'
   },
   g98: {
-    name: 'g98 (98-letter 4-alphabet morphism)',
-    verificationLevel: 'LEVEL_1_INTERNAL_CHECKSUM',
-    badgeText: '⚙️ Level 1: Computed Checksum (IAS 2002)',
-    status: 'COMPUTED — Empirical Checksum against IAS Murmansk 2002',
-    sourceNote: 'Distinct 98-uniform endomorphism by V. Keränen (Murmansk 2002).',
-    doi: 'IAS Murmansk 2002'
+    name: 'g98 (98-letter 4-alphabet substitution/D0L generator)',
+    verificationLevel: 'LEVEL_2_VERIFIED_SOURCE',
+    badgeText: '🟢 Level 2: Verified Source (Keränen 2002 / TCS 2009)',
+    status: 'PRIMARY — Verified against Keränen (2002 / 2003 / TCS 2009). Note: g98 is NOT an abelian square-free endomorphism as such (fails at length 7), but produces an infinite abelian square-free D0L language when iterated on a, and together with g85 forms a DT0L system.',
+    sourceNote: 'Images verified character-by-character against V. Keränen\'s primary research page (algebra.fi/keranen/research/g85_g98.html). Images b, c, d are defined by Mathematica permutation {ga, gd, gc, gb}, not simple cyclic permutation.',
+    doi: 'IAS Murmansk 2002 / TCS 410 (2009) 3893-3900'
   },
   g109: {
     name: 'g109 (one of twelve images of the substitution sigma_109, TCS 2009)',
