@@ -149,6 +149,8 @@ A retracted row is never deleted, so it does not get added again.
 | A SIAM publication reference for the construction's source paper | **Retraction reversed 2026-07-30:** the reference is correct, corroborated from an independent bibliography (row 58). The reason was "untraced", not "wrong" — which is why it was fixable | 23 |
 | The original combined formulation, where the 34 squares and Theorem 9 were in the same claim | Two different claims and two different sources combined; replaced by forms 6a and 6b | 6c |
 | Theorem 6 on the first attempt | Was not verified; **properly re-derived later at row 46** | 43 |
+| B16 pairs: 8 symmetry classes, max p(16)=6,410,640 (24.5% of all-9) | Computed with a buggy engine (boundary-bigram indexing bug, fixed 2026-08-02, commit 90b7052); correct figures are 6 classes, max 2,852,290 (39.7%) — see row 90/94 | 87 |
+| B16 growth-rate: All-9 rate at n=16 is 2.867 | Same engine bug as row 87; correct rate is 2.5818 — no corrected growth-rate analysis has been redone yet | 89 |
 
 ---
 

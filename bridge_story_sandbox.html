@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Bridge Story - Sandbox</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #333333;
+      --text-orange: #d35400;
+      --border: #cccccc;
+      --wood: #e74c3c;
+      --stone: #27ae60;
+      --iron: #f1c40f;
+    }
+    body { font-family: "Times New Roman", Times, serif; background: #f4f4f9; color: var(--text); padding: 40px 20px; margin: 0; display: flex; justify-content: center; }
+    .sandbox-container { background: var(--bg); border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-radius: 8px; max-width: 900px; width: 100%; padding: 40px; position: relative; }
+    
+    h1 { color: var(--text-orange); margin-top: 0; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
+    h2 { color: #2c3e50; font-family: Arial, sans-serif; font-size: 1.4rem; }
+    p { font-size: 1.15rem; line-height: 1.7; margin-bottom: 18px; }
+    
+    .slide { display: none; animation: fadeIn 0.4s; }
+    .slide.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Visual Elements */
+    .visual-area { margin: 30px 0; padding: 20px; background: #fafafa; border: 1px dashed #ccc; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 200px; }
+    
+    /* Blocks */
+    .bridge-row { display: flex; gap: 4px; align-items: flex-end; }
+    .block { width: 40px; height: 40px; border-radius: 4px; border: 2px solid rgba(0,0,0,0.2); box-shadow: 2px 2px 0px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; font-family: monospace; font-weight: bold; font-size: 1.2rem; color: #fff; }
+    .block.wood { background-color: var(--wood); }
+    .block.stone { background-color: var(--stone); }
+    .block.iron { background-color: var(--iron); text-shadow: 1px 1px 0px rgba(0,0,0,0.3); }
+    
+    .chasm { width: 100px; height: 60px; border-bottom: 4px dashed #999; margin: 0 10px; position: relative; }
+    .chasm::after { content: 'INFINITE CHASM'; position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-family: Arial; font-size: 0.7rem; color: #999; letter-spacing: 2px; white-space: nowrap; }
+
+    /* Fog */
+    .fog-bridge { display: flex; gap: 4px; position: relative; }
+    .fog-overlay { position: absolute; top: -10px; right: -20px; bottom: -10px; width: 150px; background: linear-gradient(to right, rgba(250,250,250,0) 0%, rgba(250,250,250,1) 100%); pointer-events: none; }
+
+    /* 3x3 Matrix */
+    .matrix-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: fit-content; margin: 0 auto; }
+    .joint-box { display: flex; gap: 2px; padding: 10px; background: #fff; border: 2px solid #eee; border-radius: 6px; align-items: center; transition: all 0.3s; }
+    .joint-box .block { width: 30px; height: 30px; font-size: 0.9rem; }
+    .joint-box.highlight { border-color: var(--text-orange); box-shadow: 0 0 10px rgba(211, 84, 0, 0.2); transform: scale(1.05); }
+    .joint-box.dim { opacity: 0.2; filter: grayscale(100%); }
+
+    /* Chart */
+    .chart-container { width: 100%; max-width: 600px; display: flex; align-items: flex-end; justify-content: space-between; height: 180px; padding: 20px 20px 0; border-bottom: 2px solid #ddd; margin: 0 auto; }
+    .chart-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; width: 12%; }
+    .chart-val { font-family: Arial; font-size: 0.8rem; font-weight: bold; color: #555; }
+    .chart-bar { width: 100%; background: #bdc3c7; border-radius: 4px 4px 0 0; transition: height 0.5s, background 0.3s; }
+    .chart-label { font-family: Arial; font-size: 0.75rem; color: #888; text-align: center; }
+    .chart-bar-wrap.golden .chart-bar { background: var(--text-orange); }
+    .chart-bar-wrap.golden .chart-val { color: var(--text-orange); font-size: 0.9rem; }
+
+    /* Controls */
+    .controls { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+    .btn { padding: 10px 24px; font-family: Arial, sans-serif; font-size: 1rem; font-weight: bold; background: #fff; border: 2px solid #bdc3c7; border-radius: 6px; cursor: pointer; transition: all 0.2s; color: #34495e; }
+    .btn:hover:not(:disabled) { background: #f0f3f4; border-color: #95a5a6; }
+    .btn.btn-primary { background: var(--text-orange); border-color: var(--text-orange); color: #fff; }
+    .btn.btn-primary:hover:not(:disabled) { background: #b84900; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    
+    .progress { font-family: Arial, sans-serif; font-size: 0.9rem; color: #7f8c8d; align-self: center; }
+  </style>
+</head>
+<body>
+
+<div class="sandbox-container">
+  <h1>The Bridge Story (B16)</h1>
+  
+  <div id="slide-1" class="slide active">
+    <h2>The Chasm & The Rule</h2>
+    <p>Imagine we are standing at the edge of an infinitely wide, bottomless chasm. We want to build a bridge across it.</p>
+    <p>We have only three types of building blocks at our disposal: <strong>Wood (a)</strong>, <strong>Stone (b)</strong>, and <strong>Iron (c)</strong>.</p>
+    
+    <div class="visual-area">
+      <div style="display: flex; align-items: flex-end;">
+        <div class="bridge-row">
+          <div class="block wood">a</div>
+          <div class="block stone">b</div>
+          <div class="block iron">c</div>
+        </div>
+        <div class="chasm"></div>
+        <div class="bridge-row" style="opacity: 0.3;">
+          <div class="block iron">c</div>
+          <div class="block wood">a</div>
+        </div>
+      </div>
+    </div>
+    
+    <p>However, the laws of physics in this universe are extremely strict. The bridge is highly sensitive to harmonic resonance.</p>
+    <p style="background: #fef9e7; padding: 15px; border-left: 4px solid #f1c40f;">
+      <strong>The Fundamental Rule:</strong> The bridge must never contain two consecutive sections that are "structurally identical". If any two adjacent sections of the bridge contain the exact same amounts of materials, a resonance will build up and the bridge will instantly collapse.
+    </p>
+  </div>
+
+  <div id="slide-2" class="slide">
+    <h2>Chapter 1: The Pure Abelian Failure & The Mäkelä Mystery</h2>
+    <p>Before we begin, we test the strictest possible rule: <em>never two consecutive identical sections, not even a single block long.</em></p>
+    <p>This fails almost immediately — after 7 blocks, every subsequent choice creates a repetition. It is an old, indisputable fact: a bridge of three materials can never be completely square-free.</p>
+    
+    <div class="visual-area">
+      <div style="display: flex; gap: 40px; width: 100%; justify-content: center;">
+        <div style="text-align: center;">
+          <div style="font-family: Arial; font-size: 0.8rem; color: #e74c3c; margin-bottom: 10px; font-weight: bold;">Pure Abelian (Collapses at 7)</div>
+          <div class="bridge-row" style="transform: rotate(15deg) translateY(20px); filter: grayscale(40%);">
+            <div class="block wood">a</div><div class="block stone">b</div><div class="block iron">c</div><div class="block wood">a</div><div class="block stone">b</div><div class="block wood">a</div><div class="block iron">c</div>
+          </div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-family: Arial; font-size: 0.8rem; color: #2980b9; margin-bottom: 10px; font-weight: bold;">Mäkelä 1-Abelian (The Mystery)</div>
+          <div class="fog-bridge">
+            <div class="block wood">a</div><div class="block wood">a</div><div class="block stone">b</div><div class="block iron">c</div><div class="block wood">a</div><div class="block stone">b</div><div class="block iron">c</div><div class="block stone">b</div><div class="block stone">b</div>
+            <div class="fog-overlay"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <p>Mäkelä proposed a more subtle question in 2002: <em>what if we allow a single block repetition (<strong>aa, bb, cc</strong> are OK), but forbid anything longer?</em></p>
+    <p>This is a much more promising starting point — but for over twenty years, <strong>no one has been able to prove either way</strong> whether an infinite bridge can succeed under this rule. This unresolved question is the true starting point of the B16 research.</p>
+  </div>
+
+  <div id="slide-3" class="slide">
+    <h2>Chapter 2: The Master Blueprint (Rao & Rosenfeld)</h2>
+    <p>Years later, master architects proved that an infinite bridge over the chasm <em>is</em> possible! But their blueprint is incredibly complex.</p>
+    <p>They realized that just counting the raw materials isn't enough. The structural integrity also depends on the <strong>joints</strong>—how the blocks are connected to each other.</p>
+    
+    <div class="visual-area">
+      <div class="matrix-grid">
+        <div class="joint-box"><div class="block wood">a</div><div class="block wood">a</div></div>
+        <div class="joint-box"><div class="block wood">a</div><div class="block stone">b</div></div>
+        <div class="joint-box"><div class="block wood">a</div><div class="block iron">c</div></div>
+        
+        <div class="joint-box"><div class="block stone">b</div><div class="block wood">a</div></div>
+        <div class="joint-box"><div class="block stone">b</div><div class="block stone">b</div></div>
+        <div class="joint-box"><div class="block stone">b</div><div class="block iron">c</div></div>
+        
+        <div class="joint-box"><div class="block iron">c</div><div class="block wood">a</div></div>
+        <div class="joint-box"><div class="block iron">c</div><div class="block stone">b</div></div>
+        <div class="joint-box"><div class="block iron">c</div><div class="block iron">c</div></div>
+      </div>
+      <div style="margin-top: 15px; font-family: Arial; font-size: 0.85rem; color: #777;">The 9 possible joint types (bigrams)</div>
+    </div>
+    
+    <p>The master architects introduced a stricter rule: <strong>The 2-abelian rule</strong>. Now, two adjacent sections are considered identical only if they have the exact same amounts of raw materials AND the exact same amounts of <em>every single one of the 9 joint types</em>.</p>
+    <p>By monitoring and restricting all 9 joint types, the bridge can be extended infinitely!</p>
+  </div>
+
+  <div id="slide-4" class="slide">
+    <h2>Chapter 3: The Builders' Temptation (B16)</h2>
+    <p>The master blueprint works perfectly, but monitoring all 9 joint types simultaneously is an absolute nightmare. The builders ask a natural question: <em>"Do we really need all 9 joints?"</em></p>
+    <p>What if we only monitor a few, and let nature handle the rest? We run massive simulations up to 16 blocks to measure how many valid paths the bridge can take. We call this its "strength".</p>
+    
+    <div class="visual-area">
+      <div class="chart-container">
+        <div class="chart-bar-wrap"><div class="chart-val">2.9%</div><div class="chart-bar" style="height: 5px;"></div><div class="chart-label">0<br>joints</div></div>
+        <div class="chart-bar-wrap"><div class="chart-val">14.5%</div><div class="chart-bar" style="height: 25px;"></div><div class="chart-label">1<br>joint</div></div>
+        <div class="chart-bar-wrap"><div class="chart-val">39.7%</div><div class="chart-bar" style="height: 70px;"></div><div class="chart-label">2<br>joints</div></div>
+        <div class="chart-bar-wrap"><div class="chart-val">72.6%</div><div class="chart-bar" style="height: 130px;"></div><div class="chart-label">3<br>joints</div></div>
+        <div class="chart-bar-wrap"><div class="chart-val">84.8%</div><div class="chart-bar" style="height: 152px;"></div><div class="chart-label">4<br>joints</div></div>
+        <div class="chart-bar-wrap"><div class="chart-val">93.1%</div><div class="chart-bar" style="height: 167px;"></div><div class="chart-label">5<br>joints</div></div>
+      </div>
+      <div style="margin-top: 15px; font-family: Arial; font-size: 0.85rem; color: #777;">Strength (p(16)) as a % of the full 9-joint master blueprint</div>
+    </div>
+    
+    <p>There is no magic switch. The strength of the bridge grows in a grueling, slow staircase. If you leave even a single joint type unregulated, nature forces the construction into a state where it overuses that crack. The bridge becomes unbalanced.</p>
+  </div>
+
+  <div id="slide-5" class="slide">
+    <h2>Chapter 4: The Breakthrough (The Sixth Joint)</h2>
+    <p>Just as the builders are about to lose hope, they test the combinations of <strong>6 joints</strong>.</p>
+    <p>Suddenly, the strength of the bridge skyrockets! It leaps straight to <strong>99.92%</strong> of the full 9-joint strength. But there is a catch: not just <em>any</em> 6 joints will work. Exactly <strong>one</strong> specific combination unlocks this massive leap.</p>
+    
+    <div class="visual-area">
+      <div class="matrix-grid">
+        <div class="joint-box dim"><div class="block wood">a</div><div class="block wood">a</div></div>
+        <div class="joint-box highlight"><div class="block wood">a</div><div class="block stone">b</div></div>
+        <div class="joint-box highlight"><div class="block wood">a</div><div class="block iron">c</div></div>
+        
+        <div class="joint-box highlight"><div class="block stone">b</div><div class="block wood">a</div></div>
+        <div class="joint-box dim"><div class="block stone">b</div><div class="block stone">b</div></div>
+        <div class="joint-box highlight"><div class="block stone">b</div><div class="block iron">c</div></div>
+        
+        <div class="joint-box highlight"><div class="block iron">c</div><div class="block wood">a</div></div>
+        <div class="joint-box highlight"><div class="block iron">c</div><div class="block stone">b</div></div>
+        <div class="joint-box dim"><div class="block iron">c</div><div class="block iron">c</div></div>
+      </div>
+      <div style="margin-top: 15px; font-family: Arial; font-size: 0.85rem; font-weight: bold; color: var(--text-orange);">The Golden Six: Every Mixed Joint</div>
+    </div>
+    
+    <p>The grand secret of the architecture is revealed: <strong>Nature allows you to be careless with identical materials.</strong> You don't need to monitor how often Wood connects to Wood, or Iron connects to Iron.</p>
+    <p>But the moment you transition from one material to another, the structure is vulnerable. You must strictly monitor <em>every single mixed joint</em>. If you do that, the bridge achieves almost the exact same strength as the master blueprint.</p>
+    <p style="font-style: italic; color: #555; text-align: center; margin-top: 30px;">"There are no shortcuts in the deep structure of sequences. But if you listen closely, nature will tell you exactly where the true structural load lies."</p>
+  </div>
+
+  <div id="slide-6" class="slide">
+    <h2>Chapter 5: The Horizon</h2>
+    <p>Sixteen blocks is a fine place to stop and celebrate. But the builders, curious, keep watching the bridge as it stretches further — from 16 blocks out to 22. Two things happen, and they are opposites of each other.</p>
+
+    <div class="visual-area">
+      <div style="background: #eafaf1; padding: 15px; border-left: 4px solid var(--stone); margin-bottom: 16px; width: 100%; box-sizing: border-box;">
+        <strong>The Free Joint, proven.</strong> The builders ask: what if we watch only <em>eight</em> of the nine joints, and leave one completely unguarded? At every length from 16 to 22, with no exception, the bridge is <strong>bit-for-bit identical</strong> to the full nine-joint blueprint.
+        <br><br>
+        This turns out not to be luck at all — it can be proven with nothing more than counting. Every material used must eventually connect to <em>something</em>: the total number of times Wood is used is fixed, and so is the total number of times each material is used <em>last</em>. Watch eight of the nine joints, and those simple bookkeeping facts leave the ninth joint with no freedom left — it is arithmetically forced. <strong>This is true forever, at every length, not just up to 22.</strong> The ninth joint was never truly free; it just looked that way.
+      </div>
+      <div style="background: #fef5e7; padding: 15px; border-left: 4px solid var(--text-orange); width: 100%; box-sizing: border-box;">
+        <strong>The Golden Six, still a mystery.</strong> The Golden Six from Chapter 4 does not enjoy the same certainty. As the bridge grows from 16 to 22 blocks, its strength — 99.92% at 16 — begins to show hairline fractures: 99.88%, 99.83%, 99.78%, 99.71%, 99.64%, and by 22 blocks, 99.56%. Small, but the cracks are <em>widening</em> with each new block, not closing.
+        <br><br>
+        And yet — measured a different way, by how <em>fast</em> the bridge is growing rather than how strong it currently is — the Golden Six and the full nine-joint blueprint are almost indistinguishable (growing at a rate of 2.5757 versus 2.5778 per block). The bridge is teetering on a knife's edge. Nobody yet knows whether the Golden Six eventually collapses a thousand blocks from now, or whether it walks the tightrope forever, just slightly thinner than its perfect sibling.
+      </div>
+    </div>
+    <p style="font-style: italic; color: #555; text-align: center; margin-top: 10px;">One mystery solved for good. One mystery deepened, and still wide open. That is what real research looks like.</p>
+  </div>
+
+  <div id="slide-7" class="slide">
+    <h2>Try It Yourself: The Real B16 Lattice</h2>
+    <p>This is not a mockup. Every number below is the <strong>exact</strong>, exhaustively-computed count of valid length-16 bridge sections for whichever joints you select — all 512 possible combinations were computed and verified (<code>MATH_CLAIMS.md</code> rows 90&ndash;99).</p>
+    <p>Click joints on or off. Watch the strength meter. See if you can find the Golden Six yourself &mdash; and notice that adding a joint can never make the bridge weaker, only ever the same or stronger.</p>
+
+    <div class="visual-area" style="min-height:260px;">
+      <div class="matrix-grid" id="interactive-grid"></div>
+      <div style="margin-top:20px; text-align:center; width:100%;">
+        <div id="iv-count" style="font-family:monospace; font-size:1.4rem; font-weight:bold; color:var(--text-orange);">p(16) = 207,354</div>
+        <div id="iv-pct" style="font-family:Arial; font-size:1rem; color:#555; margin-top:4px;">2.89% of the full 9-joint strength (7,180,188)</div>
+        <div class="chart-container" style="margin-top:20px; height:60px; padding-top:0;">
+          <div class="chart-bar" id="iv-bar" style="width:100%; height:4px; background:var(--text-orange); transition:height 0.3s;"></div>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:0.9rem; color:#777; text-align:center;">Fun fact, found the same day this matrix was built: every single "8 of 9 joints" combination equals the full 9-joint strength exactly &mdash; try unchecking just one box and see for yourself.</p>
+  </div>
+
+  <div class="controls">
+    <button id="btn-prev" class="btn" disabled>← Previous</button>
+    <div id="progress" class="progress">Slide 1 / 7</div>
+    <button id="btn-next" class="btn btn-primary">Next →</button>
+  </div>
+</div>
+
+<script>
+  // Exact B16 lattice data, n=16, all 512 bigram-subset combinations.
+  // Source: MATH_CLAIMS.md rows 86-97, scratch/b16-full-lattice-dump.js, sanity-checked
+  // against rows 90/92/93 before use. Bit order matches BIGRAMS below.
+  const B16_DATA = [207354,384912,1042882,1418454,1042882,1418454,2660014,3054686,1042882,1418454,1897838,2210591,2852290,3367257,3664585,3898137,384912,584434,1418454,1774108,1409845,1779311,3160539,3526925,1418454,1774108,2210591,2499824,3368814,3852178,4019615,4234257,1042882,1409845,2852290,3368814,2660014,3160539,5215914,5701725,2660014,3160539,3664585,4019615,5215914,5815312,6086994,6348771,1418454,1779311,3367257,3852178,3160539,3642152,5815312,6277776,3054686,3526925,3898137,4234257,5701725,6277776,6348771,6589580,1042882,1418454,2852290,3367257,1897838,2210591,3664585,3898137,2660014,3054686,3664585,3898137,3664585,3898137,4332726,4342770,1409845,1779311,3368814,3852178,2308122,2616621,4155584,4378519,3160539,3526925,4019615,4234257,4155584,4378519,4654898,4662320,2852290,3368814,5088993,5561914,3664585,4019615,5976039,6221212,5215914,5701725,5976039,6221212,6086994,6348771,6686361,6693725,3368814,3869070,5561914,6022545,4155584,4503802,6446231,6690325,5701725,6176605,6221212,6463686,6568992,6828124,6927810,6932887,1042882,1409845,2660014,3160539,2852290,3368814,5215914,5701725,2852290,3368814,3664585,4019615,5088993,5561914,5976039,6221212,1418454,1779311,3054686,3526925,3368814,3869070,5701725,6176605,3367257,3852178,3898137,4234257,5561914,6022545,6221212,6463686,1897838,2308122,3664585,4155584,3664585,4155584,6086994,6568992,3664585,4155584,4332726,4654898,5976039,6446231,6686361,6927810,2210591,2616621,3898137,4378519,4019615,4503802,6348771,6828124,3898137,4378519,4342770,4662320,6221212,6690325,6693725,6932887,2660014,3160539,5215914,5815312,3664585,4019615,6086994,6348771,5215914,5701725,6086994,6348771,5976039,6221212,6686361,6693725,3160539,3642152,5701725,6277776,4155584,4503802,6568992,6828124,5815312,6277776,6348771,6589580,6446231,6690325,6927810,6932887,3664585,4155584,5976039,6446231,4332726,4654898,6686361,6927810,6086994,6568992,6686361,6927810,6686361,6927810,7174218,7178198,4019615,4503802,6221212,6690325,4654898,4979988,6927810,7176204,6348771,6828124,6693725,6932887,6927810,7176204,7178198,7180188,384912,584434,1409845,1779311,1418454,1774108,3160539,3526925,1409845,1779311,2308122,2616621,3368814,3852178,4155584,4378519,584434,806268,1779311,2133787,1779311,2133787,3642152,3989250,1779311,2133787,2616621,2907844,3869070,4329070,4503802,4713313,1418454,1779311,3368814,3869070,3054686,3526925,5701725,6176605,3160539,3642152,4155584,4503802,5701725,6277776,6568992,6828124,1774108,2133787,3852178,4329070,3526925,3989250,6277776,6734471,3526925,3989250,4378519,4713313,6176605,6734471,6828124,7069066,1418454,1774108,3368814,3852178,2210591,2499824,4019615,4234257,3160539,3526925,4155584,4378519,4019615,4234257,4654898,4662320,1779311,2133787,3869070,4329070,2616621,2907844,4503802,4713313,3642152,3989250,4503802,4713313,4503802,4713313,4979988,4986920,3367257,3852178,5561914,6022545,3898137,4234257,6221212,6463686,5815312,6277776,6446231,6690325,6348771,6589580,6927810,6932887,3852178,4329070,6022545,6478287,4378519,4713313,6690325,6933618,6277776,6734471,6690325,6933618,6828124,7069066,7176204,7180188,1418454,1779311,3160539,3642152,3367257,3852178,5815312,6277776,3368814,3869070,4155584,4503802,5561914,6022545,6446231,6690325,1774108,2133787,3526925,3989250,3852178,4329070,6277776,6734471,3852178,4329070,4378519,4713313,6022545,6478287,6690325,6933618,2210591,2616621,4019615,4503802,3898137,4378519,6348771,6828124,4019615,4503802,4654898,4979988,6221212,6690325,6927810,7176204,2499824,2907844,4234257,4713313,4234257,4713313,6589580,7069066,4234257,4713313,4662320,4986920,6463686,6933618,6932887,7180188,3054686,3526925,5701725,6277776,3898137,4234257,6348771,6589580,5701725,6176605,6568992,6828124,6221212,6463686,6927810,6932887,3526925,3989250,6176605,6734471,4378519,4713313,6828124,7069066,6277776,6734471,6828124,7069066,6690325,6933618,7176204,7180188,3898137,4378519,6221212,6690325,4342770,4662320,6693725,6932887,6348771,6828124,6927810,7176204,6693725,6932887,7178198,7180188,4234257,4713313,6463686,6933618,4662320,4986920,6932887,7180188,6589580,7069066,6932887,7180188,6932887,7180188,7180188,7180188];
+  const BIGRAMS = ["aa","ab","ac","ba","bb","bc","ca","cb","cc"];
+  const ALL9_P16 = B16_DATA[511];
+
+  function buildInteractiveGrid() {
+    const grid = document.getElementById('interactive-grid');
+    const labelFor = (bg) => {
+      const map = { a: 'Wood', b: 'Stone', c: 'Iron' };
+      return map[bg[0]] + '-' + map[bg[1]];
+    };
+    BIGRAMS.forEach((bg, i) => {
+      const box = document.createElement('label');
+      box.className = 'joint-box';
+      box.style.cursor = 'pointer';
+      box.style.flexDirection = 'column';
+      box.style.gap = '2px';
+      box.dataset.bit = i;
+      box.innerHTML = `
+        <input type="checkbox" class="iv-checkbox" data-bit="${i}" style="margin-bottom:4px;">
+        <span style="font-family:monospace; font-weight:bold;">${bg}</span>
+        <span style="font-size:0.65rem; color:#888;">${labelFor(bg)}</span>
+      `;
+      grid.appendChild(box);
+    });
+    grid.querySelectorAll('.iv-checkbox').forEach(cb => cb.addEventListener('change', updateInteractive));
+  }
+
+  function updateInteractive() {
+    let mask = 0;
+    document.querySelectorAll('.iv-checkbox').forEach(cb => {
+      if (cb.checked) mask |= (1 << parseInt(cb.dataset.bit, 10));
+      const box = cb.closest('.joint-box');
+      box.classList.toggle('highlight', cb.checked);
+    });
+    const p16 = B16_DATA[mask];
+    const pct = (100 * p16 / ALL9_P16);
+    document.getElementById('iv-count').textContent = 'p(16) = ' + p16.toLocaleString('en-US');
+    document.getElementById('iv-pct').textContent = pct.toFixed(4) + '% of the full 9-joint strength (' + ALL9_P16.toLocaleString('en-US') + ')';
+    document.getElementById('iv-bar').style.height = Math.max(4, pct * 1.8) + 'px';
+  }
+
+  let currentSlide = 1;
+  const totalSlides = 7;
+  const prevBtn = document.getElementById('btn-prev');
+  const nextBtn = document.getElementById('btn-next');
+  const progress = document.getElementById('progress');
+
+  function updateSlides() {
+    document.querySelectorAll('.slide').forEach((s, idx) => {
+      if (idx + 1 === currentSlide) {
+        s.classList.add('active');
+      } else {
+        s.classList.remove('active');
+      }
+    });
+    
+    prevBtn.disabled = currentSlide === 1;
+    nextBtn.disabled = currentSlide === totalSlides;
+    progress.textContent = `Slide ${currentSlide} / ${totalSlides}`;
+  }
+
+  prevBtn.addEventListener('click', () => {
+    if (currentSlide > 1) {
+      currentSlide--;
+      updateSlides();
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentSlide < totalSlides) {
+      currentSlide++;
+      updateSlides();
+    }
+  });
+
+  buildInteractiveGrid();
+  updateInteractive();
+</script>
+
+</body>
+</html>

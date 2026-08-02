@@ -150,6 +150,12 @@ step1_string_level.js      Step 1's fifth attempt: string-level abelian-square d
 theorem65-positive-control.js  Step 2's rebuilt positive control: h2 applied once to g85 (row 84/85), the shape Theorem 65 actually describes
 b16-bigram-lattice.js      B16: exact p_S(n) for the bigram-subset lattice between 1-abelian (Makela) and 2-abelian (Theorem 65) equivalence (row 86)
 b16-pairs.js               B16 deepened: the 36 two-element bigram subsets, symmetry classes and growth toward S=all-9 (row 87)
+b16-triples.js             B16 deepened: the 84 three-element bigram subsets, symmetry classes and growth toward S=all-9 (row 90)
+b16-quads.js               B16 deepened: the 126 four-element bigram subsets, symmetry classes and growth toward S=all-9 (row 91)
+b16-quints.js              B16 deepened: the 126 five-element bigram subsets, symmetry classes and growth toward S=all-9 (row 92)
+b16-sixes.js               B16 deepened: the 84 six-element bigram subsets, symmetry classes and growth toward S=all-9 (row 93)
+b16-sevens.js              B16: the 36 seven-element bigram subsets, completing the lattice sweep alongside b16-eights.js
+b16-eights.js              B16: the 9 eight-element bigram subsets (all-9 minus one) -- every one equals all-9 exactly at n=16
 ```
 
 **Verification:**

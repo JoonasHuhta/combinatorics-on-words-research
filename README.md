@@ -27,6 +27,20 @@ The repository is structured to serve three different audiences. Pick the path t
 **If you want to contribute:**
 * `CONTRIBUTING.md` — You don't need to be a math PhD. We need help reading papers, replicating experiments, and building visualizations.
 
+## Open Problems
+
+This laboratory currently targets the following open problems in combinatorics on words:
+
+| Problem | Description | Source |
+|---|---|---|
+| **Mäkelä's conjecture** | Does there exist an infinite ternary word whose only abelian squares are 00, 11, 22? (Open for half-lengths K = 2…5). | Mäkelä (2002) / Fici & Puzynina (2023) |
+| **Abelian repetition threshold** | What are the exact lower and upper bounds for abelian repetition thresholds? | Fici & Puzynina (2023) |
+| **The k-abelian hierarchy** | Understanding avoidance in stricter k-abelian equivalences (e.g. 2-abelian squares in ternary words). | Fici & Puzynina (2023) |
+| **Unfavourable factors** | Does there exist an a-2-free word that can be extended without bound to the right, but never occurs inside any infinite a-2-free word? | Keränen (2006) |
+| **Additive squares over ℤ** | Is ℤ uniformly 2-repetitive? (Are additive squares avoidable over finite integer alphabets?) | Justin (1972) / Rao & Rosenfeld (2015) |
+
+*(Note: Dejean's conjecture is proven and therefore not on this list.)*
+
 ## What is different here
 
 The most valuable part of this laboratory is not a search algorithm. It is the

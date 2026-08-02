@@ -374,6 +374,44 @@ changes**, not merely increase L.
 
 **One further idea, deliberately recorded as lower priority.** Row 81 measured that ~51% of aa2f factors have exactly one right extension. Contracting all such forced chains in the Rauzy graph leaves only genuine branch points, and the growth of the branch-point count against p(n) is a language invariant nobody has computed. It is real, but it is closer to a search reformulation than to a new mathematical object, and it should wait behind B16–B18.
 
+### B19. Reproduce Keränen's aa2fr branching statistics at n≈40 with our own engine (proposed 2026-08-02)
+
+**Background, source, and why it is E11 material, not a claim.** V. Keränen shared a private working session with Gemini (2026-07-23 to 08-01, not a publication) in which a GPU/CPU backtracking search extended the known 1928-letter aa2fr record to a candidate **2107-letter** word, and along the way measured the aa2fr right/left branching distribution over the project's own 202,515-word survivor set (length-39 prefixes/suffixes of length-40 factors). Reported: 1-letter extensions 80.55%/81.91%, 2-letter 17.75%/16.92%, 3-letter 1.698%/1.173%, mean ≈ 1.19–1.21. See `OPEN_RESEARCH_QUESTIONS.md` E11 for the full untraced-lead record.
+
+**Question.** Does this project's own exhaustive DFS reproduce a compatible branching distribution at reachable lengths, and — if we push the exact same measurement further than row 81's n=8..19 — does the falling trend (1.6466 → 1.3965, "still falling" per row 81) continue converging toward Keränen's reported ≈1.2?
+
+**Why this is cheap and worth doing before anything else in this section.** The tooling already exists verbatim: row 81 is `factor-complexity.js`'s DFS with a right-extension counter, already validated against its own p(n+1)/p(n) identity. This is a rerun to greater n, not new code. **It is also the single most direct way to raise Keränen's reported figures from an untraced private computation to something this project has independently corroborated** — exactly the "clean-room" spirit of E5.
+
+- **Validation:** the built-in check row 81 already uses (mean degree at n must equal p(n+1)/p(n) exactly) transfers unchanged.
+- **Expected ledger sentence:** *"The aa2fr right-extension mean at n=⟨n⟩ is ⟨x⟩, exhaustive; compared to Keränen's untraced report of ≈1.19–1.21 at n≈39, this project's own figure at the deepest reachable n is ⟨closer/further/inconclusive⟩."* — `COMPUTED` (Level 1), explicitly NOT corroborating Keränen's figure as a source, only comparing two independently computed numbers.
+- **Kill condition:** if node budgets make n > ~25 infeasible in reasonable time, log the largest reachable n and stop — do not extrapolate the trend past what is exhausted (row 81's own rule).
+- **Effort:** pre-measure the node count at n=20, 22 before committing to a target n (row 78's cost-estimation discipline). **Impact 2–3** (corroborates, does not resolve, an open question).
+
+### B20. Measure aa2fr/aa2f seam rigidity — how many letters fill a bounded gap between two fixed contexts? (proposed 2026-08-02)
+
+**Background.** The same private session (E11) reports that given a 19-letter aa2fr prefix and a 19-letter aa2fr suffix, the 2-letter gap between them has **exactly one** valid filling in 99.8% of sampled cases (out of 9 possible letter-pairs), and a 4-letter gap still has exactly one filling in 98.6% of cases. This project has never measured this quantity for either aa2f or aa2fr, and row 35's dead-end counts and row 81's extension counts are both one-sided (extending a suffix outward), not two-sided (filling a bounded interior gap between two fixed contexts).
+
+**Why this matters beyond corroboration.** If confirmed independently, this is a direct, quantitative explanation for why route (c) (B13) and every morphism-search line in this project (rows 67–70, `NEGATIVE_RESULTS.md` §14) keep failing: a DT0L/morphism construction requires the seam between two concatenated image blocks to have *some* flexibility, and a seam that is 98–99.8% rigid leaves almost none. This would reframe B13's "no signal without a new structural idea" not as an accident of the specific morphisms tried, but as close to unavoidable given the base language's own seam statistics.
+
+**Question.** For fixed gap length g ∈ {1,2,3,4} and fixed context length c, what is the exact (not sampled) distribution of {number of valid aa2f / aa2fr fillings} over all (prefix, suffix) pairs drawn from the actual container language — not a 202,515-word external sample?
+
+- **Method:** reuse `sft-container.js`'s de Bruijn / SCC machinery (row 51) — a gap-filling count is exactly a fixed-length path count between two states in the aa2f/aa2fr Rauzy graph, computable exactly for small c and g without sampling.
+- **Validation:** the g=0 case (adjacent contexts, no gap) must reduce to a simple graph-edge check, a trivial sanity boundary.
+- **Expected ledger sentence:** *"Over the exact aa2fr container language at context length ⟨c⟩, a gap of length ⟨g⟩ has exactly one valid filling in ⟨x⟩% of (prefix,suffix) pairs (exhaustive, not sampled) — ⟨consistent with / diverging from⟩ Keränen's untraced 99.8%/98.6% sample figures."*
+- **Kill condition:** if rigidity is measured well below Keränen's reported figures (e.g. under 80%) at comparable context length, the "seam rigidity explains B13's failures" hypothesis does not survive and should not be repeated as an explanation.
+- **Effort:** small graph computation, reuses existing exact machinery — **cheap**. **Impact 4** if confirmed (a structural explanation, not just another negative), **2** if it merely fails to replicate.
+
+### B21. Independently verify the candidate 2107-letter aa2fr record (proposed 2026-08-02, blocked on obtaining the actual string)
+
+**Background.** E11's private session reports reaching a 2107-letter aa2fr word via GPU-accelerated backtracking, exceeding the project's currently verified record of 1928 (row 40). The actual string has not yet been supplied to this project.
+
+**Question.** Does the reported 2107-letter word actually satisfy the aa2fr condition (no abelian square of period ≥2 at any position, all K), checked exhaustively and independently — the same verification row 40 already performed on five prior record words, one of which (a different, 40-letter example elsewhere in the project's own history) turned out to be invalid on inspection?
+
+- **Method:** `word-anatomy.js`, unchanged — the exact tool row 40 used.
+- **Expected ledger sentence:** *"The candidate 2107-letter word, supplied [date], satisfies aa2fr exhaustively (checked, all K≥2, all positions) — new verified record, exceeding row 40's 1928."* — `COMPUTED` (Level 1) if it passes; if it fails, log the exact position and violating K as a corrected observation, per row 40's own precedent (§ where a previously-circulated example failed FORBID4/abelian checks).
+- **Kill condition:** none in the usual sense — either the word is valid or it is not; a failure is itself informative (see row 40's history) and must be logged, not discarded.
+- **Effort:** trivial once the string is available. **Impact 3** (a verified record datapoint) **if it passes**; not zero if it fails, since a failure would be a genuine, logged correction to an external claim.
+
 ### B8. The frequency polygon — the joint distribution instead of the box (RESEARCH_ARCHITECT run 2026-07-30)
 
 **Question:** what is the exact polygon, in the simplex, of the container language's reachable frequency vectors (f_a, f_b, f_c)? Rows 51–52 give only the box [1/11, 3/4]³; the polygon tells us, for instance, whether f_a = 3/4 can occur simultaneously with f_b = 1/11. Method: direction-parametrized Karp (a linear functional's max mean-cycle = a supporting line); a finite set of directions gives an outer approximation that is already itself a valid necessary condition, and cycles that achieve it give interior points.
@@ -482,6 +520,20 @@ The lead was traced and turned out stronger than the recollection: the openness 
 **Background:** the project has 5 verified aa2f record words (longest 25,379), but they have never been compared to each other (cf. rows 40 & 42).
 **Why it is worth it:** it answers questions such as: are they points on a single search path, or do they branch early? What is their abelian complexity (must be ρ(n) ≥ 2 to avoid abelian squares) and recurrence time compared to the uniformly recurrent g85^ω? It guides search strategy by indicating whether the class is "wide" or "narrow".
 **Kill condition:** the words are consecutive points of the same search and statistically identical to a random aa2f word, so the comparison reveals no new structure.
+
+### E11. Keränen's GPU/CUDA backtracking session — a candidate 2107-letter aa2fr record and two structural measurements (untraced lead, private communication, 2026-08-02)
+
+**Provenance, stated precisely because it matters for how this must be read.** V. Keränen shared a 47-page transcript of a private working session with Gemini (2026-07-23 through 08-01), not a publication, not peer-reviewed, and not yet independently reproduced by this project. Per rule 1, nothing here may be cited or built on as established until this project opens/reproduces it directly. It is logged here, in full, precisely so it does not quietly steer the work order the way `NEGATIVE_RESULTS.md` §11 warns an unlogged lead can.
+
+**What was reported, calibrated as "reported", not "found":**
+
+1. **A candidate new aa2fr record, length 2107**, exceeding the project's verified record of 1928 (row 40). Obtained via a C++ backtracking engine: a dictionary of 2,403,132 length-40 aa2fr factors (all permutations + mirror images of 202,515 survivors of an 80-character bidirectional GPU extension of a length-40 seed set), used as an O(1) micro-filter (base-3 encoding into a 64-bit integer, binary search) combined with an O(N) two-letter abelian-square macro-filter, plus a stochastic "stall detector" that truncates 3% and rotates the search order when stuck. **The actual 2107-letter string has not yet been supplied to this project** → B21.
+2. **Right/left branching statistics at n≈39–40** on the 202,515-word survivor set: 1-letter extensions 80.55%/81.91%, 2-letter 17.75%/16.92%, 3-letter 1.698%/1.173%, mean ≈1.19–1.21. This is in the same direction as, and numerically consistent with, this project's own row 81 (mean falling 1.6466→1.3965 over n=8..19, "still falling") — but reported for a different n range, on a different (external, unverified) sample, using different code. Not yet independently reproduced → B19.
+3. **Seam/gap-filling rigidity**: given fixed 19-letter contexts on both sides, a 2-letter interior gap has exactly one valid aa2fr filling in 99.8% of sampled cases (out of 9 possible); a 4-letter gap, 98.6%. Proposed by Keränen as an explanation for why DT0L/morphism constructions for aa2fr are so hard to find — a valid morphism needs flexible seams, and this data shows almost none exist. Never measured by this project, on the exact container language rather than a sample → B20.
+4. **A "strange attractor" observation**: truncating a stalled 2000-letter search back to seed lengths 1889, 1870, and 1697 in turn converged to the *same* word and the *same* dead end at 2107 each time, offered as evidence that aa2fr's search space is a small number of long, narrow, largely unbranching corridors rather than a bushy tree — qualitatively consistent with finding (2) above (mean branching ≈1.2) but not independently quantified by this project.
+5. **Tooling observed to work well elsewhere, not yet used by this project:** A. Gavrilenko's 2017 Rust engine (already `REJECTED` for attribution purposes at row 14, but its *technique* is separable from that attribution question) used a Best-First search with a priority queue scored by a length/balance heuristic, plus O(1) Parikh-prefix-sum abelian-square checks — architecturally different from every search this project runs (all exhaustive DFS with pruning). Not adopted; noted as a technique that exists and works elsewhere, should this project ever need to push a single search deep rather than exhaustively.
+
+**Why this is E-section material and not simply ignored:** unlike most untraced leads (§11's usual failure mode), this one names its own exact method and gives numbers precise enough to independently re-derive or refute cheaply, with tooling this project already has. That is what B19–B21 are for. **Do not cite any number in this entry as a project finding until the corresponding B-item has actually run.**
 
 
 ## F. A new result that emerged from this assessment
