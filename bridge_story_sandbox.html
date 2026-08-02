@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>The Bridge Story - Sandbox</title>
+  <title>The Bridge Over Infinite Sequences - Sandbox</title>
   <style>
     :root {
       --bg: #ffffff;
@@ -71,7 +71,7 @@
 <body>
 
 <div class="sandbox-container">
-  <h1>The Bridge Story (B16)</h1>
+  <h1>The Bridge Over Infinite Sequences (B16)</h1>
   
   <div id="slide-1" class="slide active">
     <h2>The Chasm & The Rule</h2>
@@ -102,20 +102,20 @@
   <div id="slide-2" class="slide">
     <h2>Chapter 1: The Pure Abelian Failure & The Mäkelä Mystery</h2>
     <p>Before we begin, we test the strictest possible rule: <em>never two consecutive identical sections, not even a single block long.</em></p>
-    <p>This fails almost immediately — after 7 blocks, every subsequent choice creates a repetition. It is an old, indisputable fact: a bridge of three materials can never be completely square-free.</p>
+    <p>This fails almost immediately — after 7 blocks, every subsequent choice creates a repetition. It is an old, indisputable fact: a bridge of three materials can never be completely abelian square-free (anagram repetition-free).</p>
     
     <div class="visual-area">
       <div style="display: flex; gap: 40px; width: 100%; justify-content: center;">
         <div style="text-align: center;">
           <div style="font-family: Arial; font-size: 0.8rem; color: #e74c3c; margin-bottom: 10px; font-weight: bold;">Pure Abelian (Collapses at 7)</div>
           <div class="bridge-row" style="transform: rotate(15deg) translateY(20px); filter: grayscale(40%);">
-            <div class="block wood">a</div><div class="block stone">b</div><div class="block iron">c</div><div class="block wood">a</div><div class="block stone">b</div><div class="block wood">a</div><div class="block iron">c</div>
+            <div class="block wood">a</div><div class="block stone">b</div><div class="block wood">a</div><div class="block iron">c</div><div class="block wood">a</div><div class="block stone">b</div><div class="block wood">a</div>
           </div>
         </div>
         <div style="text-align: center;">
           <div style="font-family: Arial; font-size: 0.8rem; color: #2980b9; margin-bottom: 10px; font-weight: bold;">Mäkelä 1-Abelian (The Mystery)</div>
           <div class="fog-bridge">
-            <div class="block wood">a</div><div class="block wood">a</div><div class="block stone">b</div><div class="block iron">c</div><div class="block wood">a</div><div class="block stone">b</div><div class="block iron">c</div><div class="block stone">b</div><div class="block stone">b</div>
+            <div class="block wood">a</div><div class="block wood">a</div><div class="block stone">b</div><div class="block stone">b</div><div class="block iron">c</div><div class="block iron">c</div><div class="block wood">a</div><div class="block stone">b</div><div class="block iron">c</div><div class="block iron">c</div>
             <div class="fog-overlay"></div>
           </div>
         </div>
@@ -210,9 +210,11 @@
         This turns out not to be luck at all — it can be proven with nothing more than counting. Every material used must eventually connect to <em>something</em>: the total number of times Wood is used is fixed, and so is the total number of times each material is used <em>last</em>. Watch eight of the nine joints, and those simple bookkeeping facts leave the ninth joint with no freedom left — it is arithmetically forced. <strong>This is true forever, at every length, not just up to 22.</strong> The ninth joint was never truly free; it just looked that way.
       </div>
       <div style="background: #fef5e7; padding: 15px; border-left: 4px solid var(--text-orange); width: 100%; box-sizing: border-box;">
-        <strong>The Golden Six, still a mystery.</strong> The Golden Six from Chapter 4 does not enjoy the same certainty. As the bridge grows from 16 to 22 blocks, its strength — 99.92% at 16 — begins to show hairline fractures: 99.88%, 99.83%, 99.78%, 99.71%, 99.64%, and by 22 blocks, 99.56%. Small, but the cracks are <em>widening</em> with each new block, not closing.
+        <strong>The Golden Six, a deepening mystery.</strong> The Golden Six from Chapter 4 does not enjoy the same certainty. As the bridge grows from 16 to 23 blocks, its strength — 99.92% at 16 — begins to show hairline fractures: 99.88%, 99.83%, 99.78%, 99.71%, 99.64%, 99.56%, and by 23 blocks, 99.47%. Small, but the cracks are <em>widening</em> with each new block, not closing.
         <br><br>
-        And yet — measured a different way, by how <em>fast</em> the bridge is growing rather than how strong it currently is — the Golden Six and the full nine-joint blueprint are almost indistinguishable (growing at a rate of 2.5757 versus 2.5778 per block). The bridge is teetering on a knife's edge. Nobody yet knows whether the Golden Six eventually collapses a thousand blocks from now, or whether it walks the tightrope forever, just slightly thinner than its perfect sibling.
+        The builders then deploy an advanced diagnostic tool—measuring the theoretical upper bounds of the bridge's growth capacity based on finite local structures. The results are decisive: the Golden Six constraint <em>strictly forbids more structure</em> than the full nine-joint blueprint. The gap between them is not a statistical illusion; it is a mathematical reality built into the sequence.
+        <br><br>
+        And yet — measured by empirical growth rates — the Golden Six and the full nine-joint blueprint are almost indistinguishable. The bridge is teetering on a knife's edge. Nobody yet knows whether the Golden Six eventually collapses a thousand blocks from now, or whether it walks the tightrope forever, just slightly thinner than its perfect sibling.
       </div>
     </div>
     <p style="font-style: italic; color: #555; text-align: center; margin-top: 10px;">One mystery solved for good. One mystery deepened, and still wide open. That is what real research looks like.</p>

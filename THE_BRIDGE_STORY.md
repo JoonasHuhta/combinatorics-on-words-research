@@ -10,7 +10,7 @@ If any two adjacent sections of the bridge contain the exact same amounts of Woo
 
 ## Chapter 1: The Pure Abelian Failure & The Mäkelä Mystery
 
-Before we begin, we test the strictest possible rule: *never two consecutive identical sections, not even a single block long.* This fails almost immediately — after 7 blocks, every subsequent choice creates a repetition. This is an old, indisputable fact, known long before Mäkelä: a bridge of three materials can never be completely square-free.
+Before we begin, we test the strictest possible rule: *never two consecutive identical sections, not even a single block long.* This fails almost immediately — after 7 blocks, every subsequent choice creates a repetition. This is an old, indisputable fact, known long before Mäkelä: a bridge of three materials can never be completely abelian square-free (anagram repetition-free).
 
 Mäkelä proposed a more subtle question in 2002: *what if we allow a single block repetition (`aa`, `bb`, `cc` are OK), but forbid anything longer?* This is a much more promising starting point — but for over twenty years, **no one has been able to prove either way** whether an infinite bridge can succeed under this rule. This unresolved question is the true starting point of the B16 research: we do not start from a collapsed bridge, but from a bridge whose fate is unknown.
 
