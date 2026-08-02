@@ -65,9 +65,13 @@ Mathematics and code are not the only useful kind:
 3. **Calibrated language for finite checks.** "No violation found for K in
    [a,b]" or "in this N-symbol prefix" — never "proven" or "confirmed"
    without the exact bound the check actually covered.
-4. **Run it before you claim it.** `node test.js` and
-   `node check-claims-drift.js` must both pass, and both outputs should be
-   read, not just the pass/fail line — they check different things.
+4. **Run it before you claim it.** `node tests/test.js` and
+   `node scripts/check-claims-drift.js` must both pass, and both outputs
+   should be read, not just the pass/fail line — they check different
+   things. Run `node scripts/install-git-hooks.js` once per clone to make
+   this a pre-commit hook instead of something that has to be remembered —
+   git never tracks `.git/hooks/` itself, so a fresh clone or worktree has
+   no hook until this is run.
 5. **A retracted claim is never deleted.** If you find a row in
    `MATH_CLAIMS.md` is wrong, it moves to `REJECTED` with the reason. It
    stays visible so nobody re-adds it.
