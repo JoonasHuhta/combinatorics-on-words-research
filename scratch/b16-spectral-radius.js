@@ -212,50 +212,62 @@ function exactCollatzWielandt(adj, float_x) {
     return { minN, minD, maxN, maxD };
 }
 
+function formatMemoryUsage(mem) {
+    return `RSS: ${Math.round(mem.rss / 1024 / 1024)}MB, Heap Total: ${Math.round(mem.heapTotal / 1024 / 1024)}MB, Heap Used: ${Math.round(mem.heapUsed / 1024 / 1024)}MB`;
+}
+
 function main() {
+    const args = process.argv.slice(2);
+    const kmax = parseInt(args[0] || '8', 10);
+    
     const mask6 = toMask(['ab', 'ac', 'ba', 'bc', 'ca', 'cb']);
     const mask9 = 511; // All-9
     
     console.log(`Golden Six Mask: ${mask6}`);
     console.log(`All-9 Mask: ${mask9}`);
     console.log("--------------------------------------------------");
+    console.log(`[kmax = ${kmax}] (m = ${2*kmax - 1})`);
     
-    const maxK = 8; // Will go up to 8 for now
-    let crossFound = false;
+    const start_time = Date.now();
     
-    for (let kmax = 8; kmax <= maxK; kmax++) {
-        console.log(`[kmax = ${kmax}] (m = ${2*kmax - 1})`);
-        
-        // Golden Six
-        const c6 = buildContainer(kmax, mask6);
-        console.log(`  Golden Six | Raw: ${c6.raw}, Valid: ${c6.valid}, Essential: ${c6.essential}`);
-        const bounds6_float = powerIterationFloat(c6.adj, 3000);
-        const bounds6_exact = exactCollatzWielandt(c6.adj, bounds6_float.x);
-        const L6 = Number(bounds6_exact.minN) / Number(bounds6_exact.minD);
-        const U6 = Number(bounds6_exact.maxN) / Number(bounds6_exact.maxD);
-        console.log(`  Golden Six | Exact Bounds (float rep): [${L6.toFixed(6)}, ${U6.toFixed(6)}]`);
-        
-        // All-9
-        const c9 = buildContainer(kmax, mask9);
-        console.log(`  All-9      | Raw: ${c9.raw}, Valid: ${c9.valid}, Essential: ${c9.essential}`);
-        const bounds9_float = powerIterationFloat(c9.adj, 3000);
-        const bounds9_exact = exactCollatzWielandt(c9.adj, bounds9_float.x);
-        const L9 = Number(bounds9_exact.minN) / Number(bounds9_exact.minD);
-        const U9 = Number(bounds9_exact.maxN) / Number(bounds9_exact.maxD);
-        console.log(`  All-9      | Exact Bounds (float rep): [${L9.toFixed(6)}, ${U9.toFixed(6)}]`);
-        
-        console.log("");
-        
-        // Exact rational comparison: U6 < L9 <=> U6.maxN / U6.maxD < L9.minN / L9.minD
-        if (bounds6_exact.maxN * bounds9_exact.minD < bounds9_exact.minN * bounds6_exact.maxD) {
-            console.log(`*** EXACT RATIONAL SEPARATION REACHED AT kmax=${kmax} ***`);
-            console.log(`Golden Six SFT relaxation STRICTLY bounded below All-9 (proven exactly with BigInt ℚ).`);
-        } else {
-            console.log(`No strict separation proven at kmax=${kmax}.`);
-            console.log(`G6 Upper bound: ${U6}`);
-            console.log(`All-9 Lower bound: ${L9}`);
-        }
+    // Golden Six
+    console.log(`\nBuilding Golden Six SFT...`);
+    const c6 = buildContainer(kmax, mask6);
+    console.log(`  Golden Six | Raw: ${c6.raw}, Valid: ${c6.valid}, Essential: ${c6.essential}`);
+    console.log(`  Memory: ${formatMemoryUsage(process.memoryUsage())}`);
+    
+    const bounds6_float = powerIterationFloat(c6.adj, 3000);
+    const bounds6_exact = exactCollatzWielandt(c6.adj, bounds6_float.x);
+    const L6 = Number(bounds6_exact.minN) / Number(bounds6_exact.minD);
+    const U6 = Number(bounds6_exact.maxN) / Number(bounds6_exact.maxD);
+    console.log(`  Golden Six | Exact Bounds (float rep): [${L6.toFixed(6)}, ${U6.toFixed(6)}]`);
+    console.log(`  Memory after Golden Six CW: ${formatMemoryUsage(process.memoryUsage())}`);
+    
+    // All-9
+    console.log(`\nBuilding All-9 SFT...`);
+    const c9 = buildContainer(kmax, mask9);
+    console.log(`  All-9      | Raw: ${c9.raw}, Valid: ${c9.valid}, Essential: ${c9.essential}`);
+    console.log(`  Memory: ${formatMemoryUsage(process.memoryUsage())}`);
+    
+    const bounds9_float = powerIterationFloat(c9.adj, 3000);
+    const bounds9_exact = exactCollatzWielandt(c9.adj, bounds9_float.x);
+    const L9 = Number(bounds9_exact.minN) / Number(bounds9_exact.minD);
+    const U9 = Number(bounds9_exact.maxN) / Number(bounds9_exact.maxD);
+    console.log(`  All-9      | Exact Bounds (float rep): [${L9.toFixed(6)}, ${U9.toFixed(6)}]`);
+    console.log(`  Memory after All-9 CW: ${formatMemoryUsage(process.memoryUsage())}`);
+    
+    console.log("\n--------------------------------------------------");
+    // Exact rational comparison: U6 < L9 <=> U6.maxN / U6.maxD < L9.minN / L9.minD
+    if (bounds6_exact.maxN * bounds9_exact.minD < bounds9_exact.minN * bounds6_exact.maxD) {
+        console.log(`*** EXACT RATIONAL SEPARATION REACHED AT kmax=${kmax} ***`);
+        console.log(`Golden Six SFT relaxation STRICTLY bounded below All-9 (proven exactly with BigInt ℚ).`);
+    } else {
+        console.log(`No strict separation proven at kmax=${kmax}.`);
+        console.log(`G6 Upper bound: ${U6}`);
+        console.log(`All-9 Lower bound: ${L9}`);
     }
+    
+    console.log(`Total time: ${(Date.now() - start_time) / 1000}s`);
 }
 
 main();

@@ -13,14 +13,11 @@ const { BIGRAMS, toMask, enumerateSAbelian } = require('../scripts/b16-bigram-la
 
 const CASES = [
   { name: 'all-9', S: BIGRAMS },
-  { name: 'best eight (all-9 minus {aa})', S: BIGRAMS.filter(b => b !== 'aa') },
-  { name: 'best seven ({aa,ab,ac,ba,bc,ca,cb})', S: ['aa', 'ab', 'ac', 'ba', 'bc', 'ca', 'cb'] },
-  { name: 'off-diagonal six ({ab,ac,ba,bc,ca,cb})', S: ['ab', 'ac', 'ba', 'bc', 'ca', 'cb'] },
-  { name: 'best quint ({ab,ac,ba,bc,ca})', S: ['ab', 'ac', 'ba', 'bc', 'ca'] },
+  { name: 'off-diagonal six ({ab,ac,ba,bc,ca,cb})', S: ['ab', 'ac', 'ba', 'bc', 'ca', 'cb'] }
 ];
 
-const MAX_N = 22;
-const PER_STEP_TIME_LIMIT_MS = 12 * 60 * 1000; // 12 min ceiling per single enumerateSAbelian call
+const MAX_N = 24;
+const PER_STEP_TIME_LIMIT_MS = 120 * 60 * 1000; // 120 min ceiling per single enumerateSAbelian call
 
 function main() {
   console.log(`B16 n-extension: pushing key masks from n=16 to n=${MAX_N}\n`);
@@ -29,7 +26,7 @@ function main() {
     table[name] = {};
     const mask = toMask(S);
     console.log(`=== ${name} ===`);
-    for (let n = 16; n <= MAX_N; n++) {
+    for (let n = 23; n <= MAX_N; n++) {
       const t0 = Date.now();
       const r = enumerateSAbelian(mask, n, 2e10);
       const dt = Date.now() - t0;
@@ -41,7 +38,7 @@ function main() {
   }
 
   console.log('=== Ratio to all-9, by n ===');
-  for (let n = 16; n <= MAX_N; n++) {
+  for (let n = 23; n <= MAX_N; n++) {
     const all9 = table['all-9'][n];
     if (all9 === undefined) continue;
     const parts = [];

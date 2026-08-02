@@ -314,6 +314,7 @@
     prevBtn.disabled = currentSlide === 1;
     nextBtn.disabled = currentSlide === totalSlides;
     progress.textContent = `Slide ${currentSlide} / ${totalSlides}`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   prevBtn.addEventListener('click', () => {
