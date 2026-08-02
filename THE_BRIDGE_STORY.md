@@ -10,13 +10,9 @@ If any two adjacent sections of the bridge contain the exact same amounts of Woo
 
 ## Chapter 1: The Pure Abelian Failure & The Mäkelä Mystery
 
-We start building with the absolute strictest, simplest rule: any two adjacent sections with the exact same material counts are forbidden. This is the **pure abelian rule**. 
+Before we begin, we test the strictest possible rule: *never two consecutive identical sections, not even a single block long.* This fails almost immediately — after 7 blocks, every subsequent choice creates a repetition. This is an old, indisputable fact, known long before Mäkelä: a bridge of three materials can never be completely square-free.
 
-Nature immediately crushes this attempt. No matter what sequence of blocks we choose, by the time the bridge is just 7 blocks long, it collapses. It is a proven mathematical fact: under the pure abelian rule, an infinite bridge cannot be built out of three materials.
-
-However, a researcher named Mäkelä (2002) proposed a slightly weaker condition: what if we allow tiny, single-block repetitions (like Wood-Wood), but forbid any larger identical sections? This became known as the **1-abelian rule**. 
-
-Under Mäkelä's rule, the bridge survives past 7 blocks. In fact, it reaches 16 blocks with over 200,000 surviving variations. But does it reach infinity? No one knows. It remains one of the great unsolved mathematical mysteries. The bridge stretches out into the fog, and the builders work in constant uncertainty.
+Mäkelä proposed a more subtle question in 2002: *what if we allow a single block repetition (`aa`, `bb`, `cc` are OK), but forbid anything longer?* This is a much more promising starting point — but for over twenty years, **no one has been able to prove either way** whether an infinite bridge can succeed under this rule. This unresolved question is the true starting point of the B16 research: we do not start from a collapsed bridge, but from a bridge whose fate is unknown.
 
 ## Chapter 2: The Master Blueprint (Rao & Rosenfeld / Theorem 65)
 
@@ -59,7 +55,7 @@ Every time you ignore a rule, nature immediately punishes you.
 
 Just as the builders are about to lose hope, they test the combinations of **6 joints**.
 
-Suddenly, the strength of the bridge skyrockets! It leaps from 93% straight to an astonishing 99.91% of the required strength. It almost touches infinity.
+Suddenly, the strength of the bridge skyrockets! It leaps from 93% straight to 99.92% of the full 9-joint strength. It reaches extremely close to the full 2-abelian structure within this measured window.
 
 But there is a catch. Not just *any* 6 joints will work. If the builders choose the wrong 6 joints, the bridge remains as weak as before (collapsing even faster than with 5 joints). Nature still finds the crack.
 
@@ -72,6 +68,6 @@ Notice what is missing: `Wood-Wood, Stone-Stone, Iron-Iron`.
 
 The grand secret of the architecture is revealed: **Nature allows you to be careless with identical materials.** You don't need to monitor how often Wood connects to Wood, or Iron connects to Iron. But the moment you transition from one material to another, the structure is vulnerable. You must strictly monitor *every single mixed joint*. 
 
-If you do that, the bridge almost builds itself across the infinite chasm. 
+If you do that, the bridge achieves almost the exact same strength as the master blueprint, at least as far as we can see.
 
 *There are no shortcuts in the deep structure of sequences. But if you listen closely, nature will tell you exactly where the true structural load lies.*
