@@ -286,7 +286,7 @@ check("RESEARCH_CONTEXT.md lists the exact pipeline accurately", () => {
   // the worker, the test harness and one-off scripts.
   const EXCLUDE = new Set(['aa2fr-worker.js', 'seam-hpc-cli.js', 'test.js',
     'check-claims-drift.js', 'test-theorem10-boundary.js', 'verify-theorem6.js', 'morphisms.js',
-    'fix_entities.js']);
+    'fix_entities.js', 'install-git-hooks.js']);
   const onDiskSrc = fs.readdirSync(path.join(path.join(__dirname, '..'), 'src')).filter(f => f.endsWith('.js') && !EXCLUDE.has(f));
   const onDiskScripts = fs.readdirSync(path.join(path.join(__dirname, '..'), 'scripts')).filter(f => f.endsWith('.js') && !EXCLUDE.has(f));
   const onDisk = [...onDiskSrc, ...onDiskScripts];

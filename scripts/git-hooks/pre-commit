@@ -1,0 +1,60 @@
+#!/bin/sh
+# pre-commit hook: enforces AGENTS.md's claims protocol mechanically.
+#
+# WHY THIS EXISTS
+# ----------------
+# AGENTS.md's rules (cite before code, two verification levels, human
+# approval before MATH_CLAIMS.md changes) are prose. Prose does not stop a
+# session from writing a claim it never ran -- MATH_CLAIMS.md row 105 (a
+# Hankel-rank claim whose own cited script never computed it) and the row-99
+# file corruption (2026-08-02) both passed straight into the working tree
+# with the rules sitting right there, unread or unheeded, until someone ran
+# the checkers by hand. This hook makes that check unskippable rather than
+# optional.
+#
+# WHAT IT DOES
+# ------------
+# 1. Always: node scripts/check-claims-drift.js (fast, <1s) -- catches a
+#    malformed ledger, dangling citations, overclaiming language, drift
+#    between MATH_CLAIMS.md and its derived files.
+# 2. Only if the commit touches MATH_CLAIMS.md, src/**, scripts/**, or
+#    tests/**: node tests/test.js (~90s) -- the full mathematics suite.
+#    Skipped otherwise so an unrelated commit (docs, scratch/) is not
+#    penalised by an unrelated multi-minute wait.
+# Either failing aborts the commit. Bypass only with git commit --no-verify,
+# which is itself something AGENTS.md says not to reach for casually.
+#
+# INSTALL: this file is tracked at scripts/git-hooks/pre-commit because
+# .git/hooks/ itself is never committed by git. Run once per clone:
+#   node scripts/install-git-hooks.js
+
+set -e
+
+cd "$(git rev-parse --show-toplevel)"
+
+echo "[pre-commit] node scripts/check-claims-drift.js"
+node scripts/check-claims-drift.js
+DRIFT_STATUS=$?
+if [ "$DRIFT_STATUS" -ne 0 ]; then
+  echo "[pre-commit] check-claims-drift.js failed -- commit aborted."
+  echo "[pre-commit] fix the drift, or (only if you are certain) git commit --no-verify."
+  exit 1
+fi
+
+CHANGED=$(git diff --cached --name-only)
+NEEDS_FULL_SUITE=$(printf '%s\n' "$CHANGED" | grep -E '^(MATH_CLAIMS\.md|src/|scripts/|tests/)' || true)
+
+if [ -n "$NEEDS_FULL_SUITE" ]; then
+  echo "[pre-commit] MATH_CLAIMS.md / src / scripts / tests touched -- running node tests/test.js (this takes ~90s)"
+  node tests/test.js
+  TEST_STATUS=$?
+  if [ "$TEST_STATUS" -ne 0 ]; then
+    echo "[pre-commit] tests/test.js failed -- commit aborted."
+    exit 1
+  fi
+else
+  echo "[pre-commit] no changes to MATH_CLAIMS.md / src / scripts / tests -- skipping the full suite"
+fi
+
+echo "[pre-commit] all checks passed"
+exit 0
