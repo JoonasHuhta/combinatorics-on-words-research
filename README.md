@@ -79,21 +79,45 @@ datasets/            record words (gitignored, the authors' data)
 
 ## Running it
 
-No dependencies, no installation. Node and a browser are enough.
+No dependencies, no `npm install`, no build step. Node (any reasonably
+recent version) and a browser are enough.
 
 ```bash
-node test.js                 # mathematical regression tests
-node check-claims-drift.js   # guard over claims, citations and UI text
+git clone https://github.com/JoonasHuhta/combinatorics-on-words-research.git
+cd combinatorics-on-words-research
+node tests/test.js                 # mathematical regression tests (41 as of this writing)
+node scripts/check-claims-drift.js # guard over claims, citations and UI text
+node scripts/install-git-hooks.js  # optional: makes both of the above run automatically
+                                    # on every commit (skipped/blocked appropriately) --
+                                    # see CONTRIBUTING.md rule 4
 ```
 
-Run both before committing and **read both outputs** — they test different
-things. Individual modules run directly, for example:
+Run the two checkers before committing and **read both outputs** — they test
+different things. Individual modules under `src/` and `scripts/` run
+directly, for example:
 
 ```bash
-node sft-container.js --kmax 6
-node additive-sweep.js --letters 4 --span 8
-node sanalab-run.js --alphabet 0,1,2,8 --budget 20000000 --state s.json
+node src/sft-container.js --kmax 6
+node scripts/additive-sweep.js --letters 4 --span 8
+node scripts/sanalab-run.js --alphabet 0,1,2,8 --budget 20000000 --state s.json
 ```
+
+**To check your own word** (does it contain an abelian square, a
+Golden-Six square, or a full 2-abelian square? see `MATH_CLAIMS.md` rows
+84–106): open `word-checker.html` directly in a browser, no server needed
+— or, for a candidate record word specifically, run it through the
+project's own verification script the same way row 40's record words were
+checked:
+
+```bash
+node src/word-anatomy.js datasets/your-word.txt
+```
+
+`word-checker.html` gives a quick, non-authoritative answer in your
+browser; `word-anatomy.js` is the process an actual new-record claim has
+to go through before it can be logged in `MATH_CLAIMS.md`
+(`OPEN_RESEARCH_QUESTIONS.md` B21) — the two are not interchangeable, and
+the browser tool says so on the page.
 
 ## Working conventions, earned the hard way
 
