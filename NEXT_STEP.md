@@ -1,7 +1,45 @@
 # Next Step
 
-**Updated:** 2026-07-31 (B13 run to L≤6, k=6 done, E5 replication — rows 72–77)
+**Updated:** 2026-08-02 (B16 lattice completed at n=16, extended to n=22, one fact proven — rows 86–99)
 **Read first:** `KNOWLEDGE_STATE.md`, `RESEARCH_CONTEXT.md`, `AGENTS.md`.
+
+---
+
+# HANDOFF — 2026-08-02, third round (supersedes the sections below where they conflict)
+
+**Start here (copy verbatim into a new session):**
+
+> *"Read `RESEARCH_CONTEXT.md` and `AGENTS.md` before changing anything, then `NEXT_STEP.md`'s handoff section in full. Do not write to `MATH_CLAIMS.md` without my approval (rule 5)."*
+
+**Repository state:** tests **41/41**, drift checks **15/15**. Claims ledger **99 rows** (rows 86, 87, 89 retracted with reasons — see below; row 96 numbered twice by two concurrent sessions in the same shared worktree, second instance renumbered to 98, nothing deleted). `origin/main` up to date as of commit `c5d5d6a`.
+
+## What happened this session, in one paragraph
+
+A second session was asked to fact-check "The Bridge Story" (a pedagogical narrative built on the B16 bigram-subset lattice, rows 86–87) before it reached the UI, and found the underlying engine (`scripts/b16-bigram-lattice.js`) had a boundary-bigram indexing bug that inflated every non-empty-mask result — caught only by re-running the computation from scratch rather than trusting the commit. The bug was fixed, the entire lattice was then computed **exhaustively at n=16 for all 512 possible bigram-subset combinations** (levels 0 through 9, `MATH_CLAIMS.md` rows 90–96), extended to **n=22 for the five most interesting masks** (row 98), and one pattern found in that data — "any 8 of 9 bigram counts force the 9th" — turned out to be a **provable fact**, not an empirical curiosity (row 99, short linear-algebra argument, checked exhaustively at n=4–7). `bridge_story_sandbox.html` (interactive, 7-slide) now embeds the real, sanity-checked 512-point lattice and was verified in-browser before committing.
+
+## Current state of the B16 lattice, precisely
+
+| Level (bigrams watched) | Status | Key figure at n=16 |
+|---|---|---|
+| 0 (empty) | exact, `COMPUTED` | p(16) = 207,354 |
+| 1–5 (singleton…quint) | exact, `COMPUTED` (rows 86 corrected, 90, 91, 94) | best quint 93.12% of all-9 |
+| 6 (the "Golden Six", off-diagonal) | exact, `COMPUTED`, but **99.92% at n=16 measurably erodes to 99.56% by n=22, at an accelerating rate** (row 98) | still open whether it survives to infinity |
+| 7 | exact, `COMPUTED` (row 96) | best seven 99.97% at n=16, drifts to 99.85% by n=22 |
+| 8 (any one bigram dropped) | exact, `COMPUTED`, **and now PROVEN for every length K** (row 99) | = all-9 exactly, no exception found or theoretically possible |
+| 9 (all-9, = 2-abelian, Theorem 65) | known infinite (Rao & Rosenfeld, row 84) | 7,180,188 |
+
+## Next research targets in the B16 complex, prioritized
+
+1. **Does the Golden Six's growth-rate gap (2.5757 vs 2.5778 at n=22) stay bounded, or does it compound toward zero?** This is the single open question the whole "bridge" narrative hangs on. Cheapest next move: extend `scratch/b16-n-extension.js` further (n=23, 24…) with a pre-measured cost check first (row 98's own discipline) — each step costs roughly 2.6× the previous, so n=24 is the practical ceiling on a single machine without a new algorithmic idea. A cleverer move: derive the six-bigram language's transfer matrix / spectral radius directly (the same technique `perron-frobenius.js` already uses elsewhere in this project) instead of brute-force extending n one step at a time — this could settle the asymptotic growth-rate question exactly, without needing n→∞ by brute force at all. **This is probably the highest-value single next step in the whole project right now.**
+2. **Generalize row 99's proof.** It was derived and checked for |S|=8 (one bigram omitted). Does an analogous argument bound how far |S|=7 or |S|=6 can drift from all-9 — i.e., can the same linear-algebra machinery give a *provable upper bound* on the Golden Six's asymptotic gap, rather than only measuring it empirically? This would be a much stronger result than another n-extension run.
+3. **Complete symmetry-class documentation for levels 3–8** (rows 90/91/94/96 give extremes; the full class-by-class breakdown for triples/quads/quints beyond min/max is sitting in `scratch/*.out` capture files from this session but was not transcribed into the ledger in full — low priority, mostly bookkeeping).
+4. **`bridge_story_sandbox.html` → `THE_BRIDGE_STORY.md`/`_EXTENDED.md`:** the two committed narrative docs still tell only the n=16 story (Chapter 4's "breakthrough"); they have not been updated with Chapter 5 ("The Horizon") the way the sandbox HTML was. Cheap, mostly copy-paste once item 1 or 2 gives a more final answer worth narrating.
+5. **Unrelated but flagged this session, not yet acted on** (`OPEN_RESEARCH_QUESTIONS.md` E11/B19–B21): a private, unverified GPU-search session (V. Keränen) reports a candidate **2107-letter aa2fr word**, exceeding this project's verified record of 1928 (row 40). Blocked on obtaining the actual string; once available, verify with `word-anatomy.js` (row 40's own method) before logging anything. B19/B20 (reproducing Keränen's branching/seam-rigidity statistics with this project's own tooling) are cheap and independent of the B16 work above.
+
+## What not to do
+
+- Don't re-run the full 512-point n=16 sweep again — it's done, exact, and cross-validated two ways (regression against rows 27/86, independent brute force at n≤10). Re-running it would just burn time confirming what rows 90–96 already establish.
+- Don't extend n past ~24 on a single machine without first re-deriving the spectral/transfer-matrix approach (item 1) — the brute-force cost is doubling-and-then-some per step and will stop being worth it well before it settles anything.
 
 ---
 
