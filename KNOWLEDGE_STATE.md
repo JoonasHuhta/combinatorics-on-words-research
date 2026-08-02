@@ -151,6 +151,7 @@ A retracted row is never deleted, so it does not get added again.
 | Theorem 6 on the first attempt | Was not verified; **properly re-derived later at row 46** | 43 |
 | B16 pairs: 8 symmetry classes, max p(16)=6,410,640 (24.5% of all-9) | Computed with a buggy engine (boundary-bigram indexing bug, fixed 2026-08-02, commit 90b7052); correct figures are 6 classes, max 2,852,290 (39.7%) — see row 90/94 | 87 |
 | B16 growth-rate: All-9 rate at n=16 is 2.867 | Same engine bug as row 87; correct rate is 2.5818 — no corrected growth-rate analysis has been redone yet | 89 |
+| Golden Six and All-9 lack finite Hankel rank up to k=12 | The cited script (`scratch/b16-hankel.js`) never computed the Hankel determinant of either sequence — it ran the test only on a Fibonacci control and on the unrelated S=empty aa2f sequence (row 27/86), not on p_G6(n) or p_All9(n) at all. Found on inspection while repairing unrelated file corruption in the same session | 105 |
 
 ---
 

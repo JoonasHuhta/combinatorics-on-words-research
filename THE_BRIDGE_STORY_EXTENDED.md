@@ -1,4 +1,4 @@
-# The Bridge of Infinite Sequences (The B16 Mystery)
+# The Bridge Over Infinite Sequences (The B16 Mystery)
 
 Imagine we are standing at the edge of an infinitely wide, bottomless chasm. Our mission is to build a bridge across it.
 
@@ -75,4 +75,37 @@ But the very second the material transitions to another—the mixed joints—the
 
 If you respect this rule, the bridge achieves almost the exact same strength as the master blueprint, at least as far as we can see.
 
-*There are no shortcuts in the deep structure of sequences. But if you listen closely, nature will tell you exactly where the true structural load lies.*
+### Chapter 6: The Horizon
+
+Sixteen blocks is a fine place to stop and celebrate. But the builders, curious, keep watching the bridge as it stretches further — from 16 blocks out to 22, and beyond. Two things happen, and they are opposites of each other.
+
+**The Free Joint, proven.** The builders ask: what if we watch only *eight* of the nine joints, and leave one completely unguarded? At every length from 16 to 22, with no exception, the bridge is **bit-for-bit identical** to the full nine-joint blueprint.
+This turns out not to be luck at all — it can be proven with nothing more than counting. Every material used must eventually connect to *something*: the total number of times Wood is used is fixed, and so is the total number of times each material is used *last*. Watch eight of the nine joints, and those simple bookkeeping facts leave the ninth joint with no freedom left — it is arithmetically forced. **This is true forever, at every length, not just up to 22.** The ninth joint was never truly free; it just looked that way.
+
+**The Golden Six, a deepening mystery.** The Golden Six from Chapter 4 does not enjoy the same certainty. As the bridge grows from 16 to 23 blocks, its strength — 99.92% at 16 — begins to show hairline fractures: 99.88%, 99.83%, 99.78%, 99.71%, 99.64%, 99.56%, and by 23 blocks, 99.47%. Small, but the cracks are *widening* with each new block, not closing.
+
+The builders then deploy an advanced diagnostic tool—measuring the theoretical upper bounds of the bridge's growth capacity based on finite local structures. The results are decisive: the Golden Six constraint *strictly forbids more structure* than the full nine-joint blueprint. The gap between them is not a statistical illusion; it is a mathematical reality built into the sequence.
+
+Nobody yet knows whether the Golden Six eventually collapses a thousand blocks from now, or whether it walks the tightrope forever, just slightly thinner than its perfect sibling. 
+
+*One mystery solved for good. One mystery deepened, and still wide open. That is what real research looks like.*
+
+### Chapter 7: The Anatomy of the Gap
+
+Chapter 6 leaves an open wound: the Golden Six is not the master blueprint, but nobody has pinned down *exactly* what slips through the six-joint net that the nine-joint net catches. Not a percentage — the specific sections.
+
+**Naming the crack.** Call a pair of adjacent sections `U` and `V` a **separating pair** if they agree on everything the Golden Six watches — identical materials, identical amounts of every mixed joint (`ab, ac, ba, bc, ca, cb`) — but disagree on at least one same-material joint (`aa, bb, cc`). A separating pair is exactly a place where the Golden Six shrugs and the master blueprint objects. It is the entire difference between the two rules, named precisely rather than measured statistically.
+
+**The bookkeeping trick, run on two sections at once.** Chapter 6's proof about the ninth joint rested on one fact: a section's total material counts, together with its very first and very last block, pin down every one of its nine joint counts once eight are already known — because every joint-count row and column sums to a quantity fixed by those totals, with only the first/last block breaking the tie. Applying that same accounting to `U` and `V` together, rather than to one section alone, gives more than an existence proof — it gives the exact shape of every separating pair:
+
+> `U` and `V` form a separating pair **if and only if** `U` starts and ends on the same material `p`, `V` starts and ends on the same material `q`, and `p` differs from `q`. When that holds, the mismatch is forced to a precise size: exactly one extra block of material `p` counted in `U`'s own-material joint versus `V`'s, exactly one fewer of material `q`, and the third material's own-material joint count matching exactly. The gap can never be larger than that, and it can never be smaller once `p ≠ q` holds.
+
+A direct consequence: no separating pair can exist with fewer than 4 blocks per side — the "starts and ends on the same material" condition has no room to bite at shorter lengths. At exactly 4 blocks per side, there are precisely **six** separating pairs, one symmetry family under relabelling which two materials play `p` and `q`. This characterisation was checked exhaustively against brute-force enumeration for sections up to 7 blocks per side, with **zero exceptions** — not as the proof itself (the bookkeeping argument above is the proof, and it holds at every length), but as a check that the derivation was transcribed correctly into code.
+
+**Where the cracks actually live.** This raises the obvious next question: does the master blueprint's own known infinite bridge — the one genuinely infinite construction anyone has ever built, assembled by applying a fixed 5-block coding to Keränen's own 85-letter template — happen to avoid separating pairs? If it did, that single bridge would satisfy the Golden Six as well as the full nine-joint rule, which would be a remarkable and immediately useful coincidence.
+
+It does not get that lucky, and it is not close. Scanning the first 36,125 blocks of that construction (the same stretch already used elsewhere in this project as a positive control for the nine-joint rule) finds **2,167** separating pairs, the first just 3 blocks in. Over 5% of all starting positions in that stretch begin one, and the largest gap between consecutive occurrences never exceeds 95 blocks. Every one of these, by construction, satisfies the full nine-joint rule (as it must — this is the same bridge Chapter 2's architects certified) while simultaneously violating the Golden Six. The crack is not a rare defect hiding far downstream; it is a routine, recurring feature of the only bridge anyone actually knows how to build, appearing roughly every 18 blocks on average.
+
+**What this settles, and what it very much does not.** The anatomy of the gap between the two rules is now exact, not statistical: we know precisely which section-pairs separate them, we know the mismatch is always minimal (a single block's worth, moved between two materials), and we know the master blueprint's own construction is laced with these pairs rather than avoiding them by luck. What this does *not* do is answer Chapter 6's open question. A single known bridge being riddled with these cracks says nothing about whether the Golden Six's *own* bridge survives to infinity under its own, stricter rule — that single bridge was never built to satisfy the Golden Six in the first place, so its failure to do so is not evidence either way. It also says nothing about how the two rules' growth rates compare in the limit. Those questions remain exactly as open as Chapter 6 left them. Naming a crack precisely is a different achievement from knowing whether it eventually brings the structure down — a useful one, but not that one.
+
+*One mystery solved for good. One mystery mapped in exact, load-bearing detail — and still unsolved. That is what real research looks like, twice over.*

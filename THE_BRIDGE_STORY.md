@@ -1,4 +1,4 @@
-# The Bridge of Infinite Sequences: The B16 Mystery
+# The Bridge Over Infinite Sequences: The B16 Mystery
 
 Imagine we are standing at the edge of an infinitely wide, bottomless chasm. We want to build a bridge across it.
 
@@ -70,4 +70,37 @@ The grand secret of the architecture is revealed: **Nature allows you to be care
 
 If you do that, the bridge achieves almost the exact same strength as the master blueprint, at least as far as we can see.
 
-*There are no shortcuts in the deep structure of sequences. But if you listen closely, nature will tell you exactly where the true structural load lies.*
+## Chapter 6: The Horizon
+
+Sixteen blocks is a fine place to stop and celebrate. But the builders, curious, keep watching the bridge as it stretches further — from 16 blocks out to 22, and beyond. Two things happen, and they are opposites of each other.
+
+**The Free Joint, proven.** The builders ask: what if we watch only *eight* of the nine joints, and leave one completely unguarded? At every length from 16 to 22, with no exception, the bridge is **bit-for-bit identical** to the full nine-joint blueprint.
+This turns out not to be luck at all — it can be proven with nothing more than counting. Every material used must eventually connect to *something*: the total number of times Wood is used is fixed, and so is the total number of times each material is used *last*. Watch eight of the nine joints, and those simple bookkeeping facts leave the ninth joint with no freedom left — it is arithmetically forced. **This is true forever, at every length, not just up to 22.** The ninth joint was never truly free; it just looked that way.
+
+**The Golden Six, a deepening mystery.** The Golden Six from Chapter 4 does not enjoy the same certainty. As the bridge grows from 16 to 23 blocks, its strength — 99.92% at 16 — begins to show hairline fractures: 99.88%, 99.83%, 99.78%, 99.71%, 99.64%, 99.56%, and by 23 blocks, 99.47%. Small, but the cracks are *widening* with each new block, not closing.
+
+The builders then deploy an advanced diagnostic tool—measuring the theoretical upper bounds of the bridge's growth capacity based on finite local structures. The results are decisive: the Golden Six constraint *strictly forbids more structure* than the full nine-joint blueprint. The gap between them is not a statistical illusion; it is a mathematical reality built into the sequence.
+
+Nobody yet knows whether the Golden Six eventually collapses a thousand blocks from now, or whether it walks the tightrope forever, just slightly thinner than its perfect sibling. 
+
+*One mystery solved for good. One mystery deepened, and still wide open. That is what real research looks like.*
+
+## Chapter 7: The Anatomy of the Gap
+
+Chapter 6 leaves an open wound: the Golden Six is not the same as the master blueprint, but nobody has ever pinned down *exactly* what slips through the six-joint net that the nine-joint net catches. Not "roughly how much" — which specific sections.
+
+**Naming the crack.** Call a pair of adjacent sections `U` and `V` a **separating pair** if they agree on everything the Golden Six watches — same materials, same amounts of every mixed joint — but disagree on at least one same-material joint (`Wood-Wood`, `Stone-Stone`, or `Iron-Iron`). A separating pair is exactly a place where the Golden Six shrugs and the master blueprint objects. It is the entire difference between the two rules, named precisely instead of measured statistically.
+
+**The bookkeeping trick strikes again.** Chapter 6's proof about the ninth joint used a simple fact: every section's first and last block, together with its total material counts, pin down every joint count once eight of nine are known. Running the same bookkeeping on `U` and `V` side by side gives something sharper than a proof of existence — it gives the *shape* of every separating pair, with no search required:
+
+> `U` and `V` form a separating pair if and only if `U` starts and ends with the same material `p`, `V` starts and ends with the same material `q`, and `p` is not `q`. When this happens, the mismatch is always exactly one block too many of material `p` in `U` compared to `V`, one block too few of material `q`, and the third material's count matches exactly.
+
+No separating pair can be shorter than 4 blocks per side — shorter sections simply cannot satisfy this shape. At exactly 4 blocks per side, there are precisely six of them, one family related by swapping which two materials play the roles of `p` and `q`. This was checked exhaustively up to 7 blocks per side with zero exceptions to the rule above — not as the proof itself, but as a check that the bookkeeping was transcribed correctly.
+
+**Where the cracks actually live.** This raises an obvious question: does the master blueprint's own known infinite bridge — the one real infinite construction anyone has ever built — contain separating pairs at all? If it didn't, that single bridge would happen to satisfy the Golden Six too, which would be enormous news.
+
+It does not get that lucky. Inspecting the first 36,125 blocks of the master blueprint's construction turns up **2,167** separating pairs — the very first one just 3 blocks in. Over 5% of all positions in that stretch sit at the start of one, and no gap between consecutive occurrences ever exceeds 95 blocks. The crack is not a rare pathology hiding somewhere far out; it is a routine, recurring feature of the only bridge anyone actually knows how to build.
+
+**What this settles, and what it very much does not.** The anatomy of the gap is now exact: we know precisely which pairs of sections separate the two rules, and we know the master blueprint's construction is laced with them rather than avoiding them by accident. What this does *not* do is answer Chapter 6's open question. A single known bridge being full of these cracks says nothing about whether the Golden Six's *own* bridge survives to infinity, and nothing about how its growth rate compares to the master blueprint's in the limit — those remain exactly as open as Chapter 6 left them. Naming a crack precisely is not the same as knowing whether it eventually brings the whole structure down.
+
+*One mystery solved for good. One mystery mapped in exact detail, but still unsolved. That is what real research looks like, twice over.*
