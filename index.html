@@ -528,7 +528,6 @@
   <p style="font-family: Arial, sans-serif; font-size: 0.8rem; color: #999; margin: -6px 0 14px;">
     Every claim shown here traces to a row in <code>MATH_CLAIMS.md</code> &mdash;
     <a href="https://github.com/JoonasHuhta/combinatorics-on-words-research" style="color: #d35400;">view the live research ledger and source code</a>
-    &middot; <a href="word-checker.html" style="color: #d35400;">check a word of your own for all three square types</a>
     &middot; <a href="bridge_story_sandbox.html" style="color: #d35400;">The Bridge Story</a>
   </p>
 
@@ -895,7 +894,7 @@
   <!-- ================================================
        10. KNOWLEDGE GRAPH
        ================================================ -->
-  <div class="view-panel hidden" id="view-knowledge" style="height:600px;">
+  <div class="view-panel hidden" id="view-knowledge" style="min-height:600px;">
     <h2>Knowledge Graph</h2>
     <p style="font-family: Arial; font-size: 0.95rem; color:#555; max-width:800px; line-height:1.5;">
       Interactive concept map. <strong>Drag</strong> nodes to explore relationships. <strong>Click</strong> on a node to read details.
@@ -908,6 +907,24 @@
         <h3 id="kg-title" style="margin-top:0;">Select a node</h3>
         <p id="kg-desc" style="color:#555; line-height:1.5;">Click any node on the graph to see definitions, history, and relevance to the abelian square problem.</p>
       </div>
+    </div>
+
+    <div style="margin-top: 30px; border-top: 2px solid #eee; padding-top: 20px;">
+      <h3 style="color: var(--text-orange); margin-bottom: 10px;">Glossary (Cheat Sheet)</h3>
+      <p style="font-family: Arial; font-size: 0.95rem; color: #555; margin-bottom: 15px;">This glossary connects the formal mathematical terminology to the concepts in "The Bridge Story".</p>
+      <dl style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+        <dt style="font-weight: bold; color: #2c3e50; font-size: 1.05rem; margin-top: 10px;">Abelian square / "Harmonic Resonance"</dt>
+        <dd style="margin-left: 20px; color: #555; margin-bottom: 10px;">In the story: a "structurally identical repetition" that causes the bridge to collapse. In mathematics: two adjacent sections of a word (e.g. <em>abc</em> and <em>cab</em>) that contain the exact same letters, though possibly in a different order (i.e. they are anagrams of each other).</dd>
+        
+        <dt style="font-weight: bold; color: #2c3e50; font-size: 1.05rem; margin-top: 10px;">Abelian square-free word / "The Infinite Bridge"</dt>
+        <dd style="margin-left: 20px; color: #555; margin-bottom: 10px;">An infinite sequence of letters where not a single abelian square occurs at any length. In the story, this is a bridge that can be built forever without collapsing.</dd>
+        
+        <dt style="font-weight: bold; color: #2c3e50; font-size: 1.05rem; margin-top: 10px;">Bigram / "Joint"</dt>
+        <dd style="margin-left: 20px; color: #555; margin-bottom: 10px;">A sequence of two consecutive letters (e.g. the word "abac" contains the bigrams <em>ab</em>, <em>ba</em>, and <em>ac</em>). In the story, a "joint" between two building blocks. The master blueprint requires monitoring not just the blocks, but all 9 possible joints to prevent collapse.</dd>
+        
+        <dt style="font-weight: bold; color: #2c3e50; font-size: 1.05rem; margin-top: 10px;">Morphism / "The Master Blueprint"</dt>
+        <dd style="margin-left: 20px; color: #555; margin-bottom: 10px;">A substitution rule that replaces each single letter with a longer sequence. For example, Veikko Ker&auml;nen's morphism g<sub>85</sub> replaces each letter with an 85-letter sequence, which when iterated generates the infinite abelian square-free bridge.</dd>
+      </dl>
     </div>
   </div>
 
@@ -4029,9 +4046,11 @@ function initKG() {
   const nodes = [
     { id: 'alphabet', label: 'Alphabet', cat: 'concept', desc: 'A finite set of letters.' },
     { id: 'word', label: 'Word (String)', cat: 'concept', desc: 'A sequence of letters from the alphabet.' },
+    { id: 'bigram', label: 'Bigram (Joint)', cat: 'concept', desc: 'A sequence of two consecutive letters. Crucial in the "Golden Six" and 2-abelian properties.' },
     { id: 'parikh', label: 'Parikh Vector', cat: 'concept', desc: 'Counts the occurrences of each letter in a word. If two words have the same Parikh vector, they are anagrams.' },
     { id: 'abelian_eq', label: 'abelian equivalence', cat: 'concept', desc: 'Two words are abelian equivalent if they have the same Parikh vector.' },
     { id: 'abelian_sq', label: 'abelian square', cat: 'concept', desc: 'A word of the form UV where U and V are abelian equivalent.' },
+    { id: 'abelian_sq_free', label: 'Abelian square-free', cat: 'concept', desc: 'An infinite word containing no abelian squares at any length.' },
     { id: 'morphism', label: 'Morphism', cat: 'concept', desc: 'A mapping that replaces each letter with a fixed word.' },
     { id: 'dt0l', label: 'DT0L System', cat: 'concept', desc: 'A system with multiple morphisms that can be applied non-deterministically to generate languages.' },
     { id: 'keranen', label: 'Veikko Keränen', cat: 'person', desc: 'Proved in 1992 that abelian squares are avoidable on 4 letters.' },
@@ -4046,9 +4065,11 @@ function initKG() {
 
   const edges = [
     { source: 'alphabet', target: 'word' },
+    { source: 'word', target: 'bigram' },
     { source: 'word', target: 'parikh' },
     { source: 'parikh', target: 'abelian_eq' },
     { source: 'abelian_eq', target: 'abelian_sq' },
+    { source: 'abelian_sq', target: 'abelian_sq_free' },
     { source: 'morphism', target: 'word' },
     { source: 'dt0l', target: 'morphism' },
     { source: 'keranen', target: 'g85' },
@@ -4058,8 +4079,8 @@ function initKG() {
     { source: 'pleasants', target: 'abelian_sq' },
     { source: 'g85', target: 'morphism' },
     { source: 'g109', target: 'morphism' },
-    { source: 'g85', target: 'abelian_sq' },
-    { source: 'g109', target: 'abelian_sq' },
+    { source: 'g85', target: 'abelian_sq_free' },
+    { source: 'g109', target: 'abelian_sq_free' },
     { source: 'abelian_sq', target: 'neg_greedy' },
     { source: 'morphism', target: 'neg_divide' }
   ];
