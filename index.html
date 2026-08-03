@@ -311,96 +311,319 @@
     .footnote a { color: #3498db; }
 
     .hidden { display: none !important; }
-
     /* =====================================================
-       13. ABELIAN SNAKE STYLES
+       13. ABELISK STYLES
        ===================================================== */
-    #view-snake { padding: 0; border: none; background: transparent; min-height: 0; }
-    .snake-layout { display: flex; gap: 0; align-items: flex-start; flex-wrap: wrap; }
-    .snake-canvas-wrap { flex: 2; min-width: 320px; position: relative; background: #fff; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-    #snakeCanvas { display: block; margin: 0 auto; }
-    .snake-side { flex: 1; min-width: 260px; max-width: 340px; padding: 16px 20px; background: #fafafa; border: 1px solid var(--border); border-left: none; border-radius: 0 6px 6px 0; color: var(--text); font-family: Arial, sans-serif; font-size: 0.88rem; }
-    .snake-side h3 { color: var(--text-orange); margin: 0 0 8px; font-family: 'Times New Roman', serif; font-size: 1.05rem; }
-    .snake-dna {
-      font-family: monospace; font-size: 0.78rem; letter-spacing: 1px; word-break: break-all;
-      line-height: 1.7; max-height: 90px; overflow-y: auto; border: 1px solid #ccc;
-      background: #fff; padding: 6px 8px; border-radius: 3px; color: #555;
-      margin-bottom: 10px;
+    #view-snake {
+        padding: 0; border: none; background: transparent; min-height: 0;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
     }
-    .snake-dna .sn-a { color: var(--letter-a); font-weight: bold; }
-    .snake-dna .sn-b { color: var(--letter-b); font-weight: bold; }
-    .snake-dna .sn-c { color: var(--letter-c); font-weight: bold; }
-    .snake-dna .sn-d { color: var(--letter-d); font-weight: bold; }
-    /* Balance meter */
-    .snake-balance { margin: 8px 0 14px; font-family: monospace; font-size: 0.78rem; }
-    .snake-b-row { display: flex; align-items: center; margin-bottom: 3px; }
-    .snake-b-lbl { width: 14px; color: #555; font-weight: bold; }
-    .snake-b-bar-wrap { flex: 1; height: 12px; background: #eee; margin-right: 8px; border-radius: 2px; overflow: hidden; }
-    .snake-b-bar { height: 100%; transition: width 0.3s; }
-    .snake-b-val { width: 24px; text-align: right; color: #333; }
-    .snake-stat-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.83rem; color: #666; }
-    .snake-stat-row strong { color: #000; }
-    .snake-parikh { font-family: monospace; font-size: 0.78rem; border: 1px solid #ccc; background: #fff; border-radius: 3px; padding: 6px 8px; margin-top: 4px; color: #555; }
-    .snake-parikh .sp-row { display: flex; justify-content: space-between; align-items: center; padding: 1px 0; border-bottom: 1px solid #eee; }
-    .snake-parikh .sp-row:last-child { border-bottom: none; }
-    .snake-parikh .sp-row.sp-danger { background: #ffebee; border-radius: 2px; color: #b00020; }
-    .snake-parikh .sp-half { flex: 1; text-align: right; padding-right: 6px; border-right: 1px solid #eee; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .snake-parikh .sp-vs { padding: 0 4px; color: #999; font-size: 0.72rem; }
-    .snake-legend { display: flex; gap: 10px; flex-wrap: wrap; margin: 8px 0 12px; font-size: 0.78rem; color: var(--text); }
-    .snake-legend-item { display: flex; align-items: center; gap: 4px; }
-    .snake-legend-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-    .snake-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-    .snake-btn { padding: 6px 13px; border: 1px solid #ccc; background: #fff; color: #333; cursor: pointer; border-radius: 4px; font-size: 0.82rem; transition: background 0.15s; }
-    .snake-btn:hover { background: #eee; }
-    .snake-btn.active { background: #e0e0e0; border-color: #999; color: #000; font-weight: bold; }
-    .snake-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .snake-mode-badge { display: inline-block; font-size: 0.72rem; padding: 2px 7px; border-radius: 10px; margin-left: 6px; vertical-align: middle; }
-    .snake-mode-badge.easy { background: #e6f4ea; color: #1e8e3e; }
-    .snake-mode-badge.hard { background: #fce8e6; color: #d93025; }
-    /* Game Over overlay */
-    .snake-gameover-overlay {
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255,255,255,0.92); display: flex; flex-direction: column;
-      align-items: center; justify-content: center; color: #333;
-      font-family: Arial, sans-serif; text-align: center; padding: 20px; z-index: 10;
-      backdrop-filter: blur(2px);
+    
+    .abelisk-wrapper {
+        background-color: #f8fafc;
+        color: #0f172a;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
     }
-    .snake-gameover-overlay.hidden { display: none; }
-    .snake-go-title { font-size: 2rem; font-weight: bold; color: var(--letter-a); margin-bottom: 8px; letter-spacing: 2px; }
-    .snake-go-subtitle { color: #666; font-size: 0.88rem; margin-bottom: 16px; }
-    .snake-go-square { font-family: monospace; font-size: 0.82rem; background: #f9f9f9; border: 1px solid #ddd; padding: 10px 14px; border-radius: 4px; text-align: left; max-width: 360px; width: 100%; margin-bottom: 16px; line-height: 1.8; }
-    .snake-go-sq-h1 { color: var(--letter-a); text-decoration: underline; }
-    .snake-go-sq-h2 { color: var(--text-orange); text-decoration: underline; text-decoration-color: #888; }
-    .snake-go-fullword { font-family: monospace; font-size: 0.75rem; background: #f4f4f4; border: 1px solid #ddd; padding: 10px; border-radius: 4px; max-width: 400px; width: 100%; max-height: 120px; overflow-y: auto; text-align: left; word-break: break-all; margin-bottom: 16px; color: #555; line-height: 1.5; }
-    .snake-go-fullword .sn-a { color: var(--letter-a); } .snake-go-fullword .sn-b { color: var(--letter-b); } .snake-go-fullword .sn-c { color: var(--letter-c); } .snake-go-fullword .sn-d { color: var(--letter-d); }
-    .snake-go-btn { padding: 9px 22px; background: var(--text-orange); border: none; color: #fff; cursor: pointer; border-radius: 4px; font-size: 0.9rem; transition: background 0.2s; }
-    .snake-go-btn:hover { background: #b84900; }
-    .snake-score-hs { color: var(--text-orange); font-size: 0.9rem; margin-bottom: 14px; }
-    /* Start screen */
-    .snake-start-overlay {
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255,255,255,0.95); display: flex; flex-direction: column;
-      align-items: center; justify-content: center; color: #333;
-      font-family: Arial, sans-serif; text-align: center; padding: 20px; z-index: 10;
+
+    .abelisk-header-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 800px;
+        position: relative;
     }
-    .snake-start-overlay.hidden { display: none; }
-    .snake-start-title { font-size: 1.6rem; color: var(--text-orange); margin-bottom: 6px; font-family: 'Times New Roman', serif; }
-    .snake-start-sub { color: #555; font-size: 0.88rem; max-width: 340px; margin-bottom: 18px; line-height: 1.6; }
-    .snake-start-keys { color: #777; font-size: 0.78rem; margin-top: 10px; }
-    /* Milestone badges */
-    .snake-milestones { margin-top: 10px; }
-    .snake-milestones h3 { color: var(--text-orange); margin: 0 0 6px; font-family: 'Times New Roman', serif; font-size: 1.05rem; }
-    .snake-milestone-list { display: flex; flex-wrap: wrap; gap: 5px; }
-    .snake-m { padding: 3px 9px; border-radius: 12px; font-size: 0.72rem; font-family: monospace; border: 1px solid #ccc; color: #777; background: #fff; transition: all 0.4s; }
-    .snake-m.reached { border-color: var(--text-orange); color: #fff; background: var(--text-orange); font-weight: bold; }
-    .snake-m.next { border-color: #ccc; color: #999; border-style: dashed; }
-    /* Dead-end warning */
-    .snake-deadend-warn { margin-top: 8px; padding: 6px 10px; background: #fff0f0; border: 1px solid var(--letter-a); border-radius: 4px; color: #b00020; font-family: Arial, sans-serif; font-size: 0.78rem; display: none; }
-    .snake-deadend-warn.active { display: block; }
-    /* Flash overlay on canvas for milestone */
-    .snake-flash { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; z-index: 5; }
-    .snake-flash.visible { opacity: 1; }
-    .snake-flash-inner { background: rgba(251,191,36,0.25); border: 2px solid var(--text-orange); border-radius: 8px; padding: 10px 20px; font-family: Arial, sans-serif; color: var(--text-orange); font-size: 1rem; font-weight: bold; text-align: center; white-space: nowrap; }
+    
+    .abelisk-mode-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        background: #e2e8f0;
+        padding: 5px;
+        border-radius: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .abelisk-tab {
+        background: transparent;
+        border: none;
+        color: #64748b;
+        padding: 10px 20px;
+        font-size: 1.1em;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .abelisk-tab.active {
+        background: #3b82f6;
+        color: white;
+        box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+    }
+
+    .abelisk-wrapper h1 {
+        letter-spacing: 4px;
+        font-weight: 700;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        color: #0f172a;
+    }
+    
+    .abelisk-subtitle {
+        color: #64748b;
+        margin-bottom: 30px;
+        font-size: 1.1em;
+        text-align: center;
+        max-width: 700px;
+        line-height: 1.5;
+    }
+    
+    .abelisk-score-counter {
+        display: none;
+        font-size: 1.5em;
+        color: #10b981;
+        font-weight: bold;
+        margin-bottom: 5px;
+        letter-spacing: 2px;
+    }
+    
+    .abelisk-difficulty-badge {
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 0.9em;
+        font-weight: bold;
+        margin-bottom: 20px;
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #cbd5e1;
+    }
+
+    .abelisk-container {
+        background-color: #ffffff;
+        border: 4px solid #cbd5e1;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+        max-width: 900px;
+        position: relative;
+        transition: box-shadow 0.5s ease, border-color 0.5s ease;
+    }
+    
+    .abelisk-container.abelisk-victory {
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+        border-color: #10b981;
+    }
+
+    .abelisk-sequence {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+    }
+
+    .abelisk-cell {
+        width: 30px;
+        height: 40px;
+        background-color: #f1f5f9;
+        border: 2px solid #94a3b8;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        color: transparent;
+        transition: all 0.2s ease;
+        user-select: none;
+        box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+        position: relative;
+    }
+    
+    .abelisk-cell.locked {
+        cursor: default;
+    }
+
+    .abelisk-cell:hover:not(.locked) {
+        transform: scale(1.1);
+        border-color: #64748b;
+    }
+
+    .abelisk-cell.fracture {
+        animation: shake 0.4s ease-in-out;
+        box-shadow: inset 0 0 15px rgba(239, 68, 68, 0.8), 0 0 10px rgba(239, 68, 68, 0.5);
+        border-color: #ef4444;
+        color: #7f1d1d;
+        z-index: 10;
+    }
+
+    .abelisk-cell[data-fracture-info]::after {
+        content: attr(data-fracture-info);
+        position: absolute;
+        bottom: 115%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #ffffff;
+        color: #0f172a;
+        padding: 10px 15px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: normal;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s, transform 0.2s;
+        z-index: 100;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border: 1px solid #e2e8f0;
+    }
+    
+    .abelisk-cell[data-fracture-info]::before {
+        content: '';
+        position: absolute;
+        bottom: 105%;
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 6px;
+        border-style: solid;
+        border-color: #ffffff transparent transparent transparent;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+        z-index: 100;
+    }
+
+    .abelisk-cell[data-fracture-info]:hover::after,
+    .abelisk-cell[data-fracture-info]:hover::before {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-2px);
+    }
+
+    .abelisk-palette {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+        margin-bottom: 30px;
+        background: #ffffff;
+        padding: 15px 25px;
+        border-radius: 30px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+    
+    .abelisk-palette-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 3px solid transparent;
+        cursor: pointer;
+        transition: transform 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    .abelisk-palette-btn.active {
+        border-color: #0f172a;
+        transform: scale(1.15);
+    }
+
+    .abelisk-victory-overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(255, 255, 255, 0.90);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 1s ease;
+    }
+    .abelisk-victory-overlay.visible {
+        opacity: 1;
+        pointer-events: all;
+    }
+    .abelisk-victory-overlay h2 {
+        color: #fbbf24;
+        font-size: 2.5em;
+    }
+    
+    .abelisk-loading-overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(255, 255, 255, 0.85);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+    .abelisk-loading-overlay.visible {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .abelisk-tools-panel {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+        align-items: center;
+    }
+
+    .abelisk-tool-btn {
+        background: #ffffff;
+        border: 2px solid #cbd5e1;
+        color: #0f172a;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.2s;
+    }
+    .abelisk-tool-btn:hover { background: #f1f5f9; }
+    .abelisk-tool-btn.active { background: #3b82f6; color: white; border-color: #3b82f6; }
+    
+    .abelisk-tool-btn.primary {
+        background: #10b981;
+        color: white;
+        border-color: #10b981;
+    }
+    .abelisk-tool-btn.primary:hover { background: #059669; }
+    
+    .abelisk-notes-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        width: 100%;
+        height: 100%;
+        padding: 2px;
+        box-sizing: border-box;
+        gap: 2px;
+    }
+    .abelisk-note-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.4em;
+        border-radius: 3px;
+        font-weight: bold;
+        color: #000;
+    }
 
     /* =====================================================
        14. AA2FR PEDAGOGY STYLES
@@ -545,7 +768,7 @@
     <div class="mode-tab tab-cat-a" data-mode="knowledge" id="tab-knowledge">10. Concept Graph</div>
     <div class="mode-tab tab-cat-c" data-mode="morph-lab" id="tab-morph-lab">11. Morphism Lab</div>
     <div class="mode-tab tab-cat-c" data-mode="heat-map" id="tab-heat-map">12. Heat Map</div>
-    <div class="mode-tab tab-cat-b" data-mode="snake" id="tab-snake">13. Abelian Snake</div>
+    <div class="mode-tab tab-cat-b" data-mode="snake" id="tab-snake">13. Abelisk Puzzle</div>
     <div class="mode-tab tab-cat-c" data-mode="aa2fr" id="tab-aa2fr">14. AA2FR Extension Lab</div>
     <div class="mode-tab tab-cat-a" data-mode="impact" id="tab-impact">15. Applications &amp; Impact</div>
     <div class="mode-tab tab-cat-d" data-mode="validation" id="tab-validation">16. Validation Lab</div>
@@ -1026,66 +1249,60 @@
        13. ABELIAN SNAKE
        ================================================ -->
   <div class="view-panel hidden" id="view-snake">
-    <div class="snake-layout">
-      <div class="snake-canvas-wrap" id="snake-canvas-wrap">
-        <canvas id="snakeCanvas"></canvas>
-        <!-- Milestone flash -->
-        <div class="snake-flash" id="snake-flash"><div class="snake-flash-inner" id="snake-flash-text"></div></div>
-        <!-- Start Screen -->
-        <div class="snake-start-overlay" id="snake-start-overlay">
-          <div class="snake-start-title">Abelian Snake</div>
-          <div class="snake-start-sub">
-            Your snake's body <em>is</em> a word. Eating a letter appends it to your word.
-            If the suffix forms an <strong>abelian square</strong>, you die.
-            4 letters guarantee an infinite escape path — can you find it?
-          </div>
-          <button class="snake-go-btn" id="snake-start-btn" style="font-size:1rem; padding:10px 28px;">Start Game</button>
-          <div class="snake-start-keys">Arrow keys or WASD to move</div>
-        </div>
-        <!-- Game Over Screen -->
-        <div class="snake-gameover-overlay hidden" id="snake-gameover-overlay">
-          <div class="snake-go-title">GAME OVER</div>
-          <div class="snake-go-subtitle" id="snake-go-subtitle">You created an abelian square.</div>
-          <div class="snake-go-square" id="snake-go-square"></div>
-          <div class="snake-go-fullword" id="snake-go-fullword"></div>
-          <div class="snake-score-hs" id="snake-go-hs"></div>
-          <button class="snake-go-btn" id="snake-restart-btn">Play Again</button>
-        </div>
+    <div class="abelisk-wrapper">
+      <div id="loading-overlay" class="abelisk-loading-overlay">
+          <div class="loading-spinner" style="width:50px; height:50px; border:5px solid #e2e8f0; border-top-color:#3b82f6; border-radius:50%; animation:spin 1s linear infinite; margin-bottom:20px;"></div>
+          <p>Generating a unique puzzle...</p>
       </div>
-      <!-- Side panel -->
-      <div class="snake-side">
-        <div class="snake-controls">
-          <button class="snake-btn" id="snake-pause-btn" disabled>Pause</button>
-          <button class="snake-btn active" id="snake-easy-btn">Easy<span class="snake-mode-badge easy">Danger Vision</span></button>
-          <button class="snake-btn" id="snake-hard-btn">Hard<span class="snake-mode-badge hard">Blind</span></button>
-        </div>
-        <div class="snake-legend">
-          <div class="snake-legend-item"><span class="snake-legend-dot" style="background:#22c55e"></span>Safe</div>
-          <div class="snake-legend-item"><span class="snake-legend-dot" style="background:#ef4444"></span>Instant death</div>
-          <div class="snake-legend-item"><span class="snake-legend-dot" style="background:#374151; border: 2px solid #6b7280"></span>Hidden (Hard)</div>
-        </div>
-        <div class="snake-stat-row"><span>Score (word length):</span><strong id="snake-score">1</strong></div>
-        <div class="snake-stat-row"><span>High Score:</span><strong id="snake-hs">—</strong></div>
-        <div class="snake-stat-row"><span>Letters eaten:</span><strong id="snake-eaten">0</strong></div>
-        <div class="snake-stat-row"><span>Speed Level:</span><strong id="snake-speed">1</strong></div>
-        <h3 style="margin-top:12px;">Parikh Balance</h3>
-        <div class="snake-balance" id="snake-balance-panel"></div>
-        <h3 style="margin-top:12px;">Snake's DNA</h3>
-        <div class="snake-dna" id="snake-dna-display"><span style="color:#475569; font-style:italic;">Start the game…</span></div>
-        <h3>Suffix Parikh Splits</h3>
-        <div class="snake-parikh" id="snake-parikh-panel">
-          <span style="color:#475569; font-style:italic; font-size:0.78rem;">Shows suffix splits of the current word. Red = abelian square!</span>
-        </div>
-        <div class="snake-deadend-warn" id="snake-deadend-warn">
-          ⚠ <strong>Unfavorable position!</strong> All 4 letters are fatal — no safe move exists.
-        </div>
-        <div class="snake-milestones">
-          <h3>Challenge</h3>
-          <div class="snake-milestone-list" id="snake-milestone-list"></div>
-        </div>
-        <div class="hint-box" style="margin-top:12px; font-size:0.82rem;">
-          <strong>Strategy:</strong> Keep all 4 letters roughly balanced. Watch the Parikh splits on the right — if two adjacent halves have the same counts, you die.
-        </div>
+
+      <div class="abelisk-header-section">
+          <div class="abelisk-mode-tabs">
+              <button id="tab-classic" class="abelisk-tab active" onclick="switchGameMode('classic')">Classic (Colors)</button>
+              <button id="tab-additive" class="abelisk-tab" onclick="switchGameMode('additive')">Research (Additive)</button>
+              <button id="tab-cipher" class="abelisk-tab" onclick="switchGameMode('cipher')">Cipher (Decrypt)</button>
+              <button id="tab-fractal" class="abelisk-tab" onclick="switchGameMode('fractal')">Fractal (Deep Cipher)</button>
+          </div>
+          
+          <h1>Abelisk</h1>
+          <div id="subtitle-classic" class="abelisk-subtitle">
+              A pure logic puzzle. Fill the empty holes so that <strong>no two adjacent segments of any length contain the exact same amount of each color</strong>.
+          </div>
+          <div id="subtitle-additive" class="abelisk-subtitle" style="display: none;">
+              <strong>Authentic Unsolved Mathematical Problem:</strong> In this mode, the alphabet is <strong>{0, 1, 2, 6}</strong>. Nobody in the world yet knows the maximum possible length of a sequence without two adjacent blocks having the exact same sum. We are in uncharted territory — break the record!
+          </div>
+          <div id="subtitle-cipher" class="abelisk-subtitle" style="display: none;">
+              <strong>Decrypt the Message:</strong> The unique logic puzzle acts as a decryption key. Solve the Abelian pattern to uncover the hidden phrase.
+          </div>
+          <div id="subtitle-fractal" class="abelisk-subtitle" style="display: none;">
+              <strong>The Master Cipher:</strong> This sequence is the fundamental 85-cell building block of the Abelian universe.<br>
+              <span style="color: #059669; font-weight: bold;">Decrypt the structure. Uncover the truth.</span>
+          </div>
+          
+          <div id="score-counter" class="abelisk-score-counter">LENGTH: 0</div>
+          <div id="difficulty-badge" class="abelisk-difficulty-badge" style="display: none;">Difficulty: Generating...</div>
+      </div>
+
+      <div class="abelisk-palette" id="palette"></div>
+
+      <div class="abelisk-container" id="container">
+          <div class="abelisk-sequence" id="sequence"></div>
+      </div>
+
+      <div class="abelisk-tools-panel">
+          <button id="notesToggleBtn" class="abelisk-tool-btn" onclick="toggleNotesMode()">✏️ Notes: OFF</button>
+          <button class="abelisk-tool-btn" onclick="resetGame()">↺ Reset</button>
+          <button id="newPuzzleBtn" class="abelisk-tool-btn primary" onclick="startNewGame(25)">✨ New Puzzle (25)</button>
+      </div>
+      
+      <div id="controls-info" class="controls-info" style="margin-top:20px; color:#64748b; text-align:center;">
+          Select a color from the palette, then click an empty cell to place it.<br>
+          Turn on <strong>Notes</strong> to draft candidates without committing.
+      </div>
+      
+      <div id="victory-overlay" class="abelisk-victory-overlay">
+          <h2 id="victory-title">PERFECT EQUILIBRIUM</h2>
+          <p id="victory-desc">You have successfully constructed an Abelian Square-Free sequence. The math holds strong.</p>
+          <button class="abelisk-tool-btn primary" onclick="resetGame()">Play Again</button>
       </div>
     </div>
   </div>
@@ -3841,7 +4058,7 @@ function switchMode(newMode) {
 
   // Hide all view panels
   ['view-tutorial','view-3letter','view-abc-lab','view-general','view-audio','view-tryit','view-timeline','view-unfavorable','view-microscope','view-knowledge','view-morph-lab','view-heat-map','view-snake','view-aa2fr','view-impact','view-validation','view-gallery','view-gold-lab','view-graveyard'].forEach(id => $(id).classList.add('hidden'));
-  try { snakePause(); } catch(e) { /* snake vars not yet initialized on first load */ }
+  try { /* abelisk doesn't need to pause tick timers */ } catch(e) { }
   $('condensedCanvas').classList.add('hidden');
   $('audio-ui').classList.add('hidden');
   $('word-empty').classList.add('hidden');
@@ -3914,7 +4131,7 @@ function switchMode(newMode) {
   } else if (mode === 'snake') {
     $('view-snake').classList.remove('hidden');
     $('stat-attempts-row').classList.add('hidden'); $('stat-backtracks-row').classList.add('hidden');
-    snakeInit();
+    abeliskInit();
 
   } else if (mode === 'aa2fr') {
     $('view-aa2fr').classList.remove('hidden');
@@ -4534,519 +4751,522 @@ $('heatCanvas').addEventListener('mousemove', function(e) {
 $('heatCanvas').addEventListener('mouseleave', () => { $('heat-tooltip').textContent = ''; });
 
 // =====================================================
-// 13. ABELIAN SNAKE GAME
+// 13. ABELISK PUZZLE (Replaces Abelian Snake)
 // =====================================================
-const SNAKE_ALPHA = ['a','b','c','d'];
-const SNAKE_GRID = 20;        // grid cells
-const SNAKE_CELL = 26;        // px per cell (will be overridden by canvas size)
-const SNAKE_COLORS = { a: '#ef4444', b: '#3b82f6', c: '#eab308', d: '#22c55e' };
-const SNAKE_MILESTONES = [
-  { n: 85,  label: '85 — g₈₅ length' },
-  { n: 100, label: '100' },
-  { n: 250, label: '250' },
-  { n: 500, label: '500' },
-  { n: 1000,label: '1000' }
-];
+let gameMode = 'classic';
+        let FULL = [2,3,0,1,3,2,0,2,1,0,1,3,1,0,2,1,2,3,1,2,0,1,3,1,0];
+        let MASK = [2,3,0,1,3,2,0,2,1,0,-1,3,1,0,2,1,-1,-1,1,2,0,1,-1,1,-1];
+        let abeliskState = [...MASK];
+        let notes = Array(MASK.length).fill(null).map(() => new Set());
+        const ALPHABET = ['a', 'b', 'c', 'd'];
+        const ABELISK_COLORS = ['#f8fafc', '#3b82f6', '#f97316', '#22c55e'];
+        const ADDITIVE_NUMBERS = [0, 1, 2, 6];
+        const ADDITIVE_COLORS = ['#cbd5e1', '#94a3b8', '#64748b', '#475569'];
+        
+        const CIPHER_SHIFTS = [5, 11, 17, 23];
+        const CIPHER_PHRASES = [
+            "THE OWLS ARE NOT WHAT THEY SEEM",
+            "EVERY CIPHER HIDES A PATTERN",
+            "MATHEMATICS IS THE ART OF REASON",
+            "LOGIC WILL GET YOU FROM A TO B",
+            "NOT ALL THOSE WHO WANDER ARE LOST",
+            "SECRETS REQUIRE CAREFUL THOUGHT",
+            "TRUTH LIES BENEATH THE SURFACE",
+            "AN ELEGANT SOLUTION AWAITS YOU",
+            "THE QUICK BROWN FOX JUMPS",
+            "SILENCE IS A SOURCE OF GREAT STRENGTH",
+            "PATIENCE IS A VIRTUE IN PUZZLES",
+            "CHAOS IS MERELY UNSEEN ORDER"
+        ];
+        let currentPhrase = "";
+        let cipherText = [];
+        
+        const G85_MASK = [-1,1,-1,0,2,-1,-1,1,-1,-1,2,0,-1,2,-1,-1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,0,-1,-1,-1,-1,-1,2,-1,-1,-1,1,-1,3,2,-1,-1,-1,0,1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,-1,-1,0,-1,-1,1,-1,1,-1,2,-1,-1,-1,-1,-1,-1,-1,2,-1,3,-1,-1,-1,-1,-1,3,2,-1,2,-1];
+        const G85_FULL = [0,1,2,0,2,3,2,1,2,3,2,0,3,2,3,1,3,0,1,0,2,0,1,0,3,1,0,1,2,1,3,1,2,1,0,2,1,2,3,2,0,2,1,0,1,3,0,1,0,2,0,3,2,1,2,3,2,0,2,3,1,2,1,0,2,1,2,3,2,0,2,3,2,1,3,2,3,0,3,1,3,2,1,2,0];
+        const FRACTAL_PHRASE = "MATHEMATICS IS THE ALPHABET WITH WHICH GOD HAS WRITTEN THE UNIVERSE - GALILEO GALILEI";
 
-let snakeState = null;        // full game state
-let snakeTickTimer = null;
-let snakeDangerVision = true; // Easy mode by default
-let snakeHS = parseInt(localStorage.getItem('abelian_snake_hs') || '1');
-let snakePaused = false;
-let snakeAlive = false;
-let snakeReachedMilestones = new Set();
-let snakeFlashTimer = null;
+        let selectedColor = 0;
+        let notesMode = false;
+        const paletteEl = document.getElementById('palette');
+        const seqEl = document.getElementById('sequence');
+        let abeliskCells = [];
 
-function snakePause() {
-  if (snakeTickTimer) { clearTimeout(snakeTickTimer); snakeTickTimer = null; }
-  snakePaused = true;
+        function renderPalette() {
+            paletteEl.innerHTML = '';
+            for (let i = 0; i < 4; i++) {
+                const btn = document.createElement('button');
+                btn.className = `palette-btn ${i===selectedColor ? 'active' : ''}`;
+                if (gameMode === 'classic' || gameMode === 'cipher' || gameMode === 'fractal') {
+                    btn.style.backgroundColor = ABELISK_COLORS[i];
+                    btn.innerText = ALPHABET[i];
+                    if (i === 0) btn.style.color = '#000';
+                } else {
+                    btn.style.backgroundColor = ADDITIVE_COLORS[i];
+                    btn.innerText = ADDITIVE_NUMBERS[i];
+                    btn.style.color = '#fff';
+                }
+                btn.onclick = () => { selectedColor = i; renderPalette(); };
+                paletteEl.appendChild(btn);
+            }
+        }
+
+        function getDisplayedChar(index, colorIndex) {
+            let code = cipherText[index];
+            if (code < 65 || code > 90) return String.fromCharCode(code); // space or punctuation
+            if (colorIndex === -1) return String.fromCharCode(code);
+            let cipherOffset = code - 65;
+            let shift = CIPHER_SHIFTS[colorIndex];
+            let decodedOffset = (cipherOffset + shift) % 26;
+            return String.fromCharCode(decodedOffset + 65);
+        }
+
+        function render() {
+            if (gameMode === 'additive') {
+                let filled = abeliskState.filter(x => x !== -1).length;
+                document.getElementById('score-counter').innerText = `LENGTH: ${filled}`;
+            } else if (gameMode === 'fractal') {
+                let totalHoles = MASK.filter(x => x === -1).length;
+                let filledHoles = abeliskState.filter((val, idx) => MASK[idx] === -1 && val !== -1).length;
+                let percent = totalHoles > 0 ? Math.floor((filledHoles / totalHoles) * 100) : 100;
+                document.getElementById('score-counter').innerText = `PROGRESS: ${percent}%`;
+            }
+            for (let i = 0; i < abeliskState.length; i++) {
+                abeliskCells[i].innerHTML = '';
+                abeliskCells[i].className = 'abelisk-cell' + (MASK[i] !== -1 ? ' locked' : '');
+                abeliskCells[i].style.background = '';
+                
+                if (gameMode === 'cipher' || gameMode === 'fractal') {
+                    let displayedChar = getDisplayedChar(i, abeliskState[i]);
+                    if (abeliskState[i] !== -1) {
+                        abeliskCells[i].style.background = ABELISK_COLORS[abeliskState[i]];
+                        abeliskCells[i].innerText = displayedChar;
+                        abeliskCells[i].style.color = (abeliskState[i] === 0) ? '#000' : '#fff';
+                    } else {
+                        abeliskCells[i].innerText = displayedChar;
+                        abeliskCells[i].style.color = '#94a3b8'; // subtle color for encrypted text
+                    }
+                } else {
+                    if (abeliskState[i] !== -1) {
+                        let val = abeliskState[i];
+                        if (gameMode === 'classic') {
+                            abeliskCells[i].style.background = ABELISK_COLORS[val];
+                            abeliskCells[i].innerText = ALPHABET[val];
+                            abeliskCells[i].style.color = (val === 0) ? '#000' : '#fff';
+                        } else {
+                            abeliskCells[i].style.background = ADDITIVE_COLORS[val];
+                            abeliskCells[i].innerText = ADDITIVE_NUMBERS[val];
+                            abeliskCells[i].style.color = '#fff';
+                        }
+                    } else if (notes[i].size > 0) {
+                        let grid = document.createElement('div');
+                        grid.className = 'notes-grid';
+                        for (let c = 0; c < 4; c++) {
+                            if (notes[i].has(c)) {
+                                let noteDiv = document.createElement('div');
+                                noteDiv.className = 'note-item';
+                                noteDiv.style.background = (gameMode === 'classic' ? ABELISK_COLORS[c] : ADDITIVE_COLORS[c]);
+                                noteDiv.innerText = (gameMode === 'classic' ? ALPHABET[c] : ADDITIVE_NUMBERS[c]);
+                                grid.appendChild(noteDiv);
+                            }
+                        }
+                        abeliskCells[i].appendChild(grid);
+                    }
+                }
+            }
+        }
+
+        function handleCellClick(index) {
+            if (MASK[index] !== -1 && (gameMode === 'classic' || gameMode === 'cipher' || gameMode === 'fractal')) return;
+            if (notesMode) {
+                if (notes[index].has(selectedColor)) notes[index].delete(selectedColor);
+                else notes[index].add(selectedColor);
+            } else {
+                abeliskState[index] = (abeliskState[index] === selectedColor) ? -1 : selectedColor;
+                notes[index].clear();
+            }
+            render();
+            checkAbelianSquares();
+        }
+
+        function checkAbelianSquares() {
+            abeliskCells.forEach(c => { c.classList.remove('fracture'); c.removeAttribute('data-fracture-info'); });
+            
+            let foundFracture = false;
+            let N = abeliskState.length;
+            
+            // 1. Build prefix sums / counts in O(N)
+            let pA = new Int32Array(N + 1);
+            let pB = new Int32Array(N + 1);
+            let pC = new Int32Array(N + 1);
+            let pD = new Int32Array(N + 1);
+            let pSum = new Int32Array(N + 1);
+            
+            for (let i = 0; i < N; i++) {
+                pA[i + 1] = pA[i] + (abeliskState[i] === 0 ? 1 : 0);
+                pB[i + 1] = pB[i] + (abeliskState[i] === 1 ? 1 : 0);
+                pC[i + 1] = pC[i] + (abeliskState[i] === 2 ? 1 : 0);
+                pD[i + 1] = pD[i] + (abeliskState[i] === 3 ? 1 : 0);
+                pSum[i + 1] = pSum[i] + (abeliskState[i] !== -1 ? ADDITIVE_NUMBERS[abeliskState[i]] : 0);
+            }
+
+            // 2. Check all pairs using O(1) prefix queries
+            for (let i = 0; i < N - 1; i++) {
+                if (abeliskState[i] === -1) continue;
+                for (let len = 1; len <= Math.floor((N - i) / 2); len++) {
+                    // If any cell in the 2*len window is empty, we skip evaluating this specific square
+                    let hasEmpty = false;
+                    for (let j = 0; j < 2 * len; j++) {
+                        if (abeliskState[i + j] === -1) { hasEmpty = true; break; }
+                    }
+                    if (hasEmpty) continue;
+                    
+                    let match = false;
+                    if (gameMode === 'classic' || gameMode === 'cipher' || gameMode === 'fractal') {
+                        let da = (pA[i + len] - pA[i]) - (pA[i + 2 * len] - pA[i + len]);
+                        let db = (pB[i + len] - pB[i]) - (pB[i + 2 * len] - pB[i + len]);
+                        let dc = (pC[i + len] - pC[i]) - (pC[i + 2 * len] - pC[i + len]);
+                        let dd = (pD[i + len] - pD[i]) - (pD[i + 2 * len] - pD[i + len]);
+                        match = (da === 0 && db === 0 && dc === 0 && dd === 0);
+                    } else {
+                        let ds = (pSum[i + len] - pSum[i]) - (pSum[i + 2 * len] - pSum[i + len]);
+                        match = (ds === 0);
+                    }
+                    
+                    if (match) {
+                        foundFracture = true;
+                        for (let k = 0; k < 2 * len; k++) {
+                            abeliskCells[i + k].classList.add('fracture');
+                            abeliskCells[i + k].setAttribute('data-fracture-info', 'Echo found!');
+                        }
+                    }
+                }
+            }
+            
+            let allFilled = abeliskState.every(v => v !== -1);
+            if (allFilled && !foundFracture) {
+                document.getElementById('container').classList.add('abelisk-victory');
+                abeliskCells.forEach(c => c.classList.add('abelisk-victory-pulse'));
+                
+                let title = "PERFECT EQUILIBRIUM";
+                let desc = "You have successfully constructed an Abelian Square-Free sequence. The math holds strong.";
+                if (gameMode === 'cipher') {
+                    title = "MESSAGE DECRYPTED";
+                    desc = "You unlocked the hidden truth using pure logic.";
+                } else if (gameMode === 'fractal') {
+                    title = "STRUCTURE UNLOCKED";
+                    desc = "You have solved the Master Cipher. " + FRACTAL_PHRASE;
+                }
+                document.getElementById('victory-title').innerText = title;
+                document.getElementById('victory-desc').innerText = desc;
+                
+                setTimeout(() => {
+                    document.getElementById('victory-overlay').classList.add('visible');
+                }, 1000);
+            } else {
+                document.getElementById('container').classList.remove('abelisk-victory');
+                abeliskCells.forEach(c => c.classList.remove('abelisk-victory-pulse'));
+            }
+            
+            return foundFracture;
+        }
+
+        function switchGameMode(mode) {
+            gameMode = mode;
+            document.getElementById('tab-classic').classList.toggle('active', mode === 'classic');
+            document.getElementById('tab-additive').classList.toggle('active', mode === 'additive');
+            document.getElementById('tab-cipher').classList.toggle('active', mode === 'cipher');
+            document.getElementById('tab-fractal').classList.toggle('active', mode === 'fractal');
+            
+            document.getElementById('subtitle-classic').style.display = mode === 'classic' ? 'block' : 'none';
+            document.getElementById('subtitle-additive').style.display = mode === 'additive' ? 'block' : 'none';
+            document.getElementById('subtitle-cipher').style.display = mode === 'cipher' ? 'block' : 'none';
+            document.getElementById('subtitle-fractal').style.display = mode === 'fractal' ? 'block' : 'none';
+            
+            document.getElementById('score-counter').style.display = (mode === 'additive' || mode === 'fractal') ? 'block' : 'none';
+            document.getElementById('difficulty-badge').style.display = (mode === 'classic' || mode === 'cipher' || mode === 'fractal') ? 'block' : 'none';
+            
+            document.getElementById('newPuzzleBtn').style.display = (mode === 'classic' || mode === 'cipher') ? 'block' : 'none';
+            document.getElementById('notesToggleBtn').style.display = (mode === 'classic' || mode === 'cipher' || mode === 'fractal') ? 'flex' : 'none';
+            
+            if (mode === 'classic') startNewGame(25);
+            else if (mode === 'cipher') startNewGame();
+            else if (mode === 'fractal') startNewGame();
+            else startSandboxGame(50);
+            
+            renderPalette();
+        }
+
+        function startSandboxGame(size) {
+            MASK = Array(size).fill(-1);
+            abeliskState = [...MASK];
+            notes = Array(size).fill(null).map(() => new Set());
+            seqEl.innerHTML = '';
+            abeliskCells = [];
+            for (let i = 0; i < size; i++) {
+                let cell = document.createElement('div');
+                cell.className = 'abelisk-cell empty';
+                cell.onclick = () => handleCellClick(i);
+                seqEl.appendChild(cell);
+                abeliskCells.push(cell);
+            }
+            render();
+        }
+
+        function toggleNotesMode() {
+            notesMode = !notesMode;
+            document.getElementById('notesToggleBtn').classList.toggle('active');
+            document.getElementById('notesToggleBtn').innerText = `✏️ Notes: ${notesMode ? 'ON' : 'OFF'}`;
+        }
+
+        function resetGame() {
+            abeliskState = [...MASK];
+            notes.forEach(n => n.clear());
+            render();
+            checkAbelianSquares();
+        }
+
+        // --- PUZZLE GENERATOR LOGIC ---
+        function isAbelianSquareFree(seq) {
+            for (let end = 1; end < seq.length; end++) {
+                for (let len = 1; len <= Math.floor((end + 1) / 2); len++) {
+                    let counts = [0, 0, 0, 0];
+                    for (let i = 0; i < len; i++) {
+                        counts[seq[end - i]]++;
+                        counts[seq[end - len - i]]--;
+                    }
+                    if (counts[0] === 0 && counts[1] === 0 && counts[2] === 0 && counts[3] === 0) return false;
+                }
+            }
+            return true;
+        }
+
+        function generateValidSequence(N) {
+            let seq = [];
+            function backtrack() {
+                if (seq.length === N) return true;
+                let colors = [0, 1, 2, 3];
+                for (let i = colors.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [colors[i], colors[j]] = [colors[j], colors[i]];
+                }
+                for (let c of colors) {
+                    seq.push(c);
+                    if (isAbelianSquareFree(seq)) {
+                        if (backtrack()) return true;
+                    }
+                    seq.pop();
+                }
+                return false;
+            }
+            backtrack();
+            return seq;
+        }
+
+        function isBoardValid(seq) {
+            for (let i = 0; i < seq.length - 1; i++) {
+                if (seq[i] === -1) continue;
+                for (let len = 1; len <= Math.floor((seq.length - i) / 2); len++) {
+                    let hasEmpty = false;
+                    for (let j = 0; j < 2 * len; j++) {
+                        if (seq[i + j] === -1) { hasEmpty = true; break; }
+                    }
+                    if (hasEmpty) continue;
+                    let counts = [0, 0, 0, 0];
+                    for (let j = 0; j < len; j++) {
+                        counts[seq[i + len + j]]++;
+                        counts[seq[i + j]]--;
+                    }
+                    if (counts[0] === 0 && counts[1] === 0 && counts[2] === 0 && counts[3] === 0) return false;
+                }
+            }
+            return true;
+        }
+
+        function countSolutions(maskedSeq, maxSolutions = 2, timeoutMs = 2000) {
+            let solutions = 0;
+            let startTime = Date.now();
+            let timedOut = false;
+            
+            function solve(idx) {
+                if (solutions >= maxSolutions || timedOut) return;
+                if (Date.now() - startTime > timeoutMs) { timedOut = true; return; }
+                
+                if (idx === maskedSeq.length) {
+                    solutions++;
+                    return;
+                }
+                
+                if (maskedSeq[idx] !== -1) {
+                    solve(idx + 1);
+                } else {
+                    for (let c = 0; c < 4; c++) {
+                        maskedSeq[idx] = c;
+                        if (isBoardValid(maskedSeq)) solve(idx + 1);
+                    }
+                    maskedSeq[idx] = -1;
+                }
+            }
+            solve(0);
+            return { solutions, timedOut };
+        }
+
+        function rateDifficulty(maskedSeq) {
+            let board = [...maskedSeq];
+            
+            function logicalDeduce(currentBoard, maxDepth) {
+                let changed = true;
+                while(changed) {
+                    changed = false;
+                    let holes = [];
+                    for(let i=0; i<currentBoard.length; i++) if(currentBoard[i]===-1) holes.push(i);
+                    if(holes.length === 0) return true;
+                    
+                    for(let h of holes) {
+                        let validColors = [];
+                        for(let c=0; c<4; c++) {
+                            currentBoard[h] = c;
+                            if(isBoardValid(currentBoard)) {
+                                if (maxDepth === 0) {
+                                    validColors.push(c);
+                                } else {
+                                    let boardCopy = [...currentBoard];
+                                    if (logicalDeduce(boardCopy, maxDepth - 1) !== false) {
+                                        validColors.push(c);
+                                    }
+                                }
+                            }
+                            currentBoard[h] = -1;
+                        }
+                        
+                        if (validColors.length === 0) return false;
+                        if (validColors.length === 1) {
+                            currentBoard[h] = validColors[0];
+                            changed = true;
+                        }
+                    }
+                }
+                return currentBoard.indexOf(-1) === -1;
+            }
+            
+            if (logicalDeduce([...board], 0)) return "Direct";
+            if (logicalDeduce([...board], 1)) return "1-Lookahead";
+            return "Chain";
+        }
+
+        function generateCipher(solution, phrase) {
+            let cipher = [];
+            for (let i = 0; i < phrase.length; i++) {
+                let code = phrase.charCodeAt(i);
+                if (code >= 65 && code <= 90) { // A-Z
+                    let plainOffset = code - 65;
+                    let shift = CIPHER_SHIFTS[solution[i]];
+                    let cipherOffset = (plainOffset - shift + 26) % 26;
+                    cipher.push(cipherOffset + 65);
+                } else {
+                    cipher.push(code); // space or punctuation
+                }
+            }
+            return cipher;
+        }
+
+        function generatePuzzle(N) {
+            const fullSeq = generateValidSequence(N);
+            let maskedSeq = [...fullSeq];
+            
+            let indices = Array.from({length: N}, (_, i) => i);
+            for (let i = indices.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [indices[i], indices[j]] = [indices[j], indices[i]];
+            }
+            
+            for (let idx of indices) {
+                let temp = maskedSeq[idx];
+                maskedSeq[idx] = -1;
+                let result = countSolutions(maskedSeq);
+                if (result.timedOut || result.solutions !== 1) {
+                    maskedSeq[idx] = temp; // Put it back
+                }
+            }
+            let diff = rateDifficulty(maskedSeq);
+            return { fullSeq, maskedSeq, diff };
+        }
+
+        function startNewGame(size = 25) {
+            if (gameMode === 'fractal') {
+                FULL = G85_FULL;
+                MASK = [...G85_MASK];
+                cipherText = generateCipher(FULL, FRACTAL_PHRASE);
+                document.getElementById('difficulty-badge').innerText = "Difficulty: Master (85 abeliskCells)";
+                abeliskState = [...MASK];
+                notes = Array(MASK.length).fill(null).map(() => new Set());
+                seqEl.innerHTML = ''; abeliskCells = [];
+                for (let i = 0; i < abeliskState.length; i++) {
+                    let cell = document.createElement('div');
+                    cell.className = 'abelisk-cell' + (MASK[i] !== -1 ? ' locked' : '');
+                    cell.onclick = () => handleCellClick(i);
+                    seqEl.appendChild(cell); abeliskCells.push(cell);
+                }
+                document.getElementById('victory-overlay').classList.remove('visible');
+                document.getElementById('container').classList.remove('abelisk-victory');
+                render();
+                checkAbelianSquares();
+                return;
+            }
+
+            document.getElementById('loading-overlay').classList.add('visible');
+            document.getElementById('difficulty-badge').innerText = "Difficulty: Generating...";
+            setTimeout(() => {
+                let actualSize = size;
+                if (gameMode === 'cipher') {
+                    currentPhrase = CIPHER_PHRASES[Math.floor(Math.random() * CIPHER_PHRASES.length)];
+                    actualSize = currentPhrase.length;
+                }
+                
+                const puz = generatePuzzle(actualSize);
+                FULL = puz.fullSeq;
+                MASK = puz.maskedSeq;
+                
+                if (gameMode === 'cipher') {
+                    cipherText = generateCipher(FULL, currentPhrase);
+                }
+                
+                document.getElementById('difficulty-badge').innerText = "Difficulty: " + puz.diff;
+                abeliskState = [...MASK];
+                notes = Array(MASK.length).fill(null).map(() => new Set());
+                seqEl.innerHTML = ''; abeliskCells = [];
+                for (let i = 0; i < abeliskState.length; i++) {
+                    let cell = document.createElement('div');
+                    cell.className = 'abelisk-cell' + (MASK[i] !== -1 ? ' locked' : '');
+                    cell.onclick = () => handleCellClick(i);
+                    seqEl.appendChild(cell); abeliskCells.push(cell);
+                }
+                document.getElementById('loading-overlay').classList.remove('visible');
+                document.getElementById('victory-overlay').classList.remove('visible');
+                document.getElementById('container').classList.remove('abelisk-victory');
+                abeliskCells.forEach(c => c.classList.remove('abelisk-victory-pulse'));
+                
+                render();
+                checkAbelianSquares();
+            }, 100);
+        }
+
+        function toggleLetters() {
+            const body = document.body;
+            const btn = document.getElementById('modeToggleBtn');
+            body.classList.toggle('hide-letters');
+            if (body.classList.contains('hide-letters')) {
+                btn.innerText = "Show Letters";
+            } else {
+                btn.innerText = "Hide Letters";
+            }
+        }
+
+// Note: In index.html, we just start in fractal mode by default.
+function abeliskInit() {
+    gameMode = 'fractal';
+    startNewGame(85);
 }
-
-function snakeGetCellSize() {
-  const wrap = $('snake-canvas-wrap');
-  const w = wrap ? Math.min(wrap.clientWidth, 600) : 520;
-  return Math.floor(w / SNAKE_GRID);
-}
-
-function snakeInit() {
-  snakePaused = false;
-  snakeAlive = false;
-  if (snakeTickTimer) clearTimeout(snakeTickTimer);
-
-  const cell = snakeGetCellSize();
-  const cvs = $('snakeCanvas');
-  cvs.width = SNAKE_GRID * cell;
-  cvs.height = SNAKE_GRID * cell;
-
-  $('snake-start-overlay').classList.remove('hidden');
-  $('snake-gameover-overlay').classList.add('hidden');
-  updateSnakeHSDisplay();
-  snakeDraw();
-}
-
-function snakeStart() {
-  snakePaused = false;
-  snakeAlive = true;
-  if (snakeTickTimer) clearTimeout(snakeTickTimer);
-
-  const startX = Math.floor(SNAKE_GRID / 2);
-  const startY = Math.floor(SNAKE_GRID / 2);
-
-  snakeState = {
-    body: [{x: startX, y: startY}],
-    word: ['a'],          // first cell is letter 'a'
-    dir: {x: 1, y: 0},   // moving right
-    nextDir: {x: 1, y: 0},
-    letters: [],          // { x, y, char, fatal } — 4 food items
-    eaten: 0,
-    tickMs: 180
-  };
-  snakeReachedMilestones = new Set();
-  snakeRenderMilestoneBadges();
-
-  $('snake-start-overlay').classList.add('hidden');
-  $('snake-gameover-overlay').classList.add('hidden');
-  $('snake-deadend-warn').classList.remove('active');
-  $('snake-score').textContent = '1';
-  $('snake-eaten').textContent = '0';
-  $('snake-pause-btn').disabled = false;
-
-  snakeSpawnLetters();
-  snakeUpdateUI();
-  snakeTick();
-}
-
-function snakeTick() {
-  if (!snakeAlive || snakePaused) return;
-  snakeStep();
-  if (snakeAlive) {
-    snakeTickTimer = setTimeout(snakeTick, snakeState.tickMs);
-  }
-}
-
-function snakeStep() {
-  const s = snakeState;
-  s.dir = { ...s.nextDir };
-
-  const head = s.body[0];
-  const newHead = {
-    x: (head.x + s.dir.x + SNAKE_GRID) % SNAKE_GRID,
-    y: (head.y + s.dir.y + SNAKE_GRID) % SNAKE_GRID
-  };
-
-  // Self-collision (skip tail because it will move away)
-  for (let i = 0; i < s.body.length - 1; i++) {
-    if (s.body[i].x === newHead.x && s.body[i].y === newHead.y) {
-      snakeGameOver('self'); return;
-    }
-  }
-
-  // Check if we eat a letter
-  const ateIdx = s.letters.findIndex(l => l.x === newHead.x && l.y === newHead.y);
-
-  if (ateIdx !== -1) {
-    const ateChar = s.letters[ateIdx].char;
-    const newWord = [...s.word, ateChar];
-    const sq = findSuffixAbelianSquare(newWord, SNAKE_ALPHA);
-    if (sq) {
-      // Ate a fatal letter — grow the body to show the full snake then die
-      s.body.unshift(newHead);
-      s.word = newWord;
-      snakeDrawFrame();
-      snakeGameOver('square', sq, newWord); return;
-    }
-    // Safe eat
-    s.word = newWord;
-    s.body.unshift(newHead);   // grow
-    s.eaten++;
-    // Slightly speed up every 10 eats (floor at 110ms so it doesn't get ridiculously fast)
-    if (s.eaten % 10 === 0 && s.tickMs > 110) s.tickMs -= 5;
-    snakeSpawnLetters();
-    snakeCheckMilestones();
-  } else {
-    // Normal move — shift body
-    s.body.unshift(newHead);
-    s.body.pop();
-  }
-
-  snakeUpdateUI();
-  snakeDrawFrame();
-}
-
-function snakeSpawnLetters() {
-  const s = snakeState;
-  const occupied = new Set(s.body.map(c => `${c.x},${c.y}`));
-  const allCells = [];
-  for (let x = 0; x < SNAKE_GRID; x++)
-    for (let y = 0; y < SNAKE_GRID; y++)
-      if (!occupied.has(`${x},${y}`)) allCells.push({x, y});
-
-  // Shuffle
-  for (let i = allCells.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [allCells[i], allCells[j]] = [allCells[j], allCells[i]];
-  }
-
-  s.letters = SNAKE_ALPHA.map((ch, i) => {
-    const cell = allCells[i] || { x: 0, y: 0 };
-    // Danger Vision: test if eating this char would be fatal
-    const testWord = [...s.word, ch];
-    const fatal = !!findSuffixAbelianSquare(testWord, SNAKE_ALPHA);
-    return { x: cell.x, y: cell.y, char: ch, fatal };
-  });
-}
-
-function snakeGameOver(reason, sq, word) {
-  snakeAlive = false;
-  snakePaused = false;
-  if (snakeTickTimer) clearTimeout(snakeTickTimer);
-  $('snake-pause-btn').disabled = true;
-
-  const score = snakeState.word.length;
-
-  // Update high score
-  if (score > snakeHS) {
-    snakeHS = score;
-    localStorage.setItem('abelian_snake_hs', snakeHS);
-  }
-  updateSnakeHSDisplay();
-
-  const goOverlay = $('snake-gameover-overlay');
-  const goSquare = $('snake-go-square');
-  const goSub = $('snake-go-subtitle');
-  const goHs = $('snake-go-hs');
-
-  goHs.textContent = `Score: ${score}  |  High Score: ${snakeHS}`;
-
-  if (reason === 'self') {
-    goSub.textContent = 'You bit your own tail!';
-    goSquare.innerHTML = `<span style="color:#f59e0b">No abelian square — just a self-collision.</span>`;
-    $('snake-go-fullword').innerHTML = word.map(c => `<span class="sn-${c}">${c}</span>`).join('');
-  } else if (sq) {
-    goSub.textContent = `abelian square detected at length ${score}!`;
-    const half1 = word.slice(sq.start, sq.start + sq.halfLen).join('');
-    const half2 = word.slice(sq.start + sq.halfLen, sq.start + sq.halfLen * 2).join('');
-    const pStr = p => `(a:${p.a||0} b:${p.b||0} c:${p.c||0} d:${p.d||0})`;
-    const pre = word.slice(Math.max(0, sq.start - 4), sq.start).join('');
-    const post = word.slice(sq.start + sq.halfLen * 2, sq.start + sq.halfLen * 2 + 4).join('');
-    goSquare.innerHTML =
-      `<div style="color:#94a3b8; margin-bottom:6px;">Word at death (excerpt):</div>` +
-      `<div style="margin-bottom:8px;">${pre ? '<span style="color:#475569">' + pre + '</span>' : ''}` +
-      `<span class="snake-go-sq-h1">${half1}</span>` +
-      `<span class="snake-go-sq-h2">${half2}</span>` +
-      `${post ? '<span style="color:#475569">' + post + '</span>' : ''}</div>` +
-      `<div style="color:#94a3b8">Half 1: <span style="color:#ef4444">${pStr(sq.p1)}</span></div>` +
-      `<div style="color:#94a3b8">Half 2: <span style="color:#f97316">${pStr(sq.p2)}</span></div>` +
-      `<div style="color:#64748b; margin-top:6px; font-size:0.74rem;">pos=${sq.start}, half-length=${sq.halfLen}</div>`;
-
-    $('snake-go-fullword').innerHTML = word.map((c, i) => {
-      if (i >= sq.start && i < sq.start + sq.halfLen) return `<span class="snake-go-sq-h1" style="font-weight:bold">${c}</span>`;
-      if (i >= sq.start + sq.halfLen && i < sq.start + sq.halfLen * 2) return `<span class="snake-go-sq-h2" style="font-weight:bold">${c}</span>`;
-      return `<span style="color:#64748b">${c}</span>`;
-    }).join('');
-  }
-
-  goOverlay.classList.remove('hidden');
-  snakeDrawFrame();
-}
-
-function updateSnakeHSDisplay() {
-  $('snake-hs').textContent = snakeHS > 1 ? snakeHS : '—';
-}
-
-function snakeRenderMilestoneBadges() {
-  const list = $('snake-milestone-list');
-  if (!list) return;
-  const len = snakeState ? snakeState.word.length : 0;
-  const nextIdx = SNAKE_MILESTONES.findIndex(m => !snakeReachedMilestones.has(m.n));
-  list.innerHTML = SNAKE_MILESTONES.map((m, i) => {
-    const reached = snakeReachedMilestones.has(m.n);
-    const isNext = (i === nextIdx);
-    const cls = reached ? 'snake-m reached' : (isNext ? 'snake-m next' : 'snake-m');
-    return `<span class="${cls}">${m.label}</span>`;
-  }).join('');
-}
-
-function snakeCheckMilestones() {
-  if (!snakeState) return;
-  const len = snakeState.word.length;
-  SNAKE_MILESTONES.forEach(m => {
-    if (len >= m.n && !snakeReachedMilestones.has(m.n)) {
-      snakeReachedMilestones.add(m.n);
-      snakeRenderMilestoneBadges();
-      snakeShowFlash(`🏆 ${m.label} letters!`);
-    }
-  });
-}
-
-function snakeShowFlash(text) {
-  const flash = $('snake-flash');
-  const inner = $('snake-flash-text');
-  if (!flash || !inner) return;
-  inner.textContent = text;
-  flash.classList.add('visible');
-  if (snakeFlashTimer) clearTimeout(snakeFlashTimer);
-  snakeFlashTimer = setTimeout(() => flash.classList.remove('visible'), 2200);
-}
-
-function snakeUpdateUI() {
-  if (!snakeState) return;
-  const s = snakeState;
-  $('snake-score').textContent = s.word.length;
-  $('snake-eaten').textContent = s.eaten;
-
-  const speedLevel = Math.floor((180 - s.tickMs) / 5) + 1;
-  const speedEl = $('snake-speed');
-  if (speedEl) speedEl.textContent = speedLevel;
-
-  // Parikh balance panel
-  const pAll = getParikh(s.word);
-  const maxP = Math.max(1, pAll.a||0, pAll.b||0, pAll.c||0, pAll.d||0);
-  const bPanel = $('snake-balance-panel');
-  if (bPanel) {
-    bPanel.innerHTML = SNAKE_ALPHA.map(ch => {
-      const v = pAll[ch] || 0;
-      const pct = (v / maxP) * 100;
-      return `<div class="snake-b-row"><div class="snake-b-lbl">${ch}</div><div class="snake-b-bar-wrap"><div class="snake-b-bar" style="background:${SNAKE_COLORS[ch]}; width:${pct}%"></div></div><div class="snake-b-val">${v}</div></div>`;
-    }).join('');
-  }
-
-  // DNA display (show last 120 chars, colorised)
-  const dnaDiv = $('snake-dna-display');
-  const show = s.word.slice(-120);
-  const prefix = s.word.length > 120 ? '<span style="color:#374151">…</span>' : '';
-  dnaDiv.innerHTML = prefix + show.map(c =>
-    `<span class="sn-${c}">${c}</span>`).join('');
-  dnaDiv.scrollTop = dnaDiv.scrollHeight;
-
-  // Parikh splits panel (show last 8 splits)
-  const panel = $('snake-parikh-panel');
-  const word = s.word;
-  const n = word.length;
-  if (n < 2) {
-    panel.innerHTML = '<span style="color:#475569; font-style:italic;">Length ≥ 2 needed.</span>';
-    return;
-  }
-  // Dead-end warning: are ALL 4 letters fatal?
-  const allFatal = s.letters.length === 4 && s.letters.every(l => l.fatal);
-  const warnEl = $('snake-deadend-warn');
-  if (warnEl) warnEl.classList.toggle('active', allFatal);
-
-  let rows = '';
-  const maxSplits = 8;
-  const startHalf = Math.max(1, Math.floor(n / 2) - maxSplits + 1);
-  for (let halfLen = startHalf; halfLen <= Math.floor(n / 2); halfLen++) {
-    const start = n - halfLen * 2;
-    const first = word.slice(start, start + halfLen);
-    const second = word.slice(start + halfLen);
-    const p1 = getParikh(first); const p2 = getParikh(second);
-    const clash = parikhEqual(p1, p2, SNAKE_ALPHA);
-    const rowCls = clash ? 'sp-row sp-danger' : 'sp-row';
-    const pFmt = p => `a${p.a||0}b${p.b||0}c${p.c||0}d${p.d||0}`;
-    rows += `<div class="${rowCls}">`
-      + `<span class="sp-half" title="${first.join('')}">${pFmt(p1)}</span>`
-      + `<span class="sp-vs">vs</span>`
-      + `<span class="sp-half" title="${second.join('')}">${pFmt(p2)}</span>`
-      + `<span style="color:${clash ? '#ef4444' : '#22c55e'}; padding-left:4px;">${clash ? '✗' : '✓'}</span>`
-      + `</div>`;
-  }
-  panel.innerHTML = rows;
-  snakeRenderMilestoneBadges();
-}
-
-function snakeDraw() {
-  const cvs = $('snakeCanvas');
-  if (!cvs) return;
-  const ctx = cvs.getContext('2d');
-  const cell = cvs.width / SNAKE_GRID;
-
-  // Dark background
-  ctx.fillStyle = '#0d0d14';
-  ctx.fillRect(0, 0, cvs.width, cvs.height);
-
-  // Grid lines
-  ctx.strokeStyle = '#1a1a2a';
-  ctx.lineWidth = 0.5;
-  for (let i = 0; i <= SNAKE_GRID; i++) {
-    ctx.beginPath(); ctx.moveTo(i * cell, 0); ctx.lineTo(i * cell, cvs.height); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(0, i * cell); ctx.lineTo(cvs.width, i * cell); ctx.stroke();
-  }
-}
-
-function snakeDrawFrame() {
-  const cvs = $('snakeCanvas');
-  if (!cvs) return;
-  const ctx = cvs.getContext('2d');
-  const cell = cvs.width / SNAKE_GRID;
-  const pad = Math.max(1, cell * 0.06);
-
-  snakeDraw(); // clear + grid
-
-  if (!snakeState) return;
-  const s = snakeState;
-
-  // Draw food letters
-  s.letters.forEach(l => {
-    const lx = l.x * cell; const ly = l.y * cell;
-    let baseColor = SNAKE_COLORS[l.char];
-
-    if (snakeDangerVision) {
-      if (l.fatal) {
-        // Death letter — red pulsing halo
-        const grd = ctx.createRadialGradient(lx+cell/2, ly+cell/2, cell*0.1, lx+cell/2, ly+cell/2, cell*0.8);
-        grd.addColorStop(0, 'rgba(239,68,68,0.35)');
-        grd.addColorStop(1, 'rgba(239,68,68,0)');
-        ctx.fillStyle = grd;
-        ctx.fillRect(lx - cell*0.3, ly - cell*0.3, cell*1.6, cell*1.6);
-        baseColor = '#ef4444';
-      } else {
-        // Safe letter — green glow
-        const grd = ctx.createRadialGradient(lx+cell/2, ly+cell/2, cell*0.1, lx+cell/2, ly+cell/2, cell*0.75);
-        grd.addColorStop(0, 'rgba(34,197,94,0.22)');
-        grd.addColorStop(1, 'rgba(34,197,94,0)');
-        ctx.fillStyle = grd;
-        ctx.fillRect(lx - cell*0.3, ly - cell*0.3, cell*1.6, cell*1.6);
-        baseColor = '#22c55e';
-      }
-    }
-
-    // Letter tile
-    const r = cell * 0.38;
-    ctx.beginPath();
-    ctx.roundRect(lx + pad, ly + pad, cell - pad*2, cell - pad*2, r);
-    ctx.fillStyle = snakeDangerVision
-      ? (l.fatal ? 'rgba(127,29,29,0.9)' : 'rgba(20,83,45,0.9)')
-      : '#1f2937';
-    ctx.fill();
-    ctx.strokeStyle = baseColor;
-    ctx.lineWidth = snakeDangerVision ? 2 : 1;
-    ctx.stroke();
-
-    ctx.fillStyle = snakeDangerVision ? (l.fatal ? '#fca5a5' : '#86efac') : SNAKE_COLORS[l.char];
-    ctx.font = `bold ${Math.round(cell * 0.48)}px monospace`;
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText(l.char, lx + cell / 2, ly + cell / 2 + 1);
-  });
-
-  // Draw snake body
-  s.body.forEach((seg, i) => {
-    const sx = seg.x * cell; const sy = seg.y * cell;
-    const ch = s.word[s.word.length - 1 - i] || s.word[0]; // newest char at head
-    const isHead = (i === 0);
-
-    // Body segment
-    const alpha = isHead ? 1 : Math.max(0.3, 1 - i / (s.body.length + 3) * 0.6);
-    ctx.beginPath();
-    ctx.roundRect(sx + pad, sy + pad, cell - pad*2, cell - pad*2,
-      isHead ? cell * 0.35 : cell * 0.2);
-    const col = SNAKE_COLORS[ch] || '#94a3b8';
-    ctx.fillStyle = isHead ? col : col.replace(')', `,${alpha})`);
-    // Approximate alpha on hex: use globalAlpha
-    ctx.globalAlpha = isHead ? 1 : Math.max(0.3, 1 - i / (s.body.length + 5) * 0.65);
-    ctx.fill();
-    ctx.globalAlpha = 1;
-
-    // Letter on body
-    if (cell > 14) {
-      ctx.fillStyle = isHead ? '#ffffff' : `rgba(255,255,255,${Math.max(0.25, 0.8 - i / s.body.length)})`;
-      ctx.font = `bold ${Math.round(cell * (isHead ? 0.44 : 0.38))}px monospace`;
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText(ch, sx + cell / 2, sy + cell / 2 + 1);
-    }
-
-    // Head eyes
-    if (isHead) {
-      const ex = cell * 0.22; const ey = cell * 0.24;
-      const eyeOffX = s.dir.y !== 0 ? ex : 0;
-      const eyeOffY = s.dir.x !== 0 ? ey : 0;
-      ctx.fillStyle = '#fff';
-      [[-1, -1],[1, -1]].forEach(([dx, dy]) => {
-        ctx.beginPath();
-        ctx.arc(sx + cell/2 + dx * (ex + eyeOffX * s.dir.x),
-                sy + cell/2 + dy * (ey + eyeOffY * s.dir.y),
-                cell * 0.09, 0, Math.PI*2);
-        ctx.fill();
-      });
-    }
-  });
-}
-
-// ---- Input handling ----
-document.addEventListener('keydown', function(e) {
-  if (mode !== 'snake') return;
-
-  if (!snakeAlive && (e.key === 'Enter' || e.key === ' ')) {
-    if (!$('snake-gameover-overlay').classList.contains('hidden') ||
-        !$('snake-start-overlay').classList.contains('hidden')) {
-      snakeStart(); return;
-    }
-  }
-
-  if (e.key === 'p' || e.key === 'P') { snakeTogglePause(); return; }
-
-  if (!snakeAlive || !snakeState) return;
-  const d = snakeState.dir;
-  if ((e.key === 'ArrowLeft'  || e.key === 'a' || e.key === 'A') && d.x !== 1)  { snakeState.nextDir = {x:-1,y:0}; e.preventDefault(); }
-  if ((e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') && d.x !== -1) { snakeState.nextDir = {x:1,y:0};  e.preventDefault(); }
-  if ((e.key === 'ArrowUp'    || e.key === 'w' || e.key === 'W') && d.y !== 1)  { snakeState.nextDir = {x:0,y:-1}; e.preventDefault(); }
-  if ((e.key === 'ArrowDown'  || e.key === 's' || e.key === 'S') && d.y !== -1) { snakeState.nextDir = {x:0,y:1};  e.preventDefault(); }
-});
-
-function snakeTogglePause() {
-  if (!snakeAlive) return;
-  snakePaused = !snakePaused;
-  $('snake-pause-btn').textContent = snakePaused ? 'Resume' : 'Pause';
-  if (!snakePaused) snakeTick();
-}
-
-// ---- Buttons ----
-$('snake-start-btn').addEventListener('click', snakeStart);
-$('snake-restart-btn').addEventListener('click', snakeStart);
-$('snake-pause-btn').addEventListener('click', snakeTogglePause);
-$('snake-easy-btn').addEventListener('click', () => {
-  snakeDangerVision = true;
-  $('snake-easy-btn').classList.add('active');
-  $('snake-hard-btn').classList.remove('active');
-  if (snakeState) snakeDrawFrame();
-});
-$('snake-hard-btn').addEventListener('click', () => {
-  snakeDangerVision = false;
-  $('snake-hard-btn').classList.add('active');
-  $('snake-easy-btn').classList.remove('active');
-  if (snakeState) snakeDrawFrame();
-});
-
-// Touch/swipe support for mobile
-(function() {
-  let tx0 = 0, ty0 = 0;
-  const cvs = $('snakeCanvas');
-  cvs.addEventListener('touchstart', e => { tx0 = e.touches[0].clientX; ty0 = e.touches[0].clientY; }, {passive:true});
-  cvs.addEventListener('touchend', e => {
-    if (!snakeAlive || !snakeState) return;
-    const dx = e.changedTouches[0].clientX - tx0;
-    const dy = e.changedTouches[0].clientY - ty0;
-    const d = snakeState.dir;
-    if (Math.abs(dx) > Math.abs(dy)) {
-      if (dx > 20 && d.x !== -1) snakeState.nextDir = {x:1,y:0};
-      if (dx < -20 && d.x !== 1) snakeState.nextDir = {x:-1,y:0};
-    } else {
-      if (dy > 20 && d.y !== -1) snakeState.nextDir = {x:0,y:1};
-      if (dy < -20 && d.y !== 1) snakeState.nextDir = {x:0,y:-1};
-    }
-  }, {passive:true});
-})();
-
-// Resize canvas if window changes while snake tab is open
-window.addEventListener('resize', () => {
-  if (mode !== 'snake') return;
-  const cell = snakeGetCellSize();
-  const cvs = $('snakeCanvas');
-  cvs.width = SNAKE_GRID * cell;
-  cvs.height = SNAKE_GRID * cell;
-  if (snakeState) snakeDrawFrame(); else snakeDraw();
-});
-
-updateSnakeHSDisplay();
+abeliskInit();
 // =====================================================
 // 14. AA2FR LABORATORY
 // =====================================================
