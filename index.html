@@ -4799,11 +4799,11 @@ let gameMode = 'classic';
                 if (gameMode === 'classic' || gameMode === 'cipher' || gameMode === 'fractal') {
                     btn.style.backgroundColor = ABELISK_COLORS[i];
                     btn.innerText = ALPHABET[i];
-                    if (i === 0) btn.style.color = '#000';
+                    btn.style.color = (i === 0) ? '#000' : '#fff';
                 } else {
                     btn.style.backgroundColor = ADDITIVE_COLORS[i];
                     btn.innerText = ADDITIVE_NUMBERS[i];
-                    btn.style.color = '#fff';
+                    btn.style.color = (i === 0) ? '#000' : '#fff';
                 }
                 btn.onclick = () => { selectedColor = i; renderPalette(); };
                 paletteEl.appendChild(btn);
@@ -4855,7 +4855,7 @@ let gameMode = 'classic';
                         } else {
                             abeliskCells[i].style.background = ADDITIVE_COLORS[val];
                             abeliskCells[i].innerText = ADDITIVE_NUMBERS[val];
-                            abeliskCells[i].style.color = '#fff';
+                            abeliskCells[i].style.color = (val === 0) ? '#000' : '#fff';
                         }
                     } else if (notes[i].size > 0) {
                         let grid = document.createElement('div');
@@ -4866,6 +4866,7 @@ let gameMode = 'classic';
                                 noteDiv.className = 'abelisk-note-item';
                                 noteDiv.style.background = (gameMode === 'classic' ? ABELISK_COLORS[c] : ADDITIVE_COLORS[c]);
                                 noteDiv.innerText = (gameMode === 'classic' ? ALPHABET[c] : ADDITIVE_NUMBERS[c]);
+                                noteDiv.style.color = (c === 0) ? '#000' : '#fff';
                                 grid.appendChild(noteDiv);
                             }
                         }
@@ -4876,7 +4877,7 @@ let gameMode = 'classic';
         }
 
         function handleCellClick(index) {
-            if (MASK[index] !== -1 && (gameMode === 'classic' || gameMode === 'cipher' || gameMode === 'fractal')) return;
+            if (MASK[index] !== -1) return;
             if (notesMode) {
                 if (notes[index].has(selectedColor)) notes[index].delete(selectedColor);
                 else notes[index].add(selectedColor);
@@ -5010,6 +5011,7 @@ let gameMode = 'classic';
                 abeliskCells.push(cell);
             }
             render();
+            renderPalette();
         }
 
         function toggleNotesMode() {
@@ -5022,20 +5024,21 @@ let gameMode = 'classic';
             abeliskState = [...MASK];
             notes.forEach(n => n.clear());
             render();
+            renderPalette();
             checkAbelianSquares();
         }
 
         // --- PUZZLE GENERATOR LOGIC ---
         function isAbelianSquareFree(seq) {
-            for (let end = 1; end < seq.length; end++) {
-                for (let len = 1; len <= Math.floor((end + 1) / 2); len++) {
-                    let counts = [0, 0, 0, 0];
-                    for (let i = 0; i < len; i++) {
-                        counts[seq[end - i]]++;
-                        counts[seq[end - len - i]]--;
-                    }
-                    if (counts[0] === 0 && counts[1] === 0 && counts[2] === 0 && counts[3] === 0) return false;
+            let end = seq.length - 1;
+            if (end < 1) return true;
+            for (let len = 1; len <= Math.floor((end + 1) / 2); len++) {
+                let counts = [0, 0, 0, 0];
+                for (let i = 0; i < len; i++) {
+                    counts[seq[end - i]]++;
+                    counts[seq[end - len - i]]--;
                 }
+                if (counts[0] === 0 && counts[1] === 0 && counts[2] === 0 && counts[3] === 0) return false;
             }
             return true;
         }
@@ -5062,10 +5065,11 @@ let gameMode = 'classic';
             return seq;
         }
 
-        function isBoardValid(seq) {
+        function isBoardValid(seq, changedIdx = -1) {
             for (let i = 0; i < seq.length - 1; i++) {
                 if (seq[i] === -1) continue;
                 for (let len = 1; len <= Math.floor((seq.length - i) / 2); len++) {
+                    if (changedIdx !== -1 && (i > changedIdx || i + 2 * len - 1 < changedIdx)) continue;
                     let hasEmpty = false;
                     for (let j = 0; j < 2 * len; j++) {
                         if (seq[i + j] === -1) { hasEmpty = true; break; }
@@ -5101,7 +5105,7 @@ let gameMode = 'classic';
                 } else {
                     for (let c = 0; c < 4; c++) {
                         maskedSeq[idx] = c;
-                        if (isBoardValid(maskedSeq)) solve(idx + 1);
+                        if (isBoardValid(maskedSeq, idx)) solve(idx + 1);
                     }
                     maskedSeq[idx] = -1;
                 }
@@ -5119,18 +5123,18 @@ let gameMode = 'classic';
                     changed = false;
                     let holes = [];
                     for(let i=0; i<currentBoard.length; i++) if(currentBoard[i]===-1) holes.push(i);
-                    if(holes.length === 0) return true;
+                    if(holes.length === 0) return 'solved';
                     
                     for(let h of holes) {
                         let validColors = [];
                         for(let c=0; c<4; c++) {
                             currentBoard[h] = c;
-                            if(isBoardValid(currentBoard)) {
+                            if(isBoardValid(currentBoard, h)) {
                                 if (maxDepth === 0) {
                                     validColors.push(c);
                                 } else {
                                     let boardCopy = [...currentBoard];
-                                    if (logicalDeduce(boardCopy, maxDepth - 1) !== false) {
+                                    if (logicalDeduce(boardCopy, maxDepth - 1) !== 'contradiction') {
                                         validColors.push(c);
                                     }
                                 }
@@ -5138,18 +5142,18 @@ let gameMode = 'classic';
                             currentBoard[h] = -1;
                         }
                         
-                        if (validColors.length === 0) return false;
+                        if (validColors.length === 0) return 'contradiction';
                         if (validColors.length === 1) {
                             currentBoard[h] = validColors[0];
                             changed = true;
                         }
                     }
                 }
-                return currentBoard.indexOf(-1) === -1;
+                return currentBoard.indexOf(-1) === -1 ? 'solved' : 'stuck';
             }
             
-            if (logicalDeduce([...board], 0)) return "Direct";
-            if (logicalDeduce([...board], 1)) return "1-Lookahead";
+            if (logicalDeduce([...board], 0) === 'solved') return "Direct";
+            if (logicalDeduce([...board], 1) === 'solved') return "1-Lookahead";
             return "Chain";
         }
 
@@ -5209,6 +5213,7 @@ let gameMode = 'classic';
                 document.getElementById('victory-overlay').classList.remove('visible');
                 document.getElementById('container').classList.remove('abelisk-victory');
                 render();
+                renderPalette();
                 checkAbelianSquares();
                 return;
             }
@@ -5246,6 +5251,7 @@ let gameMode = 'classic';
                 abeliskCells.forEach(c => c.classList.remove('abelisk-victory-pulse'));
                 
                 render();
+                renderPalette();
                 checkAbelianSquares();
             }, 100);
         }
