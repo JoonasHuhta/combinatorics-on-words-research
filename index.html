@@ -4795,7 +4795,7 @@ let gameMode = 'classic';
             paletteEl.innerHTML = '';
             for (let i = 0; i < 4; i++) {
                 const btn = document.createElement('button');
-                btn.className = `palette-btn ${i===selectedColor ? 'active' : ''}`;
+                btn.className = `abelisk-palette-btn ${i===selectedColor ? 'active' : ''}`;
                 if (gameMode === 'classic' || gameMode === 'cipher' || gameMode === 'fractal') {
                     btn.style.backgroundColor = ABELISK_COLORS[i];
                     btn.innerText = ALPHABET[i];
@@ -4859,11 +4859,11 @@ let gameMode = 'classic';
                         }
                     } else if (notes[i].size > 0) {
                         let grid = document.createElement('div');
-                        grid.className = 'notes-grid';
+                        grid.className = 'abelisk-notes-grid';
                         for (let c = 0; c < 4; c++) {
                             if (notes[i].has(c)) {
                                 let noteDiv = document.createElement('div');
-                                noteDiv.className = 'note-item';
+                                noteDiv.className = 'abelisk-note-item';
                                 noteDiv.style.background = (gameMode === 'classic' ? ABELISK_COLORS[c] : ADDITIVE_COLORS[c]);
                                 noteDiv.innerText = (gameMode === 'classic' ? ALPHABET[c] : ADDITIVE_NUMBERS[c]);
                                 grid.appendChild(noteDiv);
