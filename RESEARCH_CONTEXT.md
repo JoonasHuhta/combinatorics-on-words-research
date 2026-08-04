@@ -156,6 +156,14 @@ b16-quints.js              B16 deepened: the 126 five-element bigram subsets, sy
 b16-sixes.js               B16 deepened: the 84 six-element bigram subsets, symmetry classes and growth toward S=all-9 (row 93)
 b16-sevens.js              B16: the 36 seven-element bigram subsets, completing the lattice sweep alongside b16-eights.js
 b16-eights.js              B16: the 9 eight-element bigram subsets (all-9 minus one) -- every one equals all-9 exactly at n=16
+ancestor-box-arbitrary.js  arbitrary alphabet ancestor box computation
+bounds-arbitrary.js        arbitrary alphabet Contracting/Expanding bound computation
+cegis-scanner.js           CEGIS scanner framework
+decide-arbitrary-realizability.js  arbitrary alphabet decision procedure for realizability
+get-parents-arbitrary.js   arbitrary alphabet Parent/Ancestor generator
+jordan-arbitrary.js        arbitrary matrix Jordan decomposition over complex numbers
+cegis-route-a.js           CEGIS counterexample-guided inductive synthesis for Route A
+h8-image-sweep.js          B13: h8 fixed point image sweep
 ```
 
 **Verification:**
