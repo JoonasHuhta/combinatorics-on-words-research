@@ -29,3 +29,13 @@
 11. **FINAL REPORTS ARE TABLES, NOT ESSAYS:** a session or task's closing summary is reported as rows of `Claim | Source | Reproduced? | Matches?` (or the equivalent for the task at hand), not narrative prose. A table cannot smuggle in an unearned "we did it" — every cell has to be either true or empty. Free-text summaries are where overclaiming has repeatedly crept in; a table structurally forbids the sentence that isn't backed by a specific, checkable cell.
 
 12. **THE LINTER IS MANDATORY, NOT A REMINDER:** `node scripts/check-claims-drift.js` (and `node tests/test.js` when `MATH_CLAIMS.md`, `src/`, `scripts/`, or `tests/` change) run automatically as a pre-commit hook (`scripts/git-hooks/pre-commit`, installed once per clone via `node scripts/install-git-hooks.js` — see `CONTRIBUTING.md`). A rule stated in prose can be forgotten under context pressure; this cannot silently be skipped without `git commit --no-verify`, which is itself a decision that must be explained if taken.
+
+13. **SEED HYGIENE FOR PURE RUNS:** Never seed a `--pure` run with the exact output word of a heuristic run. Use either a short/neutral seed (e.g. "a") or another long seed that was itself discovered entirely in `--pure` mode from a neutral seed. This prevents locking the algorithm into paths arbitrarily restricted by past heuristics.
+
+14. **EXPLICIT MODE LABELING:** Every output filename and log entry must explicitly state the rule used (e.g., `_pure` vs `_heuristic` / `_aa2fr`). Pure (AA2F) and restricted (AA2FR) results must never be mixed or ambiguously labeled.
+
+15. **EXHAUSTION REPORTING MUST STATE BOUNDS:** Every "exhausted search space" report must explicitly state whether the search was permitted to backtrack below the initial seed (`minLength=0`) or if the seed was locked (`minLength=seed.length`). A search exhaustion with a locked long seed is a local dead end, not a global one.
+
+16. **A LONGER FINITE WORD IS NOT PROOF OF AN INFINITE ONE:** Finding a longer valid finite sequence does not make the existence of an infinite sequence "more likely". It is strictly just a longer finite example. Do not use hyperbolic framing (e.g., "the conjecture is stronger than ever") when referring to finite records.
+
+17. **INDEPENDENT POST-CHECK IS MANDATORY:** Every claimed record must be validated by an independent checker (e.g. `verifyAa2fr`) that verifies the word post-generation. Never skip this check assuming the generation code is flawless.
