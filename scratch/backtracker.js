@@ -1,3 +1,25 @@
+/**
+ * Industrial Backtracker for Mäkelä's Conjecture (aa2f / aa2fr)
+ * 
+ * USAGE:
+ *   node scratch/backtracker.js [seed] [targetLength] [--resume] [--pure]
+ * 
+ * EXAMPLES:
+ *   node scratch/backtracker.js a 2500
+ *     - Starts search from "a" up to 2500 characters using the fast FORBID4 heuristic.
+ * 
+ *   node scratch/backtracker.js keranen_1928.txt 3000
+ *     - Loads a known prefix from a file and continues the search up to 3000 chars.
+ * 
+ *   node scratch/backtracker.js a 2500 --resume
+ *     - Resumes a previously interrupted run from the `checkpoint_worker_X.json` files.
+ * 
+ *   node scratch/backtracker.js a 2500 --pure
+ *     - RUNS IN PURE MÄKELÄ MODE. Disables the FORBID4 empirical heuristic.
+ *     - Mathematically exhaustive and complete, but significantly slower.
+ *     - Use this for scientifically certified record attempts.
+ */
+
 const fs = require('fs');
 const { Worker, isMainThread, parentPort, workerData } = require('worker_threads');
 
@@ -5,7 +27,7 @@ const { Worker, isMainThread, parentPort, workerData } = require('worker_threads
 // WORKER THREAD LOGIC
 // ---------------------------------------------------------
 if (!isMainThread) {
-    const { seed, targetLength, searchOrder } = workerData;
+    const { seed, targetLength, searchOrder, pureMode } = workerData;
 
     const MAX_LEN = 30000; 
     
@@ -107,9 +129,8 @@ if (!isMainThread) {
         const len = currentLength;
 
         // FORBID4 Check (length 4 exact matches)
-        // FORBID4 = ['baac', 'caab', 'abbc', 'cbba', 'accb', 'bcca']
-        // mapped: 1002, 2001, 0112, 2110, 0221, 1220
-        if (len >= 4) {
+        // Only run if NOT in pure mode
+        if (!pureMode && len >= 4) {
             const w1 = word[len - 4];
             const w2 = word[len - 3];
             const w3 = word[len - 2];
@@ -177,15 +198,17 @@ if (!isMainThread) {
 else {
     const args = process.argv.slice(2);
     const isResume = args.includes("--resume");
-    const posArgs = args.filter(a => a !== "--resume");
+    const isPure = args.includes("--pure");
+    const posArgs = args.filter(a => a !== "--resume" && a !== "--pure");
     const seed = posArgs[0] || "a";
     const targetLength = parseInt(posArgs[1] || "3000", 10);
     const outputPath = `record_word_${targetLength}.txt`;
 
-    console.log(`--- Industrial Backtracker v8 (aa2fr Mode with Checkpoints) ---`);
+    console.log(`--- Industrial Backtracker v9 (aa2fr Mode) ---`);
     console.log(`Target: ${targetLength} chars`);
     console.log(`Seed:   ${seed}`);
-    console.log(`Rules:  Ternary {a,b,c}, Abelian Squares K >= 2 forbidden, FORBID4 banned.`);
+    console.log(`Mode:   ${isPure ? 'PURE (Exhaustive, FORBID4 disabled)' : 'HEURISTIC (FORBID4 enabled for speed)'}`);
+    console.log(`Rules:  Ternary {a,b,c}, Abelian Squares K >= 2 forbidden.`);
     
     const orders = [
         [0, 1, 2], [0, 2, 1],
@@ -199,10 +222,12 @@ else {
     let winnerFound = false;
 
     // Helper function for independent verification
-    function verifyAa2fr(word) {
-        const forbid4 = ['baac', 'caab', 'abbc', 'cbba', 'accb', 'bcca'];
-        for (const f of forbid4) {
-            if (word.includes(f)) return false;
+    function verifyAa2fr(word, pureMode) {
+        if (!pureMode) {
+            const forbid4 = ['baac', 'caab', 'abbc', 'cbba', 'accb', 'bcca'];
+            for (const f of forbid4) {
+                if (word.includes(f)) return false;
+            }
         }
 
         const pA = new Int32Array(word.length + 1);
@@ -240,7 +265,7 @@ else {
         }
 
         const worker = new Worker(__filename, {
-            workerData: { seed, targetLength, searchOrder: orders[i], checkpoint }
+            workerData: { seed, targetLength, searchOrder: orders[i], checkpoint, pureMode: isPure }
         });
 
         worker.on('message', (msg) => {
@@ -260,7 +285,7 @@ else {
                 console.log(`Time Taken: ${(Date.now() - startSolve) / 1000} seconds.`);
                 
                 console.log(`Starting independent mathematical verification...`);
-                if (!verifyAa2fr(msg.word)) {
+                if (!verifyAa2fr(msg.word, isPure)) {
                     console.error("FATAL: INDEPENDENT VERIFICATION FAILED! The generated word is invalid.");
                     process.exit(1);
                 }
