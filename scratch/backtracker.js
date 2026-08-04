@@ -9,6 +9,11 @@ if (!isMainThread) {
 
     const MAX_LEN = 30000; 
     
+    if (targetLength > MAX_LEN) {
+        parentPort.postMessage({ type: 'error', msg: `targetLength (${targetLength}) exceeds MAX_LEN (${MAX_LEN})` });
+        return;
+    }
+
     const word = new Uint8Array(MAX_LEN);
     const prefixA = new Int32Array(MAX_LEN + 1);
     const prefixB = new Int32Array(MAX_LEN + 1);
@@ -26,21 +31,49 @@ if (!isMainThread) {
         return 'c';
     }
 
-    // Initialize seed
+    // Restore from checkpoint if available, otherwise use seed
     let currentLength = 0;
-    for (let i = 0; i < seed.length; i++) {
-        const c = charToInt(seed[i]);
+    let initialChoiceStack = null;
+    let baseSeed = seed;
+
+    if (workerData.checkpoint) {
+        baseSeed = workerData.checkpoint.word;
+        initialChoiceStack = workerData.checkpoint.choiceStack;
+    } else {
+        // If seed is a valid file path, read it
+        if (fs.existsSync(seed)) {
+            baseSeed = fs.readFileSync(seed, 'utf8').trim();
+        }
+    }
+
+    if (baseSeed.length >= targetLength) {
+        parentPort.postMessage({ type: 'error', msg: 'Seed length is already >= targetLength' });
+        return;
+    }
+
+    for (let i = 0; i < baseSeed.length; i++) {
+        const c = charToInt(baseSeed[i]);
         word[currentLength] = c;
         prefixA[currentLength + 1] = prefixA[currentLength] + (c === 0 ? 1 : 0);
         prefixB[currentLength + 1] = prefixB[currentLength] + (c === 1 ? 1 : 0);
+        
+        if (initialChoiceStack && i < initialChoiceStack.length) {
+            choiceStack[i] = initialChoiceStack[i];
+        } else {
+            // Seed characters are fixed, they have no other branches in this run
+            choiceStack[i] = 4; // Marker so it exhausts search if it backtracks past seed
+        }
         currentLength++;
     }
 
     let maxDepthReached = currentLength;
     let stepCount = 0;
     let lastLogTime = Date.now();
+    let lastCheckpointTime = Date.now();
 
-    while (currentLength >= seed.length) {
+    let minLength = workerData.checkpoint ? 0 : baseSeed.length;
+
+    while (currentLength >= minLength) {
         if (currentLength >= targetLength) {
             let resultStr = "";
             for (let i = 0; i < currentLength; i++) resultStr += intToChar(word[i]);
@@ -49,7 +82,7 @@ if (!isMainThread) {
         }
 
         const choiceIdx = choiceStack[currentLength];
-        if (choiceIdx === 3) {
+        if (choiceIdx >= 3) {
             // Backtrack
             choiceStack[currentLength] = 0;
             currentLength--;
@@ -115,6 +148,18 @@ if (!isMainThread) {
                     lastLogTime = Date.now();
                 }
             }
+            if (Date.now() - lastCheckpointTime > 60000) {
+                let currentWordStr = "";
+                for (let i = 0; i < currentLength; i++) currentWordStr += intToChar(word[i]);
+                parentPort.postMessage({ 
+                    type: 'checkpoint', 
+                    state: {
+                        word: currentWordStr,
+                        choiceStack: Array.from(choiceStack.subarray(0, currentLength))
+                    }
+                });
+                lastCheckpointTime = Date.now();
+            }
         } else {
             currentLength--;
         }
@@ -127,11 +172,13 @@ if (!isMainThread) {
 // ---------------------------------------------------------
 else {
     const args = process.argv.slice(2);
-    const seed = args[0] || "a";
-    const targetLength = parseInt(args[1] || "3000", 10);
+    const isResume = args.includes("--resume");
+    const posArgs = args.filter(a => a !== "--resume");
+    const seed = posArgs[0] || "a";
+    const targetLength = parseInt(posArgs[1] || "3000", 10);
     const outputPath = `record_word_${targetLength}.txt`;
 
-    console.log(`--- Industrial Backtracker v7 (aa2fr Mode) ---`);
+    console.log(`--- Industrial Backtracker v8 (aa2fr Mode with Checkpoints) ---`);
     console.log(`Target: ${targetLength} chars`);
     console.log(`Seed:   ${seed}`);
     console.log(`Rules:  Ternary {a,b,c}, Abelian Squares K >= 2 forbidden, FORBID4 banned.`);
@@ -147,9 +194,38 @@ else {
     const startSolve = Date.now();
     let winnerFound = false;
 
+    // Helper function for independent verification
+    function verifyAa2fr(word) {
+        const forbid4 = ['baac', 'caab', 'abbc', 'cbba', 'accb', 'bcca'];
+        for (const f of forbid4) {
+            if (word.includes(f)) return false;
+        }
+        for (let len = 2; len <= Math.floor(word.length / 2); len++) {
+            for (let i = 0; i <= word.length - 2 * len; i++) {
+                let left = word.substring(i, i + len);
+                let right = word.substring(i + len, i + 2 * len);
+                let lCount = {a:0, b:0, c:0}, rCount = {a:0, b:0, c:0};
+                for(let k=0; k<len; k++) {
+                    lCount[left[k]]++; rCount[right[k]]++;
+                }
+                if (lCount.a === rCount.a && lCount.b === rCount.b && lCount.c === rCount.c) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     for (let i = 0; i < orders.length; i++) {
+        let checkpoint = null;
+        const checkpointFile = `checkpoint_worker_${i}.json`;
+        if (isResume && fs.existsSync(checkpointFile)) {
+            checkpoint = JSON.parse(fs.readFileSync(checkpointFile, 'utf8'));
+            console.log(`Resuming Worker ${i} from checkpoint...`);
+        }
+
         const worker = new Worker(__filename, {
-            workerData: { seed, targetLength, searchOrder: orders[i] }
+            workerData: { seed, targetLength, searchOrder: orders[i], checkpoint }
         });
 
         worker.on('message', (msg) => {
@@ -161,10 +237,20 @@ else {
                     process.stdout.write(`\r[Worker ${i}] Depth: ${globalMaxDepth} ... `);
                     fs.appendFileSync("progressive_log.txt", `Length ${globalMaxDepth}:\n${msg.word}\n\n`);
                 }
+            } else if (msg.type === 'checkpoint') {
+                fs.writeFileSync(checkpointFile, JSON.stringify(msg.state));
             } else if (msg.type === 'success') {
                 winnerFound = true;
-                console.log(`\n\n>>> RECORD SHATTERED BY WORKER ${i} <<<`);
+                console.log(`\n\n>>> RECORD ATTAINED BY WORKER ${i} <<<`);
                 console.log(`Time Taken: ${(Date.now() - startSolve) / 1000} seconds.`);
+                
+                console.log(`Starting independent mathematical verification...`);
+                if (!verifyAa2fr(msg.word)) {
+                    console.error("FATAL: INDEPENDENT VERIFICATION FAILED! The generated word is invalid.");
+                    process.exit(1);
+                }
+                console.log(`Independent verification PASSED.`);
+                
                 fs.writeFileSync(outputPath, msg.word);
                 console.log(`Record saved to: ${outputPath}`);
                 process.exit(0);
