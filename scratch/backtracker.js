@@ -12,18 +12,21 @@ if (!isMainThread) {
     const word = new Uint8Array(MAX_LEN);
     const prefixA = new Int32Array(MAX_LEN + 1);
     const prefixB = new Int32Array(MAX_LEN + 1);
+    const prefixC = new Int32Array(MAX_LEN + 1);
     const choiceStack = new Uint8Array(MAX_LEN + 1);
     
     function charToInt(c) {
         if (c === 'a') return 0;
         if (c === 'b') return 1;
-        return 2;
+        if (c === 'c') return 2;
+        return 3;
     }
 
     function intToChar(i) {
         if (i === 0) return 'a';
         if (i === 1) return 'b';
-        return 'c';
+        if (i === 2) return 'c';
+        return 'd';
     }
 
     // Initialize seed
@@ -33,6 +36,7 @@ if (!isMainThread) {
         word[currentLength] = c;
         prefixA[currentLength + 1] = prefixA[currentLength] + (c === 0 ? 1 : 0);
         prefixB[currentLength + 1] = prefixB[currentLength] + (c === 1 ? 1 : 0);
+        prefixC[currentLength + 1] = prefixC[currentLength] + (c === 2 ? 1 : 0);
         currentLength++;
     }
 
@@ -49,7 +53,7 @@ if (!isMainThread) {
         }
 
         const choiceIdx = choiceStack[currentLength];
-        if (choiceIdx === 3) {
+        if (choiceIdx === 4) {
             // Backtrack
             choiceStack[currentLength] = 0;
             currentLength--;
@@ -62,21 +66,24 @@ if (!isMainThread) {
         word[currentLength] = c;
         prefixA[currentLength + 1] = prefixA[currentLength] + (c === 0 ? 1 : 0);
         prefixB[currentLength + 1] = prefixB[currentLength] + (c === 1 ? 1 : 0);
+        prefixC[currentLength + 1] = prefixC[currentLength] + (c === 2 ? 1 : 0);
         
         currentLength++;
         stepCount++;
         
         let isValid = true;
         
-        // Full O(1) Abelian Square Check for ALL block sizes (replaces the need for a dictionary)
+        // Full O(1) Abelian Square Check for ALL block sizes
         const len = currentLength;
         for (let blockSize = 1; blockSize <= (len >> 1); ++blockSize) {
             const rA = prefixA[len] - prefixA[len - blockSize];
             const rB = prefixB[len] - prefixB[len - blockSize];
+            const rC = prefixC[len] - prefixC[len - blockSize];
             const lA = prefixA[len - blockSize] - prefixA[len - 2 * blockSize];
             const lB = prefixB[len - blockSize] - prefixB[len - 2 * blockSize];
+            const lC = prefixC[len - blockSize] - prefixC[len - 2 * blockSize];
             
-            if (rA === lA && rB === lB) {
+            if (rA === lA && rB === lB && rC === lC) {
                 isValid = false;
                 break;
             }
@@ -105,21 +112,23 @@ if (!isMainThread) {
 // ---------------------------------------------------------
 else {
     const args = process.argv.slice(2);
-    // Note: The previous seed contained abelian squares at small block sizes because the original
-    // C++ code bypassed checking block sizes < 21 (it relied on the hallucinated dictionary for them).
-    // A clean starting seed (length 6) is used here by default.
-    const seed = args[0] || "abacab";
+    // Use a clean seed over 4 letters
+    const seed = args[0] || "abacaba";
     const targetLength = parseInt(args[1] || "2000", 10);
     const outputPath = `record_word_${targetLength}.txt`;
 
-    console.log(`--- Industrial Backtracker v5 (Standalone O(1)) ---`);
+    console.log(`--- Industrial Backtracker v6 (4-letter O(1)) ---`);
     console.log(`Target: ${targetLength} chars`);
     console.log(`Seed:   ${seed}`);
     
+    // Select 6 random permutations out of the 24 possible to keep worker count sane
     const orders = [
-        [0, 1, 2], [0, 2, 1],
-        [1, 0, 2], [1, 2, 0],
-        [2, 0, 1], [2, 1, 0]
+        [0, 1, 2, 3],
+        [1, 2, 3, 0],
+        [2, 3, 0, 1],
+        [3, 0, 1, 2],
+        [0, 3, 2, 1],
+        [3, 2, 1, 0]
     ];
     
     let activeWorkers = orders.length;
@@ -131,20 +140,26 @@ else {
     const seedCheckWord = new Uint8Array(seed.length);
     const seedPrefixA = new Int32Array(seed.length + 1);
     const seedPrefixB = new Int32Array(seed.length + 1);
+    const seedPrefixC = new Int32Array(seed.length + 1);
     for (let i = 0; i < seed.length; i++) {
         let c = 0;
         if (seed[i] === 'b') c = 1;
         if (seed[i] === 'c') c = 2;
+        if (seed[i] === 'd') c = 3;
         seedCheckWord[i] = c;
         seedPrefixA[i + 1] = seedPrefixA[i] + (c === 0 ? 1 : 0);
         seedPrefixB[i + 1] = seedPrefixB[i] + (c === 1 ? 1 : 0);
+        seedPrefixC[i + 1] = seedPrefixC[i] + (c === 2 ? 1 : 0);
         
         for (let blockSize = 1; blockSize <= ((i + 1) >> 1); ++blockSize) {
             const rA = seedPrefixA[i + 1] - seedPrefixA[i + 1 - blockSize];
             const rB = seedPrefixB[i + 1] - seedPrefixB[i + 1 - blockSize];
+            const rC = seedPrefixC[i + 1] - seedPrefixC[i + 1 - blockSize];
             const lA = seedPrefixA[i + 1 - blockSize] - seedPrefixA[i + 1 - 2 * blockSize];
             const lB = seedPrefixB[i + 1 - blockSize] - seedPrefixB[i + 1 - 2 * blockSize];
-            if (rA === lA && rB === lB) {
+            const lC = seedPrefixC[i + 1 - blockSize] - seedPrefixC[i + 1 - 2 * blockSize];
+            
+            if (rA === lA && rB === lB && rC === lC) {
                 console.error(`ERROR: The provided seed '${seed}' contains an abelian square of K=${blockSize} at position ${i+1}.`);
                 process.exit(1);
             }
