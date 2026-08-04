@@ -46,6 +46,10 @@ if (!isMainThread) {
         }
     }
 
+    if (baseSeed.length > MAX_LEN) {
+        parentPort.postMessage({ type: 'error', msg: `Seed length (${baseSeed.length}) exceeds MAX_LEN (${MAX_LEN})` });
+        return;
+    }
     if (baseSeed.length >= targetLength) {
         parentPort.postMessage({ type: 'error', msg: 'Seed length is already >= targetLength' });
         return;
@@ -200,15 +204,26 @@ else {
         for (const f of forbid4) {
             if (word.includes(f)) return false;
         }
+
+        const pA = new Int32Array(word.length + 1);
+        const pB = new Int32Array(word.length + 1);
+        const pC = new Int32Array(word.length + 1);
+        for (let i = 0; i < word.length; i++) {
+            pA[i + 1] = pA[i] + (word[i] === 'a' ? 1 : 0);
+            pB[i + 1] = pB[i] + (word[i] === 'b' ? 1 : 0);
+            pC[i + 1] = pC[i] + (word[i] === 'c' ? 1 : 0);
+        }
+
         for (let len = 2; len <= Math.floor(word.length / 2); len++) {
             for (let i = 0; i <= word.length - 2 * len; i++) {
-                let left = word.substring(i, i + len);
-                let right = word.substring(i + len, i + 2 * len);
-                let lCount = {a:0, b:0, c:0}, rCount = {a:0, b:0, c:0};
-                for(let k=0; k<len; k++) {
-                    lCount[left[k]]++; rCount[right[k]]++;
-                }
-                if (lCount.a === rCount.a && lCount.b === rCount.b && lCount.c === rCount.c) {
+                const lA = pA[i + len] - pA[i];
+                const lB = pB[i + len] - pB[i];
+                const lC = pC[i + len] - pC[i];
+                const rA = pA[i + 2 * len] - pA[i + len];
+                const rB = pB[i + 2 * len] - pB[i + len];
+                const rC = pC[i + 2 * len] - pC[i + len];
+                
+                if (lA === rA && lB === rB && lC === rC) {
                     return false;
                 }
             }
