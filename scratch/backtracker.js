@@ -180,7 +180,8 @@ if (!isMainThread) {
                     type: 'checkpoint', 
                     state: {
                         word: currentWordStr,
-                        choiceStack: Array.from(choiceStack.subarray(0, currentLength))
+                        choiceStack: Array.from(choiceStack.subarray(0, currentLength)),
+                        pureMode: pureMode
                     }
                 });
                 lastCheckpointTime = Date.now();
@@ -262,6 +263,11 @@ else {
         const checkpointFile = `checkpoint_worker_${i}.json`;
         if (isResume && fs.existsSync(checkpointFile)) {
             checkpoint = JSON.parse(fs.readFileSync(checkpointFile, 'utf8'));
+            if (checkpoint.pureMode !== undefined && checkpoint.pureMode !== isPure) {
+                console.error(`FATAL: Worker ${i} checkpoint pureMode (${checkpoint.pureMode}) does not match CLI pureMode (${isPure}).`);
+                console.error("Please ensure you use the exact same --pure flag as the original run when resuming.");
+                process.exit(1);
+            }
             console.log(`Resuming Worker ${i} from checkpoint...`);
         }
 
