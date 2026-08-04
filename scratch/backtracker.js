@@ -202,7 +202,8 @@ else {
     const posArgs = args.filter(a => a !== "--resume" && a !== "--pure");
     const seed = posArgs[0] || "a";
     const targetLength = parseInt(posArgs[1] || "3000", 10);
-    const outputPath = `record_word_${targetLength}.txt`;
+    const modeStr = isPure ? "pure" : "heuristic";
+    const outputPath = `record_word_${targetLength}_${modeStr}.txt`;
 
     console.log(`--- Industrial Backtracker v9 (aa2fr Mode) ---`);
     console.log(`Target: ${targetLength} chars`);
