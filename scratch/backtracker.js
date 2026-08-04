@@ -7,26 +7,23 @@ const { Worker, isMainThread, parentPort, workerData } = require('worker_threads
 if (!isMainThread) {
     const { seed, targetLength, searchOrder } = workerData;
 
-    const MAX_LEN = 20000; 
+    const MAX_LEN = 30000; 
     
     const word = new Uint8Array(MAX_LEN);
     const prefixA = new Int32Array(MAX_LEN + 1);
     const prefixB = new Int32Array(MAX_LEN + 1);
-    const prefixC = new Int32Array(MAX_LEN + 1);
     const choiceStack = new Uint8Array(MAX_LEN + 1);
     
     function charToInt(c) {
         if (c === 'a') return 0;
         if (c === 'b') return 1;
-        if (c === 'c') return 2;
-        return 3;
+        return 2; // c
     }
 
     function intToChar(i) {
         if (i === 0) return 'a';
         if (i === 1) return 'b';
-        if (i === 2) return 'c';
-        return 'd';
+        return 'c';
     }
 
     // Initialize seed
@@ -36,7 +33,6 @@ if (!isMainThread) {
         word[currentLength] = c;
         prefixA[currentLength + 1] = prefixA[currentLength] + (c === 0 ? 1 : 0);
         prefixB[currentLength + 1] = prefixB[currentLength] + (c === 1 ? 1 : 0);
-        prefixC[currentLength + 1] = prefixC[currentLength] + (c === 2 ? 1 : 0);
         currentLength++;
     }
 
@@ -53,7 +49,7 @@ if (!isMainThread) {
         }
 
         const choiceIdx = choiceStack[currentLength];
-        if (choiceIdx === 4) {
+        if (choiceIdx === 3) {
             // Backtrack
             choiceStack[currentLength] = 0;
             currentLength--;
@@ -66,26 +62,45 @@ if (!isMainThread) {
         word[currentLength] = c;
         prefixA[currentLength + 1] = prefixA[currentLength] + (c === 0 ? 1 : 0);
         prefixB[currentLength + 1] = prefixB[currentLength] + (c === 1 ? 1 : 0);
-        prefixC[currentLength + 1] = prefixC[currentLength] + (c === 2 ? 1 : 0);
         
         currentLength++;
         stepCount++;
         
         let isValid = true;
-        
-        // Full O(1) Abelian Square Check for ALL block sizes
         const len = currentLength;
-        for (let blockSize = 1; blockSize <= (len >> 1); ++blockSize) {
-            const rA = prefixA[len] - prefixA[len - blockSize];
-            const rB = prefixB[len] - prefixB[len - blockSize];
-            const rC = prefixC[len] - prefixC[len - blockSize];
-            const lA = prefixA[len - blockSize] - prefixA[len - 2 * blockSize];
-            const lB = prefixB[len - blockSize] - prefixB[len - 2 * blockSize];
-            const lC = prefixC[len - blockSize] - prefixC[len - 2 * blockSize];
-            
-            if (rA === lA && rB === lB && rC === lC) {
+
+        // FORBID4 Check (length 4 exact matches)
+        // FORBID4 = ['baac', 'caab', 'abbc', 'cbba', 'accb', 'bcca']
+        // mapped: 1002, 2001, 0112, 2110, 0221, 1220
+        if (len >= 4) {
+            const w1 = word[len - 4];
+            const w2 = word[len - 3];
+            const w3 = word[len - 2];
+            const w4 = word[len - 1];
+            if (
+                (w1 === 1 && w2 === 0 && w3 === 0 && w4 === 2) ||
+                (w1 === 2 && w2 === 0 && w3 === 0 && w4 === 1) ||
+                (w1 === 0 && w2 === 1 && w3 === 1 && w4 === 2) ||
+                (w1 === 2 && w2 === 1 && w3 === 1 && w4 === 0) ||
+                (w1 === 0 && w2 === 2 && w3 === 2 && w4 === 1) ||
+                (w1 === 1 && w2 === 2 && w3 === 2 && w4 === 0)
+            ) {
                 isValid = false;
-                break;
+            }
+        }
+
+        // Full O(1) Abelian Square Check for K >= 2 (Mäkelä aa2f constraint)
+        if (isValid) {
+            for (let blockSize = 2; blockSize <= (len >> 1); ++blockSize) {
+                const rA = prefixA[len] - prefixA[len - blockSize];
+                const rB = prefixB[len] - prefixB[len - blockSize];
+                const lA = prefixA[len - blockSize] - prefixA[len - 2 * blockSize];
+                const lB = prefixB[len - blockSize] - prefixB[len - 2 * blockSize];
+                
+                if (rA === lA && rB === lB) {
+                    isValid = false;
+                    break;
+                }
             }
         }
 
@@ -112,59 +127,25 @@ if (!isMainThread) {
 // ---------------------------------------------------------
 else {
     const args = process.argv.slice(2);
-    // Use a clean seed over 4 letters
-    const seed = args[0] || "abacaba";
-    const targetLength = parseInt(args[1] || "2000", 10);
+    const seed = args[0] || "a";
+    const targetLength = parseInt(args[1] || "3000", 10);
     const outputPath = `record_word_${targetLength}.txt`;
 
-    console.log(`--- Industrial Backtracker v6 (4-letter O(1)) ---`);
+    console.log(`--- Industrial Backtracker v7 (aa2fr Mode) ---`);
     console.log(`Target: ${targetLength} chars`);
     console.log(`Seed:   ${seed}`);
+    console.log(`Rules:  Ternary {a,b,c}, Abelian Squares K >= 2 forbidden, FORBID4 banned.`);
     
-    // Select 6 random permutations out of the 24 possible to keep worker count sane
     const orders = [
-        [0, 1, 2, 3],
-        [1, 2, 3, 0],
-        [2, 3, 0, 1],
-        [3, 0, 1, 2],
-        [0, 3, 2, 1],
-        [3, 2, 1, 0]
+        [0, 1, 2], [0, 2, 1],
+        [1, 0, 2], [1, 2, 0],
+        [2, 0, 1], [2, 1, 0]
     ];
     
     let activeWorkers = orders.length;
     let globalMaxDepth = seed.length;
     const startSolve = Date.now();
     let winnerFound = false;
-
-    // Check if initial seed is valid
-    const seedCheckWord = new Uint8Array(seed.length);
-    const seedPrefixA = new Int32Array(seed.length + 1);
-    const seedPrefixB = new Int32Array(seed.length + 1);
-    const seedPrefixC = new Int32Array(seed.length + 1);
-    for (let i = 0; i < seed.length; i++) {
-        let c = 0;
-        if (seed[i] === 'b') c = 1;
-        if (seed[i] === 'c') c = 2;
-        if (seed[i] === 'd') c = 3;
-        seedCheckWord[i] = c;
-        seedPrefixA[i + 1] = seedPrefixA[i] + (c === 0 ? 1 : 0);
-        seedPrefixB[i + 1] = seedPrefixB[i] + (c === 1 ? 1 : 0);
-        seedPrefixC[i + 1] = seedPrefixC[i] + (c === 2 ? 1 : 0);
-        
-        for (let blockSize = 1; blockSize <= ((i + 1) >> 1); ++blockSize) {
-            const rA = seedPrefixA[i + 1] - seedPrefixA[i + 1 - blockSize];
-            const rB = seedPrefixB[i + 1] - seedPrefixB[i + 1 - blockSize];
-            const rC = seedPrefixC[i + 1] - seedPrefixC[i + 1 - blockSize];
-            const lA = seedPrefixA[i + 1 - blockSize] - seedPrefixA[i + 1 - 2 * blockSize];
-            const lB = seedPrefixB[i + 1 - blockSize] - seedPrefixB[i + 1 - 2 * blockSize];
-            const lC = seedPrefixC[i + 1 - blockSize] - seedPrefixC[i + 1 - 2 * blockSize];
-            
-            if (rA === lA && rB === lB && rC === lC) {
-                console.error(`ERROR: The provided seed '${seed}' contains an abelian square of K=${blockSize} at position ${i+1}.`);
-                process.exit(1);
-            }
-        }
-    }
 
     for (let i = 0; i < orders.length; i++) {
         const worker = new Worker(__filename, {
@@ -198,10 +179,6 @@ else {
                 console.error(`\n${msg.msg}`);
                 process.exit(1);
             }
-        });
-
-        worker.on('error', (err) => {
-            console.error(`Worker error: ${err}`);
         });
     }
 }
