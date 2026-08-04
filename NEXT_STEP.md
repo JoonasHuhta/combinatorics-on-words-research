@@ -1,7 +1,31 @@
 # Next Step
 
-**Updated:** 2026-08-02 (B16 lattice completed at n=16, extended to n=22, one fact proven — rows 86–99)
+**Updated:** 2026-08-04 (CEGIS Route A Architecture finalized)
 **Read first:** `KNOWLEDGE_STATE.md`, `RESEARCH_CONTEXT.md`, `AGENTS.md`.
+
+---
+
+# HANDOFF — 2026-08-04 (supersedes the sections below where they conflict)
+
+**Start here (copy verbatim into a new session):**
+
+> *"Read `RESEARCH_CONTEXT.md` and `AGENTS.md` before changing anything, then `NEXT_STEP.md`'s handoff section in full. Do not write to `MATH_CLAIMS.md` without my approval (rule 5)."*
+
+## What happened this session, in one paragraph
+
+A full cross-reading of the project documentation (`MATH_CLAIMS.md`, `NEGATIVE_RESULTS.md`, `OPEN_RESEARCH_QUESTIONS.md`) identified a critical blind spot: non-uniform morphism search for the main conjecture (Route a) has never been executed, even though all the machinery (`decide-realizability.js`, `decision-preconditions.js`, `morphism-scan.js`) already exists for it. We designed a CEGIS (Counterexample-Guided Inductive Synthesis) loop to attack this space systematically. The full justification and 4-tier architecture are recorded in `docs/plans/CEGIS_ROUTE_A_ARCHITECTURE.md`.
+
+## Next research targets, prioritized
+
+1. **Build the Route (a) CEGIS Loop (`scripts/cegis-route-a.js`)**. This is the absolute highest priority. It bypasses the $L^*$ bottleneck by directly testing fixed points, exploring a massive unmapped space (non-uniform ternary morphisms) with the exact Rao & Rosenfeld decision procedure serving as a sound verifier. See `docs/plans/CEGIS_ROUTE_A_ARCHITECTURE.md` for the exact integration steps.
+2. **Verify Route A length 7 exhaustion with Claude** (New task). As requested, independently verify the length 7 prefix scan exhaustion results (0 survivors out of 493,848 pure ternary morphisms, dying by prefix length 18). This is to double-check the work and play it safe before building further assumptions on it.
+3. **Verify Route B (h8) algebraic exclusion with Claude** (New task). As requested, independently verify the Proposition 9 Grassmann formula derivation that $\dim(E_e \cap \ker M_g) \ge 1$ for any ternary projection $g$ of $h_8$.
+4. **Pin down L\* (L=5, L=6)** (Carried over). Measure the Parikh filter + string-level drop oracle on a sample. Do not run the full computation if the sample predicts days of runtime.
+5. **B19/B20 Keränen independent verification** (Carried over). Once the 2107-letter candidate string is obtained, run branching and seam-rigidity statistics.
+
+## What not to do
+- Do not run the full L=5 or L=6 Parikh filter without measuring a sample first.
+- Do not start the CEGIS loop on full throttle without first validating the implementation against a known trivial hand-checkable morphism to ensure the Jordan decomposition handles non-h6 spectra correctly.
 
 ---
 

@@ -22,6 +22,7 @@ proposing anything.
 
 | Date | # | Final? | What collapsed | In one sentence |
 |---|---|---|---|---|
+| 2026-08-04 | [§22](#22-route-a-exhaustion-up-to-length-7-by-prefix-scan) | **BOUNDED** | Route A (3→3 non-uniform morphisms, max length 7) | Exhausted exactly: out of 493,848 pure non-uniform ternary morphisms with max length 7, all produce an abelian square of K >= 2 within the first 18 characters of the fixed point. |
 | 2026-08-01 | [§21](#21-a-certified-standalone-verifier-that-never-ran-the-verification) | **NECESSARY** / CONTEXTUAL | A standalone CLI's self-reported "Certified" banner | Three independent bugs (never loaded the morphism, a structurally-impossible default, an unpruned DFS) made a program print `[CERTIFIED]` for a computation it never ran; fixed same commit, but the module has produced no other result since |
 | 2026-08-01 | [§20](#20-spiral-dynamics-complex-eigenvalues-as-a-requirement-for-avoiding-abelian-squares) | **NECESSARY** | "Spiral dynamics": complex eigenvalues as a requirement | Prediction verified (g85 has −8±3i, h6 is real) but refuted by row 5: h6^ω(a) IS abelian-square-free with a purely real spectrum |
 | 2026-08-01 | [§19](#19-near-miss-density-in-the-record-word-as-a-measure-of-structural-fragility) | **NECESSARY** | Near-miss density as "structural fragility" | An unconstrained random word of the same length is near-miss-denser than the real record word — same sample-size artifact as `MATH_CLAIMS.md` row 37 |
@@ -352,3 +353,38 @@ unconditional "Certified" banner is wrong regardless of future compute),
 CONTEXTUAL for the general lesson (extending automated auditing to program
 output, not just documents, would close this class of failure — a real
 option, not attempted here).**
+
+## 22. Route A Exhaustion Up to Length 7 by Prefix Scan
+
+*Logged 2026-08-04. See `MATH_CLAIMS.md` row 84 (new), `src/cegis-scanner.js`.*
+
+**Hypothesis:** Route A of the project roadmap seeks a direct, non-uniform ternary morphism $h: \{a,b,c\} \to \{a,b,c\}^*$ that avoids abelian squares of period $K \ge 2$, with image lengths up to 7. A full CEGIS loop with exact algebraic verifications (Proposition 9 / Jordan decomposition) would find or rule out candidates.
+
+**Why it was shot down (and why Level 3 was never needed):**
+- To find candidates to feed into the algebraic Tiers, `src/cegis-scanner.js` was written to perform a trivial prefix-scan (Tier 1).
+- The candidate space requires individual images $h(x)$ to be completely abelian square free (including $K=1$, since they are factors of the target word, which can only contain trivial squares if it is a fixed point). There are exactly 114 such pure ternary words up to length 7.
+- This creates exactly 493,848 candidates ($38 \times 114 \times 114$, where $h(a)$ starts with 'a').
+- **The kill condition was met immediately by Tier 1:** Every single one of these 493,848 candidates produced an abelian square of $K \ge 2$ within the first **18 characters** of its generated fixed point.
+- The best surviving morphism was `{a: 'abcab', b: 'bc', c: 'ca'}`, which survived to length 17 before failing.
+
+**Conclusion:** 
+- The search space for Route A (direct 3→3 non-uniform morphisms with $|h(x)| \le 7$) is exactly and completely dead. There are no survivors to pass to any higher-level algebraic decision procedure.
+- The hypothesis that direct 3→3 morphisms might be structurally too poor (compared to Rao-Rosenfeld's use of a richer 6-letter intermediate alphabet $h_6$ projected down via $g_3$) gains credibility. A direct 3-letter morphism may simply not have enough degrees of freedom to balance the Parikh vectors without forcing a small abelian square.
+- **Finality: BOUNDED.** The result is an exact exhaustion up to length 7. It says nothing about length 8 or beyond, nor does it address the intermediate-alphabet strategy.
+
+## 23. Route B (Intermediate Alphabet) mathematically excluded for $h_8$
+
+*Logged 2026-08-04. See `MATH_CLAIMS.md` row 107.*
+
+**Hypothesis:** Route B of the project roadmap seeks an intermediate alphabet strategy, extending the Rao & Rosenfeld approach. A candidate morphism $h_8: \Sigma_8 \to \Sigma_8^*$ was hypothesized to admit a ternary projection $g: \Sigma_8 \to \Sigma_3^*$ that avoids abelian squares by satisfying Rao & Rosenfeld's Proposition 9 (specifically Condition 2: trivial intersection between the expanding subspace of $M_h$ and the kernel of $M_g$).
+
+**Why it was shot down:**
+- The incidence matrix $M_{h_8}$ has an expanding subspace $E_e$ of dimension 4, due to 4 roots of its characteristic polynomial having modulus > 1.
+- Any uniform ternary projection $g: \Sigma_8 \to \Sigma_3^*$ produces a $3 \times 8$ Parikh matrix $M_g$, which has rank at most 3. By the rank-nullity theorem, $\dim(\ker M_g) \ge 5$.
+- By Grassmann's formula in $\mathbb{R}^8$: $\dim(E_e \cap \ker M_g) \ge 4 + 5 - 8 = 1$.
+- **The kill condition was met mathematically:** The intersection $E_e \cap \ker M_g$ is guaranteed to be non-trivial for *any* ternary mapping $g$. Therefore, Rao & Rosenfeld's decision procedure (which relies on a trivial intersection to bound the discrepancy) is fundamentally inapplicable to $h_8$ mapped to 3 letters.
+
+**Conclusion:** 
+- The $h_8$ hypothesis is fatally flawed for the template method. No finite parent set can be computed via Proposition 9 for any ternary mapping of $h_8^\omega(e)$.
+- This structural failure aligns with the empirical failure found by `scripts/h8-image-sweep.js`, which found 0 survivors for $L=2$.
+- **Finality: NECESSARY.** The exclusion is based on a mathematical proof (linear algebra), not bounded search. (Pending independent verification by Claude, as requested by the user, before fully closing this branch).

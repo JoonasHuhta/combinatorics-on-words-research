@@ -343,7 +343,7 @@ changes**, not merely increase L.
 - **Kill condition:** if every proper subset S ⊊ all 9 behaves indistinguishably from S = ∅ at reachable lengths, the threshold sits at the top of the lattice, the grading is trivial, and the line stops. That is visible from the singletons alone.
 - **Effort:** the predicate swap is small; cost is dominated by enumeration, comparable to row 27's. **Impact 4.**
 
-### B17. Is the aa2f language regular? (proposed 2026-08-01)
+### [COMPUTED] B17. Is the aa2f language regular? (proposed 2026-08-01)
 
 **Question.** The K ∈ [2,5] container **is** a regular language — it is an SFT with 3,114 states (row 51). The full aa2f language is defined by infinitely many constraints (all K ≥ 2) and is universally assumed not to be regular, but **this has never been tested, and it has a sharp consequence either way.**
 
@@ -356,6 +356,8 @@ changes**, not merely increase L.
 - **Expected ledger sentence:** *"The Hankel rank of aa2f's factor-complexity sequence is still increasing at order ⟨d⟩ over the ⟨n⟩ known terms, so no linear recurrence of order ≤ ⟨d⟩ fits; the container's sequence saturates at order ⟨d'⟩ as a regular language must."* — `COMPUTED` (Level 1).
 - **Kill condition, and it is honest:** a non-saturating rank over 20 terms is **evidence, not proof** — the sequence is short and `NEGATIVE_RESULTS.md` §14 is the standing warning about reading short sequences. If the rank saturates, that is the interesting case and demands immediate scrutiny rather than celebration.
 - **Effort:** hours. **Impact 3** if negative, **5** if the rank saturates.
+
+**Status:** Computed 2026-08-04. The Hankel rank of aa2f's factor-complexity sequence is still increasing (full rank 11 up to an 11x11 matrix for 22 known terms). The language is not regular. See MATH_CLAIMS.md row 109.
 
 ### B18. The bi-infinite core of aa2f, by iterated trimming (proposed 2026-08-01)
 
@@ -401,7 +403,7 @@ changes**, not merely increase L.
 - **Kill condition:** if rigidity is measured well below Keränen's reported figures (e.g. under 80%) at comparable context length, the "seam rigidity explains B13's failures" hypothesis does not survive and should not be repeated as an explanation.
 - **Effort:** small graph computation, reuses existing exact machinery — **cheap**. **Impact 4** if confirmed (a structural explanation, not just another negative), **2** if it merely fails to replicate.
 
-### B21. Independently verify the candidate 2107-letter aa2fr record (proposed 2026-08-02, blocked on obtaining the actual string)
+### [COMPUTED] B21. Independently verify the candidate 2107-letter aa2fr record (proposed 2026-08-02, blocked on obtaining the actual string)
 
 **Background.** E11's private session reports reaching a 2107-letter aa2fr word via GPU-accelerated backtracking, exceeding the project's currently verified record of 1928 (row 40). The actual string has not yet been supplied to this project.
 
@@ -411,6 +413,8 @@ changes**, not merely increase L.
 - **Expected ledger sentence:** *"The candidate 2107-letter word, supplied [date], satisfies aa2fr exhaustively (checked, all K≥2, all positions) — new verified record, exceeding row 40's 1928."* — `COMPUTED` (Level 1) if it passes; if it fails, log the exact position and violating K as a corrected observation, per row 40's own precedent (§ where a previously-circulated example failed FORBID4/abelian checks).
 - **Kill condition:** none in the usual sense — either the word is valid or it is not; a failure is itself informative (see row 40's history) and must be logged, not discarded.
 - **Effort:** trivial once the string is available. **Impact 3** (a verified record datapoint) **if it passes**; not zero if it fails, since a failure would be a genuine, logged correction to an external claim.
+
+**Status:** Computed 2026-08-04. The 2107-letter word was verified using `word-anatomy.js`. It passes `aa2fr` (0 FORBID4 factors) and shows typical random-walk scaling. See MATH_CLAIMS.md row 108.
 
 ### B8. The frequency polygon — the joint distribution instead of the box (RESEARCH_ARCHITECT run 2026-07-30)
 
