@@ -1,0 +1,3 @@
+8ad1ba75d13b4e00a51c41a65893cbcbc0b8ac6e2ab30499a8210acd613a002d  java-cow-backtracker-v1.2.zip
+62cdc1833068713498bd5c54e0245012b8817db902cba39844eef1f54a05c30d  java-cow-backtracker-v1.2/build/cow-backtracker.jar
+7bf021e03d9fa6583ae110fca0d662ebc6816e71ea536262c3c774d6d775aad8  java-cow-backtracker-v1.2/SOURCE_AUDIT_REPORT.md
