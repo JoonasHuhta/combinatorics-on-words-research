@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "generated_by": "TASK-0001",
+  "generated_at": "2026-08-06",
+  "task_specification": "docs/tasks/TASK-0001.md",
+  "task_status": "EXECUTED_PENDING_OWNER_REVIEW_FOR_COMMIT",
+
+  "id": "D40-0001-PROVENANCE-ONLY",
+  "note": "This is a provenance record for the raw source file, not a compiled dictionary manifest. No dictionary compilation, verification, or symmetry audit has been performed. Compilation is blocked by OD-2 (docs/program/OWNER_DECISIONS_REQUIRED.md).",
+
+  "source_file": {
+    "path": "datasets/aa2fr3LetLen40ex80ms200MextendableAllPermsMirs.txt",
+    "sha256": "555bee379ee0bac7ed8a385d17ba548fdc32599495d94da13c35b761502fdbcf",
+    "size_bytes": 100931542,
+    "line_ending": "CRLF",
+    "record_count": 2403132,
+    "record_count_method": "awk record count (final line has no trailing newline; wc -l undercounts by 1 for this reason)",
+    "newline_count_wc_l": 2403131,
+    "record_length_chars": 40,
+    "record_length_distribution": "uniform: every record is exactly 40 characters (verified over the complete file, not a sample)",
+    "alphabet": ["a", "b", "c"],
+    "alphabet_violations_found": 0,
+    "duplicate_records_found": 0,
+    "duplicate_check_method": "sort | uniq -d over the complete file with CR stripped"
+  },
+
+  "claimed_class": "AA2FR-D40",
+  "claimed_window_length": 40,
+  "generation_method_claimed": "See PROVENANCE.md section 3 for the verbatim quoted description. Not independently reproduced or verified by this task.",
+
+  "git_provenance": {
+    "tracked": true,
+    "added_in_commit": "062290f7eaf4113cdcfcb5b04197694bf9030cc6",
+    "added_at": "2026-08-04T14:28:49+03:00",
+    "added_by": "JoonasHuhta <jv…@gmail.com>",
+    "added_by_note": "Email redacted for personal-data minimization; the full address is present in the repository's own Git commit metadata and is not reproduced in project documentation. Shares the substring 'keranen' with the surname attributed in attribution_claimed_in_repository below. This must NOT be treated as evidence of identity, ownership, permission, or authorship — see PROVENANCE.md section 3.1.",
+    "commit_message": "Docs: Update epistemological policies and add Veikko's dictionary with notes",
+    "modified_since_addition": false,
+    "present_on_origin_main": true,
+    "present_on_origin_main_note": "Verified against the locally cached origin/main ref for the 'origin' remote only, which is the sole remote configured for this repository. No other remote, fork, or mirror was checked. Do not generalize this finding beyond the one remote and ref inspected.",
+    "origin_remote": "https://github.com/JoonasHuhta/combinatorics-on-words-research.git"
+  },
+
+  "attribution_claimed_in_repository": {
+    "attributed_to": "Veikko Keränen (per datasets/README.md, added in the same commit as the file)",
+    "attribution_source": "datasets/README.md, section \"aa2fr3LetLen40ex80ms200MextendableAllPermsMirs.txt\"",
+    "attribution_is_project_assertion_not_independently_verified": true,
+    "attribution_is_not_permission": "Attribution to an author, and evidence about how the file was generated, are separate questions from redistribution permission. Neither this field nor added_by establishes permission in either direction."
+  },
+
+  "redistribution_permission": {
+    "status": "UNKNOWN",
+    "explicit_grant_found": false,
+    "explicit_denial_found": false,
+    "note": "datasets/README.md describes the file's origin and generation method but does not state redistribution or publication permission. See OD-2-PROVENANCE-FINDINGS.md for the full analysis and the conflict with README.md's general datasets/ policy. Permission is UNKNOWN, not implied by attribution, generation-method detail, or committer identity."
+  },
+
+  "gitignore_coverage": {
+    "existing_pattern": "datasets/keranen_*.txt",
+    "matches_this_filename": false,
+    "verified_by": "git check-ignore -v datasets/aa2fr3LetLen40ex80ms200MextendableAllPermsMirs.txt (exit code 1, not ignored)"
+  },
+
+  "known_consumers": "see dependency-graph.md",
+
+  "publication_permission": null,
+  "audit_status": "NOT_STARTED",
+  "compilation_status": "NOT_ATTEMPTED",
+  "verification_status": "NOT_ATTEMPTED",
+
+  "do_not_edit_notice": "This file is a provenance record produced by TASK-0001. It is read-only evidence, not a dictionary manifest. Do not treat any field here as authorization to compile, verify, or use the dataset."
+}
