@@ -1,0 +1,836 @@
+# Plan Registry
+#
+# Machine-readable plan control for the program bootstrap.
+#
+# SCOPE: this registry lists ONLY the documents reviewed in Wave 1.
+# The ten remaining intake documents (Waves 2 and 3) have not been read and are
+# therefore absent by design, not by omission. Do not add a row for a document
+# nobody has opened.
+#
+# Every entry is PROPOSED with UNDECIDED priority. Detail is not approval.
+# Status may only be changed by the project owner.
+#
+# Produced: 2026-08-06, program bootstrap architect session, read-only.
+# Instruction source: docs/program/AI_PROGRAM_BOOTSTRAP_AND_FIRST_WORK_ORDER.md 8.2
+
+schema_version: 1
+
+# Bootstrap state, recorded by owner instruction 2026-08-06.
+bootstrap_status:
+  wave_0: COMPLETE
+  wave_1: ACCEPTED_WITH_CORRECTIONS
+  wave_2: ACCEPTED
+  wave_3: ACCEPTED
+  wave_4: APPROVED
+  bootstrap: COMPLETE
+  implementation: NOT_STARTED
+  approved_at: "2026-08-06"
+  approved_by: Joonas Huhta
+  files_under_owner_review:
+    status: REVIEW_COMPLETE
+    list:
+      - docs/program/PLAN_INVENTORY.md
+      - docs/program/DEPENDENCY_AND_CONFLICT_MAP.md
+      - docs/program/PROGRAM_MAP.md
+      - ROADMAP.md
+      - CURRENT_FOCUS.md
+      - docs/tasks/TASK-0001.md
+  revision_policy: >
+    Do not revise the bootstrap synthesis further unless implementation reveals a
+    factual error that must be recorded explicitly.
+  first_task:
+    id: TASK-0001
+    selection: ACCEPTED_AS_PROPOSED
+    authorized_for_implementation: true
+    authorized_at: "2026-08-06"
+    authorized_by: Joonas Huhta
+    authorization_scope: >
+      Exactly as specified in docs/tasks/TASK-0001.md. No additional scope granted.
+    branch: chore/task-0001-d40-provenance
+    worktree: isolated, outside the shared repository directory
+    rationale_accepted: >
+      D40 provenance preservation and tracing has greater blocking effect and time
+      sensitivity than Cut-and-Certify E1, while E1 remains the next research and
+      verification candidate after the safety task.
+
+registry:
+  wave_coverage: [0, 1, 2, 3]
+  documents_reviewed: 15
+  documents_in_intake: 15
+  documents_not_yet_read: 0
+  produced: "2026-08-06"
+  revised: "2026-08-06"
+  status: WAVE_3_ADDED_PENDING_OWNER_REVIEW
+  note: >
+    All 15 intake documents have now been reviewed. Wave 4 (plan inventory,
+    dependency map, program map, roadmap, current focus, TASK-0001) has not begun.
+
+owner_review:
+  wave_1:
+    status: ACCEPTED_WITH_CORRECTIONS
+    reviewed_at: "2026-08-06"
+    reviewed_by: Joonas Huhta
+    corrections_applied: true
+    scope: >
+      Wave 0-1 program documents only. Corrections covered authority classification
+      by domain, withdrawal of an over-strong inference from token counts, separation
+      of generated views from domain registers, implementation_assessment replacing
+      implementation_progress, topic-level conflicts, dataset provenance urgency, and
+      preliminary resolution of OD-3, OD-4, OD-6, OD-7, OD-8, OD-9.
+  wave_2:
+    status: ACCEPTED_WITH_DECISIONS
+    reviewed_at: "2026-08-06"
+    reviewed_by: Joonas Huhta
+    corrections_applied: true
+    decisions_recorded:
+      - ABELISK v3 ACCEPTED as active product-design authority
+      - v3-supersedes-v2 ratified, effective true; v2 SUPERSEDED
+      - Abelisk foundation document reclassified HISTORICAL / REFERENCE
+      - OD-10 resolved, English canonical source
+      - OD-11 resolved, layered four-letter / ternary structure
+      - four-layer verifier architecture preserved as the shared-core requirement
+      - motor accessibility restored as an active requirement
+      - pedagogical claims recorded as design hypotheses only
+      - at least one transfer task required in the first pedagogy pilot
+    preservation_rule: >
+      Superseded documents remain preserved. Their ideas may be reused only when
+      explicitly selected by a later approved task. Removed mechanics are never
+      restored automatically.
+  wave_3:
+    status: ACCEPTED_WITH_DECISIONS
+    reviewed_at: "2026-08-06"
+    reviewed_by: Joonas Huhta
+    corrections_applied: true
+    findings_accepted:
+      - the tracked D40 dataset is a dependency of several research tools and routes
+      - scratch/dict_backtracker.js must not be treated as an AA2FR verifier
+      - the name verifyAa2fr is ambiguous across code paths
+      - Java COW Backtracker v1.2 is an audited reference, not a priority mandate
+      - v1.1 must not be recommended or cited as the current reference version
+      - Cut-and-Certify E1 is nearest-executable among Wave 3 plans only
+      - the rolling-hash boundary claim remains NOT_VERIFIED
+    decisions_recorded:
+      - OD-2 kept OPEN with binding owner direction (RIGHTS_AND_PROVENANCE_UNRESOLVED)
+      - OD-12 resolved, REP and IND scales separated
+      - OD-13 resolved, target architecture approved, implementation deferred
+    new_task_candidate: TASK-GOV
+
+# Semantics for the fields below, fixed at owner review:
+#
+#   dependencies.declared_by_source
+#     the source document itself names the dependency
+#   dependencies.inferred_by_review
+#     the bootstrap architect inferred it; weaker, and revisable
+#
+#   conflicts_with[].topics
+#     conflicts are recorded at TOPIC level. A topic conflict does not make the
+#     whole plan rejectable. Do not read "conflicts_with: X" as "X is wrong".
+#
+#   implementation_assessment
+#     NOT_ASSESSED means nobody has checked how much of this plan already exists
+#     in the repository. It does NOT mean "nothing is implemented".
+
+# Cross-cutting requirements fixed by owner decision on 2026-08-06 (Wave 2 review).
+# These bind every learner-facing plan, not one card.
+standards:
+
+  verifier_architecture:
+    status: REQUIRED
+    layers:
+      - {id: 1, name: full reference verifier, scope: every start x every half-length}
+      - {id: 2, name: append-only incremental, scope: violations ending at the new symbol}
+      - {id: 3, name: changed-index verifier, scope: middle-cell edits, required_by: [PLAN-ABELISK-003]}
+      - {id: 4, name: independent full verifier, scope: genuinely separate code path}
+    rule: >
+      The shared mathematical core must support the stronger Abelisk requirements.
+      Tutorial functionality may use a strict subset. Do not build the core to the
+      tutorial's append-only shape.
+
+  accessibility_floor:
+    status: REQUIRED
+    applies_to: [PLAN-ABELISK-003, PLAN-EDU-001]
+    minimum:
+      - large interaction targets
+      - full keyboard operation
+      - no mandatory precision dragging
+      - switch-compatible interaction where practical
+      - alternative controls for drag or timed actions
+      - reduced-motion support preserving all information
+
+  pedagogical_claim_status:
+    status: DESIGN_HYPOTHESES_ONLY
+    detail: >
+      There is currently no evidence that Abelisk or the tutorial produces the
+      intended learning or transfer outcomes.
+    required_wording_distinction:
+      - intended learning outcome
+      - design rationale
+      - usability observation
+      - measured learning result
+    first_pilot_requirement:
+      transfer_task: REQUIRED
+      acceptable_forms:
+        - a different alphabet
+        - different symbols or colours
+        - a novel pair of blocks
+        - explaining why a finite example does not establish an infinite construction
+
+  evidence_scales:
+    # OD-12, decided 2026-08-06. R0-R5 must NOT be used for both meanings.
+    status: REQUIRED
+    reproducibility:
+      prefix: REP
+      range: [0, 5]
+      measures: reproducibility and preservation
+    independence:
+      prefix: IND
+      range: [0, 5]
+      measures: verifier independence
+    rule: >
+      The two scores are reported separately. A result may have high reproducibility
+      and weak independence, or the reverse. No combined score may hide the
+      distinction. Wave 4 may propose exact level definitions but must not silently
+      relabel material outside docs/program/.
+
+  terminology_rulings:
+    - term: "Veikko's rule / Veikon saanto"
+      ruling: PROHIBITED_AS_CANONICAL_NAME
+      use_instead: the project-specific FORBID4 set, or FORBID4 heuristic
+      condition_for_change: a primary source establishing another attribution
+      basis: [MATH_CLAIMS.md row 9, MATH_CLAIMS.md row 41]
+
+  unverified_relationships:
+    status: MUST_NOT_BECOME_PRODUCT_REQUIREMENTS
+    items:
+      - id: g85-master-85
+        detail: the 85-cell Master concept remains CONDITIONAL until the relationship
+                to Keranen's g85 (MATH_CLAIMS.md row 3) is verified
+      - id: additive-0126
+        detail: the mathematical status of the alphabet {0,1,2,6} must be checked
+                against the affine-class sweep (MATH_CLAIMS.md row 54)
+      - id: pedagogical-claim-ids
+        detail: IDs such as DEF-ABELIAN-SQUARE-0001 must map to generated views of
+                the canonical ledger and must never become a second claims authority
+                (see OD-7)
+
+# Allowed statuses:
+#   PROPOSED ACCEPTED ACTIVE PAUSED PARTIALLY_IMPLEMENTED
+#   IMPLEMENTED SUPERSEDED REJECTED REFERENCE HISTORICAL
+
+plans:
+
+  - id: PLAN-WEB-001
+    title: Sustainable Web Architecture, Refactor, Naming, and GitHub Integration Plan
+    source_file: docs/plans/intake/SUSTAINABLE_WEB_ARCHITECTURE_REFACTOR_AND_GITHUB_PLAN.md
+    source_sha256: 92c56d8f30c54c4d29bdc1c01ac1bd0a097a23fedc68b1feab2dd51253f4eeb7
+    source_sha256_matches_appendix_a: true
+    lines: 2444
+    document_type: [architecture, implementation]
+    status_in_source: implementation roadmap and architecture policy
+    status: PROPOSED
+    priority: UNDECIDED
+    authority_level: proposal
+    missions: [infrastructure, education, research, community]
+    dependencies:
+      declared_by_source: []
+      inferred_by_review: []
+    conflicts_with:
+      - plan_id: PLAN-PLATFORM-001
+        topics: [website_information_architecture, museum_of_mistakes_placement,
+                 claim_authority]
+    supersedes: []
+    superseded_by: []
+    owner_decisions_required: [OD-1, OD-4, OD-8]
+    implementation_assessment: NOT_ASSESSED
+    reviewed_in_wave: 1
+    next_review: UNSCHEDULED
+
+  - id: PLAN-REPO-001
+    title: Repository-Website Integration, Audience, Language, and AI Implementation Plan
+    source_file: docs/plans/intake/REPOSITORY_WEBSITE_AUDIENCE_LANGUAGE_AND_AI_IMPLEMENTATION_PLAN.md
+    source_sha256: 616715299c24caf98fb997e7dd5737a5420b0318862dbde076214fde9ce81397
+    source_sha256_matches_appendix_a: true
+    lines: 2782
+    document_type: [strategy, architecture, implementation, governance]
+    status_in_source: proposed implementation plan
+    status: PROPOSED
+    priority: UNDECIDED
+    authority_level: proposal
+    missions: [infrastructure, education, research, ai, community]
+    dependencies:
+      declared_by_source: [PLAN-WEB-001]   # names it as "Companion plan" in its header
+      inferred_by_review: []
+    conflicts_with:
+      - plan_id: PLAN-PLATFORM-001
+        topics: [website_information_architecture, claim_authority]
+    supersedes: []
+    superseded_by: []
+    owner_decisions_required: [OD-4, OD-5, OD-6, OD-7]
+    implementation_assessment: NOT_ASSESSED
+    reviewed_in_wave: 1
+    next_review: UNSCHEDULED
+    conflicts_with_repository_authority:
+      - rule: AGENTS.md rule 8
+        detail: >
+          Phase 5 schedules a prioritized MATH_CLAIMS.md translation campaign.
+          Rule 8 permits row translation only when the row is touched anyway.
+          See OD-5. AGENTS.md is a truth file; this plan is a proposal.
+
+  - id: PLAN-GOV-001
+    title: Open Participation and Evidence Governance Plan
+    source_file: docs/plans/intake/OPEN_PARTICIPATION_AND_EVIDENCE_GOVERNANCE_PLAN.md
+    source_sha256: b6741ef33f58c31e5c44a39c58869e191271881efa9758bd51a919720791c6d1
+    source_sha256_matches_appendix_a: true
+    lines: 2181
+    document_type: [governance]
+    status_in_source: proposed governance and implementation plan
+    status: PROPOSED
+    priority: UNDECIDED
+    authority_level: proposal
+    missions: [community, research, education, ai]
+    dependencies:
+      declared_by_source: []
+      inferred_by_review: []
+    conflicts_with: []
+    supersedes: []
+    superseded_by: []
+    owner_decisions_required: [OD-9]
+    implementation_assessment: NOT_ASSESSED
+    reviewed_in_wave: 1
+    next_review: UNSCHEDULED
+    note: >
+      The least conflicted Wave 1 document. Proposes no architecture, no licensing
+      change, and no restructuring of canonical files; extends CONTRIBUTING.md and
+      AGENTS.md rule 5 rather than competing with them.
+
+  - id: PLAN-PLATFORM-001
+    title: Open Research, Education, and AI Platform Plan
+    source_file: docs/plans/intake/OPEN_RESEARCH_EDUCATION_AI_PLATFORM_PLAN.md
+    source_sha256: 913372ac82593d8fa121ae9ccbed51709d153bfa520f2d9cf7227c514a1c8912
+    source_sha256_matches_appendix_a: true
+    lines: 1745
+    document_type: [strategy, governance]
+    status_in_source: strategic implementation plan
+    status: PROPOSED
+    priority: UNDECIDED
+    authority_level: proposal
+    missions: [research, education, ai, community, infrastructure]
+    dependencies:
+      declared_by_source: []
+      inferred_by_review: []
+    conflicts_with:
+      - plan_id: PLAN-WEB-001
+        topics: [website_information_architecture, museum_of_mistakes_placement,
+                 claim_authority]
+      - plan_id: PLAN-REPO-001
+        topics: [website_information_architecture, claim_authority]
+    conflict_note: >
+      These are topic conflicts, not a wholesale rejection. This plan's evidence
+      passport, claim lineage graph, content-type firewall, R0-R5 reproducibility
+      ladder and section 37 "no silent authority transfer" rule are uncontested by
+      any other Wave 1 plan.
+    supersedes: []
+    superseded_by: []
+    owner_decisions_required: [OD-3, OD-4, OD-7]
+    implementation_assessment: NOT_ASSESSED
+    reviewed_in_wave: 1
+    next_review: UNSCHEDULED
+    contains_irreversible_proposals:
+      - relicensing to 0BSD + CC0 (section 3.3) -- see OD-3
+      - parallel research/claims/ registries (section 5.1) -- see OD-7
+
+  - id: PLAN-CHARTER-001
+    title: Research Frontier, Community Growth, and Forward-Motion Charter
+    source_file: "docs/plans/intake/RESEARCH_FRONTIER_COMMUNITY_FORWARD_MOTION_CHARTER_V1 (1).md"
+    source_sha256: 7d4283e8a43776afb505e7aea616d590c2df92a87ede711cc26aba371f185efa
+    source_sha256_matches_appendix_a: true
+    lines: 2158
+    document_type: [strategy, research-program]
+    status_in_source: strategic research and community charter
+    status: PROPOSED
+    priority: UNDECIDED
+    authority_level: proposal
+    missions: [research, education, community, ai]
+    dependencies:
+      declared_by_source: []
+      inferred_by_review: []
+    conflicts_with:
+      - plan_id: null
+        topics: [attention_allocation]
+        against: docs/program/AI_PROGRAM_BOOTSTRAP_AND_FIRST_WORK_ORDER.md
+        detail: >
+          Section 5's steady-state portfolio (30/20/15/10/10/10/5) is incompatible
+          with the bootstrap document's temporary 60/30/10 split. See OD-9.
+    supersedes: []
+    superseded_by: []
+    owner_decisions_required: [OD-9]
+    implementation_assessment: NOT_ASSESSED
+    reviewed_in_wave: 1
+    next_review: UNSCHEDULED
+    unregistered_hypotheses:
+      # Named here so they are visible as UNREGISTERED, per AGENTS.md rule 7:
+      # a finding not in MATH_CLAIMS.md is a proposal, not a result.
+      # The charter itself states (section 43) that these must enter the
+      # conjecture pipeline before being presented as research claims.
+      combinatorial: [COW-H1, COW-H2, COW-H3, COW-H4, COW-H5, COW-H6, COW-H7,
+                      COW-H8, COW-H9, COW-H10, COW-H11, COW-H12, COW-H13, COW-H14]
+      educational: [EDU-H1, EDU-H2]
+      ai: [AI-H1, AI-H2]
+      ledger_rows: none
+    untraced_sources_named:
+      # Named in sections 25 and 45. None appears as opened in
+      # LITERATURE_COVERAGE.md. Under AGENTS.md rule 1 none may be cited in any
+      # project file before being fetched and quoted.
+      - Eyidogan, Goral, Tanisali -- box progressions / template sieve, 2026 preprint
+      - Radoszewski, Rytter, Straszynski, Walen, Zuba -- hardness of detecting
+        abelian and additive square factors
+      - Ochem, Pinlou -- application of entropy compression in pattern avoidance
+      - Henshall, Shallit -- automatic theorem proving in combinatorics on words
+      - Mousavi -- automatic theorem proving in Walnut
+
+  # ---------------------------------------------------------------------------
+  # WAVE 2 — pedagogy and product
+  # ---------------------------------------------------------------------------
+
+  - id: PLAN-ABELISK-003
+    title: ABELISK v3 — Logic Puzzle, Brand, and Web Implementation Plan
+    source_file: docs/plans/intake/ABELISK_V3_LOGIC_PUZZLE_BRAND_AND_WEB_IMPLEMENTATION_PLAN.md
+    source_sha256: 2f4f2464908bbd5890caf496270289eb361dda9c99f368c94e0f2bdf82011214
+    source_sha256_matches_appendix_a: true
+    lines: 1903
+    document_type: [product-specification, pedagogical-design, implementation]
+    status_in_source: refined product, puzzle-design, brand, and implementation specification
+    status: ACCEPTED
+    accepted_at: "2026-08-06"
+    accepted_by: Joonas Huhta
+    accepted_as: active product-design authority
+    priority: UNDECIDED
+    authority_level: accepted product-design authority
+    missions: [education, infrastructure]
+    dependencies:
+      declared_by_source: []
+      inferred_by_review: [PLAN-EDU-001]   # shared verifier core and witness policy
+    conflicts_with: []
+    supersedes:
+      - plan_id: PLAN-ABELISK-002
+        basis: DECLARED_BY_SOURCE
+        evidence: 'line 14: "Supersedes: ABELISK_V2_REFINED_GAME_AND_WEB_IMPLEMENTATION_PLAN.md"'
+        effective: true
+        ratified_at: "2026-08-06"
+        ratified_by: Joonas Huhta
+    superseded_by: []
+    owner_decisions_required: []
+    owner_decisions_resolved: [OD-10, OD-11]
+    # ACCEPTED means: this is the authoritative product design. It does NOT
+    # authorize implementation. Each build step still needs a bounded task.
+    binding_constraints_from_owner_review:
+      - four-letter Classic Abelisk and ternary Makela Door must be visually and
+        terminologically distinguished
+      - the game must never imply that finishing a puzzle, reaching Master mode, or
+        producing a long finite word solves or supports the infinite conjecture
+      - motor accessibility is an active requirement (see accessibility_floor below)
+      - the 85-cell Master concept remains CONDITIONAL pending g85 verification
+    implementation_assessment: NOT_ASSESSED
+    reviewed_in_wave: 2
+    next_review: UNSCHEDULED
+    active_direction: true
+    document_defects:
+      - 'header "Suggested repository path" names the v2 filename'
+      - 'section 5.4 requires intended_break_in metadata; section 22 schema omits the field'
+      - 'section 23 has an orphan heading "For Cipher Vault deduction puzzles:" with no body'
+    note: >
+      v3 removes nothing from v2; its text contains v2 in full and adds a
+      deduction-technique layer, brand work, the four-symbol / ternary split, the
+      logical-trace requirement and the puzzle-quality test. Approving the
+      supersession therefore costs no v2 content.
+
+  - id: PLAN-EDU-001
+    title: Makela's Conjecture Interactive Tutorial — Pedagogical Design Plan
+    source_file: docs/plans/intake/MAKELA_CONJECTURE_INTERACTIVE_TUTORIAL_DESIGN.md
+    source_sha256: 3327ae0afe51efa1bfbcf7f6b5d934d485e4f3a147cb39f9fb15a80396a3bf6a
+    source_sha256_matches_appendix_a: true
+    lines: 2304
+    document_type: [pedagogical-design]
+    status_in_source: pedagogical and interaction-design specification
+    status: PROPOSED
+    priority: UNDECIDED
+    authority_level: proposal
+    missions: [education, research]
+    dependencies:
+      declared_by_source: []
+      inferred_by_review: [PLAN-ABELISK-003]   # shared verifier core
+    conflicts_with: []
+    supersedes: []
+    superseded_by: []
+    owner_decisions_required: [OD-10]
+    implementation_assessment: NOT_ASSESSED
+    reviewed_in_wave: 2
+    next_review: UNSCHEDULED
+    untraced_sources_named:
+      # Section 29. Pedagogical, not mathematical; the document says so itself.
+      # None opened by this session. AGENTS.md rule 1 applies before reproduction
+      # into any project file.
+      - CAST, Universal Design for Learning Guidelines 3.0
+      - W3C, Web Content Accessibility Guidelines 2.2
+      - Education Endowment Foundation, Teacher Feedback to Improve Pupil Learning
+      - IES, Organizing Instruction and Study to Improve Student Learning
+      - IES, guidance on educational technology in postsecondary settings
+
+  - id: PLAN-RECORDS-001
+    title: "Spec: Kokeellinen ennatyshaku -osio nettisivulle"
+    source_file: docs/plans/intake/RECORDS_SECTION_SPEC.md
+    source_sha256: 41e18d426eaf557555acb3cc598acc0894a63b3817b3028ec734121aad54940d
+    source_sha256_matches_appendix_a: true
+    lines: 153
+    language: fi
+    document_type: [product-specification, implementation]
+    status_in_source: spec addressed to an implementer
+    status: PROPOSED
+    priority: UNDECIDED
+    authority_level: proposal
+    missions: [research, education, infrastructure]
+    dependencies:
+      declared_by_source: []
+      inferred_by_review: []
+    conflicts_with:
+      - plan_id: null
+        topics: [route_naming]
+        against: OD-4
+        detail: >
+          Its /todistukset route is superseded by the OD-4 English route structure;
+          records belong under /evidence/records/. Its content is unaffected.
+    supersedes: []
+    superseded_by: []
+    owner_decisions_required: []
+    implementation_assessment: NOT_ASSESSED
+    reviewed_in_wave: 2
+    next_review: UNSCHEDULED
+    wave_3_dependency_unassessed: >
+      Has obvious dependencies on RECORD_HUNTING_RESEARCH_PIPELINE.md, which has
+      not been read. Do not treat this card as complete until Wave 3.
+    terminology_conflict:
+      term: "Veikon saanto"
+      used_for: FORBID4
+      conflicts_with: [MATH_CLAIMS.md row 9, MATH_CLAIMS.md row 41]
+      detail: >
+        Row 9 forbids presenting FORBID4 as Keranen's set: the six strings appear
+        in his 2006 reducedWordList4 tables among dozens of others and are not
+        singled out there as a named set. Row 41 records that FORBID4 is a
+        heuristic, not a rule. The term must not reach a public surface.
+    note: >
+      The most epistemically precise document in Wave 2. Requires AA2F and AA2FR
+      to be structurally separated rather than ranked together, mandates an
+      independent checker on a separate code path, and explicitly corrects the
+      misleading "Full O(1) Abelian Square Check" comment in project code.
+
+  - id: PLAN-ABELISK-002
+    title: ABELISK v2 — Refined Game, Terminology, and Web Implementation Plan
+    source_file: docs/plans/intake/ABELISK_V2_REFINED_GAME_AND_WEB_IMPLEMENTATION_PLAN.md
+    source_sha256: 57be8be237a80361a52597fce29f7254ee9a26ba22bef9517a9eaaf22113a4a2
+    source_sha256_matches_appendix_a: true
+    lines: 1612
+    document_type: [product-specification, implementation]
+    status_in_source: refined product and implementation specification
+    status: SUPERSEDED
+    superseded_at: "2026-08-06"
+    priority: UNDECIDED
+    authority_level: superseded design input
+    missions: [education, infrastructure]
+    dependencies:
+      declared_by_source: []
+      inferred_by_review: []
+    conflicts_with: []
+    supersedes: []
+    superseded_by:
+      - plan_id: PLAN-ABELISK-003
+        basis: DECLARED_BY_SOURCE
+        effective: true
+        ratified_at: "2026-08-06"
+        ratified_by: Joonas Huhta
+    preservation: >
+      SUPERSEDED does not mean deleted. The file stays in docs/plans/intake/
+      unchanged. It is no longer active implementation authority. Its content is
+      contained in full within v3, so nothing is lost by building from v3.
+    owner_decisions_required: []
+    implementation_assessment: NOT_ASSESSED
+    reviewed_in_wave: 2
+    next_review: UNSCHEDULED
+    relation_to_foundation:
+      claim: NOT_A_DECLARED_SUPERSESSION
+      detail: >
+        v2 contains no Supersedes line. Its relation to PLAN-ABELISK-001 is drastic
+        reduction, not declared supersession. Under bootstrap section 19 that is not
+        sufficient to mark the foundation superseded, and this registry does not.
+
+  - id: PLAN-ABELISK-001
+    title: ABELISK — Game Design, Discovery, and Insight System
+    source_file: docs/plans/intake/ABELISK_GAMEPLAY_DISCOVERY_AND_INSIGHT_SYSTEM.md
+    source_sha256: 8c18bf96ad5fb4fa13c8ea57121beab445bdefe24b5b3d364ce7bccf9699a070
+    source_sha256_matches_appendix_a: true
+    lines: 2018
+    document_type: [pedagogical-design, product-specification]
+    status_in_source: gameplay, pedagogy, narrative, and systems-design specification
+    status: HISTORICAL
+    also_classified: REFERENCE
+    reclassified_at: "2026-08-06"
+    reclassified_by: Joonas Huhta
+    priority: UNDECIDED
+    authority_level: design archive, not implementation authority
+    missions: [education]
+    dependencies:
+      declared_by_source: []
+      inferred_by_review: []
+    conflicts_with: []
+    supersedes: []
+    superseded_by: []        # NOT superseded by any declaration
+    owner_decisions_required: []
+    implementation_assessment: NOT_ASSESSED
+    reviewed_in_wave: 2
+    next_review: UNSCHEDULED
+    reusable_but_not_authoritative:
+      # Findable, NOT reinstated. Each needs a separate owner-approved task that
+      # EXPLICITLY selects it. Removed mechanics are never restored automatically.
+      - {ref: "section 4.18", item: Two Oracles}
+      - {ref: "section 4.22", item: Proof or Evidence?}
+      - {ref: "section 4.16", item: Counterexample Hunt}
+      - {ref: "sections 4.23-4.24", item: Minimal Obstruction and Obstruction Atlas}
+      - {ref: "section 5", item: five-layer hint ladder}
+    extracted_by_owner_decision:
+      # NOT a restoration of superseded game scope. Approved 2026-08-06 as an
+      # accessibility correction, and now an active requirement on PLAN-ABELISK-003.
+      - ref: "section 24.5"
+        item: motor accessibility
+        status: ACTIVE_REQUIREMENT
+        rationale: >
+          Dropped between the foundation document and v2/v3. Reinstated as an
+          accessibility requirement, not as game scope.
+    note: >
+      Deliberately reduced by v2: roughly twenty-five mechanic families, the hint
+      ladder, ten named insights, the six-chamber narrative, the meta-game,
+      difficulty tiers, adaptive sequencing, the generation pipeline, community
+      features and achievements were all cut. v3 restored exactly two of them
+      (named deduction techniques, Daily puzzle). Do not restore the rest.
+
+  # ---------------------------------------------------------------------------
+  # WAVE 3 — research pipelines and software
+  # ---------------------------------------------------------------------------
+
+  - id: PLAN-CONJ-001
+    title: Conjecture Research Pipeline
+    source_file: docs/plans/intake/CONJECTURE_RESEARCH_PIPELINE.md
+    source_sha256: 27b57cbc68cdfbf65eb54a72bdfa23fe324c7854e97c6f63aad26048913cde18
+    source_sha256_matches_appendix_a: true
+    lines: 1384
+    language: fi
+    document_type: [research-program, governance]
+    status_in_source: "suunnitelma / kayttoonottoa odottava"
+    status: PROPOSED
+    priority: UNDECIDED
+    authority_level: proposal
+    missions: [research, community]
+    dependencies:
+      declared_by_source: []
+      inferred_by_review: []
+    conflicts_with:
+      - plan_id: PLAN-PLATFORM-001
+        topics: [reproducibility_scale_labels]
+        detail: >
+          Both define R0-R5. PLAN-PLATFORM-001 section 25 is a reproducibility
+          ladder; this document's section 15.3 is an independence ladder. Same
+          labels, different meanings. See OD-12.
+    supersedes: []
+    superseded_by: []
+    owner_decisions_required: [OD-12]
+    implementation_assessment: NOT_ASSESSED
+    reviewed_in_wave: 3
+    next_review: UNSCHEDULED
+    self_limitation: >
+      Section 1.1: a conjecture record may state that a claim was formalized and
+      survived stated bounded tests; it may NOT state that it is a project-confirmed
+      mathematical result. The ledger always wins. This satisfies OD-7 by design.
+    pilot: B16 golden control (MATH_CLAIMS.md row 99), its section 20
+
+  - id: PLAN-REC-001
+    title: Record Hunting and Research Harvest Pipeline
+    source_file: docs/plans/intake/RECORD_HUNTING_RESEARCH_PIPELINE.md
+    source_sha256: 854c47592c966cc02b8f74d3af75bc83fb5733d6c83405961df6592f29ea5492
+    source_sha256_matches_appendix_a: true
+    lines: 1567
+    document_type: [research-program, implementation]
+    status_in_source: design proposal / ready for implementation
+    status: PROPOSED
+    priority: UNDECIDED
+    authority_level: proposal
+    missions: [research, infrastructure, community]
+    dependencies:
+      declared_by_source: [PLAN-CONJ-001, PLAN-RECORDS-001]
+      inferred_by_review: []
+    conflicts_with: []
+    supersedes: []
+    superseded_by: []
+    owner_decisions_required: [OD-2]
+    implementation_assessment: NOT_ASSESSED
+    reviewed_in_wave: 3
+    next_review: UNSCHEDULED
+    document_defects:
+      - 'section 6 schema example shows the unverified 2107-letter candidate as
+         status PROJECT_RECORD and independently_verified. NEXT_STEP.md records it
+         as private, unverified and blocked on obtaining the string; the project
+         verified record is 1928 (MATH_CLAIMS.md row 40). Never copy the example
+         into a real registry.'
+      - 'section 39 task 2 instructs editing an intake document
+         (RECORDS_SECTION_SPEC.md). Prohibited during bootstrap.'
+
+  - id: PLAN-DICT-001
+    title: Dictionary-Accelerated Backtracking Research and Development Plan
+    source_file: docs/plans/intake/DICTIONARY_BACKTRACKER_RESEARCH_PLAN.md
+    source_sha256: a20707dbbc4755d9453afe5a3e874dbe371ade92a8eb15c2e688f606381de474
+    source_sha256_matches_appendix_a: true
+    lines: 1642
+    document_type: [software-audit, research-program, implementation]
+    status_in_source: implementation plan / code audit / research roadmap
+    status: PROPOSED
+    priority: UNDECIDED
+    authority_level: >
+      Audit findings are checkable facts about repository code; the roadmap is a
+      proposal. Do not conflate the two.
+    missions: [research, infrastructure]
+    dependencies:
+      declared_by_source: [PLAN-REC-001, PLAN-CONJ-001]
+      inferred_by_review: []
+    blocked_by:
+      - decision: OD-2
+        detail: >
+          Its source dictionary is
+          datasets/aa2fr3LetLen40ex80ms200MextendableAllPermsMirs.txt, the file
+          with unresolved provenance. Every D40-dependent activity is blocked:
+          compilation, audit, 39-state graph, hard/order/defect modes, record
+          replay, seam rigidity, and dictionary-derived CEGIS priors.
+    conflicts_with: []
+    supersedes: []
+    superseded_by: []
+    owner_decisions_required: [OD-2]
+    implementation_assessment: NOT_ASSESSED
+    reviewed_in_wave: 3
+    next_review: UNSCHEDULED
+    audit_findings:
+      - id: DICT-AUDIT-1
+        claim: rolling-hash corruption at the 40 -> 39 backtrack boundary
+        target: scratch/dict_backtracker.js
+        verification_status: NOT_VERIFIED
+        note: requires constructing a trace; not attempted in Wave 3
+      - id: DICT-AUDIT-2
+        claim: verifyAa2fr checks AA2F but not FORBID4, under an AA2FR name
+        target: scratch/dict_backtracker.js
+        verification_status: VERIFIED_2026_08_06
+        evidence: >
+          Direct inspection. scratch/dict_backtracker.js verifyAa2fr(word) computes
+          pA/pB/pC prefix sums and scans len from 2 (correct AA2F) but the file
+          contains zero FORBID4 references. scratch/backtracker.js
+          verifyAa2fr(word, pureMode) does check the six patterns when !pureMode.
+        consequence: >
+          AGENTS.md rule 17 names verifyAa2fr as the example independent checker.
+          Two functions carry that name and one cannot validate an AA2FR record.
+          Requires an owner-approved correction to AGENTS.md.
+      - id: DICT-AUDIT-3
+        claim: dictionary may be symmetry-expanded twice
+        verification_status: NOT_VERIFIED
+        note: requires the quarantined dataset
+
+  - id: PLAN-CUT-001
+    title: Cut-and-Certify Research Plan for Abelian-Square Avoidance
+    source_file: docs/plans/intake/CUT_AND_CERTIFY_RESEARCH_PLAN.md
+    source_sha256: b46e776f84397bdee900287cfa2e72dcde2178e87f8217c96cf603a98c4e8a22
+    source_sha256_matches_appendix_a: true
+    lines: 1926
+    document_type: [research-program]
+    status_in_source: exploratory research plan
+    status: PROPOSED
+    priority: UNDECIDED
+    authority_level: proposal, self-labelled exploratory
+    missions: [research]
+    dependencies:
+      declared_by_source: []
+      inferred_by_review: []
+    conflicts_with: []
+    supersedes: []
+    superseded_by: []
+    owner_decisions_required: []
+    implementation_assessment: NOT_ASSESSED
+    reviewed_in_wave: 3
+    next_review: UNSCHEDULED
+    closest_executable_question:
+      experiment: E1 prefix-path equivalence, then E2 exact join equivalence
+      rationale: >
+        Unblocked by OD-1 and OD-2, needs no dictionary, no unopened literature and
+        no long search; and it produces a structurally different second detector,
+        which is a genuine Layer-4 independent verifier candidate.
+      gate: its own section 35 Gate A requires zero mismatches before Phases 5-9
+    untraced_sources_named:
+      - Deng, Hani, Ma - arXiv:2408.07818
+      - Deng, Hani, Ma - arXiv:2503.01800
+      - Bodineau, Gallagher, Saint-Raymond, Simonella - arXiv:2602.04407
+      - Sandbox Physics popular article (SECONDARY SOURCE, must be labelled as such)
+      - Radoszewski, Rytter, Straszynski, Walen, Zuba - arXiv:2107.09206 (ESA 2021)
+
+  - id: PLAN-JAVA-001
+    title: Java COW Backtracker v1.2 - Complete User and Research Guide
+    source_file: docs/plans/intake/JAVA_COW_BACKTRACKER_V1_2_USER_GUIDE.md
+    source_sha256: c240e31f98d428d850b134bcbdd246cec874b7c6674467da585253642974bcce
+    source_sha256_matches_appendix_a: true
+    sidecar: docs/plans/intake/java-cow-backtracker-v1.2-checksums.txt
+    lines: 1849
+    document_type: [software-guide]
+    status_in_source: "Complete User and Research Guide; Audited revision: 1.2"
+    status: PROPOSED
+    proposed_reclassification: REFERENCE   # owner question 1, Wave 3 checkpoint
+    priority: UNDECIDED
+    authority_level: >
+      Documents an existing audited artifact. A technical guide is NOT a mandate to
+      prioritize the tool it describes (bootstrap section 3).
+    missions: [research]
+    dependencies:
+      declared_by_source: []
+      inferred_by_review: [PLAN-DICT-001]   # implements its sections 4.1-4.5 mode set
+    conflicts_with: []
+    supersedes: []
+    superseded_by: []
+    owner_decisions_required: [OD-13]
+    implementation_assessment: NOT_ASSESSED
+    reviewed_in_wave: 3
+    next_review: UNSCHEDULED
+    artifacts_present_in_repo: false
+    artifact_checksums_declared:
+      - {sha256_prefix: "8ad1ba75", path: java-cow-backtracker-v1.2.zip}
+      - {sha256_prefix: "62cdc183", path: java-cow-backtracker-v1.2/build/cow-backtracker.jar}
+      - {sha256_prefix: "7bf021e0", path: java-cow-backtracker-v1.2/SOURCE_AUDIT_REPORT.md}
+    document_defects:
+      - 'section 34 recommended provenance text names revision 1.1, but the guide
+         documents revision 1.2 and section 15.4 records a resume-correctness bug
+         that existed in 1.1 and was fixed in 1.2. Copying it verbatim would
+         attribute a result to the defective revision.'
+    audit_relationship: >
+      PLAN-DICT-001's audit targets scratch/backtracker.js and
+      scratch/dict_backtracker.js, NOT this engine. Two different codebases. The
+      Java v1.2 self-test suite already covers several of the audit's required
+      fixes (rolling-hash property tests, standalone verifier, mode separation,
+      partition mode, checkpoint binding).
+
+# All 15 intake documents have now been reviewed. This section is retained as a
+# record that the Wave 2 and Wave 3 sets were once unread.
+not_yet_reviewed:
+  remaining: none
+  note: >
+    Wave 2 resolved the Abelisk supersession question: v3 declares it in its own
+    text (line 14) and the declaration is now recorded on both cards as
+    DECLARED_BY_SOURCE with effective: false, pending owner ratification.
+
+# On-disk filenames differ from the bootstrap document's Appendix A table:
+# 14 of 15 intake files were copied with the "(1)" suffix stripped. Identity was
+# established by SHA-256 and first-level heading, as instructed. Nothing was
+# renamed or moved by this session.
+filename_note:
+  appendix_a_uses_paren_one_suffix: true
+  on_disk_suffix_present_for:
+    - "RESEARCH_FRONTIER_COMMUNITY_FORWARD_MOTION_CHARTER_V1 (1).md"
+  identification_method: [sha256, first_level_heading]
