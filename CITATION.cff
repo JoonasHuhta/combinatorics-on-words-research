@@ -9,8 +9,8 @@ type: software
 authors:
   - family-names: Huhta
     given-names: Joonas
-url: "https://github.com/JoonasHuhta/combinatorics-on-words-research"
-repository-code: "https://github.com/JoonasHuhta/combinatorics-on-words-research"
+url: "https://github.com/word-structures/combinatorics-on-words-research"
+repository-code: "https://github.com/word-structures/combinatorics-on-words-research"
 license: MIT
 keywords:
   - combinatorics on words

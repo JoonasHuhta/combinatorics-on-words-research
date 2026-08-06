@@ -83,7 +83,7 @@ No dependencies, no `npm install`, no build step. Node (any reasonably
 recent version) and a browser are enough.
 
 ```bash
-git clone https://github.com/JoonasHuhta/combinatorics-on-words-research.git
+git clone https://github.com/word-structures/combinatorics-on-words-research.git
 cd combinatorics-on-words-research
 node tests/test.js                 # mathematical regression tests (41 as of this writing)
 node scripts/check-claims-drift.js # guard over claims, citations and UI text

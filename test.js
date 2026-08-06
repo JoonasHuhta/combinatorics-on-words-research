@@ -5918,7 +5918,7 @@ function goldReportDiscoveryIssue(id, type, targetData) {
     `\`\`\`\n\n` +
     `*Report generated automatically by AA2FR Research Platform Module 18 Citizen Science Dispatcher.*`;
     
-  const repoUrl = "https://github.com/JoonasHuhta/combinatorics-on-words-research/issues/new";
+  const repoUrl = "https://github.com/word-structures/combinatorics-on-words-research/issues/new";
   const fullUrl = `${repoUrl}?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
   window.open(fullUrl, '_blank');
 }
