@@ -1,0 +1,559 @@
+/* ==========================================================================
+   Word Structures — shared public-site styles
+   WEB-SLICE-1 preview foundation.
+
+   Visual authority: the Word Structures logo (navy foundation; blue/green/
+   yellow/red accents; flat colour; hard edges; generous negative space).
+   Deliberately NOT a product dashboard: no gradients, no glassmorphism, no
+   decorative glow, no blanket rounded cards.
+
+   Tokens below were derived from building this page, not invented ahead of it.
+   ========================================================================== */
+
+/* --- 1. Tokens ----------------------------------------------------------- */
+
+:root {
+  /* Surfaces */
+  --paper:        #fbfaf7;   /* warm white */
+  --paper-sunk:   #f4f2ec;
+  --navy:         #12244a;
+  --navy-deep:    #0d1a36;
+
+  /* Ink */
+  --ink:          #12244a;
+  --ink-soft:     #55617a;   /* 5.4:1 on --paper */
+  --ink-onDark:   #f2f4f8;
+  --ink-onDark-soft: #b9c3d6; /* 7.4:1 on --navy */
+
+  /* Accents — from the logo. Used sparingly and never as the sole signal. */
+  --blue:   #1668c9;
+  --green:  #16713a;   /* darkened for 4.5:1 white-on-green at small cell sizes */
+  --yellow: #f5bf00;
+  --red:    #d4141c;
+
+  /* Lines */
+  --rule:       #dcd8cd;
+  --rule-strong:#12244a;
+
+  /* Type */
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --sans:  system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* Space */
+  --space-section: clamp(3.5rem, 9vw, 7rem);
+  --wrap:          64rem;
+  --wrap-narrow:   42rem;
+
+  /* Motion */
+  --ease: cubic-bezier(.2, .6, .3, 1);
+  --dur: 160ms;
+}
+
+/* --- 2. Base ------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Any author `display` rule outranks the UA stylesheet's [hidden] { display:none },
+   which would otherwise leave hidden controls visible-but-inert. Keep this above
+   every component rule. */
+[hidden] { display: none !important; }
+
+html {
+  /* Anchor targets clear the sticky header. */
+  scroll-padding-top: 6rem;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+
+h1, h2, h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.6em;
+}
+
+h2 { font-size: clamp(1.5rem, 3.4vw, 2.1rem); }
+h3 { font-size: 1.125rem; }
+
+p { margin: 0 0 1em; }
+
+a { color: var(--blue); text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+
+img, svg { max-width: 100%; height: auto; }
+
+/* Focus: one visible treatment everywhere. Never removed. */
+:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+/* --- 3. Utilities -------------------------------------------------------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 5vw, 2.5rem);
+}
+.wrap--narrow { max-width: var(--wrap-narrow); }
+
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -100%;
+  z-index: 50;
+  background: var(--navy);
+  color: var(--ink-onDark);
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus { top: 0.75rem; }
+
+/* --- 4. Preview-only banner (removed at WEB-SWAP-1) ---------------------- */
+
+.preview-banner {
+  margin: 0;
+  padding: 0.6rem clamp(1.25rem, 5vw, 2.5rem);
+  background: var(--paper-sunk);
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink-soft);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.preview-banner strong { color: var(--ink); }
+
+/* --- 5. Header ----------------------------------------------------------- */
+
+.site-header {
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+.site-header__inner {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding: 0.875rem clamp(1.25rem, 5vw, 2.5rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--ink);
+  text-decoration: none;
+  min-height: 44px;
+}
+
+/* Footprint reserved for the authentic Word Structures mark.
+   No mark is drawn here: there is no trusted vector source, and this build
+   must not invent, trace or substitute one. */
+.brand__mark {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: none;
+  border: 1px dashed var(--rule);
+}
+
+.brand__word {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+/* --- 6. Navigation ------------------------------------------------------- */
+/* <details open> in markup: with JavaScript off the list simply stays visible
+   and usable. site.js collapses it only at narrow widths. */
+
+.nav__toggle {
+  display: none;
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.625rem 0;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+.nav__toggle::-webkit-details-marker { display: none; }
+.nav__toggle::after {
+  content: "";
+  width: 0.5rem; height: 0.5rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px);
+}
+.nav[open] .nav__toggle::after { transform: rotate(225deg) translate(-2px, -2px); }
+
+.nav__list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav__list a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--ink);
+  font-size: 0.9375rem;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+.nav__list a:hover,
+.nav__list a:focus-visible { border-bottom-color: var(--blue); }
+
+@media (max-width: 47.99em) {
+  .site-header__inner { align-items: flex-start; }
+  .nav { width: 100%; }
+  .nav__toggle { display: flex; }
+  .nav__list { flex-direction: column; gap: 0; padding-bottom: 0.5rem; }
+  .nav__list a { width: 100%; border-bottom: 1px solid var(--rule); }
+}
+
+/* --- 7. Hero ------------------------------------------------------------- */
+/* The mathematics is the artwork. The wordmark lives in the header, never
+   as the hero headline. */
+
+.hero {
+  padding-block: clamp(3rem, 11vw, 8rem) clamp(3rem, 9vw, 6.5rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+.hero__headline {
+  font-size: clamp(2rem, 6.2vw, 3.75rem);
+  margin: clamp(2rem, 6vw, 3.5rem) 0 0;
+  max-width: 18ch;
+}
+
+.hero__bridge {
+  margin: clamp(1.75rem, 4vw, 2.5rem) 0 0;
+  padding-top: 1.25rem;
+  border-top: 2px solid var(--rule-strong);
+  display: inline-block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.0625rem, 2.2vw, 1.375rem);
+  color: var(--ink-soft);
+}
+
+/* --- 8. The word component ---------------------------------------------- */
+/* Equal units, flat fill, hard edges — the logo's grammar, not its shape.
+   Colour is never the only signal: every cell shows its letter. */
+
+.word { margin: 0; }
+
+.word__blocks {
+  display: flex;
+  align-items: center;
+  --cell: clamp(2.75rem, 9vw, 5.25rem);
+  --gap: 0.3rem;
+}
+
+.half {
+  display: flex;
+  gap: var(--gap);
+}
+
+.cell {
+  width: var(--cell);
+  height: var(--cell);
+  display: grid;
+  place-items: center;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: calc(var(--cell) * 0.5);
+  line-height: 1;
+}
+
+.cell--a { background: var(--blue);   color: #fff; }
+.cell--b { background: var(--yellow); color: var(--navy); }
+.cell--c { background: var(--green);  color: #fff; }
+
+/* The divider carries the "two halves" meaning structurally, not by colour. */
+.split {
+  width: 2px;
+  align-self: stretch;
+  min-height: var(--cell);
+  background: var(--rule-strong);
+  margin-inline: clamp(0.75rem, 2.5vw, 1.5rem);
+}
+
+.word--small .word__blocks { --cell: clamp(2rem, 6.5vw, 3.25rem); }
+
+/* --- 9. Sections --------------------------------------------------------- */
+
+.section { padding-block: var(--space-section); }
+.section--rule { border-top: 1px solid var(--rule); }
+
+.lede {
+  font-size: clamp(1.0625rem, 2vw, 1.1875rem);
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
+
+.tag {
+  display: inline-block;
+  margin: 0 0 1rem;
+  padding: 0.25rem 0.6rem;
+  background: var(--paper-sunk);
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.tag--onDark {
+  background: transparent;
+  border-color: rgba(255,255,255,.35);
+  color: var(--ink-onDark-soft);
+}
+
+/* --- 10. Reveal ---------------------------------------------------------- */
+
+.reveal { margin-top: clamp(2rem, 5vw, 3rem); }
+.reveal__stage { margin-bottom: 1.75rem; }
+
+.reveal__step + .reveal__step { margin-top: 2rem; }
+
+.tally {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 3rem;
+}
+
+.tally__label {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.tally__counts {
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.chip { display: inline-flex; align-items: center; gap: 0.4rem; }
+.chip__swatch { width: 0.75rem; height: 0.75rem; flex: none; }
+.chip__swatch--a { background: var(--blue); }
+.chip__swatch--b { background: var(--yellow); }
+
+.reveal__note {
+  margin: 1rem 0 0;
+  color: var(--ink-soft);
+}
+
+.reveal__name {
+  font-family: var(--serif);
+  font-size: clamp(1.125rem, 2.4vw, 1.375rem);
+  max-width: 44ch;
+  margin: 0 0 0.75rem;
+}
+.reveal__name strong { font-weight: 700; }
+
+/* Steps fade in when revealed; motion is opt-out (see section 14). */
+.reveal__step { animation: fade var(--dur) var(--ease) both; }
+@keyframes fade { from { opacity: 0; transform: translateY(4px); } }
+
+/* --- 11. Buttons --------------------------------------------------------- */
+/* Deliberately not oversized marketing CTAs. */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: 2rem;
+  padding: 0.65rem 1.4rem;
+  background: var(--navy);
+  color: var(--ink-onDark);
+  border: 2px solid var(--navy);
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover { background: var(--navy-deep); border-color: var(--navy-deep); }
+
+.btn--onDark {
+  background: transparent;
+  border-color: var(--yellow);
+  color: var(--yellow);
+}
+.btn--onDark:hover { background: var(--yellow); color: var(--navy); }
+
+/* Focus must stay visible against the navy panel. */
+.abelisk :focus-visible { outline-color: var(--yellow); }
+
+/* --- 12. Three ways in --------------------------------------------------- */
+/* Columns, not cards. Each carries a 3px accent rule — with a text label
+   directly beneath it, so the colour is never doing the work alone. */
+
+.ways {
+  list-style: none;
+  margin: 2.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+}
+
+.ways__item { border-top: 3px solid var(--rule-strong); padding-top: 1rem; }
+.ways__item--learn   { border-top-color: var(--blue); }
+.ways__item--explore { border-top-color: var(--green); }
+.ways__item--research{ border-top-color: var(--red); }
+
+.ways__item h3 { margin-bottom: 0.35rem; }
+.ways__item h3 a { color: var(--ink); text-decoration-color: var(--rule); }
+.ways__item p { margin: 0; color: var(--ink-soft); }
+
+/* --- 13. Placeholders ---------------------------------------------------- */
+
+.placeholder {
+  border-left: 3px solid var(--rule);
+  padding-left: clamp(1rem, 3vw, 1.75rem);
+  color: var(--ink-soft);
+}
+.placeholder__slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.5rem 0 0;
+}
+.placeholder__slots span {
+  padding: 0.3rem 0.65rem;
+  background: var(--paper-sunk);
+  border: 1px dashed var(--rule);
+  font-size: 0.8125rem;
+}
+
+.abelisk {
+  background: var(--navy);
+  color: var(--ink-onDark);
+  padding-block: var(--space-section);
+}
+.abelisk__title {
+  font-size: clamp(1.75rem, 5vw, 3rem);
+  margin-bottom: 0.5em;
+  letter-spacing: 0.02em;
+}
+.abelisk__title span { color: var(--ink-onDark-soft); }
+.abelisk__lede {
+  font-size: clamp(1.0625rem, 2vw, 1.1875rem);
+  color: var(--ink-onDark-soft);
+  max-width: 46ch;
+}
+
+.routes {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+}
+.routes a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--ink);
+  text-decoration-color: var(--blue);
+  text-decoration-thickness: 2px;
+}
+
+/* --- 14. Footer ---------------------------------------------------------- */
+
+.site-footer {
+  border-top: 1px solid var(--rule);
+  padding-block: clamp(2.5rem, 6vw, 4rem);
+  background: var(--paper-sunk);
+}
+.site-footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 3rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.lockup { display: flex; align-items: flex-start; gap: 0.75rem; }
+.brand__mark--footer { width: 2.5rem; height: 2.5rem; }
+.lockup__word {
+  display: block;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  font-size: 0.9375rem;
+}
+.lockup__tagline {
+  display: block;
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ink-soft);
+  margin-top: 0.15rem;
+}
+
+.site-footer__links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.75rem;
+  margin: 0;
+  padding: 0;
+}
+.site-footer__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--ink);
+}
+
+/* --- 15. Reduced motion -------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
