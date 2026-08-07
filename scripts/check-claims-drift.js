@@ -222,6 +222,120 @@ check("No Overclaiming Language in Program Output (CLI, workers, launcher)", () 
   }
 });
 
+// 6b. The same rule, for the public pages rather than for program output.
+//
+// Added 2026-08-07 (WEB-SAFE-1). The check above scans 12 CLI/worker files and
+// only lines that print (console.log / echo). The public site was therefore
+// uncovered twice over: index.html is not in that file list, and HTML markup
+// would not match the print filter even if it were. Module 18 had been shipping
+// a browser "Certified / 10-of-10 rounds PASSED / Primary proof established"
+// verdict, plus a fabricated reproduction command, from a routine that performed
+// no computation at all -- the exact failure the Graveyard records as Trap 18,
+// repeated one layer up from the CLI incident that check 6 was written for.
+//
+// Two design points, both deliberate:
+//
+//   * Word boundaries are mandatory. The substring test used by check 6 matches
+//     "Proven" inside "Provenance", which occurs 16 times in index.html as
+//     "Provenance Badge" / "Provenance Chain" / "Provenance warning". Without
+//     \b this check would be pure noise and would be switched off within a week.
+//
+//   * Exemption is per OCCURRENCE, never per line. Only the allowed phrase
+//     itself is masked out; whatever remains on that line is still scanned. A
+//     legitimate phrase must not become a hiding place for unsafe wording added
+//     to the same line later -- Trap 18's body is one long paragraph, so
+//     line-level exemption would have blinded the check across all of it.
+check("No self-certifying verdict language on the public pages", () => {
+  const VERDICT = /\b(CERTIFIED|Certified|certified|PROVABLE|Provable|provable|PROVEN|Proven|Publication-Grade|publication-grade)\b/g;
+
+  // Legitimate public wording. Each entry is exempted only where it appears
+  // verbatim. An entry that stops matching anywhere is reported as stale rather
+  // than left to rot, so this list cannot quietly grow past what it justifies.
+  const ALLOWED = [
+    { phrase: 'Proven unfavourable',
+      why: 'MATH_CLAIMS.md row 47 - an exhausted left-extension tree is a bounded finite proof, and check 6 already endorses this wording for unfavourable-factors.js' },
+    { phrase: 'PROVEN dead end',
+      why: 'bounded finite proof: the search tree was exhausted, which is stated on the same line' },
+    { phrase: '[CERTIFIED] Provable asymptotic stability replicated',
+      why: 'Graveyard Trap 18 quoting the banner it exists to condemn' },
+    { phrase: 'Trap 18: The "Certified" Verifier That Never Ran',
+      why: 'Graveyard Trap 18 accordion title' },
+    { phrase: 'may print the words <em>certified / provable / proven</em> again',
+      why: 'Graveyard Trap 18 stating the rule this check enforces' },
+    { phrase: 'trusting a "Certified" badge anywhere',
+      why: 'Graveyard Trap 18 warning the reader against exactly the verdict this check forbids; it shares a line with the entry above, and per-occurrence masking is what surfaced it' }
+  ];
+
+  const files = ['index.html', 'bridge_story_sandbox.html', 'word-checker.html'];
+  const offences = [];
+  const used = new Set();
+
+  for (const f of files) {
+    const p = path.join(path.join(__dirname, '..'), f);
+    if (!fs.existsSync(p)) {
+      offences.push(`${f}  MISSING - this file is a mandatory public target of this check and no longer exists at this path`);
+      continue;
+    }
+    const lines = fs.readFileSync(p, 'utf8').split(/\r?\n/);
+    let inClaims = false;
+
+    lines.forEach((raw, i) => {
+      let text = raw;
+
+      // The <script id="claims-data"> block is generated from MATH_CLAIMS.md and
+      // is governed separately (tests/test.js checks it is in sync). Excise it by
+      // structural marker, not by line number, and keep scanning the markup that
+      // shares its line.
+      if (inClaims) {
+        const end = text.indexOf('</script>');
+        if (end === -1) return;
+        text = text.slice(end + '</script>'.length);
+        inClaims = false;
+      }
+      const start = text.indexOf('<script id="claims-data"');
+      if (start !== -1) {
+        const end = text.indexOf('</script>', start);
+        if (end === -1) { text = text.slice(0, start); inClaims = true; }
+        else { text = text.slice(0, start) + ' ' + text.slice(end + '</script>'.length); }
+      }
+
+      // Mask each allowed phrase where it occurs, preserving length so the rest of
+      // the line is still scanned in place.
+      for (const a of ALLOWED) {
+        if (!text.includes(a.phrase)) continue;
+        used.add(a.phrase);
+        text = text.split(a.phrase).join('#'.repeat(a.phrase.length));
+      }
+
+      const found = text.match(VERDICT);
+      if (found) {
+        offences.push(`${f}:${i + 1}  ${[...new Set(found)].join(', ')}  ${raw.trim().slice(0, 90)}`);
+      }
+    });
+  }
+
+  const stale = ALLOWED.filter(a => !used.has(a.phrase));
+  if (stale.length > 0) {
+    throw new Error(
+      `This check's allowlist has entries that no longer match anything on the public ` +
+      `pages. A stale exemption silently widens what the check permits, so remove it ` +
+      `rather than leaving it:\n       ` +
+      stale.map(a => `${JSON.stringify(a.phrase)}  (was allowed because: ${a.why})`).join('\n       ')
+    );
+  }
+
+  if (offences.length > 0) {
+    throw new Error(
+      `Public pages present a self-certifying verdict. The site reports what the ledger ` +
+      `says; it never issues a status of its own, and no browser output is evidence ` +
+      `(AGENTS.md rules 3 and 7; CURRENT_FOCUS.md "no browser or AI output ` +
+      `self-certifies"):\n       ` + offences.join('\n       ') +
+      `\n       Either word it as a bounded observation, or cite the MATH_CLAIMS.md row ` +
+      `that actually carries the status.`
+    );
+  }
+});
+
 // 6c. The p6 mode must actually load the construction it claims to audit.
 //
 // Path corrected 2026-08-07 (TASK-GOV-1): the old root-relative path
