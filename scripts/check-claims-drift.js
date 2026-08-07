@@ -71,12 +71,15 @@ check("No Unverified OEIS A261352 References in MATH_CLAIMS.md", () => {
 });
 
 // 2. Epistemological Wording Drift Check across documentation
+//
+// This check used to also scan a foreign path
+// (../../../.gemini/antigravity/brain/<uuid>/walkthrough.md) pointing outside
+// this repository into another tool's local session data. Removed 2026-08-07
+// (TASK-GOV-1): confirmed absent on this machine, and a path into another
+// application's local state was never a legitimate part of this project's own
+// drift coverage.
 check("No Overpromising Wording in Bridge-Welding Claims", () => {
-  const walkPath = path.join(path.join(__dirname, '..'), '..', '..', '..', '.gemini', 'antigravity', 'brain', 'a4eda2cb-68a5-41dc-8e98-fc3b9ce8dbec', 'walkthrough.md');
-  let walkContent = "";
-  try { if (fs.existsSync(walkPath)) walkContent = fs.readFileSync(walkPath, 'utf8'); } catch(e) {}
-  
-  const combined = (claimsContent + " " + walkContent).toLowerCase();
+  const combined = claimsContent.toLowerCase();
   if (combined.includes("todistaa abelin-neliöttömyyden jaksoille") || combined.includes("proves abelian-square-freedom for periods")) {
     throw new Error("Documentation contains overpromising phrase 'todistaa abelin-neliöttömyyden jaksoille'. Must specify that welding only eliminates BOUNDARY/SEAM collisions!");
   }
@@ -176,12 +179,28 @@ check("No Overclaiming Language in Program Output (CLI, workers, launcher)", () 
   // finite proof language - an exhausted left extension tree IS a proof of
   // unfavourability (MATH_CLAIMS.md row 47 documents the distinction). Adding it
   // here would flag wording the ledger itself endorses.
-  const files = ['seam-hpc-cli.js', 'aa2fr-worker.js', 'run-seam-search.bat', 'h6-image-sweep.js', 'morphism-scan.js', 'sft-container.js', 'additive-sweep.js', 'extension-table.js', 'sanalab-run.js', 'table-library.js', 'additive-morphism-scan.js', 'additive-nonuniform-morphism-scan.js'];
+  //
+  // Paths corrected 2026-08-07 (TASK-GOV-1): the 2026-07-30 src/scripts
+  // reorganisation moved 10 of these 12 files out of the repository root. The
+  // old root-relative list resolved to non-existent paths for all 10, and the
+  // silent `if (!fs.existsSync(p)) continue;` guard let this check report PASS
+  // while actually scanning only 2 of 12 files. Every path below is the file's
+  // real, current location; a missing mandatory file is now a reported
+  // offence, not a silent skip.
+  const files = [
+    'scripts/seam-hpc-cli.js', 'aa2fr-worker.js', 'run-seam-search.bat',
+    'scripts/h6-image-sweep.js', 'scripts/morphism-scan.js', 'src/sft-container.js',
+    'scripts/additive-sweep.js', 'src/extension-table.js', 'scripts/sanalab-run.js',
+    'src/table-library.js', 'scripts/additive-morphism-scan.js', 'scripts/additive-nonuniform-morphism-scan.js'
+  ];
   const offences = [];
 
   for (const f of files) {
     const p = path.join(path.join(__dirname, '..'), f);
-    if (!fs.existsSync(p)) continue;
+    if (!fs.existsSync(p)) {
+      offences.push(`${f}  MISSING — this file is mandatory input to this check and no longer exists at this path`);
+      continue;
+    }
     const lines = fs.readFileSync(p, 'utf8').split(/\r?\n/);
     lines.forEach((line, i) => {
       // Only user-facing output lines matter. Comments may discuss the rule.
@@ -204,11 +223,21 @@ check("No Overclaiming Language in Program Output (CLI, workers, launcher)", () 
 });
 
 // 6c. The p6 mode must actually load the construction it claims to audit.
+//
+// Path corrected 2026-08-07 (TASK-GOV-1): the old root-relative path
+// ('seam-hpc-cli.js') resolved to nothing after the 2026-07-30 move to
+// scripts/, and the `if (!fs.existsSync(p)) return;` guard let this check
+// report PASS without ever reading the file. The require-detection regex is
+// corrected in the same commit: morphisms.js moved to src/ in the same
+// reorganisation, so the real, current import is
+// `require('../src/morphisms.js')`, not `require('./morphisms.js')`.
 check("seam-hpc-cli p6 mode audits the real g3(h6^n(a)) construction", () => {
-  const p = path.join(path.join(__dirname, '..'), 'seam-hpc-cli.js');
-  if (!fs.existsSync(p)) return;
+  const p = path.join(path.join(__dirname, '..'), 'scripts', 'seam-hpc-cli.js');
+  if (!fs.existsSync(p)) {
+    throw new Error("scripts/seam-hpc-cli.js is missing; this check has no mandatory input to audit.");
+  }
   const src = fs.readFileSync(p, 'utf8');
-  if (!/require\(['"]\.\/morphisms(\.js)?['"]\)/.test(src)) {
+  if (!/require\(['"]\.\.?\/(src\/)?morphisms(\.js)?['"]\)/.test(src)) {
     throw new Error("seam-hpc-cli.js does not load morphisms.js, so its p6 mode cannot be scanning g3(h6^n(a)). This was the 2026-07-28 defect: a generic ternary DFS reported as a Rao & Rosenfeld replication.");
   }
   if (/Violations Observed: 0`/.test(src) || /Violations Observed: 0"/.test(src)) {
