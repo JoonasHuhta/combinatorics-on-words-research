@@ -91,6 +91,17 @@ Mathematics and code are not the only useful kind:
   suspected gap. State it as a question or hypothesis, not a finding — see
   `docs/plans/RESEARCH_ARCHITECT.md` if you want the fuller procedure the
   project itself uses for generating research directions.
+- **Research material** — a word or finite construction, a dataset, a
+  computational result, a visualization, a tool, a historical artifact,
+  educational material, or a research lead you'd rather hand over than write
+  up yourself: open an issue with the **"Contribute Research Material"**
+  form (GitHub Issues → New issue → Contribute Research Material). It asks
+  for provenance and rights/redistribution information up front, so that is
+  captured at submission time rather than reconstructed later. Submissions
+  are labelled `research-material` once filed, for tracking. **Filing the
+  issue does not make the material an accepted project claim or establish
+  any rights status for it** — the same rule as everywhere else: review
+  first, ledger row (or archive placement) after.
 - **Pull requests** for code, corrected citations, or a ledger row. Changes
   to `MATH_CLAIMS.md`, to canonical data, or to any UI text that states a
   scientific claim need the maintainer's sign-off before merge — not because

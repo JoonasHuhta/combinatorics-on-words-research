@@ -108,11 +108,14 @@ scripts/        research runners, plus the governance tooling that guards
                 MATH_CLAIMS.md (check-claims-drift.js) and the git hooks
 tests/          the regression suite (tests/test.js and friends)
 docs/           program governance (docs/program/), task specifications
-                (docs/tasks/), living plans (docs/plans/) and superseded
-                planning papers (docs/historical/ — do not rely on these)
+                (docs/tasks/), living plans (docs/plans/), superseded
+                planning papers (docs/historical/ — do not rely on these),
+                and an archive of retired root-level files kept for
+                provenance (docs/archive/)
 research/       written research output and dataset provenance records
 datasets/       record-word data — see "Sources and rights" below
-.github/        the CI workflow that runs the two required checks above
+.github/        CI workflow configuration, plus the structured issue forms
+                contributors use (see "Getting involved" above)
 ```
 
 Not every `.js` file in this repository is part of the exact pipeline above —
@@ -125,7 +128,9 @@ The web application — `index.html`, `app.html`, `word-checker.html`,
 (`aa2fr-worker.js`, `run-seam-search.bat`) — lives at the repository root
 rather than in a subfolder. That is because the current GitHub Pages
 deployment serves the site from the repository root; moving these files would
-change their public URLs.
+change their public URLs. `CNAME`, alongside these files, configures the
+custom domain (`wordstructures.org`) that the live site resolves to — see
+"Two front doors" above.
 
 ## Running it
 
@@ -192,15 +197,44 @@ precisely where calibrated wording gets lost.
 
 ## Getting involved
 
-See **`CONTRIBUTING.md`**. In short: this is a research project, so a gap
-found in an existing claim, a literature reference that closes an open
-question, or an independent reproduction of a `COMPUTED` row are treated as
-seriously as new code — the project's own ledger has rows that exist only
-because an earlier claim was checked again and found wanting. Read
-`OPEN_RESEARCH_QUESTIONS.md` and `NEGATIVE_RESULTS.md` before starting
-anything, so effort does not repeat what the project already knows not to
-do. `index.html` is the browser visualiser — open it directly, no build step
-or server needed, or visit the live site linked above.
+| I want to... | Go to |
+|---|---|
+| **Explore or learn** | the live site — [wordstructures.org](https://wordstructures.org/) |
+| **Contribute code** | `CONTRIBUTING.md`, then open a pull request |
+| **Contribute research material** (a word, dataset, tool, visualization, historical artifact, educational material, or other artifact) | GitHub Issues → New issue → **"Contribute Research Material"** |
+| **Propose a research question, a literature lead, or report a gap** | GitHub Issues |
+
+Research-material submissions are labelled `research-material` once filed,
+for organizational tracking on GitHub's side — that label is bookkeeping, not
+an instruction; using the issue form above is the only step a contributor
+needs to take.
+
+See **`CONTRIBUTING.md`** for the full ground rules. In short: this is a
+research project, so a gap found in an existing claim, a literature
+reference that closes an open question, or an independent reproduction of a
+`COMPUTED` row are treated as seriously as new code — the project's own
+ledger has rows that exist only because an earlier claim was checked again
+and found wanting. Read `OPEN_RESEARCH_QUESTIONS.md` and
+`NEGATIVE_RESULTS.md` before starting anything, so effort does not repeat
+what the project already knows not to do. `index.html` is the browser
+visualiser — open it directly, no build step or server needed, or visit the
+live site linked above.
+
+## Citing Word Structures
+
+Two different citations are useful here, and they point to different things:
+
+- **Citing the project or repository as a whole** — for a general reference
+  to Word Structures / Combinatorics on Words Research (an acknowledgments
+  section, a tools list, and so on): use `CITATION.cff`, or GitHub's "Cite
+  this repository" button on the repository page. Citing the project this
+  way is not, by itself, permission to reuse or redistribute anything from
+  it — see "Sources and rights" below for that.
+- **Citing a specific mathematical result, figure, or claim** — reference
+  the exact `MATH_CLAIMS.md` row it comes from (e.g. "row 75"), and, where
+  that row itself cites a primary source, that source directly. This is the
+  more useful citation for research use: it traces to the exact
+  verification level and evidence, not just to the project in general.
 
 ## Sources and rights
 
@@ -219,8 +253,8 @@ far and the options under consideration. This README does not resolve that
 question or assert a rights conclusion in either direction.
 
 This project's own code and documentation are MIT licensed — see `LICENSE`.
-**If you use a result, figure, or claim from this project in your own work,
-please cite it** (see `CITATION.cff`, or GitHub's "Cite this repository"
-button) and, where possible, reference the specific `MATH_CLAIMS.md` row it
-comes from, so the citation traces to its exact source and verification
-level rather than to the project in general.
+Citing a result is welcome and useful (see "Citing Word Structures" above),
+but citing something is not the same as having permission to redistribute
+it. That is a separate question: `LICENSE` governs this project's own code
+and documentation; the provenance notes above govern everything else, and
+where rights are unresolved, citation does not resolve them.
