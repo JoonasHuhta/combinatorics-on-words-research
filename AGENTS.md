@@ -39,3 +39,36 @@
 16. **A LONGER FINITE WORD IS NOT PROOF OF AN INFINITE ONE:** Finding a longer valid finite sequence does not make the existence of an infinite sequence "more likely". It is strictly just a longer finite example. Do not use hyperbolic framing (e.g., "the conjecture is stronger than ever") when referring to finite records.
 
 17. **INDEPENDENT POST-CHECK IS MANDATORY:** Every claimed record must be validated by an independent checker (e.g. `verifyAa2fr`) that verifies the word post-generation. Never skip this check assuming the generation code is flawless.
+
+## Repository file placement and experimental-output handling (mandatory for every session)
+
+1. **NO ROOT FILES BY DEFAULT:** do not create new files in the repository root by default.
+
+2. **CLASSIFY BY PURPOSE:**
+   - `src/` — reusable implementation code.
+   - `scripts/` — reusable CLI, research, development, migration, or maintenance tooling.
+   - `tests/` — automated regression, correctness, integration, or reproducibility tests.
+   - `scratch/` — temporary experiments, diagnostics, one-off probes, debug output, generated investigation material.
+   - `docs/` — current project documentation.
+   - `docs/archive/` — intentionally preserved inactive/historical material.
+   - `research/` — canonical research/evidence artifacts and research-program material.
+   - `datasets/` — deliberately tracked datasets with documented provenance, rights/status, and intended use.
+   - `.github/` — GitHub workflows, issue forms, PR templates, and repository automation.
+
+3. **ROOT IS RESERVED FOR:** canonical top-level project documents; conventional package/configuration metadata; files demonstrably required at root by the current GitHub Pages deployment; explicitly owner-approved exceptions.
+
+4. **EXISTING ROOT FILES ARE NOT PRECEDENT** for adding new root files.
+
+5. **AMBIGUOUS PLACEMENT IS NOT DEFAULTED TO ROOT:** if placement is genuinely ambiguous, report the proposed file, its purpose, its permanence, and the candidate path, and wait for owner review.
+
+6. **INSPECT BEFORE COMMIT:** before every commit, inspect all modified and untracked files.
+
+7. **REPORT EVERY NEW ROOT FILE:** explicitly report every newly created root-level file.
+
+8. **UNTRACKED BY DEFAULT FOR GENERATED OUTPUT:** generated/reproducible experiment output should normally remain untracked unless it is itself required evidence, provenance, or a published artifact.
+
+9. **AI AUTHORSHIP IS NOT A REASON TO COMMIT:** experimental material does not enter Git history merely because an AI agent created it.
+
+10. **NO AUTOMATIC GIT OPERATIONS ON EXPERIMENTAL MATERIAL:** AI agents must not automatically stage, commit, move, delete, or push experimental material without explicit owner authorization.
+
+11. **A CLEAR LONG-TERM PURPOSE IS REQUIRED FOR GIT HISTORY:** a file should enter Git history only when preservation has a clear long-term purpose such as implementation, reproducibility, testing, documentation, provenance, evidence, or public functionality.
