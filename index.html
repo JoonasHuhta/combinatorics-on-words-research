@@ -9152,7 +9152,7 @@ function goldStopJob(isUserAbort = false) {
 }
 
 function goldDownloadHpcCliKit() {
-  fetch('seam-hpc-cli.js')
+  fetch('scripts/seam-hpc-cli.js')
     .then(r => r.text())
     .then(text => {
       const blob = new Blob([text], { type: 'application/javascript' });
@@ -9168,7 +9168,7 @@ function goldDownloadHpcCliKit() {
     })
     .catch(() => {
       const a = document.createElement('a');
-      a.href = 'seam-hpc-cli.js';
+      a.href = 'scripts/seam-hpc-cli.js';
       a.download = 'seam-hpc-cli.js';
       document.body.appendChild(a);
       a.click();
