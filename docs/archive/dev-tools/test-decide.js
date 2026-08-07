@@ -1,5 +1,5 @@
 'use strict';
-const { decideASF } = require('./src/decide-arbitrary-realizability.js');
+const { decideASF } = require('../../../src/decide-arbitrary-realizability.js');
 
 const phi = {
   a: 'abc',
