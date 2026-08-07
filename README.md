@@ -15,7 +15,7 @@ on the same mathematics, reachable from the live site below.
 
 | | Where | What it's for |
 |---|---|---|
-| **Explore / Learn** | [word-structures.github.io/combinatorics-on-words-research](https://word-structures.github.io/combinatorics-on-words-research/) | The public site: teaching tabs, Abelisk, and visualisations. It **reports** results; it does not compute or adjudicate them. |
+| **Explore / Learn** | [wordstructures.org](https://wordstructures.org/) | The public site: teaching tabs, Abelisk, and visualisations. It **reports** results; it does not compute or adjudicate them. |
 | **Research / Evidence** | [this repository](https://github.com/word-structures/combinatorics-on-words-research) | The canonical layer: the claim ledger, the exact computations, the review process, and the full history of what was tried and why. |
 
 If a figure on the site and a figure in `MATH_CLAIMS.md` ever disagree, the
@@ -74,7 +74,7 @@ worded instead.
 
 ## What is different here
 
-The most valuable part of this laboratory is not a search algorithm. It is the
+The most valuable part of Word Structures is not a search algorithm. It is the
 **epistemic machinery** that keeps track of what is actually known:
 
 - **`MATH_CLAIMS.md`** is the single authority for every mathematical claim.
