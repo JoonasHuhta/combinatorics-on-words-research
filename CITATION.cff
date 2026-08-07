@@ -9,7 +9,7 @@ type: software
 authors:
   - family-names: Huhta
     given-names: Joonas
-url: "https://word-structures.github.io/combinatorics-on-words-research/"
+url: "https://wordstructures.org/"
 repository-code: "https://github.com/word-structures/combinatorics-on-words-research"
 license: MIT
 keywords:

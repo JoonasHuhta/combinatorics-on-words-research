@@ -15,8 +15,8 @@ starting new work, so effort does not repeat what the project already knows
 not to do.
 
 **If you are here to learn, not to contribute:** the live site —
-https://word-structures.github.io/combinatorics-on-words-research/ — or a
-local copy of `index.html` opened directly in a browser, is the entry point.
+https://wordstructures.org/ — or a local copy of `index.html` opened
+directly in a browser, is the entry point.
 It has 20 tabs (an unnumbered tutorial plus 1–19). The claim
 ledger (`MATH_CLAIMS.md`) and the dead-ends register (`NEGATIVE_RESULTS.md`)
 are designed to be legible without prior background in the field: a sourced
