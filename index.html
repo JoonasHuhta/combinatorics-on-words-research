@@ -1967,7 +1967,7 @@
     <div class="val-card">
       <h3>Module D: Fair Comparative Benchmark &amp; L12 Test Suite (AA2F vs. AA2FR)</h3>
       <p>
-        Executes strictly controlled, side-by-side empirical benchmarks in the Web Worker of <strong>AA2F</strong> (Mäkelä 2002, avoid K &ge; 2) versus <strong>AA2FR</strong> (Extension Lab, avoid K &ge; 2 plus FORBID4).
+        Executes strictly controlled, side-by-side empirical benchmarks in the Web Worker of <strong>AA2F</strong> (Mäkelä's condition, avoid K &ge; 2) versus <strong>AA2FR</strong> (Extension Lab, avoid K &ge; 2 plus FORBID4).
         <br><strong>L12 Test Suite:</strong> Compares models across 10 frozen, independent AA2FR-valid initial seeds (L=12), reporting realized candidate nodes, depth curves sampled every 1,000 nodes, and a detailed stacked rejection breakdown (<code>FORBID4 only</code>, <code>square only</code>, <code>both</code>, plus <code>minSquareK</code>).
       </p>
       <div style="margin-bottom: 12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
@@ -2220,7 +2220,7 @@
         <span style="color:#bdc3c7; font-weight:bold;">&rarr;</span>
         <span style="background:#e8f8f5; color:#16a085; padding:4px 10px; border-radius:4px; font-weight:600; font-size:0.8rem;">Independently verified</span>
         <span style="color:#bdc3c7; font-weight:bold;">&rarr;</span>
-        <span style="background:#d4edda; color:#155724; padding:4px 10px; border-radius:4px; font-weight:700; font-size:0.8rem; border:1px solid #c3e6cb; box-shadow:0 1px 2px rgba(0,0,0,0.05);">Certified</span>
+        <span style="background:#d4edda; color:#155724; padding:4px 10px; border-radius:4px; font-weight:700; font-size:0.8rem; border:1px solid #c3e6cb; box-shadow:0 1px 2px rgba(0,0,0,0.05);">Ledger row</span>
       </div>
       <div style="font-family:monospace; font-size:0.85rem; color:#444; background:#fff; padding:6px 12px; border-radius:4px; border:1px solid #ced4da;">
         Cumulative Compute Budget: <strong id="gold-cumulative-time" style="color:#1a1e24;">0.00s</strong> (<strong id="gold-cumulative-nodes">0</strong> nodes across sessions)
@@ -2386,7 +2386,7 @@
     <div class="val-card" style="border-left:5px solid #34495e; background:#fff; border-top:1px solid #e1e8ed; border-right:1px solid #e1e8ed; border-bottom:1px solid #e1e8ed;">
       <h3 style="color:#1a1e24; margin-top:0; font-family:'Georgia', serif; font-size:1.3rem;">Candidate Discovery Cabinet &amp; Execution Summary</h3>
       <p style="font-size:0.9rem; color:#555; line-height:1.5;">
-        When exploration concludes, results are separated into certified candidates and pruned branch trajectories. Click <strong>Try to break this</strong> on any verified candidate to launch an independent adversarial stress-test (10 randomized seed rounds).
+        When exploration concludes, results are separated into surviving candidates and pruned branch trajectories. A candidate here is an unreviewed browser observation: it has not been checked against <code>MATH_CLAIMS.md</code>, and nothing on this page can give it a verification status. Use <strong>Submit as research material</strong> to hand one over for review.
       </p>
       
       <div id="gold-summary-banner" style="background:#e8f4f8; border:1px solid #b8e1f5; padding:12px 16px; border-radius:4px; margin-bottom:18px; font-size:0.9rem; display:none;">
@@ -2395,7 +2395,7 @@
 
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:18px; margin-bottom:18px;">
         <div style="background:#fafbfc; border:1px solid #e1e8ed; border-radius:6px; padding:14px;">
-          <h4 style="margin:0 0 10px 0; color:#1a1e24; font-family:'Georgia', serif; font-size:1rem;">Certified Candidates (Valid Seam Bridges)</h4>
+          <h4 style="margin:0 0 10px 0; color:#1a1e24; font-family:'Georgia', serif; font-size:1rem;">Surviving Candidates (Unreviewed Seam Bridges)</h4>
           <div id="gold-nuggets-list" style="max-height:280px; overflow-y:auto; font-family:monospace; font-size:0.85rem; color:#333; line-height:1.6;">
             <div style="color:#999; font-style:italic;">No candidates discovered yet in current run...</div>
           </div>
@@ -6394,7 +6394,7 @@ const impactData = {
       <ul style="line-height:1.7; margin-top:10px; color:#333;">
         <li><strong>1. The Divide &amp; Conquer Trap (Static Chunking vs. Seams):</strong> Assuming that if two blocks $A$ and $B$ are clean, their concatenation $A \\cup B$ is clean. <br><em>Why it fails &amp; the algorithmic breakthrough:</em> Abelian squares span arbitrarily across boundary seams. While static scanning is best served by <strong>$O(1)$ prefix sum arrays</strong> (Int32Array), dynamic DFS backtracking requires <strong>Persistent Parikh Segment Trees</strong>. To query positions at universe-scale (e.g., index 10 billion) without memory exhaustion, researchers use the <strong>Recursive Parikh Oracle (Base-$k$ Oracle)</strong> — descending the self-similar morphism tree via substitution matrices $M$ in $O(\\log_k N)$ time without materializing a single character!</li>
         <li><strong>2. The Greedy Trap:</strong> Attempting to generate infinite words by locally choosing the 'rarest' or 'safest' letter. <br><em>Why it fails &amp; the algorithmic breakthrough:</em> In ternary and quaternary abelian spaces, greedy search inevitably runs into dead ends. This limitation forced the invention of <strong>Global Algebraic Structures</strong> (morphic fixed points and eigenspace projections).</li>
-        <li><strong>3. The Probabilistic Fallacy (Search vs. Proof):</strong> Assuming that statistical randomness or a 99.99999% avoidance heuristic is 'good enough' for infinite sequences. <br><em>Why it fails &amp; the algorithmic breakthrough:</em> In exact combinatorics, a single deterministic collision at index 1 billion destroys the entire infinite word. However, probability is invaluable as a <strong>search heuristic</strong> (as Rao &amp; Rosenfeld used it to harvest frequent candidate blocks in randomized backtracking), which is then rigorously certified by deterministic algebra and <strong>SAT/SMT Automated Provers</strong>.</li>
+        <li><strong>3. The Probabilistic Fallacy (Search vs. Proof):</strong> Assuming that statistical randomness or a 99.99999% avoidance heuristic is 'good enough' for infinite sequences. <br><em>Why it fails &amp; the algorithmic breakthrough:</em> In exact combinatorics, a single deterministic collision at index 1 billion destroys the entire infinite word. However, probability is invaluable as a <strong>search heuristic</strong> (as Rao &amp; Rosenfeld used it to harvest frequent candidate blocks in randomized backtracking), whose output is then checked exactly by deterministic algebra and <strong>SAT/SMT solvers</strong>.</li>
         <li><strong>4. Regex / Exact Order Blindness:</strong> Trying to detect abelian repetitions using regular expressions, dictionary algorithms, or LZ compression. <br><em>Why it fails &amp; the algorithmic breakthrough:</em> Abelian equivalence is order-invariant (permutations). Standard text tools are blind to Parikh collisions, inspiring modern <strong>Abelian Stringology</strong> and Parikh matrices.</li>
       </ul>`,
     caution: "Negative knowledge is a map of boundaries: while search heuristics and trees accelerate exploration, exact mathematical proof remains a distinct, structural layer."
@@ -8814,74 +8814,51 @@ function goldLogEvent(msg, isHighlight = false) {
   logEl.scrollTop = logEl.scrollHeight;
 }
 
-function goldAdversarialStressTest(id, type, targetData) {
-  goldLogEvent(`[stress-test] launching 10 independent adversarial replication rounds for [${id}]...`);
-  const led = document.getElementById('gold-heartbeat-led');
-  const status = document.getElementById('gold-heartbeat-status');
-  if (led && status) { led.style.background = '#d35400'; status.textContent = 'STRESS-TESTING'; status.style.color = '#d35400'; }
-  
-  let round = 1;
-  const stressTimer = setInterval(() => {
-    const seed = Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, '0').toUpperCase();
-    goldLogEvent(`[stress-test] round ${round}/10 · randomized seed 0x${seed} · checking offset alignment & Parikh Fenwick tree boundaries... OK`);
-    round++;
-    if (round > 10) {
-      clearInterval(stressTimer);
-      goldLogEvent(`[stress-test] 10/10 independent adversarial replication rounds PASSED for [${id}]. Zero anomalies found.`, true);
-      if (led && status) { led.style.background = '#155724'; status.textContent = 'CERTIFIED'; status.style.color = '#155724'; }
-      
-      const nugList = document.getElementById('gold-nuggets-list');
-      if (nugList) {
-        const certCard = `<div style="background:#f8f9fa; border:1px solid #c3e6cb; border-left:4px solid #155724; padding:12px; margin-top:12px; border-radius:4px; font-family:monospace; font-size:0.82rem; color:#155724; line-height:1.6; box-shadow:0 2px 5px rgba(0,0,0,0.05);">
-          <div style="font-weight:bold; font-size:0.9rem; margin-bottom:4px;">[CERTIFIED BY INDEPENDENT REPLICATION ENGINE]</div>
-          • Adversarial Rounds: 10/10 independent randomized seed audits PASSED.<br>
-          • Target Candidate: <code>${targetData}</code> (ID: ${id})<br>
-          • Git Commit SHA / Checksum: <code>1e445b6 (main)</code><br>
-          • Verification Method: Exhaustive deterministic boundary scan ($K &le; 5$) supplemented by 10x independent randomized Web Worker memory audits.<br>
-          • Status: <strong>EXHAUSTIVELY VERIFIED &amp; REPLICATED CANDIDATE</strong>.<br>
-          <div style="margin-top:10px;">
-            <button class="val-btn" style="background:#155724; color:#fff; padding:6px 14px; font-size:0.85rem; font-weight:600; border:none; border-radius:3px; cursor:pointer; box-shadow:0 1px 3px rgba(0,0,0,0.1);" onclick="goldReportDiscoveryIssue('${id}', '${type}', '${targetData}')">Report Discovery to Project Repository (Create GitHub Issue)</button>
-          </div>
-          <span style="font-size:0.75rem; color:#555; display:block; margin-top:6px;">Note: Primary proof is established via exhaustive deterministic boundary scan. Clicking Report creates a GitHub Issue via your browser, triggering instant native GitHub Mobile/email push alerts to maintainers (zero custom backend).</span>
-        </div>`;
-        nugList.insertAdjacentHTML('afterbegin', certCard);
-      }
-      
-      if (id === 'p6' || type === 'replicate') {
-        const pCard = document.getElementById('prob-status-49');
-        if (pCard) { pCard.textContent = 'Status: REPLICATED (p=6 Threshold Confirmed)'; pCard.style.background = '#d4edda'; pCard.style.color = '#155724'; }
-      } else if (type === 'bridge') {
-        const pCard = document.getElementById('prob-status-121');
-        if (pCard) { pCard.textContent = 'Status: BOUNDARY BRIDGED (Candidate Seam Verified)'; pCard.style.background = '#d4edda'; pCard.style.color = '#155724'; }
-      }
-    }
-  }, 180);
-}
 
-function goldReportDiscoveryIssue(id, type, targetData) {
-  const title = `[DISCOVERY] Certified Candidate Found: ${id} (${type})`;
-  const body = `### Automated Discovery Report: Certified Candidate Found (Module 18)\n\n` +
-    `A verified candidate structure / mathematical threshold has been confirmed via the **Seam Search & Verification Engine (Module 18)**.\n\n` +
-    `#### 1. Discovery Parameters & Identification\n` +
-    `- **Candidate ID:** \`${id}\`\n` +
-    `- **Verification Type:** \`${type}\`\n` +
-    `- **Target Data / Seam String ($W$):** \`${targetData}\`\n\n` +
-    `#### 2. Provenance & Epistemological Audit\n` +
-    `- **Git Commit Reference:** \`commit 7742fe1 (main)\`\n` +
-    `- **Replication Status:** Primary proof established via exhaustive deterministic boundary scan ($K \\le 5$). **10/10 Independent Randomized Seed Rounds PASSED** (auxiliary Web Worker thread consistency audit verified across memory permutations).\n` +
-    `- **Cumulative Compute Budget:** \`${goldCumulTime.toFixed(2)}s\` (\`${goldCumulNodes.toLocaleString()}\` total nodes evaluated across sessions).\n` +
-    `- **Browser / Execution Environment:** \`${navigator.userAgent}\`\n` +
-    `- **Timestamp:** \`${new Date().toISOString()}\`\n\n` +
-    `#### 3. Standalone Reproduction Script\n` +
-    `To verify this observation independently on a local machine, run the following command in terminal:\n` +
-    `\`\`\`bash\n` +
-    `node -e "console.log('Verifying candidate ${id}: ${targetData} across ParikhFenwick boundary... OK');"\n` +
-    `\`\`\`\n\n` +
-    `*Report generated automatically by AA2FR Research Platform Module 18 Citizen Science Dispatcher.*`;
-    
-  const repoUrl = "https://github.com/word-structures/combinatorics-on-words-research/issues/new";
-  const fullUrl = `${repoUrl}?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
-  window.open(fullUrl, '_blank');
+// Hands a browser observation to the Contribute Research Material form as raw
+// parameters. This page cannot assign a verification status and does not try to:
+// review happens in the repository, and MATH_CLAIMS.md is the only place a status
+// is ever issued. Do not reintroduce verdict wording here: this reporting path
+// previously repeated the failure recorded as Trap 18 in the Graveyard tab
+// (NEGATIVE_RESULTS.md section 21), and scripts/check-claims-drift.js now guards it.
+function goldSubmitResearchMaterial(id, type, targetData) {
+  const mode = (type === 'replicate' || id === 'p6') ? 'p6'
+             : (type === 'neg') ? 'neg'
+             : (type === 'bridge') ? 'weld'
+             : null;
+
+  const whatIsIt =
+    `Unreviewed candidate observed in the browser explorer (Module 18, Seam Search).\n` +
+    `No verification status is claimed. This has not been checked against MATH_CLAIMS.md,\n` +
+    `and a browser observation is not evidence of a result.\n\n` +
+    `- Candidate ID: ${id}\n` +
+    `- Run type: ${type}\n` +
+    `- Seam string / target data: ${targetData}\n` +
+    `- Browser session totals: ${goldCumulTime.toFixed(2)}s, ${goldCumulNodes.toLocaleString()} nodes\n` +
+    `  (this browser only; session telemetry, not a verification result)\n` +
+    `- User agent: ${navigator.userAgent}\n` +
+    `- Observed at: ${new Date().toISOString()}`;
+
+  const repro = mode === 'weld'
+    ? `The standalone runner this module distributes is scripts/seam-hpc-cli.js.\n` +
+      `Weld mode needs the seam's two blocks supplied explicitly, for example:\n\n` +
+      `    node scripts/seam-hpc-cli.js --mode=weld --u=<left block> --v=<right block> --maxLen=10\n\n` +
+      `Read the runner's actual output. Nothing above was verified by this page.`
+    : mode
+      ? `The standalone runner this module distributes is scripts/seam-hpc-cli.js.\n` +
+        `To re-run this mode locally:\n\n` +
+        `    node scripts/seam-hpc-cli.js --mode=${mode}\n\n` +
+        `Read the runner's actual output. Nothing above was verified by this page.`
+      : `No standalone reproduction command is offered for this run type.\n` +
+        `Describe how you obtained it so someone else can attempt to reproduce it.`;
+
+  const params = new URLSearchParams({
+    template: 'contribute-research-material.yml',
+    title: `Seam-search candidate from the browser explorer: ${id}`,
+    'what-is-it': whatIsIt,
+    'verification-notes': repro
+  });
+  window.open(`https://github.com/word-structures/combinatorics-on-words-research/issues/new?${params.toString()}`, '_blank');
 }
 
 function goldStartJob(type) {
@@ -8963,13 +8940,12 @@ function goldStartJob(type) {
       const nugList = document.getElementById('gold-nuggets-list');
       if (r.ok) {
         nugList.innerHTML = `<div style="color:#155724; background:#d4edda; padding:10px; border-radius:4px; border:1px solid #c3e6cb;">
-          <strong>[candidate_p6_certified]</strong> Rao &amp; Rosenfeld p=6 Threshold Verified!<br>
+          <strong>[p6_run_complete]</strong> Rao &amp; Rosenfeld p=6 replication run finished in this browser.<br>
           • Execution Duration: <strong>${totalTime} seconds</strong> (${goldNodesTotal.toLocaleString()} nodes evaluated).<br>
           • 0 abelian squares observed for half-lengths K &ge; 6.<br>
-          • Confirms replication protocol: pipeline reproduces known mathematical literature.<br>
+          • Consistent with the published result this run replicates (<code>MATH_CLAIMS.md</code> row 6a, Rao &amp; Rosenfeld Thm 9); a browser run does not establish it.<br>
           <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
-            <button class="val-btn" style="background:#1a1e24; color:#fff; padding:6px 14px; font-size:0.85rem; font-weight:600; border:none; border-radius:3px; cursor:pointer; margin:0;" onclick="goldAdversarialStressTest('p6', 'replicate', 'Rao-Rosenfeld-p6')">Try to break this (10x Independent Replication)</button>
-            <button class="val-btn" style="background:#2c3e50; color:#fff; padding:6px 14px; font-size:0.85rem; font-weight:600; border:none; border-radius:3px; cursor:pointer; margin:0;" onclick="goldReportDiscoveryIssue('p6', 'replicate', 'Rao-Rosenfeld-p6')">Report Issue to Repository</button>
+            <button class="val-btn" style="background:#2c3e50; color:#fff; padding:6px 14px; font-size:0.85rem; font-weight:600; border:none; border-radius:3px; cursor:pointer; margin:0;" onclick="goldSubmitResearchMaterial('p6', 'replicate', 'Rao-Rosenfeld-p6')">Submit as research material</button>
           </div>
         </div>`;
       } else {
@@ -9021,8 +8997,7 @@ function goldStartJob(type) {
             </div>
             <div style="display:flex; gap:8px; flex-wrap:wrap;">
               <button class="val-btn" style="background:#2980b9; color:#fff; padding:5px 12px; font-size:0.8rem; height:fit-content; margin:0; border:none; border-radius:3px; cursor:pointer; font-weight:600;" onclick="downloadVerifyScript('verify-candidate-${cid}.js', decodeURIComponent('${scriptStr}'))">Download Standalone Verifier (.js)</button>
-              <button class="val-btn" style="background:#1a1e24; color:#fff; padding:5px 12px; font-size:0.8rem; height:fit-content; margin:0; border:none; border-radius:3px; cursor:pointer; font-weight:600;" onclick="goldAdversarialStressTest('candidate_${cid}', 'bridge', '${c.bridge}')">Try to break this (10x Independent Replication)</button>
-              <button class="val-btn" style="background:#2c3e50; color:#fff; padding:5px 12px; font-size:0.8rem; height:fit-content; margin:0; border:none; border-radius:3px; cursor:pointer; font-weight:600;" onclick="goldReportDiscoveryIssue('candidate_${cid}', 'bridge', '${c.bridge}')">Report Issue</button>
+              <button class="val-btn" style="background:#2c3e50; color:#fff; padding:5px 12px; font-size:0.8rem; height:fit-content; margin:0; border:none; border-radius:3px; cursor:pointer; font-weight:600;" onclick="goldSubmitResearchMaterial('candidate_${cid}', 'bridge', '${c.bridge}')">Submit as research material</button>
             </div>
           </div>`;
         });
@@ -9067,14 +9042,13 @@ function goldStartJob(type) {
       const nugList = document.getElementById('gold-nuggets-list');
       if (r.ok) {
         nugList.innerHTML = `<div style="color:#4a235a; background:#f4ecf7; padding:10px; border-radius:4px; border:1px solid #d2b4de;">
-          <strong>[negative_control_certified]</strong> Exact Ternary Cutoff at Length 7 Confirmed!<br>
+          <strong>[negative_control_run_complete]</strong> Exact ternary cutoff at length 7 reproduced in this browser.<br>
           • Calibration Duration: <strong>${totalTime} seconds</strong> (${goldNodesTotal.toLocaleString()} nodes evaluated).<br>
           • 18 abelian-square-free words found at length 7.<br>
           • Exactly 0 words found at length 8.<br>
-          • Proves collision scanner is tight and prevents false-positive leakage.<br>
+          • Matches the exhaustive bound in <code>MATH_CLAIMS.md</code> row 1, so the scanner returned zero where zero is the known answer.<br>
           <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
-            <button class="val-btn" style="background:#1a1e24; color:#fff; padding:6px 14px; font-size:0.85rem; font-weight:600; border:none; border-radius:3px; cursor:pointer; margin:0;" onclick="goldAdversarialStressTest('neg_control', 'neg', 'Length-7-Cutoff')">Try to break this (10x Independent Replication)</button>
-            <button class="val-btn" style="background:#2c3e50; color:#fff; padding:6px 14px; font-size:0.85rem; font-weight:600; border:none; border-radius:3px; cursor:pointer; margin:0;" onclick="goldReportDiscoveryIssue('neg_control', 'neg', 'Length-7-Cutoff')">Report Issue to Repository</button>
+            <button class="val-btn" style="background:#2c3e50; color:#fff; padding:6px 14px; font-size:0.85rem; font-weight:600; border:none; border-radius:3px; cursor:pointer; margin:0;" onclick="goldSubmitResearchMaterial('neg_control', 'neg', 'Length-7-Cutoff')">Submit as research material</button>
           </div>
         </div>`;
       } else {
