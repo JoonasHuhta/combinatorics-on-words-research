@@ -325,10 +325,36 @@ check("RESEARCH_CONTEXT.md lists the exact pipeline accurately", () => {
   }
 
   // The claim count it quotes must match the ledger.
+  //
+  // Narrow, explicit matcher: only the table row that names `MATH_CLAIMS.md`
+  // (backtick-quoted, as the routing table does) and mentions "row" is
+  // considered -- not any other numeral in the document. This document also
+  // cites dozens of individual claim rows like "(row 79)" or "(rows 32, 46)";
+  // those always put the word "row(s)" *before* the number, never after, so
+  // they never collide with the "<N> rows" pattern this check looks for.
+  //
+  // Repaired 2026-08-08 (TASK-GOV-6): the previous version matched only the
+  // Finnish word "riviä" (`/(\d+)\s+riviä/`) and only acted `if (quoted && ...)`.
+  // RESEARCH_CONTEXT.md now states the count in English ("85 rows"), so the
+  // regex never matched, `quoted` was always null, and the guard silently did
+  // nothing -- a stale count (85 vs. the ledger's actual 114) passed
+  // unnoticed for as long as the document said "rows" instead of "riviä".
+  // This version treats a missing or unparseable statement as a hard failure
+  // in its own right, and still accepts the older Finnish wording.
   const rows = (fs.readFileSync(path.join(path.join(__dirname, '..'), 'MATH_CLAIMS.md'), 'utf8').match(/^\| \d+[a-c]? \|/gm) || []).length;
-  const quoted = doc.match(/(\d+)\s+riviä/);
-  if (quoted && Number(quoted[1]) !== rows) {
-    throw new Error(`RESEARCH_CONTEXT.md says MATH_CLAIMS.md has ${quoted[1]} rows; it has ${rows}.`);
+  const claimsRowLine = doc.split(/\r?\n/).find(
+    line => /`MATH_CLAIMS\.md`/.test(line) && /\brow/i.test(line)
+  );
+  if (!claimsRowLine) {
+    throw new Error('RESEARCH_CONTEXT.md no longer states how many rows MATH_CLAIMS.md has. Add an explicit "<N> rows." (or "<N> riviä") statement in the row that describes MATH_CLAIMS.md, so this stays checked.');
+  }
+  const quotedMatch = claimsRowLine.match(/\b(\d+)\s+(?:rows|riviä)\b/);
+  if (!quotedMatch) {
+    throw new Error(`RESEARCH_CONTEXT.md's MATH_CLAIMS.md description could not be parsed for a row count: "${claimsRowLine.trim()}"`);
+  }
+  const quotedCount = Number(quotedMatch[1]);
+  if (quotedCount !== rows) {
+    throw new Error(`RESEARCH_CONTEXT.md says MATH_CLAIMS.md has ${quotedCount} rows; it actually has ${rows}.`);
   }
 });
 

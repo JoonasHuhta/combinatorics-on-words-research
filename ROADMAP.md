@@ -117,7 +117,7 @@ irreversible rewrite.
 | Verify or refute the rolling-hash boundary claim | ready |
 | Record registry with persistent IDs, checksums, AA2F/AA2FR separated | ready |
 | `REP` / `IND` level definitions (OD-12) | ready |
-| Java engine migration and v1.2 release | **deferred** — OD-13, org does not exist |
+| Java engine migration and v1.2 release | **deferred** — OD-13, org now exists; migration still needs its own bounded, separately approved task |
 
 ### WS-4 — Abelisk and pedagogy
 
