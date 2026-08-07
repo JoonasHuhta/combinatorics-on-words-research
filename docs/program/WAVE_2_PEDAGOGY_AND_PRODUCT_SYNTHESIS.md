@@ -880,7 +880,7 @@ square.`
 | # | Item | Status |
 |---|---|---|
 | 1 | `ABELISK` as the game name | v3 §2.4 keeps it and explicitly rejects generic alternatives (Abelian Puzzle, Parikh Game, Square-Free Logic). Not contested by any document |
-| 2 | Public title `ABELISK — Hidden Echoes` / `ABELISK — Piilokaikujen arvoitus` | Recommended by v3 §2.2. **Not decided** |
+| 2 | Public title `ABELISK — Hidden Echoes` / `ABELISK — Piilokaikujen arvoitus` | Recommended by v3 §2.2. **Decided (owner, 2026-08-07):** public title is `ABELISK — Hidden Echoes` |
 | 3 | Trademark / app-store / domain / social-handle search | v3 §2.3 requires it **before any independent commercial release**. No release is proposed, so this is a precondition on a hypothetical, not an open decision. **Not done** |
 | 4 | `Cipher Vault` | Retained by v3 §10.3 with a mandatory caveat: the pattern is a key that unseals text; **do not claim a novel cryptographic method** |
 | 5 | `Veikon sääntö` for FORBID4 | **Must not be used** — conflicts with ledger rows 9 and 41 (§7.1) |
