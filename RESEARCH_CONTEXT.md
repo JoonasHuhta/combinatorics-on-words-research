@@ -83,10 +83,15 @@ transferable part.
 | 7 | **`LITERATURE_COVERAGE.md`** | **What the literature covers and what it does not, and which search space has been swept.** Read before building a new computation line — it prevents redoing the same work |
 | 8 | `docs/plans/RESEARCH_ARCHITECT.md` | **Only when producing new research ideas.** Procedure, constraints, output format and rubric — ideas are not produced as free prose |
 
-**The root holds the eight `.md` files the table above lists, plus three
-that a session does not read to do mathematics** — `README.md` (the
-outward-facing entry point), `CONTRIBUTING.md` and this file. Everything
-else was moved out on 2026-07-30:
+**The root also holds other `.md` files beyond the table above.** Some are
+already routed elsewhere — `README.md`'s own "Start Here" table covers
+`CURRENT_FOCUS.md`, `ROADMAP.md`, and several files this table also lists.
+The rest are narrower supporting documents outside this reading path
+(`EPISTEMIC_DISCIPLINE.md`, `BACKTRACKER_ARCHITECTURE.md`,
+`THE_BRIDGE_STORY.md` and its extended version). This file, `README.md`, and
+`CONTRIBUTING.md` are the three a session does not read to do mathematics.
+Everything not named above or in `README.md`'s routing table was moved out
+on 2026-07-30:
 
 - `docs/historical/` — **outdated planning papers**
   (`GRAND_VISION_MAP`, `COMPUTATIONAL_DISCOVERY_LAB_PLAN`, `SEAM_ENGINE_…`,
