@@ -14,8 +14,10 @@ to. Then check `OPEN_RESEARCH_QUESTIONS.md` (what is actually open) and
 starting new work, so effort does not repeat what the project already knows
 not to do.
 
-**If you are here to learn, not to contribute:** `index.html` is the
-entry point — open it in a browser and explore the 19 tabs. The claim
+**If you are here to learn, not to contribute:** the live site —
+https://word-structures.github.io/combinatorics-on-words-research/ — or a
+local copy of `index.html` opened directly in a browser, is the entry point.
+It has 20 tabs (an unnumbered tutorial plus 1–19). The claim
 ledger (`MATH_CLAIMS.md`) and the dead-ends register (`NEGATIVE_RESULTS.md`)
 are designed to be legible without prior background in the field: a sourced
 claim with a verification level and a date is the same whether you are a
@@ -71,7 +73,9 @@ Mathematics and code are not the only useful kind:
    things. Run `node scripts/install-git-hooks.js` once per clone to make
    this a pre-commit hook instead of something that has to be remembered —
    git never tracks `.git/hooks/` itself, so a fresh clone or worktree has
-   no hook until this is run.
+   no hook until this is run. **Every pull request to `main` runs the same
+   two checks as required CI** (`claims-drift` and `tests`) — running them
+   locally first just means you see a failure before GitHub does.
 5. **A retracted claim is never deleted.** If you find a row in
    `MATH_CLAIMS.md` is wrong, it moves to `REJECTED` with the reason. It
    stays visible so nobody re-adds it.
@@ -92,6 +96,10 @@ Mathematics and code are not the only useful kind:
   scientific claim need the maintainer's sign-off before merge — not because
   outside contributions are distrusted, but because that is the same bar the
   project holds its own AI-assisted sessions to (`AGENTS.md` rule 5).
+  **Opening a pull request, or an issue proposing a result, does not by
+  itself make a claim true or accepted.** `MATH_CLAIMS.md` is the sole
+  authority for what the project asserts; a proposal becomes a claim only
+  when it is reviewed, sourced per `AGENTS.md`, and merged as a ledger row.
 - **No separate contributor tiers, badges, or difficulty ratings.** Read the
   docs above, pick something genuinely open, and show your work. That is
   the whole process.
