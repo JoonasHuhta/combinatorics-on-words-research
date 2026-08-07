@@ -1,0 +1,9 @@
+blank_issues_enabled: true
+contact_links:
+  - name: General contribution guide
+    url: https://github.com/word-structures/combinatorics-on-words-research/blob/main/CONTRIBUTING.md
+    about: >-
+      Read this first if you're proposing a research question, a literature
+      lead, a code change, or a suspected gap in an existing claim — the
+      structured form above is specifically for contributing research
+      material (a word, dataset, tool, or artifact).
