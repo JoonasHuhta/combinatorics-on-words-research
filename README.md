@@ -1,31 +1,56 @@
-# Combinatorics on Words — Experimental Mathematics Laboratory
+# Word Structures — Open Lab for Combinatorics on Words
 
-An open platform for exact computations, reproducible experiments, and AI-assisted mathematical research.
+**Word Structures** is the umbrella name for this open research lab. This
+repository, **Combinatorics on Words Research**, is its research program: an
+open platform for exact computations, reproducible experiments, and
+AI-assisted mathematical research into combinatorics on words.
+
+The lab's flagship open problem is **Mäkelä's conjecture**: does there exist
+an infinite ternary word whose only abelian squares are `00`, `11`, and `22`?
+Open for half-lengths K = 2…5 (`MATH_CLAIMS.md` row 4). The lab's flagship
+learning experience is **ABELISK — Hidden Echoes**, a logic-puzzle app built
+on the same mathematics, reachable from the live site below.
+
+### Two front doors
+
+| | Where | What it's for |
+|---|---|---|
+| **Explore / Learn** | [word-structures.github.io/combinatorics-on-words-research](https://word-structures.github.io/combinatorics-on-words-research/) | The public site: teaching tabs, Abelisk, and visualisations. It **reports** results; it does not compute or adjudicate them. |
+| **Research / Evidence** | [this repository](https://github.com/word-structures/combinatorics-on-words-research) | The canonical layer: the claim ledger, the exact computations, the review process, and the full history of what was tried and why. |
+
+If a figure on the site and a figure in `MATH_CLAIMS.md` ever disagree, the
+ledger in this repository is authoritative — the site is downstream of it,
+never the reverse.
 
 ### Project Goals
 1. **Advance research** on combinatorics on words and open problems.
 2. **Build open educational tools** to teach algorithms and research methodology.
 3. **Develop a reproducible AI-assisted research workflow** where the methodology and the process of discovery (including failures) are documented alongside the mathematics.
 
+AI may assist with search, drafting, and review throughout this project.
+People — currently the maintainer — retain authority over what is accepted as
+a claim, a decision, or a release.
+
 ## Start Here (Onboarding)
 
-The repository is structured to serve three different audiences. Pick the path that matches your interest:
+Different documents answer different questions. This is what each one is for,
+not a reading order you must follow start to finish:
 
-**If you want to understand the research (15 minute read):**
-* `RESEARCH_CONTEXT.md` — What is the problem and how does the project work?
-* `KNOWLEDGE_STATE.md` — What we already know and what is definitively closed.
-* `OPEN_RESEARCH_QUESTIONS.md` — What is currently open and unsolved.
+| Document | Answers |
+|---|---|
+| **`RESEARCH_CONTEXT.md`** | The deep entry point for continuing research work: what the project is, how the exact pipeline is organised, and what to read next. Start here if you intend to work on the mathematics. |
+| **`CURRENT_FOCUS.md`** | What is actively authorized right now, and what is explicitly not started yet. Selection is not authorization here — this file says which is which. |
+| **`ROADMAP.md`** | How the program's work is organised into workstreams, and in what order. |
+| **`KNOWLEDGE_STATE.md`** | A snapshot: what is known, what is closed, what is open, what must not be used — a derived index over the ledger. |
+| **`MATH_CLAIMS.md`** | The sole authority for every mathematical claim this project makes. Every row is sourced, dated, and carries a verification level. |
+| **`OPEN_RESEARCH_QUESTIONS.md`** | What is currently open, organised by literature, by the project's own computable questions, and by a register of rejected framings. |
+| **`NEGATIVE_RESULTS.md`** | The graveyard: what was tried, what failed, and why — so effort is not spent repeating it. |
+| **`LITERATURE_COVERAGE.md`** | A guided reading list of the papers that matter, and what has and has not been checked against them. |
 
-**If you want to understand the literature and sources:**
-* `LITERATURE_COVERAGE.md` — A guided reading list of the papers that matter, and why you should read them.
-* `MATH_CLAIMS.md` — The central ledger. Every single mathematical claim made in this project is sourced, verified, and logged here.
-
-**If you want to see how the AI and methodology works:**
-* `AGENTS.md` — The exact rules, protocols, and verification standards every AI agent (and human) must follow to contribute.
-* `NEGATIVE_RESULTS.md` — The graveyard. A systematic documentation of our research process: how ideas failed, why they were rejected, and what we learned from them.
-
-**If you want to contribute:**
-* `CONTRIBUTING.md` — You don't need to be a math PhD. We need help reading papers, replicating experiments, and building visualizations.
+**If you want to contribute:** see `CONTRIBUTING.md`. **If you want to see
+how the AI-assisted methodology works:** see `AGENTS.md`, which sets the
+citation and verification protocol every contribution — human or AI-assisted
+— is held to.
 
 ## Open Problems
 
@@ -33,13 +58,19 @@ This laboratory currently targets the following open problems in combinatorics o
 
 | Problem | Description | Source |
 |---|---|---|
-| **Mäkelä's conjecture** | Does there exist an infinite ternary word whose only abelian squares are 00, 11, 22? (Open for half-lengths K = 2…5). | Mäkelä (2002) / Fici & Puzynina (2023) |
+| **Mäkelä's conjecture** | Does there exist an infinite ternary word whose only abelian squares are 00, 11, 22? (Open for half-lengths K = 2…5). | Fici & Puzynina (2023) / Rao & Rosenfeld (arXiv:1511.05875) |
 | **Abelian repetition threshold** | What are the exact lower and upper bounds for abelian repetition thresholds? | Fici & Puzynina (2023) |
 | **The k-abelian hierarchy** | Understanding avoidance in stricter k-abelian equivalences (e.g. 2-abelian squares in ternary words). | Fici & Puzynina (2023) |
 | **Unfavourable factors** | Does there exist an a-2-free word that can be extended without bound to the right, but never occurs inside any infinite a-2-free word? | Keränen (2006) |
 | **Additive squares over ℤ** | Is ℤ uniformly 2-repetitive? (Are additive squares avoidable over finite integer alphabets?) | Justin (1972) / Rao & Rosenfeld (2015) |
 
 *(Note: Dejean's conjecture is proven and therefore not on this list.)*
+
+Every open-problem statement above is a finite question about the existence
+of an infinite object. No finite computation in this repository — however
+long, however clean — is presented as proof of such existence; see
+`AGENTS.md` and `EPISTEMIC_DISCIPLINE.md` for why, and how results are
+worded instead.
 
 ## What is different here
 
@@ -63,19 +94,38 @@ The practical consequence: a finite check is always reported with its window
 ("no violation found for K in [2,5] in this 6,561-symbol image"), never with
 the words *proven* or *certified* without a stated bound.
 
+**Every pull request to `main` is checked by this machinery automatically.**
+Two required checks — `claims-drift` and `tests` — must pass before a change
+can be merged; see "Running it" below for what each one guards.
+
 ## Layout
 
 ```
-*.js                 the exact Node pipeline, dependency-free; every module
-                     verifies itself and throws rather than return a wrong
-                     answer
-index.html           browser application: teaching and visualisation. It
-                     REPORTS results, it does not compute them
-docs/plans/          living plans (sanalab, UI/UX, process)
-docs/historical/     superseded planning papers — do not rely on them
-papers/              literature (gitignored)
-datasets/            record words (gitignored, the authors' data)
+src/            the exact Node research pipeline — self-verifying modules,
+                dependency-free; every module throws rather than return a
+                wrong answer
+scripts/        research runners, plus the governance tooling that guards
+                MATH_CLAIMS.md (check-claims-drift.js) and the git hooks
+tests/          the regression suite (tests/test.js and friends)
+docs/           program governance (docs/program/), task specifications
+                (docs/tasks/), living plans (docs/plans/) and superseded
+                planning papers (docs/historical/ — do not rely on these)
+research/       written research output and dataset provenance records
+datasets/       record-word data — see "Sources and rights" below
+.github/        the CI workflow that runs the two required checks above
 ```
+
+Not every `.js` file in this repository is part of the exact pipeline above —
+`aa2fr-worker.js`, for instance, is a browser Web Worker, not a research
+module. The pipeline's own inventory is `RESEARCH_CONTEXT.md` section 3, kept
+in sync with `src/` and `scripts/` by an automated check.
+
+The web application — `index.html`, `app.html`, `word-checker.html`,
+`bridge_story_sandbox.html`, `poster.html`, and their supporting assets
+(`aa2fr-worker.js`, `run-seam-search.bat`) — lives at the repository root
+rather than in a subfolder. That is because the current GitHub Pages
+deployment serves the site from the repository root; moving these files would
+change their public URLs.
 
 ## Running it
 
@@ -93,8 +143,9 @@ node scripts/install-git-hooks.js  # optional: makes both of the above run autom
 ```
 
 Run the two checkers before committing and **read both outputs** — they test
-different things. Individual modules under `src/` and `scripts/` run
-directly, for example:
+different things, and they are the same two checks (`claims-drift`, `tests`)
+that gate every pull request in CI. Individual modules under `src/` and
+`scripts/` run directly, for example:
 
 ```bash
 node src/sft-container.js --kmax 6
@@ -149,13 +200,23 @@ because an earlier claim was checked again and found wanting. Read
 `OPEN_RESEARCH_QUESTIONS.md` and `NEGATIVE_RESULTS.md` before starting
 anything, so effort does not repeat what the project already knows not to
 do. `index.html` is the browser visualiser — open it directly, no build step
-or server needed.
+or server needed, or visit the live site linked above.
 
-## Sources and licence
+## Sources and rights
 
-The literature in `papers/` and the record words in `datasets/` belong to their
-authors and are not redistributed from this repository. Every cited work is
-recorded in `MATH_CLAIMS.md` with a DOI or arXiv identifier.
+Every cited work is recorded in `MATH_CLAIMS.md` with a DOI or arXiv
+identifier; citation does not imply redistribution of the source itself, and
+literature under `papers/` (gitignored) is not redistributed from this
+repository.
+
+One dataset file under `datasets/` is currently tracked in this repository
+and is attributed, in the repository's own documentation, to an external
+author. That attribution is not the same thing as confirmed redistribution
+permission, and no such permission has been established. This file's
+provenance and rights status are open — see
+`docs/program/OD-2-PROVENANCE-FINDINGS.md` for the full evidence gathered so
+far and the options under consideration. This README does not resolve that
+question or assert a rights conclusion in either direction.
 
 This project's own code and documentation are MIT licensed — see `LICENSE`.
 **If you use a result, figure, or claim from this project in your own work,

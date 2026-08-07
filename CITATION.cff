@@ -4,12 +4,12 @@ message: >-
   research, please cite it as below. If you cite a specific figure or claim,
   please also reference the row it comes from in MATH_CLAIMS.md (e.g. "row
   75"), so the citation traces to its exact source and verification level.
-title: "Combinatorics on Words — Experimental Mathematics Laboratory"
+title: "Word Structures: Combinatorics on Words Research"
 type: software
 authors:
   - family-names: Huhta
     given-names: Joonas
-url: "https://github.com/word-structures/combinatorics-on-words-research"
+url: "https://word-structures.github.io/combinatorics-on-words-research/"
 repository-code: "https://github.com/word-structures/combinatorics-on-words-research"
 license: MIT
 keywords:
@@ -21,3 +21,5 @@ keywords:
   - open problems
   - reproducible research
   - AI-assisted mathematics
+  - open lab
+  - mathematics education
