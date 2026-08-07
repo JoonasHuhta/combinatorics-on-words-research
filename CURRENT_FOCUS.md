@@ -1,6 +1,6 @@
 # Current Focus
 
-**Updated:** 2026-08-06
+**Updated:** 2026-08-07
 **Review due:** 2026-09-06 (end of the bootstrap allocation window)
 **Full roadmap:** `ROADMAP.md` · **Research authority:** `NEXT_STEP.md`
 
@@ -10,37 +10,37 @@
 
 # Repository safety and rights (WS-1)
 
-## One selected task
+## Last authorized task — completed
 
 # `TASK-0001` — Preserve and trace the D40 dataset provenance
 
-**Status: `SELECTED — AWAITING OWNER AUTHORIZATION`**
+**Status: `COMPLETED`**
 
-Specification: `docs/tasks/TASK-0001.md`
+Authorized 2026-08-06 (`docs/program/PLAN_REGISTRY.yaml`, `bootstrap_status.first_task`).
+Executed and merged as commit `0ac5b2a`.
 
-The task is specified and selected. It is **not active**, **not authorized**, and
-**not started**. Selection is not authorization. No implementation task is described
-as active anywhere until the owner explicitly authorizes it.
+```text
+Specification   docs/tasks/TASK-0001.md
+Findings        docs/program/OD-2-PROVENANCE-FINDINGS.md
+Raw evidence    research/dictionaries/D40-0001/
+```
 
-When authorized, it runs in an **isolated Git worktree on a dedicated task branch** —
-never in the shared worktree.
+It was executed under the bounded scope defined in TASK-0001 and produced exactly
+the four files authorized by §4.
 
----
+**Completion did not resolve OD-2.** Per TASK-0001 §15, completing it did not grant
+permission to use, publish, remove, or redistribute the dataset. Its status remains
+`RIGHTS_AND_PROVENANCE_UNRESOLVED` until the owner resolves OD-2 on the evidence the
+task produced.
 
-## Why now
+## Currently active
 
-`datasets/aa2fr3LetLen40ex80ms200MextendableAllPermsMirs.txt` is tracked in a public
-repository, its provenance is unresolved, and Wave 3 established that it **is** the
-D40 source dictionary. One unresolved rights question therefore gates dictionary
-compilation, the 39-state graph, three of five search modes, record replay, seam
-rigidity, Cut-and-Certify Phase 5, and the dictionary-derived CEGIS priors.
+**No implementation task is currently authorized and in progress.**
 
-It is also the cheapest open item: preserving the evidence and tracing one file's
-origin is bounded work that adds files and changes nothing.
-
-The owner direction is explicit: **preserve checksum, filename, size and the known
-dependency graph before repository tracking is changed**, and **do not delete the only
-operational copy**.
+This means no formally recorded implementation task is active. It does not mean the
+project is inactive: governance, documentation, and infrastructure work has merged
+since TASK-0001 under direct owner instruction rather than under a recorded successor
+implementation task. No successor implementation task has been selected or authorized.
 
 ---
 
@@ -49,11 +49,15 @@ operational copy**.
 ```text
 Git-history remediation                 OD-1 — separate decision, six prerequisites
 Any D40 compilation, audit, or search   OD-2 — status RIGHTS_AND_PROVENANCE_UNRESOLVED
-Removal of the dataset from the tree    depends on TASK-0001's output
+Removal of the dataset from the tree    OD-2 — TASK-0001's output now exists; the
+                                        decision itself is still open
 Ledger translation                      OD-5 — AGENTS.md rule 8 governs until amended
 Public recruitment                      OD-1
 Website shell or toolchain adoption     OD-8 — after math-core extraction
-Java engine migration                   OD-13 — organization does not exist yet
+Java engine migration                   OD-13 — approved target; the Word Structures
+                                        organization now exists, but migration still
+                                        requires its own bounded, separately approved
+                                        task
 Editing AGENTS.md                       TASK-GOV is a candidate, not approved
 Any pedagogy pilot                      transfer task not yet designed
 The 85-cell Master puzzle               conditional on g85 verification
@@ -62,17 +66,11 @@ Restoring mechanics from Abelisk v2 or the foundation document
 
 ---
 
-## Stop condition
+## Stop conditions
 
-Stop `TASK-0001` and report if any of the following occurs:
-
-- provenance tracing reveals third-party ownership with **no** redistribution
-  permission — this escalates to OD-1 rather than continuing;
-- the file's checksum does not match what any prior record states;
-- the operational copy is found to be the only copy in existence;
-- the task would require changing repository tracking, deleting anything, or touching
-  Git history — all three are **out of scope**;
-- an acceptance criterion cannot be objectively tested.
+TASK-0001 carried its own stop conditions (`docs/tasks/TASK-0001.md` §9); they were
+spent when the task completed. **When a successor implementation task is authorized,
+it states its own.**
 
 ---
 

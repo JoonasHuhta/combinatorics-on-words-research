@@ -61,9 +61,11 @@ maximum two active feature migrations
 one public release at least every four weeks
 ```
 
-**Current active count: zero.** `TASK-0001` is *selected*, not active. No
-implementation task is described as active anywhere until the owner explicitly
-authorizes it.
+**Current active count: zero.** `TASK-0001`, the one authorized implementation task,
+is **complete** (merged as `0ac5b2a`). No successor implementation task has been
+selected or authorized, and none is described as active anywhere until the owner
+explicitly authorizes it. This counts formally recorded implementation tasks; it does
+not imply the project is idle.
 
 ---
 
@@ -76,7 +78,7 @@ items cannot be retrofitted.
 
 | Item | State | Blocker |
 |---|---|---|
-| **TASK-0001** — preserve and trace the D40 dataset provenance | **`SELECTED — AWAITING OWNER AUTHORIZATION`** | not authorized |
+| **TASK-0001** — preserve and trace the D40 dataset provenance | **`COMPLETED`** — merged `0ac5b2a`; findings in `docs/program/OD-2-PROVENANCE-FINDINGS.md` | — |
 | Artifact-denylist CI + strengthened `.gitignore` | ready | needs repo admin |
 | Rights and artifact inventory across tree, branches, tags, history | ready | — |
 | OD-1 remediation plan (six prerequisites) | blocked | owner decision |
@@ -148,9 +150,11 @@ independence, shared test data, shared assumptions, and model exposure.
 
 | Item | State |
 |---|---|
-| `.github/` issue forms and PR template | ready — needs repo admin |
+| `.github/` issue forms | **done** — research-material issue form and `config.yml` merged |
+| `.github/` PR template | ready |
 | `CODE_OF_CONDUCT.md`, `SECURITY.md`, `SUPPORT.md` | ready |
-| Branch protection and required checks | ready — needs repo admin |
+| Required CI checks on `main` | **done** — `.github/workflows/ci.yml` runs claims-drift and tests |
+| Branch protection settings | ready — needs repo admin; current setting not recorded here |
 | Discussions, unadvertised | ready |
 | Broad recruitment campaign | **blocked on OD-1** |
 | Credit and authorship policy | ready |
@@ -162,7 +166,7 @@ independence, shared test data, shared assumptions, and model exposure.
 Deliberately no dates beyond the OD-9 allocation window. Ordering is by dependency.
 
 ```text
-NOW          TASK-0001 (WS-1)
+NOW          nothing authorized — TASK-0001 (WS-1) is complete
 
 NEXT         artifact-denylist CI            WS-1, independent of OD-1/OD-2
              TASK-GOV                        WS-3, removes a verifier ambiguity
@@ -179,11 +183,12 @@ LATER        record registry                  needs Layer-4 verifier
 GATED        computational, experimental, publication, redistribution
              and research use of the D40 dataset       OD-2
                  NOT gated: read-only provenance preservation and
-                 tracing (TASK-0001)
+                 tracing — done by TASK-0001
              public recruitment               OD-1
              ledger translation               OD-5
              website shell                    after core extraction
-             Java migration                   OD-13, org does not exist
+             Java migration                   OD-13, still deferred to its own
+                                              bounded task; org now exists
 ```
 
 ---
@@ -211,6 +216,7 @@ belonged to someone else?*
 
 - It does not activate any plan. Twelve remain `PROPOSED`.
 - It does not reprioritize research. `NEXT_STEP.md` holds that authority.
-- It does not authorize implementation of anything, including `TASK-0001`.
+- It does not authorize implementation of anything. `TASK-0001` was authorized
+  separately, by the owner, and is recorded here only as completed.
 - It does not resolve OD-1, OD-2, or OD-5.
 - It does not set dates beyond the OD-9 window.
