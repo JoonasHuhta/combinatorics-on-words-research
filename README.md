@@ -123,9 +123,10 @@ Not every `.js` file in this repository is part of the exact pipeline above —
 module. The pipeline's own inventory is `RESEARCH_CONTEXT.md` section 3, kept
 in sync with `src/` and `scripts/` by an automated check.
 
-The web application — `index.html`, `app.html`, `word-checker.html`,
+The public site — `index.html` (the Word Structures homepage), `explore.html`
+(the Interactive Explorer application), `app.html`, `word-checker.html`,
 `bridge_story_sandbox.html`, `poster.html`, and their supporting assets
-(`aa2fr-worker.js`, `run-seam-search.bat`) — lives at the repository root
+(`assets/`, `aa2fr-worker.js`, `run-seam-search.bat`) — lives at the repository root
 rather than in a subfolder. That is because the current GitHub Pages
 deployment serves the site from the repository root; moving these files would
 change their public URLs. `CNAME`, alongside these files, configures the
@@ -216,7 +217,7 @@ reference that closes an open question, or an independent reproduction of a
 ledger has rows that exist only because an earlier claim was checked again
 and found wanting. Read `OPEN_RESEARCH_QUESTIONS.md` and
 `NEGATIVE_RESULTS.md` before starting anything, so effort does not repeat
-what the project already knows not to do. `index.html` is the browser
+what the project already knows not to do. `explore.html` is the browser
 visualiser — open it directly, no build step or server needed, or visit the
 live site linked above.
 
