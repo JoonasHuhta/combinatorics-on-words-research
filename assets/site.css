@@ -670,7 +670,21 @@ img, svg { max-width: 100%; height: auto; }
 }
 .tools__group-label:first-of-type { margin-top: 1.5rem; }
 
-/* --- 18. Reduced motion -------------------------------------------------- */
+/* --- 18. Growth sequence (Start Here) -------------------------------------- */
+/* A quiet numeric progression, set in tabular figures so the digits align
+   without needing a chart or canvas. */
+
+.growth-sequence {
+  margin: 1.5rem 0;
+  font-family: var(--sans);
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+
+/* --- 19. Reduced motion -------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

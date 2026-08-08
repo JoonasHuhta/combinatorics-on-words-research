@@ -288,7 +288,9 @@ check("No self-certifying verdict language on the public pages", () => {
   // it, so the page has never existed as an unguarded public surface.
   // research.html added 2026-08-08 (WEB-RESEARCH-1) in the same change that
   // created it, so the page has never existed as an unguarded public surface.
-  const files = ['index.html', 'learn.html', 'research.html', 'explore.html', 'bridge_story_sandbox.html', 'word-checker.html'];
+  // start.html added 2026-08-08 (PUBLIC-ACCESS-2) in the same change that
+  // created it, so the page has never existed as an unguarded public surface.
+  const files = ['index.html', 'start.html', 'learn.html', 'research.html', 'explore.html', 'bridge_story_sandbox.html', 'word-checker.html'];
   const offences = [];
   const used = new Set();
 
