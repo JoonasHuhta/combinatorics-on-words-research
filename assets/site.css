@@ -612,7 +612,65 @@ img, svg { max-width: 100%; height: auto; }
 /* Small vertical nudge where a figure follows body copy. */
 .stack-top { margin-top: 1.5rem; }
 
-/* --- 16. Reduced motion -------------------------------------------------- */
+/* --- 16. Evidence ladder (Research) --------------------------------------- */
+/* Each row states its status as explicit text in the badge; colour is a
+   secondary cue only, never the sole signal (verified/known/open remain
+   legible in any colour scheme or with colour vision deficiency). */
+
+.ladder { margin: 2rem 0 0; }
+.ladder__row {
+  display: grid;
+  grid-template-columns: 12rem 1fr;
+  gap: 0.5rem 1.5rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--rule);
+}
+.ladder__row:first-child { border-top: none; }
+.ladder__row dd { margin: 0; color: var(--ink-soft); }
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--rule-strong);
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.status-badge--computed { border-color: var(--blue); color: var(--blue); }
+.status-badge--known    { border-color: var(--green); color: var(--green); }
+.status-badge--open     { border-color: var(--red); color: var(--red); }
+
+@media (max-width: 34.99em) {
+  .ladder__row { grid-template-columns: 1fr; }
+}
+
+/* --- 17. Research directions and tool groups ------------------------------ */
+
+.directions {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1.25rem;
+}
+.directions li { padding-top: 1rem; border-top: 1px solid var(--rule); }
+.directions li:first-child { border-top: none; padding-top: 0; }
+
+.tools__group-label {
+  margin: 2rem 0 0.75rem;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.tools__group-label:first-of-type { margin-top: 1.5rem; }
+
+/* --- 18. Reduced motion -------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

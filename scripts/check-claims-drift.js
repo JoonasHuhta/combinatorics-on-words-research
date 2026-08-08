@@ -286,7 +286,9 @@ check("No self-certifying verdict language on the public pages", () => {
   // index.html stays on the list in its new role as the Word Structures homepage.
   // learn.html added 2026-08-08 (WEB-LEARN-1) in the same change that created
   // it, so the page has never existed as an unguarded public surface.
-  const files = ['index.html', 'learn.html', 'explore.html', 'bridge_story_sandbox.html', 'word-checker.html'];
+  // research.html added 2026-08-08 (WEB-RESEARCH-1) in the same change that
+  // created it, so the page has never existed as an unguarded public surface.
+  const files = ['index.html', 'learn.html', 'research.html', 'explore.html', 'bridge_story_sandbox.html', 'word-checker.html'];
   const offences = [];
   const used = new Set();
 

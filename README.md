@@ -27,6 +27,12 @@ never the reverse.
 2. **Build open educational tools** to teach algorithms and research methodology.
 3. **Develop a reproducible AI-assisted research workflow** where the methodology and the process of discovery (including failures) are documented alongside the mathematics.
 
+### Project roles
+
+Word Structures was founded by Joonas Huhta and Veikko Keränen. Joonas Huhta
+leads the project and its technical development. Veikko Keränen provides
+mathematical review.
+
 AI may assist with search, drafting, and review throughout this project.
 People — currently the maintainer — retain authority over what is accepted as
 a claim, a decision, or a release.
