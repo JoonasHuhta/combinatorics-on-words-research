@@ -699,7 +699,28 @@ img, svg { max-width: 100%; height: auto; }
 
 .start-invite { padding-block: clamp(2rem, 5vw, 3rem); }
 
-/* --- 20. Reduced motion -------------------------------------------------- */
+/* --- 21. Evidence chain (Evidence) ------------------------------------------ */
+/* A numbered list, not a diagram: the four stages are meaningful as an order,
+   and a native <ol> gives that order to assistive tech for free. */
+
+.chain {
+  margin: 2rem 0 0;
+  padding-left: 1.4rem;
+  display: grid;
+  gap: 1.25rem;
+}
+.chain li { padding-left: 0.4rem; }
+.chain strong { display: inline-block; margin-bottom: 0.25rem; }
+
+/* Three more ledger-status badges, following the exact pattern already used
+   by .status-badge / .status-badge--computed (research.html's evidence
+   ladder). Colour is never the only signal: the status name is always the
+   badge's own text. */
+.status-badge--primary   { border-color: var(--green);  color: var(--green); }
+.status-badge--indirect  { border-color: var(--yellow);  color: #8a6d00; } /* darkened for 4.5:1 on --paper */
+.status-badge--rejected  { border-color: var(--red);     color: var(--red); }
+
+/* --- 22. Reduced motion -------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
