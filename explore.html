@@ -4045,6 +4045,64 @@ $('unf-input').addEventListener('keydown', e => { if (e.key === 'Enter') renderU
 // =====================================================
 // UI TABS & INIT
 // =====================================================
+// =====================================================
+// Stable hash routing (WEB-DEEPLINK-1, 2026-08-08)
+//
+// A thin layer around the existing switchMode() so each module has a durable
+// public URL that Learn / Research / Evidence can link to. There is no second
+// state system here: switchMode remains the only thing that changes tabs, and
+// these slugs are the only thing that changes about how it is reached.
+//
+// The slugs are public URLs from the moment they ship. They deliberately carry
+// no tab numbers and no visual branding, so renumbering or renaming a tab does
+// not break an external link.
+// =====================================================
+const MODE_TO_SLUG = {
+  'tutorial':    'tutorial',
+  '3letter':     'tree-search',
+  'abc-lab':     'abc-lab',
+  '4letter':     'morphism-g85',
+  'canvas':      '2d-walk',
+  'audio':       'sonification',
+  'try-it':      'try-it',
+  'timeline':    'timeline',
+  'unfavorable': 'unfavorable-factors',
+  'microscope':  'morphism-microscope',
+  'knowledge':   'concept-graph',
+  'morph-lab':   'morphism-lab',
+  'heat-map':    'heat-map',
+  'snake':       'abelisk',
+  'aa2fr':       'aa2fr-extension',
+  'impact':      'applications',
+  'validation':  'validation',
+  'gallery':     'gallery',
+  'gold-lab':    'seam-search',
+  'graveyard':   'graveyard'
+};
+const SLUG_TO_MODE = Object.fromEntries(
+  Object.entries(MODE_TO_SLUG).map(([m, s]) => [s, m])
+);
+
+// Set while routing drives switchMode, so a route does not rewrite the URL it
+// just came from.
+let suppressHashSync = false;
+
+/** The mode named by the current location.hash, or null if absent/unknown. */
+function modeFromHash() {
+  return SLUG_TO_MODE[decodeURIComponent(location.hash.replace(/^#/, ''))] || null;
+}
+
+/** Apply the current hash if it names a module. An unknown or empty hash is
+ *  ignored: the visible tab simply stays as it is, never an error state. */
+function applyHashRoute() {
+  const target = modeFromHash();
+  if (!target) return false;
+  suppressHashSync = true;
+  switchMode(target);
+  suppressHashSync = false;
+  return true;
+}
+
 function switchMode(newMode) {
   mode = newMode;
   running = false; if (loopTimer) clearTimeout(loopTimer); stopAudio();
@@ -4182,6 +4240,17 @@ function switchMode(newMode) {
       drawCanvas2DWalk();
     }
   }
+
+  // Publish the new mode in the URL. Placed here rather than in the click
+  // handler so every existing caller (tab clicks, the tutorial's "Try it
+  // yourself" button, the Graveyard Trap 18 link) stays in sync without any of
+  // them being modified. pushState leaves focus alone and does not reload.
+  if (!suppressHashSync && MODE_TO_SLUG[newMode]) {
+    const nextHash = '#' + MODE_TO_SLUG[newMode];
+    if (location.hash !== nextHash) {
+      history.pushState(null, '', nextHash);
+    }
+  }
 }
 
 // =====================================================
@@ -4217,7 +4286,19 @@ document.head.appendChild(unfStyle);
 document.querySelectorAll('.mode-tab').forEach(tab => tab.addEventListener('click', () => switchMode(tab.dataset.mode)));
 
 // Initialize
-switchMode('tutorial');
+// Initial route. suppressHashSync is held across this call so that opening
+// explore.html with no hash behaves exactly as before and does not silently
+// rewrite the address bar to #tutorial. An unknown hash falls back to the same
+// default rather than showing an error.
+suppressHashSync = true;
+switchMode(modeFromHash() || 'tutorial');
+suppressHashSync = false;
+
+// popstate covers Back/Forward over the pushState entries above; hashchange
+// covers a hash typed or pasted into the address bar. Both re-enter the single
+// existing switcher.
+window.addEventListener('popstate', applyHashRoute);
+window.addEventListener('hashchange', applyHashRoute);
 
 // =====================================================
 // MICROSCOPE RENDERER
