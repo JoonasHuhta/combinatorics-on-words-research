@@ -171,14 +171,23 @@ img, svg { max-width: 100%; height: auto; }
   min-height: 44px;
 }
 
-/* Footprint reserved for the authentic Word Structures mark.
-   No mark is drawn here: there is no trusted vector source, and this build
-   must not invent, trace or substitute one. */
+/* Footprint reserved for the authentic Word Structures mark. Footer keeps the
+   placeholder box (out of scope for PUBLIC-ACCESS-3); the header uses the
+   --logo modifier below once the owner-authored asset is in place. */
 .brand__mark {
   width: 1.75rem;
   height: 1.75rem;
   flex: none;
   border: 1px dashed var(--rule);
+}
+
+/* The owner-authored Word Structures mark (PUBLIC-ACCESS-3), header only.
+   object-fit guards against the asset's slightly non-square canvas
+   (653x615) without cropping or distorting it. */
+.brand__mark--logo {
+  border: none;
+  display: block;
+  object-fit: contain;
 }
 
 .brand__word {
@@ -684,7 +693,13 @@ img, svg { max-width: 100%; height: auto; }
   letter-spacing: 0.02em;
 }
 
-/* --- 19. Reduced motion -------------------------------------------------- */
+/* --- 19. Start Here invitation (homepage) ---------------------------------- */
+/* A quiet interstitial, not a full section: lighter vertical rhythm than the
+   surrounding sections so it reads as an invitation rather than a banner. */
+
+.start-invite { padding-block: clamp(2rem, 5vw, 3rem); }
+
+/* --- 20. Reduced motion -------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
