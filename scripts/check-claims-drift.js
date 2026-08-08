@@ -100,28 +100,43 @@ check("No Bitwise Left Shift (<<) in Web Worker Parikh Packing", () => {
 });
 
 // 4. No Emoji Characters in Tab 18 / Module 18 UI & Dispatcher
+// Target moved 2026-08-08 (WEB-SWAP-1): the explorer application moved from
+// index.html to explore.html when index.html became the Word Structures
+// homepage. Two silent success paths were removed at the same time, because
+// each would have reported PASS against the new homepage while guarding
+// nothing -- the old `if (fs.existsSync(...))` wrapper turned a missing target
+// into a pass, and an absent marker produced an empty slice that no regex can
+// ever match. A guard that cannot fail is worse than no guard, because it
+// reports safety.
 check("No Emoji Characters in Module 18 UI & Citizen Science Dispatcher", () => {
-  const indexPath = path.join(path.join(__dirname, '..'), 'index.html');
-  if (fs.existsSync(indexPath)) {
-    const indexContent = fs.readFileSync(indexPath, 'utf8');
-    
-    // Check HTML slice
-    const htmlStart = indexContent.indexOf('id="view-gold-lab"');
-    const htmlEnd = indexContent.indexOf('<!-- END TAB 18 -->', htmlStart);
-    const htmlSlice = htmlStart !== -1 ? indexContent.slice(htmlStart, htmlEnd !== -1 ? htmlEnd : undefined) : "";
-    
-    // Check JS slice
-    const jsStart = indexContent.indexOf('// TAB 18: SEAM SEARCH');
-    const jsEnd = indexContent.indexOf('// END TAB 18', jsStart);
-    const jsSlice = jsStart !== -1 ? indexContent.slice(jsStart, jsEnd !== -1 ? jsEnd : undefined) : "";
-    
-    const combinedSlice = htmlSlice + "\n" + jsSlice;
-    
-    // Check for emojis (surrogate pairs or common symbols like 📡, ℹ, 🧬, 🔍, etc.)
-    const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]|[\u2300-\u23FF]|[\u2B50-\u2B55]/;
-    if (emojiRegex.test(combinedSlice)) {
-      throw new Error("Module 18 HTML/JS contains forbidden emoji or symbol characters in UI or issue reports! Must maintain serious scientific styling.");
-    }
+  const explorePath = path.join(path.join(__dirname, '..'), 'explore.html');
+  if (!fs.existsSync(explorePath)) {
+    throw new Error('explore.html is missing; it is the mandatory target of this check (the explorer application, formerly index.html).');
+  }
+  const exploreContent = fs.readFileSync(explorePath, 'utf8');
+
+  // Check HTML slice
+  const htmlStart = exploreContent.indexOf('id="view-gold-lab"');
+  if (htmlStart === -1) {
+    throw new Error('explore.html no longer contains the Module 18 marker id="view-gold-lab"; this check would otherwise scan nothing and report PASS.');
+  }
+  const htmlEnd = exploreContent.indexOf('<!-- END TAB 18 -->', htmlStart);
+  const htmlSlice = exploreContent.slice(htmlStart, htmlEnd !== -1 ? htmlEnd : undefined);
+
+  // Check JS slice
+  const jsStart = exploreContent.indexOf('// TAB 18: SEAM SEARCH');
+  if (jsStart === -1) {
+    throw new Error('explore.html no longer contains the Module 18 marker "// TAB 18: SEAM SEARCH"; this check would otherwise scan nothing and report PASS.');
+  }
+  const jsEnd = exploreContent.indexOf('// END TAB 18', jsStart);
+  const jsSlice = exploreContent.slice(jsStart, jsEnd !== -1 ? jsEnd : undefined);
+
+  const combinedSlice = htmlSlice + "\n" + jsSlice;
+
+  // Check for emojis (surrogate pairs or common symbols like 📡, ℹ, 🧬, 🔍, etc.)
+  const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]|[\u2300-\u23FF]|[\u2B50-\u2B55]/;
+  if (emojiRegex.test(combinedSlice)) {
+    throw new Error("Module 18 HTML/JS in explore.html contains forbidden emoji or symbol characters in UI or issue reports! Must maintain serious scientific styling.");
   }
 });
 
@@ -266,7 +281,10 @@ check("No self-certifying verdict language on the public pages", () => {
       why: 'Graveyard Trap 18 warning the reader against exactly the verdict this check forbids; it shares a line with the entry above, and per-occurrence masking is what surfaced it' }
   ];
 
-  const files = ['index.html', 'bridge_story_sandbox.html', 'word-checker.html'];
+  // explore.html added 2026-08-08 (WEB-SWAP-1): it is the explorer application,
+  // formerly index.html, and carries the Trap 18 material the allowlist exempts.
+  // index.html stays on the list in its new role as the Word Structures homepage.
+  const files = ['index.html', 'explore.html', 'bridge_story_sandbox.html', 'word-checker.html'];
   const offences = [];
   const used = new Set();
 
@@ -364,9 +382,16 @@ check("seam-hpc-cli p6 mode audits the real g3(h6^n(a)) construction", () => {
 // notaatio ei nyt nay netissa"). Verified in-browser on 2026-07-28: both
 // window.MathJax and window.katex are undefined and the only external script is
 // the worker. 93 inline spans were converted to HTML/Unicode; this keeps them out.
-check("No raw LaTeX or broken entities in index.html markup", () => {
-  const p = path.join(path.join(__dirname, '..'), 'index.html');
-  if (!fs.existsSync(p)) return;
+check("No raw LaTeX or broken entities in the public HTML markup", () => {
+  // Covers both public surfaces since WEB-SWAP-1: the homepage (index.html) and
+  // the explorer application (explore.html, formerly index.html). Coverage was
+  // deliberately extended rather than transferred -- moving it to the homepage
+  // alone would have left the 745 KB explorer, where every one of the historical
+  // entity failures actually occurred, unguarded. The old
+  // `if (!fs.existsSync(p)) return;` was a silent pass and is gone.
+  for (const file of ['index.html', 'explore.html']) {
+  const p = path.join(path.join(__dirname, '..'), file);
+  if (!fs.existsSync(p)) throw new Error(file + ' is missing; it is a mandatory target of this check.');
   const src = fs.readFileSync(p, 'utf8');
   // Script blocks are exempt: JS may legitimately contain backslashes and ${...}.
   const html = src.split(/(<script[\s\S]*?<\/script>)/g)
@@ -375,11 +400,11 @@ check("No raw LaTeX or broken entities in index.html markup", () => {
 
   const latex = html.match(/\$[^$\n]{1,120}\$/g) || [];
   if (latex.length) {
-    throw new Error(`index.html markup contains ${latex.length} inline LaTeX span(s), which render as literal source because no math library is loaded. First: ${latex[0].slice(0, 60)}`);
+    throw new Error(`${file} markup contains ${latex.length} inline LaTeX span(s), which render as literal source because no math library is loaded. First: ${latex[0].slice(0, 60)}`);
   }
   const macros = html.match(/\\[a-zA-Z]{2,}/g) || [];
   if (macros.length) {
-    throw new Error(`index.html markup contains ${macros.length} TeX macro(s) outside script blocks. First: ${macros[0]}`);
+    throw new Error(`${file} markup contains ${macros.length} TeX macro(s) outside script blocks. First: ${macros[0]}`);
   }
   // Both spellings, named and numeric. The numeric arm was missing until
   // 2026-07-30 and the gap was not theoretical: this check reported 15/15 while
@@ -387,14 +412,14 @@ check("No raw LaTeX or broken entities in index.html markup", () => {
   // displayed as literal "&#8328;" on the page. `#` is not in [a-zA-Z].
   const doubled = html.match(/&amp;#?[a-zA-Z0-9]+;/g) || [];
   if (doubled.length) {
-    throw new Error(`index.html contains ${doubled.length} double-escaped HTML entit(ies) such as ${doubled[0]}, which display as literal text. Write &mdash; not &amp;mdash;, and &#8328; not &amp;#8328;.`);
+    throw new Error(`${file} contains ${doubled.length} double-escaped HTML entit(ies) such as ${doubled[0]}, which display as literal text. Write &mdash; not &amp;mdash;, and &#8328; not &amp;#8328;.`);
   }
   // An entity whose digits went missing renders as nothing and is invisible in
   // review. Commit 0c56150 unescaped with a regex that ate them ("Erd&#;s") and
   // was reverted four minutes later; this is that revert made permanent.
   const gutted = html.match(/&#;|&#[a-zA-Z]/g) || [];
   if (gutted.length) {
-    throw new Error(`index.html contains ${gutted.length} malformed numeric entit(ies) such as ${gutted[0]}, missing their code point. A regex-based unescape most likely stripped the digits.`);
+    throw new Error(`${file} contains ${gutted.length} malformed numeric entit(ies) such as ${gutted[0]}, missing their code point. A regex-based unescape most likely stripped the digits.`);
   }
   // `&sub3;` is not an HTML entity and never was: `&sub;` is the subset sign and
   // there is no digit-suffixed form. 21 of these sat in the Validation Lab
@@ -402,7 +427,8 @@ check("No raw LaTeX or broken entities in index.html markup", () => {
   // spellings because the single-escaped form survives the check above.
   const pseudo = html.match(/&(amp;)?sub\d+;/g) || [];
   if (pseudo.length) {
-    throw new Error(`index.html contains ${pseudo.length} invalid entit(ies) such as ${pseudo[0]}. No such entity exists; use the subscript code point (&#8323; for 3) instead.`);
+    throw new Error(`${file} contains ${pseudo.length} invalid entit(ies) such as ${pseudo[0]}. No such entity exists; use the subscript code point (&#8323; for 3) instead.`);
+  }
   }
 });
 

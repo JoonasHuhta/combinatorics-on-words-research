@@ -20,9 +20,9 @@ Start a new session like this:
 An experimental combinatorics laboratory for abelian-square-free words. Two
 sides:
 
-- **Browser app** `index.html` (20 tabs — an unnumbered tutorial plus 1–19,
+- **Browser app** `explore.html` (20 tabs — an unnumbered tutorial plus 1–19,
   no dependencies) — teaching and visualization. It **reports** results, it
-  does not compute them.
+  does not compute them. `index.html` is the Word Structures homepage.
 - **Exact Node pipeline** (below) — all the mathematics. Rational and
   ℚ(√3) arithmetic, no floating point on result paths.
 
@@ -143,7 +143,7 @@ additive-sweep.js          additive squares: alphabet sweep by affine class
 extension-table.js         extendability-depth tables: sound pruning oracle, transfers affinely
 sanalab-run.js             resumable certified runs: checkpoints, three end states
 table-library.js           table library: one table per affine class, checksum and provenance
-claims-export.js           ledger made machine-readable; only figures traceable to the ledger may be published; also syncs index.html's embedded claims-data block
+claims-export.js           ledger made machine-readable; only figures traceable to the ledger may be published; also syncs explore.html's embedded claims-data block
 unavoidable-factors.js     the container's unavoidable factors: what every certificate must contain
 additive-morphism-scan.js  additive squares: exhaustive search of uniform morphisms, k<=4
 additive-nonuniform-morphism-scan.js  same, non-uniform length profiles 1..4, regression to uniform

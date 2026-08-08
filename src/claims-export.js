@@ -30,7 +30,7 @@
  * this project keeps correcting. The ledger states what is quotable; this
  * module only checks and transports.
  *
- * As of 2026-07-31 this also syncs an embedded copy into index.html's
+ * As of 2026-07-31 this also syncs an embedded copy into explore.html's
  * <script id="claims-data"> block, so the page can bind figures and status
  * badges (data-claim-key / data-claim-status attributes) without a server or
  * fetch() -- opening the file directly still works, and the embedded copy
@@ -44,7 +44,7 @@ const fs = require('fs');
 const path = require('path');
 
 const LEDGER = path.join(__dirname, '..', 'MATH_CLAIMS.md');
-const INDEX_HTML = path.join(__dirname, '..', 'index.html');
+const EXPLORE_HTML = path.join(__dirname, '..', 'explore.html');
 const VALID_STATUS = ['PRIMARY', 'COMPUTED', 'INDIRECT', 'REJECTED'];
 
 // ---------------------------------------------------------------------------
@@ -166,14 +166,14 @@ function verifyHtmlBindings(html, data) {
   return issues;
 }
 
-/** Returns the index.html text with the embedded claims-data block replaced
+/** Returns the explore.html text with the embedded claims-data block replaced
  *  by a fresh export, or throws if the marker block is missing. */
 function syncedHtml(html, data) {
   if (!CLAIMS_SCRIPT_RE.test(html)) {
-    throw new Error('index.html has no <script id="claims-data"> block to sync');
+    throw new Error('explore.html has no <script id="claims-data"> block to sync');
   }
   const issues = verifyHtmlBindings(html, data);
-  if (issues.length) throw new Error('index.html has dangling claim bindings:\n  ' + issues.join('\n  '));
+  if (issues.length) throw new Error('explore.html has dangling claim bindings:\n  ' + issues.join('\n  '));
   return html.replace(CLAIMS_SCRIPT_RE, (_, open, _old, close) => open + JSON.stringify(data) + close);
 }
 
@@ -238,15 +238,34 @@ function runControls() {
   if (!refused) throw new Error('an invented figure was not refused; the check is not doing anything');
   notes.push('an invented figure is refused rather than exported');
 
-  // 5. index.html's embedded copy, if present, must reference only real rows
-  //    and keys. This does not require the block to be in sync (main() does
-  //    that); it only requires that nothing in it dangles.
-  if (fs.existsSync(INDEX_HTML)) {
-    const html = fs.readFileSync(INDEX_HTML, 'utf8');
-    const issues = verifyHtmlBindings(html, data);
-    if (issues.length) throw new Error('index.html has dangling claim bindings:\n  ' + issues.join('\n  '));
-    notes.push(`index.html's claim bindings (data-claim-status / data-claim-key) all resolve`);
+  // 5. explore.html's embedded copy must reference only real rows and keys.
+  //    This does not require the block to be in sync (main() does that); it
+  //    only requires that nothing in it dangles.
+  //
+  //    Hardened 2026-08-08 (WEB-SWAP-1). This block used to be wrapped in a bare
+  //    `if (fs.existsSync(...))` against index.html. Once index.html became the
+  //    homepage that gate would still have passed, the homepage has no bindings,
+  //    verifyHtmlBindings would have found nothing to complain about, and the
+  //    control would have reported "all resolve" about a file containing none.
+  //    A vacuous success is worse than a failure here: it is an affirmative
+  //    statement that a surface was checked. Both the missing file and the
+  //    missing binding surface are now offences.
+  if (!fs.existsSync(EXPLORE_HTML)) {
+    throw new Error('explore.html is missing; it carries the embedded claims-data block this control verifies.');
   }
+  const html = fs.readFileSync(EXPLORE_HTML, 'utf8');
+  const statusBindings = (html.match(/data-claim-status="/g) || []).length;
+  const keyBindings = (html.match(/data-claim-key="/g) || []).length;
+  if (statusBindings === 0 || keyBindings === 0) {
+    throw new Error(
+      `explore.html no longer carries the expected claim-binding surface ` +
+      `(data-claim-status: ${statusBindings}, data-claim-key: ${keyBindings}). ` +
+      `Reporting "all resolve" against zero bindings would be a vacuous pass, so this is an offence.`
+    );
+  }
+  const issues = verifyHtmlBindings(html, data);
+  if (issues.length) throw new Error('explore.html has dangling claim bindings:\n  ' + issues.join('\n  '));
+  notes.push(`explore.html's ${statusBindings + keyBindings} claim binding(s) (data-claim-status / data-claim-key) all resolve`);
 
   return { notes, data };
 }
@@ -282,14 +301,14 @@ function main() {
     fs.writeFileSync(out, JSON.stringify(data, null, 1));
     console.log(`\nwritten to ${path.basename(out)}`);
 
-    if (fs.existsSync(INDEX_HTML)) {
-      const html = fs.readFileSync(INDEX_HTML, 'utf8');
+    if (fs.existsSync(EXPLORE_HTML)) {
+      const html = fs.readFileSync(EXPLORE_HTML, 'utf8');
       const synced = syncedHtml(html, data);
       if (synced !== html) {
-        fs.writeFileSync(INDEX_HTML, synced);
-        console.log('index.html claims-data block resynced');
+        fs.writeFileSync(EXPLORE_HTML, synced);
+        console.log('explore.html claims-data block resynced');
       } else {
-        console.log('index.html claims-data block already in sync');
+        console.log('explore.html claims-data block already in sync');
       }
     }
   }

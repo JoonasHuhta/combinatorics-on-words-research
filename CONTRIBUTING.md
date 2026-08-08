@@ -15,7 +15,7 @@ starting new work, so effort does not repeat what the project already knows
 not to do.
 
 **If you are here to learn, not to contribute:** the live site —
-https://wordstructures.org/ — or a local copy of `index.html` opened
+https://wordstructures.org/ — or a local copy of `explore.html` opened
 directly in a browser, is the entry point.
 It has 20 tabs (an unnumbered tutorial plus 1–19). The claim
 ledger (`MATH_CLAIMS.md`) and the dead-ends register (`NEGATIVE_RESULTS.md`)
@@ -115,10 +115,11 @@ Mathematics and code are not the only useful kind:
   docs above, pick something genuinely open, and show your work. That is
   the whole process.
 
-## The application (`index.html`)
+## The application (`explore.html`)
 
 The browser app teaches and visualises; it does not compute anything itself,
 and it does not yet read `MATH_CLAIMS.md` directly (that wiring is planned,
 see `docs/plans/UI_UX_PLAN.md` item 1). Until then, treat any figure shown in
 the app as illustrative and check the ledger for the sourced version. Open
-`index.html` directly in a browser — no build step, no server required.
+`explore.html` directly in a browser — no build step, no server required.
+`index.html` is the Word Structures homepage, not the application.
