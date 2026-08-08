@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research — Word Structures</title>
+<meta name="description" content="Word Structures' research programme: Mäkelä's open problem, what is known, what remains open, and how the project investigates it.">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span class="brand__word">Word Structures</span>
+    </a>
+
+    <nav aria-label="Primary">
+      <details class="nav" data-nav open>
+        <summary class="nav__toggle">Menu</summary>
+        <ul class="nav__list">
+          <li><a href="learn.html">Learn</a></li>
+          <li><a href="explore.html">Explore</a></li>
+          <li><a href="research.html" aria-current="page">Research</a></li>
+          <li><a href="index.html#open">Evidence</a></li>
+          <li><a href="index.html#abelisk">ABELISK</a></li>
+        </ul>
+      </details>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 1. RESEARCH AT WORD STRUCTURES --------------------------------------- -->
+  <section class="section" id="programme">
+    <div class="wrap wrap--narrow">
+      <h1>Research</h1>
+      <p class="lede">
+        Word Structures is a research programme in combinatorics on words: the
+        study of repetition, order and structure in sequences of symbols. Its
+        central question concerns <strong>abelian squares</strong> &mdash; two
+        adjacent blocks of equal length that hold the same letters the same
+        number of times, in any order &mdash; and how far a word can go while
+        avoiding them.
+      </p>
+    </div>
+  </section>
+
+  <!-- 2. THE OPEN QUESTION --------------------------------------------------- -->
+  <section class="section section--rule" id="question">
+    <div class="wrap wrap--narrow">
+      <h2>The open question</h2>
+      <p class="lede">
+        Over three letters, a verified finite example reaches 25,379 letters
+        while avoiding every abelian square whose two halves each have length
+        at least two.
+      </p>
+      <p>
+        The verified words came from V.&nbsp;Ker&auml;nen and A.&nbsp;Gavrilenko;
+        this project checked them rather than discovered them.
+      </p>
+      <p>
+        A finite example, however long, is still finite. It does not show that
+        an infinite word exists.
+      </p>
+      <p>
+        If the rule is weakened so that only abelian squares whose halves have
+        length six or more must be avoided, an infinite ternary word is known.
+      </p>
+      <p>
+        What remains open is whether an infinite ternary word can avoid them
+        already from half-length two onward &mdash; equivalently, whether its
+        only abelian squares can be the single-letter repetitions aa, bb and
+        cc. This question is attributed to M&auml;kel&auml; in the literature.
+      </p>
+    </div>
+  </section>
+
+  <!-- 3. WHAT IS KNOWN --------------------------------------------------------- -->
+  <section class="section section--rule" id="known">
+    <div class="wrap wrap--narrow">
+      <h2>What is known</h2>
+      <dl class="ladder">
+        <div class="ladder__row">
+          <dt><span class="status-badge status-badge--computed">Verified, finite</span></dt>
+          <dd>
+            A supplied ternary word of 25,379 letters checked exhaustively and
+            found free of abelian squares at every half-length K&nbsp;&ge;&nbsp;2.
+            A finite witness, not an existence proof.
+          </dd>
+        </div>
+        <div class="ladder__row">
+          <dt><span class="status-badge status-badge--known">Known, infinite</span></dt>
+          <dd>
+            An infinite ternary word avoiding abelian squares of half-length
+            K&nbsp;&ge;&nbsp;6 is established in the published literature.
+          </dd>
+        </div>
+        <div class="ladder__row">
+          <dt><span class="status-badge status-badge--open">Open</span></dt>
+          <dd>
+            Whether an infinite ternary word can avoid them from
+            half-length&nbsp;2 onward &mdash; the full M&auml;kel&auml;
+            question &mdash; is unresolved.
+          </dd>
+        </div>
+      </dl>
+      <p class="source-note">
+        Recorded in the claim ledger as rows&nbsp;40 (the finite example), 7
+        (the K&nbsp;&ge;&nbsp;6 result) and 4 (the open problem).
+      </p>
+    </div>
+  </section>
+
+  <!-- 4. HOW WE INVESTIGATE IT ------------------------------------------------- -->
+  <section class="section section--rule" id="methods">
+    <div class="wrap wrap--narrow">
+      <h2>How we investigate it</h2>
+      <p>
+        The open range is approached from several directions at once, rather
+        than through a single method:
+      </p>
+      <ul class="directions">
+        <li>
+          <strong>Morphisms.</strong> Substitution rules that build long or
+          infinite words from a small seed, and whether their images stay free
+          of abelian squares as they grow.
+        </li>
+        <li>
+          <strong>Unfavourable factors.</strong> Finite blocks that cannot
+          themselves be extended into any longer abelian-square-free word,
+          found and proved by exhausting their possible continuations.
+        </li>
+        <li>
+          <strong>Structural inspection.</strong> Close, factor-by-factor
+          reading of specific words and morphism images to see exactly where
+          and why a pattern appears or fails to.
+        </li>
+        <li>
+          <strong>Computational extension.</strong> Searching for longer
+          verified examples and testing where known constructions reach their
+          limit.
+        </li>
+        <li>
+          <strong>Verification.</strong> Independently checking every
+          computed result before it can enter the claim ledger.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. CURRENT RESEARCH TOOLS -------------------------------------------- -->
+  <section class="section section--rule" id="tools">
+    <div class="wrap wrap--narrow">
+      <h2>Current research tools</h2>
+      <p class="lede">
+        Interactive modules in the Explorer, for readers who want to work with
+        the material directly.
+      </p>
+
+      <h3 class="tools__group-label">Primary</h3>
+      <ul class="routes">
+        <li><a href="explore.html#unfavorable-factors">Unfavorable Factors</a></li>
+        <li><a href="explore.html#morphism-microscope">Morphism Microscope</a></li>
+        <li><a href="explore.html#aa2fr-extension">AA2FR Extension Lab</a></li>
+      </ul>
+
+      <h3 class="tools__group-label">Secondary</h3>
+      <ul class="routes">
+        <li><a href="explore.html#morphism-g85">Morphism g&#8328;&#8325;</a></li>
+        <li><a href="explore.html#morphism-lab">Morphism Lab</a></li>
+        <li><a href="explore.html#heat-map">Heat Map</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 6. PROJECT ROLES ------------------------------------------------------ -->
+  <section class="section section--rule" id="people">
+    <div class="wrap wrap--narrow">
+      <h2>Project roles</h2>
+      <p>
+        Word Structures was founded by Joonas Huhta and Veikko Ker&auml;nen.
+        Joonas Huhta leads the project and its technical development. Veikko
+        Ker&auml;nen provides mathematical review.
+      </p>
+    </div>
+  </section>
+
+  <!-- 7. INSPECT / CONTRIBUTE ------------------------------------------------ -->
+  <section class="section section--rule" id="inspect">
+    <div class="wrap wrap--narrow">
+      <h2>Inspect or contribute</h2>
+      <ul class="routes">
+        <li><a href="https://github.com/word-structures/combinatorics-on-words-research/blob/main/MATH_CLAIMS.md">The claim ledger</a></li>
+        <li><a href="https://github.com/word-structures/combinatorics-on-words-research/blob/main/CONTRIBUTING.md">Contribute</a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="lockup">
+      <span class="brand__mark brand__mark--footer" aria-hidden="true"></span>
+      <span>
+        <span class="lockup__word">Word Structures</span>
+        <span class="lockup__tagline">Open Lab for Combinatorics on Words</span>
+      </span>
+    </div>
+    <ul class="site-footer__links">
+      <li><a href="https://github.com/word-structures/combinatorics-on-words-research/blob/main/CONTRIBUTING.md">Contribute</a></li>
+      <li><a href="https://github.com/word-structures/combinatorics-on-words-research/blob/main/CITATION.cff">Cite</a></li>
+      <li><a href="https://github.com/word-structures/combinatorics-on-words-research">GitHub</a></li>
+      <li><a href="https://github.com/word-structures/combinatorics-on-words-research/blob/main/LICENSE">Licence</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="assets/site.js" defer></script>
+</body>
+</html>
