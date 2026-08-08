@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evidence — Word Structures</title>
+<meta name="description" content="How do you know? Word Structures' evidence model: how a computation becomes a checked, sourced public claim, and what happens when one turns out to be wrong.">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="index.html">
+      <img class="brand__mark brand__mark--logo" src="assets/word-structures-mark.png" width="28" height="28" alt="" aria-hidden="true">
+      <span class="brand__word">Word Structures</span>
+    </a>
+
+    <nav aria-label="Primary">
+      <details class="nav" data-nav open>
+        <summary class="nav__toggle">Menu</summary>
+        <ul class="nav__list">
+          <li><a href="learn.html">Learn</a></li>
+          <li><a href="explore.html">Explore</a></li>
+          <li><a href="research.html">Research</a></li>
+          <li><a href="evidence.html" aria-current="page">Evidence</a></li>
+          <li><a href="index.html#abelisk">ABELISK</a></li>
+        </ul>
+      </details>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 1. EVIDENCE AT WORD STRUCTURES ---------------------------------------- -->
+  <section class="section" id="evidence">
+    <div class="wrap wrap--narrow">
+      <h1>Evidence</h1>
+      <p class="lede">How do you know?</p>
+      <p>
+        An idea, an example, a computation, a computation someone has checked,
+        a result published in the literature, an open conjecture, a claim that
+        turned out to be wrong &mdash; these are not the same thing, even when
+        they sound similar. An answer is interesting. Knowing why you should
+        believe it is part of the mathematics.
+      </p>
+    </div>
+  </section>
+
+  <!-- 2. FROM IDEA TO PUBLIC CLAIM ------------------------------------------- -->
+  <section class="section section--rule" id="chain">
+    <div class="wrap wrap--narrow">
+      <h2>From idea to public claim</h2>
+      <p class="lede">
+        Every mathematical statement on this site follows the same path
+        before it can be stated publicly.
+      </p>
+
+      <ol class="chain">
+        <li>
+          <strong>Computation.</strong> A program or a researcher produces a
+          result &mdash; an example, a search outcome, a candidate proof step.
+        </li>
+        <li>
+          <strong>Verification.</strong> The result is checked independently:
+          reproduced, compared against a published source, or validated
+          against a deterministic rule.
+        </li>
+        <li>
+          <strong>Claim ledger.</strong> What may actually be stated publicly
+          is recorded in one place, with its evidence status and where it came
+          from.
+        </li>
+        <li>
+          <strong>Public presentation.</strong> Wording on this site is never
+          allowed to say more than the ledger entry it comes from.
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 3. FOUR EVIDENCE STATES ------------------------------------------------- -->
+  <section class="section section--rule" id="states">
+    <div class="wrap wrap--narrow">
+      <h2>Four evidence states</h2>
+      <p class="lede">
+        Every entry in the claim ledger carries exactly one of four statuses.
+        None of them mean &ldquo;true&rdquo; on their own &mdash; they say
+        <em>how</em> a claim was checked.
+      </p>
+      <dl class="ladder">
+        <div class="ladder__row">
+          <dt><span class="status-badge status-badge--primary">Primary</span></dt>
+          <dd>Checked directly against the original source &mdash; the
+            published paper, its LaTeX, or a source-code archive.</dd>
+        </div>
+        <div class="ladder__row">
+          <dt><span class="status-badge status-badge--computed">Computed</span></dt>
+          <dd>Verified computationally inside this project. Not checked
+            against an external source.</dd>
+        </div>
+        <div class="ladder__row">
+          <dt><span class="status-badge status-badge--indirect">Indirect</span></dt>
+          <dd>Consistent with a known result, but the primary source has not
+            yet been checked directly.</dd>
+        </div>
+        <div class="ladder__row">
+          <dt><span class="status-badge status-badge--rejected">Rejected</span></dt>
+          <dd>Previously proposed, then found to be false or unsupported.
+            Kept on record so it is not proposed again.</dd>
+        </div>
+      </dl>
+      <p class="source-note">
+        These four statuses, and their meanings, are set by
+        <code>MATH_CLAIMS.md</code> itself &mdash; the wording above is a
+        plain-English translation, not a redefinition.
+      </p>
+    </div>
+  </section>
+
+  <!-- 4. FINITE IS NOT INFINITE ------------------------------------------------ -->
+  <section class="section section--rule" id="finite">
+    <div class="wrap wrap--narrow">
+      <h2>Finite is not infinite</h2>
+      <p>
+        A computation can map an enormous finite region exactly. It still does
+        not tell us, by itself, what must happen forever. &ldquo;A long
+        example was checked and found clean&rdquo; and &ldquo;an infinite
+        example exists&rdquo; are different kinds of claim &mdash; not a
+        weaker and a stronger version of the same one. This project keeps
+        them labelled as what they are, wherever they appear.
+      </p>
+    </div>
+  </section>
+
+  <!-- 5. THE PUBLIC CLAIM LEDGER ------------------------------------------------ -->
+  <section class="section section--rule" id="ledger">
+    <div class="wrap wrap--narrow">
+      <h2>The public claim ledger</h2>
+      <p class="lede">
+        <code>MATH_CLAIMS.md</code> is the project's sole authority for what
+        it asserts mathematically. Every public mathematical statement traces
+        back to a row in it.
+      </p>
+      <p>
+        Each row records a claim, exactly where it came from, and one of the
+        four statuses above. It is a plain text file, kept in the open
+        alongside the code, so anyone can read the same entry this site is
+        summarising.
+      </p>
+      <p class="source-note">
+        The ledger currently contains some Finnish-language internal
+        descriptions, migrated to English gradually rather than all at once.
+        Its status fields, sources, and the figures this site is allowed to
+        quote all remain inspectable regardless.
+      </p>
+      <p><a class="btn" href="https://github.com/word-structures/combinatorics-on-words-research/blob/main/MATH_CLAIMS.md">Read the claim ledger</a></p>
+    </div>
+  </section>
+
+  <!-- 6. COMPUTATION AND VERIFICATION -------------------------------------------- -->
+  <section class="section section--rule" id="verification">
+    <div class="wrap wrap--narrow">
+      <h2>Computation and verification</h2>
+      <p>
+        Depending on the claim, verification here can mean exact string
+        equality, a deterministic checksum, an independent re-run, an
+        exhaustive search over every case in a stated range, a direct
+        character-by-character comparison against a published source, an
+        automated regression test, or a deliberate attempt to break a safety
+        check by feeding it something it should reject.
+      </p>
+      <p>
+        Not every claim uses every method &mdash; the ledger records which
+        ones were actually used for each row. Verified computation answers
+        the finite question it was built to check. It does not, on its own,
+        answer a stronger infinite one.
+      </p>
+    </div>
+  </section>
+
+  <!-- 7. WHAT HAPPENS WHEN SOMETHING FAILS ---------------------------------------- -->
+  <section class="section section--rule" id="failures">
+    <div class="wrap wrap--narrow">
+      <h2>What happens when something fails</h2>
+      <p>
+        A failed approach, an incorrect conjecture, or a claim that turned out
+        to be wrong is not deleted here. It is kept visible, with the reason
+        it failed, in a dedicated public record. Dead ends are useful research
+        evidence: they save the next person from spending a week rediscovering
+        the same wall.
+      </p>
+      <p>
+        Open means showing not only what worked, but also what did not.
+      </p>
+      <ul class="routes">
+        <li><a href="https://github.com/word-structures/combinatorics-on-words-research/blob/main/NEGATIVE_RESULTS.md">Negative results</a></li>
+        <li><a href="explore.html#graveyard">The Graveyard</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 8. INSPECT IT YOURSELF ------------------------------------------------------- -->
+  <section class="section section--rule" id="inspect">
+    <div class="wrap wrap--narrow">
+      <h2>Inspect it yourself</h2>
+      <ul class="routes">
+        <li><a href="https://github.com/word-structures/combinatorics-on-words-research/blob/main/MATH_CLAIMS.md">Math Claims Ledger</a></li>
+        <li><a href="explore.html#validation">Validation Lab</a></li>
+        <li><a href="explore.html#graveyard">Graveyard &amp; negative results</a></li>
+        <li><a href="https://github.com/word-structures/combinatorics-on-words-research">Repository &amp; methods</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 9. OPEN COLLABORATION, SAME EVIDENCE STANDARD --------------------------------- -->
+  <section class="section section--rule" id="collaborate">
+    <div class="wrap wrap--narrow">
+      <h2>Open collaboration, same evidence standard</h2>
+      <p>
+        Participation here is open &mdash; researchers, developers, students,
+        educators, and independent contributors are all welcome, and no
+        institutional affiliation is required. Contributions can be
+        mathematics, computation, verification, software, documentation,
+        explanations, testing, or research tools.
+      </p>
+      <p>
+        Being open does not mean claims go unreviewed. Anything accepted as a
+        public claim still passes through the same evidence and review
+        process described above, whoever it comes from.
+      </p>
+      <p><a class="btn" href="https://github.com/word-structures/combinatorics-on-words-research/blob/main/CONTRIBUTING.md">How to contribute</a></p>
+    </div>
+  </section>
+
+  <!-- 10. WHERE NEXT ------------------------------------------------------------------ -->
+  <section class="section section--rule" id="next">
+    <div class="wrap">
+      <h2>Where next</h2>
+      <ul class="ways">
+        <li class="ways__item ways__item--research">
+          <h3><a href="research.html">Research</a></h3>
+          <p>See the questions and methods this evidence supports.</p>
+        </li>
+        <li class="ways__item ways__item--explore">
+          <h3><a href="explore.html#validation">Explore</a></h3>
+          <p>Inspect a live verification surface for yourself.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="lockup">
+      <span class="brand__mark brand__mark--footer" aria-hidden="true"></span>
+      <span>
+        <span class="lockup__word">Word Structures</span>
+        <span class="lockup__tagline">Open Lab for Combinatorics on Words</span>
+      </span>
+    </div>
+    <ul class="site-footer__links">
+      <li><a href="https://github.com/word-structures/combinatorics-on-words-research/blob/main/CONTRIBUTING.md">Contribute</a></li>
+      <li><a href="https://github.com/word-structures/combinatorics-on-words-research/blob/main/CITATION.cff">Cite</a></li>
+      <li><a href="https://github.com/word-structures/combinatorics-on-words-research">GitHub</a></li>
+      <li><a href="https://github.com/word-structures/combinatorics-on-words-research/blob/main/LICENSE">Licence</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="assets/site.js" defer></script>
+</body>
+</html>
