@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learn — Word Structures</title>
+<meta name="description" content="Start from nothing: what an abelian square is, why order and quantity are different things, and how a simple pattern becomes a real mathematical problem.">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span class="brand__word">Word Structures</span>
+    </a>
+
+    <nav aria-label="Primary">
+      <details class="nav" data-nav open>
+        <summary class="nav__toggle">Menu</summary>
+        <ul class="nav__list">
+          <li><a href="learn.html" aria-current="page">Learn</a></li>
+          <li><a href="explore.html">Explore</a></li>
+          <li><a href="index.html#question">Research</a></li>
+          <li><a href="index.html#open">Evidence</a></li>
+          <li><a href="index.html#abelisk">ABELISK</a></li>
+        </ul>
+      </details>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 1. THE PATTERN ------------------------------------------------------ -->
+  <section class="section" id="pattern">
+    <div class="wrap wrap--narrow">
+      <h1>Learn</h1>
+      <p class="lede">
+        Start from nothing. By the end of this page you will be able to look at
+        a row of letters and see a structure that most people walk straight
+        past.
+      </p>
+    </div>
+
+    <div class="wrap">
+      <figure class="word">
+        <div class="word__blocks" aria-hidden="true">
+          <span class="half">
+            <span class="cell cell--a">a</span><span class="cell cell--b">b</span>
+          </span>
+          <span class="split"></span>
+          <span class="half">
+            <span class="cell cell--b">b</span><span class="cell cell--a">a</span>
+          </span>
+        </div>
+        <figcaption class="sr-only">
+          A word of four letters, shown in two halves. The first half is a, b.
+          The second half is b, a.
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="wrap wrap--narrow">
+      <h2>The pattern</h2>
+      <p>
+        Read that as one word of four letters, cut down the middle. The left
+        half is <strong>a b</strong>. The right half is <strong>b a</strong>.
+      </p>
+      <p>
+        The two halves are not the same word &mdash; the letters come in a
+        different order. But each half holds one <strong>a</strong> and one
+        <strong>b</strong>. Nothing was added and nothing was taken away; the
+        order was simply shuffled.
+      </p>
+      <p>
+        That is the whole phenomenon. A block, followed by a rearrangement of
+        the same block.
+      </p>
+    </div>
+  </section>
+
+  <!-- 2. ORDER VS QUANTITY ------------------------------------------------ -->
+  <section class="section section--rule" id="order">
+    <div class="wrap wrap--narrow">
+      <h2>Order and quantity are different things</h2>
+      <p>
+        We are used to comparing words letter by letter. By that test
+        <strong>ab</strong> and <strong>ba</strong> are plainly different.
+      </p>
+      <p>
+        But there is a second, coarser way to compare them: ignore the order
+        entirely and just count. How many <strong>a</strong>s? How many
+        <strong>b</strong>s? By that test the two halves are identical.
+      </p>
+
+      <div class="tally">
+        <div class="tally__group">
+          <p class="tally__label">First half &mdash; a b</p>
+          <p class="tally__counts">
+            <span class="chip"><span class="chip__swatch chip__swatch--a" aria-hidden="true"></span>a &times;1</span>
+            <span class="chip"><span class="chip__swatch chip__swatch--b" aria-hidden="true"></span>b &times;1</span>
+          </p>
+        </div>
+        <div class="tally__group">
+          <p class="tally__label">Second half &mdash; b a</p>
+          <p class="tally__counts">
+            <span class="chip"><span class="chip__swatch chip__swatch--a" aria-hidden="true"></span>a &times;1</span>
+            <span class="chip"><span class="chip__swatch chip__swatch--b" aria-hidden="true"></span>b &times;1</span>
+          </p>
+        </div>
+      </div>
+
+      <p class="stack-top">
+        When two adjacent blocks of equal length match on that second test
+        &mdash; same counts, any order &mdash; the pair is called an
+        <strong>abelian square</strong>.
+      </p>
+      <p>
+        It costs nothing to check and it is easy to miss. Longer blocks work
+        the same way:
+      </p>
+
+      <figure class="word word--small stack-top">
+        <div class="word__blocks" aria-hidden="true">
+          <span class="half">
+            <span class="cell cell--a">a</span><span class="cell cell--b">b</span><span class="cell cell--c">c</span>
+          </span>
+          <span class="split"></span>
+          <span class="half">
+            <span class="cell cell--b">b</span><span class="cell cell--c">c</span><span class="cell cell--a">a</span>
+          </span>
+        </div>
+        <figcaption class="sr-only">
+          A word of six letters in two halves. The first half is a, b, c. The
+          second half is b, c, a. Each half contains one a, one b and one c.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 3. SPOT ONE YOURSELF ------------------------------------------------ -->
+  <section class="section section--rule" id="spot">
+    <div class="wrap wrap--narrow">
+      <h2>Spot one yourself</h2>
+      <p class="lede">
+        Three short words. In each one, is there a place where some block is
+        immediately followed by a rearrangement of itself?
+      </p>
+
+      <div class="qa">
+        <h3>1. <span class="qa__word">a b c a b</span></h3>
+        <details>
+          <summary>Show the answer</summary>
+          <div class="qa__answer">
+            <p>
+              <strong>No.</strong> This word contains no abelian square at all.
+            </p>
+            <p>
+              No letter is repeated back to back, so there is nothing at block
+              length&nbsp;1. At block length&nbsp;2 there are only two places to
+              look: <strong>ab</strong>&thinsp;|&thinsp;<strong>ca</strong> and
+              <strong>bc</strong>&thinsp;|&thinsp;<strong>ab</strong>. Neither
+              pair holds the same letters. The word is too short for anything
+              longer.
+            </p>
+            <p>
+              Ruling a word out is the same skill as spotting one: you check
+              every block length, at every position.
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <div class="qa">
+        <h3>2. <span class="qa__word">a b b a</span></h3>
+        <details>
+          <summary>Show the answer</summary>
+          <div class="qa__answer">
+            <p>
+              <strong>Yes.</strong> Split it in the middle:
+              <strong>ab</strong> then <strong>ba</strong>. One
+              <strong>a</strong> and one <strong>b</strong> on each side, in a
+              different order. That is an abelian square &mdash; the same one
+              you saw at the top of this page.
+            </p>
+            <p>
+              There is a second one hiding inside it: the single letters
+              <strong>b</strong> and <strong>b</strong> sit next to each other,
+              and a block of one letter followed by the same letter also
+              matches on counts.
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <div class="qa">
+        <h3>3. <span class="qa__word">a b c b a c</span></h3>
+        <details>
+          <summary>Show the answer</summary>
+          <div class="qa__answer">
+            <p>
+              <strong>Yes</strong>, but only at block length&nbsp;3. Split the
+              word in half: <strong>abc</strong>&thinsp;|&thinsp;<strong>bac</strong>.
+              One of each letter on both sides.
+            </p>
+            <p>
+              Nothing shorter works here &mdash; no repeated letter, and none of
+              the length-2 pairs match. Long blocks are exactly where these stop
+              being visible, which is why avoiding them by eye gets hard fast.
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <p class="stack-top">
+        The explorer has a tool for this, with any word you like and the
+        matching blocks marked for you as you type.
+      </p>
+      <p><a class="btn" href="explore.html#try-it">Try it with your own words</a></p>
+    </div>
+  </section>
+
+  <!-- 4. AVOIDING THE PATTERN --------------------------------------------- -->
+  <section class="section section--rule" id="avoiding">
+    <div class="wrap wrap--narrow">
+      <h2>What it means to avoid them</h2>
+      <p>
+        Now turn the question around. Instead of finding abelian squares, try
+        to write a word that contains <strong>none at all</strong> &mdash; no
+        block anywhere, of any length, immediately followed by a rearrangement
+        of itself.
+      </p>
+      <p>
+        Start writing and you will feel the difficulty quickly. Every letter
+        you add creates new adjacent pairs of blocks, at every length, all of
+        which must avoid matching. The constraint tightens as the word grows,
+        and a word that looks fine can turn out to have been doomed several
+        letters earlier.
+      </p>
+      <p>
+        So the interesting question is not whether you can avoid them for a
+        while. It is whether you can keep going &mdash; and that turns out to
+        depend on how many different letters you are allowed to use.
+      </p>
+    </div>
+  </section>
+
+  <!-- 5. HOW WE GOT HERE --------------------------------------------------- -->
+  <section class="section section--rule" id="history">
+    <div class="wrap wrap--narrow">
+      <h2>How many letters do you need?</h2>
+      <p>
+        With <strong>three</strong> letters, you cannot keep going. The longest
+        word over three letters containing no abelian square is
+        <strong>7</strong> letters long, and there are exactly
+        <strong>18</strong> of them. After that, every continuation fails.
+      </p>
+      <p>
+        With <strong>four</strong> letters, you can. Veikko Ker&auml;nen showed
+        in 1992 that an infinite abelian-square-free word exists over four
+        letters, and gave a concrete rule that builds one: a substitution that
+        replaces each letter with a specific 85-letter block, applied over and
+        over.
+      </p>
+      <p>
+        That gap &mdash; impossible at three, possible at four &mdash; is what
+        makes this a real subject rather than a puzzle. Change the rule
+        slightly, and questions open up that nobody has answered yet.
+      </p>
+      <p class="source-note">
+        Both statements above are recorded in this project's claim ledger with
+        their sources: the three-letter bound as row&nbsp;1, and Ker&auml;nen's
+        four-letter result as row&nbsp;3, checked against the original 1992
+        paper.
+      </p>
+    </div>
+  </section>
+
+  <!-- 6. WHERE NEXT -------------------------------------------------------- -->
+  <section class="section section--rule" id="next">
+    <div class="wrap">
+      <h2>Where next</h2>
+      <ul class="ways">
+        <li class="ways__item ways__item--learn">
+          <h3><a href="explore.html#abelisk">ABELISK</a></h3>
+          <p>
+            The same mathematics as a puzzle. Break the repetitions you have
+            just learned to see.
+          </p>
+        </li>
+        <li class="ways__item ways__item--explore">
+          <h3><a href="explore.html">Explore the tools</a></h3>
+          <p>
+            Search trees, morphisms and visualisations, in the browser.
+          </p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="lockup">
+      <span class="brand__mark brand__mark--footer" aria-hidden="true"></span>
+      <span>
+        <span class="lockup__word">Word Structures</span>
+        <span class="lockup__tagline">Open Lab for Combinatorics on Words</span>
+      </span>
+    </div>
+    <ul class="site-footer__links">
+      <li><a href="https://github.com/word-structures/combinatorics-on-words-research/blob/main/CONTRIBUTING.md">Contribute</a></li>
+      <li><a href="https://github.com/word-structures/combinatorics-on-words-research/blob/main/CITATION.cff">Cite</a></li>
+      <li><a href="https://github.com/word-structures/combinatorics-on-words-research">GitHub</a></li>
+      <li><a href="https://github.com/word-structures/combinatorics-on-words-research/blob/main/LICENSE">Licence</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="assets/site.js" defer></script>
+</body>
+</html>

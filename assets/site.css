@@ -547,7 +547,72 @@ img, svg { max-width: 100%; height: auto; }
   color: var(--ink);
 }
 
-/* --- 15. Reduced motion -------------------------------------------------- */
+/* --- 15. Question / answer disclosure ------------------------------------ */
+/* Native <details>/<summary>: keyboard-operable and readable with JavaScript
+   off, with no ARIA and no custom widget. Used by the Learn exercise. */
+
+.qa { margin-top: 2rem; }
+.qa h3 { margin-bottom: 0.6rem; font-family: var(--sans); font-size: 1rem; font-weight: 600; }
+
+.qa__word {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0.15rem 0.5rem;
+  background: var(--paper-sunk);
+  border: 1px solid var(--rule);
+  font-family: var(--sans);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+
+.qa summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--blue);
+  cursor: pointer;
+}
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary::before {
+  content: "";
+  width: 0.5rem; height: 0.5rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+}
+.qa[open] summary::before,
+.qa details[open] summary::before { transform: rotate(45deg); }
+
+.qa__answer {
+  border-left: 3px solid var(--rule);
+  padding-left: clamp(0.875rem, 2.5vw, 1.25rem);
+  margin-top: 0.25rem;
+}
+.qa__answer p:last-child { margin-bottom: 0; }
+
+/* A quiet pointer to where a statement's evidence lives. */
+.source-note {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.9375rem;
+  color: var(--ink-soft);
+}
+
+/* Current page in the primary navigation — marked by weight and a rule, never
+   by colour alone. */
+.nav__list a[aria-current="page"] {
+  border-bottom-color: var(--ink);
+  font-weight: 600;
+}
+
+/* Small vertical nudge where a figure follows body copy. */
+.stack-top { margin-top: 1.5rem; }
+
+/* --- 16. Reduced motion -------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

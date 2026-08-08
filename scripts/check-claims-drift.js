@@ -284,7 +284,9 @@ check("No self-certifying verdict language on the public pages", () => {
   // explore.html added 2026-08-08 (WEB-SWAP-1): it is the explorer application,
   // formerly index.html, and carries the Trap 18 material the allowlist exempts.
   // index.html stays on the list in its new role as the Word Structures homepage.
-  const files = ['index.html', 'explore.html', 'bridge_story_sandbox.html', 'word-checker.html'];
+  // learn.html added 2026-08-08 (WEB-LEARN-1) in the same change that created
+  // it, so the page has never existed as an unguarded public surface.
+  const files = ['index.html', 'learn.html', 'explore.html', 'bridge_story_sandbox.html', 'word-checker.html'];
   const offences = [];
   const used = new Set();
 
